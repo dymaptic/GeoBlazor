@@ -4,11 +4,11 @@ import { buildDotNetQueryQuantizationParameters } from './queryQuantizationParam
 
 export async function buildJsQueryQuantizationParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsQueryQuantizationParameters: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsQueryQuantizationParameters.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
 
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsQueryQuantizationParameters.extent = sanitizedExtent;
+    }
     if (hasValue(dotNetObject.mode)) {
         jsQueryQuantizationParameters.mode = dotNetObject.mode;
     }
@@ -59,8 +59,7 @@ export async function buildDotNetQueryQuantizationParametersGenerated(jsObject: 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetQueryQuantizationParameters.extent = buildDotNetExtent(jsObject.extent);
+        dotNetQueryQuantizationParameters.extent = jsObject.extent;
     }
     if (hasValue(jsObject.mode)) {
         dotNetQueryQuantizationParameters.mode = jsObject.mode;

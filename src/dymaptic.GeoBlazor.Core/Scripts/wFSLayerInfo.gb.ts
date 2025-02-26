@@ -4,10 +4,6 @@ import { buildDotNetWFSLayerInfo } from './wFSLayerInfo';
 
 export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSLayerInfo: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsWFSLayerInfo.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsWFSLayerInfo.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -19,6 +15,10 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
 
     if (hasValue(dotNetObject.customParameters)) {
         jsWFSLayerInfo.customParameters = dotNetObject.customParameters;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsWFSLayerInfo.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.geometryType)) {
         jsWFSLayerInfo.geometryType = dotNetObject.geometryType;
@@ -82,10 +82,6 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     let dotNetWFSLayerInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetWFSLayerInfo.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetWFSLayerInfo.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -96,6 +92,9 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetWFSLayerInfo.customParameters = jsObject.customParameters;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetWFSLayerInfo.extent = jsObject.extent;
     }
     if (hasValue(jsObject.geometryType)) {
         dotNetWFSLayerInfo.geometryType = jsObject.geometryType;

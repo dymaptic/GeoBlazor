@@ -4,24 +4,21 @@ import { buildDotNetHighlightOptions } from './highlightOptions';
 
 export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHighlightOptions: any = {};
-    if (hasValue(dotNetObject.color)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.color = buildJsMapColor(dotNetObject.color) as any;
-    }
-    if (hasValue(dotNetObject.haloColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.haloColor = buildJsMapColor(dotNetObject.haloColor) as any;
-    }
-    if (hasValue(dotNetObject.shadowColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsHighlightOptions.shadowColor = buildJsMapColor(dotNetObject.shadowColor) as any;
-    }
 
+    if (hasValue(dotNetObject.color)) {
+        jsHighlightOptions.color = dotNetObject.color;
+    }
     if (hasValue(dotNetObject.fillOpacity)) {
         jsHighlightOptions.fillOpacity = dotNetObject.fillOpacity;
     }
+    if (hasValue(dotNetObject.haloColor)) {
+        jsHighlightOptions.haloColor = dotNetObject.haloColor;
+    }
     if (hasValue(dotNetObject.haloOpacity)) {
         jsHighlightOptions.haloOpacity = dotNetObject.haloOpacity;
+    }
+    if (hasValue(dotNetObject.shadowColor)) {
+        jsHighlightOptions.shadowColor = dotNetObject.shadowColor;
     }
     if (hasValue(dotNetObject.shadowDifference)) {
         jsHighlightOptions.shadowDifference = dotNetObject.shadowDifference;
@@ -70,22 +67,19 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetHighlightOptions.color = buildDotNetMapColor(jsObject.color);
-    }
-    if (hasValue(jsObject.haloColor)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetHighlightOptions.haloColor = buildDotNetMapColor(jsObject.haloColor);
-    }
-    if (hasValue(jsObject.shadowColor)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetHighlightOptions.shadowColor = buildDotNetMapColor(jsObject.shadowColor);
+        dotNetHighlightOptions.color = jsObject.color;
     }
     if (hasValue(jsObject.fillOpacity)) {
         dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
     }
+    if (hasValue(jsObject.haloColor)) {
+        dotNetHighlightOptions.haloColor = jsObject.haloColor;
+    }
     if (hasValue(jsObject.haloOpacity)) {
         dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
+    }
+    if (hasValue(jsObject.shadowColor)) {
+        dotNetHighlightOptions.shadowColor = jsObject.shadowColor;
     }
     if (hasValue(jsObject.shadowDifference)) {
         dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;

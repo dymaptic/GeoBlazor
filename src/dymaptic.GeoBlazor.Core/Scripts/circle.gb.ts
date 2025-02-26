@@ -20,15 +20,11 @@ export default class CircleGenerated implements IPropertyWrapper {
     }
     
     async addRing(points: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsPoints = points.map(i => buildJsPoint(i)) as any;
-        return this.component.addRing(jsPoints);
+        return this.component.addRing(points);
     }
 
     async contains(point: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
-        return this.component.contains(jsPoint);
+        return this.component.contains(point);
     }
 
     async getPoint(ringIndex: any,
@@ -40,17 +36,13 @@ let jsPoint = buildJsPoint(point) as any;
     async insertPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
         return this.component.insertPoint(ringIndex,
             pointIndex,
-            jsPoint);
+            point);
     }
 
     async isClockwise(ring: any): Promise<any> {
-        let { buildJsPoint } = await import('./point');
-        let jsRing = ring.map(i => buildJsPoint(i)) as any;
-        return this.component.isClockwise(jsRing);
+        return this.component.isClockwise(ring);
     }
 
     async removePoint(ringIndex: any,
@@ -66,51 +58,12 @@ let jsPoint = buildJsPoint(point) as any;
     async setPoint(ringIndex: any,
         pointIndex: any,
         point: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
         return this.component.setPoint(ringIndex,
             pointIndex,
-            jsPoint);
+            point);
     }
 
     // region properties
-    
-    async getCenter(): Promise<any> {
-        if (!hasValue(this.component.center)) {
-            return null;
-        }
-        
-        let { buildDotNetPoint } = await import('./point');
-        return buildDotNetPoint(this.component.center);
-    }
-    
-    async setCenter(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.center =  buildJsPoint(value);
-    }
-    
-    async getCentroid(): Promise<any> {
-        if (!hasValue(this.component.centroid)) {
-            return null;
-        }
-        
-        let { buildDotNetPoint } = await import('./point');
-        return buildDotNetPoint(this.component.centroid);
-    }
-    
-    async setCentroid(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.centroid =  buildJsPoint(value);
-    }
-    
-    async getExtent(): Promise<any> {
-        if (!hasValue(this.component.extent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.extent);
-    }
     
     getProperty(prop: string): any {
         return this.component[prop];
@@ -124,15 +77,15 @@ let jsPoint = buildJsPoint(point) as any;
 
 export async function buildJsCircleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+
     if (hasValue(dotNetObject.center)) {
-        let { buildJsPoint } = await import('./point');
-        properties.center = buildJsPoint(dotNetObject.center) as any;
+        const { id, dotNetComponentReference, ...sanitizedCenter } = dotNetObject.center;
+        properties.center = sanitizedCenter;
     }
     if (hasValue(dotNetObject.centroid)) {
-        let { buildJsPoint } = await import('./point');
-        properties.centroid = buildJsPoint(dotNetObject.centroid) as any;
+        const { id, dotNetComponentReference, ...sanitizedCentroid } = dotNetObject.centroid;
+        properties.centroid = sanitizedCentroid;
     }
-
     if (hasValue(dotNetObject.geodesic)) {
         properties.geodesic = dotNetObject.geodesic;
     }
@@ -208,20 +161,17 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
     let dotNetCircle: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.center)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetCircle.center = buildDotNetPoint(jsObject.center);
-    }
-    if (hasValue(jsObject.centroid)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetCircle.centroid = buildDotNetPoint(jsObject.centroid);
-    }
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetCircle.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.cache)) {
         dotNetCircle.cache = jsObject.cache;
+    }
+    if (hasValue(jsObject.center)) {
+        dotNetCircle.center = jsObject.center;
+    }
+    if (hasValue(jsObject.centroid)) {
+        dotNetCircle.centroid = jsObject.centroid;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetCircle.extent = jsObject.extent;
     }
     if (hasValue(jsObject.geodesic)) {
         dotNetCircle.geodesic = jsObject.geodesic;

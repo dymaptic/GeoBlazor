@@ -4,11 +4,11 @@ import { buildDotNetNearestPointResult } from './nearestPointResult';
 
 export async function buildJsNearestPointResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsNearestPointResult: any = {};
-    if (hasValue(dotNetObject.coordinate)) {
-        let { buildJsPoint } = await import('./point');
-        jsNearestPointResult.coordinate = buildJsPoint(dotNetObject.coordinate) as any;
-    }
 
+    if (hasValue(dotNetObject.coordinate)) {
+        const { id, dotNetComponentReference, ...sanitizedCoordinate } = dotNetObject.coordinate;
+        jsNearestPointResult.coordinate = sanitizedCoordinate;
+    }
     if (hasValue(dotNetObject.distance)) {
         jsNearestPointResult.distance = dotNetObject.distance;
     }
@@ -59,8 +59,7 @@ export async function buildDotNetNearestPointResultGenerated(jsObject: any): Pro
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.coordinate)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetNearestPointResult.coordinate = buildDotNetPoint(jsObject.coordinate);
+        dotNetNearestPointResult.coordinate = jsObject.coordinate;
     }
     if (hasValue(jsObject.distance)) {
         dotNetNearestPointResult.distance = jsObject.distance;

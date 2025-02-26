@@ -4,10 +4,6 @@ import { buildDotNetCoverageDescriptionV201BoundedBy } from './coverageDescripti
 
 export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoverageDescriptionV201BoundedBy: any = {};
-    if (hasValue(dotNetObject.envelope)) {
-        let { buildJsExtent } = await import('./extent');
-        jsCoverageDescriptionV201BoundedBy.envelope = buildJsExtent(dotNetObject.envelope) as any;
-    }
 
     if (hasValue(dotNetObject.axisLabels)) {
         jsCoverageDescriptionV201BoundedBy.axisLabels = dotNetObject.axisLabels;
@@ -17,6 +13,10 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
     }
     if (hasValue(dotNetObject.endPosition)) {
         jsCoverageDescriptionV201BoundedBy.endPosition = dotNetObject.endPosition;
+    }
+    if (hasValue(dotNetObject.envelope)) {
+        const { id, dotNetComponentReference, ...sanitizedEnvelope } = dotNetObject.envelope;
+        jsCoverageDescriptionV201BoundedBy.envelope = sanitizedEnvelope;
     }
     if (hasValue(dotNetObject.envelopeAllDims)) {
         jsCoverageDescriptionV201BoundedBy.envelopeAllDims = dotNetObject.envelopeAllDims;
@@ -67,10 +67,6 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
     let dotNetCoverageDescriptionV201BoundedBy: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.envelope)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageDescriptionV201BoundedBy.envelope = buildDotNetExtent(jsObject.envelope);
-    }
     if (hasValue(jsObject.axisLabels)) {
         dotNetCoverageDescriptionV201BoundedBy.axisLabels = jsObject.axisLabels;
     }
@@ -79,6 +75,9 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
     }
     if (hasValue(jsObject.endPosition)) {
         dotNetCoverageDescriptionV201BoundedBy.endPosition = jsObject.endPosition;
+    }
+    if (hasValue(jsObject.envelope)) {
+        dotNetCoverageDescriptionV201BoundedBy.envelope = jsObject.envelope;
     }
     if (hasValue(jsObject.envelopeAllDims)) {
         dotNetCoverageDescriptionV201BoundedBy.envelopeAllDims = jsObject.envelopeAllDims;

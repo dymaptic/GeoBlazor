@@ -49,9 +49,7 @@ let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerI
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
-        return await this.layer.fetchPixels(jsExtent,
+        return await this.layer.fetchPixels(extent,
             width,
             height,
             options);
@@ -69,11 +67,9 @@ let jsExtent = buildJsExtent(extent) as any;
 
     async identify(point: any,
         options: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
                 let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
 let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
-        return await this.layer.identify(jsPoint,
+        return await this.layer.identify(point,
             jsOptions);
     }
 
@@ -97,34 +93,6 @@ let jsOptions = await buildJsImageryTileLayerSaveAsOptions(options, this.layerId
 
     // region properties
     
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
-    }
-    
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value);
-    }
-    
-    async getFullExtent(): Promise<any> {
-        if (!hasValue(this.layer.fullExtent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent);
-    }
-    
-    async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
-    }
-    
     async getMultidimensionalSubset(): Promise<any> {
         if (!hasValue(this.layer.multidimensionalSubset)) {
             return null;
@@ -137,20 +105,6 @@ let jsOptions = await buildJsImageryTileLayerSaveAsOptions(options, this.layerId
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
         this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
-    }
-    
-    async getPopupTemplate(): Promise<any> {
-        if (!hasValue(this.layer.popupTemplate)) {
-            return null;
-        }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
-    }
-    
-    async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     
     async getPortalItem(): Promise<any> {
@@ -253,21 +207,9 @@ let jsOptions = await buildJsImageryTileLayerSaveAsOptions(options, this.layerId
 
 export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-    }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
         properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
-    }
-    if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -305,6 +247,13 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
     }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
+        properties.fullExtent = sanitizedFullExtent;
+    }
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
     }
@@ -332,6 +281,10 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
+    }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        const { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject.popupTemplate;
+        properties.popupTemplate = sanitizedPopupTemplate;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
@@ -419,21 +372,9 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     let dotNetImageryTileLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetImageryTileLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetImageryTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-    }
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetImageryTileLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
-    }
-    if (hasValue(jsObject.popupTemplate)) {
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetImageryTileLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -482,6 +423,12 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     if (hasValue(jsObject.customParameters)) {
         dotNetImageryTileLayer.customParameters = jsObject.customParameters;
     }
+    if (hasValue(jsObject.effect)) {
+        dotNetImageryTileLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        dotNetImageryTileLayer.fullExtent = jsObject.fullExtent;
+    }
     if (hasValue(jsObject.interpolation)) {
         dotNetImageryTileLayer.interpolation = jsObject.interpolation;
     }
@@ -511,6 +458,9 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        dotNetImageryTileLayer.popupTemplate = jsObject.popupTemplate;
     }
     if (hasValue(jsObject.rasterFunction)) {
         dotNetImageryTileLayer.rasterFunction = jsObject.rasterFunction;

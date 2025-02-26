@@ -73,34 +73,6 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     // region properties
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.widget.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
-    
-    async getGraphic(): Promise<any> {
-        if (!hasValue(this.widget.graphic)) {
-            return null;
-        }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
-        return buildDotNetGraphic(this.widget.graphic, this.layerId, this.viewId);
-    }
-    
-    async setGraphic(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.widget.graphic =  buildJsGraphic(value);
-    }
-    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -130,13 +102,13 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
-    if (hasValue(dotNetObject.graphic)) {
-        let { buildJsGraphic } = await import('./graphic');
-        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+        properties.goToOverride = async (view,
+        goToParameters) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
+            goToParameters);
+        };
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
@@ -151,6 +123,10 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.goToLocationEnabled)) {
         properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
+    }
+    if (hasValue(dotNetObject.graphic)) {
+        const { id, dotNetComponentReference, ...sanitizedGraphic } = dotNetObject.graphic;
+        properties.graphic = sanitizedGraphic;
     }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
@@ -225,14 +201,6 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
     let dotNetLocateWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.goToOverride)) {
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        dotNetLocateWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
-    }
-    if (hasValue(jsObject.graphic)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetLocateWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
-    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
         dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
@@ -245,6 +213,12 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.goToLocationEnabled)) {
         dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        dotNetLocateWidget.goToOverride = jsObject.goToOverride;
+    }
+    if (hasValue(jsObject.graphic)) {
+        dotNetLocateWidget.graphic = jsObject.graphic;
     }
     if (hasValue(jsObject.icon)) {
         dotNetLocateWidget.icon = jsObject.icon;

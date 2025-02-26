@@ -5,13 +5,13 @@ import { buildDotNetPortalQueryParams } from './portalQueryParams';
 
 export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
 
     if (hasValue(dotNetObject.categories)) {
         properties.categories = dotNetObject.categories;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        properties.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.filter)) {
         properties.filter = dotNetObject.filter;
@@ -72,12 +72,11 @@ export async function buildDotNetPortalQueryParamsGenerated(jsObject: any): Prom
     let dotNetPortalQueryParams: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetPortalQueryParams.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.categories)) {
         dotNetPortalQueryParams.categories = jsObject.categories;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetPortalQueryParams.extent = jsObject.extent;
     }
     if (hasValue(jsObject.filter)) {
         dotNetPortalQueryParams.filter = jsObject.filter;

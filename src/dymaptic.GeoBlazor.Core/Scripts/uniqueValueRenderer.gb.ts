@@ -28,9 +28,7 @@ let jsSymbol = buildJsSymbol(symbol) as any;
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsGraphic = buildJsGraphic(graphic) as any;
-        return await this.component.getUniqueValueInfo(jsGraphic);
+        return await this.component.getUniqueValueInfo(graphic);
     }
 
     async removeUniqueValueInfo(value: any): Promise<void> {

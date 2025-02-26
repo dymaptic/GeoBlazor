@@ -5,10 +5,6 @@ import { buildDotNetCamera } from './camera';
 
 export async function buildJsCameraGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.position)) {
-        let { buildJsPoint } = await import('./point');
-        properties.position = buildJsPoint(dotNetObject.position) as any;
-    }
 
     if (hasValue(dotNetObject.fov)) {
         properties.fov = dotNetObject.fov;
@@ -19,6 +15,10 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.layout)) {
         const { id, dotNetComponentReference, ...sanitizedLayout } = dotNetObject.layout;
         properties.layout = sanitizedLayout;
+    }
+    if (hasValue(dotNetObject.position)) {
+        const { id, dotNetComponentReference, ...sanitizedPosition } = dotNetObject.position;
+        properties.position = sanitizedPosition;
     }
     if (hasValue(dotNetObject.tilt)) {
         properties.tilt = dotNetObject.tilt;
@@ -64,10 +64,6 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
     let dotNetCamera: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.position)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetCamera.position = buildDotNetPoint(jsObject.position);
-    }
     if (hasValue(jsObject.fov)) {
         dotNetCamera.fov = jsObject.fov;
     }
@@ -76,6 +72,9 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.layout)) {
         dotNetCamera.layout = jsObject.layout;
+    }
+    if (hasValue(jsObject.position)) {
+        dotNetCamera.position = jsObject.position;
     }
     if (hasValue(jsObject.tilt)) {
         dotNetCamera.tilt = jsObject.tilt;

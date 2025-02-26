@@ -5,16 +5,16 @@ import { buildDotNetImageGPSInfo } from './imageGPSInfo';
 
 export async function buildJsImageGPSInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.center)) {
-        let { buildJsPoint } = await import('./point');
-        properties.center = buildJsPoint(dotNetObject.center) as any;
-    }
 
     if (hasValue(dotNetObject.acquisitionDate)) {
         properties.acquisitionDate = dotNetObject.acquisitionDate;
     }
     if (hasValue(dotNetObject.cameraID)) {
         properties.cameraID = dotNetObject.cameraID;
+    }
+    if (hasValue(dotNetObject.center)) {
+        const { id, dotNetComponentReference, ...sanitizedCenter } = dotNetObject.center;
+        properties.center = sanitizedCenter;
     }
     if (hasValue(dotNetObject.gps)) {
         properties.gps = dotNetObject.gps;
@@ -69,15 +69,14 @@ export async function buildDotNetImageGPSInfoGenerated(jsObject: any): Promise<a
     let dotNetImageGPSInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.center)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageGPSInfo.center = buildDotNetPoint(jsObject.center);
-    }
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetImageGPSInfo.acquisitionDate = jsObject.acquisitionDate;
     }
     if (hasValue(jsObject.cameraID)) {
         dotNetImageGPSInfo.cameraID = jsObject.cameraID;
+    }
+    if (hasValue(jsObject.center)) {
+        dotNetImageGPSInfo.center = jsObject.center;
     }
     if (hasValue(jsObject.gps)) {
         dotNetImageGPSInfo.gps = jsObject.gps;

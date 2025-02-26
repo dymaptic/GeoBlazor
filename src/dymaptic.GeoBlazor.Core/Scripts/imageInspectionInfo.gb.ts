@@ -5,20 +5,16 @@ import { buildDotNetImageInspectionInfo } from './imageInspectionInfo';
 
 export async function buildJsImageInspectionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.center)) {
-        let { buildJsPoint } = await import('./point');
-        properties.center = buildJsPoint(dotNetObject.center) as any;
-    }
-    if (hasValue(dotNetObject.perspectiveCenter)) {
-        let { buildJsPoint } = await import('./point');
-        properties.perspectiveCenter = buildJsPoint(dotNetObject.perspectiveCenter) as any;
-    }
 
     if (hasValue(dotNetObject.acquisitionDate)) {
         properties.acquisitionDate = dotNetObject.acquisitionDate;
     }
     if (hasValue(dotNetObject.cameraID)) {
         properties.cameraID = dotNetObject.cameraID;
+    }
+    if (hasValue(dotNetObject.center)) {
+        const { id, dotNetComponentReference, ...sanitizedCenter } = dotNetObject.center;
+        properties.center = sanitizedCenter;
     }
     if (hasValue(dotNetObject.cols)) {
         properties.cols = dotNetObject.cols;
@@ -37,6 +33,10 @@ export async function buildJsImageInspectionInfoGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.orientation)) {
         properties.orientation = dotNetObject.orientation;
+    }
+    if (hasValue(dotNetObject.perspectiveCenter)) {
+        const { id, dotNetComponentReference, ...sanitizedPerspectiveCenter } = dotNetObject.perspectiveCenter;
+        properties.perspectiveCenter = sanitizedPerspectiveCenter;
     }
     if (hasValue(dotNetObject.pixelSize)) {
         properties.pixelSize = dotNetObject.pixelSize;
@@ -88,19 +88,14 @@ export async function buildDotNetImageInspectionInfoGenerated(jsObject: any): Pr
     let dotNetImageInspectionInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.center)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageInspectionInfo.center = buildDotNetPoint(jsObject.center);
-    }
-    if (hasValue(jsObject.perspectiveCenter)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageInspectionInfo.perspectiveCenter = buildDotNetPoint(jsObject.perspectiveCenter);
-    }
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetImageInspectionInfo.acquisitionDate = jsObject.acquisitionDate;
     }
     if (hasValue(jsObject.cameraID)) {
         dotNetImageInspectionInfo.cameraID = jsObject.cameraID;
+    }
+    if (hasValue(jsObject.center)) {
+        dotNetImageInspectionInfo.center = jsObject.center;
     }
     if (hasValue(jsObject.cols)) {
         dotNetImageInspectionInfo.cols = jsObject.cols;
@@ -119,6 +114,9 @@ export async function buildDotNetImageInspectionInfoGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.orientation)) {
         dotNetImageInspectionInfo.orientation = jsObject.orientation;
+    }
+    if (hasValue(jsObject.perspectiveCenter)) {
+        dotNetImageInspectionInfo.perspectiveCenter = jsObject.perspectiveCenter;
     }
     if (hasValue(jsObject.pixelSize)) {
         dotNetImageInspectionInfo.pixelSize = jsObject.pixelSize;

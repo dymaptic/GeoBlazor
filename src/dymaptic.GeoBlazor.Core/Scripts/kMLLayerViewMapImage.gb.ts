@@ -4,11 +4,11 @@ import { buildDotNetKMLLayerViewMapImage } from './kMLLayerViewMapImage';
 
 export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsKMLLayerViewMapImage: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsKMLLayerViewMapImage.Extent = buildJsExtent(dotNetObject.extent) as any;
-    }
 
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsKMLLayerViewMapImage.Extent = sanitizedExtent;
+    }
     if (hasValue(dotNetObject.href)) {
         jsKMLLayerViewMapImage.href = dotNetObject.href;
     }
@@ -59,8 +59,7 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): P
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.Extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetKMLLayerViewMapImage.extent = buildDotNetExtent(jsObject.Extent);
+        dotNetKMLLayerViewMapImage.extent = jsObject.Extent;
     }
     if (hasValue(jsObject.href)) {
         dotNetKMLLayerViewMapImage.href = jsObject.href;

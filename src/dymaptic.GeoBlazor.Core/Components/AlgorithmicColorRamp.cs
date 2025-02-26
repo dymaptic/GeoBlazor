@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class AlgorithmicColorRamp : ColorRamp
+public partial class AlgorithmicColorRamp : ColorRamp, IMapComponent
 {
 
     /// <inheritdoc />

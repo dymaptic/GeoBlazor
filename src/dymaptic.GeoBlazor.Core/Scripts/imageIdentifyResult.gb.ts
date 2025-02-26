@@ -9,13 +9,13 @@ export async function buildJsImageIdentifyResultGenerated(dotNetObject: any, lay
         let { buildJsFeatureSet } = await import('./featureSet');
         properties.catalogItems = buildJsFeatureSet(dotNetObject.catalogItems) as any;
     }
-    if (hasValue(dotNetObject.location)) {
-        let { buildJsPoint } = await import('./point');
-        properties.location = buildJsPoint(dotNetObject.location) as any;
-    }
 
     if (hasValue(dotNetObject.catalogItemVisibilities)) {
         properties.catalogItemVisibilities = dotNetObject.catalogItemVisibilities;
+    }
+    if (hasValue(dotNetObject.location)) {
+        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
+        properties.location = sanitizedLocation;
     }
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
@@ -72,14 +72,13 @@ export async function buildDotNetImageIdentifyResultGenerated(jsObject: any, lay
     };
     if (hasValue(jsObject.catalogItems)) {
         let { buildDotNetFeatureSet } = await import('./featureSet');
-        dotNetImageIdentifyResult.catalogItems = await buildDotNetFeatureSet(jsObject.catalogItems, layerId, viewId);
-    }
-    if (hasValue(jsObject.location)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageIdentifyResult.location = buildDotNetPoint(jsObject.location);
+        dotNetImageIdentifyResult.catalogItems = buildDotNetFeatureSet(jsObject.catalogItems);
     }
     if (hasValue(jsObject.catalogItemVisibilities)) {
         dotNetImageIdentifyResult.catalogItemVisibilities = jsObject.catalogItemVisibilities;
+    }
+    if (hasValue(jsObject.location)) {
+        dotNetImageIdentifyResult.location = jsObject.location;
     }
     if (hasValue(jsObject.name)) {
         dotNetImageIdentifyResult.name = jsObject.name;

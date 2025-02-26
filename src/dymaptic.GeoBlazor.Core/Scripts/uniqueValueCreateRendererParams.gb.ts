@@ -4,6 +4,10 @@ import { buildDotNetUniqueValueCreateRendererParams } from './uniqueValueCreateR
 
 export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsuniqueValueCreateRendererParams: any = {};
+    if (hasValue(dotNetObject.colorRamp)) {
+        let { buildJsColorRamp } = await import('./colorRamp');
+        jsuniqueValueCreateRendererParams.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
+    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsuniqueValueCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -11,10 +15,6 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
 
     if (hasValue(dotNetObject.classFieldName)) {
         jsuniqueValueCreateRendererParams.classFieldName = dotNetObject.classFieldName;
-    }
-    if (hasValue(dotNetObject.colorRamp)) {
-        const { id, dotNetComponentReference, ...sanitizedColorRamp } = dotNetObject.colorRamp;
-        jsuniqueValueCreateRendererParams.colorRamp = sanitizedColorRamp;
     }
     if (hasValue(dotNetObject.colors)) {
         jsuniqueValueCreateRendererParams.colors = dotNetObject.colors;
@@ -70,11 +70,12 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
     let dotNetUniqueValueCreateRendererParams: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.colorRamp)) {
+        let { buildDotNetColorRamp } = await import('./colorRamp');
+        dotNetUniqueValueCreateRendererParams.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
+    }
     if (hasValue(jsObject.classFieldName)) {
         dotNetUniqueValueCreateRendererParams.classFieldName = jsObject.classFieldName;
-    }
-    if (hasValue(jsObject.colorRamp)) {
-        dotNetUniqueValueCreateRendererParams.colorRamp = jsObject.colorRamp;
     }
     if (hasValue(jsObject.colors)) {
         dotNetUniqueValueCreateRendererParams.colors = jsObject.colors;

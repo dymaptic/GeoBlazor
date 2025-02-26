@@ -4,16 +4,16 @@ import { buildDotNetViewImmediateClickEvent } from './viewImmediateClickEvent';
 
 export async function buildJsViewImmediateClickEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsViewImmediateClickEvent: any = {};
-    if (hasValue(dotNetObject.mapPoint)) {
-        let { buildJsPoint } = await import('./point');
-        jsViewImmediateClickEvent.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
-    }
 
     if (hasValue(dotNetObject.button)) {
         jsViewImmediateClickEvent.button = dotNetObject.button;
     }
     if (hasValue(dotNetObject.buttons)) {
         jsViewImmediateClickEvent.buttons = dotNetObject.buttons;
+    }
+    if (hasValue(dotNetObject.mapPoint)) {
+        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
+        jsViewImmediateClickEvent.mapPoint = sanitizedMapPoint;
     }
     if (hasValue(dotNetObject.native)) {
         jsViewImmediateClickEvent.native = dotNetObject.native;
@@ -70,15 +70,14 @@ export async function buildDotNetViewImmediateClickEventGenerated(jsObject: any)
     let dotNetViewImmediateClickEvent: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.mapPoint)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetViewImmediateClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-    }
     if (hasValue(jsObject.button)) {
         dotNetViewImmediateClickEvent.button = jsObject.button;
     }
     if (hasValue(jsObject.buttons)) {
         dotNetViewImmediateClickEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.mapPoint)) {
+        dotNetViewImmediateClickEvent.mapPoint = jsObject.mapPoint;
     }
     if (hasValue(jsObject.native)) {
         dotNetViewImmediateClickEvent.native = jsObject.native;

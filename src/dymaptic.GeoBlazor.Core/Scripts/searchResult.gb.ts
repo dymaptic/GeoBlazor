@@ -2,23 +2,23 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchResult } from './searchResult';
 
-export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsSearchResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchResult: any = {};
+
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsSearchResult.extent = buildJsExtent(dotNetObject.extent) as any;
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsSearchResult.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.feature)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsSearchResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
+        jsSearchResult.feature = sanitizedFeature;
     }
-    if (hasValue(dotNetObject.target)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsSearchResult.target = buildJsGraphic(dotNetObject.target) as any;
-    }
-
     if (hasValue(dotNetObject.name)) {
         jsSearchResult.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.target)) {
+        const { id, dotNetComponentReference, ...sanitizedTarget } = dotNetObject.target;
+        jsSearchResult.target = sanitizedTarget;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchResult);
@@ -26,11 +26,11 @@ export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<a
     arcGisObjectRefs[dotNetObject.id] = jsSearchResult;
     
     let { buildDotNetSearchResult } = await import('./searchResult');
-    let dnInstantiatedObject = buildDotNetSearchResult(jsSearchResult);
+    let dnInstantiatedObject = await buildDotNetSearchResult(jsSearchResult);
 
     try {
         let seenObjects = new WeakMap();
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
@@ -49,5 +49,39 @@ export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<a
     }
     
     return jsSearchResult;
+}
+
+
+export async function buildDotNetSearchResultGenerated(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
+    let dotNetSearchResult: any = {
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+    };
+    if (hasValue(jsObject.extent)) {
+        dotNetSearchResult.extent = jsObject.extent;
+    }
+    if (hasValue(jsObject.feature)) {
+        dotNetSearchResult.feature = jsObject.feature;
+    }
+    if (hasValue(jsObject.name)) {
+        dotNetSearchResult.name = jsObject.name;
+    }
+    if (hasValue(jsObject.target)) {
+        dotNetSearchResult.target = jsObject.target;
+    }
+
+    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
+        for (const k of Object.keys(arcGisObjectRefs)) {
+            if (arcGisObjectRefs[k] === jsObject) {
+                dotNetSearchResult.id = k;
+                break;
+            }
+        }
+    }
+
+    return dotNetSearchResult;
 }
 

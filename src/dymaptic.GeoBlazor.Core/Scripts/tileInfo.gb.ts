@@ -29,20 +29,6 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getOrigin(): Promise<any> {
-        if (!hasValue(this.component.origin)) {
-            return null;
-        }
-        
-        let { buildDotNetPoint } = await import('./point');
-        return buildDotNetPoint(this.component.origin);
-    }
-    
-    async setOrigin(value: any): Promise<void> {
-        let { buildJsPoint } = await import('./point');
-        this.component.origin =  buildJsPoint(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -55,10 +41,6 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.origin)) {
-        let { buildJsPoint } = await import('./point');
-        properties.origin = buildJsPoint(dotNetObject.origin) as any;
-    }
 
     if (hasValue(dotNetObject.dpi)) {
         properties.dpi = dotNetObject.dpi;
@@ -72,6 +54,10 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.lods)) {
         const { id, dotNetComponentReference, ...sanitizedLods } = dotNetObject.lods;
         properties.lods = sanitizedLods;
+    }
+    if (hasValue(dotNetObject.origin)) {
+        const { id, dotNetComponentReference, ...sanitizedOrigin } = dotNetObject.origin;
+        properties.origin = sanitizedOrigin;
     }
     if (hasValue(dotNetObject.size)) {
         properties.size = dotNetObject.size;
@@ -127,10 +113,6 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     let dotNetTileInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.origin)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
-    }
     if (hasValue(jsObject.dpi)) {
         dotNetTileInfo.dpi = jsObject.dpi;
     }
@@ -142,6 +124,9 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.lods)) {
         dotNetTileInfo.lods = jsObject.lods;
+    }
+    if (hasValue(jsObject.origin)) {
+        dotNetTileInfo.origin = jsObject.origin;
     }
     if (hasValue(jsObject.size)) {
         dotNetTileInfo.size = jsObject.size;

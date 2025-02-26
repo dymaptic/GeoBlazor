@@ -65,20 +65,6 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     // region properties
     
-    async getTickConfigs(): Promise<any> {
-        if (!hasValue(this.widget.tickConfigs)) {
-            return null;
-        }
-        
-        let { buildDotNetTickConfig } = await import('./tickConfig');
-        return await Promise.all(this.widget.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
-    }
-    
-    async setTickConfigs(value: any): Promise<void> {
-        let { buildJsTickConfig } = await import('./tickConfig');
-        this.widget.tickConfigs = await Promise.all(value.map(async i => await buildJsTickConfig(i))) as any;
-    }
-    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -166,10 +152,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
             labelElement);
         };
     }
-    if (hasValue(dotNetObject.tickConfigs)) {
-        let { buildJsTickConfig } = await import('./tickConfig');
-        properties.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
-    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsSliderViewModel } = await import('./sliderViewModel');
         properties.viewModel = await buildJsSliderViewModel(dotNetObject.viewModel, layerId, viewId) as any;
@@ -225,6 +207,10 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.thumbsConstrained)) {
         properties.thumbsConstrained = dotNetObject.thumbsConstrained;
+    }
+    if (hasValue(dotNetObject.tickConfigs)) {
+        const { id, dotNetComponentReference, ...sanitizedTickConfigs } = dotNetObject.tickConfigs;
+        properties.tickConfigs = sanitizedTickConfigs;
     }
     if (hasValue(dotNetObject.trackElement)) {
         properties.trackElement = dotNetObject.trackElement;
@@ -330,10 +316,6 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
     let dotNetSliderWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.tickConfigs)) {
-        let { buildDotNetTickConfig } = await import('./tickConfig');
-        dotNetSliderWidget.tickConfigs = await Promise.all(jsObject.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
-    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
         dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
@@ -427,6 +409,9 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.thumbsConstrained)) {
         dotNetSliderWidget.thumbsConstrained = jsObject.thumbsConstrained;
+    }
+    if (hasValue(jsObject.tickConfigs)) {
+        dotNetSliderWidget.tickConfigs = jsObject.tickConfigs;
     }
     if (hasValue(jsObject.tickElements)) {
         dotNetSliderWidget.tickElements = jsObject.tickElements;

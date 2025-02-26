@@ -8,16 +8,16 @@ export async function buildJsCoverageDescriptionV100Generated(dotNetObject: any,
         let { buildJsCoverageDescriptionV100DomainSet } = await import('./coverageDescriptionV100DomainSet');
         jsCoverageDescriptionV100.domainSet = await buildJsCoverageDescriptionV100DomainSet(dotNetObject.domainSet, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.lonLatEnvelope)) {
-        let { buildJsExtent } = await import('./extent');
-        jsCoverageDescriptionV100.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope) as any;
-    }
 
     if (hasValue(dotNetObject.description)) {
         jsCoverageDescriptionV100.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.label)) {
         jsCoverageDescriptionV100.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.lonLatEnvelope)) {
+        const { id, dotNetComponentReference, ...sanitizedLonLatEnvelope } = dotNetObject.lonLatEnvelope;
+        jsCoverageDescriptionV100.lonLatEnvelope = sanitizedLonLatEnvelope;
     }
     if (hasValue(dotNetObject.name)) {
         jsCoverageDescriptionV100.name = dotNetObject.name;
@@ -81,15 +81,14 @@ export async function buildDotNetCoverageDescriptionV100Generated(jsObject: any)
         let { buildDotNetCoverageDescriptionV100DomainSet } = await import('./coverageDescriptionV100DomainSet');
         dotNetCoverageDescriptionV100.domainSet = await buildDotNetCoverageDescriptionV100DomainSet(jsObject.domainSet);
     }
-    if (hasValue(jsObject.lonLatEnvelope)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetCoverageDescriptionV100.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
-    }
     if (hasValue(jsObject.description)) {
         dotNetCoverageDescriptionV100.description = jsObject.description;
     }
     if (hasValue(jsObject.label)) {
         dotNetCoverageDescriptionV100.label = jsObject.label;
+    }
+    if (hasValue(jsObject.lonLatEnvelope)) {
+        dotNetCoverageDescriptionV100.lonLatEnvelope = jsObject.lonLatEnvelope;
     }
     if (hasValue(jsObject.name)) {
         dotNetCoverageDescriptionV100.name = jsObject.name;

@@ -4,11 +4,10 @@ import { buildDotNetIconSymbol3DLayerMaterial } from './iconSymbol3DLayerMateria
 
 export async function buildJsIconSymbol3DLayerMaterialGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsIconSymbol3DLayerMaterial: any = {};
-    if (hasValue(dotNetObject.color)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsIconSymbol3DLayerMaterial.color = buildJsMapColor(dotNetObject.color) as any;
-    }
 
+    if (hasValue(dotNetObject.color)) {
+        jsIconSymbol3DLayerMaterial.color = dotNetObject.color;
+    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsIconSymbol3DLayerMaterial);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,8 +49,7 @@ export async function buildDotNetIconSymbol3DLayerMaterialGenerated(jsObject: an
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetIconSymbol3DLayerMaterial.color = buildDotNetMapColor(jsObject.color);
+        dotNetIconSymbol3DLayerMaterial.color = jsObject.color;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -5,15 +5,13 @@ import { buildDotNetTheme } from './theme';
 
 export async function buildJsThemeGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
+
     if (hasValue(dotNetObject.accentColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        properties.accentColor = buildJsMapColor(dotNetObject.accentColor) as any;
+        properties.accentColor = dotNetObject.accentColor;
     }
     if (hasValue(dotNetObject.textColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        properties.textColor = buildJsMapColor(dotNetObject.textColor) as any;
+        properties.textColor = dotNetObject.textColor;
     }
-
     let jsTheme = new Theme(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsTheme);
@@ -56,12 +54,10 @@ export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.accentColor)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetTheme.accentColor = buildDotNetMapColor(jsObject.accentColor);
+        dotNetTheme.accentColor = jsObject.accentColor;
     }
     if (hasValue(jsObject.textColor)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetTheme.textColor = buildDotNetMapColor(jsObject.textColor);
+        dotNetTheme.textColor = jsObject.textColor;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

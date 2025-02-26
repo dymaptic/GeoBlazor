@@ -3,15 +3,11 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
         properties.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
-    }
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {
@@ -25,6 +21,10 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     }
     if (hasValue(dotNetObject.dataType)) {
         properties.dataType = dotNetObject.dataType;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        properties.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.hasMultidimensionalTranspose)) {
         properties.hasMultidimensionalTranspose = dotNetObject.hasMultidimensionalTranspose;
@@ -105,10 +105,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     let dotNetRasterInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.bandCount)) {
         dotNetRasterInfo.bandCount = jsObject.bandCount;
     }
@@ -120,6 +116,9 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.dataType)) {
         dotNetRasterInfo.dataType = jsObject.dataType;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetRasterInfo.extent = jsObject.extent;
     }
     if (hasValue(jsObject.hasMultidimensionalTranspose)) {
         dotNetRasterInfo.hasMultidimensionalTranspose = jsObject.hasMultidimensionalTranspose;

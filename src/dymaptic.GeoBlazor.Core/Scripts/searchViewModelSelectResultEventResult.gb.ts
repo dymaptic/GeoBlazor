@@ -4,15 +4,15 @@ import { buildDotNetSearchViewModelSelectResultEventResult } from './searchViewM
 
 export async function buildJsSearchViewModelSelectResultEventResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSelectResultEventResult: any = {};
+
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsSearchViewModelSelectResultEventResult.extent = buildJsExtent(dotNetObject.extent) as any;
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsSearchViewModelSelectResultEventResult.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.feature)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsSearchViewModelSelectResultEventResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
+        jsSearchViewModelSelectResultEventResult.feature = sanitizedFeature;
     }
-
     if (hasValue(dotNetObject.name)) {
         jsSearchViewModelSelectResultEventResult.name = dotNetObject.name;
     }
@@ -57,12 +57,10 @@ export async function buildDotNetSearchViewModelSelectResultEventResultGenerated
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetSearchViewModelSelectResultEventResult.extent = buildDotNetExtent(jsObject.extent);
+        dotNetSearchViewModelSelectResultEventResult.extent = jsObject.extent;
     }
     if (hasValue(jsObject.feature)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetSearchViewModelSelectResultEventResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+        dotNetSearchViewModelSelectResultEventResult.feature = jsObject.feature;
     }
     if (hasValue(jsObject.name)) {
         dotNetSearchViewModelSelectResultEventResult.name = jsObject.name;

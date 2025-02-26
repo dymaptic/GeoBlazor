@@ -4,16 +4,16 @@ import { buildDotNetViewHoldEvent } from './viewHoldEvent';
 
 export async function buildJsViewHoldEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsViewHoldEvent: any = {};
-    if (hasValue(dotNetObject.mapPoint)) {
-        let { buildJsPoint } = await import('./point');
-        jsViewHoldEvent.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
-    }
 
     if (hasValue(dotNetObject.button)) {
         jsViewHoldEvent.button = dotNetObject.button;
     }
     if (hasValue(dotNetObject.buttons)) {
         jsViewHoldEvent.buttons = dotNetObject.buttons;
+    }
+    if (hasValue(dotNetObject.mapPoint)) {
+        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
+        jsViewHoldEvent.mapPoint = sanitizedMapPoint;
     }
     if (hasValue(dotNetObject.native)) {
         jsViewHoldEvent.native = dotNetObject.native;
@@ -70,15 +70,14 @@ export async function buildDotNetViewHoldEventGenerated(jsObject: any): Promise<
     let dotNetViewHoldEvent: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.mapPoint)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetViewHoldEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-    }
     if (hasValue(jsObject.button)) {
         dotNetViewHoldEvent.button = jsObject.button;
     }
     if (hasValue(jsObject.buttons)) {
         dotNetViewHoldEvent.buttons = jsObject.buttons;
+    }
+    if (hasValue(jsObject.mapPoint)) {
+        dotNetViewHoldEvent.mapPoint = jsObject.mapPoint;
     }
     if (hasValue(jsObject.native)) {
         dotNetViewHoldEvent.native = jsObject.native;

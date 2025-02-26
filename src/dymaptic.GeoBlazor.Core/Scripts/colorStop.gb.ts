@@ -5,11 +5,10 @@ import { buildDotNetColorStop } from './colorStop';
 
 export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.color)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        properties.color = buildJsMapColor(dotNetObject.color) as any;
-    }
 
+    if (hasValue(dotNetObject.color)) {
+        properties.color = dotNetObject.color;
+    }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
     }
@@ -58,8 +57,7 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetColorStop.color = buildDotNetMapColor(jsObject.color);
+        dotNetColorStop.color = jsObject.color;
     }
     if (hasValue(jsObject.label)) {
         dotNetColorStop.label = jsObject.label;

@@ -5,10 +5,6 @@ import { buildDotNetMeasureAreaFromImageResult } from './measureAreaFromImageRes
 
 export async function buildJsMeasureAreaFromImageResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.center)) {
-        let { buildJsPoint } = await import('./point');
-        properties.center = buildJsPoint(dotNetObject.center) as any;
-    }
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsPolygon } = await import('./polygon');
         properties.geometry = buildJsPolygon(dotNetObject.geometry) as any;
@@ -16,6 +12,10 @@ export async function buildJsMeasureAreaFromImageResultGenerated(dotNetObject: a
 
     if (hasValue(dotNetObject.area)) {
         properties.area = dotNetObject.area;
+    }
+    if (hasValue(dotNetObject.center)) {
+        const { id, dotNetComponentReference, ...sanitizedCenter } = dotNetObject.center;
+        properties.center = sanitizedCenter;
     }
     if (hasValue(dotNetObject.length)) {
         properties.length = dotNetObject.length;
@@ -61,16 +61,15 @@ export async function buildDotNetMeasureAreaFromImageResultGenerated(jsObject: a
     let dotNetMeasureAreaFromImageResult: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.center)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetMeasureAreaFromImageResult.center = buildDotNetPoint(jsObject.center);
-    }
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetPolygon } = await import('./polygon');
         dotNetMeasureAreaFromImageResult.geometry = buildDotNetPolygon(jsObject.geometry);
     }
     if (hasValue(jsObject.area)) {
         dotNetMeasureAreaFromImageResult.area = jsObject.area;
+    }
+    if (hasValue(jsObject.center)) {
+        dotNetMeasureAreaFromImageResult.center = jsObject.center;
     }
     if (hasValue(jsObject.length)) {
         dotNetMeasureAreaFromImageResult.length = jsObject.length;

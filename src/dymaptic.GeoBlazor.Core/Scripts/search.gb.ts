@@ -5,10 +5,6 @@ import { buildDotNetSearch } from './search';
 
 export async function buildJsSearchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.layers)) {
-        let { buildJsSearchLayer } = await import('./searchLayer');
-        properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsISearchLayer(i, layerId, viewId))) as any;
-    }
 
     if (hasValue(dotNetObject.addressSearchEnabled)) {
         properties.addressSearchEnabled = dotNetObject.addressSearchEnabled;
@@ -18,6 +14,10 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.hintText)) {
         properties.hintText = dotNetObject.hintText;
+    }
+    if (hasValue(dotNetObject.layers)) {
+        const { id, dotNetComponentReference, ...sanitizedLayers } = dotNetObject.layers;
+        properties.layers = sanitizedLayers;
     }
     if (hasValue(dotNetObject.tables)) {
         const { id, dotNetComponentReference, ...sanitizedTables } = dotNetObject.tables;
@@ -72,6 +72,9 @@ export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.hintText)) {
         dotNetSearch.hintText = jsObject.hintText;
+    }
+    if (hasValue(jsObject.layers)) {
+        dotNetSearch.layers = jsObject.layers;
     }
     if (hasValue(jsObject.tables)) {
         dotNetSearch.tables = jsObject.tables;

@@ -97,20 +97,6 @@ let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.vi
 
     // region properties
     
-    async getExtent(): Promise<any> {
-        if (!hasValue(this.component.extent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.component.extent);
-    }
-    
-    async setExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.component.extent =  buildJsExtent(value);
-    }
-    
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
@@ -137,10 +123,6 @@ let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.vi
 
 export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
         properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
@@ -169,6 +151,10 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        properties.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.groupCategories)) {
         properties.groupCategories = dotNetObject.groupCategories;
@@ -268,10 +254,6 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     let dotNetPortalItem: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
@@ -302,6 +284,9 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.description)) {
         dotNetPortalItem.description = jsObject.description;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetPortalItem.extent = jsObject.extent;
     }
     if (hasValue(jsObject.groupCategories)) {
         dotNetPortalItem.groupCategories = jsObject.groupCategories;

@@ -2,7 +2,7 @@
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class MultipartColorRamp : ColorRamp
+public partial class MultipartColorRamp : ColorRamp, IMapComponent
 {
 
     /// <inheritdoc />

@@ -4,15 +4,15 @@ import { buildDotNetEditedFeatureResultEditedFeaturesUpdates } from './editedFea
 
 export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
+
     if (hasValue(dotNetObject.current)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.current = dotNetObject.current.map(i => buildJsGraphic(i)) as any;
+        const { id, dotNetComponentReference, ...sanitizedCurrent } = dotNetObject.current;
+        jsEditedFeatureResultEditedFeaturesUpdates.current = sanitizedCurrent;
     }
     if (hasValue(dotNetObject.original)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsEditedFeatureResultEditedFeaturesUpdates.original = dotNetObject.original.map(i => buildJsGraphic(i)) as any;
+        const { id, dotNetComponentReference, ...sanitizedOriginal } = dotNetObject.original;
+        jsEditedFeatureResultEditedFeaturesUpdates.original = sanitizedOriginal;
     }
-
     
     let jsObjectRef = DotNet.createJSObjectReference(jsEditedFeatureResultEditedFeaturesUpdates);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -54,12 +54,10 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesUpdatesGenerat
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.current)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current;
     }
     if (hasValue(jsObject.original)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

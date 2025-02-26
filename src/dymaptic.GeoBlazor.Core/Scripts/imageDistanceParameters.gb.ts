@@ -5,21 +5,17 @@ import { buildDotNetImageDistanceParameters } from './imageDistanceParameters';
 
 export async function buildJsImageDistanceParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.fromGeometry)) {
-        let { buildJsPoint } = await import('./point');
-        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
-    }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
-    if (hasValue(dotNetObject.toGeometry)) {
-        let { buildJsPoint } = await import('./point');
-        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
-    }
 
     if (hasValue(dotNetObject.angularUnit)) {
         properties.angularUnit = dotNetObject.angularUnit;
+    }
+    if (hasValue(dotNetObject.fromGeometry)) {
+        const { id, dotNetComponentReference, ...sanitizedFromGeometry } = dotNetObject.fromGeometry;
+        properties.fromGeometry = sanitizedFromGeometry;
     }
     if (hasValue(dotNetObject.is3D)) {
         properties.is3D = dotNetObject.is3D;
@@ -29,6 +25,10 @@ export async function buildJsImageDistanceParametersGenerated(dotNetObject: any,
     }
     if (hasValue(dotNetObject.pixelSize)) {
         properties.pixelSize = dotNetObject.pixelSize;
+    }
+    if (hasValue(dotNetObject.toGeometry)) {
+        const { id, dotNetComponentReference, ...sanitizedToGeometry } = dotNetObject.toGeometry;
+        properties.toGeometry = sanitizedToGeometry;
     }
     let jsImageDistanceParameters = new ImageDistanceParameters(properties);
     
@@ -71,20 +71,15 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any)
     let dotNetImageDistanceParameters: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.fromGeometry)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageDistanceParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
-    }
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageDistanceParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
-    if (hasValue(jsObject.toGeometry)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageDistanceParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
-    }
     if (hasValue(jsObject.angularUnit)) {
         dotNetImageDistanceParameters.angularUnit = jsObject.angularUnit;
+    }
+    if (hasValue(jsObject.fromGeometry)) {
+        dotNetImageDistanceParameters.fromGeometry = jsObject.fromGeometry;
     }
     if (hasValue(jsObject.is3D)) {
         dotNetImageDistanceParameters.is3D = jsObject.is3D;
@@ -94,6 +89,9 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any)
     }
     if (hasValue(jsObject.pixelSize)) {
         dotNetImageDistanceParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        dotNetImageDistanceParameters.toGeometry = jsObject.toGeometry;
     }
     if (hasValue(jsObject.type)) {
         dotNetImageDistanceParameters.type = jsObject.type;

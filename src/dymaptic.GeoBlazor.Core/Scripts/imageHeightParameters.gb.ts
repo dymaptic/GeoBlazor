@@ -5,19 +5,15 @@ import { buildDotNetImageHeightParameters } from './imageHeightParameters';
 
 export async function buildJsImageHeightParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.fromGeometry)) {
-        let { buildJsPoint } = await import('./point');
-        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
-    }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
-    if (hasValue(dotNetObject.toGeometry)) {
-        let { buildJsPoint } = await import('./point');
-        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
-    }
 
+    if (hasValue(dotNetObject.fromGeometry)) {
+        const { id, dotNetComponentReference, ...sanitizedFromGeometry } = dotNetObject.fromGeometry;
+        properties.fromGeometry = sanitizedFromGeometry;
+    }
     if (hasValue(dotNetObject.linearUnit)) {
         properties.linearUnit = dotNetObject.linearUnit;
     }
@@ -26,6 +22,10 @@ export async function buildJsImageHeightParametersGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.pixelSize)) {
         properties.pixelSize = dotNetObject.pixelSize;
+    }
+    if (hasValue(dotNetObject.toGeometry)) {
+        const { id, dotNetComponentReference, ...sanitizedToGeometry } = dotNetObject.toGeometry;
+        properties.toGeometry = sanitizedToGeometry;
     }
     let jsImageHeightParameters = new ImageHeightParameters(properties);
     
@@ -68,17 +68,12 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any): 
     let dotNetImageHeightParameters: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.fromGeometry)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageHeightParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
-    }
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageHeightParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
-    if (hasValue(jsObject.toGeometry)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageHeightParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
+    if (hasValue(jsObject.fromGeometry)) {
+        dotNetImageHeightParameters.fromGeometry = jsObject.fromGeometry;
     }
     if (hasValue(jsObject.linearUnit)) {
         dotNetImageHeightParameters.linearUnit = jsObject.linearUnit;
@@ -88,6 +83,9 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.pixelSize)) {
         dotNetImageHeightParameters.pixelSize = jsObject.pixelSize;
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        dotNetImageHeightParameters.toGeometry = jsObject.toGeometry;
     }
     if (hasValue(jsObject.type)) {
         dotNetImageHeightParameters.type = jsObject.type;

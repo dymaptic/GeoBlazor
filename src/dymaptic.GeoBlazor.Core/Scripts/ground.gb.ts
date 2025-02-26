@@ -21,9 +21,7 @@ export default class GroundGenerated implements IPropertyWrapper {
     
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
-        let result = await this.component.createElevationSampler(jsExtent,
+        let result = await this.component.createElevationSampler(extent,
             options);
         let { buildDotNetElevationSampler } = await import('./elevationSampler');
         return await buildDotNetElevationSampler(result);
@@ -59,20 +57,6 @@ let jsGeometry = buildJsGeometry(geometry) as any;
         this.component.layers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
-    async getSurfaceColor(): Promise<any> {
-        if (!hasValue(this.component.surfaceColor)) {
-            return null;
-        }
-        
-        let { buildDotNetMapColor } = await import('./mapColor');
-        return buildDotNetMapColor(this.component.surfaceColor);
-    }
-    
-    async setSurfaceColor(value: any): Promise<void> {
-        let { buildJsMapColor } = await import('./mapColor');
-        this.component.surfaceColor =  buildJsMapColor(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -89,10 +73,6 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
         let { buildJsLayer } = await import('./layer');
         properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.surfaceColor)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        properties.surfaceColor = buildJsMapColor(dotNetObject.surfaceColor) as any;
-    }
 
     if (hasValue(dotNetObject.navigationConstraint)) {
         const { id, dotNetComponentReference, ...sanitizedNavigationConstraint } = dotNetObject.navigationConstraint;
@@ -100,6 +80,9 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
+    }
+    if (hasValue(dotNetObject.surfaceColor)) {
+        properties.surfaceColor = dotNetObject.surfaceColor;
     }
     let jsGround = new Ground(properties);
 
@@ -148,10 +131,6 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
     let dotNetGround: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.surfaceColor)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetGround.surfaceColor = buildDotNetMapColor(jsObject.surfaceColor);
-    }
     if (hasValue(jsObject.loaded)) {
         dotNetGround.loaded = jsObject.loaded;
     }
@@ -160,6 +139,9 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.opacity)) {
         dotNetGround.opacity = jsObject.opacity;
+    }
+    if (hasValue(jsObject.surfaceColor)) {
+        dotNetGround.surfaceColor = jsObject.surfaceColor;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

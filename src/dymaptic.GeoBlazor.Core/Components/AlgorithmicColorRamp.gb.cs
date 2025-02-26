@@ -7,12 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Creates a color ramp for use in a raster renderer.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AlgorithmicColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class AlgorithmicColorRamp : IClassBreaksCreateRendererParamsColorRamp,
-    IColorRampsCreateColorRamp,
-    IRasterColormapByRampParametersColorRamp,
-    IShadedReliefCreateRendererParamsColorRamp,
-    IStretchCreateRendererParamsColorRamp,
-    IUniqueValueCreateRendererParamsColorRamp
+public partial class AlgorithmicColorRamp : IColorRampServiceCreateColorRamp
 {
 
     /// <summary>

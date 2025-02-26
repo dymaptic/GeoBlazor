@@ -4,19 +4,19 @@ import { buildDotNetGraphicHit } from './graphicHit';
 
 export async function buildJsGraphicHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphicHit: any = {};
-    if (hasValue(dotNetObject.graphic)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsGraphicHit.graphic = buildJsGraphic(dotNetObject.graphic) as any;
-    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsGraphicHit.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.mapPoint)) {
-        let { buildJsPoint } = await import('./point');
-        jsGraphicHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
-    }
 
+    if (hasValue(dotNetObject.graphic)) {
+        const { id, dotNetComponentReference, ...sanitizedGraphic } = dotNetObject.graphic;
+        jsGraphicHit.graphic = sanitizedGraphic;
+    }
+    if (hasValue(dotNetObject.mapPoint)) {
+        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
+        jsGraphicHit.mapPoint = sanitizedMapPoint;
+    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsGraphicHit);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -58,12 +58,10 @@ export async function buildDotNetGraphicHitGenerated(jsObject: any, layerId: str
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.graphic)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetGraphicHit.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+        dotNetGraphicHit.graphic = jsObject.graphic;
     }
     if (hasValue(jsObject.mapPoint)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+        dotNetGraphicHit.mapPoint = jsObject.mapPoint;
     }
     if (hasValue(jsObject.type)) {
         dotNetGraphicHit.type = jsObject.type;

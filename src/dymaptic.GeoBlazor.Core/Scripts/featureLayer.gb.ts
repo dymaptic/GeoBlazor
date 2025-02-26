@@ -25,9 +25,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
-        return await this.layer.addAttachment(jsFeature,
+        return await this.layer.addAttachment(feature,
             attachment);
     }
 
@@ -47,9 +45,7 @@ let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any
 
     async deleteAttachments(feature: any,
         attachmentIds: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
-        return await this.layer.deleteAttachments(jsFeature,
+        return await this.layer.deleteAttachments(feature,
             attachmentIds);
     }
 
@@ -84,23 +80,12 @@ let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
     async updateAttachment(feature: any,
         attachmentId: any,
         attachment: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
-        return await this.layer.updateAttachment(jsFeature,
+        return await this.layer.updateAttachment(feature,
             attachmentId,
             attachment);
     }
 
     // region properties
-    
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
-    }
     
     async getFeatureEffect(): Promise<any> {
         if (!hasValue(this.layer.featureEffect)) {
@@ -139,20 +124,6 @@ let jsFeature = buildJsGraphic(feature) as any;
         return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
     }
     
-    async getFullExtent(): Promise<any> {
-        if (!hasValue(this.layer.fullExtent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent);
-    }
-    
-    async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
-    }
-    
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.layer.labelingInfo)) {
             return null;
@@ -165,20 +136,6 @@ let jsFeature = buildJsGraphic(feature) as any;
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i))) as any;
-    }
-    
-    async getPopupTemplate(): Promise<any> {
-        if (!hasValue(this.layer.popupTemplate)) {
-            return null;
-        }
-        
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
-    }
-    
-    async setPopupTemplate(value: any): Promise<void> {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        this.layer.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     
     async getPortalItem(): Promise<any> {
@@ -207,20 +164,6 @@ let jsFeature = buildJsGraphic(feature) as any;
     async setRenderer(value: any): Promise<void> {
         let { buildJsRenderer } = await import('./renderer');
         this.layer.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
-    }
-    
-    async getSource(): Promise<any> {
-        if (!hasValue(this.layer.source)) {
-            return null;
-        }
-        
-        let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.source!.map(i => buildDotNetGraphic(i));
-    }
-    
-    async setSource(value: any): Promise<void> {
-        let { buildJsGraphic } = await import('./graphic');
-        this.layer.source = value.map(i => buildJsGraphic(i)) as any;
     }
     
     async getSubtypes(): Promise<any> {
@@ -300,10 +243,6 @@ let jsFeature = buildJsGraphic(feature) as any;
 
 export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
@@ -312,17 +251,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
-    if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-    }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
-    }
-    if (hasValue(dotNetObject.popupTemplate)) {
-        let { buildJsPopupTemplate } = await import('./popupTemplate');
-        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -331,10 +262,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
         properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.source)) {
-        let { buildJsGraphic } = await import('./graphic');
-        properties.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -386,6 +313,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
     }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
+    }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         properties.elevationInfo = sanitizedElevationInfo;
@@ -399,6 +329,10 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.formTemplate)) {
         properties.formTemplate = dotNetObject.formTemplate;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
+        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -449,6 +383,10 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
     }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        const { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject.popupTemplate;
+        properties.popupTemplate = sanitizedPopupTemplate;
+    }
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
@@ -460,6 +398,10 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
+    }
+    if (hasValue(dotNetObject.source)) {
+        const { id, dotNetComponentReference, ...sanitizedSource } = dotNetObject.source;
+        properties.source = sanitizedSource;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
         properties.sourceJSON = dotNetObject.sourceJSON;
@@ -560,10 +502,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     let dotNetFeatureLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetFeatureLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetFeatureLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
@@ -576,17 +514,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetFeatureLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
-    if (hasValue(jsObject.fullExtent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetFeatureLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-    }
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetFeatureLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
-    }
-    if (hasValue(jsObject.popupTemplate)) {
-        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetFeatureLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -661,6 +591,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.editingInfo)) {
         dotNetFeatureLayer.editingInfo = jsObject.editingInfo;
     }
+    if (hasValue(jsObject.effect)) {
+        dotNetFeatureLayer.effect = jsObject.effect;
+    }
     if (hasValue(jsObject.effectiveCapabilities)) {
         dotNetFeatureLayer.effectiveCapabilities = jsObject.effectiveCapabilities;
     }
@@ -678,6 +611,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.formTemplate)) {
         dotNetFeatureLayer.formTemplate = jsObject.formTemplate;
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        dotNetFeatureLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.gdbVersion)) {
         dotNetFeatureLayer.gdbVersion = jsObject.gdbVersion;
@@ -738,6 +674,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetFeatureLayer.popupEnabled = jsObject.popupEnabled;
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        dotNetFeatureLayer.popupTemplate = jsObject.popupTemplate;
     }
     if (hasValue(jsObject.preferredTimeZone)) {
         dotNetFeatureLayer.preferredTimeZone = jsObject.preferredTimeZone;

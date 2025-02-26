@@ -4,15 +4,15 @@ import { buildDotNetSearchViewModelSearchResult } from './searchViewModelSearchR
 
 export async function buildJsSearchViewModelSearchResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSearchResult: any = {};
+
     if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsSearchViewModelSearchResult.extent = buildJsExtent(dotNetObject.extent) as any;
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsSearchViewModelSearchResult.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.feature)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsSearchViewModelSearchResult.feature = buildJsGraphic(dotNetObject.feature) as any;
+        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
+        jsSearchViewModelSearchResult.feature = sanitizedFeature;
     }
-
     if (hasValue(dotNetObject.name)) {
         jsSearchViewModelSearchResult.name = dotNetObject.name;
     }
@@ -57,12 +57,10 @@ export async function buildDotNetSearchViewModelSearchResultGenerated(jsObject: 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetSearchViewModelSearchResult.extent = buildDotNetExtent(jsObject.extent);
+        dotNetSearchViewModelSearchResult.extent = jsObject.extent;
     }
     if (hasValue(jsObject.feature)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetSearchViewModelSearchResult.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+        dotNetSearchViewModelSearchResult.feature = jsObject.feature;
     }
     if (hasValue(jsObject.name)) {
         dotNetSearchViewModelSearchResult.name = jsObject.name;

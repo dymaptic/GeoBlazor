@@ -5,13 +5,13 @@ import { buildDotNetImageSample } from './imageSample';
 
 export async function buildJsImageSampleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.location)) {
-        let { buildJsPoint } = await import('./point');
-        properties.location = buildJsPoint(dotNetObject.location) as any;
-    }
 
     if (hasValue(dotNetObject.attributes)) {
         properties.attributes = dotNetObject.attributes;
+    }
+    if (hasValue(dotNetObject.location)) {
+        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
+        properties.location = sanitizedLocation;
     }
     if (hasValue(dotNetObject.locationId)) {
         properties.locationId = dotNetObject.locationId;
@@ -66,12 +66,11 @@ export async function buildDotNetImageSampleGenerated(jsObject: any): Promise<an
     let dotNetImageSample: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.location)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetImageSample.location = buildDotNetPoint(jsObject.location);
-    }
     if (hasValue(jsObject.attributes)) {
         dotNetImageSample.attributes = jsObject.attributes;
+    }
+    if (hasValue(jsObject.location)) {
+        dotNetImageSample.location = jsObject.location;
     }
     if (hasValue(jsObject.locationId)) {
         dotNetImageSample.locationId = jsObject.locationId;

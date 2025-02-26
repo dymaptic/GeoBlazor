@@ -4,16 +4,16 @@ import { buildDotNetMoveEventInfo } from './moveEventInfo';
 
 export async function buildJsMoveEventInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMoveEventInfo: any = {};
-    if (hasValue(dotNetObject.mover)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsMoveEventInfo.mover = buildJsGraphic(dotNetObject.mover) as any;
-    }
 
     if (hasValue(dotNetObject.dx)) {
         jsMoveEventInfo.dx = dotNetObject.dx;
     }
     if (hasValue(dotNetObject.dy)) {
         jsMoveEventInfo.dy = dotNetObject.dy;
+    }
+    if (hasValue(dotNetObject.mover)) {
+        const { id, dotNetComponentReference, ...sanitizedMover } = dotNetObject.mover;
+        jsMoveEventInfo.mover = sanitizedMover;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsMoveEventInfo);
@@ -55,15 +55,14 @@ export async function buildDotNetMoveEventInfoGenerated(jsObject: any, layerId: 
     let dotNetMoveEventInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.mover)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetMoveEventInfo.mover = buildDotNetGraphic(jsObject.mover, layerId, viewId);
-    }
     if (hasValue(jsObject.dx)) {
         dotNetMoveEventInfo.dx = jsObject.dx;
     }
     if (hasValue(jsObject.dy)) {
         dotNetMoveEventInfo.dy = jsObject.dy;
+    }
+    if (hasValue(jsObject.mover)) {
+        dotNetMoveEventInfo.mover = jsObject.mover;
     }
     if (hasValue(jsObject.type)) {
         dotNetMoveEventInfo.type = jsObject.type;

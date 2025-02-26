@@ -4,15 +4,15 @@ import { buildDotNetFetchPopupFeaturesResult } from './fetchPopupFeaturesResult'
 
 export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFetchPopupFeaturesResult: any = {};
+
     if (hasValue(dotNetObject.allGraphicsPromise)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsFetchPopupFeaturesResult.allGraphicsPromise = dotNetObject.allGraphicsPromise.map(i => buildJsGraphic(i)) as any;
+        const { id, dotNetComponentReference, ...sanitizedAllGraphicsPromise } = dotNetObject.allGraphicsPromise;
+        jsFetchPopupFeaturesResult.allGraphicsPromise = sanitizedAllGraphicsPromise;
     }
     if (hasValue(dotNetObject.location)) {
-        let { buildJsPoint } = await import('./point');
-        jsFetchPopupFeaturesResult.location = buildJsPoint(dotNetObject.location) as any;
+        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
+        jsFetchPopupFeaturesResult.location = sanitizedLocation;
     }
-
     
     let jsObjectRef = DotNet.createJSObjectReference(jsFetchPopupFeaturesResult);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -54,12 +54,10 @@ export async function buildDotNetFetchPopupFeaturesResultGenerated(jsObject: any
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.allGraphicsPromise)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetFetchPopupFeaturesResult.allGraphicsPromise = jsObject.allGraphicsPromise.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetFetchPopupFeaturesResult.allGraphicsPromise = jsObject.allGraphicsPromise;
     }
     if (hasValue(jsObject.location)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location);
+        dotNetFetchPopupFeaturesResult.location = jsObject.location;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

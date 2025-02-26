@@ -35,20 +35,6 @@ export default class UnknownLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getFullExtent(): Promise<any> {
-        if (!hasValue(this.layer.fullExtent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent);
-    }
-    
-    async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
-    }
-    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -75,10 +61,6 @@ export default class UnknownLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-    }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
@@ -86,6 +68,10 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
         properties.id = dotNetObject.arcGISLayerId;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
+        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -162,16 +148,15 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<a
     let dotNetUnknownLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.fullExtent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-    }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
     if (hasValue(jsObject.id)) {
         dotNetUnknownLayer.arcGISLayerId = jsObject.id;
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        dotNetUnknownLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetUnknownLayer.listMode = jsObject.listMode;

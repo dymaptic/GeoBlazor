@@ -4,16 +4,16 @@ import { buildDotNetWFSFeatureType } from './wFSFeatureType';
 
 export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSFeatureType: any = {};
-    if (hasValue(dotNetObject.extent)) {
-        let { buildJsExtent } = await import('./extent');
-        jsWFSFeatureType.extent = buildJsExtent(dotNetObject.extent) as any;
-    }
 
     if (hasValue(dotNetObject.defaultSpatialReference)) {
         jsWFSFeatureType.defaultSpatialReference = dotNetObject.defaultSpatialReference;
     }
     if (hasValue(dotNetObject.description)) {
         jsWFSFeatureType.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
+        jsWFSFeatureType.extent = sanitizedExtent;
     }
     if (hasValue(dotNetObject.name)) {
         jsWFSFeatureType.name = dotNetObject.name;
@@ -73,15 +73,14 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise
     let dotNetWFSFeatureType: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.extent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
-    }
     if (hasValue(jsObject.defaultSpatialReference)) {
         dotNetWFSFeatureType.defaultSpatialReference = jsObject.defaultSpatialReference;
     }
     if (hasValue(jsObject.description)) {
         dotNetWFSFeatureType.description = jsObject.description;
+    }
+    if (hasValue(jsObject.extent)) {
+        dotNetWFSFeatureType.extent = jsObject.extent;
     }
     if (hasValue(jsObject.name)) {
         dotNetWFSFeatureType.name = jsObject.name;

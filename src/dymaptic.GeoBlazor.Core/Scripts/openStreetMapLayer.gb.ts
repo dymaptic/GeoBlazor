@@ -57,29 +57,6 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
-    }
-    
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value);
-    }
-    
-    async getFullExtent(): Promise<any> {
-        if (!hasValue(this.layer.fullExtent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent);
-    }
-    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -134,10 +111,6 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -159,6 +132,9 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.copyright)) {
         properties.copyright = dotNetObject.copyright;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -254,14 +230,6 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     let dotNetOpenStreetMapLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetOpenStreetMapLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-    }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
@@ -282,6 +250,12 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.copyright)) {
         dotNetOpenStreetMapLayer.copyright = jsObject.copyright;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetOpenStreetMapLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        dotNetOpenStreetMapLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetOpenStreetMapLayer.listMode = jsObject.listMode;

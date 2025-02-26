@@ -7,10 +7,6 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
     if (hasValue(viewId)) {
         jsuniqueValuesUniqueValuesParams.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.features)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsuniqueValuesUniqueValuesParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
-    }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
         jsuniqueValuesUniqueValuesParams.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
@@ -20,6 +16,10 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
         jsuniqueValuesUniqueValuesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.features)) {
+        const { id, dotNetComponentReference, ...sanitizedFeatures } = dotNetObject.features;
+        jsuniqueValuesUniqueValuesParams.features = sanitizedFeatures;
+    }
     if (hasValue(dotNetObject.field)) {
         jsuniqueValuesUniqueValuesParams.field = dotNetObject.field;
     }
@@ -84,13 +84,12 @@ export async function buildDotNetUniqueValuesUniqueValuesParamsGenerated(jsObjec
     let dotNetUniqueValuesUniqueValuesParams: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.features)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetUniqueValuesUniqueValuesParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-    }
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
+    }
+    if (hasValue(jsObject.features)) {
+        dotNetUniqueValuesUniqueValuesParams.features = jsObject.features;
     }
     if (hasValue(jsObject.field)) {
         dotNetUniqueValuesUniqueValuesParams.field = jsObject.field;

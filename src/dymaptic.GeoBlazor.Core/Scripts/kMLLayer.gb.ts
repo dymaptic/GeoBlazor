@@ -35,34 +35,6 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
-    }
-    
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value);
-    }
-    
-    async getFullExtent(): Promise<any> {
-        if (!hasValue(this.layer.fullExtent)) {
-            return null;
-        }
-        
-        let { buildDotNetExtent } = await import('./extent');
-        return buildDotNetExtent(this.layer.fullExtent);
-    }
-    
-    async setFullExtent(value: any): Promise<void> {
-        let { buildJsExtent } = await import('./extent');
-        this.layer.fullExtent =  buildJsExtent(value);
-    }
-    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -117,14 +89,6 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        let { buildJsExtent } = await import('./extent');
-        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -143,6 +107,13 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
+        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -228,14 +199,6 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
     let dotNetKMLLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetKMLLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        let { buildDotNetExtent } = await import('./extent');
-        dotNetKMLLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
-    }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
@@ -253,6 +216,12 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.blendMode)) {
         dotNetKMLLayer.blendMode = jsObject.blendMode;
+    }
+    if (hasValue(jsObject.effect)) {
+        dotNetKMLLayer.effect = jsObject.effect;
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        dotNetKMLLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetKMLLayer.listMode = jsObject.listMode;

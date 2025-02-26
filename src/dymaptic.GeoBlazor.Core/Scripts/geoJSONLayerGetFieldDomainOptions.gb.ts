@@ -4,11 +4,11 @@ import { buildDotNetGeoJSONLayerGetFieldDomainOptions } from './geoJSONLayerGetF
 
 export async function buildJsGeoJSONLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayerGetFieldDomainOptions: any = {};
-    if (hasValue(dotNetObject.feature)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
-    }
 
+    if (hasValue(dotNetObject.feature)) {
+        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
+        jsGeoJSONLayerGetFieldDomainOptions.feature = sanitizedFeature;
+    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerGetFieldDomainOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,8 +50,7 @@ export async function buildDotNetGeoJSONLayerGetFieldDomainOptionsGenerated(jsOb
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.feature)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetGeoJSONLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+        dotNetGeoJSONLayerGetFieldDomainOptions.feature = jsObject.feature;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

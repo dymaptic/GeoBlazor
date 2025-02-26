@@ -35,10 +35,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
         envelope: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsExtent } = await import('./extent');
-let jsEnvelope = buildJsExtent(envelope) as any;
         return await this.component.clip(jsGeometry,
-            jsEnvelope);
+            envelope);
     }
 
     async contains(containerGeometry: any,
@@ -71,8 +69,7 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
         cutter: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPolyline } = await import('./polyline');
-let jsCutter = buildJsPolyline(cutter) as any;
+        let jsCutter = buildJsGeometry(cutter) as any;
         return await this.component.cut(jsGeometry,
             jsCutter);
     }
@@ -124,20 +121,16 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
         flipOrigin: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipHorizontal(jsGeometry,
-            jsFlipOrigin);
+            flipOrigin);
     }
 
     async flipVertical(geometry: any,
         flipOrigin: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipVertical(jsGeometry,
-            jsFlipOrigin);
+            flipOrigin);
     }
 
     async generalize(geometry: any,
@@ -201,9 +194,9 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async intersectLinesToPoints(line1: any,
         line2: any): Promise<any> {
-                let { buildJsPolyline } = await import('./polyline');
-let jsLine1 = buildJsPolyline(line1) as any;
-        let jsLine2 = buildJsPolyline(line2) as any;
+                let { buildJsGeometry } = await import('./geometry');
+let jsLine1 = buildJsGeometry(line1) as any;
+        let jsLine2 = buildJsGeometry(line2) as any;
         return await this.component.intersectLinesToPoints(jsLine1,
             jsLine2);
     }
@@ -227,20 +220,16 @@ let jsGeometry = buildJsGeometry(geometry) as any;
         inputPoint: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestCoordinate(jsGeometry,
-            jsInputPoint);
+            inputPoint);
     }
 
     async nearestVertex(geometry: any,
         inputPoint: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertex(jsGeometry,
-            jsInputPoint);
+            inputPoint);
     }
 
     async nearestVertices(geometry: any,
@@ -249,10 +238,8 @@ let jsInputPoint = buildJsPoint(inputPoint) as any;
         maxVertexCountToReturn: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertices(jsGeometry,
-            jsInputPoint,
+            inputPoint,
             searchRadius,
             maxVertexCountToReturn);
     }
@@ -314,11 +301,9 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
         rotationOrigin: any): Promise<any> {
                 let { buildJsGeometry } = await import('./geometry');
 let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsRotationOrigin = buildJsPoint(rotationOrigin) as any;
         return await this.component.rotate(jsGeometry,
             angle,
-            jsRotationOrigin);
+            rotationOrigin);
     }
 
     async simplify(geometry: any): Promise<any> {

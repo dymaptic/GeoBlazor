@@ -4,11 +4,10 @@ import { buildDotNetRelationshipRampElement } from './relationshipRampElement';
 
 export async function buildJsRelationshipRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRelationshipRampElement: any = {};
-    if (hasValue(dotNetObject.colors)) {
-        let { buildJsMapColor } = await import('./mapColor');
-        jsRelationshipRampElement.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
-    }
 
+    if (hasValue(dotNetObject.colors)) {
+        jsRelationshipRampElement.colors = dotNetObject.colors;
+    }
     if (hasValue(dotNetObject.focus)) {
         jsRelationshipRampElement.focus = dotNetObject.focus;
     }
@@ -69,8 +68,7 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.colors)) {
-        let { buildDotNetMapColor } = await import('./mapColor');
-        dotNetRelationshipRampElement.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
+        dotNetRelationshipRampElement.colors = jsObject.colors;
     }
     if (hasValue(jsObject.focus)) {
         dotNetRelationshipRampElement.focus = jsObject.focus;

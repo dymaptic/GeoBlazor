@@ -3090,6 +3090,15 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
+            case WFSCapabilities wfsCapabilities:
+                if (wfsCapabilities != WfsCapabilities)
+                {
+                    WfsCapabilities = wfsCapabilities;
+                    LayerChanged = true;
+                    ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -3144,6 +3153,11 @@ public partial class WFSLayer : Layer,
                 LayerChanged = true;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
+            case WFSCapabilities _:
+                WfsCapabilities = null;
+                LayerChanged = true;
+                ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -3180,6 +3194,7 @@ public partial class WFSLayer : Layer,
         PortalItem?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
+        WfsCapabilities?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

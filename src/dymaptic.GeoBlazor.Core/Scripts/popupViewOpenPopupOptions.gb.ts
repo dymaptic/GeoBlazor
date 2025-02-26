@@ -4,14 +4,6 @@ import { buildDotNetPopupViewOpenPopupOptions } from './popupViewOpenPopupOption
 
 export async function buildJsPopupViewOpenPopupOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPopupViewOpenPopupOptions: any = {};
-    if (hasValue(dotNetObject.features)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsPopupViewOpenPopupOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
-    }
-    if (hasValue(dotNetObject.location)) {
-        let { buildJsPoint } = await import('./point');
-        jsPopupViewOpenPopupOptions.location = buildJsPoint(dotNetObject.location) as any;
-    }
 
     if (hasValue(dotNetObject.collapsed)) {
         jsPopupViewOpenPopupOptions.collapsed = dotNetObject.collapsed;
@@ -22,8 +14,16 @@ export async function buildJsPopupViewOpenPopupOptionsGenerated(dotNetObject: an
     if (hasValue(dotNetObject.featureMenuOpen)) {
         jsPopupViewOpenPopupOptions.featureMenuOpen = dotNetObject.featureMenuOpen;
     }
+    if (hasValue(dotNetObject.features)) {
+        const { id, dotNetComponentReference, ...sanitizedFeatures } = dotNetObject.features;
+        jsPopupViewOpenPopupOptions.features = sanitizedFeatures;
+    }
     if (hasValue(dotNetObject.fetchFeatures)) {
         jsPopupViewOpenPopupOptions.fetchFeatures = dotNetObject.fetchFeatures;
+    }
+    if (hasValue(dotNetObject.location)) {
+        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
+        jsPopupViewOpenPopupOptions.location = sanitizedLocation;
     }
     if (hasValue(dotNetObject.promises)) {
         jsPopupViewOpenPopupOptions.promises = dotNetObject.promises;
@@ -77,14 +77,6 @@ export async function buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject: an
     let dotNetPopupViewOpenPopupOptions: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.features)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetPopupViewOpenPopupOptions.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
-    }
-    if (hasValue(jsObject.location)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetPopupViewOpenPopupOptions.location = buildDotNetPoint(jsObject.location);
-    }
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupViewOpenPopupOptions.collapsed = jsObject.collapsed;
     }
@@ -94,8 +86,14 @@ export async function buildDotNetPopupViewOpenPopupOptionsGenerated(jsObject: an
     if (hasValue(jsObject.featureMenuOpen)) {
         dotNetPopupViewOpenPopupOptions.featureMenuOpen = jsObject.featureMenuOpen;
     }
+    if (hasValue(jsObject.features)) {
+        dotNetPopupViewOpenPopupOptions.features = jsObject.features;
+    }
     if (hasValue(jsObject.fetchFeatures)) {
         dotNetPopupViewOpenPopupOptions.fetchFeatures = jsObject.fetchFeatures;
+    }
+    if (hasValue(jsObject.location)) {
+        dotNetPopupViewOpenPopupOptions.location = jsObject.location;
     }
     if (hasValue(jsObject.promises)) {
         dotNetPopupViewOpenPopupOptions.promises = jsObject.promises;

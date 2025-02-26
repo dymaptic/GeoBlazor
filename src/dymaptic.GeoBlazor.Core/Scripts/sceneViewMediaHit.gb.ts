@@ -8,16 +8,16 @@ export async function buildJsSceneViewMediaHitGenerated(dotNetObject: any, layer
         let { buildJsMediaLayer } = await import('./mediaLayer');
         jsSceneViewMediaHit.layer = await buildJsMediaLayer(dotNetObject.layer, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.mapPoint)) {
-        let { buildJsPoint } = await import('./point');
-        jsSceneViewMediaHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
-    }
 
     if (hasValue(dotNetObject.distance)) {
         jsSceneViewMediaHit.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.element)) {
         jsSceneViewMediaHit.element = dotNetObject.element;
+    }
+    if (hasValue(dotNetObject.mapPoint)) {
+        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
+        jsSceneViewMediaHit.mapPoint = sanitizedMapPoint;
     }
     if (hasValue(dotNetObject.sourcePoint)) {
         const { id, dotNetComponentReference, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
@@ -63,15 +63,14 @@ export async function buildDotNetSceneViewMediaHitGenerated(jsObject: any): Prom
     let dotNetSceneViewMediaHit: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.mapPoint)) {
-        let { buildDotNetPoint } = await import('./point');
-        dotNetSceneViewMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
-    }
     if (hasValue(jsObject.distance)) {
         dotNetSceneViewMediaHit.distance = jsObject.distance;
     }
     if (hasValue(jsObject.element)) {
         dotNetSceneViewMediaHit.element = jsObject.element;
+    }
+    if (hasValue(jsObject.mapPoint)) {
+        dotNetSceneViewMediaHit.mapPoint = jsObject.mapPoint;
     }
     if (hasValue(jsObject.sourcePoint)) {
         dotNetSceneViewMediaHit.sourcePoint = jsObject.sourcePoint;

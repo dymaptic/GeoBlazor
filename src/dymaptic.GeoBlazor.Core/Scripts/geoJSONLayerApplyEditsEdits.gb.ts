@@ -4,22 +4,19 @@ import { buildDotNetGeoJSONLayerApplyEditsEdits } from './geoJSONLayerApplyEdits
 
 export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoJSONLayerApplyEditsEdits: any = {};
+
     if (hasValue(dotNetObject.addFeatures)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
+        const { id, dotNetComponentReference, ...sanitizedAddFeatures } = dotNetObject.addFeatures;
+        jsGeoJSONLayerApplyEditsEdits.addFeatures = sanitizedAddFeatures;
     }
-    if (hasValue(dotNetObject.graphicCollectionDeleteFeatures)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
-    }
-    else if (hasValue(dotNetObject.stringCollectionDeleteFeatures)) {
-        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphic;
+    if (hasValue(dotNetObject.deleteFeatures)) {
+        const { id, dotNetComponentReference, ...sanitizedDeleteFeatures } = dotNetObject.deleteFeatures;
+        jsGeoJSONLayerApplyEditsEdits.deleteFeatures = sanitizedDeleteFeatures;
     }
     if (hasValue(dotNetObject.updateFeatures)) {
-        let { buildJsGraphic } = await import('./graphic');
-        jsGeoJSONLayerApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
+        const { id, dotNetComponentReference, ...sanitizedUpdateFeatures } = dotNetObject.updateFeatures;
+        jsGeoJSONLayerApplyEditsEdits.updateFeatures = sanitizedUpdateFeatures;
     }
-
     
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerApplyEditsEdits);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -61,16 +58,13 @@ export async function buildDotNetGeoJSONLayerApplyEditsEditsGenerated(jsObject: 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.addFeatures)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetGeoJSONLayerApplyEditsEdits.addFeatures = jsObject.addFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetGeoJSONLayerApplyEditsEdits.addFeatures = jsObject.addFeatures;
     }
     if (hasValue(jsObject.deleteFeatures)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetGeoJSONLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetGeoJSONLayerApplyEditsEdits.deleteFeatures = jsObject.deleteFeatures;
     }
     if (hasValue(jsObject.updateFeatures)) {
-        let { buildDotNetGraphic } = await import('./graphic');
-        dotNetGeoJSONLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
+        dotNetGeoJSONLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {
