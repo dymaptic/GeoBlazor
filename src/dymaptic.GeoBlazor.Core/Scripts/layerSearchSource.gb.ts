@@ -27,6 +27,10 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
         let { buildJsLayer } = await import('./layer');
         properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
         properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
@@ -64,10 +68,6 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
-    }
-    if (hasValue(dotNetObject.popupTemplate)) {
-        const { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject.popupTemplate;
-        properties.popupTemplate = sanitizedPopupTemplate;
     }
     if (hasValue(dotNetObject.prefix)) {
         properties.prefix = dotNetObject.prefix;
@@ -141,6 +141,10 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
         let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
         dotNetLayerSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
     }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetLayerSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
@@ -183,9 +187,6 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLayerSearchSource.popupEnabled = jsObject.popupEnabled;
-    }
-    if (hasValue(jsObject.popupTemplate)) {
-        dotNetLayerSearchSource.popupTemplate = jsObject.popupTemplate;
     }
     if (hasValue(jsObject.prefix)) {
         dotNetLayerSearchSource.prefix = jsObject.prefix;

@@ -5,13 +5,13 @@ import { buildDotNetImagePointResult } from './imagePointResult';
 
 export async function buildJsImagePointResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.point)) {
+        let { buildJsPoint } = await import('./point');
+        properties.point = buildJsPoint(dotNetObject.point) as any;
+    }
 
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
-    }
-    if (hasValue(dotNetObject.point)) {
-        const { id, dotNetComponentReference, ...sanitizedPoint } = dotNetObject.point;
-        properties.point = sanitizedPoint;
     }
     if (hasValue(dotNetObject.sensorName)) {
         properties.sensorName = dotNetObject.sensorName;
@@ -57,11 +57,12 @@ export async function buildDotNetImagePointResultGenerated(jsObject: any): Promi
     let dotNetImagePointResult: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImagePointResult.point = buildDotNetPoint(jsObject.point);
+    }
     if (hasValue(jsObject.name)) {
         dotNetImagePointResult.name = jsObject.name;
-    }
-    if (hasValue(jsObject.point)) {
-        dotNetImagePointResult.point = jsObject.point;
     }
     if (hasValue(jsObject.sensorName)) {
         dotNetImagePointResult.sensorName = jsObject.sensorName;

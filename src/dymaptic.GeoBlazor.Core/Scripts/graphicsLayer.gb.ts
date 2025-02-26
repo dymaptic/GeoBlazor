@@ -24,11 +24,15 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async add(graphic: any): Promise<void> {
-        this.layer.add(graphic);
+                let { buildJsGraphic } = await import('./graphic');
+let jsGraphic = buildJsGraphic(graphic) as any;
+        this.layer.add(jsGraphic);
     }
 
     async addMany(graphics: any): Promise<void> {
-        this.layer.addMany(graphics);
+        let { buildJsGraphic } = await import('./graphic');
+        let jsGraphics = graphics.map(i => buildJsGraphic(i)) as any;
+        this.layer.addMany(jsGraphics);
     }
 
     async createLayerView(view: any,
@@ -42,7 +46,9 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async remove(graphic: any): Promise<void> {
-        this.layer.remove(graphic);
+                let { buildJsGraphic } = await import('./graphic');
+let jsGraphic = buildJsGraphic(graphic) as any;
+        this.layer.remove(jsGraphic);
     }
 
     async removeAll(): Promise<void> {
@@ -50,10 +56,54 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async removeMany(graphics: any): Promise<void> {
-        this.layer.removeMany(graphics);
+        let { buildJsGraphic } = await import('./graphic');
+        let jsGraphics = graphics.map(i => buildJsGraphic(i)) as any;
+        this.layer.removeMany(jsGraphics);
     }
 
     // region properties
+    
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
+    
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
+    
+    async getGraphics(): Promise<any> {
+        if (!hasValue(this.layer.graphics)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.layer.graphics!.map(i => buildDotNetGraphic(i));
+    }
+    
+    async setGraphics(value: any): Promise<void> {
+        let { buildJsGraphic } = await import('./graphic');
+        this.layer.graphics = value.map(i => buildJsGraphic(i)) as any;
+    }
     
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
@@ -81,6 +131,18 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
+    if (hasValue(dotNetObject.graphics)) {
+        let { buildJsGraphic } = await import('./graphic');
+        properties.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
+    }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, layerId, viewId) as any;
@@ -92,20 +154,9 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
     }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
     if (hasValue(dotNetObject.elevationInfo)) {
         const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
         properties.elevationInfo = sanitizedElevationInfo;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
-        properties.fullExtent = sanitizedFullExtent;
-    }
-    if (hasValue(dotNetObject.graphics)) {
-        const { id, dotNetComponentReference, ...sanitizedGraphics } = dotNetObject.graphics;
-        properties.graphics = sanitizedGraphics;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -191,6 +242,14 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     let dotNetGraphicsLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
@@ -201,14 +260,8 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     if (hasValue(jsObject.blendMode)) {
         dotNetGraphicsLayer.blendMode = jsObject.blendMode;
     }
-    if (hasValue(jsObject.effect)) {
-        dotNetGraphicsLayer.effect = jsObject.effect;
-    }
     if (hasValue(jsObject.elevationInfo)) {
         dotNetGraphicsLayer.elevationInfo = jsObject.elevationInfo;
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        dotNetGraphicsLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetGraphicsLayer.listMode = jsObject.listMode;

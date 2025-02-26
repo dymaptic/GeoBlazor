@@ -4,13 +4,13 @@ import { buildDotNetAttachmentEdit } from './attachmentEdit';
 
 export async function buildJsAttachmentEditGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAttachmentEdit: any = {};
+    if (hasValue(dotNetObject.feature)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jsAttachmentEdit.feature = buildJsGraphic(dotNetObject.feature) as any;
+    }
 
     if (hasValue(dotNetObject.attachment)) {
         jsAttachmentEdit.attachment = dotNetObject.attachment;
-    }
-    if (hasValue(dotNetObject.feature)) {
-        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
-        jsAttachmentEdit.feature = sanitizedFeature;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentEdit);
@@ -52,11 +52,12 @@ export async function buildDotNetAttachmentEditGenerated(jsObject: any, layerId:
     let dotNetAttachmentEdit: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.feature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetAttachmentEdit.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
+    }
     if (hasValue(jsObject.attachment)) {
         dotNetAttachmentEdit.attachment = jsObject.attachment;
-    }
-    if (hasValue(jsObject.feature)) {
-        dotNetAttachmentEdit.feature = jsObject.feature;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

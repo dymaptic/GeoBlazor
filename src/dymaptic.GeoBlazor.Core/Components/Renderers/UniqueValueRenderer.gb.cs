@@ -130,7 +130,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IUniqueValueRendererBackgroundFillSymbol? BackgroundFillSymbol { get; set; }
+    public FillSymbol? BackgroundFillSymbol { get; set; }
     
     /// <summary>
     ///     The symbol used to draw all features with values not referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.

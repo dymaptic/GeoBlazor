@@ -4,15 +4,15 @@ import { buildDotNetEditedFeatureResultEditedFeaturesUpdates } from './editedFea
 
 export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
-
     if (hasValue(dotNetObject.current)) {
-        const { id, dotNetComponentReference, ...sanitizedCurrent } = dotNetObject.current;
-        jsEditedFeatureResultEditedFeaturesUpdates.current = sanitizedCurrent;
+        let { buildJsGraphic } = await import('./graphic');
+        jsEditedFeatureResultEditedFeaturesUpdates.current = dotNetObject.current.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.original)) {
-        const { id, dotNetComponentReference, ...sanitizedOriginal } = dotNetObject.original;
-        jsEditedFeatureResultEditedFeaturesUpdates.original = sanitizedOriginal;
+        let { buildJsGraphic } = await import('./graphic');
+        jsEditedFeatureResultEditedFeaturesUpdates.original = dotNetObject.original.map(i => buildJsGraphic(i)) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsEditedFeatureResultEditedFeaturesUpdates);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -54,10 +54,12 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesUpdatesGenerat
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.current)) {
-        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeaturesUpdates.current = jsObject.current.map(i => buildDotNetGraphic(i, layerId, viewId));
     }
     if (hasValue(jsObject.original)) {
-        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeaturesUpdates.original = jsObject.original.map(i => buildDotNetGraphic(i, layerId, viewId));
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

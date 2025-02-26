@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
+[JsonConverter(typeof(MultiTypeConverter<IGoTo>))]
 [CodeGenerationIgnore]
 public interface IGoTo
 {

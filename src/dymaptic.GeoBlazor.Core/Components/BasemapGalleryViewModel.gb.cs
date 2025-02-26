@@ -37,7 +37,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
     public BasemapGalleryViewModel(
         Basemap? activeBasemap = null,
         IReadOnlyList<BasemapGalleryItem>? items = null,
-        IBasemapGalleryViewModelSource? source = null)
+        IBasemapGalleryWidgetSource? source = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -75,7 +75,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IBasemapGalleryViewModelSource? Source { get; set; }
+    public IBasemapGalleryWidgetSource? Source { get; set; }
     
     /// <summary>
     ///     The view model's state.
@@ -158,7 +158,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Source property.
     /// </summary>
-    public async Task<IBasemapGalleryViewModelSource?> GetSource()
+    public async Task<IBasemapGalleryWidgetSource?> GetSource()
     {
         if (CoreJsModule is null)
         {
@@ -172,7 +172,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
         }
 
         // get the property value
-        IBasemapGalleryViewModelSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryViewModelSource?>("getProperty",
+        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
             CancellationTokenSource.Token, "source");
         if (result is not null)
         {
@@ -315,7 +315,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSource(IBasemapGalleryViewModelSource? value)
+    public async Task SetSource(IBasemapGalleryWidgetSource? value)
     {
 #pragma warning disable BL0005
         Source = value;

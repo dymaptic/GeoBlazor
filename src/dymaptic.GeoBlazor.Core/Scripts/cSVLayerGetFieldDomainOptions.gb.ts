@@ -4,11 +4,11 @@ import { buildDotNetCSVLayerGetFieldDomainOptions } from './cSVLayerGetFieldDoma
 
 export async function buildJsCSVLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCSVLayerGetFieldDomainOptions: any = {};
-
     if (hasValue(dotNetObject.feature)) {
-        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
-        jsCSVLayerGetFieldDomainOptions.feature = sanitizedFeature;
+        let { buildJsGraphic } = await import('./graphic');
+        jsCSVLayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsCSVLayerGetFieldDomainOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetCSVLayerGetFieldDomainOptionsGenerated(jsObject
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.feature)) {
-        dotNetCSVLayerGetFieldDomainOptions.feature = jsObject.feature;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetCSVLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -5,11 +5,11 @@ import { buildDotNetMeasureLengthFromImageResult } from './measureLengthFromImag
 
 export async function buildJsMeasureLengthFromImageResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.geometry)) {
-        const { id, dotNetComponentReference, ...sanitizedGeometry } = dotNetObject.geometry;
-        properties.geometry = sanitizedGeometry;
+        let { buildJsPolyline } = await import('./polyline');
+        properties.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
+
     if (hasValue(dotNetObject.length)) {
         properties.length = dotNetObject.length;
     }
@@ -55,7 +55,8 @@ export async function buildDotNetMeasureLengthFromImageResultGenerated(jsObject:
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.geometry)) {
-        dotNetMeasureLengthFromImageResult.geometry = jsObject.geometry;
+        let { buildDotNetPolyline } = await import('./polyline');
+        dotNetMeasureLengthFromImageResult.geometry = buildDotNetPolyline(jsObject.geometry);
     }
     if (hasValue(jsObject.length)) {
         dotNetMeasureLengthFromImageResult.length = jsObject.length;

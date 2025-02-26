@@ -4,16 +4,16 @@ import { buildDotNetViewDoubleClickEvent } from './viewDoubleClickEvent';
 
 export async function buildJsViewDoubleClickEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsViewDoubleClickEvent: any = {};
+    if (hasValue(dotNetObject.mapPoint)) {
+        let { buildJsPoint } = await import('./point');
+        jsViewDoubleClickEvent.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
+    }
 
     if (hasValue(dotNetObject.button)) {
         jsViewDoubleClickEvent.button = dotNetObject.button;
     }
     if (hasValue(dotNetObject.buttons)) {
         jsViewDoubleClickEvent.buttons = dotNetObject.buttons;
-    }
-    if (hasValue(dotNetObject.mapPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
-        jsViewDoubleClickEvent.mapPoint = sanitizedMapPoint;
     }
     if (hasValue(dotNetObject.native)) {
         jsViewDoubleClickEvent.native = dotNetObject.native;
@@ -70,14 +70,15 @@ export async function buildDotNetViewDoubleClickEventGenerated(jsObject: any): P
     let dotNetViewDoubleClickEvent: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetViewDoubleClickEvent.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.button)) {
         dotNetViewDoubleClickEvent.button = jsObject.button;
     }
     if (hasValue(jsObject.buttons)) {
         dotNetViewDoubleClickEvent.buttons = jsObject.buttons;
-    }
-    if (hasValue(jsObject.mapPoint)) {
-        dotNetViewDoubleClickEvent.mapPoint = jsObject.mapPoint;
     }
     if (hasValue(jsObject.native)) {
         dotNetViewDoubleClickEvent.native = jsObject.native;

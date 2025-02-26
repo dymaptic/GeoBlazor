@@ -3,22 +3,22 @@ import AddressCandidate from '@arcgis/core/rest/support/AddressCandidate';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAddressCandidate } from './addressCandidate';
 
-export async function buildJsAddressCandidateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.extent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
+    }
+    if (hasValue(dotNetObject.location)) {
+        let { buildJsPoint } = await import('./point');
+        properties.location = buildJsPoint(dotNetObject.location) as any;
+    }
 
     if (hasValue(dotNetObject.address)) {
         properties.address = dotNetObject.address;
     }
     if (hasValue(dotNetObject.attributes)) {
         properties.attributes = dotNetObject.attributes;
-    }
-    if (hasValue(dotNetObject.extent)) {
-        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
-        properties.extent = sanitizedExtent;
-    }
-    if (hasValue(dotNetObject.location)) {
-        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
-        properties.location = sanitizedLocation;
     }
     if (hasValue(dotNetObject.score)) {
         properties.score = dotNetObject.score;
@@ -30,11 +30,11 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsAddressCandidate;
     
     let { buildDotNetAddressCandidate } = await import('./addressCandidate');
-    let dnInstantiatedObject = await buildDotNetAddressCandidate(jsAddressCandidate);
+    let dnInstantiatedObject = buildDotNetAddressCandidate(jsAddressCandidate);
 
     try {
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
@@ -53,42 +53,5 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any, layerI
     }
     
     return jsAddressCandidate;
-}
-
-
-export async function buildDotNetAddressCandidateGenerated(jsObject: any): Promise<any> {
-    if (!hasValue(jsObject)) {
-        return null;
-    }
-    
-    let dotNetAddressCandidate: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
-    };
-    if (hasValue(jsObject.address)) {
-        dotNetAddressCandidate.address = jsObject.address;
-    }
-    if (hasValue(jsObject.attributes)) {
-        dotNetAddressCandidate.attributes = jsObject.attributes;
-    }
-    if (hasValue(jsObject.extent)) {
-        dotNetAddressCandidate.extent = jsObject.extent;
-    }
-    if (hasValue(jsObject.location)) {
-        dotNetAddressCandidate.location = jsObject.location;
-    }
-    if (hasValue(jsObject.score)) {
-        dotNetAddressCandidate.score = jsObject.score;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetAddressCandidate.id = k;
-                break;
-            }
-        }
-    }
-
-    return dotNetAddressCandidate;
 }
 

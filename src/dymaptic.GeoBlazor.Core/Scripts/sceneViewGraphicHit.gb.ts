@@ -4,21 +4,21 @@ import { buildDotNetSceneViewGraphicHit } from './sceneViewGraphicHit';
 
 export async function buildJsSceneViewGraphicHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneViewGraphicHit: any = {};
+    if (hasValue(dotNetObject.graphic)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jsSceneViewGraphicHit.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         jsSceneViewGraphicHit.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.mapPoint)) {
+        let { buildJsPoint } = await import('./point');
+        jsSceneViewGraphicHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
+    }
 
     if (hasValue(dotNetObject.distance)) {
         jsSceneViewGraphicHit.distance = dotNetObject.distance;
-    }
-    if (hasValue(dotNetObject.graphic)) {
-        const { id, dotNetComponentReference, ...sanitizedGraphic } = dotNetObject.graphic;
-        jsSceneViewGraphicHit.graphic = sanitizedGraphic;
-    }
-    if (hasValue(dotNetObject.mapPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
-        jsSceneViewGraphicHit.mapPoint = sanitizedMapPoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewGraphicHit);
@@ -60,14 +60,16 @@ export async function buildDotNetSceneViewGraphicHitGenerated(jsObject: any, lay
     let dotNetSceneViewGraphicHit: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.distance)) {
-        dotNetSceneViewGraphicHit.distance = jsObject.distance;
-    }
     if (hasValue(jsObject.graphic)) {
-        dotNetSceneViewGraphicHit.graphic = jsObject.graphic;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSceneViewGraphicHit.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
     }
     if (hasValue(jsObject.mapPoint)) {
-        dotNetSceneViewGraphicHit.mapPoint = jsObject.mapPoint;
+        let { buildDotNetPoint } = await import('./point');
+        dotNetSceneViewGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
+    if (hasValue(jsObject.distance)) {
+        dotNetSceneViewGraphicHit.distance = jsObject.distance;
     }
     if (hasValue(jsObject.type)) {
         dotNetSceneViewGraphicHit.type = jsObject.type;

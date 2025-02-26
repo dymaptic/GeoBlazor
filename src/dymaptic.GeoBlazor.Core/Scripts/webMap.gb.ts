@@ -66,7 +66,7 @@ let jsOptions = await buildJsWebMapSaveAsOptions(options, this.layerId, this.vie
     
     async setBookmarks(value: any): Promise<void> {
         let { buildJsBookmark } = await import('./bookmark');
-        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i, this.layerId, this.viewId))) as any;
+        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }
     
     async getGeotriggersInfo(): Promise<any> {
@@ -125,7 +125,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     let properties: any = {};
     if (hasValue(dotNetObject.bookmarks)) {
         let { buildJsBookmark } = await import('./bookmark');
-        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, layerId, viewId))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.geotriggersInfo)) {
         let { buildJsGeotriggersInfo } = await import('./geotriggersInfo');

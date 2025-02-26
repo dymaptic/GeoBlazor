@@ -9,6 +9,10 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
@@ -71,10 +75,6 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     }
     if (hasValue(dotNetObject.parameterValues)) {
         properties.parameterValues = dotNetObject.parameterValues;
-    }
-    if (hasValue(dotNetObject.pixelSize)) {
-        const { id, dotNetComponentReference, ...sanitizedPixelSize } = dotNetObject.pixelSize;
-        properties.pixelSize = sanitizedPixelSize;
     }
     if (hasValue(dotNetObject.quantizationParameters)) {
         properties.quantizationParameters = dotNetObject.quantizationParameters;
@@ -169,6 +169,10 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
         let { buildDotNetGeometry } = await import('./geometry');
         dotNetQuery.geometry = buildDotNetGeometry(jsObject.geometry);
     }
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetQuery.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
@@ -229,9 +233,6 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.parameterValues)) {
         dotNetQuery.parameterValues = jsObject.parameterValues;
-    }
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetQuery.pixelSize = jsObject.pixelSize;
     }
     if (hasValue(jsObject.quantizationParameters)) {
         dotNetQuery.quantizationParameters = jsObject.quantizationParameters;

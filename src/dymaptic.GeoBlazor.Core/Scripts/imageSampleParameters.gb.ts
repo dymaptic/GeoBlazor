@@ -9,6 +9,10 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
+    if (hasValue(dotNetObject.locations)) {
+        let { buildJsPoint } = await import('./point');
+        properties.locations = dotNetObject.locations.map(i => buildJsPoint(i)) as any;
+    }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
@@ -20,10 +24,6 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
 
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
-    }
-    if (hasValue(dotNetObject.locations)) {
-        const { id, dotNetComponentReference, ...sanitizedLocations } = dotNetObject.locations;
-        properties.locations = sanitizedLocations;
     }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
@@ -88,6 +88,10 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any): 
         let { buildDotNetGeometry } = await import('./geometry');
         dotNetImageSampleParameters.geometry = buildDotNetGeometry(jsObject.geometry);
     }
+    if (hasValue(jsObject.locations)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageSampleParameters.locations = jsObject.locations.map(i => buildDotNetPoint(i));
+    }
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageSampleParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
@@ -98,9 +102,6 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.interpolation)) {
         dotNetImageSampleParameters.interpolation = jsObject.interpolation;
-    }
-    if (hasValue(jsObject.locations)) {
-        dotNetImageSampleParameters.locations = jsObject.locations;
     }
     if (hasValue(jsObject.outFields)) {
         dotNetImageSampleParameters.outFields = jsObject.outFields;

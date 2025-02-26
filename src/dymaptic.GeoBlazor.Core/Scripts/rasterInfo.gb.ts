@@ -26,10 +26,6 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     if (hasValue(dotNetObject.dataType)) {
         properties.dataType = dotNetObject.dataType;
     }
-    if (hasValue(dotNetObject.extent)) {
-        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
-        properties.extent = sanitizedExtent;
-    }
     if (hasValue(dotNetObject.hasMultidimensionalTranspose)) {
         properties.hasMultidimensionalTranspose = dotNetObject.hasMultidimensionalTranspose;
     }
@@ -109,6 +105,10 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     let dotNetRasterInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.bandCount)) {
         dotNetRasterInfo.bandCount = jsObject.bandCount;
     }
@@ -120,9 +120,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.dataType)) {
         dotNetRasterInfo.dataType = jsObject.dataType;
-    }
-    if (hasValue(jsObject.extent)) {
-        dotNetRasterInfo.extent = jsObject.extent;
     }
     if (hasValue(jsObject.hasMultidimensionalTranspose)) {
         dotNetRasterInfo.hasMultidimensionalTranspose = jsObject.hasMultidimensionalTranspose;

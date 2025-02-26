@@ -30,6 +30,33 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
     }
     
+    async getAllVisiblePoints(): Promise<any> {
+        if (!hasValue(this.component.allVisiblePoints)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.component.allVisiblePoints!.map(i => buildDotNetGraphic(i));
+    }
+    
+    async getAllVisiblePolygons(): Promise<any> {
+        if (!hasValue(this.component.allVisiblePolygons)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.component.allVisiblePolygons!.map(i => buildDotNetGraphic(i));
+    }
+    
+    async getAllVisiblePolylines(): Promise<any> {
+        if (!hasValue(this.component.allVisiblePolylines)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.component.allVisiblePolylines!.map(i => buildDotNetGraphic(i));
+    }
+    
     async getLayer(): Promise<any> {
         if (!hasValue(this.component.layer)) {
             return null;

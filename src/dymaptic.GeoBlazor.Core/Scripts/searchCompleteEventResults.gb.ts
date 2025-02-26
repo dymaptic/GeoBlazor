@@ -6,7 +6,7 @@ export async function buildJsSearchCompleteEventResultsGenerated(dotNetObject: a
     let jsSearchSearchCompleteEventResults: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsSearchResult } = await import('./searchResult');
-        jsSearchSearchCompleteEventResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i, layerId, viewId))) as any;
+        jsSearchSearchCompleteEventResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i))) as any;
     }
 
     if (hasValue(dotNetObject.source)) {
@@ -57,7 +57,7 @@ export async function buildDotNetSearchCompleteEventResultsGenerated(jsObject: a
     };
     if (hasValue(jsObject.results)) {
         let { buildDotNetSearchResult } = await import('./searchResult');
-        dotNetSearchCompleteEventResults.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchResult(i)));
+        dotNetSearchCompleteEventResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
     }
     if (hasValue(jsObject.source)) {
         dotNetSearchCompleteEventResults.source = jsObject.source;

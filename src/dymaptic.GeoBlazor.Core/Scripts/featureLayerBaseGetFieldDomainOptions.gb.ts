@@ -4,11 +4,11 @@ import { buildDotNetFeatureLayerBaseGetFieldDomainOptions } from './featureLayer
 
 export async function buildJsFeatureLayerBaseGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseGetFieldDomainOptions: any = {};
-
     if (hasValue(dotNetObject.feature)) {
-        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
-        jsFeatureLayerBaseGetFieldDomainOptions.feature = sanitizedFeature;
+        let { buildJsGraphic } = await import('./graphic');
+        jsFeatureLayerBaseGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseGetFieldDomainOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetFeatureLayerBaseGetFieldDomainOptionsGenerated(
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.feature)) {
-        dotNetFeatureLayerBaseGetFieldDomainOptions.feature = jsObject.feature;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetFeatureLayerBaseGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

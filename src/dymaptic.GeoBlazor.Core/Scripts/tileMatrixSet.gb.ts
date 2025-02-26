@@ -5,15 +5,15 @@ import { buildDotNetTileMatrixSet } from './tileMatrixSet';
 
 export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         properties.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.fullExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
-        properties.fullExtent = sanitizedFullExtent;
-    }
     if (hasValue(dotNetObject.tileMatrixSetId)) {
         properties.id = dotNetObject.tileMatrixSetId;
     }
@@ -58,12 +58,13 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any): Promise<
     let dotNetTileMatrixSet: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetTileMatrixSet.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        dotNetTileMatrixSet.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.id)) {
         dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;

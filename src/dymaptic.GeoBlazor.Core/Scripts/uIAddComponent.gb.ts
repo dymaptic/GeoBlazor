@@ -4,15 +4,18 @@ import { buildDotNetUIAddComponent } from './uIAddComponent';
 
 export async function buildJsUIAddComponentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUIAddComponent: any = {};
+    if (hasValue(dotNetObject.widgetComponent)) {
+        let { buildJsWidget } = await import('./widget');
+        jsUIAddComponent.component = await buildJsWidget(dotNetObject.widgetComponent, layerId, viewId) as any;
+    }
+    else if (hasValue(dotNetObject.elementReferenceComponent)) {
+        jsUIAddComponent.component = dotNetObject.widget;
+    }
     if (hasValue(dotNetObject.position)) {
         let { buildJsPosition } = await import('./position');
         jsUIAddComponent.position = await buildJsPosition(dotNetObject.position, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.component)) {
-        const { id, dotNetComponentReference, ...sanitizedComponent } = dotNetObject.component;
-        jsUIAddComponent.component = sanitizedComponent;
-    }
     if (hasValue(dotNetObject.index)) {
         jsUIAddComponent.index = dotNetObject.index;
     }
@@ -56,12 +59,13 @@ export async function buildDotNetUIAddComponentGenerated(jsObject: any): Promise
     let dotNetUIAddComponent: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.component)) {
+        let { buildDotNetWidget } = await import('./widget');
+        dotNetUIAddComponent.component = await buildDotNetWidget(jsObject.component);
+    }
     if (hasValue(jsObject.position)) {
         let { buildDotNetPosition } = await import('./position');
         dotNetUIAddComponent.position = await buildDotNetPosition(jsObject.position);
-    }
-    if (hasValue(jsObject.component)) {
-        dotNetUIAddComponent.component = jsObject.component;
     }
     if (hasValue(jsObject.index)) {
         dotNetUIAddComponent.index = jsObject.index;

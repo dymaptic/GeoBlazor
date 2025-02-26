@@ -4,10 +4,11 @@ import { buildDotNetColorRampStop } from './colorRampStop';
 
 export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorRampStop: any = {};
-
     if (hasValue(dotNetObject.color)) {
-        jsColorRampStop.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        jsColorRampStop.color = buildJsMapColor(dotNetObject.color) as any;
     }
+
     if (hasValue(dotNetObject.label)) {
         jsColorRampStop.label = dotNetObject.label;
     }
@@ -58,7 +59,8 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any): Promise<
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
-        dotNetColorRampStop.color = jsObject.color;
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetColorRampStop.color = buildDotNetMapColor(jsObject.color);
     }
     if (hasValue(jsObject.label)) {
         dotNetColorRampStop.label = jsObject.label;

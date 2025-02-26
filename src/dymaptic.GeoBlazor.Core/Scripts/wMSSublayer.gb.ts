@@ -5,13 +5,13 @@ import { buildDotNetWMSSublayer } from './wMSSublayer';
 
 export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
 
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
-        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         properties.legendEnabled = dotNetObject.legendEnabled;
@@ -84,14 +84,15 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
     let dotNetWMSSublayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.description)) {
         dotNetWMSSublayer.description = jsObject.description;
     }
     if (hasValue(jsObject.dimensions)) {
         dotNetWMSSublayer.dimensions = jsObject.dimensions;
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        dotNetWMSSublayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.legendEnabled)) {
         dotNetWMSSublayer.legendEnabled = jsObject.legendEnabled;

@@ -55,6 +55,20 @@ let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.v
 
     // region properties
     
+    async getClippingArea(): Promise<any> {
+        if (!hasValue(this.component.clippingArea)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.component.clippingArea);
+    }
+    
+    async setClippingArea(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.component.clippingArea =  buildJsExtent(value);
+    }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.component.portalItem)) {
             return null;
@@ -95,6 +109,10 @@ let jsOptions = await buildJsWebSceneSaveAsOptions(options, this.layerId, this.v
 
 export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.clippingArea)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -112,10 +130,6 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.authoringAppVersion)) {
         properties.authoringAppVersion = dotNetObject.authoringAppVersion;
-    }
-    if (hasValue(dotNetObject.clippingArea)) {
-        const { id, dotNetComponentReference, ...sanitizedClippingArea } = dotNetObject.clippingArea;
-        properties.clippingArea = sanitizedClippingArea;
     }
     if (hasValue(dotNetObject.clippingEnabled)) {
         properties.clippingEnabled = dotNetObject.clippingEnabled;
@@ -182,6 +196,10 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
     let dotNetWebScene: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.clippingArea)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
+    }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
@@ -198,9 +216,6 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.authoringAppVersion)) {
         dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
-    }
-    if (hasValue(jsObject.clippingArea)) {
-        dotNetWebScene.clippingArea = jsObject.clippingArea;
     }
     if (hasValue(jsObject.clippingEnabled)) {
         dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;

@@ -35,12 +35,12 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        return await buildDotNetViewpoint(this.component.target);
+        return buildDotNetViewpoint(this.component.target);
     }
     
     async setTarget(value: any): Promise<void> {
         let { buildJsViewpoint } = await import('./viewpoint');
-        this.component.target = await  buildJsViewpoint(value, this.layerId, this.viewId);
+        this.component.target =  buildJsViewpoint(value);
     }
     
     getProperty(prop: string): any {
@@ -57,7 +57,7 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
     let properties: any = {};
     if (hasValue(dotNetObject.target)) {
         let { buildJsViewpoint } = await import('./viewpoint');
-        properties.target = await buildJsViewpoint(dotNetObject.target, layerId, viewId) as any;
+        properties.target = buildJsViewpoint(dotNetObject.target) as any;
     }
 
     let jsViewAnimation = new ViewAnimation(properties);
@@ -109,7 +109,7 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<
     };
     if (hasValue(jsObject.target)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
-        dotNetViewAnimation.target = await buildDotNetViewpoint(jsObject.target);
+        dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
     }
     if (hasValue(jsObject.state)) {
         dotNetViewAnimation.state = jsObject.state;

@@ -77,6 +77,34 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     // region properties
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
+    async getPopupTemplate(): Promise<any> {
+        if (!hasValue(this.widget.popupTemplate)) {
+            return null;
+        }
+        
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        return await buildDotNetPopupTemplate(this.widget.popupTemplate);
+    }
+    
+    async setPopupTemplate(value: any): Promise<void> {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        this.widget.popupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
+    }
+    
     async getPortal(): Promise<any> {
         if (!hasValue(this.widget.portal)) {
             return null;
@@ -97,12 +125,12 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
         }
         
         let { buildDotNetSearchSource } = await import('./searchSource');
-        return this.widget.sources!.map(i => buildDotNetSearchSource(i));
+        return await Promise.all(this.widget.sources.map(async i => await buildDotNetSearchSource(i)));
     }
     
     async setSources(value: any): Promise<void> {
         let { buildJsSearchSource } = await import('./searchSource');
-        this.widget.sources = value.map(i => buildJsSearchSource(i)) as any;
+        this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
     }
     
     async getViewModel(): Promise<any> {
@@ -134,13 +162,13 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portal)) {
         let { buildJsPortal } = await import('./portal');
@@ -148,7 +176,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.sources)) {
         let { buildJsSearchSource } = await import('./searchSource');
-        properties.sources = dotNetObject.sources.map(i => buildJsSearchSource(i)) as any;
+        properties.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsSearchViewModel } = await import('./searchViewModel');
@@ -196,10 +224,6 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
-    }
-    if (hasValue(dotNetObject.popupTemplate)) {
-        const { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject.popupTemplate;
-        properties.popupTemplate = sanitizedPopupTemplate;
     }
     if (hasValue(dotNetObject.resultGraphicEnabled)) {
         properties.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
@@ -301,27 +325,39 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     };
     if (hasValue(jsObject.activeSource)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchWidget.activeSource = buildDotNetSearchSource(jsObject.activeSource);
+        dotNetSearchWidget.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
     }
     if (hasValue(jsObject.allSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchWidget.allSources = jsObject.allSources.map(i => buildDotNetSearchSource(i));
+        dotNetSearchWidget.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
     }
     if (hasValue(jsObject.defaultSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchWidget.defaultSources = jsObject.defaultSources.map(i => buildDotNetSearchSource(i));
+        dotNetSearchWidget.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetSearchWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal);
     }
+    if (hasValue(jsObject.resultGraphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
+    }
     if (hasValue(jsObject.selectedResult)) {
         let { buildDotNetSearchResult } = await import('./searchResult');
-        dotNetSearchWidget.selectedResult = await buildDotNetSearchResult(jsObject.selectedResult);
+        dotNetSearchWidget.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
     }
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchWidget.sources = jsObject.sources.map(i => buildDotNetSearchSource(i));
+        dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSearchViewModel } = await import('./searchViewModel');
@@ -344,9 +380,6 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.disabled)) {
         dotNetSearchWidget.disabled = jsObject.disabled;
-    }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetSearchWidget.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.icon)) {
         dotNetSearchWidget.icon = jsObject.icon;
@@ -371,12 +404,6 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
-    }
-    if (hasValue(jsObject.popupTemplate)) {
-        dotNetSearchWidget.popupTemplate = jsObject.popupTemplate;
-    }
-    if (hasValue(jsObject.resultGraphic)) {
-        dotNetSearchWidget.resultGraphic = jsObject.resultGraphic;
     }
     if (hasValue(jsObject.resultGraphicEnabled)) {
         dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;

@@ -4,13 +4,13 @@ import { buildDotNetLocatorSuggestLocationsParams } from './locatorSuggestLocati
 
 export async function buildJsLocatorSuggestLocationsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jslocatorSuggestLocationsParams: any = {};
+    if (hasValue(dotNetObject.location)) {
+        let { buildJsPoint } = await import('./point');
+        jslocatorSuggestLocationsParams.location = buildJsPoint(dotNetObject.location) as any;
+    }
 
     if (hasValue(dotNetObject.categories)) {
         jslocatorSuggestLocationsParams.categories = dotNetObject.categories;
-    }
-    if (hasValue(dotNetObject.location)) {
-        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
-        jslocatorSuggestLocationsParams.location = sanitizedLocation;
     }
     if (hasValue(dotNetObject.text)) {
         jslocatorSuggestLocationsParams.text = dotNetObject.text;
@@ -55,11 +55,12 @@ export async function buildDotNetLocatorSuggestLocationsParamsGenerated(jsObject
     let dotNetLocatorSuggestLocationsParams: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetLocatorSuggestLocationsParams.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.categories)) {
         dotNetLocatorSuggestLocationsParams.categories = jsObject.categories;
-    }
-    if (hasValue(jsObject.location)) {
-        dotNetLocatorSuggestLocationsParams.location = jsObject.location;
     }
     if (hasValue(jsObject.text)) {
         dotNetLocatorSuggestLocationsParams.text = jsObject.text;

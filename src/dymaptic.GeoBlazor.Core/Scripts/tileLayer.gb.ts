@@ -84,6 +84,34 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
+    
+    async getFullExtent(): Promise<any> {
+        if (!hasValue(this.layer.fullExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.layer.fullExtent);
+    }
+    
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -161,6 +189,14 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
@@ -192,13 +228,6 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
-        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         properties.legendEnabled = dotNetObject.legendEnabled;
@@ -300,6 +329,14 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     let dotNetTileLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetTileLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
@@ -340,12 +377,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.customParameters)) {
         dotNetTileLayer.customParameters = jsObject.customParameters;
-    }
-    if (hasValue(jsObject.effect)) {
-        dotNetTileLayer.effect = jsObject.effect;
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        dotNetTileLayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.hasAttributionData)) {
         dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;

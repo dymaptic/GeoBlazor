@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class SizeVariable : VisualVariable
+public partial class SizeVariable : VisualVariable, IMapComponent
 {
 
 

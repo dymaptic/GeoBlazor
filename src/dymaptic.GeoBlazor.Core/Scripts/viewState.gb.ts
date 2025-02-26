@@ -53,6 +53,15 @@ let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
 
     // region properties
     
+    async getExtent(): Promise<any> {
+        if (!hasValue(this.component.extent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.component.extent);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -113,11 +122,12 @@ export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any>
     let dotNetViewState: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.center)) {
         dotNetViewState.center = jsObject.center;
-    }
-    if (hasValue(jsObject.extent)) {
-        dotNetViewState.extent = jsObject.extent;
     }
     if (hasValue(jsObject.resolution)) {
         dotNetViewState.resolution = jsObject.resolution;

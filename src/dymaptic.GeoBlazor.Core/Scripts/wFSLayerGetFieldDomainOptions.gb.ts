@@ -4,11 +4,11 @@ import { buildDotNetWFSLayerGetFieldDomainOptions } from './wFSLayerGetFieldDoma
 
 export async function buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSLayerGetFieldDomainOptions: any = {};
-
     if (hasValue(dotNetObject.feature)) {
-        const { id, dotNetComponentReference, ...sanitizedFeature } = dotNetObject.feature;
-        jsWFSLayerGetFieldDomainOptions.feature = sanitizedFeature;
+        let { buildJsGraphic } = await import('./graphic');
+        jsWFSLayerGetFieldDomainOptions.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSLayerGetFieldDomainOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetWFSLayerGetFieldDomainOptionsGenerated(jsObject
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.feature)) {
-        dotNetWFSLayerGetFieldDomainOptions.feature = jsObject.feature;
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetWFSLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

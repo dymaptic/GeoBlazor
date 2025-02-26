@@ -5,11 +5,11 @@ import { buildDotNetImagePixelLocationParameters } from './imagePixelLocationPar
 
 export async function buildJsImagePixelLocationParametersGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.point)) {
-        const { id, dotNetComponentReference, ...sanitizedPoint } = dotNetObject.point;
-        properties.point = sanitizedPoint;
+        let { buildJsPoint } = await import('./point');
+        properties.point = dotNetObject.point.map(i => buildJsPoint(i)) as any;
     }
+
     if (hasValue(dotNetObject.rasterId)) {
         properties.rasterId = dotNetObject.rasterId;
     }
@@ -55,7 +55,8 @@ export async function buildDotNetImagePixelLocationParametersGenerated(jsObject:
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.point)) {
-        dotNetImagePixelLocationParameters.point = jsObject.point;
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImagePixelLocationParameters.point = jsObject.point.map(i => buildDotNetPoint(i));
     }
     if (hasValue(jsObject.rasterId)) {
         dotNetImagePixelLocationParameters.rasterId = jsObject.rasterId;

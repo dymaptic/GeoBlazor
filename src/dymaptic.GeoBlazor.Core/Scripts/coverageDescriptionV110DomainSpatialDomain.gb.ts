@@ -4,13 +4,13 @@ import { buildDotNetCoverageDescriptionV110DomainSpatialDomain } from './coverag
 
 export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoverageDescriptionV110DomainSpatialDomain: any = {};
+    if (hasValue(dotNetObject.envelope)) {
+        let { buildJsExtent } = await import('./extent');
+        jsCoverageDescriptionV110DomainSpatialDomain.envelope = buildJsExtent(dotNetObject.envelope) as any;
+    }
 
     if (hasValue(dotNetObject.columns)) {
         jsCoverageDescriptionV110DomainSpatialDomain.columns = dotNetObject.columns;
-    }
-    if (hasValue(dotNetObject.envelope)) {
-        const { id, dotNetComponentReference, ...sanitizedEnvelope } = dotNetObject.envelope;
-        jsCoverageDescriptionV110DomainSpatialDomain.envelope = sanitizedEnvelope;
     }
     if (hasValue(dotNetObject.gridBaseCRS)) {
         jsCoverageDescriptionV110DomainSpatialDomain.gridBaseCRS = dotNetObject.gridBaseCRS;
@@ -67,11 +67,12 @@ export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGener
     let dotNetCoverageDescriptionV110DomainSpatialDomain: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.envelope)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = buildDotNetExtent(jsObject.envelope);
+    }
     if (hasValue(jsObject.columns)) {
         dotNetCoverageDescriptionV110DomainSpatialDomain.columns = jsObject.columns;
-    }
-    if (hasValue(jsObject.envelope)) {
-        dotNetCoverageDescriptionV110DomainSpatialDomain.envelope = jsObject.envelope;
     }
     if (hasValue(jsObject.gridBaseCRS)) {
         dotNetCoverageDescriptionV110DomainSpatialDomain.gridBaseCRS = jsObject.gridBaseCRS;

@@ -5,10 +5,11 @@ import { buildDotNetBackgroundColorBackground } from './backgroundColorBackgroun
 
 export async function buildJsBackgroundColorBackgroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.color)) {
-        properties.color = dotNetObject.color;
+        let { buildJsMapColor } = await import('./mapColor');
+        properties.color = buildJsMapColor(dotNetObject.color) as any;
     }
+
     let jsbackgroundColorBackground = new backgroundColorBackground(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsbackgroundColorBackground);
@@ -51,7 +52,8 @@ export async function buildDotNetBackgroundColorBackgroundGenerated(jsObject: an
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
-        dotNetBackgroundColorBackground.color = jsObject.color;
+        let { buildDotNetMapColor } = await import('./mapColor');
+        dotNetBackgroundColorBackground.color = buildDotNetMapColor(jsObject.color);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

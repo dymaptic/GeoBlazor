@@ -28,7 +28,9 @@ export default class GeoJSONLayerViewGenerated implements IPropertyWrapper {
     }
 
     async highlight(target: any): Promise<any> {
-        let result = this.component.highlight(target);
+                let { buildJsGraphic } = await import('./graphic');
+let jsTarget = buildJsGraphic(target) as any;
+        let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
     }

@@ -5,13 +5,13 @@ import { buildDotNetImageAngleParameters } from './imageAngleParameters';
 
 export async function buildJsImageAngleParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.point)) {
+        let { buildJsPoint } = await import('./point');
+        properties.point = buildJsPoint(dotNetObject.point) as any;
+    }
 
     if (hasValue(dotNetObject.angleNames)) {
         properties.angleNames = dotNetObject.angleNames;
-    }
-    if (hasValue(dotNetObject.point)) {
-        const { id, dotNetComponentReference, ...sanitizedPoint } = dotNetObject.point;
-        properties.point = sanitizedPoint;
     }
     if (hasValue(dotNetObject.rasterId)) {
         properties.rasterId = dotNetObject.rasterId;
@@ -61,11 +61,12 @@ export async function buildDotNetImageAngleParametersGenerated(jsObject: any): P
     let dotNetImageAngleParameters: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.point)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageAngleParameters.point = buildDotNetPoint(jsObject.point);
+    }
     if (hasValue(jsObject.angleNames)) {
         dotNetImageAngleParameters.angleNames = jsObject.angleNames;
-    }
-    if (hasValue(jsObject.point)) {
-        dotNetImageAngleParameters.point = jsObject.point;
     }
     if (hasValue(jsObject.rasterId)) {
         dotNetImageAngleParameters.rasterId = jsObject.rasterId;

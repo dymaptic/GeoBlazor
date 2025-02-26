@@ -7,6 +7,10 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
     if (hasValue(viewId)) {
         jssummaryStatisticsSummaryStatisticsParams.view = arcGisObjectRefs[viewId!];
     }
+    if (hasValue(dotNetObject.features)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jssummaryStatisticsSummaryStatisticsParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+    }
     if (hasValue(dotNetObject.filter)) {
         let { buildJsFeatureFilter } = await import('./featureFilter');
         jssummaryStatisticsSummaryStatisticsParams.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
@@ -16,10 +20,6 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
         jssummaryStatisticsSummaryStatisticsParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.features)) {
-        const { id, dotNetComponentReference, ...sanitizedFeatures } = dotNetObject.features;
-        jssummaryStatisticsSummaryStatisticsParams.features = sanitizedFeatures;
-    }
     if (hasValue(dotNetObject.field)) {
         jssummaryStatisticsSummaryStatisticsParams.field = dotNetObject.field;
     }
@@ -62,7 +62,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jssummaryStatisticsSummaryStatisticsParams;
     
     let { buildDotNetSummaryStatisticsSummaryStatisticsParams } = await import('./summaryStatisticsSummaryStatisticsParams');
-    let dnInstantiatedObject = await buildDotNetSummaryStatisticsSummaryStatisticsParams(jssummaryStatisticsSummaryStatisticsParams);
+    let dnInstantiatedObject = await buildDotNetSummaryStatisticsSummaryStatisticsParams(jssummaryStatisticsSummaryStatisticsParams, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -88,7 +88,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
 }
 
 
-export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -96,12 +96,13 @@ export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerat
     let dotNetSummaryStatisticsSummaryStatisticsParams: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.features)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetSummaryStatisticsSummaryStatisticsParams.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
-    }
-    if (hasValue(jsObject.features)) {
-        dotNetSummaryStatisticsSummaryStatisticsParams.features = jsObject.features;
     }
     if (hasValue(jsObject.field)) {
         dotNetSummaryStatisticsSummaryStatisticsParams.field = jsObject.field;

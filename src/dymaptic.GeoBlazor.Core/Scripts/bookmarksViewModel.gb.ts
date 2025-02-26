@@ -28,7 +28,7 @@ let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId)
     async editBookmark(bookmark: any,
         options: any): Promise<any> {
                 let { buildJsBookmark } = await import('./bookmark');
-let jsBookmark = await buildJsBookmark(bookmark, this.layerId, this.viewId) as any;
+let jsBookmark = await buildJsBookmark(bookmark) as any;
                 let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
 let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
         return await this.component.editBookmark(jsBookmark,
@@ -37,7 +37,7 @@ let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId)
 
     async goTo(bookmark: any): Promise<any> {
                 let { buildJsBookmark } = await import('./bookmark');
-let jsBookmark = await buildJsBookmark(bookmark, this.layerId, this.viewId) as any;
+let jsBookmark = await buildJsBookmark(bookmark) as any;
         return await this.component.goTo(jsBookmark);
     }
 
@@ -63,7 +63,7 @@ let jsBookmark = await buildJsBookmark(bookmark, this.layerId, this.viewId) as a
     
     async setBookmarks(value: any): Promise<void> {
         let { buildJsBookmark } = await import('./bookmark');
-        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i, this.layerId, this.viewId))) as any;
+        this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }
     
     async getDefaultCreateOptions(): Promise<any> {
@@ -94,6 +94,20 @@ let jsBookmark = await buildJsBookmark(bookmark, this.layerId, this.viewId) as a
         this.component.defaultEditOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -111,7 +125,7 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.bookmarks)) {
         let { buildJsBookmark } = await import('./bookmark');
-        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i, layerId, viewId))) as any;
+        properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
     if (hasValue(dotNetObject.defaultCreateOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
@@ -121,13 +135,9 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
 
     if (hasValue(dotNetObject.capabilities)) {
@@ -197,11 +207,12 @@ export async function buildDotNetBookmarksViewModelGenerated(jsObject: any): Pro
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         dotNetBookmarksViewModel.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions);
     }
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetBookmarksViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
     if (hasValue(jsObject.capabilities)) {
         dotNetBookmarksViewModel.capabilities = jsObject.capabilities;
-    }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetBookmarksViewModel.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.state)) {
         dotNetBookmarksViewModel.state = jsObject.state;

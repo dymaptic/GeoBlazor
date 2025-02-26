@@ -4,15 +4,15 @@ import { buildDotNetPixelData } from './pixelData';
 
 export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPixelData: any = {};
+    if (hasValue(dotNetObject.extent)) {
+        let { buildJsExtent } = await import('./extent');
+        jsPixelData.extent = buildJsExtent(dotNetObject.extent) as any;
+    }
     if (hasValue(dotNetObject.pixelBlock)) {
         let { buildJsPixelBlock } = await import('./pixelBlock');
         jsPixelData.pixelBlock = await buildJsPixelBlock(dotNetObject.pixelBlock, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.extent)) {
-        const { id, dotNetComponentReference, ...sanitizedExtent } = dotNetObject.extent;
-        jsPixelData.extent = sanitizedExtent;
-    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsPixelData);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -53,12 +53,13 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
     let dotNetPixelData: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPixelData.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.pixelBlock)) {
         let { buildDotNetPixelBlock } = await import('./pixelBlock');
         dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
-    }
-    if (hasValue(jsObject.extent)) {
-        dotNetPixelData.extent = jsObject.extent;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

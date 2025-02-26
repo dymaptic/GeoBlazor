@@ -103,6 +103,20 @@ let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, th
         this.component.defaultDevBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     
+    async getDefaultExtent(): Promise<any> {
+        if (!hasValue(this.component.defaultExtent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.component.defaultExtent);
+    }
+    
+    async setDefaultExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.component.defaultExtent =  buildJsExtent(value);
+    }
+    
     async getDefaultVectorBasemap(): Promise<any> {
         if (!hasValue(this.component.defaultVectorBasemap)) {
             return null;
@@ -143,6 +157,10 @@ let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, th
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.defaultExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
+    }
 
     if (hasValue(dotNetObject.access)) {
         properties.access = dotNetObject.access;
@@ -206,10 +224,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.customBaseUrl)) {
         properties.customBaseUrl = dotNetObject.customBaseUrl;
-    }
-    if (hasValue(dotNetObject.defaultExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedDefaultExtent } = dotNetObject.defaultExtent;
-        properties.defaultExtent = sanitizedDefaultExtent;
     }
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
@@ -370,6 +384,10 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     let dotNetPortal: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.defaultExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
+    }
     if (hasValue(jsObject.access)) {
         dotNetPortal.access = jsObject.access;
     }
@@ -432,9 +450,6 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.customBaseUrl)) {
         dotNetPortal.customBaseUrl = jsObject.customBaseUrl;
-    }
-    if (hasValue(jsObject.defaultExtent)) {
-        dotNetPortal.defaultExtent = jsObject.defaultExtent;
     }
     if (hasValue(jsObject.description)) {
         dotNetPortal.description = jsObject.description;

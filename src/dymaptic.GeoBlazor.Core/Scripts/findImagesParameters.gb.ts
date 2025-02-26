@@ -5,20 +5,20 @@ import { buildDotNetFindImagesParameters } from './findImagesParameters';
 
 export async function buildJsFindImagesParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-
     if (hasValue(dotNetObject.fromGeometry)) {
-        const { id, dotNetComponentReference, ...sanitizedFromGeometry } = dotNetObject.fromGeometry;
-        properties.fromGeometry = sanitizedFromGeometry;
+        let { buildJsPoint } = await import('./point');
+        properties.fromGeometry = buildJsPoint(dotNetObject.fromGeometry) as any;
     }
+    if (hasValue(dotNetObject.toGeometry)) {
+        let { buildJsPoint } = await import('./point');
+        properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
+    }
+
     if (hasValue(dotNetObject.maxCount)) {
         properties.maxCount = dotNetObject.maxCount;
     }
     if (hasValue(dotNetObject.objectIds)) {
         properties.objectIds = dotNetObject.objectIds;
-    }
-    if (hasValue(dotNetObject.toGeometry)) {
-        const { id, dotNetComponentReference, ...sanitizedToGeometry } = dotNetObject.toGeometry;
-        properties.toGeometry = sanitizedToGeometry;
     }
     if (hasValue(dotNetObject.where)) {
         properties.where = dotNetObject.where;
@@ -65,16 +65,18 @@ export async function buildDotNetFindImagesParametersGenerated(jsObject: any): P
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.fromGeometry)) {
-        dotNetFindImagesParameters.fromGeometry = jsObject.fromGeometry;
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFindImagesParameters.fromGeometry = buildDotNetPoint(jsObject.fromGeometry);
+    }
+    if (hasValue(jsObject.toGeometry)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetFindImagesParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
     }
     if (hasValue(jsObject.maxCount)) {
         dotNetFindImagesParameters.maxCount = jsObject.maxCount;
     }
     if (hasValue(jsObject.objectIds)) {
         dotNetFindImagesParameters.objectIds = jsObject.objectIds;
-    }
-    if (hasValue(jsObject.toGeometry)) {
-        dotNetFindImagesParameters.toGeometry = jsObject.toGeometry;
     }
     if (hasValue(jsObject.where)) {
         dotNetFindImagesParameters.where = jsObject.where;

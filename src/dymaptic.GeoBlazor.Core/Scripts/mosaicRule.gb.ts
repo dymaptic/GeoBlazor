@@ -5,6 +5,10 @@ import { buildDotNetMosaicRule } from './mosaicRule';
 
 export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.viewpoint)) {
+        let { buildJsPoint } = await import('./point');
+        properties.viewpoint = buildJsPoint(dotNetObject.viewpoint) as any;
+    }
 
     if (hasValue(dotNetObject.ascending)) {
         properties.ascending = dotNetObject.ascending;
@@ -38,10 +42,6 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
     }
     if (hasValue(dotNetObject.sortValue)) {
         properties.sortValue = dotNetObject.sortValue;
-    }
-    if (hasValue(dotNetObject.viewpoint)) {
-        const { id, dotNetComponentReference, ...sanitizedViewpoint } = dotNetObject.viewpoint;
-        properties.viewpoint = sanitizedViewpoint;
     }
     if (hasValue(dotNetObject.where)) {
         properties.where = dotNetObject.where;
@@ -87,6 +87,10 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     let dotNetMosaicRule: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.viewpoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetMosaicRule.viewpoint = buildDotNetPoint(jsObject.viewpoint);
+    }
     if (hasValue(jsObject.ascending)) {
         dotNetMosaicRule.ascending = jsObject.ascending;
     }
@@ -116,9 +120,6 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.sortValue)) {
         dotNetMosaicRule.sortValue = jsObject.sortValue;
-    }
-    if (hasValue(jsObject.viewpoint)) {
-        dotNetMosaicRule.viewpoint = jsObject.viewpoint;
     }
     if (hasValue(jsObject.where)) {
         dotNetMosaicRule.where = jsObject.where;

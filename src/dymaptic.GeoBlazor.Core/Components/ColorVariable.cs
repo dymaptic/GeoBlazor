@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class ColorVariable : VisualVariable
+public partial class ColorVariable : VisualVariable, IMapComponent
 {
 
     

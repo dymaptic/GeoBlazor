@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+[JsonConverter(typeof(BasemapGallerySourceConverter))]
 public partial class PortalBasemapsSource : LocalBasemapsSource
 {
     /// <summary>

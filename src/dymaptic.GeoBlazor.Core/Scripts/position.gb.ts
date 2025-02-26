@@ -4,13 +4,13 @@ import { buildDotNetPosition } from './position';
 
 export async function buildJsPositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPosition: any = {};
+    if (hasValue(dotNetObject.location)) {
+        let { buildJsPoint } = await import('./point');
+        jsPosition.location = buildJsPoint(dotNetObject.location) as any;
+    }
 
     if (hasValue(dotNetObject.coordinate)) {
         jsPosition.coordinate = dotNetObject.coordinate;
-    }
-    if (hasValue(dotNetObject.location)) {
-        const { id, dotNetComponentReference, ...sanitizedLocation } = dotNetObject.location;
-        jsPosition.location = sanitizedLocation;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsPosition);
@@ -52,11 +52,12 @@ export async function buildDotNetPositionGenerated(jsObject: any): Promise<any> 
     let dotNetPosition: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.location)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetPosition.location = buildDotNetPoint(jsObject.location);
+    }
     if (hasValue(jsObject.coordinate)) {
         dotNetPosition.coordinate = jsObject.coordinate;
-    }
-    if (hasValue(jsObject.location)) {
-        dotNetPosition.location = jsObject.location;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

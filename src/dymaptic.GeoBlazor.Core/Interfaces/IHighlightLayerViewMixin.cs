@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
+[JsonConverter(typeof(MultiTypeConverter<IHighlightLayerViewMixin>))]
 public partial interface IHighlightLayerViewMixin
 {
     /// <summary>

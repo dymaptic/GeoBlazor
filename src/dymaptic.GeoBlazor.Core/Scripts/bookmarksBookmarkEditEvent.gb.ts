@@ -6,7 +6,7 @@ export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: a
     let jsBookmarksBookmarkEditEvent: any = {};
     if (hasValue(dotNetObject.bookmark)) {
         let { buildJsBookmark } = await import('./bookmark');
-        jsBookmarksBookmarkEditEvent.bookmark = await buildJsBookmark(dotNetObject.bookmark, layerId, viewId) as any;
+        jsBookmarksBookmarkEditEvent.bookmark = await buildJsBookmark(dotNetObject.bookmark) as any;
     }
 
     

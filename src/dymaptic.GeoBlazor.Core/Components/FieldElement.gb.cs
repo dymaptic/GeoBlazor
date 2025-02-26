@@ -70,7 +70,7 @@ public partial class FieldElement : IElement
         string? requiredExpression = null,
         string? valueExpression = null,
         Domain? domain = null,
-        IInputElement? input = null,
+        FormElement? input = null,
         string? visibilityExpression = null)
     {
         AllowRender = false;
@@ -107,7 +107,7 @@ public partial class FieldElement : IElement
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IInputElement? Input { get; set; }
+    public FormElement? Input { get; set; }
     
     /// <summary>
     ///     A reference to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-ExpressionInfo.html#name">name</a> of an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-FormTemplate.html#expressionInfos">expressionInfos</a> of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-FormTemplate.html">FormTemplate</a>.
@@ -245,7 +245,7 @@ public partial class FieldElement : IElement
     /// <summary>
     ///     Asynchronously retrieve the current value of the Input property.
     /// </summary>
-    public async Task<IInputElement?> GetInput()
+    public async Task<FormElement?> GetInput()
     {
         if (CoreJsModule is null)
         {
@@ -259,7 +259,7 @@ public partial class FieldElement : IElement
         }
 
         // get the property value
-        IInputElement? result = await JsComponentReference!.InvokeAsync<IInputElement?>("getProperty",
+        FormElement? result = await JsComponentReference!.InvokeAsync<FormElement?>("getProperty",
             CancellationTokenSource.Token, "input");
         if (result is not null)
         {
@@ -462,7 +462,7 @@ public partial class FieldElement : IElement
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInput(IInputElement? value)
+    public async Task SetInput(FormElement? value)
     {
 #pragma warning disable BL0005
         Input = value;

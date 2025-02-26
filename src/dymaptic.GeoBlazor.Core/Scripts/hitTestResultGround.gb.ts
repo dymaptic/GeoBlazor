@@ -4,13 +4,13 @@ import { buildDotNetHitTestResultGround } from './hitTestResultGround';
 
 export async function buildJsHitTestResultGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHitTestResultGround: any = {};
+    if (hasValue(dotNetObject.mapPoint)) {
+        let { buildJsPoint } = await import('./point');
+        jsHitTestResultGround.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
+    }
 
     if (hasValue(dotNetObject.distance)) {
         jsHitTestResultGround.distance = dotNetObject.distance;
-    }
-    if (hasValue(dotNetObject.mapPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedMapPoint } = dotNetObject.mapPoint;
-        jsHitTestResultGround.mapPoint = sanitizedMapPoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsHitTestResultGround);
@@ -52,11 +52,12 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Pr
     let dotNetHitTestResultGround: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.mapPoint)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetHitTestResultGround.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
     if (hasValue(jsObject.distance)) {
         dotNetHitTestResultGround.distance = jsObject.distance;
-    }
-    if (hasValue(jsObject.mapPoint)) {
-        dotNetHitTestResultGround.mapPoint = jsObject.mapPoint;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

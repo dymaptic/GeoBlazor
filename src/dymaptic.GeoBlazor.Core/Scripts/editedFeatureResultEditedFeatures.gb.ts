@@ -4,19 +4,19 @@ import { buildDotNetEditedFeatureResultEditedFeatures } from './editedFeatureRes
 
 export async function buildJsEditedFeatureResultEditedFeaturesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditedFeatureResultEditedFeatures: any = {};
+    if (hasValue(dotNetObject.adds)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jsEditedFeatureResultEditedFeatures.adds = dotNetObject.adds.map(i => buildJsGraphic(i)) as any;
+    }
+    if (hasValue(dotNetObject.deletes)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jsEditedFeatureResultEditedFeatures.deletes = dotNetObject.deletes.map(i => buildJsGraphic(i)) as any;
+    }
     if (hasValue(dotNetObject.updates)) {
         let { buildJsEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
         jsEditedFeatureResultEditedFeatures.updates = await Promise.all(dotNetObject.updates.map(async i => await buildJsEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.adds)) {
-        const { id, dotNetComponentReference, ...sanitizedAdds } = dotNetObject.adds;
-        jsEditedFeatureResultEditedFeatures.adds = sanitizedAdds;
-    }
-    if (hasValue(dotNetObject.deletes)) {
-        const { id, dotNetComponentReference, ...sanitizedDeletes } = dotNetObject.deletes;
-        jsEditedFeatureResultEditedFeatures.deletes = sanitizedDeletes;
-    }
     if (hasValue(dotNetObject.spatialReference)) {
         const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         jsEditedFeatureResultEditedFeatures.spatialReference = sanitizedSpatialReference;
@@ -61,15 +61,17 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesGenerated(jsOb
     let dotNetEditedFeatureResultEditedFeatures: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.adds)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeatures.adds = jsObject.adds.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
+    if (hasValue(jsObject.deletes)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetEditedFeatureResultEditedFeatures.deletes = jsObject.deletes.map(i => buildDotNetGraphic(i, layerId, viewId));
+    }
     if (hasValue(jsObject.updates)) {
         let { buildDotNetEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
         dotNetEditedFeatureResultEditedFeatures.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId)));
-    }
-    if (hasValue(jsObject.adds)) {
-        dotNetEditedFeatureResultEditedFeatures.adds = jsObject.adds;
-    }
-    if (hasValue(jsObject.deletes)) {
-        dotNetEditedFeatureResultEditedFeatures.deletes = jsObject.deletes;
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetEditedFeatureResultEditedFeatures.spatialReference = jsObject.spatialReference;

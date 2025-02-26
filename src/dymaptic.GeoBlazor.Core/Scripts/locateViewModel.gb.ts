@@ -29,6 +29,34 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
+    async getGraphic(): Promise<any> {
+        if (!hasValue(this.component.graphic)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return buildDotNetGraphic(this.component.graphic, this.layerId, this.viewId);
+    }
+    
+    async setGraphic(value: any): Promise<void> {
+        let { buildJsGraphic } = await import('./graphic');
+        this.component.graphic =  buildJsGraphic(value);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -41,13 +69,13 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
 
 export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    }
+    if (hasValue(dotNetObject.graphic)) {
+        let { buildJsGraphic } = await import('./graphic');
+        properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
     }
 
     if (hasValue(dotNetObject.error)) {
@@ -58,10 +86,6 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.goToLocationEnabled)) {
         properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
-    }
-    if (hasValue(dotNetObject.graphic)) {
-        const { id, dotNetComponentReference, ...sanitizedGraphic } = dotNetObject.graphic;
-        properties.graphic = sanitizedGraphic;
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
@@ -124,6 +148,14 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
     let dotNetLocateViewModel: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetLocateViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
+    if (hasValue(jsObject.graphic)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
+    }
     if (hasValue(jsObject.error)) {
         dotNetLocateViewModel.error = jsObject.error;
     }
@@ -132,12 +164,6 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.goToLocationEnabled)) {
         dotNetLocateViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
-    }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetLocateViewModel.goToOverride = jsObject.goToOverride;
-    }
-    if (hasValue(jsObject.graphic)) {
-        dotNetLocateViewModel.graphic = jsObject.graphic;
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocateViewModel.popupEnabled = jsObject.popupEnabled;

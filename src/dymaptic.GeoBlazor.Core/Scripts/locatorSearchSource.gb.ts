@@ -23,6 +23,10 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
             return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
         };
     }
+    if (hasValue(dotNetObject.popupTemplate)) {
+        let { buildJsPopupTemplate } = await import('./popupTemplate');
+        properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.resultSymbol)) {
         let { buildJsSymbol } = await import('./symbol');
         properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
@@ -69,10 +73,6 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
-    }
-    if (hasValue(dotNetObject.popupTemplate)) {
-        const { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject.popupTemplate;
-        properties.popupTemplate = sanitizedPopupTemplate;
     }
     if (hasValue(dotNetObject.prefix)) {
         properties.prefix = dotNetObject.prefix;
@@ -146,6 +146,10 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
         let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
         dotNetLocatorSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
     }
+    if (hasValue(jsObject.popupTemplate)) {
+        let { buildDotNetPopupTemplate } = await import('./popupTemplate');
+        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
@@ -197,9 +201,6 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocatorSearchSource.popupEnabled = jsObject.popupEnabled;
-    }
-    if (hasValue(jsObject.popupTemplate)) {
-        dotNetLocatorSearchSource.popupTemplate = jsObject.popupTemplate;
     }
     if (hasValue(jsObject.prefix)) {
         dotNetLocatorSearchSource.prefix = jsObject.prefix;

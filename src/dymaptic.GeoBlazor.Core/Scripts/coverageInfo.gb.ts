@@ -4,9 +4,13 @@ import { buildDotNetCoverageInfo } from './coverageInfo';
 
 export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoverageInfo: any = {};
+    if (hasValue(dotNetObject.lonLatEnvelope)) {
+        let { buildJsExtent } = await import('./extent');
+        jsCoverageInfo.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope) as any;
+    }
     if (hasValue(dotNetObject.rasterInfo)) {
         let { buildJsRasterInfo } = await import('./rasterInfo');
-        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo, layerId, viewId) as any;
+        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo) as any;
     }
 
     if (hasValue(dotNetObject.bandNames)) {
@@ -20,10 +24,6 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.description)) {
         jsCoverageInfo.description = dotNetObject.description;
-    }
-    if (hasValue(dotNetObject.lonLatEnvelope)) {
-        const { id, dotNetComponentReference, ...sanitizedLonLatEnvelope } = dotNetObject.lonLatEnvelope;
-        jsCoverageInfo.lonLatEnvelope = sanitizedLonLatEnvelope;
     }
     if (hasValue(dotNetObject.supportedFormats)) {
         jsCoverageInfo.supportedFormats = dotNetObject.supportedFormats;
@@ -80,6 +80,10 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
     let dotNetCoverageInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.lonLatEnvelope)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetCoverageInfo.lonLatEnvelope = buildDotNetExtent(jsObject.lonLatEnvelope);
+    }
     if (hasValue(jsObject.rasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetCoverageInfo.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
@@ -95,9 +99,6 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.description)) {
         dotNetCoverageInfo.description = jsObject.description;
-    }
-    if (hasValue(jsObject.lonLatEnvelope)) {
-        dotNetCoverageInfo.lonLatEnvelope = jsObject.lonLatEnvelope;
     }
     if (hasValue(jsObject.supportedFormats)) {
         dotNetCoverageInfo.supportedFormats = jsObject.supportedFormats;

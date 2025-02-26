@@ -69,6 +69,20 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     // region properties
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.widget.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.widget.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -98,13 +112,9 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsCompassViewModel } = await import('./compassViewModel');
@@ -170,15 +180,16 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
     let dotNetCompassWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.goToOverride)) {
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        dotNetCompassWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
+    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
         dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
     }
     if (hasValue(jsObject.container)) {
         dotNetCompassWidget.container = jsObject.container;
-    }
-    if (hasValue(jsObject.goToOverride)) {
-        dotNetCompassWidget.goToOverride = jsObject.goToOverride;
     }
     if (hasValue(jsObject.icon)) {
         dotNetCompassWidget.icon = jsObject.icon;

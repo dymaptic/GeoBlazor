@@ -33,6 +33,15 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     // region properties
     
+    async getExtent(): Promise<any> {
+        if (!hasValue(this.component.extent)) {
+            return null;
+        }
+        
+        let { buildDotNetExtent } = await import('./extent');
+        return buildDotNetExtent(this.component.extent);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -96,11 +105,12 @@ export async function buildDotNetElevationSamplerGenerated(jsObject: any): Promi
     let dotNetElevationSampler: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.extent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetElevationSampler.extent = buildDotNetExtent(jsObject.extent);
+    }
     if (hasValue(jsObject.demResolution)) {
         dotNetElevationSampler.demResolution = jsObject.demResolution;
-    }
-    if (hasValue(jsObject.extent)) {
-        dotNetElevationSampler.extent = jsObject.extent;
     }
     if (hasValue(jsObject.noDataValue)) {
         dotNetElevationSampler.noDataValue = jsObject.noDataValue;

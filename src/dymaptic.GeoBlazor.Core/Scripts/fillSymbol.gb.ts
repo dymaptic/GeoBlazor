@@ -7,6 +7,12 @@ export async function buildJsFillSymbolGenerated(dotNetObject: any): Promise<any
     }
     
     switch (dotNetObject.type) {
+        case 'simple-fill': 
+            let { buildJsSimpleFillSymbol } = await import('./simpleFillSymbol');
+            return await buildJsSimpleFillSymbol(dotNetObject);
+        case 'picture-fill': 
+            let { buildJsPictureFillSymbol } = await import('./pictureFillSymbol');
+            return await buildJsPictureFillSymbol(dotNetObject);
         default: 
             let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
@@ -19,6 +25,12 @@ export async function buildDotNetFillSymbolGenerated(jsObject: any): Promise<any
     }
     
     switch (jsObject.type) {
+        case 'simple-fill': 
+            let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
+            return await buildDotNetSimpleFillSymbol(jsObject);
+        case 'picture-fill': 
+            let { buildDotNetPictureFillSymbol } = await import('./pictureFillSymbol');
+            return await buildDotNetPictureFillSymbol(jsObject);
         default: 
             return jsObject;
     }

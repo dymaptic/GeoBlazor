@@ -1289,7 +1289,7 @@ export async function updateWidget(widgetObject: any, viewId: string): Promise<v
                     const sources: SearchSource[] = [];
                     for (const source of widgetObject.sources) {
                         let {buildJsSearchSource} = await import('./searchSource');
-                        const jsSource = await buildJsSearchSource(source);
+                        const jsSource = await buildJsSearchSource(source, viewId);
                         sources.push(jsSource);
                     }
                     search.sources.removeAll();

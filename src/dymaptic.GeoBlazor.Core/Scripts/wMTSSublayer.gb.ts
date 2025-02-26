@@ -5,6 +5,10 @@ import { buildDotNetWMTSSublayer } from './wMTSSublayer';
 
 export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+    }
     if (hasValue(dotNetObject.tileMatrixSet)) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
         properties.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
@@ -16,10 +20,6 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
 
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
-    }
-    if (hasValue(dotNetObject.fullExtent)) {
-        const { id, dotNetComponentReference, ...sanitizedFullExtent } = dotNetObject.fullExtent;
-        properties.fullExtent = sanitizedFullExtent;
     }
     if (hasValue(dotNetObject.imageFormat)) {
         properties.imageFormat = dotNetObject.imageFormat;
@@ -84,6 +84,10 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
     let dotNetWMTSSublayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.fullExtent)) {
+        let { buildDotNetExtent } = await import('./extent');
+        dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
+    }
     if (hasValue(jsObject.tileMatrixSet)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
         dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
@@ -94,9 +98,6 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.description)) {
         dotNetWMTSSublayer.description = jsObject.description;
-    }
-    if (hasValue(jsObject.fullExtent)) {
-        dotNetWMTSSublayer.fullExtent = jsObject.fullExtent;
     }
     if (hasValue(jsObject.imageFormat)) {
         dotNetWMTSSublayer.imageFormat = jsObject.imageFormat;
