@@ -1,10 +1,19 @@
+import {buildDotNetExtent} from "./extent";
+import {buildDotNetPoint} from "./point";
 
-export async function buildJsAddressCandidate(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsAddressCandidateGenerated } = await import('./addressCandidate.gb');
-    return await buildJsAddressCandidateGenerated(dotNetObject, layerId, viewId);
-}     
+export function buildDotNetAddressCandidate(addressCandidate): any {
+    if (addressCandidate === undefined || addressCandidate === null) return null;
 
-export async function buildDotNetAddressCandidate(jsObject: any): Promise<any> {
-    let { buildDotNetAddressCandidateGenerated } = await import('./addressCandidate.gb');
-    return await buildDotNetAddressCandidateGenerated(jsObject);
+    return {
+        address: addressCandidate.address,
+        attributes: addressCandidate.attributes,
+        extent: buildDotNetExtent(addressCandidate.extent),
+        location: buildDotNetPoint(addressCandidate.location),
+        score: addressCandidate.score
+    }
+}
+
+export async function buildJsAddressCandidate(dotNetObject: any): Promise<any> {
+    let {buildJsAddressCandidateGenerated} = await import('./addressCandidate.gb');
+    return await buildJsAddressCandidateGenerated(dotNetObject);
 }

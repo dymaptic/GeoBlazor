@@ -3,11 +3,15 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
         properties.attributeTable = buildJsFeatureSet(dotNetObject.attributeTable) as any;
+    }
+    if (hasValue(dotNetObject.extent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {

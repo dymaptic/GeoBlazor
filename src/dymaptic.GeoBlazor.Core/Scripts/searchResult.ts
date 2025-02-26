@@ -1,10 +1,18 @@
+import {buildDotNetExtent} from "./extent";
+import {buildDotNetGraphic} from "./graphic";
 
-export async function buildJsSearchResult(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let { buildJsSearchResultGenerated } = await import('./searchResult.gb');
-    return await buildJsSearchResultGenerated(dotNetObject, layerId, viewId);
-}     
+export function buildDotNetSearchResult(jsSearchResult) {
+    let dnSearchResult: any = {
+        extent: buildDotNetExtent(jsSearchResult.extent),
+        feature: buildDotNetGraphic(jsSearchResult.feature, null, null),
+        name: jsSearchResult.name,
+        target: buildDotNetGraphic(jsSearchResult.target, null, null)
+    }
 
-export async function buildDotNetSearchResult(jsObject: any): Promise<any> {
-    let { buildDotNetSearchResultGenerated } = await import('./searchResult.gb');
-    return await buildDotNetSearchResultGenerated(jsObject);
+    return dnSearchResult;
+}
+
+export async function buildJsSearchResult(dotNetObject: any): Promise<any> {
+    let {buildJsSearchResultGenerated} = await import('./searchResult.gb');
+    return await buildJsSearchResultGenerated(dotNetObject);
 }

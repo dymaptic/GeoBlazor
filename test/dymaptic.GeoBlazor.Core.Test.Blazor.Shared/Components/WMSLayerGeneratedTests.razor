@@ -31,7 +31,11 @@
                             19360865.2076))"
                         FeatureInfoFormat="@(FeatureInfoFormat.Text_Html)"
                         FeatureInfoUrl="@("http://candida.net")"
-                        FetchFeatureInfoFunction="@(new FetchFeatureInfoFunction())"
+                        FetchFeatureInfoFunction="@((test) =>
+                                                  {
+                                                      Console.WriteLine("Success");
+                                                      return null;
+                                                  })"
                         ImageFormat="@("ut")"
                         ImageMaxHeight="@(2)"
                         ImageMaxWidth="@(7)"
@@ -200,10 +204,6 @@
         await wMSLayer.SetBlendMode(testBlendMode);
         var blendMode = await wMSLayer.GetBlendMode();
         Assert.AreEqual(testBlendMode, blendMode);
-        FetchFeatureInfoFunction testFetchFeatureInfoFunction = new FetchFeatureInfoFunction();
-        await wMSLayer.SetFetchFeatureInfoFunction(testFetchFeatureInfoFunction);
-        var fetchFeatureInfoFunction = await wMSLayer.GetFetchFeatureInfoFunction();
-        Assert.AreEqual(testFetchFeatureInfoFunction, fetchFeatureInfoFunction);
         Extent testFullExtent = new Extent(-27.0745,
                     162.0359,
                     -70.3310,
