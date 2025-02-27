@@ -69,6 +69,20 @@ export default class BasemapGenerated implements IPropertyWrapper {
         this.component.referenceLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
+    async getStyle(): Promise<any> {
+        if (!hasValue(this.component.style)) {
+            return null;
+        }
+        
+        let { buildDotNetBasemapStyle } = await import('./basemapStyle');
+        return await buildDotNetBasemapStyle(this.component.style);
+    }
+    
+    async setStyle(value: any): Promise<void> {
+        let { buildJsBasemapStyle } = await import('./basemapStyle');
+        this.component.style = await  buildJsBasemapStyle(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -93,6 +107,10 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         let { buildJsLayer } = await import('./layer');
         properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
+    if (hasValue(dotNetObject.style)) {
+        let { buildJsBasemapStyle } = await import('./basemapStyle');
+        properties.style = await buildJsBasemapStyle(dotNetObject.style, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.basemapId)) {
         properties.id = dotNetObject.basemapId;
@@ -100,10 +118,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     if (hasValue(dotNetObject.spatialReference)) {
         const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         properties.spatialReference = sanitizedSpatialReference;
-    }
-    if (hasValue(dotNetObject.style)) {
-        const { id, dotNetComponentReference, ...sanitizedStyle } = dotNetObject.style;
-        properties.style = sanitizedStyle;
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {
         properties.thumbnailUrl = dotNetObject.thumbnailUrl;
@@ -130,15 +144,15 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type Basemap detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type Basemap detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));
@@ -162,6 +176,10 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
+    if (hasValue(jsObject.style)) {
+        let { buildDotNetBasemapStyle } = await import('./basemapStyle');
+        dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
+    }
     if (hasValue(jsObject.id)) {
         dotNetBasemap.basemapId = jsObject.id;
     }
@@ -170,9 +188,6 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetBasemap.spatialReference = jsObject.spatialReference;
-    }
-    if (hasValue(jsObject.style)) {
-        dotNetBasemap.style = jsObject.style;
     }
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;

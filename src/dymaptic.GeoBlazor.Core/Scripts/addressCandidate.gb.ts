@@ -36,15 +36,15 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promi
         let seenObjects = new WeakMap();
         dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type AddressCandidate detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type AddressCandidate detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));

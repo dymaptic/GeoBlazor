@@ -8,8 +8,6 @@ import {hasValue} from "./arcGisJsInterop";
 import {buildJsExtent} from "./extent";
 
 export default class ProjectionWrapper extends ProjectionGenerated {
-    private dotNetRef: any;
-
     constructor(component) {
         super(component);
     }

@@ -80,7 +80,7 @@ public partial class AuthoringInfoVisualVariable
         IReadOnlyList<SizeStop>? sizeStops = null,
         string? startTime = null,
         AuthoringInfoVisualVariableStyle? style = null,
-        Theme? theme = null,
+        AuthoringInfoVisualVariableTheme? theme = null,
         AuthoringInfoVisualVariableUnits? units = null)
     {
         AllowRender = false;
@@ -200,7 +200,7 @@ public partial class AuthoringInfoVisualVariable
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Theme? Theme { get; set; }
+    public AuthoringInfoVisualVariableTheme? Theme { get; set; }
     
     /// <summary>
     ///     If an age or timeline renderer was generated, indicates the time units used.
@@ -518,7 +518,7 @@ public partial class AuthoringInfoVisualVariable
     /// <summary>
     ///     Asynchronously retrieve the current value of the Theme property.
     /// </summary>
-    public async Task<Theme?> GetTheme()
+    public async Task<AuthoringInfoVisualVariableTheme?> GetTheme()
     {
         if (CoreJsModule is null)
         {
@@ -531,17 +531,17 @@ public partial class AuthoringInfoVisualVariable
             return Theme;
         }
 
-        Theme? result = await JsComponentReference.InvokeAsync<Theme?>(
-            "getTheme", CancellationTokenSource.Token);
-        
-        if (result is not null)
+        // get the property value
+        JsNullableEnumWrapper<AuthoringInfoVisualVariableTheme>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<AuthoringInfoVisualVariableTheme>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "theme");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            Theme = result;
+             Theme = (AuthoringInfoVisualVariableTheme)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Theme)] = Theme;
+             ModifiedParameters[nameof(Theme)] = Theme;
         }
-        
+         
         return Theme;
     }
     
@@ -885,7 +885,7 @@ public partial class AuthoringInfoVisualVariable
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetTheme(Theme? value)
+    public async Task SetTheme(AuthoringInfoVisualVariableTheme? value)
     {
 #pragma warning disable BL0005
         Theme = value;
@@ -994,15 +994,6 @@ public partial class AuthoringInfoVisualVariable
                 }
                 
                 return true;
-            case Theme theme:
-                if (theme != Theme)
-                {
-                    Theme = theme;
-                    
-                    ModifiedParameters[nameof(Theme)] = Theme;
-                }
-                
-                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1016,11 +1007,6 @@ public partial class AuthoringInfoVisualVariable
                 SizeStops = SizeStops?.Where(s => s != sizeStops).ToList();
                 
                 ModifiedParameters[nameof(SizeStops)] = SizeStops;
-                return true;
-            case Theme _:
-                Theme = null;
-                
-                ModifiedParameters[nameof(Theme)] = Theme;
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
@@ -1038,7 +1024,6 @@ public partial class AuthoringInfoVisualVariable
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        Theme?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

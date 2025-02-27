@@ -27,7 +27,7 @@ public partial class LayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ICatalogLayerList? CatalogLayerList { get; protected set; }
+    public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
@@ -190,7 +190,7 @@ public partial class LayerListWidget
     /// <summary>
     ///     Asynchronously retrieve the current value of the CatalogLayerList property.
     /// </summary>
-    public async Task<ICatalogLayerList?> GetCatalogLayerList()
+    public async Task<ICatalogLayerListWidget?> GetCatalogLayerList()
     {
         if (CoreJsModule is null)
         {
@@ -204,7 +204,7 @@ public partial class LayerListWidget
         }
 
         // get the property value
-        ICatalogLayerList? result = await JsComponentReference!.InvokeAsync<ICatalogLayerList?>("getProperty",
+        ICatalogLayerListWidget? result = await JsComponentReference!.InvokeAsync<ICatalogLayerListWidget?>("getProperty",
             CancellationTokenSource.Token, "catalogLayerList");
         if (result is not null)
         {

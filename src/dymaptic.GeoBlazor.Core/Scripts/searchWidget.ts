@@ -6,28 +6,27 @@ import {buildDotNetExtent} from "./extent";
 
 
 export default class SearchWidgetWrapper extends SearchWidgetGenerated {
-    private searchWidget: Search;
 
     constructor(search: Search) {
         super(search);
     }
 
     async getActiveSource() {
-        let jsSource = this.searchWidget.activeSource;
+        let jsSource = this.widget.activeSource;
         let {buildDotNetSearchSource} = await import('./searchSource');
         return buildDotNetSearchSource(jsSource);
     }
 
     getActiveMenu() {
-        return this.searchWidget.activeMenu;
+        return this.widget.activeMenu;
     }
 
     getActiveSourceIndex(): number {
-        return this.searchWidget.activeSourceIndex;
+        return this.widget.activeSourceIndex;
     }
 
     async getAllSources() {
-        let jsSources = this.searchWidget.allSources;
+        let jsSources = this.widget.allSources;
         let dotNetSources: any[] = [];
         let {buildDotNetSearchSource} = await import('./searchSource');
         for (let jsSource of jsSources) {
@@ -38,7 +37,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     }
 
     async getDefaultSources() {
-        let jsSources = this.searchWidget.defaultSources;
+        let jsSources = this.widget.defaultSources;
         let dotNetSources: any[] = [];
         let {buildDotNetSearchSource} = await import('./searchSource');
         for (let jsSource of jsSources) {
@@ -50,11 +49,11 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     async getResultGraphic() {
         let {buildDotNetGraphic} = await import('./graphic');
-        return buildDotNetGraphic(this.searchWidget.resultGraphic, null, null);
+        return buildDotNetGraphic(this.widget.resultGraphic, null, null);
     }
 
     async getResults() {
-        let jsResults = this.searchWidget.results;
+        let jsResults = this.widget.results;
         let dnResults: any[] = [];
         for (let jsResult of jsResults) {
             let searchResults: any[] = [];
@@ -76,15 +75,15 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     async getSelectedResult() {
         let {buildDotNetSearchResult} = await import('./searchResult');
-        return buildDotNetSearchResult(this.searchWidget.selectedResult);
+        return buildDotNetSearchResult(this.widget.selectedResult);
     }
 
     setSearchTerm(term: string) {
-        this.searchWidget.searchTerm = term;
+        this.widget.searchTerm = term;
     }
 
     getSearchTerm() {
-        return this.searchWidget.searchTerm;
+        return this.widget.searchTerm;
     }
 
     async search(term: any) {
@@ -92,14 +91,15 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
             // if there's an id, this is probably a geometry, we should convert it
             term = buildJsGeometry(term);
         }
-        let response = await this.searchWidget.search(term);
+        let response = await this.widget.search(term);
         let {buildDotNetSearchResponse} = await import('./searchResponse');
         let dnresponse = await buildDotNetSearchResponse(response);
         return dnresponse;
     }
 
-    suggest(term: string) {
-        return this.searchWidget.suggest(term);
+    async suggest(term: string) {
+        let result = await this.widget.suggest(term);
+        return result;
     }
 
 

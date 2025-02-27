@@ -184,14 +184,14 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <WebMap>
-            <PortalItem PortalItemId="31cfc5b138e24dee866c457948773ac4" />
-        </WebMap>
-        <LayerListWidget OnListItemCreatedHandler="OnListItemCreatedHandler" />
+                <WebMap>
+                    <PortalItem PortalItemId="31cfc5b138e24dee866c457948773ac4" />
+                </WebMap>
+                <LayerListWidget OnListItemCreatedHandler="OnListItemCreatedHandler" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.LayerList");
@@ -333,16 +333,16 @@
     public async Task TestCanRenderSearchWidget(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
@@ -435,16 +435,16 @@
         SearchWidget? widget = null;
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
+            @<MapView class="map-view" OnViewRendered="renderHandler">
 
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-        <SearchWidget @ref="widget" />
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+                <SearchWidget @ref="widget" />
 
-    </MapView>);
+            </MapView>);
 
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");

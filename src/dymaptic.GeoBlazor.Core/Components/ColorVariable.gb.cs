@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    The color visual variable is used to visualize features along a continuous color ramp based on the values of a numeric attribute <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-ColorVariable.html#field">field</a> or an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-ColorVariable.html#valueExpression">expression</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-ColorVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class ColorVariable : IColorSizeSliderWidgetVariables
+public partial class ColorVariable : IColorSizeSliderWidgetUpdateVisualVariables
 {
 
     /// <summary>

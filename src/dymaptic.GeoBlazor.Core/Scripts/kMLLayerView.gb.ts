@@ -97,15 +97,15 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type KMLLayerView detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type KMLLayerView detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));

@@ -25,6 +25,8 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
             }
         };
     }
+    
+    return widget;
 }
 
 export async function buildDotNetLayerListWidget(jsObject: any): Promise<any> {

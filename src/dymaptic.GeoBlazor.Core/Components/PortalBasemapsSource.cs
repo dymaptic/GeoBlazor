@@ -1,7 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-[JsonConverter(typeof(BasemapGallerySourceConverter))]
-public partial class PortalBasemapsSource : LocalBasemapsSource
+public partial class PortalBasemapsSource : LocalBasemapsSource, IBasemapGalleryWidgetSource
 {
     /// <summary>
     ///     An query string used to create a custom basemap gallery group query.

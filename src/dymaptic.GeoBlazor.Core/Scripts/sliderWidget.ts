@@ -2,50 +2,48 @@ import SliderWidgetGenerated from './sliderWidget.gb';
 import Slider from '@arcgis/core/widgets/Slider';
 
 export default class SliderWidgetWrapper extends SliderWidgetGenerated {
-    private slider: Slider;
-
     constructor(widget: Slider) {
         super(widget);
     }
 
     getEffectiveSegmentElements() {
-        return this.slider.effectiveSegmentElements;
+        return this.widget.effectiveSegmentElements;
     }
 
     getLabelElements() {
-        return this.slider.labelElements;
+        return this.widget.labelElements;
     }
 
     getLabels() {
-        return this.slider.labels;
+        return this.widget.labels;
     }
 
     getMaxLabelElement() {
-        return this.slider.maxLabelElement;
+        return this.widget.maxLabelElement;
     }
 
     getMinLabelElement() {
-        return this.slider.minLabelElement;
+        return this.widget.minLabelElement;
     }
 
     getSegmentElements() {
-        return this.slider.segmentElements;
+        return this.widget.segmentElements;
     }
 
     getState() {
-        return this.slider.state;
+        return this.widget.state;
     }
 
     getThumbElements() {
-        return this.slider.thumbElements;
+        return this.widget.thumbElements;
     }
 
     getTickElements() {
-        return this.slider.tickElements;
+        return this.widget.tickElements;
     }
 
     getTrackElement() {
-        return this.slider.trackElement;
+        return this.widget.trackElement;
     }
 
 

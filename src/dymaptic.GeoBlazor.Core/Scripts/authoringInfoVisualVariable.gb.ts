@@ -5,10 +5,6 @@ import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVar
 
 export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.theme)) {
-        let { buildJsTheme } = await import('./theme');
-        properties.theme = await buildJsTheme(dotNetObject.theme) as any;
-    }
 
     if (hasValue(dotNetObject.endTime)) {
         properties.endTime = dotNetObject.endTime;
@@ -41,6 +37,9 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     if (hasValue(dotNetObject.style)) {
         properties.style = dotNetObject.style;
     }
+    if (hasValue(dotNetObject.theme)) {
+        properties.theme = dotNetObject.theme;
+    }
     if (hasValue(dotNetObject.units)) {
         properties.units = dotNetObject.units;
     }
@@ -57,15 +56,15 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type AuthoringInfoVisualVariable detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type AuthoringInfoVisualVariable detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));
@@ -85,10 +84,6 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     let dotNetAuthoringInfoVisualVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.theme)) {
-        let { buildDotNetTheme } = await import('./theme');
-        dotNetAuthoringInfoVisualVariable.theme = await buildDotNetTheme(jsObject.theme);
-    }
     if (hasValue(jsObject.endTime)) {
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
     }
@@ -118,6 +113,9 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     }
     if (hasValue(jsObject.style)) {
         dotNetAuthoringInfoVisualVariable.style = jsObject.style;
+    }
+    if (hasValue(jsObject.theme)) {
+        dotNetAuthoringInfoVisualVariable.theme = jsObject.theme;
     }
     if (hasValue(jsObject.type)) {
         dotNetAuthoringInfoVisualVariable.type = jsObject.type;

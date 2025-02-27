@@ -305,17 +305,17 @@ public partial class Basemap
             return Style;
         }
 
-        // get the property value
-        BasemapStyle? result = await JsComponentReference!.InvokeAsync<BasemapStyle?>("getProperty",
-            CancellationTokenSource.Token, "style");
+        BasemapStyle? result = await JsComponentReference.InvokeAsync<BasemapStyle?>(
+            "getStyle", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Style = result;
+            Style = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Style)] = Style;
+            ModifiedParameters[nameof(Style)] = Style;
         }
-         
+        
         return Style;
     }
     

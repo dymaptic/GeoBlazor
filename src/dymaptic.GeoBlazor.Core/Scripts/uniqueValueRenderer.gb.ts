@@ -53,6 +53,20 @@ let jsGraphic = buildJsGraphic(graphic) as any;
         this.component.authoringInfo = await  buildJsAuthoringInfo(value);
     }
     
+    async getBackgroundFillSymbol(): Promise<any> {
+        if (!hasValue(this.component.backgroundFillSymbol)) {
+            return null;
+        }
+        
+        let { buildDotNetFillSymbol } = await import('./fillSymbol');
+        return await buildDotNetFillSymbol(this.component.backgroundFillSymbol);
+    }
+    
+    async setBackgroundFillSymbol(value: any): Promise<void> {
+        let { buildJsFillSymbol } = await import('./fillSymbol');
+        this.component.backgroundFillSymbol = await  buildJsFillSymbol(value);
+    }
+    
     async getUniqueValueGroups(): Promise<any> {
         if (!hasValue(this.component.uniqueValueGroups)) {
             return null;
@@ -111,6 +125,10 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
         properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
+    if (hasValue(dotNetObject.backgroundFillSymbol)) {
+        let { buildJsFillSymbol } = await import('./fillSymbol');
+        properties.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
+    }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
         properties.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId))) as any;
@@ -124,10 +142,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.backgroundFillSymbol)) {
-        const { id, dotNetComponentReference, ...sanitizedBackgroundFillSymbol } = dotNetObject.backgroundFillSymbol;
-        properties.backgroundFillSymbol = sanitizedBackgroundFillSymbol;
-    }
     if (hasValue(dotNetObject.defaultLabel)) {
         properties.defaultLabel = dotNetObject.defaultLabel;
     }
@@ -178,15 +192,15 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type UniqueValueRenderer detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type UniqueValueRenderer detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));
@@ -210,6 +224,10 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
         dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
     }
+    if (hasValue(jsObject.backgroundFillSymbol)) {
+        let { buildDotNetFillSymbol } = await import('./fillSymbol');
+        dotNetUniqueValueRenderer.backgroundFillSymbol = await buildDotNetFillSymbol(jsObject.backgroundFillSymbol);
+    }
     if (hasValue(jsObject.uniqueValueGroups)) {
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
         dotNetUniqueValueRenderer.uniqueValueGroups = await Promise.all(jsObject.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
@@ -221,9 +239,6 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
         dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
-    }
-    if (hasValue(jsObject.backgroundFillSymbol)) {
-        dotNetUniqueValueRenderer.backgroundFillSymbol = jsObject.backgroundFillSymbol;
     }
     if (hasValue(jsObject.defaultLabel)) {
         dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;

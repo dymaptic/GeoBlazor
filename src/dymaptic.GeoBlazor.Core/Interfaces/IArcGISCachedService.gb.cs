@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types ElevationLayer, TileLayer
 /// </summary>
+[JsonConverter(typeof(MultiTypeConverter<IArcGISCachedService>))]
 public partial interface IArcGISCachedService : IMapComponent
 {
 #region Properties

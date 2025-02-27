@@ -9,7 +9,6 @@ public partial class PopupWidget : Widget
     /// </summary>
     [CodeGenerationIgnore]
     [Parameter]
-    [JsonConverter(typeof(ActionBaseConverter))]
     public IReadOnlyList<ActionBase>? Actions { get; set; }
 
     /// <summary>

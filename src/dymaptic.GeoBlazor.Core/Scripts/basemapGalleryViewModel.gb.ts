@@ -83,8 +83,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     }
 
     if (hasValue(dotNetObject.source)) {
-        const { id, dotNetComponentReference, ...sanitizedSource } = dotNetObject.source;
-        properties.source = sanitizedSource;
+        properties.source = dotNetObject.source;
     }
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);
 
@@ -105,15 +104,15 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_')) {
+                    return undefined;
+                }
                 if (typeof value === 'object' && value !== null) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BasemapGalleryViewModel detected at path: ${key}, value: ${value}`);
+                        console.warn(`Circular reference in serializing type BasemapGalleryViewModel detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
                 }
                 return value;
             }));

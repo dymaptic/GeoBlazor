@@ -85,7 +85,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public UniqueValueRenderer(
         AuthoringInfo? authoringInfo = null,
-        IUniqueValueRendererBackgroundFillSymbol? backgroundFillSymbol = null,
+        FillSymbol? backgroundFillSymbol = null,
         string? defaultLabel = null,
         DefaultSymbol? defaultSymbol = null,
         string? field = null,
@@ -239,7 +239,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <summary>
     ///     Asynchronously retrieve the current value of the BackgroundFillSymbol property.
     /// </summary>
-    public async Task<IUniqueValueRendererBackgroundFillSymbol?> GetBackgroundFillSymbol()
+    public async Task<FillSymbol?> GetBackgroundFillSymbol()
     {
         if (CoreJsModule is null)
         {
@@ -252,22 +252,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return BackgroundFillSymbol;
         }
 
-        IUniqueValueRendererBackgroundFillSymbol? result = await JsComponentReference.InvokeAsync<IUniqueValueRendererBackgroundFillSymbol?>(
-            "getBackgroundFillSymbol", CancellationTokenSource.Token);
-        
+        // get the property value
+        FillSymbol? result = await JsComponentReference!.InvokeAsync<FillSymbol?>("getProperty",
+            CancellationTokenSource.Token, "backgroundFillSymbol");
         if (result is not null)
         {
-            if (BackgroundFillSymbol is not null)
-            {
-                result.Id = BackgroundFillSymbol.Id;
-            }
-            
 #pragma warning disable BL0005
-            BackgroundFillSymbol = result;
+             BackgroundFillSymbol = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+             ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
         }
-        
+         
         return BackgroundFillSymbol;
     }
     
@@ -671,7 +666,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetBackgroundFillSymbol(IUniqueValueRendererBackgroundFillSymbol? value)
+    public async Task SetBackgroundFillSymbol(FillSymbol? value)
     {
 #pragma warning disable BL0005
         BackgroundFillSymbol = value;
@@ -1255,7 +1250,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
         switch (child)
         {
-            case IUniqueValueRendererBackgroundFillSymbol backgroundFillSymbol:
+            case FillSymbol backgroundFillSymbol:
                 if (backgroundFillSymbol != BackgroundFillSymbol)
                 {
                     BackgroundFillSymbol = backgroundFillSymbol;
@@ -1312,7 +1307,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
         switch (child)
         {
-            case IUniqueValueRendererBackgroundFillSymbol _:
+            case FillSymbol _:
                 BackgroundFillSymbol = null;
                 
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;

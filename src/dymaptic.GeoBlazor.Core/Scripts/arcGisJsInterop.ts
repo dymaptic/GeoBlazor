@@ -1365,29 +1365,6 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
     }
 }
 
-export async function setPopup(dotNetPopup: any, viewId: string): Promise<Popup | null> {
-    try {
-        const view = arcGisObjectRefs[viewId] as View;
-        let {buildJsPopupWidget} = await import('./popupWidget');
-        const jsPopup = await buildJsPopupWidget(dotNetPopup, null, viewId);
-        if (hasValue(dotNetPopup.widgetContent)) {
-            const widgetContent = await buildJsWidget(dotNetPopup.widgetContent, dotNetPopup.widgetContent.layerId, dotNetPopup.viewId);
-            if (hasValue(widgetContent)) {
-                jsPopup.content = widgetContent as Widget;
-            }
-        }
-
-        view.popup = jsPopup;
-
-        await setPopupHandler(viewId, dotNetPopup);
-
-        return jsPopup;
-    } catch (error) {
-        logError(error, dotNetPopup.viewId);
-        return null;
-    }
-}
-
 async function setPopupHandler(viewId: string, dotNetPopup: any | null) {
     try {
         const view = arcGisObjectRefs[viewId] as View;
@@ -1983,7 +1960,14 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
         const view = arcGisObjectRefs[viewId] as MapView;
         if (view === undefined || view === null) return;
         const newWidget = await buildJsWidget(widget, widget?.layerId, viewId);
-        if (!hasValue(newWidget) || newWidget instanceof Popup) return;
+        if (!hasValue(newWidget)) {
+            return;
+        }
+        if (newWidget instanceof Popup) {
+            view.popup = newWidget;
+            await setPopupHandler(viewId, widget);
+            return;
+        }
 
         if (hasValue(widget.containerId) && !hasValue(newWidget.container)) {
             const container = document.getElementById(widget.containerId);
