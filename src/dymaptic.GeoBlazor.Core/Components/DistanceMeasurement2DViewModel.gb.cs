@@ -50,6 +50,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public DistanceMeasurement2DViewModelMeasurement? Measurement { get; protected set; }
     
     /// <summary>
@@ -58,6 +59,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? MeasurementLabel { get; protected set; }
     
     /// <summary>
@@ -67,6 +69,7 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>

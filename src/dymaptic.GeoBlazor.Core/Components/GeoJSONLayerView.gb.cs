@@ -69,6 +69,7 @@ public partial class GeoJSONLayerView : LayerView,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? AvailableFields { get; protected set; }
     
     /// <summary>
@@ -77,6 +78,7 @@ public partial class GeoJSONLayerView : LayerView,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? DataUpdating { get; protected set; }
     
     /// <summary>
@@ -103,6 +105,7 @@ public partial class GeoJSONLayerView : LayerView,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasAllFeatures { get; protected set; }
     
     /// <summary>
@@ -111,6 +114,7 @@ public partial class GeoJSONLayerView : LayerView,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasAllFeaturesInView { get; protected set; }
     
     /// <summary>
@@ -119,6 +123,7 @@ public partial class GeoJSONLayerView : LayerView,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasFullGeometries { get; protected set; }
     
     /// <summary>

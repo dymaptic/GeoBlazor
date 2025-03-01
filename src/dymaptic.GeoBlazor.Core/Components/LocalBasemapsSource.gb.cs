@@ -53,6 +53,7 @@ public partial class LocalBasemapsSource : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? State { get; protected set; }
     
 #endregion

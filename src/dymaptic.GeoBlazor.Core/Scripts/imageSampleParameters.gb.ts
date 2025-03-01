@@ -49,29 +49,6 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageSampleParameters;
     
-    let { buildDotNetImageSampleParameters } = await import('./imageSampleParameters');
-    let dnInstantiatedObject = await buildDotNetImageSampleParameters(jsImageSampleParameters);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ImageSampleParameters detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageSampleParameters', e);
-    }
-    
     return jsImageSampleParameters;
 }
 

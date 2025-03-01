@@ -104,6 +104,7 @@ public partial class Basemap
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Loaded { get; protected set; }
     
     /// <summary>

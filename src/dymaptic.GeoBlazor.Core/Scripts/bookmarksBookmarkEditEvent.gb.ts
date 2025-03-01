@@ -14,29 +14,6 @@ export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksBookmarkEditEvent;
     
-    let { buildDotNetBookmarksBookmarkEditEvent } = await import('./bookmarksBookmarkEditEvent');
-    let dnInstantiatedObject = await buildDotNetBookmarksBookmarkEditEvent(jsBookmarksBookmarkEditEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BookmarksBookmarkEditEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarksBookmarkEditEvent', e);
-    }
-    
     return jsBookmarksBookmarkEditEvent;
 }
 

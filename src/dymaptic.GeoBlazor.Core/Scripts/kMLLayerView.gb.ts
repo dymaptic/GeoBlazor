@@ -36,7 +36,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.allVisiblePoints!.map(i => buildDotNetGraphic(i));
+        return this.component.allVisiblePoints!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async getAllVisiblePolygons(): Promise<any> {
@@ -45,7 +45,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.allVisiblePolygons!.map(i => buildDotNetGraphic(i));
+        return this.component.allVisiblePolygons!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async getAllVisiblePolylines(): Promise<any> {
@@ -54,7 +54,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.allVisiblePolylines!.map(i => buildDotNetGraphic(i));
+        return this.component.allVisiblePolylines!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async getLayer(): Promise<any> {

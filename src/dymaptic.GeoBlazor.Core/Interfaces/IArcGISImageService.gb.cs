@@ -181,7 +181,7 @@ public partial interface IArcGISImageService : IMapComponent
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? SourceJSON { get; set; }
+    object? SourceJSON { get; set; }
     
     /// <summary>
     ///     Image service data source type.
@@ -314,7 +314,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(string? value);
+    Task SetSourceJSON(object? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
@@ -458,7 +458,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    Task<string?> GetSourceJSON();
+    Task<object?> GetSourceJSON();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceType property.
@@ -522,7 +522,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageAngleResult?> ComputeAngles(ImageAngleParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Computes histograms based on the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
@@ -534,7 +534,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<HistogramsResult?> ComputeHistograms(ImageHistogramParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Computes the corresponding pixel location in columns and rows for an image based on input geometry.
@@ -546,7 +546,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImagePixelLocationResult?> ComputePixelSpaceLocations(ImagePixelLocationParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a> for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
@@ -557,8 +557,8 @@ public partial interface IArcGISImageService : IMapComponent
     /// <param name="requestOptions">
     /// </param>
     [ArcGISMethod]
-    Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        string requestOptions);
+    Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        object requestOptions);
     
     /// <summary>
     ///     Returns an image using the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export REST operation</a> that displays data from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
@@ -574,7 +574,7 @@ public partial interface IArcGISImageService : IMapComponent
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    Task<string?> FetchImage(Extent extent,
+    Task<object?> FetchImage(Extent extent,
         int width,
         int height,
         CancellationToken cancellationToken = default);
@@ -589,7 +589,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<FindImagesResult?> FindImages(FindImagesParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Generates raster info for the specified raster function.
@@ -614,7 +614,7 @@ public partial interface IArcGISImageService : IMapComponent
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    Task<string?> GetCatalogItemICSInfo(long rasterId,
+    Task<object?> GetCatalogItemICSInfo(long rasterId,
         CancellationToken cancellationToken = default);
     
     /// <summary>
@@ -640,7 +640,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageUrlResult?> GetImageUrl(ImageUrlParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Returns sample point locations, pixel values and corresponding resolutions of the source data for a given geometry.
@@ -652,7 +652,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageSampleResult?> GetSamples(ImageSampleParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Sends a request to the ArcGIS REST image service to identify content based on the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html">ImageIdentifyParameters</a>.
@@ -664,7 +664,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageIdentifyResult?> Identify(ImageIdentifyParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Converts a geometry from an image space to a map space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html">ImageToMapParameters</a>.
@@ -676,7 +676,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<Geometry?> ImageToMap(ImageToMapParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Creates a map space geometry from multiray image space geometries using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapMultirayParameters.html">ImageToMapMultirayParameters</a>.
@@ -688,7 +688,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<Geometry?> ImageToMapMultiray(ImageToMapMultirayParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Converts a given geometry from a map space to an image space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MapToImageParameters.html">MapToImageParameters</a>.
@@ -700,7 +700,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<Geometry?> MapToImage(MapToImageParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Calculates the area and perimeter of a given geometry on an image service.
@@ -712,7 +712,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageAreaResult?> MeasureAreaAndPerimeter(ImageAreaParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Measures the area and the perimeter of a polygon in an image space on a selected raster when the following conditions are met:
@@ -724,7 +724,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<MeasureAreaFromImageResult?> MeasureAreaFromImage(MeasureFromImageParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Calculates the distance and angle between two points on an image service.
@@ -736,7 +736,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageDistanceResult?> MeasureDistanceAndAngle(ImageDistanceParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Calculates the height of an object between two points on an image service if the sensor info is available.
@@ -748,7 +748,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageHeightResult?> MeasureHeight(ImageHeightParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Measures the length of a polyline in an image space on a selected raster when the following conditions are met:
@@ -760,7 +760,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<MeasureLengthFromImageResult?> MeasureLengthFromImage(MeasureFromImageParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Returns the location for a given point or centroid of a given area on an image service.
@@ -772,7 +772,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImagePointResult?> MeasurePointOrCentroid(ImagePointParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Returns the boundary of an image for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageBoundaryParameters.html">ImageBoundaryParameters</a>.
@@ -784,7 +784,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageBoundaryResult?> QueryBoundary(ImageBoundaryParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Returns GPS information for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html">ImageGPSInfoParameters</a>.
@@ -796,7 +796,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<ImageGPSInfoResult?> QueryGPSInfo(ImageGPSInfoParameters parameters,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns an array of Object IDs for the rasters.
@@ -808,7 +808,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<long[]?> QueryObjectIds(Query query,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns the number of rasters that satisfy the query.
@@ -820,7 +820,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<int?> QueryRasterCount(Query query,
-        string requestOptions);
+        object requestOptions);
     
     /// <summary>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against an image service and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
@@ -832,7 +832,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// </param>
     [ArcGISMethod]
     Task<FeatureSet?> QueryRasters(Query query,
-        string requestOptions);
+        object requestOptions);
     
 #endregion
 

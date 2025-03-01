@@ -239,6 +239,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Sublayer>? AllSublayers { get; protected set; }
     
     /// <summary>
@@ -247,6 +248,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ArcGISMapServiceCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -264,6 +266,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
@@ -273,6 +276,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? DatesInUnknownTimezone { get; protected set; }
     
     /// <summary>
@@ -302,6 +306,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? PreferredTimeZone { get; protected set; }
     
     /// <summary>
@@ -310,6 +315,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
@@ -318,6 +324,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
@@ -364,6 +371,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Version { get; protected set; }
     
 #endregion
@@ -2033,14 +2041,14 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     The parameter options is an object with the following properties.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> CreateExportImageParameters(Extent extent,
+    public async Task<object?> CreateExportImageParameters(Extent extent,
         int width,
         int height,
         MapImageLayerCreateExportImageParametersOptions options)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "createExportImageParameters", 
             CancellationTokenSource.Token,
             extent,

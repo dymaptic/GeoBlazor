@@ -111,6 +111,7 @@ public partial class TileLayer : Layer
                 {
                     matchingLayer.Parent = this;
                     matchingLayer.View = View;
+                    matchingLayer.Layer = this;
                     await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
                 }
                 else
@@ -119,12 +120,15 @@ public partial class TileLayer : Layer
                 }
             }
         }
+
+        AllSublayers = Sublayers.Concat(Sublayers.SelectMany(s => s.GetAllSublayers() ?? [])).ToList();
     }
 
     private async Task RegisterNewSublayer(Sublayer sublayer)
     {
         sublayer.Parent = this;
         sublayer.View = View;
+        sublayer.Layer = this;
         Sublayers ??= [];
         Sublayers = [..Sublayers, sublayer];
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,

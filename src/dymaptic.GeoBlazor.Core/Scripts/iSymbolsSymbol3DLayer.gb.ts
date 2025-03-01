@@ -49,29 +49,6 @@ export async function buildJsISymbolsSymbol3DLayerGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = iSymbolsSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsSymbol3DLayer;
     
-    let { buildDotNetISymbolsSymbol3DLayer } = await import('./iSymbolsSymbol3DLayer');
-    let dnInstantiatedObject = await buildDotNetISymbolsSymbol3DLayer(jssymbolsSymbol3DLayer);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ISymbolsSymbol3DLayer detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ISymbolsSymbol3DLayer', e);
-    }
-    
     return jssymbolsSymbol3DLayer;
 }
 

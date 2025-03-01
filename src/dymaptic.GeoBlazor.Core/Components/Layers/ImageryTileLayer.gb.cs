@@ -242,6 +242,15 @@ public partial class ImageryTileLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public object? ObjectSource { get; set; }
+    
+    /// <summary>
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PixelData? PixelDataSource { get; set; }
     
     /// <summary>
@@ -260,6 +269,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
     
     /// <summary>
@@ -286,6 +296,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
@@ -294,16 +305,8 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; protected set; }
-    
-    /// <summary>
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringSource { get; set; }
+    [JsonInclude]
+    public object? SourceJSON { get; protected set; }
     
     /// <summary>
     ///     The tiling scheme information for the layer.
@@ -330,6 +333,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Version { get; protected set; }
     
 #endregion
@@ -667,6 +671,36 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the ObjectSource property.
+    /// </summary>
+    public async Task<object?> GetObjectSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return ObjectSource;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return ObjectSource;
+        }
+
+        // get the property value
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+            CancellationTokenSource.Token, "objectSource");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectSource = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ObjectSource)] = ObjectSource;
+        }
+         
+        return ObjectSource;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the PixelDataSource property.
     /// </summary>
     public async Task<PixelData?> GetPixelDataSource()
@@ -884,7 +918,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -898,7 +932,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -909,36 +943,6 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return SourceJSON;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringSource property.
-    /// </summary>
-    public async Task<string?> GetStringSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringSource;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return StringSource;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringSource");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringSource = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringSource)] = StringSource;
-        }
-         
-        return StringSource;
     }
     
     /// <summary>
@@ -1496,6 +1500,36 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the ObjectSource property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetObjectSource(object? value)
+    {
+#pragma warning disable BL0005
+        ObjectSource = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ObjectSource)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "objectSource", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PixelDataSource property after render.
     /// </summary>
     /// <param name="value">
@@ -1643,36 +1677,6 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "rasterFunction", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the StringSource property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringSource(string? value)
-    {
-#pragma warning disable BL0005
-        StringSource = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringSource)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringSource", value);
     }
     
     /// <summary>
@@ -1939,12 +1943,12 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     (will override requestOptions defined during construction).
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        string requestOptions)
+    public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "computeStatisticsHistograms", 
             CancellationTokenSource.Token,
             parameters,
@@ -2024,7 +2028,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchTile(double level,
+    public async Task<object?> FetchTile(double level,
         double row,
         double col,
         CancellationToken cancellationToken = default)
@@ -2032,7 +2036,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchTile", 
             CancellationTokenSource.Token,
             level,

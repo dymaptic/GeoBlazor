@@ -27,6 +27,7 @@ public partial class LayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
     
     /// <summary>
@@ -125,6 +126,7 @@ public partial class LayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ListItem>? OperationalItems { get; protected set; }
     
     /// <summary>
@@ -153,6 +155,7 @@ public partial class LayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ITableListWidget? TableList { get; protected set; }
     
     /// <summary>

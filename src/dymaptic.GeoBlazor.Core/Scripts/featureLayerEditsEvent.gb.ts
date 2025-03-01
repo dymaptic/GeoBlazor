@@ -35,29 +35,6 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerEditsEvent;
     
-    let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
-    let dnInstantiatedObject = await buildDotNetFeatureLayerEditsEvent(jsFeatureLayerEditsEvent, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type FeatureLayerEditsEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureLayerEditsEvent', e);
-    }
-    
     return jsFeatureLayerEditsEvent;
 }
 

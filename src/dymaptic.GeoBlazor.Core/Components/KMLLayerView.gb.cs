@@ -26,6 +26,7 @@ public partial class KMLLayerView : LayerView
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<KMLLayerViewMapImage>? AllVisibleMapImages { get; protected set; }
     
     /// <summary>
@@ -34,6 +35,7 @@ public partial class KMLLayerView : LayerView
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePoints { get; protected set; }
     
     /// <summary>
@@ -42,6 +44,7 @@ public partial class KMLLayerView : LayerView
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePolygons { get; protected set; }
     
     /// <summary>
@@ -50,6 +53,7 @@ public partial class KMLLayerView : LayerView
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Graphic>? AllVisiblePolylines { get; protected set; }
     
 #endregion

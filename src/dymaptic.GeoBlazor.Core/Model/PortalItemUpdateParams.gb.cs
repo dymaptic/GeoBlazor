@@ -5,17 +5,28 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///    
 /// </summary>
-/// <param name="Data">
+/// <param name="ObjectData">
+///     Optional.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringData">
 ///     Optional.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalItemUpdateParams(
-    string? Data = null)
+    object? ObjectData = null,
+    string? StringData = null)
 {
     /// <summary>
     ///     Optional.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? Data { get; set; } = Data;
+    public object? ObjectData { get; set; } = ObjectData;
+    
+    /// <summary>
+    ///     Optional.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringData { get; set; } = StringData;
     
 }

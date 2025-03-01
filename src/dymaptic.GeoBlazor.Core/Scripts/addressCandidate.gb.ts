@@ -29,29 +29,6 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAddressCandidate;
     
-    let { buildDotNetAddressCandidate } = await import('./addressCandidate');
-    let dnInstantiatedObject = buildDotNetAddressCandidate(jsAddressCandidate);
-
-    try {
-        let seenObjects = new WeakMap();
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type AddressCandidate detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AddressCandidate', e);
-    }
-    
     return jsAddressCandidate;
 }
 

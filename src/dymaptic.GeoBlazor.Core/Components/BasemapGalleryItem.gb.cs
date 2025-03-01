@@ -52,6 +52,7 @@ public partial class BasemapGalleryItem : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Error? Error { get; protected set; }
     
     /// <summary>
@@ -61,6 +62,7 @@ public partial class BasemapGalleryItem : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
 #endregion

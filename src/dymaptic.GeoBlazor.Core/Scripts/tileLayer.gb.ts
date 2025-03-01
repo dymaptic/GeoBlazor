@@ -270,7 +270,9 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     });
     
     jsTileLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsTileLayer.on('layerview-destroy', async (evt: any) => {

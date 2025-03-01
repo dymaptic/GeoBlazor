@@ -12,7 +12,7 @@ export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: 
         let { buildJsGraphic } = await import('./graphic');
         jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphicCollectionDeleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    else if (hasValue(dotNetObject.stringCollectionDeleteFeatures)) {
+    else if (hasValue(dotNetObject.objectCollectionDeleteFeatures)) {
         jsGeoJSONLayerApplyEditsEdits.deleteFeatures = dotNetObject.graphic;
     }
     if (hasValue(dotNetObject.updateFeatures)) {
@@ -24,29 +24,6 @@ export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: 
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerApplyEditsEdits);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerApplyEditsEdits;
-    
-    let { buildDotNetGeoJSONLayerApplyEditsEdits } = await import('./geoJSONLayerApplyEditsEdits');
-    let dnInstantiatedObject = await buildDotNetGeoJSONLayerApplyEditsEdits(jsGeoJSONLayerApplyEditsEdits, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type GeoJSONLayerApplyEditsEdits detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerApplyEditsEdits', e);
-    }
     
     return jsGeoJSONLayerApplyEditsEdits;
 }

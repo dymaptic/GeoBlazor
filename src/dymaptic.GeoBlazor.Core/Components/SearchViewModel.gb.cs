@@ -164,6 +164,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SearchSource? ActiveSource { get; protected set; }
     
     /// <summary>
@@ -192,6 +193,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SearchSource>? AllSources { get; protected set; }
     
     /// <summary>
@@ -220,6 +222,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
@@ -286,6 +289,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? Placeholder { get; protected set; }
     
     /// <summary>
@@ -324,6 +328,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Graphic? ResultGraphic { get; protected set; }
     
     /// <summary>
@@ -343,6 +348,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? Results { get; protected set; }
     
     /// <summary>
@@ -371,6 +377,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? SelectedResult { get; protected set; }
     
     /// <summary>
@@ -380,6 +387,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SuggestResult? SelectedSuggestion { get; protected set; }
     
     /// <summary>
@@ -398,6 +406,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>
@@ -417,6 +426,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SuggestResult>? Suggestions { get; protected set; }
     
     /// <summary>
@@ -446,6 +456,7 @@ public partial class SearchViewModel : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Updating { get; protected set; }
     
 #endregion

@@ -37,29 +37,6 @@ export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalQueryParams;
     
-    let { buildDotNetPortalQueryParams } = await import('./portalQueryParams');
-    let dnInstantiatedObject = await buildDotNetPortalQueryParams(jsPortalQueryParams);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type PortalQueryParams detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalQueryParams', e);
-    }
-    
     return jsPortalQueryParams;
 }
 

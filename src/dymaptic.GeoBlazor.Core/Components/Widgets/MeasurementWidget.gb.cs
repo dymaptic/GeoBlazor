@@ -82,6 +82,7 @@ public partial class MeasurementWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IMeasurementWidgetActiveWidget? ActiveWidget { get; protected set; }
     
     /// <summary>

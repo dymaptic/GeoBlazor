@@ -36,4 +36,4 @@ public partial record ResultTypeJSON(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<string>? NetworkAttributeNames = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? ResultTypeFields = null);
+    IReadOnlyCollection<object>? ResultTypeFields = null);

@@ -250,6 +250,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ElementReference>? EffectiveSegmentElements { get; protected set; }
     
     /// <summary>
@@ -315,6 +316,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ElementReference>? LabelElements { get; protected set; }
     
     /// <summary>
@@ -336,6 +338,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? Labels { get; protected set; }
     
     /// <summary>
@@ -344,6 +347,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ElementReference? MaxLabelElement { get; protected set; }
     
     /// <summary>
@@ -352,6 +356,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ElementReference? MinLabelElement { get; protected set; }
     
     /// <summary>
@@ -360,6 +365,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ElementReference>? SegmentElements { get; protected set; }
     
     /// <summary>
@@ -368,6 +374,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SliderState? State { get; protected set; }
     
     /// <summary>
@@ -409,6 +416,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ElementReference>? ThumbElements { get; protected set; }
     
     /// <summary>

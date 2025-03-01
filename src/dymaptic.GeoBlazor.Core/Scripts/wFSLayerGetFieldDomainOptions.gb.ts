@@ -14,29 +14,6 @@ export async function buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerGetFieldDomainOptions;
     
-    let { buildDotNetWFSLayerGetFieldDomainOptions } = await import('./wFSLayerGetFieldDomainOptions');
-    let dnInstantiatedObject = await buildDotNetWFSLayerGetFieldDomainOptions(jsWFSLayerGetFieldDomainOptions, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type WFSLayerGetFieldDomainOptions detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WFSLayerGetFieldDomainOptions', e);
-    }
-    
     return jsWFSLayerGetFieldDomainOptions;
 }
 

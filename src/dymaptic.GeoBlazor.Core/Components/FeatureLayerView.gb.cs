@@ -19,6 +19,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? AvailableFields { get; protected set; }
     
     /// <summary>
@@ -27,6 +28,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? DataUpdating { get; protected set; }
     
     /// <summary>
@@ -53,6 +55,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasAllFeatures { get; protected set; }
     
     /// <summary>
@@ -61,6 +64,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasAllFeaturesInView { get; protected set; }
     
     /// <summary>
@@ -69,6 +73,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasFullGeometries { get; protected set; }
     
 #endregion

@@ -51,6 +51,7 @@ public partial class HomeViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>

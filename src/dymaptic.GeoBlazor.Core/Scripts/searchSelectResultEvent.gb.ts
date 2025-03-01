@@ -8,10 +8,11 @@ export async function buildJsSearchSelectResultEventGenerated(dotNetObject: any,
         let { buildJsSearchResult } = await import('./searchResult');
         jsSearchSelectResultEvent.result = await buildJsSearchResult(dotNetObject.result) as any;
     }
-
     if (hasValue(dotNetObject.source)) {
-        jsSearchSelectResultEvent.source = dotNetObject.source;
+        let { buildJsSearchSource } = await import('./searchSource');
+        jsSearchSelectResultEvent.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
+
     if (hasValue(dotNetObject.sourceIndex)) {
         jsSearchSelectResultEvent.sourceIndex = dotNetObject.sourceIndex;
     }
@@ -19,29 +20,6 @@ export async function buildJsSearchSelectResultEventGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchSelectResultEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSelectResultEvent;
-    
-    let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
-    let dnInstantiatedObject = await buildDotNetSearchSelectResultEvent(jsSearchSelectResultEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type SearchSelectResultEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchSelectResultEvent', e);
-    }
     
     return jsSearchSelectResultEvent;
 }
@@ -60,7 +38,8 @@ export async function buildDotNetSearchSelectResultEventGenerated(jsObject: any)
         dotNetSearchSelectResultEvent.result = buildDotNetSearchResult(jsObject.result);
     }
     if (hasValue(jsObject.source)) {
-        dotNetSearchSelectResultEvent.source = jsObject.source;
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchSelectResultEvent.source = await buildDotNetSearchSource(jsObject.source);
     }
     if (hasValue(jsObject.sourceIndex)) {
         dotNetSearchSelectResultEvent.sourceIndex = jsObject.sourceIndex;

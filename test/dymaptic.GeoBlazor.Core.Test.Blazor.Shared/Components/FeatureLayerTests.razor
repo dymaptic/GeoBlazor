@@ -41,11 +41,11 @@
     public async Task TestCanRenderFeatureLayer(Action renderHandler)
     {
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0" />
+                </Map>
+            </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "feature");
     }
@@ -148,7 +148,7 @@
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="@([])"
                                   GeometryType="FeatureGeometryType.Point"
-		                          ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECT_ID">
 		            </FeatureLayer>
 		        </Map>
 		    </MapView>);
@@ -156,10 +156,11 @@
         await AssertJavaScript("assertLayerExists", args: "feature");
         FeatureEdits edits = new()
                 {
-                    AddFeatures = [
-                                    new Graphic(new Point(0, 0),
-                    new SimpleMarkerSymbol(color: new MapColor("black")))
-                                ]
+                    AddFeatures = 
+                    [
+                        new Graphic(new Point(0, 0),
+                            new SimpleMarkerSymbol(color: new MapColor("black")))
+                    ]
                 };
         await layer!.ApplyEdits(edits);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 1]);

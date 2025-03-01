@@ -246,7 +246,9 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     });
     
     jsSearchViewModel.on('suggest-complete', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', evt);
+        let { buildDotNetSearchViewModelSuggestCompleteEvent } = await import('./searchViewModelSuggestCompleteEvent');
+        let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', dnEvent);
     });
     
     jsSearchViewModel.on('suggest-start', async (evt: any) => {

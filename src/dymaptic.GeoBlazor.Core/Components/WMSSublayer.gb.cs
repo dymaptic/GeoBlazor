@@ -123,6 +123,7 @@ public partial class WMSSublayer : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<IWMSSublayerDimensions>? Dimensions { get; protected set; }
     
     /// <summary>

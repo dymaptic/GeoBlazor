@@ -246,7 +246,7 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
         await loadProtobuf();
     }
 
-    return new LocatorWrapper();
+    return new LocatorWrapper(locator);
 }
 
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
@@ -788,15 +788,20 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
     if (arcGisObjectRefs.hasOwnProperty(geoBlazorId)) {
         return;
     }
-    arcGisObjectRefs[geoBlazorId] = jsObjectRef;
-    jsObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap')
+    jsObjectRefs[geoBlazorId] = jsObjectRef;
+    arcGisObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap')
         ? jsObjectRef.unwrap()
         : jsObjectRef;
 }
 
-export function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
+export async function registerGeoBlazorSublayer(layerId, sublayerId, sublayerGeoBlazorId) {
     const layer = arcGisObjectRefs[layerId] as TileLayer;
-    arcGisObjectRefs[sublayerGeoBlazorId] = layer.allSublayers.find(sl => sl.id === sublayerId);
+    let sublayer = layer.allSublayers.find(sl => sl.id === sublayerId);
+    arcGisObjectRefs[sublayerGeoBlazorId] = sublayer;
+    let { default: SublayerWrapper } = await import('./sublayer');
+    let wrapper = new SublayerWrapper(sublayer);
+    jsObjectRefs[sublayerGeoBlazorId] = wrapper;
+    return wrapper;
 }
 
 export async function hitTest(screenPoint: any, viewId: string, options: DotNetHitTestOptions | null, hitTestId: string)
@@ -1207,7 +1212,7 @@ export async function updateLayer(layerObject: any, viewId: string): Promise<voi
                     'compressionQuality', 'compressionTolerance', 'copyright', 'definitionExpression', 'format',
                     'hasMultidimensions', 'imageMaxHeight', 'imageMaxWidth', 'interpolation', 'legendEnabled',
                     'noData', 'noDataInterpretation', 'objectIdField', 'pixelType',
-                    'popupEnabled', 'rasterFields', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
+                    'popupEnabled', 'refreshInterval', 'useViewTime', 'tileInfo', 'timeExtent',
                     'timeInfo', 'timeOffset', 'customParameters');
                 if (hasValue(layerObject.effect)) {
                     let {buildJsEffect} = await import('./effect');

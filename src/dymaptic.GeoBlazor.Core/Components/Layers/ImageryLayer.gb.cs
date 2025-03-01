@@ -269,7 +269,7 @@ public partial class ImageryLayer : IArcGISImageService,
         PixelFilterFunction? pixelFilter = null,
         PopupTemplate? popupTemplate = null,
         RasterFunction? rasterFunction = null,
-        string? sourceJSON = null,
+        object? sourceJSON = null,
         TimeExtent? visibilityTimeExtent = null)
     {
         AllowRender = false;
@@ -365,6 +365,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public MosaicRule? DefaultMosaicRule { get; protected set; }
     
     /// <summary>
@@ -382,6 +383,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
@@ -409,6 +411,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public RasterMultidimensionalInfo? MultidimensionalInfo { get; protected set; }
     
     /// <summary>
@@ -490,6 +493,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
     
     /// <summary>
@@ -508,6 +512,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<RasterFunctionInfo>? RasterFunctionInfos { get; protected set; }
     
     /// <summary>
@@ -525,6 +530,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
@@ -534,7 +540,7 @@ public partial class ImageryLayer : IArcGISImageService,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; set; }
+    public object? SourceJSON { get; set; }
     
     /// <summary>
     ///     Image service data source type.
@@ -542,6 +548,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SourceType? SourceType { get; protected set; }
     
     /// <summary>
@@ -550,6 +557,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
@@ -568,6 +576,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Version { get; protected set; }
     
 #endregion
@@ -1662,7 +1671,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -1676,7 +1685,7 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -2844,7 +2853,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceJSON(string? value)
+    public async Task SetSourceJSON(object? value)
     {
 #pragma warning disable BL0005
         SourceJSON = value;
@@ -3100,7 +3109,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageAngleResult?> ComputeAngles(ImageAngleParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3121,7 +3130,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<HistogramsResult?> ComputeHistograms(ImageHistogramParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3142,7 +3151,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImagePixelLocationResult?> ComputePixelSpaceLocations(ImagePixelLocationParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3162,12 +3171,12 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="requestOptions">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        string requestOptions)
+    public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "computeStatisticsHistograms", 
             CancellationTokenSource.Token,
             parameters,
@@ -3206,7 +3215,7 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchImage(Extent extent,
+    public async Task<object?> FetchImage(Extent extent,
         int width,
         int height,
         CancellationToken cancellationToken = default)
@@ -3214,7 +3223,7 @@ public partial class ImageryLayer : IArcGISImageService,
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchImage", 
             CancellationTokenSource.Token,
             extent,
@@ -3237,7 +3246,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<FindImagesResult?> FindImages(FindImagesParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3285,13 +3294,13 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetCatalogItemICSInfo(long rasterId,
+    public async Task<object?> GetCatalogItemICSInfo(long rasterId,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "getCatalogItemICSInfo", 
             CancellationTokenSource.Token,
             rasterId,
@@ -3339,7 +3348,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageUrlResult?> GetImageUrl(ImageUrlParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3360,7 +3369,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageSampleResult?> GetSamples(ImageSampleParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3381,7 +3390,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageIdentifyResult?> Identify(ImageIdentifyParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3402,7 +3411,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> ImageToMap(ImageToMapParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3423,7 +3432,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> ImageToMapMultiray(ImageToMapMultirayParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3444,7 +3453,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> MapToImage(MapToImageParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3465,7 +3474,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageAreaResult?> MeasureAreaAndPerimeter(ImageAreaParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3486,7 +3495,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<MeasureAreaFromImageResult?> MeasureAreaFromImage(MeasureFromImageParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3507,7 +3516,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageDistanceResult?> MeasureDistanceAndAngle(ImageDistanceParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3528,7 +3537,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageHeightResult?> MeasureHeight(ImageHeightParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3549,7 +3558,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<MeasureLengthFromImageResult?> MeasureLengthFromImage(MeasureFromImageParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3570,7 +3579,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImagePointResult?> MeasurePointOrCentroid(ImagePointParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3591,7 +3600,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageBoundaryResult?> QueryBoundary(ImageBoundaryParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3612,7 +3621,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<ImageGPSInfoResult?> QueryGPSInfo(ImageGPSInfoParameters parameters,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3633,7 +3642,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<long[]?> QueryObjectIds(Query query,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3654,7 +3663,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<int?> QueryRasterCount(Query query,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         
@@ -3675,7 +3684,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     [ArcGISMethod]
     public async Task<FeatureSet?> QueryRasters(Query query,
-        string requestOptions)
+        object requestOptions)
     {
         if (JsComponentReference is null) return null;
         

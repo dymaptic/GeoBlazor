@@ -27,6 +27,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SearchSource? ActiveSource { get; protected set; }
     
     /// <summary>
@@ -35,6 +36,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SearchSource>? AllSources { get; protected set; }
     
     /// <summary>
@@ -43,6 +45,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SearchSource>? DefaultSources { get; protected set; }
     
     /// <summary>
@@ -69,6 +72,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Graphic? ResultGraphic { get; protected set; }
     
     /// <summary>
@@ -77,6 +81,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? Results { get; protected set; }
     
     /// <summary>
@@ -85,6 +90,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SearchResult? SelectedResult { get; protected set; }
     
     /// <summary>
@@ -102,6 +108,7 @@ public partial class SearchWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SuggestResult>? Suggestions { get; protected set; }
     
     /// <summary>

@@ -64,6 +64,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ConnectionStatus? ConnectionStatus { get; protected set; }
     
     /// <summary>
@@ -72,6 +73,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Error? Error { get; protected set; }
     
     /// <summary>
@@ -90,6 +92,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public LayerView? LayerView { get; protected set; }
     
     /// <summary>
@@ -128,6 +131,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Publishing { get; protected set; }
     
     /// <summary>
@@ -156,6 +160,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Updating { get; protected set; }
     
     /// <summary>
@@ -164,6 +169,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? VisibilityMode { get; protected set; }
     
     /// <summary>
@@ -173,6 +179,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? VisibleAtCurrentScale { get; protected set; }
     
     /// <summary>
@@ -182,6 +189,7 @@ public partial class ListItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? VisibleAtCurrentTimeExtent { get; protected set; }
     
 #endregion

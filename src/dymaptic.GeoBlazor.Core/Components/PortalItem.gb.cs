@@ -36,6 +36,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<PortalItemApplicationProxies>? ApplicationProxies { get; protected set; }
     
     /// <summary>
@@ -107,6 +108,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsLayer { get; protected set; }
     
     /// <summary>
@@ -115,6 +117,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsOrgItem { get; protected set; }
     
     /// <summary>
@@ -123,6 +126,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ItemControl? ItemControl { get; protected set; }
     
     /// <summary>
@@ -131,6 +135,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ItemPageUrl { get; protected set; }
     
     /// <summary>
@@ -139,6 +144,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ItemUrl { get; protected set; }
     
     /// <summary>
@@ -157,6 +163,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Loaded { get; protected set; }
     
     /// <summary>
@@ -275,7 +282,8 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; protected set; }
+    [JsonInclude]
+    public object? SourceJSON { get; protected set; }
     
     /// <summary>
     ///     User defined tags that describe the item.
@@ -292,6 +300,7 @@ public partial class PortalItem
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
@@ -1238,7 +1247,7 @@ public partial class PortalItem
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -1252,7 +1261,7 @@ public partial class PortalItem
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -2396,7 +2405,7 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> AddResource(PortalItemResource resource,
+    public async Task<object?> AddResource(PortalItemResource resource,
         Stream content,
         PortalItemAddResourceOptions options,
         CancellationToken cancellationToken = default)
@@ -2404,7 +2413,7 @@ public partial class PortalItem
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "addResource", 
             CancellationTokenSource.Token,
             resource,
@@ -2421,11 +2430,11 @@ public partial class PortalItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#deleteRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string?> DeleteRating()
+    public async Task<object?> DeleteRating()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "deleteRating", 
             CancellationTokenSource.Token);
     }
@@ -2441,13 +2450,13 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchData(ResponseType responseType,
+    public async Task<object?> FetchData(ResponseType responseType,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchData", 
             CancellationTokenSource.Token,
             responseType,
@@ -2599,12 +2608,12 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> RemoveAllResources(CancellationToken cancellationToken = default)
+    public async Task<object?> RemoveAllResources(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "removeAllResources", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -2625,13 +2634,13 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> RemoveResource(PortalItemResource resource,
+    public async Task<object?> RemoveResource(PortalItemResource resource,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "removeResource", 
             CancellationTokenSource.Token,
             resource,

@@ -17,29 +17,6 @@ export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHitTestResult;
     
-    let { buildDotNetHitTestResult } = await import('./hitTestResult');
-    let dnInstantiatedObject = await buildDotNetHitTestResult(jsHitTestResult);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type HitTestResult detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HitTestResult', e);
-    }
-    
     return jsHitTestResult;
 }
 

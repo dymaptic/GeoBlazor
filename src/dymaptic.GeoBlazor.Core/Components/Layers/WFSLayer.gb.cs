@@ -305,6 +305,7 @@ public partial class WFSLayer : Layer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public WFSLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -331,6 +332,7 @@ public partial class WFSLayer : Layer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
@@ -403,6 +405,7 @@ public partial class WFSLayer : Layer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>

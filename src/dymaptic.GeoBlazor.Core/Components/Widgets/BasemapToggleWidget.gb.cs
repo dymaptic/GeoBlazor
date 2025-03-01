@@ -74,6 +74,7 @@ public partial class BasemapToggleWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Basemap? ActiveBasemap { get; protected set; }
     
     /// <summary>

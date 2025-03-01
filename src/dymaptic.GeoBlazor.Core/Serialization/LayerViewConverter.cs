@@ -22,6 +22,20 @@ internal class LayerViewConverter : JsonConverter<LayerView>
             {
                 case "feature":
                     return JsonSerializer.Deserialize<FeatureLayerView>(ref cloneReader, newOptions);
+                case "csv":
+                    return JsonSerializer.Deserialize<CSVLayerView>(ref cloneReader, newOptions);
+                case "geojson":
+                    return JsonSerializer.Deserialize<GeoJSONLayerView>(ref cloneReader, newOptions);
+                case "geo-rss":
+                    return JsonSerializer.Deserialize<GeoRSSLayerView>(ref cloneReader, newOptions);
+                case "graphics":
+                    return JsonSerializer.Deserialize<GraphicsLayerView>(ref cloneReader, newOptions);
+                case "imagery":
+                    return JsonSerializer.Deserialize<ImageryLayerView>(ref cloneReader, newOptions);
+                case "kml":
+                    return JsonSerializer.Deserialize<KMLLayerView>(ref cloneReader, newOptions);
+                case "wfs":
+                    return JsonSerializer.Deserialize<WFSLayerView>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:
@@ -34,7 +48,16 @@ internal class LayerViewConverter : JsonConverter<LayerView>
                         return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as LayerView;
                     }
 
-                    return new LayerView();
+                    temp.TryGetValue("spatialReferenceSupported", out object? spatialReferenceSupported);
+                    temp.TryGetValue("suspended", out object? suspended);
+                    temp.TryGetValue("updating", out object? updating);
+                    temp.TryGetValue("visibleAtCurrentScale", out object? visibleAtCurrentScale);
+                    temp.TryGetValue("visibleAtCurrentTimeExtent", out object? visibleAtCurrentTimeExtent);
+                    return new LayerView(spatialReferenceSupported as bool?,
+                        suspended as bool?,
+                        updating as bool?,
+                        visibleAtCurrentScale as bool?,
+                        visibleAtCurrentTimeExtent as bool?);
             }
         }
 

@@ -22,29 +22,6 @@ export async function buildJsImagePointResultGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImagePointResult;
     
-    let { buildDotNetImagePointResult } = await import('./imagePointResult');
-    let dnInstantiatedObject = await buildDotNetImagePointResult(jsImagePointResult);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ImagePointResult detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImagePointResult', e);
-    }
-    
     return jsImagePointResult;
 }
 

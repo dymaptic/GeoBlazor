@@ -42,10 +42,10 @@ public partial record ImageGPSInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Point? Center = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Gps = null,
+    object? Gps = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? ImageGPSInfoId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Orientation = null);
+    object? Orientation = null);

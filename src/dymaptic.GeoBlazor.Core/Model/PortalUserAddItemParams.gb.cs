@@ -5,16 +5,20 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <summary>
 ///    
 /// </summary>
-/// <param name="Data">
-///     The component used to stream the data represented by the item to the client.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Item">
 ///     The item to add to the user's content.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="ObjectData">
+///     The component used to stream the data represented by the item to the client.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="PortalFolder">
 ///     The portal folder in which to store the item.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringData">
+///     The component used to stream the data represented by the item to the client.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="StringFolder">
@@ -22,17 +26,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalUserAddItemParams(
-    string? Data = null,
     PortalItem? Item = null,
+    object? ObjectData = null,
     PortalFolder? PortalFolder = null,
+    string? StringData = null,
     string? StringFolder = null)
 {
-    /// <summary>
-    ///     The component used to stream the data represented by the item to the client.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public string? Data { get; set; } = Data;
-    
     /// <summary>
     ///     The item to add to the user's content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
@@ -40,10 +39,22 @@ public partial record PortalUserAddItemParams(
     public PortalItem? Item { get; set; } = Item;
     
     /// <summary>
+    ///     The component used to stream the data represented by the item to the client.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public object? ObjectData { get; set; } = ObjectData;
+    
+    /// <summary>
     ///     The portal folder in which to store the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PortalFolder? PortalFolder { get; set; } = PortalFolder;
+    
+    /// <summary>
+    ///     The component used to stream the data represented by the item to the client.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#addItem">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringData { get; set; } = StringData;
     
     /// <summary>
     ///     The portal folder in which to store the item.

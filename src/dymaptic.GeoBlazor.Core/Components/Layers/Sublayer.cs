@@ -129,7 +129,8 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
         Types ??= renderedSublayer.Types;
         Url ??= renderedSublayer.Url;
         
-        await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Layer!.Id,
+        JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>(
+            "registerGeoBlazorSublayer", Layer!.Id,
             renderedSublayer.SublayerId, renderedSublayer.Id);
 
         if (renderedSublayer.Sublayers is null)
@@ -143,6 +144,9 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
 
             if (matchingLayer is not null)
             {
+                matchingLayer.Parent = this;
+                matchingLayer.View = View;
+                matchingLayer.Layer = Layer;
                 await matchingLayer.UpdateFromJavaScript(childSublayer);
             }
             else

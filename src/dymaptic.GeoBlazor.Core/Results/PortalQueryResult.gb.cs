@@ -28,6 +28,6 @@ public partial record PortalQueryResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PortalQueryParams? QueryParams = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? Results = null,
+    IReadOnlyCollection<object>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Total = null);

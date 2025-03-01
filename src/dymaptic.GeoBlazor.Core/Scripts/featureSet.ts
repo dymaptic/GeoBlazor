@@ -11,7 +11,7 @@ export function buildJsFeatureSet(dotNetFs: any): any {
         features: [],
         displayFieldName: dotNetFs.displayFieldName,
         exceededTransferLimit: dotNetFs.exceededTransferLimit,
-        fields: dotNetFs.fields.map(buildJsField),
+        fields: dotNetFs.fields?.map(buildJsField) ?? [],
         geometryType: dotNetFs.geometryType,
         queryGeometry: buildJsGeometry(dotNetFs.queryGeometry),
         spatialReference: buildJsSpatialReference(dotNetFs.spatialReference)
@@ -28,7 +28,7 @@ export async function buildDotNetFeatureSet(jsFs: any, layerId: string | null, v
         features: [],
         displayFieldName: jsFs.displayFieldName,
         exceededTransferLimit: jsFs.exceededTransferLimit,
-        fields: jsFs.fields.map(buildDotNetField),
+        fields: jsFs.fields?.map(buildDotNetField),
         geometryType: jsFs.geometryType,
         queryGeometry: buildDotNetGeometry(jsFs.queryGeometry),
         spatialReference: buildDotNetSpatialReference(jsFs.spatialReference)

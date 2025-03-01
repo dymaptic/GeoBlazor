@@ -70,29 +70,6 @@ export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jshistogramHistogramParams;
     
-    let { buildDotNetHistogramHistogramParams } = await import('./histogramHistogramParams');
-    let dnInstantiatedObject = await buildDotNetHistogramHistogramParams(jshistogramHistogramParams, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type HistogramHistogramParams detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HistogramHistogramParams', e);
-    }
-    
     return jshistogramHistogramParams;
 }
 

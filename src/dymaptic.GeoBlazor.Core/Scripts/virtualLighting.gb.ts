@@ -53,29 +53,6 @@ export async function buildJsVirtualLightingGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = virtualLightingWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVirtualLighting;
     
-    let { buildDotNetVirtualLighting } = await import('./virtualLighting');
-    let dnInstantiatedObject = await buildDotNetVirtualLighting(jsVirtualLighting);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type VirtualLighting detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VirtualLighting', e);
-    }
-    
     return jsVirtualLighting;
 }
 

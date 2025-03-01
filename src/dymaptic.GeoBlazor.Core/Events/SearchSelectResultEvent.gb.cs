@@ -15,6 +15,6 @@ public partial record SearchSelectResultEvent(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SearchResult? Result = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Source = null,
+    SearchSource? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? SourceIndex = null);

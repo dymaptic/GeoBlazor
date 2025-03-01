@@ -62,7 +62,7 @@ public partial record RequestOptions(
     AuthMode? AuthMode = null,
     bool? CacheBust = null,
     ElementReference? ElementReferenceBody = null,
-    string? Headers = null,
+    object? Headers = null,
     RequestMethod? Method = null,
     Dictionary<string, object?>? ObjectCollectionBody = null,
     Dictionary<string, object?>? Query = null,
@@ -94,7 +94,7 @@ public partial record RequestOptions(
     ///     Headers to use for the request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? Headers { get; set; } = Headers;
+    public object? Headers { get; set; } = Headers;
     
     /// <summary>
     ///     Indicates if the request should be made using the HTTP DELETE, HEAD, POST, or PUT method.

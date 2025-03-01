@@ -46,6 +46,6 @@ public partial record ImageIdentifyResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? ObjectId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Properties = null,
+    object? Properties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Value = null);

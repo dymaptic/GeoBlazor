@@ -80,29 +80,6 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = fieldsIndexWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsIndex;
     
-    let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-    let dnInstantiatedObject = await buildDotNetFieldsIndex(jsFieldsIndex);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type FieldsIndex detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FieldsIndex', e);
-    }
-    
     return jsFieldsIndex;
 }
 

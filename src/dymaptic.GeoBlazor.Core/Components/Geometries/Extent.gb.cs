@@ -18,6 +18,7 @@ public partial class Extent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Point? Center { get; protected set; }
     
     /// <summary>
@@ -26,6 +27,7 @@ public partial class Extent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Height { get; protected set; }
     
     /// <summary>
@@ -34,6 +36,7 @@ public partial class Extent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Width { get; protected set; }
     
 #endregion

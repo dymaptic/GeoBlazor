@@ -50,6 +50,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public AreaMeasurement2DViewModelMeasurement? Measurement { get; protected set; }
     
     /// <summary>
@@ -58,6 +59,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public AreaMeasurement2DViewModelMeasurementLabel? MeasurementLabel { get; protected set; }
     
     /// <summary>
@@ -67,6 +69,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>

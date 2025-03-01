@@ -15,6 +15,6 @@ public partial record SearchSuggestCompleteEventResults(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<SuggestResult>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Source = null,
+    SearchSource? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? SourceIndex = null);

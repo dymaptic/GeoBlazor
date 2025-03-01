@@ -17,6 +17,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record SceneFilter(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? Geometries = null,
+    IReadOnlyCollection<object>? Geometries = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SceneFilterSpatialRelationship? SpatialRelationship = null);

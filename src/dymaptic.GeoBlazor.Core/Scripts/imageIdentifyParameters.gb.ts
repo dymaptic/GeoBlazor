@@ -57,29 +57,6 @@ export async function buildJsImageIdentifyParametersGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyParameters;
     
-    let { buildDotNetImageIdentifyParameters } = await import('./imageIdentifyParameters');
-    let dnInstantiatedObject = await buildDotNetImageIdentifyParameters(jsImageIdentifyParameters);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ImageIdentifyParameters detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageIdentifyParameters', e);
-    }
-    
     return jsImageIdentifyParameters;
 }
 

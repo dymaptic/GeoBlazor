@@ -151,6 +151,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Active { get; protected set; }
     
     /// <summary>
@@ -159,6 +160,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ActionBase>? AllActions { get; protected set; }
     
     /// <summary>
@@ -187,6 +189,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ActionBase>? DefaultActions { get; protected set; }
     
     /// <summary>
@@ -215,6 +218,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public int? FeatureCount { get; protected set; }
     
     /// <summary>
@@ -251,6 +255,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<IFeatureViewModel>? FeatureViewModels { get; protected set; }
     
     /// <summary>
@@ -289,6 +294,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public int? PendingPromisesCount { get; protected set; }
     
     /// <summary>
@@ -298,6 +304,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public int? PromiseCount { get; protected set; }
     
     /// <summary>
@@ -315,6 +322,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Graphic? SelectedClusterBoundaryFeature { get; protected set; }
     
     /// <summary>
@@ -323,6 +331,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Graphic? SelectedFeature { get; protected set; }
     
     /// <summary>
@@ -351,6 +360,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>
@@ -387,6 +397,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? WaitingForResult { get; protected set; }
     
     /// <summary>

@@ -206,6 +206,7 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
             }
     }
     
+    dnLayerView.type = jsObject.layer.type;
     dnLayerView.layerId = layerId;
     
     return dnLayerView;

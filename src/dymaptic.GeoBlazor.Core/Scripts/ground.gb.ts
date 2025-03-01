@@ -113,29 +113,6 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = groundWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGround;
     
-    let { buildDotNetGround } = await import('./ground');
-    let dnInstantiatedObject = await buildDotNetGround(jsGround);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type Ground detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Ground', e);
-    }
-    
     return jsGround;
 }
 

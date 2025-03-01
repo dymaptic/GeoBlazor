@@ -173,7 +173,9 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     });
     
     jsKMLLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsKMLLayer.on('layerview-destroy', async (evt: any) => {

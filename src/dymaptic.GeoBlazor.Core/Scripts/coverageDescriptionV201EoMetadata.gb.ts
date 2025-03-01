@@ -14,29 +14,6 @@ export async function buildJsCoverageDescriptionV201EoMetadataGenerated(dotNetOb
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201EoMetadata;
     
-    let { buildDotNetCoverageDescriptionV201EoMetadata } = await import('./coverageDescriptionV201EoMetadata');
-    let dnInstantiatedObject = await buildDotNetCoverageDescriptionV201EoMetadata(jsCoverageDescriptionV201EoMetadata);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type CoverageDescriptionV201EoMetadata detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for CoverageDescriptionV201EoMetadata', e);
-    }
-    
     return jsCoverageDescriptionV201EoMetadata;
 }
 

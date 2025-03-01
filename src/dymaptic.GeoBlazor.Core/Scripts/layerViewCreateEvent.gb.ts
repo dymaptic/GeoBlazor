@@ -17,29 +17,6 @@ export async function buildJsLayerViewCreateEventGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewCreateEvent;
     
-    let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-    let dnInstantiatedObject = await buildDotNetLayerViewCreateEvent(jsFeatureLayerLayerviewCreateEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LayerViewCreateEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerViewCreateEvent', e);
-    }
-    
     return jsFeatureLayerLayerviewCreateEvent;
 }
 

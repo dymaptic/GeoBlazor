@@ -413,7 +413,9 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     });
     
     jsCSVLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsCSVLayer.on('layerview-destroy', async (evt: any) => {

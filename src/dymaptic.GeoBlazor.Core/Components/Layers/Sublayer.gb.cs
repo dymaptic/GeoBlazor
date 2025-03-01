@@ -151,6 +151,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SublayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -159,6 +160,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Field>? Fields { get; protected set; }
     
     /// <summary>
@@ -167,6 +169,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
@@ -175,6 +178,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Extent? FullExtent { get; protected set; }
     
     /// <summary>
@@ -184,6 +188,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsTable { get; protected set; }
     
     /// <summary>
@@ -201,6 +206,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ObjectIdField { get; protected set; }
     
     /// <summary>
@@ -218,6 +224,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Relationship>? Relationships { get; protected set; }
     
     /// <summary>
@@ -244,6 +251,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
@@ -252,6 +260,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
@@ -279,6 +288,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? TypeIdField { get; protected set; }
     
     /// <summary>
@@ -287,6 +297,7 @@ public partial class Sublayer
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<FeatureType>? Types { get; protected set; }
     
     /// <summary>

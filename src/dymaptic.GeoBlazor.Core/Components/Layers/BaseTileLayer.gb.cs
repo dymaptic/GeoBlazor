@@ -522,11 +522,11 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     <a href="#loaded">loaded</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> AddResolvingPromise(string promiseToLoad)
+    public async Task<object?> AddResolvingPromise(object promiseToLoad)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "addResolvingPromise", 
             CancellationTokenSource.Token,
             promiseToLoad);

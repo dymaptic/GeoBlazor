@@ -18,29 +18,6 @@ export async function buildJsLayerListTriggerActionEventGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListTriggerActionEvent;
     
-    let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
-    let dnInstantiatedObject = await buildDotNetLayerListTriggerActionEvent(jsLayerListTriggerActionEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LayerListTriggerActionEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerListTriggerActionEvent', e);
-    }
-    
     return jsLayerListTriggerActionEvent;
 }
 

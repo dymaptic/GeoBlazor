@@ -77,29 +77,6 @@ export async function buildJsExternalRenderersGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = externalRenderersWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsexternalRenderers;
     
-    let { buildDotNetExternalRenderers } = await import('./externalRenderers');
-    let dnInstantiatedObject = await buildDotNetExternalRenderers(jsexternalRenderers);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ExternalRenderers detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExternalRenderers', e);
-    }
-    
     return jsexternalRenderers;
 }
 

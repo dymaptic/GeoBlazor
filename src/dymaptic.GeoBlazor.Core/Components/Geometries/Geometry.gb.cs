@@ -18,7 +18,8 @@ public abstract partial class Geometry
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Cache { get; protected set; }
+    [JsonInclude]
+    public object? Cache { get; protected set; }
     
 #endregion
 
@@ -27,7 +28,7 @@ public abstract partial class Geometry
     /// <summary>
     ///     Asynchronously retrieve the current value of the Cache property.
     /// </summary>
-    public async Task<string?> GetCache()
+    public async Task<object?> GetCache()
     {
         if (CoreJsModule is null)
         {
@@ -41,7 +42,7 @@ public abstract partial class Geometry
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "cache");
         if (result is not null)
         {

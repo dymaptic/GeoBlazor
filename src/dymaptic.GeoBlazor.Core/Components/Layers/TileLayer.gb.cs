@@ -183,6 +183,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Sublayer>? AllSublayers { get; protected set; }
     
     /// <summary>
@@ -191,6 +192,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? AttributionDataUrl { get; protected set; }
     
     /// <summary>
@@ -209,6 +211,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ArcGISMapServiceCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -235,6 +238,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasAttributionData { get; protected set; }
     
     /// <summary>
@@ -263,6 +267,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
@@ -271,6 +276,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
@@ -279,6 +285,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Sublayer>? Sublayers { get; protected set; }
     
     /// <summary>
@@ -306,6 +313,7 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Version { get; protected set; }
     
 #endregion

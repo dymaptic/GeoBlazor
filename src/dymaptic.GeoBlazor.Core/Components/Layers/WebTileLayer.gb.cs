@@ -166,6 +166,7 @@ public partial class WebTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
@@ -183,6 +184,7 @@ public partial class WebTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? TileServers { get; protected set; }
     
 #endregion

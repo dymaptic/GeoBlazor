@@ -297,7 +297,7 @@ public partial class Portal
         string? featuredItemsGroupQuery = null,
         string? galleryTemplatesGroupQuery = null,
         bool? hasCategorySchema = null,
-        string? helperServices = null,
+        object? helperServices = null,
         string? homePageFeaturedContent = null,
         int? homePageFeaturedContentCount = null,
         double? httpPort = null,
@@ -312,10 +312,10 @@ public partial class Portal
         string? portalHostname = null,
         string? portalId = null,
         PortalMode? portalMode = null,
-        string? portalProperties = null,
+        object? portalProperties = null,
         bool? recycleBinEnabled = null,
         string? region = null,
-        IReadOnlyList<string>? rotatorPanels = null,
+        IReadOnlyList<object>? rotatorPanels = null,
         bool? showHomePageDescription = null,
         bool? supportsHostedServices = null,
         string? symbolSetsGroupQuery = null,
@@ -702,7 +702,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? HelperServices { get; set; }
+    public object? HelperServices { get; set; }
     
     /// <summary>
     ///     The group that contains featured content to be displayed on the home page.
@@ -755,6 +755,7 @@ public partial class Portal
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsOrganization { get; protected set; }
     
     /// <summary>
@@ -791,6 +792,7 @@ public partial class Portal
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Loaded { get; protected set; }
     
     /// <summary>
@@ -854,7 +856,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PortalProperties { get; set; }
+    public object? PortalProperties { get; set; }
     
     /// <summary>
     ///     Indicates whether the recycle bin is enabled for the organization.
@@ -880,6 +882,7 @@ public partial class Portal
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? RestUrl { get; protected set; }
     
     /// <summary>
@@ -889,7 +892,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string>? RotatorPanels { get; set; }
+    public IReadOnlyList<object>? RotatorPanels { get; set; }
     
     /// <summary>
     ///     Indicates whether the description of your organization displays on the home page.
@@ -906,7 +909,8 @@ public partial class Portal
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; protected set; }
+    [JsonInclude]
+    public object? SourceJSON { get; protected set; }
     
     /// <summary>
     ///     Indicates whether hosted services are supported.
@@ -942,6 +946,7 @@ public partial class Portal
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
@@ -1889,7 +1894,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the HelperServices property.
     /// </summary>
-    public async Task<string?> GetHelperServices()
+    public async Task<object?> GetHelperServices()
     {
         if (CoreJsModule is null)
         {
@@ -1903,7 +1908,7 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "helperServices");
         if (result is not null)
         {
@@ -2399,7 +2404,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalProperties property.
     /// </summary>
-    public async Task<string?> GetPortalProperties()
+    public async Task<object?> GetPortalProperties()
     {
         if (CoreJsModule is null)
         {
@@ -2413,7 +2418,7 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "portalProperties");
         if (result is not null)
         {
@@ -2519,7 +2524,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotatorPanels property.
     /// </summary>
-    public async Task<IReadOnlyList<string>?> GetRotatorPanels()
+    public async Task<IReadOnlyList<object>?> GetRotatorPanels()
     {
         if (CoreJsModule is null)
         {
@@ -2533,7 +2538,7 @@ public partial class Portal
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
             CancellationTokenSource.Token, "rotatorPanels");
         if (result is not null)
         {
@@ -2579,7 +2584,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -2593,7 +2598,7 @@ public partial class Portal
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -3816,7 +3821,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHelperServices(string? value)
+    public async Task SetHelperServices(object? value)
     {
 #pragma warning disable BL0005
         HelperServices = value;
@@ -4266,7 +4271,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalProperties(string? value)
+    public async Task SetPortalProperties(object? value)
     {
 #pragma warning disable BL0005
         PortalProperties = value;
@@ -4356,7 +4361,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotatorPanels(IReadOnlyList<string>? value)
+    public async Task SetRotatorPanels(IReadOnlyList<object>? value)
     {
 #pragma warning disable BL0005
         RotatorPanels = value;
@@ -4748,9 +4753,9 @@ public partial class Portal
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToRotatorPanels(params string[] values)
+    public async Task AddToRotatorPanels(params object[] values)
     {
-        string[] join = RotatorPanels is null
+        object[] join = RotatorPanels is null
             ? values
             : [..RotatorPanels, ..values];
         await SetRotatorPanels(join);
@@ -4799,7 +4804,7 @@ public partial class Portal
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromRotatorPanels(params string[] values)
+    public async Task RemoveFromRotatorPanels(params object[] values)
     {
         if (RotatorPanels is null)
         {
@@ -4853,12 +4858,12 @@ public partial class Portal
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
+    public async Task<object[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
+        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
             "fetchCategorySchema", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -4899,12 +4904,12 @@ public partial class Portal
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string[]?> FetchRegions(CancellationToken cancellationToken = default)
+    public async Task<object[]?> FetchRegions(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
+        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
             "fetchRegions", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -4922,12 +4927,12 @@ public partial class Portal
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchSettings(CancellationToken cancellationToken = default)
+    public async Task<object?> FetchSettings(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchSettings", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });

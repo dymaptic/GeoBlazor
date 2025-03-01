@@ -140,6 +140,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Active { get; protected set; }
     
     /// <summary>
@@ -148,6 +149,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public CurrentDockPosition? CurrentDockPosition { get; protected set; }
     
     /// <summary>
@@ -175,6 +177,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public int? FeatureCount { get; protected set; }
     
     /// <summary>
@@ -210,6 +213,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Graphic? SelectedFeature { get; protected set; }
     
     /// <summary>
@@ -227,6 +231,7 @@ public partial class PopupWidget : IGoTo
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IFeatureWidget? SelectedFeatureWidget { get; protected set; }
     
     /// <summary>

@@ -16,6 +16,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ValidateServiceEdits(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? EditedFeatures = null,
+    object? EditedFeatures = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? LayerId = null);

@@ -201,14 +201,17 @@ public partial class MapImageLayer : Layer
             return;
         }
 
+        Sublayers ??= [];
+
         foreach (Sublayer renderedSubLayer in renderedMapLayer.Sublayers)
         {
-            Sublayer? matchingLayer = Sublayers?.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
+            Sublayer? matchingLayer = Sublayers.FirstOrDefault(l => l.Id == renderedSubLayer.Id);
 
             if (matchingLayer is not null)
             {
                 matchingLayer.Parent = this;
                 matchingLayer.View = View;
+                matchingLayer.Layer = this;
                 await matchingLayer.UpdateFromJavaScript(renderedSubLayer);
             }
             else
@@ -216,12 +219,15 @@ public partial class MapImageLayer : Layer
                 await RegisterNewSublayer(renderedSubLayer);
             }
         }
+        
+        AllSublayers = Sublayers.Concat(Sublayers.SelectMany(s => s.GetAllSublayers() ?? [])).ToList();
     }
     
     private async Task RegisterNewSublayer(Sublayer sublayer)
     {
         sublayer.Parent = this;
         sublayer.View = View;
+        sublayer.Layer = this;
         Sublayers ??= [];
         Sublayers = [..Sublayers, sublayer];
         await CoreJsModule!.InvokeVoidAsync("registerGeoBlazorSublayer", Id,

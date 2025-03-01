@@ -85,7 +85,7 @@
         {
             //ignore if not running pro
         }
-        foreach (Type type in types)
+        foreach (Type type in types.Where(t => !t.Name.EndsWith("GeneratedTests")))
         {
             if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
             {

@@ -26,29 +26,6 @@ export async function buildJsPredominantCategoriesPredominantCategoriesParamsGen
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspredominantCategoriesPredominantCategoriesParams;
     
-    let { buildDotNetPredominantCategoriesPredominantCategoriesParams } = await import('./predominantCategoriesPredominantCategoriesParams');
-    let dnInstantiatedObject = await buildDotNetPredominantCategoriesPredominantCategoriesParams(jspredominantCategoriesPredominantCategoriesParams);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type PredominantCategoriesPredominantCategoriesParams detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PredominantCategoriesPredominantCategoriesParams', e);
-    }
-    
     return jspredominantCategoriesPredominantCategoriesParams;
 }
 

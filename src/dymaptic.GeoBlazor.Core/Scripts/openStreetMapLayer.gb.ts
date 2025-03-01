@@ -195,7 +195,9 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     });
     
     jsOpenStreetMapLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {

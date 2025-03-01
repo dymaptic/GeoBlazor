@@ -77,12 +77,12 @@ public partial record PortalGroup(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
+    public async Task<object[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
+        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
             "fetchCategorySchema", 
             _cancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -100,12 +100,12 @@ public partial record PortalGroup(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchMembers(CancellationToken cancellationToken = default)
+    public async Task<object?> FetchMembers(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchMembers", 
             _cancellationTokenSource.Token,
             new { signal = abortSignal });

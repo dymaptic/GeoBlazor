@@ -154,6 +154,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? BingLogo { get; protected set; }
     
     /// <summary>
@@ -162,6 +163,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? Copyright { get; protected set; }
     
     /// <summary>

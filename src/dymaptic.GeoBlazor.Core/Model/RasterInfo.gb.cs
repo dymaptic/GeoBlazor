@@ -92,9 +92,9 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Height = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? Histograms = null,
+    IReadOnlyCollection<object>? Histograms = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? KeyProperties = null,
+    object? KeyProperties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterMultidimensionalInfo? MultidimensionalInfo = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

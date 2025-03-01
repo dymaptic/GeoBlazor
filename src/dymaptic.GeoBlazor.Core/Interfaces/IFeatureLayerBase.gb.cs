@@ -193,7 +193,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm">feature service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? SourceJSON { get; set; }
+    object? SourceJSON { get; set; }
     
     /// <summary>
     ///     The spatial reference of the layer.
@@ -313,7 +313,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(string? value);
+    Task SetSourceJSON(object? value);
     
     /// <summary>
     ///    Asynchronously set the value of the SpatialReference property after render.
@@ -482,7 +482,7 @@ public partial interface IFeatureLayerBase : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    Task<string?> GetSourceJSON();
+    Task<object?> GetSourceJSON();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.

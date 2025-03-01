@@ -301,7 +301,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         PopupTemplate? popupTemplate = null,
         string? apiKey = null,
         BlendMode? blendMode = null,
-        IReadOnlyList<string>? charts = null,
+        IReadOnlyList<object>? charts = null,
         string? copyright = null,
         Dictionary<string, object>? customParameters = null,
         string? dateFieldsTimeZone = null,
@@ -331,7 +331,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         bool? returnM = null,
         bool? returnZ = null,
         bool? screenSizePerspectiveEnabled = null,
-        string? sourceJSON = null,
+        object? sourceJSON = null,
         SpatialReference? spatialReference = null,
         IReadOnlyList<IFeatureTemplate>? templates = null,
         TimeExtent? timeExtent = null,
@@ -415,6 +415,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FeatureLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -424,7 +425,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string>? Charts { get; set; }
+    public IReadOnlyList<object>? Charts { get; set; }
     
     /// <summary>
     ///     Copyright information for the layer.
@@ -460,6 +461,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? DatesInUnknownTimezone { get; protected set; }
     
     /// <summary>
@@ -486,6 +488,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public EditFieldsInfo? EditFieldsInfo { get; protected set; }
     
     /// <summary>
@@ -504,6 +507,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public EditingInfo? EditingInfo { get; protected set; }
     
     /// <summary>
@@ -512,6 +516,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Capabilities? EffectiveCapabilities { get; protected set; }
     
     /// <summary>
@@ -520,6 +525,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? EffectiveEditingEnabled { get; protected set; }
     
     /// <summary>
@@ -555,6 +561,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
@@ -590,6 +597,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public GeometryFieldsInfo? GeometryFieldsInfo { get; protected set; }
     
     /// <summary>
@@ -628,6 +636,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsTable { get; protected set; }
     
     /// <summary>
@@ -703,6 +712,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? PreferredTimeZone { get; protected set; }
     
     /// <summary>
@@ -711,6 +721,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public PublishingInfo? PublishingInfo { get; protected set; }
     
     /// <summary>
@@ -729,6 +740,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Relationship>? Relationships { get; protected set; }
     
     /// <summary>
@@ -776,6 +788,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ServiceDefinitionExpression { get; protected set; }
     
     /// <summary>
@@ -784,6 +797,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ServiceItemId { get; protected set; }
     
     /// <summary>
@@ -803,7 +817,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; set; }
+    public object? SourceJSON { get; set; }
     
     /// <summary>
     ///     The spatial reference of the layer.
@@ -820,6 +834,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? SubtypeField { get; protected set; }
     
     /// <summary>
@@ -828,6 +843,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<Subtype>? Subtypes { get; protected set; }
     
     /// <summary>
@@ -913,6 +929,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Version { get; protected set; }
     
 #endregion
@@ -982,7 +999,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Charts property.
     /// </summary>
-    public async Task<IReadOnlyList<string>?> GetCharts()
+    public async Task<IReadOnlyList<object>?> GetCharts()
     {
         if (CoreJsModule is null)
         {
@@ -996,7 +1013,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
             CancellationTokenSource.Token, "charts");
         if (result is not null)
         {
@@ -2457,7 +2474,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -2471,7 +2488,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -2919,7 +2936,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCharts(IReadOnlyList<string>? value)
+    public async Task SetCharts(IReadOnlyList<object>? value)
     {
 #pragma warning disable BL0005
         Charts = value;
@@ -3331,6 +3348,36 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GeometryType property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGeometryType(FeatureGeometryType? value)
+    {
+#pragma warning disable BL0005
+        GeometryType = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GeometryType)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "geometryType", value);
     }
     
     /// <summary>
@@ -3939,7 +3986,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceJSON(string? value)
+    public async Task SetSourceJSON(object? value)
     {
 #pragma warning disable BL0005
         SourceJSON = value;
@@ -4243,9 +4290,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToCharts(params string[] values)
+    public async Task AddToCharts(params object[] values)
     {
-        string[] join = Charts is null
+        object[] join = Charts is null
             ? values
             : [..Charts, ..values];
         await SetCharts(join);
@@ -4360,7 +4407,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromCharts(params string[] values)
+    public async Task RemoveFromCharts(params object[] values)
     {
         if (Charts is null)
         {

@@ -97,7 +97,7 @@ let jsGraphic = buildJsGraphic(graphic) as any;
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.graphics!.map(i => buildDotNetGraphic(i));
+        return this.layer.graphics!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setGraphics(value: any): Promise<void> {
@@ -187,7 +187,9 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     });
     
     jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {

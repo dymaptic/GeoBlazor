@@ -18,4 +18,4 @@ public partial record CoverageDescriptionV110DomainSpatialDomainOffset(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? X = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Y = null);
+    object? Y = null);

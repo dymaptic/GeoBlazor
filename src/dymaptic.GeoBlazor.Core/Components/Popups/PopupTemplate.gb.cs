@@ -59,6 +59,15 @@ public partial class PopupTemplate
     public LayerOptions? LayerOptions { get; set; }
     
     /// <summary>
+    ///     The template for defining how to format the title used in a popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public object? ObjectTitle { get; set; }
+    
+    /// <summary>
     ///     An array of field names used in the PopupTemplate.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html#outFields">ArcGIS Maps SDK for JavaScript</a>
@@ -238,6 +247,36 @@ public partial class PopupTemplate
         }
          
         return LayerOptions;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ObjectTitle property.
+    /// </summary>
+    public async Task<object?> GetObjectTitle()
+    {
+        if (CoreJsModule is null)
+        {
+            return ObjectTitle;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return ObjectTitle;
+        }
+
+        // get the property value
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+            CancellationTokenSource.Token, "objectTitle");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectTitle = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ObjectTitle)] = ObjectTitle;
+        }
+         
+        return ObjectTitle;
     }
     
     /// <summary>
@@ -542,6 +581,36 @@ public partial class PopupTemplate
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "layerOptions", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ObjectTitle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetObjectTitle(object? value)
+    {
+#pragma warning disable BL0005
+        ObjectTitle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ObjectTitle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "objectTitle", value);
     }
     
     /// <summary>

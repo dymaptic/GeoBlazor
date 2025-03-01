@@ -32,7 +32,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ImageSample(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Attributes = null,
+    object? Attributes = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Point? Location = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

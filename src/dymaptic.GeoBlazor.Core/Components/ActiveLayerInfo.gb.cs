@@ -151,6 +151,7 @@ public partial class ActiveLayerInfo : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? Opacity { get; protected set; }
     
     /// <summary>

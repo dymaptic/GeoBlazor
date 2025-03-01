@@ -70,29 +70,6 @@ export async function buildJsElevationSamplerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = elevationSamplerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsElevationSampler;
     
-    let { buildDotNetElevationSampler } = await import('./elevationSampler');
-    let dnInstantiatedObject = await buildDotNetElevationSampler(jsElevationSampler);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ElevationSampler detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ElevationSampler', e);
-    }
-    
     return jsElevationSampler;
 }
 

@@ -254,7 +254,8 @@ public partial class PortalUser : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; protected set; }
+    [JsonInclude]
+    public object? SourceJSON { get; protected set; }
     
     /// <summary>
     ///     The URL to the thumbnail image for the user.
@@ -262,6 +263,7 @@ public partial class PortalUser : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
@@ -279,6 +281,7 @@ public partial class PortalUser : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? UserContentUrl { get; protected set; }
     
     /// <summary>
@@ -687,7 +690,7 @@ public partial class PortalUser : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -701,7 +704,7 @@ public partial class PortalUser : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1340,12 +1343,12 @@ public partial class PortalUser : MapComponent
     ///     <strong>Since 4.30.</strong> When the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#recycleBinEnabled">recycle bin is enabled</a> and the item to be deleted is an item type supported by the recycle bin, this parameter determines if the item should be permanently deleted. If <code>true</code>, the item will be permanently deleted. Otherwise, the item will be moved to the recycle bin. If the recycle bin is disabled, this parameter has no effect. If the item is not supported by the recycle bin, it will be permanently deleted regardless of the value of this parameter.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> DeleteItem(PortalItem item,
+    public async Task<object?> DeleteItem(PortalItem item,
         bool permanentDelete)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "deleteItem", 
             CancellationTokenSource.Token,
             item,
@@ -1461,11 +1464,11 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchTags">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string[]?> FetchTags()
+    public async Task<object[]?> FetchTags()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string[]?>(
+        return await JsComponentReference!.InvokeAsync<object[]?>(
             "fetchTags", 
             CancellationTokenSource.Token);
     }
@@ -1520,12 +1523,12 @@ public partial class PortalUser : MapComponent
     ///     If an invalid folder is specified, an error will be returned and the item will not be restored.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> RestoreItem(PortalItem item,
+    public async Task<object?> RestoreItem(PortalItem item,
         PortalFolder folder)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "restoreItem", 
             CancellationTokenSource.Token,
             item,

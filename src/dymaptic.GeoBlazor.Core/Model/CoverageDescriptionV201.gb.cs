@@ -50,7 +50,7 @@ public partial record CoverageDescriptionV201(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CoverageDescriptionV201BoundedBy? BoundedBy = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? CoverageFunction = null,
+    object? CoverageFunction = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? CoverageId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -64,6 +64,6 @@ public partial record CoverageDescriptionV201(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CoverageDescriptionV201Resolution? Resolution = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? ServiceParameters = null,
+    object? ServiceParameters = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Version = null) : ICoverageInfoCoverageDescription;

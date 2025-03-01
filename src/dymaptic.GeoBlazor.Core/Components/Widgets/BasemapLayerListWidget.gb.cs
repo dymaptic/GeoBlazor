@@ -36,6 +36,7 @@ public partial class BasemapLayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
     
     /// <summary>
@@ -45,6 +46,7 @@ public partial class BasemapLayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
     
     /// <summary>
@@ -123,6 +125,7 @@ public partial class BasemapLayerListWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
     
     /// <summary>

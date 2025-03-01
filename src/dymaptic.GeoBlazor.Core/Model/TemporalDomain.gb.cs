@@ -34,6 +34,6 @@ public partial record TemporalDomain(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Resolution = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Units = null,
+    object? Units = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<DateTime>? Values = null);

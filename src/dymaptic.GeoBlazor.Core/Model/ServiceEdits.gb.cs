@@ -24,9 +24,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ServiceEdits(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? AddFeatures = null,
+    IReadOnlyCollection<object>? AddFeatures = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<string>? DeleteFeatures = null,
+    IReadOnlyCollection<object>? DeleteFeatures = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<ServiceEditsIdentifierFields>? IdentifierFields = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -187,7 +187,9 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     });
     
     jsGeoRSSLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsGeoRSSLayer.on('layerview-destroy', async (evt: any) => {

@@ -17,29 +17,6 @@ export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayerSaveAsOptions;
     
-    let { buildDotNetImageryTileLayerSaveAsOptions } = await import('./imageryTileLayerSaveAsOptions');
-    let dnInstantiatedObject = await buildDotNetImageryTileLayerSaveAsOptions(jsImageryTileLayerSaveAsOptions);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ImageryTileLayerSaveAsOptions detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ImageryTileLayerSaveAsOptions', e);
-    }
-    
     return jsImageryTileLayerSaveAsOptions;
 }
 

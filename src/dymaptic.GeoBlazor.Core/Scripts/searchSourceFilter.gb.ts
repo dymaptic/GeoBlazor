@@ -17,29 +17,6 @@ export async function buildJsSearchSourceFilterGenerated(dotNetObject: any): Pro
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSourceFilter;
     
-    let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
-    let dnInstantiatedObject = await buildDotNetSearchSourceFilter(jsSearchSourceFilter);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type SearchSourceFilter detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchSourceFilter', e);
-    }
-    
     return jsSearchSourceFilter;
 }
 

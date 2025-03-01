@@ -672,7 +672,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         return new ValueTask<MapComponent?>(instantiatedComponent);
     }
 
-    private void CopyProperties(MapComponent deserializedComponent)
+    internal void CopyProperties(MapComponent deserializedComponent)
     {
         foreach (PropertyInfo prop in GetType().GetProperties()
             .Where(p => p.SetMethod is not null))

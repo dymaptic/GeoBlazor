@@ -156,6 +156,7 @@ public partial class SliderViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? Labels { get; protected set; }
     
     /// <summary>
@@ -192,6 +193,7 @@ public partial class SliderViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
     /// <summary>

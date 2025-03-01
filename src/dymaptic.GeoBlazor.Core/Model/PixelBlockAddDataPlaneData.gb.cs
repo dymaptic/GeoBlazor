@@ -15,7 +15,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record PixelBlockAddDataPlaneData(
     IReadOnlyCollection<double>? Pixels = null,
-    IReadOnlyCollection<string>? Statistics = null)
+    IReadOnlyCollection<object>? Statistics = null)
 {
     /// <summary>
     ///     A two dimensional array representing the pixels to add.
@@ -27,6 +27,6 @@ public partial record PixelBlockAddDataPlaneData(
     ///     An array of objects containing numeric statistical properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<string>? Statistics { get; set; } = Statistics;
+    public IReadOnlyCollection<object>? Statistics { get; set; } = Statistics;
     
 }

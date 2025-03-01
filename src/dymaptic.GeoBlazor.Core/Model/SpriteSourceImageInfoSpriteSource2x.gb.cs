@@ -22,7 +22,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The JSON representation of an index file containing a description of each image in the sprite for high-DPI devices.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteSourceImageInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="StringImage">
+/// <param name="ObjectImage">
 ///     Image containing sprite data for high-DPI devices.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteSourceImageInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -36,4 +36,4 @@ public partial record SpriteSourceImageInfoSpriteSource2x(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpriteInfo? Json = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringImage = null);
+    object? ObjectImage = null);

@@ -120,7 +120,7 @@ public partial class WMTSLayer : Layer,
         WMTSSublayer? activeLayer = null,
         BlendMode? blendMode = null,
         string? copyright = null,
-        string? customLayerParameters = null,
+        object? customLayerParameters = null,
         Dictionary<string, object>? customParameters = null,
         Effect? effect = null,
         Extent? fullExtent = null,
@@ -204,7 +204,7 @@ public partial class WMTSLayer : Layer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? CustomLayerParameters { get; set; }
+    public object? CustomLayerParameters { get; set; }
     
     /// <summary>
     ///     Use this to append custom parameters to all WMTS requests.
@@ -398,7 +398,7 @@ public partial class WMTSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
     /// </summary>
-    public async Task<string?> GetCustomLayerParameters()
+    public async Task<object?> GetCustomLayerParameters()
     {
         if (CoreJsModule is null)
         {
@@ -412,7 +412,7 @@ public partial class WMTSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "customLayerParameters");
         if (result is not null)
         {
@@ -830,7 +830,7 @@ public partial class WMTSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomLayerParameters(string? value)
+    public async Task SetCustomLayerParameters(object? value)
     {
 #pragma warning disable BL0005
         CustomLayerParameters = value;

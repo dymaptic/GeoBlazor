@@ -69,6 +69,7 @@ public partial class BasemapLayerListViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
     
     /// <summary>
@@ -133,6 +134,7 @@ public partial class BasemapLayerListViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
     
     /// <summary>
@@ -169,6 +171,7 @@ public partial class BasemapLayerListViewModel : IViewModel
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
 #endregion

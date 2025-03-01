@@ -318,6 +318,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public GeoJSONLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -335,6 +336,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
@@ -408,6 +410,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
@@ -426,6 +429,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? HasZ { get; protected set; }
     
     /// <summary>
@@ -435,6 +439,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsTable { get; protected set; }
     
     /// <summary>

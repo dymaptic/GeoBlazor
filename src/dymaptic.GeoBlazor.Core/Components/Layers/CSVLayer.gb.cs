@@ -311,6 +311,7 @@ public partial class CSVLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public CSVLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -328,6 +329,7 @@ public partial class CSVLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
@@ -382,6 +384,7 @@ public partial class CSVLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
@@ -400,6 +403,7 @@ public partial class CSVLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? IsTable { get; protected set; }
     
     /// <summary>

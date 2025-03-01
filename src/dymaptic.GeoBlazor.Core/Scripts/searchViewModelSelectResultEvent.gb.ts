@@ -8,10 +8,11 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
         let { buildJsSearchViewModelSelectResultEventResult } = await import('./searchViewModelSelectResultEventResult');
         jsSearchViewModelSelectResultEvent.result = await buildJsSearchViewModelSelectResultEventResult(dotNetObject.result, layerId, viewId) as any;
     }
-
     if (hasValue(dotNetObject.source)) {
-        jsSearchViewModelSelectResultEvent.source = dotNetObject.source;
+        let { buildJsSearchSource } = await import('./searchSource');
+        jsSearchViewModelSelectResultEvent.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
+
     if (hasValue(dotNetObject.sourceIndex)) {
         jsSearchViewModelSelectResultEvent.sourceIndex = dotNetObject.sourceIndex;
     }
@@ -19,29 +20,6 @@ export async function buildJsSearchViewModelSelectResultEventGenerated(dotNetObj
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelSelectResultEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSelectResultEvent;
-    
-    let { buildDotNetSearchViewModelSelectResultEvent } = await import('./searchViewModelSelectResultEvent');
-    let dnInstantiatedObject = await buildDotNetSearchViewModelSelectResultEvent(jsSearchViewModelSelectResultEvent, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type SearchViewModelSelectResultEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchViewModelSelectResultEvent', e);
-    }
     
     return jsSearchViewModelSelectResultEvent;
 }
@@ -60,7 +38,8 @@ export async function buildDotNetSearchViewModelSelectResultEventGenerated(jsObj
         dotNetSearchViewModelSelectResultEvent.result = await buildDotNetSearchViewModelSelectResultEventResult(jsObject.result, layerId, viewId);
     }
     if (hasValue(jsObject.source)) {
-        dotNetSearchViewModelSelectResultEvent.source = jsObject.source;
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchViewModelSelectResultEvent.source = await buildDotNetSearchSource(jsObject.source);
     }
     if (hasValue(jsObject.sourceIndex)) {
         dotNetSearchViewModelSelectResultEvent.sourceIndex = jsObject.sourceIndex;

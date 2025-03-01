@@ -68,6 +68,7 @@ public partial class BookmarksViewModel : IGoTo,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Bookmark? ActiveBookmark { get; protected set; }
     
     /// <summary>
@@ -113,6 +114,7 @@ public partial class BookmarksViewModel : IGoTo,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
 #endregion

@@ -6,22 +6,28 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///    Alternative representation of features to be deleted with applyEdits.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="GlobalId">
-///     The globalId of the feature to be deleted.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="LongObjectId">
 ///     The objectId of the feature to be deleted.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="StringObjectId">
+/// <param name="ObjectGlobalId">
+///     The globalId of the feature to be deleted.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ObjectObjectId">
 ///     The objectId of the feature to be deleted.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringGlobalId">
+///     The globalId of the feature to be deleted.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#FeatureIdentifier">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FeatureIdentifier(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? GlobalId = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? LongObjectId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? StringObjectId = null);
+    object? ObjectGlobalId = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    object? ObjectObjectId = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? StringGlobalId = null);

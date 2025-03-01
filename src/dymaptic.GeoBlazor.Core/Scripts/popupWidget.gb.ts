@@ -113,7 +113,7 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.widget.features!.map(i => buildDotNetGraphic(i));
+        return this.widget.features!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setFeatures(value: any): Promise<void> {

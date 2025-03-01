@@ -25,29 +25,6 @@ export async function buildJsSearchResultGenerated(dotNetObject: any): Promise<a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchResult;
     
-    let { buildDotNetSearchResult } = await import('./searchResult');
-    let dnInstantiatedObject = buildDotNetSearchResult(jsSearchResult);
-
-    try {
-        let seenObjects = new WeakMap();
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type SearchResult detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchResult', e);
-    }
-    
     return jsSearchResult;
 }
 

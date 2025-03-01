@@ -55,6 +55,7 @@ public partial class ChartMediaInfoValueSeries
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public MapColor? Color { get; protected set; }
     
 #endregion

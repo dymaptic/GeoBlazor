@@ -20,29 +20,6 @@ export async function buildJsBaseLayerView2DRenderRenderParametersGenerated(dotN
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerView2DRenderRenderParameters;
     
-    let { buildDotNetBaseLayerView2DRenderRenderParameters } = await import('./baseLayerView2DRenderRenderParameters');
-    let dnInstantiatedObject = await buildDotNetBaseLayerView2DRenderRenderParameters(jsBaseLayerView2DRenderRenderParameters);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BaseLayerView2DRenderRenderParameters detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BaseLayerView2DRenderRenderParameters', e);
-    }
-    
     return jsBaseLayerView2DRenderRenderParameters;
 }
 

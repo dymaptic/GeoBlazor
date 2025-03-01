@@ -28,29 +28,6 @@ export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayerCurrentStyleInfo;
     
-    let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
-    let dnInstantiatedObject = await buildDotNetVectorTileLayerCurrentStyleInfo(jsVectorTileLayerCurrentStyleInfo);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type VectorTileLayerCurrentStyleInfo detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VectorTileLayerCurrentStyleInfo', e);
-    }
-    
     return jsVectorTileLayerCurrentStyleInfo;
 }
 

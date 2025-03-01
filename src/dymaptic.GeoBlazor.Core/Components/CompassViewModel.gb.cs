@@ -46,6 +46,7 @@ public partial class CompassViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public Orientation? Orientation { get; protected set; }
     
     /// <summary>
@@ -55,6 +56,7 @@ public partial class CompassViewModel : MapComponent,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public State? State { get; protected set; }
     
 #endregion

@@ -20,29 +20,6 @@ export async function buildJsDeleteItemsResultGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDeleteItemsResult;
     
-    let { buildDotNetDeleteItemsResult } = await import('./deleteItemsResult');
-    let dnInstantiatedObject = await buildDotNetDeleteItemsResult(jsDeleteItemsResult);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type DeleteItemsResult detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DeleteItemsResult', e);
-    }
-    
     return jsDeleteItemsResult;
 }
 

@@ -404,6 +404,7 @@ public partial class WCSLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>

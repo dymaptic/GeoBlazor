@@ -58,6 +58,7 @@ public partial class MultidimensionalSubset
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<SubsetDimension>? Dimensions { get; protected set; }
     
     /// <summary>
@@ -75,6 +76,7 @@ public partial class MultidimensionalSubset
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? Variables { get; protected set; }
     
 #endregion

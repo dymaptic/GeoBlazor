@@ -24,7 +24,7 @@ namespace dymaptic.GeoBlazor.Core.Options;
 public partial record MapImageLayerFetchImageOptions(
     double? PixelRatio = null,
     double? Rotation = null,
-    string? TimeExtent = null)
+    object? TimeExtent = null)
 {
     /// <summary>
     ///     The ratio of the resolution in physical pixels of the image to the resolution it will be displayed at.
@@ -42,6 +42,6 @@ public partial record MapImageLayerFetchImageOptions(
     ///     The time instant or time extent of content to render.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? TimeExtent { get; set; } = TimeExtent;
+    public object? TimeExtent { get; set; } = TimeExtent;
     
 }

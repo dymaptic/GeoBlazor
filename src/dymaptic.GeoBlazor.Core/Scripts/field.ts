@@ -29,11 +29,14 @@ export function buildJsField(dotNetObject: any): any {
     if (hasValue(dotNetObject.nullable)) {
         jsField.nullable = dotNetObject.nullable;
     }
+    if (hasValue(dotNetObject.type)) {
+        jsField.type = dotNetObject.type;
+    }
     if (hasValue(dotNetObject.valueType)) {
         jsField.valueType = dotNetObject.valueType;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsField);
+    let jsObjectRef = DotNet.createJSObjectReference(jsField);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsField;
 
@@ -54,7 +57,7 @@ export function buildDotNetField(jsObject: any): any {
     }
 
     let dotNetField: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.alias)) {
         dotNetField.alias = jsObject.alias;

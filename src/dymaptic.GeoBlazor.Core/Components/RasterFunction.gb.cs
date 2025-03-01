@@ -43,10 +43,10 @@ public partial class RasterFunction : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterFunction.html#variableName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public RasterFunction(
-        string? functionArguments = null,
+        object? functionArguments = null,
         string? functionName = null,
         OutputPixelType? outputPixelType = null,
-        string? rasterFunctionDefinition = null,
+        object? rasterFunctionDefinition = null,
         string? variableName = null)
     {
         AllowRender = false;
@@ -69,7 +69,7 @@ public partial class RasterFunction : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? FunctionArguments { get; set; }
+    public object? FunctionArguments { get; set; }
     
     /// <summary>
     ///     The raster function name.
@@ -97,7 +97,7 @@ public partial class RasterFunction : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? RasterFunctionDefinition { get; set; }
+    public object? RasterFunctionDefinition { get; set; }
     
     /// <summary>
     ///     The variable name for the raster function.
@@ -115,7 +115,7 @@ public partial class RasterFunction : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the FunctionArguments property.
     /// </summary>
-    public async Task<string?> GetFunctionArguments()
+    public async Task<object?> GetFunctionArguments()
     {
         if (CoreJsModule is null)
         {
@@ -129,7 +129,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "functionArguments");
         if (result is not null)
         {
@@ -205,7 +205,7 @@ public partial class RasterFunction : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFunctionDefinition property.
     /// </summary>
-    public async Task<string?> GetRasterFunctionDefinition()
+    public async Task<object?> GetRasterFunctionDefinition()
     {
         if (CoreJsModule is null)
         {
@@ -219,7 +219,7 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "rasterFunctionDefinition");
         if (result is not null)
         {
@@ -272,7 +272,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFunctionArguments(string? value)
+    public async Task SetFunctionArguments(object? value)
     {
 #pragma warning disable BL0005
         FunctionArguments = value;
@@ -362,7 +362,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRasterFunctionDefinition(string? value)
+    public async Task SetRasterFunctionDefinition(object? value)
     {
 #pragma warning disable BL0005
         RasterFunctionDefinition = value;

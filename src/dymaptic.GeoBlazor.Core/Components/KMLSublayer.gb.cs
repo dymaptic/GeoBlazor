@@ -40,7 +40,7 @@ public partial class KMLSublayer : MapComponent
     public KMLSublayer(
         string? description = null,
         long? kMLSublayerId = null,
-        string? networkLink = null,
+        object? networkLink = null,
         string? title = null)
     {
         AllowRender = false;
@@ -80,7 +80,7 @@ public partial class KMLSublayer : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? NetworkLink { get; set; }
+    public object? NetworkLink { get; set; }
     
     /// <summary>
     ///     The raw KML data for this sublayer, in JSON format, as returned by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-config.html#kmlServiceUrl">KML utility service</a>.
@@ -88,7 +88,8 @@ public partial class KMLSublayer : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? SourceJSON { get; protected set; }
+    [JsonInclude]
+    public object? SourceJSON { get; protected set; }
     
     /// <summary>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html">KMLSublayers</a>.
@@ -176,7 +177,7 @@ public partial class KMLSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the NetworkLink property.
     /// </summary>
-    public async Task<string?> GetNetworkLink()
+    public async Task<object?> GetNetworkLink()
     {
         if (CoreJsModule is null)
         {
@@ -190,7 +191,7 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "networkLink");
         if (result is not null)
         {
@@ -206,7 +207,7 @@ public partial class KMLSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<string?> GetSourceJSON()
+    public async Task<object?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -220,7 +221,7 @@ public partial class KMLSublayer : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -333,7 +334,7 @@ public partial class KMLSublayer : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNetworkLink(string? value)
+    public async Task SetNetworkLink(object? value)
     {
 #pragma warning disable BL0005
         NetworkLink = value;

@@ -103,7 +103,7 @@ let jsOptions = await buildJsWebMapSaveAsOptions(options, this.layerId, this.vie
         }
         
         let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
-        return await Promise.all(this.component.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i)));
+        return await Promise.all(this.component.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i, this.layerId, this.viewId)));
     }
     
     async setUtilityNetworks(value: any): Promise<void> {

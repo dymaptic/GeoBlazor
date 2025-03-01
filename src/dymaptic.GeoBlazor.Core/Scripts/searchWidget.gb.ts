@@ -270,7 +270,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     });
     
     jswidgetsSearch.on('suggest-complete', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', evt);
+        let { buildDotNetSearchSuggestCompleteEvent } = await import('./searchSuggestCompleteEvent');
+        let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', dnEvent);
     });
     
     jswidgetsSearch.on('suggest-start', async (evt: any) => {

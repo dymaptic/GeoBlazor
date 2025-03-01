@@ -74,16 +74,7 @@ public partial class Graphic: MapComponent
         ToSerializationRecord();
     }
     
-#region Public Properties / Blazor Parameters
-    
-    /// <summary>
-    ///     The aggregateGeometries contains spatial aggregation geometries when [statistics](https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType) query is executed with `envelope-aggregate`, `centroid-aggregate` and/or `convex-hull-aggregate` statistics type.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#aggregateGeometries">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? AggregateGeometries { get; set; }
+#region public properties
     
     /// <summary>
     ///     Name-value pairs of fields and field values associated with the graphic.
@@ -149,6 +140,7 @@ public partial class Graphic: MapComponent
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
+    [JsonInclude]
     public bool? IsAggregate { get; protected set; }
     
 #endregion
@@ -210,7 +202,7 @@ public partial class Graphic: MapComponent
     ///     Asynchronously retrieve the current value of the AggregateGeometries property.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<string?> GetAggregateGeometries()
+    public async Task<object?> GetAggregateGeometries()
     {
         if (CoreJsModule is null)
         {
@@ -620,7 +612,7 @@ public partial class Graphic: MapComponent
         {
             _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToSerializationRecord(), 
                 Symbol?.ToSerializationRecord(), PopupTemplate?.ToSerializationRecord(), 
-                Attributes.ToSerializationRecord(), Visible, AggregateGeometries, 
+                Attributes.ToSerializationRecord(), Visible, JsonSerializer.Serialize(AggregateGeometries), 
                 Origin?.ToSerializationRecord(), LayerId?.ToString(), ViewId?.ToString());
         }
 

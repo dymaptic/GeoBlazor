@@ -27,7 +27,7 @@ public partial class SpatialReference
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ImageCoordinateSystem { get; set; }
+    public object? ImageCoordinateSystem { get; set; }
     
     /// <summary>
     ///     The factor to convert one unit value in the spatial reference's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#unit">unit</a> to meters.
@@ -35,6 +35,7 @@ public partial class SpatialReference
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public double? MetersPerUnit { get; protected set; }
     
     /// <summary>
@@ -43,6 +44,7 @@ public partial class SpatialReference
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public SpatialReferenceUnit? Unit { get; protected set; }
     
 #endregion
@@ -52,7 +54,7 @@ public partial class SpatialReference
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageCoordinateSystem property.
     /// </summary>
-    public async Task<string?> GetImageCoordinateSystem()
+    public async Task<object?> GetImageCoordinateSystem()
     {
         if (CoreJsModule is null)
         {
@@ -66,7 +68,7 @@ public partial class SpatialReference
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
@@ -239,7 +241,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageCoordinateSystem(string? value)
+    public async Task SetImageCoordinateSystem(object? value)
     {
 #pragma warning disable BL0005
         ImageCoordinateSystem = value;

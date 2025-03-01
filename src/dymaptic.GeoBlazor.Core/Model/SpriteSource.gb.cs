@@ -46,6 +46,6 @@ public partial record SpriteSource(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Stream? Image = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? LoadStatus = null,
+    object? LoadStatus = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null);

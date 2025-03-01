@@ -46,13 +46,13 @@ public partial record PortalItemResource(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> Fetch(ResponseType responseType,
+    public async Task<object?> Fetch(ResponseType responseType,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetch", 
             _cancellationTokenSource.Token,
             responseType,
@@ -77,14 +77,14 @@ public partial record PortalItemResource(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> Update(Stream content,
+    public async Task<object?> Update(Stream content,
         PortalItemResourceUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "update", 
             _cancellationTokenSource.Token,
             content,

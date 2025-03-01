@@ -8,10 +8,11 @@ export async function buildJsSearchCompleteEventResultsGenerated(dotNetObject: a
         let { buildJsSearchResult } = await import('./searchResult');
         jsSearchSearchCompleteEventResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i))) as any;
     }
-
     if (hasValue(dotNetObject.source)) {
-        jsSearchSearchCompleteEventResults.source = dotNetObject.source;
+        let { buildJsSearchSource } = await import('./searchSource');
+        jsSearchSearchCompleteEventResults.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
+
     if (hasValue(dotNetObject.sourceIndex)) {
         jsSearchSearchCompleteEventResults.sourceIndex = dotNetObject.sourceIndex;
     }
@@ -19,29 +20,6 @@ export async function buildJsSearchCompleteEventResultsGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchSearchCompleteEventResults);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSearchCompleteEventResults;
-    
-    let { buildDotNetSearchCompleteEventResults } = await import('./searchCompleteEventResults');
-    let dnInstantiatedObject = await buildDotNetSearchCompleteEventResults(jsSearchSearchCompleteEventResults);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type SearchCompleteEventResults detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchCompleteEventResults', e);
-    }
     
     return jsSearchSearchCompleteEventResults;
 }
@@ -60,7 +38,8 @@ export async function buildDotNetSearchCompleteEventResultsGenerated(jsObject: a
         dotNetSearchCompleteEventResults.results = jsObject.results.map(i => buildDotNetSearchResult(i));
     }
     if (hasValue(jsObject.source)) {
-        dotNetSearchCompleteEventResults.source = jsObject.source;
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        dotNetSearchCompleteEventResults.source = await buildDotNetSearchSource(jsObject.source);
     }
     if (hasValue(jsObject.sourceIndex)) {
         dotNetSearchCompleteEventResults.sourceIndex = jsObject.sourceIndex;

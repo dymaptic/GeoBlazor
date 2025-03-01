@@ -164,6 +164,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? AttributionDataUrl { get; protected set; }
     
     /// <summary>
@@ -182,6 +183,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public VectorTileLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
@@ -190,6 +192,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public VectorTileLayerCurrentStyleInfo? CurrentStyleInfo { get; protected set; }
     
     /// <summary>
@@ -1103,11 +1106,11 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetLayoutProperties(string layerId)
+    public async Task<object?> GetLayoutProperties(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "getLayoutProperties", 
             CancellationTokenSource.Token,
             layerId);
@@ -1122,11 +1125,11 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetPaintProperties(string layerId)
+    public async Task<object?> GetPaintProperties(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "getPaintProperties", 
             CancellationTokenSource.Token,
             layerId);
@@ -1141,11 +1144,11 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetStyleLayer(string layerId)
+    public async Task<object?> GetStyleLayer(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "getStyleLayer", 
             CancellationTokenSource.Token,
             layerId);
@@ -1218,13 +1221,13 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> LoadStyle(string style,
+    public async Task<object?> LoadStyle(string style,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        object? result = await JsComponentReference!.InvokeAsync<object?>(
             "loadStyle", 
             CancellationTokenSource.Token,
             style,
@@ -1248,7 +1251,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     [ArcGISMethod]
     public async Task SetLayoutProperties(string layerId,
-        string layout)
+        object layout)
     {
         if (JsComponentReference is null) return;
         
@@ -1272,7 +1275,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     [ArcGISMethod]
     public async Task SetPaintProperties(string layerId,
-        string painter)
+        object painter)
     {
         if (JsComponentReference is null) return;
         
@@ -1316,7 +1319,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     Index of the style layer in the style. Set this parameter when adding a new style layer or re-ordering a style layer.
     /// </param>
     [ArcGISMethod]
-    public async Task SetStyleLayer(string layer,
+    public async Task SetStyleLayer(object layer,
         int index)
     {
         if (JsComponentReference is null) return;

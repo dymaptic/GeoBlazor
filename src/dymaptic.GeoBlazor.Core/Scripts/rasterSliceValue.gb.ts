@@ -20,29 +20,6 @@ export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSliceValue;
     
-    let { buildDotNetRasterSliceValue } = await import('./rasterSliceValue');
-    let dnInstantiatedObject = await buildDotNetRasterSliceValue(jsRasterSliceValue);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type RasterSliceValue detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RasterSliceValue', e);
-    }
-    
     return jsRasterSliceValue;
 }
 

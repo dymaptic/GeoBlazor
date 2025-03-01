@@ -35,29 +35,6 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsuniqueValueCreateRendererParams;
     
-    let { buildDotNetUniqueValueCreateRendererParams } = await import('./uniqueValueCreateRendererParams');
-    let dnInstantiatedObject = await buildDotNetUniqueValueCreateRendererParams(jsuniqueValueCreateRendererParams);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type UniqueValueCreateRendererParams detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for UniqueValueCreateRendererParams', e);
-    }
-    
     return jsuniqueValueCreateRendererParams;
 }
 

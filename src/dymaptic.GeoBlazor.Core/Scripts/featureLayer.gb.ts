@@ -215,7 +215,7 @@ let jsFeature = buildJsGraphic(feature) as any;
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.layer.source!.map(i => buildDotNetGraphic(i));
+        return this.layer.source!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setSource(value: any): Promise<void> {
@@ -403,6 +403,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
     }
+    if (hasValue(dotNetObject.geometryType)) {
+        properties.geometryType = dotNetObject.geometryType;
+    }
     if (hasValue(dotNetObject.hasM)) {
         properties.hasM = dotNetObject.hasM;
     }
@@ -495,7 +498,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     });
     
     jsFeatureLayer.on('layerview-create-error', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', evt);
+        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsFeatureLayer.on('layerview-destroy', async (evt: any) => {

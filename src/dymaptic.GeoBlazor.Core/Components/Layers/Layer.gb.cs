@@ -30,6 +30,7 @@ public abstract partial class Layer : IHitTestItem,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public bool? Loaded { get; protected set; }
     
 #endregion
@@ -390,7 +391,7 @@ public abstract partial class Layer : IHitTestItem,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<LayerView?> CreateLayerView(string view,
+    public async Task<LayerView?> CreateLayerView(object view,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
@@ -412,11 +413,11 @@ public abstract partial class Layer : IHitTestItem,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fetchAttributionData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string?> FetchAttributionData()
+    public async Task<object?> FetchAttributionData()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "fetchAttributionData", 
             CancellationTokenSource.Token);
     }

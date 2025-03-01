@@ -18,29 +18,6 @@ export async function buildJsViewLayerviewDestroyEventGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewLayerviewDestroyEvent;
     
-    let { buildDotNetViewLayerviewDestroyEvent } = await import('./viewLayerviewDestroyEvent');
-    let dnInstantiatedObject = await buildDotNetViewLayerviewDestroyEvent(jsViewLayerviewDestroyEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ViewLayerviewDestroyEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ViewLayerviewDestroyEvent', e);
-    }
-    
     return jsViewLayerviewDestroyEvent;
 }
 

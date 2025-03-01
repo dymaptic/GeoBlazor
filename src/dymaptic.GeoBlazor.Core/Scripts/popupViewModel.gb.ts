@@ -91,7 +91,7 @@ let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId,
         }
         
         let { buildDotNetGraphic } = await import('./graphic');
-        return this.component.features!.map(i => buildDotNetGraphic(i));
+        return this.component.features!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
     }
     
     async setFeatures(value: any): Promise<void> {

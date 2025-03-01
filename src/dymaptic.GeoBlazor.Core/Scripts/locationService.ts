@@ -1,3 +1,4 @@
+import LocationServiceGenerated from './locationService.gb';
 import * as locator from "@arcgis/core/rest/locator";
 import {DotNetAddressCandidate, DotNetExtent, DotNetPoint, DotNetSpatialReference} from "./definitions";
 import {hasValue} from "./arcGisJsInterop";
@@ -12,7 +13,7 @@ import locatorAddressToLocationsParams = __esri.locatorAddressToLocationsParams;
 import locatorAddressesToLocationsParams = __esri.locatorAddressesToLocationsParams;
 import SuggestionResult = __esri.SuggestionResult;
 
-export default class LocatorWrapper {
+export default class LocatorWrapper extends LocationServiceGenerated {
 
     async addressesToLocations(url: string, addresses: object[], countryCode: string | null,
                                categories: string[] | null, locationType: string | null,
@@ -146,4 +147,12 @@ export default class LocatorWrapper {
 
         return await locator.suggestLocations(url, params);
     }
+}
+export async function buildJsLocationService(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let { buildJsLocationServiceGenerated } = await import('./locationService.gb');
+    return await buildJsLocationServiceGenerated(dotNetObject, layerId, viewId);
+}
+export async function buildDotNetLocationService(jsObject: any): Promise<any> {
+    let { buildDotNetLocationServiceGenerated } = await import('./locationService.gb');
+    return await buildDotNetLocationServiceGenerated(jsObject);
 }

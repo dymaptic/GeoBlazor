@@ -15,7 +15,6 @@ export default class ExpandWidgetWrapper extends ExpandWidgetGenerated {
 export async function buildJsExpandWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsExpandWidgetGenerated} = await import('./expandWidget.gb');
     let jsExpand = await buildJsExpandWidgetGenerated(dotNetObject, layerId, viewId);
-    let content: any = null;
     let expandWidgetDiv =
         document.getElementById(`widget-container-${dotNetObject.id}`) as HTMLElement;
     if (expandWidgetDiv === null) {
@@ -30,6 +29,7 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
             i --;
         }
     }
+    
     expandWidgetDiv.hidden = false;
     if (hasValue(dotNetObject.htmlContent)) {
         let templatedContent = document.createElement('template');
@@ -38,11 +38,13 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
     }
 
     if (hasValue(dotNetObject.widgetContent)) {
-        await buildJsWidget(dotNetObject.widgetContent, layerId, viewId);
+        let innerWidget = await buildJsWidget(dotNetObject.widgetContent, layerId, viewId);
+        innerWidget.view = arcGisObjectRefs[viewId!];
+        let innerWidgetDiv = document.createElement('div');
+        innerWidget.container = innerWidgetDiv;
+        expandWidgetDiv.appendChild(innerWidgetDiv);
     }
-    
-    let view = arcGisObjectRefs[viewId!];
-    view.ui.remove(content);
+
     jsExpand.content = expandWidgetDiv;
     
     return jsExpand;

@@ -18,29 +18,6 @@ export async function buildJsLayerListViewModelTriggerActionEventGenerated(dotNe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModelTriggerActionEvent;
     
-    let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
-    let dnInstantiatedObject = await buildDotNetLayerListViewModelTriggerActionEvent(jsLayerListViewModelTriggerActionEvent);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LayerListViewModelTriggerActionEvent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerListViewModelTriggerActionEvent', e);
-    }
-    
     return jsLayerListViewModelTriggerActionEvent;
 }
 

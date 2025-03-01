@@ -7,7 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///          Possible line style values for <see cref="SimpleLineSymbol" />
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SimpleLineSymbolStyle>))]
+[JsonConverter(typeof(SimpleLineSymbolStyleConverter))]
+[CodeGenerationIgnore]
 public enum SimpleLineSymbolStyle
 {
 #pragma warning disable CS1591

@@ -37,6 +37,19 @@ public class EnumToKebabCaseStringConverter<T> : JsonConverter<T> where T : notn
     }
 }
 
+internal class SimpleLineSymbolStyleConverter : EnumToKebabCaseStringConverter<SimpleLineSymbolStyle>
+{
+    public override SimpleLineSymbolStyle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        string? value = reader.GetString()?
+            .Replace("-", string.Empty)
+            .Replace("SLS", string.Empty)
+            .Replace("esri", string.Empty);
+
+        return value is not null ? (SimpleLineSymbolStyle)Enum.Parse(typeof(SimpleLineSymbolStyle), value, true) : default;
+    }
+}
+
 
 /// <summary>
 /// Converts an enum to a kebab case string for serialization. Used with TimeInerval which returns esriTimeUnits from the ESRI JS.

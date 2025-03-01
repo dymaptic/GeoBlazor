@@ -92,6 +92,7 @@ public partial class PortalFolder : MapComponent
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public string? Url { get; protected set; }
     
 #endregion

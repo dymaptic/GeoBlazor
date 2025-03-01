@@ -14,14 +14,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fromArcGISServerUrl">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record LayerFromArcGISServerUrlParams(
-    string? Properties = null,
+    object? Properties = null,
     string? Url = null)
 {
     /// <summary>
     ///     Set any of the layer's properties here for constructing the layer instance (e.g.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fromArcGISServerUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? Properties { get; set; } = Properties;
+    public object? Properties { get; set; } = Properties;
     
     /// <summary>
     ///     The ArcGIS Server URL used to create the layer.

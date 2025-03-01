@@ -34,12 +34,12 @@ public partial record VectorTileLayerCurrentStyleInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? GlyphsUrl = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? LayerDefinition = null,
+    object? LayerDefinition = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? ServiceUrl = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SpriteUrl = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Style = null,
+    object? Style = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? StyleUrl = null);

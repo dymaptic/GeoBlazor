@@ -187,7 +187,7 @@ public partial class WMSLayer : Layer,
         IReadOnlyList<WMSSublayer>? allSublayers = null,
         BlendMode? blendMode = null,
         string? copyright = null,
-        string? customLayerParameters = null,
+        object? customLayerParameters = null,
         Dictionary<string, object>? customParameters = null,
         string? description = null,
         Effect? effect = null,
@@ -301,7 +301,7 @@ public partial class WMSLayer : Layer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? CustomLayerParameters { get; set; }
+    public object? CustomLayerParameters { get; set; }
     
     /// <summary>
     ///     Use this to append custom parameters to all WMS requests.
@@ -327,6 +327,7 @@ public partial class WMSLayer : Layer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<IWMSLayerDimensions>? Dimensions { get; protected set; }
     
     /// <summary>
@@ -354,6 +355,7 @@ public partial class WMSLayer : Layer,
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<string>? FeatureInfoFormats { get; protected set; }
     
     /// <summary>
@@ -380,7 +382,7 @@ public partial class WMSLayer : Layer,
     ///     Should not be called by consuming code.
     /// </summary>
     [JSInvokable]
-    public async Task<Graphic[]?> OnJsFetchFeatureInfoFunction(string query)
+    public async Task<Graphic[]?> OnJsFetchFeatureInfoFunction(object query)
     {
         Graphic[]? result = null;
     
@@ -675,7 +677,7 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the CustomLayerParameters property.
     /// </summary>
-    public async Task<string?> GetCustomLayerParameters()
+    public async Task<object?> GetCustomLayerParameters()
     {
         if (CoreJsModule is null)
         {
@@ -689,7 +691,7 @@ public partial class WMSLayer : Layer,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "customLayerParameters");
         if (result is not null)
         {
@@ -1592,7 +1594,7 @@ public partial class WMSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetCustomLayerParameters(string? value)
+    public async Task SetCustomLayerParameters(object? value)
     {
 #pragma warning disable BL0005
         CustomLayerParameters = value;

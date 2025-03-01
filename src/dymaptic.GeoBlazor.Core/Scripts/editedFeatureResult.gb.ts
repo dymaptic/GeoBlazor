@@ -17,29 +17,6 @@ export async function buildJsEditedFeatureResultGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditedFeatureResult;
     
-    let { buildDotNetEditedFeatureResult } = await import('./editedFeatureResult');
-    let dnInstantiatedObject = await buildDotNetEditedFeatureResult(jsEditedFeatureResult, layerId, viewId);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type EditedFeatureResult detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for EditedFeatureResult', e);
-    }
-    
     return jsEditedFeatureResult;
 }
 

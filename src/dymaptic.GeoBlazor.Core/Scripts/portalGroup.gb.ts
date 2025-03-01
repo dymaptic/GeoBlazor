@@ -114,29 +114,6 @@ export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = portalGroupWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalGroup;
     
-    let { buildDotNetPortalGroup } = await import('./portalGroup');
-    let dnInstantiatedObject = await buildDotNetPortalGroup(jsPortalGroup);
-
-    try {
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type PortalGroup detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalGroup', e);
-    }
-    
     return jsPortalGroup;
 }
 

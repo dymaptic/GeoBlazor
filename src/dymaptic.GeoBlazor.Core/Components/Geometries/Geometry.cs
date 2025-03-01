@@ -8,6 +8,7 @@ public abstract partial class Geometry : MapComponent
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
+    [JsonInclude]
     public Extent? Extent { get; protected set; }
 
     /// <summary>
