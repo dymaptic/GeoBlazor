@@ -21,8 +21,8 @@ export default class GroundGenerated implements IPropertyWrapper {
     
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         let result = await this.component.createElevationSampler(jsExtent,
             options);
         let { buildDotNetElevationSampler } = await import('./elevationSampler');
@@ -37,8 +37,8 @@ let jsExtent = buildJsExtent(extent) as any;
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.queryElevation(jsGeometry,
             options);
     }

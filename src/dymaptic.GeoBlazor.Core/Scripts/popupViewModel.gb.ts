@@ -36,8 +36,8 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     }
 
     async open(options: any): Promise<void> {
-                let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
-let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
+        let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
         this.component.open(jsOptions);
     }
 

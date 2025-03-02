@@ -20,8 +20,8 @@ export default class UniqueValuesGenerated implements IPropertyWrapper {
     }
     
     async uniqueValues(parameters: any): Promise<any> {
-                let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
-let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;
+        let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
+        let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;
         return await this.component.uniqueValues(jsparameters);
     }
 

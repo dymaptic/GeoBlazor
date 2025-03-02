@@ -41,8 +41,8 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchPixels(jsExtent,
             width,
             height,
@@ -51,10 +51,10 @@ let jsExtent = buildJsExtent(extent) as any;
 
     async identify(point: any,
         options: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
-                let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
-let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsPoint = buildJsPoint(point) as any;
+        let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
+        let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsPoint,
             jsOptions);
     }

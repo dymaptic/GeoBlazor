@@ -20,8 +20,8 @@ export default class ViewStateGenerated implements IPropertyWrapper {
     }
     
     async copy(state: any): Promise<any> {
-                let { buildJsViewState } = await import('./viewState');
-let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
+        let { buildJsViewState } = await import('./viewState');
+        let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
         let result = this.component.copy(jsState);
         let { buildDotNetViewState } = await import('./viewState');
         return await buildDotNetViewState(result);

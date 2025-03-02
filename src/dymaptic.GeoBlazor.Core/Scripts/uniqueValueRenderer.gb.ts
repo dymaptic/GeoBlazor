@@ -21,15 +21,15 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
-                let { buildJsSymbol } = await import('./symbol');
-let jsSymbol = buildJsSymbol(symbol) as any;
+        let { buildJsSymbol } = await import('./symbol');
+        let jsSymbol = buildJsSymbol(symbol) as any;
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
 
     async getUniqueValueInfo(graphic: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsGraphic = buildJsGraphic(graphic) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsGraphic = buildJsGraphic(graphic) as any;
         return await this.component.getUniqueValueInfo(jsGraphic);
     }
 

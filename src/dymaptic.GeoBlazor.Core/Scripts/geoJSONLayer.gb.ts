@@ -24,8 +24,8 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     }
 
     async applyEdits(edits: any): Promise<any> {
-                let { buildJsGeoJSONLayerApplyEditsEdits } = await import('./geoJSONLayerApplyEditsEdits');
-let jsEdits = await buildJsGeoJSONLayerApplyEditsEdits(edits, this.layerId, this.viewId) as any;
+        let { buildJsGeoJSONLayerApplyEditsEdits } = await import('./geoJSONLayerApplyEditsEdits');
+        let jsEdits = await buildJsGeoJSONLayerApplyEditsEdits(edits, this.layerId, this.viewId) as any;
         return await this.layer.applyEdits(jsEdits);
     }
 
@@ -53,40 +53,40 @@ let jsEdits = await buildJsGeoJSONLayerApplyEditsEdits(edits, this.layerId, this
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-                let { buildJsGeoJSONLayerGetFieldDomainOptions } = await import('./geoJSONLayerGetFieldDomainOptions');
-let jsOptions = await buildJsGeoJSONLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsGeoJSONLayerGetFieldDomainOptions } = await import('./geoJSONLayerGetFieldDomainOptions');
+        let jsOptions = await buildJsGeoJSONLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.layer.getFieldDomain(fieldName,
             jsOptions);
     }
 
     async queryExtent(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }

@@ -23,8 +23,8 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         distance: any,
         unit: any,
         unionResults: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.buffer(jsGeometry,
             distance,
             unit,
@@ -33,18 +33,18 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     async clip(geometry: any,
         envelope: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsExtent } = await import('./extent');
-let jsEnvelope = buildJsExtent(envelope) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsEnvelope = buildJsExtent(envelope) as any;
         return await this.component.clip(jsGeometry,
             jsEnvelope);
     }
 
     async contains(containerGeometry: any,
         insideGeometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsContainerGeometry = buildJsGeometry(containerGeometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsContainerGeometry = buildJsGeometry(containerGeometry) as any;
         let jsInsideGeometry = buildJsGeometry(insideGeometry) as any;
         return await this.component.contains(jsContainerGeometry,
             jsInsideGeometry);
@@ -52,16 +52,16 @@ let jsContainerGeometry = buildJsGeometry(containerGeometry) as any;
 
     async convexHull(geometry: any,
         merge: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.convexHull(jsGeometry,
             merge);
     }
 
     async crosses(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.crosses(jsGeometry1,
             jsGeometry2);
@@ -69,10 +69,10 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async cut(geometry: any,
         cutter: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPolyline } = await import('./polyline');
-let jsCutter = buildJsPolyline(cutter) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPolyline } = await import('./polyline');
+        let jsCutter = buildJsPolyline(cutter) as any;
         return await this.component.cut(jsGeometry,
             jsCutter);
     }
@@ -80,8 +80,8 @@ let jsCutter = buildJsPolyline(cutter) as any;
     async densify(geometry: any,
         maxSegmentLength: any,
         maxSegmentLengthUnit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.densify(jsGeometry,
             maxSegmentLength,
             maxSegmentLengthUnit);
@@ -89,8 +89,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     async difference(inputGeometry: any,
         subtractor: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsInputGeometry = buildJsGeometry(inputGeometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsInputGeometry = buildJsGeometry(inputGeometry) as any;
         let jsSubtractor = buildJsGeometry(subtractor) as any;
         return await this.component.difference(jsInputGeometry,
             jsSubtractor);
@@ -98,8 +98,8 @@ let jsInputGeometry = buildJsGeometry(inputGeometry) as any;
 
     async disjoint(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.disjoint(jsGeometry1,
             jsGeometry2);
@@ -108,8 +108,8 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
     async distance(geometry1: any,
         geometry2: any,
         distanceUnit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.distance(jsGeometry1,
             jsGeometry2,
@@ -122,20 +122,20 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async flipHorizontal(geometry: any,
         flipOrigin: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipHorizontal(jsGeometry,
             jsFlipOrigin);
     }
 
     async flipVertical(geometry: any,
         flipOrigin: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipVertical(jsGeometry,
             jsFlipOrigin);
     }
@@ -144,8 +144,8 @@ let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         maxDeviation: any,
         removeDegenerateParts: any,
         maxDeviationUnit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.generalize(jsGeometry,
             maxDeviation,
             removeDegenerateParts,
@@ -154,8 +154,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     async geodesicArea(geometry: any,
         unit: any): Promise<any> {
-                let { buildJsPolygon } = await import('./polygon');
-let jsGeometry = buildJsPolygon(geometry) as any;
+        let { buildJsPolygon } = await import('./polygon');
+        let jsGeometry = buildJsPolygon(geometry) as any;
         return await this.component.geodesicArea(jsGeometry,
             unit);
     }
@@ -164,8 +164,8 @@ let jsGeometry = buildJsPolygon(geometry) as any;
         distance: any,
         unit: any,
         unionResults: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.geodesicBuffer(jsGeometry,
             distance,
             unit,
@@ -175,8 +175,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
     async geodesicDensify(geometry: any,
         maxSegmentLength: any,
         maxSegmentLengthUnit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.geodesicDensify(jsGeometry,
             maxSegmentLength,
             maxSegmentLengthUnit);
@@ -184,16 +184,16 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     async geodesicLength(geometry: any,
         unit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.geodesicLength(jsGeometry,
             unit);
     }
 
     async intersect(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.intersect(jsGeometry1,
             jsGeometry2);
@@ -201,8 +201,8 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async intersectLinesToPoints(line1: any,
         line2: any): Promise<any> {
-                let { buildJsPolyline } = await import('./polyline');
-let jsLine1 = buildJsPolyline(line1) as any;
+        let { buildJsPolyline } = await import('./polyline');
+        let jsLine1 = buildJsPolyline(line1) as any;
         let jsLine2 = buildJsPolyline(line2) as any;
         return await this.component.intersectLinesToPoints(jsLine1,
             jsLine2);
@@ -210,35 +210,35 @@ let jsLine1 = buildJsPolyline(line1) as any;
 
     async intersects(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.intersects(jsGeometry1,
             jsGeometry2);
     }
 
     async isSimple(geometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.isSimple(jsGeometry);
     }
 
     async nearestCoordinate(geometry: any,
         inputPoint: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestCoordinate(jsGeometry,
             jsInputPoint);
     }
 
     async nearestVertex(geometry: any,
         inputPoint: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertex(jsGeometry,
             jsInputPoint);
     }
@@ -247,10 +247,10 @@ let jsInputPoint = buildJsPoint(inputPoint) as any;
         inputPoint: any,
         searchRadius: any,
         maxVertexCountToReturn: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsInputPoint = buildJsPoint(inputPoint) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertices(jsGeometry,
             jsInputPoint,
             searchRadius,
@@ -263,8 +263,8 @@ let jsInputPoint = buildJsPoint(inputPoint) as any;
         joinType: any,
         bevelRatio: any,
         flattenError: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.offset(jsGeometry,
             offsetDistance,
             offsetUnit,
@@ -275,8 +275,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
 
     async overlaps(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.overlaps(jsGeometry1,
             jsGeometry2);
@@ -284,16 +284,16 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async planarArea(geometry: any,
         unit: any): Promise<any> {
-                let { buildJsPolygon } = await import('./polygon');
-let jsGeometry = buildJsPolygon(geometry) as any;
+        let { buildJsPolygon } = await import('./polygon');
+        let jsGeometry = buildJsPolygon(geometry) as any;
         return await this.component.planarArea(jsGeometry,
             unit);
     }
 
     async planarLength(geometry: any,
         unit: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.planarLength(jsGeometry,
             unit);
     }
@@ -301,8 +301,8 @@ let jsGeometry = buildJsGeometry(geometry) as any;
     async relate(geometry1: any,
         geometry2: any,
         relation: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.relate(jsGeometry1,
             jsGeometry2,
@@ -312,25 +312,25 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
     async rotate(geometry: any,
         angle: any,
         rotationOrigin: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
-                let { buildJsPoint } = await import('./point');
-let jsRotationOrigin = buildJsPoint(rotationOrigin) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsRotationOrigin = buildJsPoint(rotationOrigin) as any;
         return await this.component.rotate(jsGeometry,
             angle,
             jsRotationOrigin);
     }
 
     async simplify(geometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return await this.component.simplify(jsGeometry);
     }
 
     async symmetricDifference(leftGeometry: any,
         rightGeometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsLeftGeometry = buildJsGeometry(leftGeometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsLeftGeometry = buildJsGeometry(leftGeometry) as any;
         let jsRightGeometry = buildJsGeometry(rightGeometry) as any;
         return await this.component.symmetricDifference(jsLeftGeometry,
             jsRightGeometry);
@@ -338,8 +338,8 @@ let jsLeftGeometry = buildJsGeometry(leftGeometry) as any;
 
     async touches(geometry1: any,
         geometry2: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry1 = buildJsGeometry(geometry1) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry1 = buildJsGeometry(geometry1) as any;
         let jsGeometry2 = buildJsGeometry(geometry2) as any;
         return await this.component.touches(jsGeometry1,
             jsGeometry2);
@@ -353,8 +353,8 @@ let jsGeometry1 = buildJsGeometry(geometry1) as any;
 
     async within(innerGeometry: any,
         outerGeometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsInnerGeometry = buildJsGeometry(innerGeometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsInnerGeometry = buildJsGeometry(innerGeometry) as any;
         let jsOuterGeometry = buildJsGeometry(outerGeometry) as any;
         return await this.component.within(jsInnerGeometry,
             jsOuterGeometry);

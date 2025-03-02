@@ -22,7 +22,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -34,15 +34,15 @@ export default class SublayerGenerated implements IPropertyWrapper {
     }
 
     async getFeatureType(feature: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsFeature = buildJsGraphic(feature) as any;
         return this.component.getFeatureType(jsFeature);
     }
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-                let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
-let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsSublayerGetFieldDomainOptions } = await import('./sublayerGetFieldDomainOptions');
+        let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.component.getFieldDomain(fieldName,
             jsOptions);
     }
@@ -55,40 +55,40 @@ let jsOptions = await buildJsSublayerGetFieldDomainOptions(options, this.layerId
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }
 
     async queryRelatedFeatures(relationshipQuery: any,
         options: any): Promise<any> {
-                let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
+        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeatures(jsRelationshipQuery,
             options);
     }
 
     async queryRelatedFeaturesCount(relationshipQuery: any,
         options: any): Promise<any> {
-                let { buildJsRelationshipQuery } = await import('./relationshipQuery');
-let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
+        let { buildJsRelationshipQuery } = await import('./relationshipQuery');
+        let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as any;
         return await this.component.queryRelatedFeaturesCount(jsRelationshipQuery,
             options);
     }
@@ -179,7 +179,7 @@ let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as a
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -193,7 +193,7 @@ let jsRelationshipQuery = await buildJsRelationshipQuery(relationshipQuery) as a
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i)));
+        return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {
@@ -274,7 +274,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
     
     let { buildDotNetSublayer } = await import('./sublayer');
-    let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
+    let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -300,7 +300,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -334,7 +334,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
+        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, layerId, viewId)));
     }
     if (hasValue(jsObject.capabilities)) {
         dotNetSublayer.capabilities = jsObject.capabilities;

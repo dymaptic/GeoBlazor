@@ -938,17 +938,17 @@ public partial class WFSLayer : Layer,
             return FeatureReduction;
         }
 
-        // get the property value
-        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
-            CancellationTokenSource.Token, "featureReduction");
+        IFeatureReduction? result = await JsComponentReference.InvokeAsync<IFeatureReduction?>(
+            "getFeatureReduction", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureReduction = result;
+            FeatureReduction = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+            ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
-         
+        
         return FeatureReduction;
     }
     

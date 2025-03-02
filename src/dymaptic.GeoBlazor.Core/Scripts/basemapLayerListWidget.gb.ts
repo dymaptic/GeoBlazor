@@ -36,8 +36,8 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
     }
 
     async own(handleOrHandles: any): Promise<void> {
-                let { buildJsWatchHandle } = await import('./watchHandle');
-let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 
@@ -59,10 +59,10 @@ let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, 
 
     async triggerAction(action: any,
         item: any): Promise<void> {
-                let { buildJsActionBase } = await import('./actionBase');
-let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
-                let { buildJsListItem } = await import('./listItem');
-let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
+        let { buildJsListItem } = await import('./listItem');
+        let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.widget.triggerAction(jsAction,
             jsItem);
     }

@@ -21,8 +21,8 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
     
     async basemapEquals(basemap1: any,
         basemap2: any): Promise<any> {
-                let { buildJsBasemap } = await import('./basemap');
-let jsBasemap1 = await buildJsBasemap(basemap1, this.layerId, this.viewId) as any;
+        let { buildJsBasemap } = await import('./basemap');
+        let jsBasemap1 = await buildJsBasemap(basemap1, this.layerId, this.viewId) as any;
         let jsBasemap2 = await buildJsBasemap(basemap2, this.layerId, this.viewId) as any;
         return this.component.basemapEquals(jsBasemap1,
             jsBasemap2);

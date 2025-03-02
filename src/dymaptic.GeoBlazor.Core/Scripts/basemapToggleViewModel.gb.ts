@@ -20,8 +20,8 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
     }
     
     async getThumbnailUrl(basemap: any): Promise<any> {
-                let { buildJsBasemap } = await import('./basemap');
-let jsBasemap = await buildJsBasemap(basemap, this.layerId, this.viewId) as any;
+        let { buildJsBasemap } = await import('./basemap');
+        let jsBasemap = await buildJsBasemap(basemap, this.layerId, this.viewId) as any;
         return this.component.getThumbnailUrl(jsBasemap);
     }
 

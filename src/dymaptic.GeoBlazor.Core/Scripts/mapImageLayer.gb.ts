@@ -27,8 +27,8 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         return this.layer.createExportImageParameters(jsExtent,
             width,
             height,
@@ -44,7 +44,7 @@ let jsExtent = buildJsExtent(extent) as any;
     async createServiceSublayers(): Promise<any> {
         let result = this.layer.createServiceSublayers();
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(result.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(result.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
 
     async fetchAttributionData(): Promise<any> {
@@ -55,8 +55,8 @@ let jsExtent = buildJsExtent(extent) as any;
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
             height,
@@ -66,13 +66,13 @@ let jsExtent = buildJsExtent(extent) as any;
     async findSublayerById(id: any): Promise<any> {
         let result = this.layer.findSublayerById(id);
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await buildDotNetSublayer(result);
+        return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
 
     async loadAll(): Promise<any> {
         let result = await this.layer.loadAll();
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await buildDotNetSublayer(result);
+        return await buildDotNetSublayer(result, this.layerId, this.viewId);
     }
 
     async refresh(): Promise<void> {
@@ -87,7 +87,7 @@ let jsExtent = buildJsExtent(extent) as any;
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
     
     async getEffect(): Promise<any> {
@@ -138,7 +138,7 @@ let jsExtent = buildJsExtent(extent) as any;
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -152,7 +152,7 @@ let jsExtent = buildJsExtent(extent) as any;
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.layer.subtables.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.layer.subtables.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSubtables(value: any): Promise<void> {
@@ -346,7 +346,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
     
     let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
-    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer);
+    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -372,7 +372,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -394,11 +394,11 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetSublayer } = await import('./sublayer');
-        dotNetMapImageLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i)));
+        dotNetMapImageLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId)));
     }
     if (hasValue(jsObject.subtables)) {
         let { buildDotNetSublayer } = await import('./sublayer');
-        dotNetMapImageLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i)));
+        dotNetMapImageLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i, layerId, viewId)));
     }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');

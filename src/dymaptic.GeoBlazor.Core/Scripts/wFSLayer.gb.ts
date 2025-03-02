@@ -47,40 +47,40 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
 
     async getFieldDomain(fieldName: any,
         options: any): Promise<any> {
-                let { buildJsWFSLayerGetFieldDomainOptions } = await import('./wFSLayerGetFieldDomainOptions');
-let jsOptions = await buildJsWFSLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsWFSLayerGetFieldDomainOptions } = await import('./wFSLayerGetFieldDomainOptions');
+        let jsOptions = await buildJsWFSLayerGetFieldDomainOptions(options, this.layerId, this.viewId) as any;
         return this.layer.getFieldDomain(fieldName,
             jsOptions);
     }
 
     async queryExtent(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             options);
     }

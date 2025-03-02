@@ -20,8 +20,8 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
     }
     
     async highlight(target: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsTarget = buildJsGraphic(target) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);

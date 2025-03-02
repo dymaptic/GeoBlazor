@@ -23,8 +23,8 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         fromParentItem: any,
         toParentItem: any,
         newIndex: any): Promise<void> {
-                let { buildJsListItem } = await import('./listItem');
-let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) as any;
+        let { buildJsListItem } = await import('./listItem');
+        let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) as any;
         let jsFromParentItem = await buildJsListItem(fromParentItem, this.layerId, this.viewId) as any;
         let jsToParentItem = await buildJsListItem(toParentItem, this.layerId, this.viewId) as any;
         this.component.moveListItem(jsTargetItem,
@@ -35,10 +35,10 @@ let jsTargetItem = await buildJsListItem(targetItem, this.layerId, this.viewId) 
 
     async triggerAction(action: any,
         item: any): Promise<void> {
-                let { buildJsActionBase } = await import('./actionBase');
-let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
-                let { buildJsListItem } = await import('./listItem');
-let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = await buildJsActionBase(action, this.layerId, this.viewId) as any;
+        let { buildJsListItem } = await import('./listItem');
+        let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
         this.component.triggerAction(jsAction,
             jsItem);
     }

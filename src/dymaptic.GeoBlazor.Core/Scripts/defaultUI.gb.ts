@@ -21,10 +21,10 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     
     async add(component: any,
         position: any): Promise<void> {
-                let { buildJsWidget } = await import('./widget');
-let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
-                let { buildJsUIAddPosition } = await import('./uIAddPosition');
-let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.add(jsComponent,
             jsPosition);
     }
@@ -34,24 +34,24 @@ let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId)
     }
 
     async getComponents(position: any): Promise<any> {
-                let { buildJsUIAddPosition } = await import('./uIAddPosition');
-let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         return this.component.getComponents(jsPosition);
     }
 
     async move(component: any,
         position: any): Promise<void> {
-                let { buildJsWidget } = await import('./widget');
-let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
-                let { buildJsUIAddPosition } = await import('./uIAddPosition');
-let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let { buildJsUIAddPosition } = await import('./uIAddPosition');
+        let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.move(jsComponent,
             jsPosition);
     }
 
     async remove(component: any): Promise<void> {
-                let { buildJsWidget } = await import('./widget');
-let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let { buildJsWidget } = await import('./widget');
+        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
         this.component.remove(jsComponent);
     }
 

@@ -26,8 +26,8 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
     }
 
     async queryElevation(geometry: any): Promise<any> {
-                let { buildJsGeometry } = await import('./geometry');
-let jsGeometry = buildJsGeometry(geometry) as any;
+        let { buildJsGeometry } = await import('./geometry');
+        let jsGeometry = buildJsGeometry(geometry) as any;
         return this.component.queryElevation(jsGeometry);
     }
 

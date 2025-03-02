@@ -44,8 +44,8 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     }
 
     async own(handleOrHandles: any): Promise<void> {
-                let { buildJsWatchHandle } = await import('./watchHandle');
-let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
         this.widget.own(jsHandleOrHandles);
     }
 

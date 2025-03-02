@@ -25,8 +25,8 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
 
     async computeStatisticsHistograms(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
-let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+        let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeStatisticsHistograms(jsParameters,
             requestOptions);
     }
@@ -49,8 +49,8 @@ let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerI
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchPixels(jsExtent,
             width,
             height,
@@ -69,10 +69,10 @@ let jsExtent = buildJsExtent(extent) as any;
 
     async identify(point: any,
         options: any): Promise<any> {
-                let { buildJsPoint } = await import('./point');
-let jsPoint = buildJsPoint(point) as any;
-                let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
-let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsPoint } = await import('./point');
+        let jsPoint = buildJsPoint(point) as any;
+        let { buildJsRasterIdentifyOptions } = await import('./rasterIdentifyOptions');
+        let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsPoint,
             jsOptions);
     }
@@ -85,10 +85,10 @@ let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.v
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-                let { buildJsPortalItem } = await import('./portalItem');
-let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-                let { buildJsImageryTileLayerSaveAsOptions } = await import('./imageryTileLayerSaveAsOptions');
-let jsOptions = await buildJsImageryTileLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsPortalItem } = await import('./portalItem');
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let { buildJsImageryTileLayerSaveAsOptions } = await import('./imageryTileLayerSaveAsOptions');
+        let jsOptions = await buildJsImageryTileLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');

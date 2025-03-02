@@ -25,16 +25,16 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async addAttachment(feature: any,
         attachment: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsFeature = buildJsGraphic(feature) as any;
         return await this.layer.addAttachment(jsFeature,
             attachment);
     }
 
     async applyEdits(edits: any,
         options: any): Promise<any> {
-                let { buildJsFeatureEdits } = await import('./featureEdits');
-let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
+        let { buildJsFeatureEdits } = await import('./featureEdits');
+        let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
         return await this.layer.applyEdits(jsEdits,
             options);
     }
@@ -47,8 +47,8 @@ let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any
 
     async deleteAttachments(feature: any,
         attachmentIds: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsFeature = buildJsGraphic(feature) as any;
         return await this.layer.deleteAttachments(jsFeature,
             attachmentIds);
     }
@@ -71,10 +71,10 @@ let jsFeature = buildJsGraphic(feature) as any;
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-                let { buildJsPortalItem } = await import('./portalItem');
-let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-                let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
-let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
+        let { buildJsPortalItem } = await import('./portalItem');
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let { buildJsFeatureLayerBaseSaveAsOptions } = await import('./featureLayerBaseSaveAsOptions');
+        let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
@@ -84,8 +84,8 @@ let jsOptions = await buildJsFeatureLayerBaseSaveAsOptions(options) as any;
     async updateAttachment(feature: any,
         attachmentId: any,
         attachment: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsFeature = buildJsGraphic(feature) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsFeature = buildJsGraphic(feature) as any;
         return await this.layer.updateAttachment(jsFeature,
             attachmentId,
             attachment);
@@ -266,7 +266,7 @@ let jsFeature = buildJsGraphic(feature) as any;
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.layer.types.map(async i => await buildDotNetFeatureType(i)));
+        return await Promise.all(this.layer.types.map(async i => await buildDotNetFeatureType(i, this.layerId, this.viewId)));
     }
     
     async setTypes(value: any): Promise<void> {
@@ -528,7 +528,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
     
     let { buildDotNetFeatureLayer } = await import('./featureLayer');
-    let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
+    let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -554,7 +554,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -612,7 +612,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetFeatureLayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
+        dotNetFeatureLayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, layerId, viewId)));
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');

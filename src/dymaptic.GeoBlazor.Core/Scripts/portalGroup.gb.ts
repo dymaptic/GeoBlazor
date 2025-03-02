@@ -33,8 +33,8 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
 
     async queryItems(queryParams: any,
         options: any): Promise<any> {
-                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
             options);
     }

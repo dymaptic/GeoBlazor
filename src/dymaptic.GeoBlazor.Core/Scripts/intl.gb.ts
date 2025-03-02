@@ -90,8 +90,8 @@ export default class IntlGenerated implements IPropertyWrapper {
     async substitute(template: any,
         data: any,
         options: any): Promise<any> {
-                let { buildJsSubstituteOptions } = await import('./substituteOptions');
-let jsOptions = await buildJsSubstituteOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsSubstituteOptions } = await import('./substituteOptions');
+        let jsOptions = await buildJsSubstituteOptions(options, this.layerId, this.viewId) as any;
         return this.component.substitute(template,
             data,
             jsOptions);

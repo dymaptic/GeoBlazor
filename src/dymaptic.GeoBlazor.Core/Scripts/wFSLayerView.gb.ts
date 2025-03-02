@@ -28,8 +28,8 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
     }
 
     async highlight(target: any): Promise<any> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsTarget = buildJsGraphic(target) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result);
@@ -37,40 +37,40 @@ let jsTarget = buildJsGraphic(target) as any;
 
     async queryAggregates(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
     }
 
     async queryExtent(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryExtent(jsQuery,
             options);
     }
 
     async queryFeatureCount(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatureCount(jsQuery,
             options);
     }
 
     async queryFeatures(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryFeatures(jsQuery,
             options);
     }
 
     async queryObjectIds(query: any,
         options: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
     }

@@ -25,32 +25,32 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
 
     async computeAngles(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageAngleParameters } = await import('./imageAngleParameters');
-let jsParameters = await buildJsImageAngleParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageAngleParameters } = await import('./imageAngleParameters');
+        let jsParameters = await buildJsImageAngleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeAngles(jsParameters,
             requestOptions);
     }
 
     async computeHistograms(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
-let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+        let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeHistograms(jsParameters,
             requestOptions);
     }
 
     async computePixelSpaceLocations(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImagePixelLocationParameters } = await import('./imagePixelLocationParameters');
-let jsParameters = await buildJsImagePixelLocationParameters(parameters) as any;
+        let { buildJsImagePixelLocationParameters } = await import('./imagePixelLocationParameters');
+        let jsParameters = await buildJsImagePixelLocationParameters(parameters) as any;
         return await this.layer.computePixelSpaceLocations(jsParameters,
             requestOptions);
     }
 
     async computeStatisticsHistograms(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
-let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageHistogramParameters } = await import('./imageHistogramParameters');
+        let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.computeStatisticsHistograms(jsParameters,
             requestOptions);
     }
@@ -73,8 +73,8 @@ let jsParameters = await buildJsImageHistogramParameters(parameters, this.layerI
         width: any,
         height: any,
         options: any): Promise<any> {
-                let { buildJsExtent } = await import('./extent');
-let jsExtent = buildJsExtent(extent) as any;
+        let { buildJsExtent } = await import('./extent');
+        let jsExtent = buildJsExtent(extent) as any;
         return await this.layer.fetchImage(jsExtent,
             width,
             height,
@@ -83,8 +83,8 @@ let jsExtent = buildJsExtent(extent) as any;
 
     async findImages(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsFindImagesParameters } = await import('./findImagesParameters');
-let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsFindImagesParameters } = await import('./findImagesParameters');
+        let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.findImages(jsParameters,
             requestOptions);
     }
@@ -115,128 +115,128 @@ let jsParameters = await buildJsFindImagesParameters(parameters, this.layerId, t
 
     async getSamples(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageSampleParameters } = await import('./imageSampleParameters');
-let jsParameters = await buildJsImageSampleParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageSampleParameters } = await import('./imageSampleParameters');
+        let jsParameters = await buildJsImageSampleParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.getSamples(jsParameters,
             requestOptions);
     }
 
     async identify(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageIdentifyParameters } = await import('./imageIdentifyParameters');
-let jsParameters = await buildJsImageIdentifyParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageIdentifyParameters } = await import('./imageIdentifyParameters');
+        let jsParameters = await buildJsImageIdentifyParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsParameters,
             requestOptions);
     }
 
     async imageToMap(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageToMapParameters } = await import('./imageToMapParameters');
-let jsParameters = await buildJsImageToMapParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageToMapParameters } = await import('./imageToMapParameters');
+        let jsParameters = await buildJsImageToMapParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMap(jsParameters,
             requestOptions);
     }
 
     async imageToMapMultiray(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
-let jsParameters = await buildJsImageToMapMultirayParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageToMapMultirayParameters } = await import('./imageToMapMultirayParameters');
+        let jsParameters = await buildJsImageToMapMultirayParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.imageToMapMultiray(jsParameters,
             requestOptions);
     }
 
     async mapToImage(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsMapToImageParameters } = await import('./mapToImageParameters');
-let jsParameters = await buildJsMapToImageParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsMapToImageParameters } = await import('./mapToImageParameters');
+        let jsParameters = await buildJsMapToImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.mapToImage(jsParameters,
             requestOptions);
     }
 
     async measureAreaAndPerimeter(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
-let jsParameters = await buildJsImageAreaParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageAreaParameters } = await import('./imageAreaParameters');
+        let jsParameters = await buildJsImageAreaParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaAndPerimeter(jsParameters,
             requestOptions);
     }
 
     async measureAreaFromImage(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
-let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+        let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureAreaFromImage(jsParameters,
             requestOptions);
     }
 
     async measureDistanceAndAngle(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
-let jsParameters = await buildJsImageDistanceParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageDistanceParameters } = await import('./imageDistanceParameters');
+        let jsParameters = await buildJsImageDistanceParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureDistanceAndAngle(jsParameters,
             requestOptions);
     }
 
     async measureHeight(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
-let jsParameters = await buildJsImageHeightParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageHeightParameters } = await import('./imageHeightParameters');
+        let jsParameters = await buildJsImageHeightParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureHeight(jsParameters,
             requestOptions);
     }
 
     async measureLengthFromImage(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
-let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsMeasureFromImageParameters } = await import('./measureFromImageParameters');
+        let jsParameters = await buildJsMeasureFromImageParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measureLengthFromImage(jsParameters,
             requestOptions);
     }
 
     async measurePointOrCentroid(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImagePointParameters } = await import('./imagePointParameters');
-let jsParameters = await buildJsImagePointParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImagePointParameters } = await import('./imagePointParameters');
+        let jsParameters = await buildJsImagePointParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.measurePointOrCentroid(jsParameters,
             requestOptions);
     }
 
     async queryBoundary(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageBoundaryParameters } = await import('./imageBoundaryParameters');
-let jsParameters = await buildJsImageBoundaryParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageBoundaryParameters } = await import('./imageBoundaryParameters');
+        let jsParameters = await buildJsImageBoundaryParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryBoundary(jsParameters,
             requestOptions);
     }
 
     async queryGPSInfo(parameters: any,
         requestOptions: any): Promise<any> {
-                let { buildJsImageGPSInfoParameters } = await import('./imageGPSInfoParameters');
-let jsParameters = await buildJsImageGPSInfoParameters(parameters, this.layerId, this.viewId) as any;
+        let { buildJsImageGPSInfoParameters } = await import('./imageGPSInfoParameters');
+        let jsParameters = await buildJsImageGPSInfoParameters(parameters, this.layerId, this.viewId) as any;
         return await this.layer.queryGPSInfo(jsParameters,
             requestOptions);
     }
 
     async queryObjectIds(query: any,
         requestOptions: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryObjectIds(jsQuery,
             requestOptions);
     }
 
     async queryRasterCount(query: any,
         requestOptions: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasterCount(jsQuery,
             requestOptions);
     }
 
     async queryRasters(query: any,
         requestOptions: any): Promise<any> {
-                let { buildJsQuery } = await import('./query');
-let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
+        let { buildJsQuery } = await import('./query');
+        let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.layer.queryRasters(jsQuery,
             requestOptions);
     }
@@ -257,10 +257,10 @@ let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
 
     async saveAs(portalItem: any,
         options: any): Promise<any> {
-                let { buildJsPortalItem } = await import('./portalItem');
-let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-                let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
-let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
+        let { buildJsPortalItem } = await import('./portalItem');
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let { buildJsImageryLayerSaveAsOptions } = await import('./imageryLayerSaveAsOptions');
+        let jsOptions = await buildJsImageryLayerSaveAsOptions(options) as any;
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');

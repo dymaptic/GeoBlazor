@@ -21,8 +21,8 @@ export default class HandlesGenerated implements IPropertyWrapper {
     
     async add(handles: any,
         groupKey: any): Promise<void> {
-                let { buildJsWatchHandle } = await import('./watchHandle');
-let jsHandles = await buildJsWatchHandle(handles, this.layerId, this.viewId) as any;
+        let { buildJsWatchHandle } = await import('./watchHandle');
+        let jsHandles = await buildJsWatchHandle(handles, this.layerId, this.viewId) as any;
         this.component.add(jsHandles,
             groupKey);
     }

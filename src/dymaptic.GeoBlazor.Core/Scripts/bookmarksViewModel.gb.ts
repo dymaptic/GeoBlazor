@@ -20,24 +20,24 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
     }
     
     async createBookmark(options: any): Promise<any> {
-                let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+        let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
         return await this.component.createBookmark(jsOptions);
     }
 
     async editBookmark(bookmark: any,
         options: any): Promise<any> {
-                let { buildJsBookmark } = await import('./bookmark');
-let jsBookmark = await buildJsBookmark(bookmark) as any;
-                let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
-let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
+        let { buildJsBookmark } = await import('./bookmark');
+        let jsBookmark = await buildJsBookmark(bookmark) as any;
+        let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+        let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
         return await this.component.editBookmark(jsBookmark,
             jsOptions);
     }
 
     async goTo(bookmark: any): Promise<any> {
-                let { buildJsBookmark } = await import('./bookmark');
-let jsBookmark = await buildJsBookmark(bookmark) as any;
+        let { buildJsBookmark } = await import('./bookmark');
+        let jsBookmark = await buildJsBookmark(bookmark) as any;
         return await this.component.goTo(jsBookmark);
     }
 

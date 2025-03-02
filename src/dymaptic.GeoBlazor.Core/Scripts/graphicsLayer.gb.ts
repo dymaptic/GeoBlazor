@@ -24,8 +24,8 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
 
     async add(graphic: any): Promise<void> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsGraphic = buildJsGraphic(graphic) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsGraphic = buildJsGraphic(graphic) as any;
         this.layer.add(jsGraphic);
     }
 
@@ -46,8 +46,8 @@ let jsGraphic = buildJsGraphic(graphic) as any;
     }
 
     async remove(graphic: any): Promise<void> {
-                let { buildJsGraphic } = await import('./graphic');
-let jsGraphic = buildJsGraphic(graphic) as any;
+        let { buildJsGraphic } = await import('./graphic');
+        let jsGraphic = buildJsGraphic(graphic) as any;
         this.layer.remove(jsGraphic);
     }
 

@@ -123,6 +123,7 @@
         <None Remove="Scripts\arcGISImageServiceCapabilitiesMensuration.gb.ts" />
         <None Remove="Scripts\arcGISImageServiceCapabilities.gb.ts" />
         <None Remove="Scripts\actionBase.gb.ts" />
+        <None Remove="Scripts\webMap.gb.ts" />
     </ItemGroup>
 
     <ItemGroup>

@@ -51,24 +51,24 @@ export default class PortalGenerated implements IPropertyWrapper {
 
     async queryGroups(queryParams: any,
         options: any): Promise<any> {
-                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryGroups(jsQueryParams,
             options);
     }
 
     async queryItems(queryParams: any,
         options: any): Promise<any> {
-                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryItems(jsQueryParams,
             options);
     }
 
     async queryUsers(queryParams: any,
         options: any): Promise<any> {
-                let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
         return await this.component.queryUsers(jsQueryParams,
             options);
     }
