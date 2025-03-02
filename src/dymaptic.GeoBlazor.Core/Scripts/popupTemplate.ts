@@ -81,6 +81,9 @@ export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
     let result = await buildDotNetPopupTemplateGenerated(jsObject);
     if (typeof jsObject.content === 'string') {
         result.stringContent = jsObject.content;
+    } else if (Array.isArray(jsObject.content)) {
+        let { buildDotNetPopupContent } = await import('./popupContent');
+        result.content = jsObject.content.map(i => buildDotNetPopupContent(i));
     }
 
     return result;

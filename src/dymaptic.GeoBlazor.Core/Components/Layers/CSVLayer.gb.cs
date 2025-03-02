@@ -2012,8 +2012,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEffect", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2042,8 +2042,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2102,8 +2102,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelingInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2522,8 +2522,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2642,8 +2642,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

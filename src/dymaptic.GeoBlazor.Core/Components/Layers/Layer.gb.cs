@@ -372,8 +372,8 @@ public abstract partial class Layer : IHitTestItem,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setVisibilityTimeExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "visibilityTimeExtent", value);
     }
     
 #endregion

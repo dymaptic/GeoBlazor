@@ -415,8 +415,8 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

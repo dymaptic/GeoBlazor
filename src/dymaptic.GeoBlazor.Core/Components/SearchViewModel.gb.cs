@@ -349,7 +349,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<string>? Results { get; protected set; }
+    public IReadOnlyList<object>? Results { get; protected set; }
     
     /// <summary>
     ///     Indicates whether to display the option to search all sources.
@@ -378,7 +378,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public string? SelectedResult { get; protected set; }
+    public object? SelectedResult { get; protected set; }
     
     /// <summary>
     ///     The selected SuggestResult.
@@ -407,7 +407,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public SearchViewModelState? State { get; protected set; }
     
     /// <summary>
     ///     The millisecond delay after keyup and before making a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">suggest</a> network request.
@@ -1046,7 +1046,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
-    public async Task<IReadOnlyList<string>?> GetResults()
+    public async Task<IReadOnlyList<object>?> GetResults()
     {
         if (CoreJsModule is null)
         {
@@ -1060,7 +1060,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {
@@ -1136,7 +1136,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the SelectedResult property.
     /// </summary>
-    public async Task<string?> GetSelectedResult()
+    public async Task<object?> GetSelectedResult()
     {
         if (CoreJsModule is null)
         {
@@ -1150,7 +1150,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "selectedResult");
         if (result is not null)
         {
@@ -1226,7 +1226,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<SearchViewModelState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -1240,12 +1240,12 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<SearchViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SearchViewModelState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (SearchViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }

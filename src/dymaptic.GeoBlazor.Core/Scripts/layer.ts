@@ -41,7 +41,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsMapImageLayer} = await import('./mapImageLayer');
             return await buildJsMapImageLayer(dotNetObject, layerId, viewId);
         case 'open-street-map':
-            let { buildJsOpenStreetMapLayer } = await import('./openStreetMapLayer');
+            let {buildJsOpenStreetMapLayer} = await import('./openStreetMapLayer');
             return await buildJsOpenStreetMapLayer(dotNetObject, layerId, viewId);
         case 'tile':
             let {buildJsTileLayer} = await import('./tileLayer');
@@ -56,12 +56,12 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsVectorTileLayer} = await import('./vectorTileLayer');
             return await buildJsVectorTileLayer(dotNetObject, layerId, viewId);
         case 'wcs':
-            let { buildJsWCSLayer } = await import('./wCSLayer');
-           return await buildJsWCSLayer(dotNetObject, layerId, viewId);
+            let {buildJsWCSLayer} = await import('./wCSLayer');
+            return await buildJsWCSLayer(dotNetObject, layerId, viewId);
         case 'web-tile':
             let {buildJsWebTileLayer} = await import('./webTileLayer');
             return await buildJsWebTileLayer(dotNetObject, layerId, viewId);
-       case 'wfs':
+        case 'wfs':
             let {buildJsWFSLayer} = await import('./wFSLayer');
             return await buildJsWFSLayer(dotNetObject, layerId, viewId);
         case 'wms':
@@ -71,107 +71,207 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
             let {buildJsWMTSLayer} = await import('./wMTSLayer');
             return await buildJsWMTSLayer(dotNetObject, layerId, viewId);
         case 'base-dynamic':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsBaseDynamicLayer} = await import('./baseDynamicLayer');
-            return await buildJsBaseDynamicLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsBaseDynamicLayer} = await import('./baseDynamicLayer');
+                return await buildJsBaseDynamicLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'base-elevation':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsBaseElevationLayer} = await import('./baseElevationLayer');
-            return await buildJsBaseElevationLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsBaseElevationLayer} = await import('./baseElevationLayer');
+                return await buildJsBaseElevationLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'building-scene':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsBuildingSceneLayer} = await import('./buildingSceneLayer');
-            return await buildJsBuildingSceneLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsBuildingSceneLayer} = await import('./buildingSceneLayer');
+                return await buildJsBuildingSceneLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'catalog-dynamic-group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
-            return await buildJsCatalogDynamicGroupLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
+                return await buildJsCatalogDynamicGroupLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'catalog-footprint':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsCatalogFootprintLayer} = await import('./catalogFootprintLayer');
-            return await buildJsCatalogFootprintLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsCatalogFootprintLayer} = await import('./catalogFootprintLayer');
+                return await buildJsCatalogFootprintLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'catalog':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsCatalogLayer} = await import('./catalogLayer');
-            return await buildJsCatalogLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsCatalogLayer} = await import('./catalogLayer');
+                return await buildJsCatalogLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'dimension':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsDimensionLayer} = await import('./dimensionLayer');
-            return await buildJsDimensionLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsDimensionLayer} = await import('./dimensionLayer');
+                return await buildJsDimensionLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'elevation':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsElevationLayer} = await import('./elevationLayer');
-            return await buildJsElevationLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsElevationLayer} = await import('./elevationLayer');
+                return await buildJsElevationLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsGroupLayer} = await import('./groupLayer');
-            return await buildJsGroupLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsGroupLayer} = await import('./groupLayer');
+                return await buildJsGroupLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'integrated-mesh':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsIntegratedMeshLayer} = await import('./integratedMeshLayer');
-            return await buildJsIntegratedMeshLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsIntegratedMeshLayer} = await import('./integratedMeshLayer');
+                return await buildJsIntegratedMeshLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'integrated-mesh-3dtiles':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
-            return await buildJsIntegratedMesh3DTilesLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
+                return await buildJsIntegratedMesh3DTilesLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'knowledge-graph-sublayer':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
-            return await buildJsKnowledgeGraphSublayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
+                return await buildJsKnowledgeGraphSublayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'knowledge-graph':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
-            return await buildJsKnowledgeGraphLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
+                return await buildJsKnowledgeGraphLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'line-of-sight':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsLineOfSightLayer} = await import('./lineOfSightLayer');
-            return await buildJsLineOfSightLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsLineOfSightLayer} = await import('./lineOfSightLayer');
+                return await buildJsLineOfSightLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'map-notes':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsMapNotesLayer} = await import('./mapNotesLayer');
-            return await buildJsMapNotesLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsMapNotesLayer} = await import('./mapNotesLayer');
+                return await buildJsMapNotesLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'media':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsMediaLayer} = await import('./mediaLayer');
-            return await buildJsMediaLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsMediaLayer} = await import('./mediaLayer');
+                return await buildJsMediaLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'ogc-feature':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsOGCFeatureLayer} = await import('./oGCFeatureLayer');
-            return await buildJsOGCFeatureLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsOGCFeatureLayer} = await import('./oGCFeatureLayer');
+                return await buildJsOGCFeatureLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'oriented-imagery':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsOrientedImageryLayer} = await import('./orientedImageryLayer');
-            return await buildJsOrientedImageryLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsOrientedImageryLayer} = await import('./orientedImageryLayer');
+                return await buildJsOrientedImageryLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'point-cloud':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsPointCloudLayer} = await import('./pointCloudLayer');
-            return await buildJsPointCloudLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsPointCloudLayer} = await import('./pointCloudLayer');
+                return await buildJsPointCloudLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'route':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsRouteLayer} = await import('./routeLayer');
-            return await buildJsRouteLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsRouteLayer} = await import('./routeLayer');
+                return await buildJsRouteLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'scene':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsSceneLayer} = await import('./sceneLayer');
-            return await buildJsSceneLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsSceneLayer} = await import('./sceneLayer');
+                return await buildJsSceneLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'stream':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsStreamLayer} = await import('./streamLayer');
-            return await buildJsStreamLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsStreamLayer} = await import('./streamLayer');
+                return await buildJsStreamLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'subtype-group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsSubtypeGroupLayer} = await import('./subtypeGroupLayer');
-            return await buildJsSubtypeGroupLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsSubtypeGroupLayer} = await import('./subtypeGroupLayer');
+                return await buildJsSubtypeGroupLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'video':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsVideoLayer} = await import('./videoLayer');
-            return await buildJsVideoLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsVideoLayer} = await import('./videoLayer');
+                return await buildJsVideoLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'voxel':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildJsVoxelLayer} = await import('./voxelLayer');
-            return await buildJsVoxelLayer(dotNetObject, layerId, viewId);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildJsVoxelLayer} = await import('./voxelLayer');
+                return await buildJsVoxelLayer(dotNetObject, layerId, viewId);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         default:
-            let { id, dotNetComponentReference, ...sanitizedLayer } = dotNetObject;
+            let {id, dotNetComponentReference, ...sanitizedLayer} = dotNetObject;
             return sanitizedLayer;
     }
 }
@@ -212,7 +312,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
             let {buildDotNetMapImageLayer} = await import('./mapImageLayer');
             return await buildDotNetMapImageLayer(jsObject);
         case 'open-street-map':
-            let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
+            let {buildDotNetOpenStreetMapLayer} = await import('./openStreetMapLayer');
             return await buildDotNetOpenStreetMapLayer(jsObject);
         case 'tile':
             let {buildDotNetTileLayer} = await import('./tileLayer');
@@ -221,7 +321,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
             let {buildDotNetVectorTileLayer} = await import('./vectorTileLayer');
             return await buildDotNetVectorTileLayer(jsObject);
         case 'wcs':
-            let { buildDotNetWCSLayer } = await import('./wCSLayer');
+            let {buildDotNetWCSLayer} = await import('./wCSLayer');
             return await buildDotNetWCSLayer(jsObject);
         case 'web-tile':
             let {buildDotNetWebTileLayer} = await import('./webTileLayer');
@@ -235,112 +335,212 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
         case 'wmts':
             let {buildDotNetWMTSLayer} = await import('./wMTSLayer');
             return await buildDotNetWMTSLayer(jsObject);
-        case 'base-dynamic':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetBaseDynamicLayer} = await import('./baseDynamicLayer');
-            return await buildDotNetBaseDynamicLayer(jsObject);
-        case 'base-elevation':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetBaseElevationLayer} = await import('./baseElevationLayer');
-            return await buildDotNetBaseElevationLayer(jsObject);
-        case 'building-scene':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetBuildingSceneLayer} = await import('./buildingSceneLayer');
-            return await buildDotNetBuildingSceneLayer(jsObject);
-        case 'catalog-dynamic-group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
-            return await buildDotNetCatalogDynamicGroupLayer(jsObject);
-        case 'catalog-footprint':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetCatalogFootprintLayer} = await import('./catalogFootprintLayer');
-            return await buildDotNetCatalogFootprintLayer(jsObject);
-        case 'catalog':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetCatalogLayer} = await import('./catalogLayer');
-            return await buildDotNetCatalogLayer(jsObject);
-        case 'dimension':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetDimensionLayer} = await import('./dimensionLayer');
-            return await buildDotNetDimensionLayer(jsObject);
-        case 'elevation':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetElevationLayer} = await import('./elevationLayer');
-            return await buildDotNetElevationLayer(jsObject);
-        case 'group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetGroupLayer} = await import('./groupLayer');
-            return await buildDotNetGroupLayer(jsObject);
-        case 'integrated-mesh':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetIntegratedMeshLayer} = await import('./integratedMeshLayer');
-            return await buildDotNetIntegratedMeshLayer(jsObject);
-        case 'integrated-mesh-3dtiles':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
-            return await buildDotNetIntegratedMesh3DTilesLayer(jsObject);
-        case 'knowledge-graph-sublayer':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
-            return await buildDotNetKnowledgeGraphSublayer(jsObject);
-        case 'knowledge-graph':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
-            return await buildDotNetKnowledgeGraphLayer(jsObject);
-        case 'line-of-sight':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetLineOfSightLayer} = await import('./lineOfSightLayer');
-            return await buildDotNetLineOfSightLayer(jsObject);
-        case 'map-notes':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetMapNotesLayer} = await import('./mapNotesLayer');
-            return await buildDotNetMapNotesLayer(jsObject);
-        case 'media':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetMediaLayer} = await import('./mediaLayer');
-            return await buildDotNetMediaLayer(jsObject);
-        case 'ogc-feature':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetOGCFeatureLayer} = await import('./oGCFeatureLayer');
-            return await buildDotNetOGCFeatureLayer(jsObject);
-        case 'oriented-imagery':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetOrientedImageryLayer} = await import('./orientedImageryLayer');
-            return await buildDotNetOrientedImageryLayer(jsObject);
-        case 'point-cloud':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetPointCloudLayer} = await import('./pointCloudLayer');
-            return await buildDotNetPointCloudLayer(jsObject);
-        case 'route':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetRouteLayer} = await import('./routeLayer');
-            return await buildDotNetRouteLayer(jsObject);
-        case 'scene':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetSceneLayer} = await import('./sceneLayer');
-            return await buildDotNetSceneLayer(jsObject);
-        case 'stream':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetStreamLayer} = await import('./streamLayer');
-            return await buildDotNetStreamLayer(jsObject);
-        case 'subtype-group':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetSubtypeGroupLayer} = await import('./subtypeGroupLayer');
-            return await buildDotNetSubtypeGroupLayer(jsObject);
         case 'unknown':
             let {buildDotNetUnknownLayer} = await import('./unknownLayer');
             return await buildDotNetUnknownLayer(jsObject);
         case 'unsupported':
             let {buildDotNetUnsupportedLayer} = await import('./unsupportedLayer');
             return await buildDotNetUnsupportedLayer(jsObject);
+        case 'base-dynamic':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetBaseDynamicLayer} = await import('./baseDynamicLayer');
+                return await buildDotNetBaseDynamicLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'base-elevation':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetBaseElevationLayer} = await import('./baseElevationLayer');
+                return await buildDotNetBaseElevationLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'building-scene':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetBuildingSceneLayer} = await import('./buildingSceneLayer');
+                return await buildDotNetBuildingSceneLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'catalog-dynamic-group':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
+                return await buildDotNetCatalogDynamicGroupLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'catalog-footprint':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetCatalogFootprintLayer} = await import('./catalogFootprintLayer');
+                return await buildDotNetCatalogFootprintLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'catalog':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetCatalogLayer} = await import('./catalogLayer');
+                return await buildDotNetCatalogLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'dimension':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetDimensionLayer} = await import('./dimensionLayer');
+                return await buildDotNetDimensionLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'elevation':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetElevationLayer} = await import('./elevationLayer');
+                return await buildDotNetElevationLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'group':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetGroupLayer} = await import('./groupLayer');
+                return await buildDotNetGroupLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'integrated-mesh':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetIntegratedMeshLayer} = await import('./integratedMeshLayer');
+                return await buildDotNetIntegratedMeshLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'integrated-mesh-3dtiles':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetIntegratedMesh3DTilesLayer} = await import('./integratedMesh3DTilesLayer');
+                return await buildDotNetIntegratedMesh3DTilesLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'knowledge-graph-sublayer':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetKnowledgeGraphSublayer} = await import('./knowledgeGraphSublayer');
+                return await buildDotNetKnowledgeGraphSublayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'knowledge-graph':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetKnowledgeGraphLayer} = await import('./knowledgeGraphLayer');
+                return await buildDotNetKnowledgeGraphLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'line-of-sight':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetLineOfSightLayer} = await import('./lineOfSightLayer');
+                return await buildDotNetLineOfSightLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'map-notes':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetMapNotesLayer} = await import('./mapNotesLayer');
+                return await buildDotNetMapNotesLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'media':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetMediaLayer} = await import('./mediaLayer');
+                return await buildDotNetMediaLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'ogc-feature':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetOGCFeatureLayer} = await import('./oGCFeatureLayer');
+                return await buildDotNetOGCFeatureLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'oriented-imagery':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetOrientedImageryLayer} = await import('./orientedImageryLayer');
+                return await buildDotNetOrientedImageryLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'point-cloud':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetPointCloudLayer} = await import('./pointCloudLayer');
+                return await buildDotNetPointCloudLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'route':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetRouteLayer} = await import('./routeLayer');
+                return await buildDotNetRouteLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'scene':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetSceneLayer} = await import('./sceneLayer');
+                return await buildDotNetSceneLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'stream':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetStreamLayer} = await import('./streamLayer');
+                return await buildDotNetStreamLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
+        case 'subtype-group':
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetSubtypeGroupLayer} = await import('./subtypeGroupLayer');
+                return await buildDotNetSubtypeGroupLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'video':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetVideoLayer} = await import('./videoLayer');
-            return await buildDotNetVideoLayer(jsObject);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetVideoLayer} = await import('./videoLayer');
+                return await buildDotNetVideoLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         case 'voxel':
-            // @ts-ignore GeoBlazor Pro only
-            let {buildDotNetVoxelLayer} = await import('./voxelLayer');
-            return await buildDotNetVoxelLayer(jsObject);
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let {buildDotNetVoxelLayer} = await import('./voxelLayer');
+                return await buildDotNetVoxelLayer(jsObject);
+            } catch {
+                throw new Error("Feature only available in GeoBlazor Pro");
+            }
         default:
             let seenObjects = new WeakMap();
             let jsonSanitizedObject = JSON.stringify(jsObject, function (key, value) {

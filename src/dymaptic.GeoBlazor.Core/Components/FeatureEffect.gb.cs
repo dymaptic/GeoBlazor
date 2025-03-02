@@ -294,8 +294,8 @@ public partial class FeatureEffect
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFilter", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "filter", value);
     }
     
     /// <summary>

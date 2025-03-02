@@ -410,8 +410,8 @@ public partial class Basemap
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "baseLayers", value);
+        await JsComponentReference.InvokeVoidAsync("setBaseLayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -500,8 +500,8 @@ public partial class Basemap
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "referenceLayers", value);
+        await JsComponentReference.InvokeVoidAsync("setReferenceLayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -560,8 +560,8 @@ public partial class Basemap
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "style", value);
+        await JsComponentReference.InvokeVoidAsync("setStyle", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

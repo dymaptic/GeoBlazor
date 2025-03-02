@@ -749,8 +749,8 @@ public partial class GeoRSSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pointSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setPointSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

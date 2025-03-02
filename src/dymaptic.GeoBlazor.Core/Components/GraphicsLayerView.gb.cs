@@ -111,8 +111,8 @@ public partial class GraphicsLayerView : LayerView,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

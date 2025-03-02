@@ -1495,8 +1495,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalSubset", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1555,8 +1555,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixelDataSource", value);
+        await JsComponentReference.InvokeVoidAsync("setPixelDataSource", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1765,8 +1765,8 @@ public partial class ImageryTileLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

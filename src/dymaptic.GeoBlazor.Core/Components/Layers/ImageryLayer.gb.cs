@@ -2243,8 +2243,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2275,36 +2275,6 @@ public partial class ImageryLayer : IArcGISImageService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the HasMultidimensions property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHasMultidimensions(bool? value)
-    {
-#pragma warning disable BL0005
-        HasMultidimensions = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HasMultidimensions)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "hasMultidimensions", value);
     }
     
     /// <summary>
@@ -2513,8 +2483,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "mosaicRule", value);
+        await JsComponentReference.InvokeVoidAsync("setMosaicRule", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2543,8 +2513,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalSubset", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2933,8 +2903,8 @@ public partial class ImageryLayer : IArcGISImageService,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

@@ -80,6 +80,11 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         return buildDotNetExtent(this.layer.fullExtent);
     }
     
+    async setFullExtent(value: any): Promise<void> {
+        let { buildJsExtent } = await import('./extent');
+        this.layer.fullExtent =  buildJsExtent(value);
+    }
+    
     async getPortalItem(): Promise<any> {
         if (!hasValue(this.layer.portalItem)) {
             return null;
@@ -137,6 +142,10 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
+    if (hasValue(dotNetObject.fullExtent)) {
+        let { buildJsExtent } = await import('./extent');
+        properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');

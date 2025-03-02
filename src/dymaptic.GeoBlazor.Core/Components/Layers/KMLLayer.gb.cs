@@ -588,8 +588,8 @@ public partial class KMLLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayers", value);
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

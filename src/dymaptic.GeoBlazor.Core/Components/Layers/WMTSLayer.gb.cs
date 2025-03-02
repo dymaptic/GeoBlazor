@@ -760,8 +760,8 @@ public partial class WMTSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "activeLayer", value);
+        await JsComponentReference.InvokeVoidAsync("setActiveLayer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1090,8 +1090,8 @@ public partial class WMTSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayers", value);
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

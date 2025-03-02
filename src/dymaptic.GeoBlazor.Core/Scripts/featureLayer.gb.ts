@@ -403,9 +403,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
     }
-    if (hasValue(dotNetObject.geometryType)) {
-        properties.geometryType = dotNetObject.geometryType;
-    }
     if (hasValue(dotNetObject.hasM)) {
         properties.hasM = dotNetObject.hasM;
     }

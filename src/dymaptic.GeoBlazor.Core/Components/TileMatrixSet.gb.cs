@@ -240,8 +240,8 @@ public partial class TileMatrixSet : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "tileInfo", value);
     }
     
     /// <summary>

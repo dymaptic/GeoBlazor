@@ -863,7 +863,7 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
         switch (component?.declaredClass) {
             case 'esri.Graphic':
                 const graphic = component as Graphic;
-                (graphic?.layer as GraphicsLayer)?.graphics.remove(graphic);
+                (graphic?.layer as GraphicsLayer)?.graphics?.remove(graphic);
                 break;
         }
         component?.destroy();

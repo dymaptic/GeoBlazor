@@ -25,15 +25,6 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getType(): Promise<any> {
-        if (!hasValue(this.component.type)) {
-            return null;
-        }
-        
-        let { buildDotNetSizeRendererGenerator } = await import('./sizeRendererGenerator');
-        return await buildDotNetSizeRendererGenerator(this.component.type);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }

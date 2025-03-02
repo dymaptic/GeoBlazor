@@ -11,7 +11,10 @@ internal static class GeoBlazorSerialization
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             Converters =
             {
-                new NullableDateTimeConverter()
+                new NullableDateTimeConverter(),
+                new LongConverter(),
+                new IntConverter(),
+                new StringConverter()
             }
         };
     }

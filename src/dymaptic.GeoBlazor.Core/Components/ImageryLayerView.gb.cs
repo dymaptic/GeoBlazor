@@ -155,8 +155,8 @@ public partial class ImageryLayerView : LayerView
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -185,8 +185,8 @@ public partial class ImageryLayerView : LayerView
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "pixelData", value);
+        await JsComponentReference.InvokeVoidAsync("setPixelData", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

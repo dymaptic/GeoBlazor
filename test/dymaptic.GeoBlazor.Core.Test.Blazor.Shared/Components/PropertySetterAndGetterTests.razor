@@ -36,18 +36,19 @@
     {
         FeatureLayer? layer = null;
 
-        AddMapRenderFragment(@<MapView class="map-view" OnViewRendered="renderHandler">
-            <Map>
-                <Basemap>
-                    <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
-                </Basemap>
-                <FeatureLayer Title="TestLayer1" 
-                              ObjectIdField="ObjectId" 
-                              @ref="layer" 
-                              Source="@( [])" 
-                              GeometryType="FeatureGeometryType.Point" />
-            </Map>
-        </MapView>);
+        AddMapRenderFragment(
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
+                    </Basemap>
+                    <FeatureLayer Title="TestLayer1" 
+                                  ObjectIdField="ObjectId" 
+                                  @ref="layer" 
+                                  Source="@( [])" 
+                                  GeometryType="FeatureGeometryType.Point" />
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
         
@@ -63,6 +64,7 @@
             ["ObjectId"] = "1"
         });
         await layer.Add(new Graphic(new Point(0, 0), attributes: attributes));
-        Assert.AreEqual("green", renderer!.Symbol!.Color!.HexOrNameValue);
+        // rountrip colors return hex
+        Assert.AreEqual("#008000", renderer!.Symbol!.Color!.HexOrNameValue);
     }
 }

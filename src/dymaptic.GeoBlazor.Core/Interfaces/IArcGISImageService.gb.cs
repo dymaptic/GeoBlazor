@@ -75,7 +75,7 @@ public partial interface IArcGISImageService : IMapComponent
     ///     Indicates if the layer has <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">multidimensionalInfo</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    bool? HasMultidimensions { get; set; }
+    bool? HasMultidimensions { get; }
     
     /// <summary>
     ///     Indicates the maximum height of the image exported by the service.
@@ -250,11 +250,6 @@ public partial interface IArcGISImageService : IMapComponent
     ///    Asynchronously set the value of the Format property after render.
     /// </summary>
     Task SetFormat(ImageFormat? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the HasMultidimensions property after render.
-    /// </summary>
-    Task SetHasMultidimensions(bool? value);
     
     /// <summary>
     ///    Asynchronously set the value of the ImageMaxHeight property after render.

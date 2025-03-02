@@ -1380,8 +1380,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "coverageInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setCoverageInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1620,8 +1620,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalSubset", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalSubset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1740,8 +1740,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rasterFields", value);
+        await JsComponentReference.InvokeVoidAsync("setRasterFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1830,8 +1830,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

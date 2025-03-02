@@ -686,8 +686,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "backgroundFillSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setBackgroundFillSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -956,8 +956,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "uniqueValueGroups", value);
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueGroups", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -986,8 +986,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "uniqueValueInfos", value);
+        await JsComponentReference.InvokeVoidAsync("setUniqueValueInfos", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1076,8 +1076,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visualVariables", value);
+        await JsComponentReference.InvokeVoidAsync("setVisualVariables", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

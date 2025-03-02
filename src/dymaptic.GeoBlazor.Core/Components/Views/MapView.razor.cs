@@ -1372,16 +1372,8 @@ public partial class MapView : MapComponent
 
         if (CoreJsModule is null) return;
 
-        if (ProJsModule is not null && layer.GetType().Namespace!.Contains("Pro"))
-        {
-            await ProJsModule!.InvokeVoidAsync("addProLayer", CancellationTokenSource.Token, 
-                (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
-        }
-        else
-        {
-            await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-                (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
-        }
+        await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+            (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
     }
 
     /// <summary>
@@ -1981,16 +1973,8 @@ public partial class MapView : MapComponent
 
         await InvokeAsync(async () =>
         {
-            if (widget.GetType().Namespace!.Contains("Core"))
-            {
-                await CoreJsModule.InvokeVoidAsync("addWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
-            else
-            {
-                await ProJsModule!.InvokeVoidAsync("addProWidget",
-                    CancellationTokenSource.Token, widget, Id);
-            }
+            await CoreJsModule.InvokeVoidAsync("addWidget",
+                CancellationTokenSource.Token, widget, Id);
         });
 
         if (widget is PopupWidget)
@@ -2217,22 +2201,10 @@ public partial class MapView : MapComponent
                 await Task.Delay(1);
             }
 
-            if (ProJsModule is null)
-            {
-                await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                    DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);    
-            }
-            else
-            {
-                await ProJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
-                    DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                    mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
-                    EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled,
-                    Widgets.Where(w => !w.GetType().Namespace!.Contains("Core")),
-                    Map.Layers.Where(l => !l.GetType().Namespace!.Contains("Core")));
-            }
+            await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
+                DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
             
 
             Rendering = false;

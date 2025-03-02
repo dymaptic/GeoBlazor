@@ -1524,8 +1524,8 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "allSublayers", value);
+        await JsComponentReference.InvokeVoidAsync("setAllSublayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2154,8 +2154,8 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayers", value);
+        await JsComponentReference.InvokeVoidAsync("setSublayers", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2214,8 +2214,8 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

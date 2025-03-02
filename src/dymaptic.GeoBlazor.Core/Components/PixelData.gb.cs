@@ -195,8 +195,8 @@ public partial class PixelData : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setPixelBlock", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "pixelBlock", value);
     }
     
 #endregion

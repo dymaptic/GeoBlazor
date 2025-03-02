@@ -492,8 +492,8 @@ public partial class CSVLayerView : LayerView,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEffect", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -552,8 +552,8 @@ public partial class CSVLayerView : LayerView,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "highlightOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setHighlightOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

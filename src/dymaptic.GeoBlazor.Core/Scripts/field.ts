@@ -1,6 +1,7 @@
 // override generated code in this file
 import Field from '@arcgis/core/layers/support/Field';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
+import {buildJsDomain} from "./domain";
 
 export function buildJsField(dotNetObject: any): any {
     let jsField = new Field();
@@ -15,7 +16,7 @@ export function buildJsField(dotNetObject: any): any {
         jsField.description = dotNetObject.description;
     }
     if (hasValue(dotNetObject.domain)) {
-        jsField.domain = dotNetObject.domain;
+        jsField.domain = buildJsDomain(dotNetObject.domain) as any;
     }
     if (hasValue(dotNetObject.editable)) {
         jsField.editable = dotNetObject.editable;

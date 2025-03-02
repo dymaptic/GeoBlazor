@@ -82,7 +82,7 @@ public partial class SearchWidget : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<string>? Results { get; protected set; }
+    public IReadOnlyList<object>? Results { get; protected set; }
     
     /// <summary>
     ///     The result selected from a search.

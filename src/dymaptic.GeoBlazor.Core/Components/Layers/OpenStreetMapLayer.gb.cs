@@ -80,6 +80,10 @@ public partial class OpenStreetMapLayer
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="fullExtent">
+    ///     The full extent of the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="persistenceEnabled">
     ///     When `true`, the layer can be persisted.
     ///     default false
@@ -108,6 +112,7 @@ public partial class OpenStreetMapLayer
         bool? visible = null,
         ListMode? listMode = null,
         Effect? effect = null,
+        Extent? fullExtent = null,
         bool? persistenceEnabled = null,
         string? urlTemplate = null,
         TimeExtent? visibilityTimeExtent = null)
@@ -130,6 +135,7 @@ public partial class OpenStreetMapLayer
         }
         ListMode = listMode;
         Effect = effect;
+        FullExtent = fullExtent;
         PersistenceEnabled = persistenceEnabled;
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;

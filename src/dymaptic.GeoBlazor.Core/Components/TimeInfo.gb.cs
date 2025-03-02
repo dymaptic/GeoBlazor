@@ -421,8 +421,8 @@ public partial class TimeInfo
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setFullTimeExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "fullTimeExtent", value);
     }
     
     /// <summary>

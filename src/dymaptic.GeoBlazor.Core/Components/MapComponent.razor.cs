@@ -209,6 +209,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </exception>
     public virtual async Task SetProperty<T>(string propertyName, T? value)
     {
+        if (GetType().GetMethod($"Set{propertyName}") is { } typedMethod)
+        {
+            Task methodTask = (Task)typedMethod.Invoke(this, [value])!;
+
+            await methodTask.ConfigureAwait(false);
+
+            return;
+        }
         try
         {
             Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -232,44 +240,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             {
                 throw new NotSupportedException($"The component {GetType().Name
                 } does not currently support the SetProperty method. Please contact dymaptic for support.");
-            }
-
-            if (value is MapComponent component)
-            {
-                component.Parent = this;
-                component.View = View;
-
-                if (component.JsComponentReference is null)
-                {
-                    // new MapComponent, needs to be built and registered in JS
-                    try
-                    {
-                        // this also calls back to OnJsComponentCreated
-                        IJSObjectReference jsObjectReference = await CoreJsModule.InvokeAsync<IJSObjectReference>(
-                            $"buildJs{prop.PropertyType.Name}", CancellationTokenSource.Token, 
-                                value, View?.Id);
-                        component.JsComponentReference ??= jsObjectReference;
-
-                        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                            JsComponentReference, propertyName.ToLowerFirstChar(), jsObjectReference);
-
-                        return;
-                    }
-                    catch
-                    {
-                        // try just passing the value directly below
-                    }
-                }
-                else
-                {
-                    // this component has already been registered, but we'll call setProperty to make sure
-                    // it is attached to the parent
-                    await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-                        JsComponentReference,
-                        propertyName.ToLowerFirstChar(), component.JsComponentReference);
-
-                    return;
-                }
             }
 
             await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,

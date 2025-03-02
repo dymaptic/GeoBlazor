@@ -1,30 +1,64 @@
 // override generated code in this file
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
-import {hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildDotNetFeatureType(result: FeatureType) {
-    if (!hasValue(result)) {
+export async function buildDotNetFeatureType(jsObject: FeatureType, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(jsObject)) {
         return null;
     }
-    let dotNetDomains = {};
-    for (let domain in result.domains) {
-        if (Object.prototype.hasOwnProperty.call(result.domains, domain)) {
-            let {buildDotNetDomain} = await import('./domain');
-            dotNetDomains[domain] = buildDotNetDomain(result.domains[domain]);
+    
+    let dotNetFeatureType: any = {};
+    
+    if (hasValue(jsObject.domains)) {
+        let {buildDotNetDomain} = await import('./domain');
+        let dotNetDomains = {};
+        for (let domain in jsObject.domains) {
+            if (Object.prototype.hasOwnProperty.call(jsObject.domains, domain)) {
+                dotNetDomains[domain] = buildDotNetDomain(jsObject.domains[domain]);
+            }
         }
+        
+        dotNetFeatureType.domains = dotNetDomains;
     }
-
-    let {buildDotNetFeatureTemplate} = await import('./featureTemplate');
-    return {
-        id: result.id,
-        domains: dotNetDomains,
-        declaredClass: result.declaredClass,
-        name: result.name,
-        templates: result.templates?.map(buildDotNetFeatureTemplate)
+    
+    if (hasValue(jsObject.id)) {
+        dotNetFeatureType.id = jsObject.id;
     }
+    
+    if (hasValue(jsObject.name)) {
+        dotNetFeatureType.name = jsObject.name;
+    }
+    
+    if (hasValue(jsObject.templates)) {
+        let {buildDotNetFeatureTemplate} = await import('./iFeatureTemplate');
+        dotNetFeatureType.templates = jsObject.templates.map(t => buildDotNetFeatureTemplate(t, layerId, viewId));
+    }
+    
+    return dotNetFeatureType;
 }
 
 export async function buildJsFeatureType(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsFeatureTypeGenerated} = await import('./featureType.gb');
-    return await buildJsFeatureTypeGenerated(dotNetObject, layerId, viewId);
+    let properties: any = {};
+    if (hasValue(dotNetObject.domains)) {
+        let { buildJsDomain } = await import('./domain');
+        properties.domains = buildJsDomain(dotNetObject.domains) as any;
+    }
+
+    if (hasValue(dotNetObject.featureTypeId)) {
+        properties.id = dotNetObject.featureTypeId;
+    }
+    if (hasValue(dotNetObject.name)) {
+        properties.name = dotNetObject.name;
+    }
+    if (hasValue(dotNetObject.templates)) {
+        let { buildJsFeatureTemplate } = await import('./iFeatureTemplate');
+        properties.templates = dotNetObject.templates.map(t => buildJsFeatureTemplate(t, layerId, viewId));
+    }
+    let jsFeatureType = new FeatureType(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureType);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsFeatureType;
+
+    return jsFeatureType;
 }

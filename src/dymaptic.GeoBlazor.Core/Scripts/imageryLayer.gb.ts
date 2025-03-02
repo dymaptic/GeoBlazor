@@ -537,9 +537,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.format)) {
         properties.format = dotNetObject.format;
     }
-    if (hasValue(dotNetObject.hasMultidimensions)) {
-        properties.hasMultidimensions = dotNetObject.hasMultidimensions;
-    }
     if (hasValue(dotNetObject.imageMaxHeight)) {
         properties.imageMaxHeight = dotNetObject.imageMaxHeight;
     }

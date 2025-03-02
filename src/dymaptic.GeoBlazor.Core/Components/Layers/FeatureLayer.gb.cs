@@ -3226,8 +3226,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureEffect", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3256,8 +3256,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "fields", value);
+        await JsComponentReference.InvokeVoidAsync("setFields", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3348,36 +3348,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "gdbVersion", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the GeometryType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetGeometryType(FeatureGeometryType? value)
-    {
-#pragma warning disable BL0005
-        GeometryType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(GeometryType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "geometryType", value);
     }
     
     /// <summary>
@@ -3496,8 +3466,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelingInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setLabelingInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -3856,8 +3826,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
+        await JsComponentReference.InvokeVoidAsync("setRenderer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4126,8 +4096,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -4216,8 +4186,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "types", value);
+        await JsComponentReference.InvokeVoidAsync("setTypes", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

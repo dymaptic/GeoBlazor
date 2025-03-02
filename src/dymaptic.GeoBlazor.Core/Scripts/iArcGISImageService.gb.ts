@@ -47,9 +47,6 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.format)) {
         jsArcGISImageService.format = dotNetObject.format;
     }
-    if (hasValue(dotNetObject.hasMultidimensions)) {
-        jsArcGISImageService.hasMultidimensions = dotNetObject.hasMultidimensions;
-    }
     if (hasValue(dotNetObject.imageMaxHeight)) {
         jsArcGISImageService.imageMaxHeight = dotNetObject.imageMaxHeight;
     }

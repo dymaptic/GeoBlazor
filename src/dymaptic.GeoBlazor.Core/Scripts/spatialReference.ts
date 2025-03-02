@@ -18,7 +18,10 @@ export function buildDotNetSpatialReference(spatialReference: SpatialReference) 
     };
 }
 
-export function buildJsSpatialReference(dotNetObject): SpatialReference {
+export function buildJsSpatialReference(dotNetObject): SpatialReference | null {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
     let jsSpatialReference = new SpatialReference();
 
     if (hasValue(dotNetObject.imageCoordinateSystem)) {
