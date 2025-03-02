@@ -4,11 +4,11 @@ import { buildDotNetBuildingFilterBlockFilterMode } from './buildingFilterBlockF
 
 export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBuildingFilterBlockFilterMode: any = {};
-
     if (hasValue(dotNetObject.edges)) {
-        const { id, dotNetComponentReference, ...sanitizedEdges } = dotNetObject.edges;
-        jsBuildingFilterBlockFilterMode.edges = sanitizedEdges;
+        let { buildJsIBuildingFilterBlockFilterModeEdges } = await import('./iBuildingFilterBlockFilterModeEdges');
+        jsBuildingFilterBlockFilterMode.edges = buildJsIBuildingFilterBlockFilterModeEdges(dotNetObject.edges) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsBuildingFilterBlockFilterMode);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.edges)) {
-        dotNetBuildingFilterBlockFilterMode.edges = jsObject.edges;
+        let { buildDotNetIBuildingFilterBlockFilterModeEdges } = await import('./iBuildingFilterBlockFilterModeEdges');
+        dotNetBuildingFilterBlockFilterMode.edges = buildDotNetIBuildingFilterBlockFilterModeEdges(jsObject.edges);
     }
     if (hasValue(jsObject.type)) {
         dotNetBuildingFilterBlockFilterMode.type = jsObject.type;

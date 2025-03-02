@@ -4,15 +4,19 @@ import { buildDotNetMapViewConstraints } from './mapViewConstraints';
 
 export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMapViewConstraints: any = {};
+    if (hasValue(dotNetObject.effectiveLODs)) {
+        let { buildJsLOD } = await import('./lOD');
+        jsMapViewConstraints.effectiveLODs = await Promise.all(dotNetObject.effectiveLODs.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
         jsMapViewConstraints.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-
-    if (hasValue(dotNetObject.effectiveLODs)) {
-        const { id, dotNetComponentReference, ...sanitizedEffectiveLODs } = dotNetObject.effectiveLODs;
-        jsMapViewConstraints.effectiveLODs = sanitizedEffectiveLODs;
+    if (hasValue(dotNetObject.lods)) {
+        let { buildJsLOD } = await import('./lOD');
+        jsMapViewConstraints.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
     }
+
     if (hasValue(dotNetObject.effectiveMaxScale)) {
         jsMapViewConstraints.effectiveMaxScale = dotNetObject.effectiveMaxScale;
     }
@@ -24,10 +28,6 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.effectiveMinZoom)) {
         jsMapViewConstraints.effectiveMinZoom = dotNetObject.effectiveMinZoom;
-    }
-    if (hasValue(dotNetObject.lods)) {
-        const { id, dotNetComponentReference, ...sanitizedLods } = dotNetObject.lods;
-        jsMapViewConstraints.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.maxScale)) {
         jsMapViewConstraints.maxScale = dotNetObject.maxScale;
@@ -87,12 +87,17 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
     let dotNetMapViewConstraints: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.effectiveLODs)) {
+        let { buildDotNetLOD } = await import('./lOD');
+        dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i)));
+    }
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
         dotNetMapViewConstraints.geometry = buildDotNetGeometry(jsObject.geometry);
     }
-    if (hasValue(jsObject.effectiveLODs)) {
-        dotNetMapViewConstraints.effectiveLODs = jsObject.effectiveLODs;
+    if (hasValue(jsObject.lods)) {
+        let { buildDotNetLOD } = await import('./lOD');
+        dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
     }
     if (hasValue(jsObject.effectiveMaxScale)) {
         dotNetMapViewConstraints.effectiveMaxScale = jsObject.effectiveMaxScale;
@@ -105,9 +110,6 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.effectiveMinZoom)) {
         dotNetMapViewConstraints.effectiveMinZoom = jsObject.effectiveMinZoom;
-    }
-    if (hasValue(jsObject.lods)) {
-        dotNetMapViewConstraints.lods = jsObject.lods;
     }
     if (hasValue(jsObject.maxScale)) {
         dotNetMapViewConstraints.maxScale = jsObject.maxScale;

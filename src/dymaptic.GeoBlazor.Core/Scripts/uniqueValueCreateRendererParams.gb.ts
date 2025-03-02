@@ -12,20 +12,20 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
         let { buildJsLayer } = await import('./layer');
         jsuniqueValueCreateRendererParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.rasterFunction)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        jsuniqueValueCreateRendererParams.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.renderingRule)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        jsuniqueValueCreateRendererParams.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.classFieldName)) {
         jsuniqueValueCreateRendererParams.classFieldName = dotNetObject.classFieldName;
     }
     if (hasValue(dotNetObject.colors)) {
         jsuniqueValueCreateRendererParams.colors = dotNetObject.colors;
-    }
-    if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
-        jsuniqueValueCreateRendererParams.rasterFunction = sanitizedRasterFunction;
-    }
-    if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
-        jsuniqueValueCreateRendererParams.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.signal)) {
         jsuniqueValueCreateRendererParams.signal = dotNetObject.signal;
@@ -51,17 +51,19 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
         let { buildDotNetColorRamp } = await import('./colorRamp');
         dotNetUniqueValueCreateRendererParams.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
     }
+    if (hasValue(jsObject.rasterFunction)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetUniqueValueCreateRendererParams.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetUniqueValueCreateRendererParams.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
+    }
     if (hasValue(jsObject.classFieldName)) {
         dotNetUniqueValueCreateRendererParams.classFieldName = jsObject.classFieldName;
     }
     if (hasValue(jsObject.colors)) {
         dotNetUniqueValueCreateRendererParams.colors = jsObject.colors;
-    }
-    if (hasValue(jsObject.rasterFunction)) {
-        dotNetUniqueValueCreateRendererParams.rasterFunction = jsObject.rasterFunction;
-    }
-    if (hasValue(jsObject.renderingRule)) {
-        dotNetUniqueValueCreateRendererParams.renderingRule = jsObject.renderingRule;
     }
     if (hasValue(jsObject.signal)) {
         dotNetUniqueValueCreateRendererParams.signal = jsObject.signal;

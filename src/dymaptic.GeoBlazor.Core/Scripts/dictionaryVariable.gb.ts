@@ -4,13 +4,13 @@ import { buildDotNetDictionaryVariable } from './dictionaryVariable';
 
 export async function buildJsDictionaryVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDictionaryVariable: any = {};
+    if (hasValue(dotNetObject.properties)) {
+        let { buildJsIProfileVariable } = await import('./iProfileVariable');
+        jsDictionaryVariable.properties = dotNetObject.properties.map(i => buildJsIProfileVariable(i)) as any;
+    }
 
     if (hasValue(dotNetObject.name)) {
         jsDictionaryVariable.name = dotNetObject.name;
-    }
-    if (hasValue(dotNetObject.properties)) {
-        const { id, dotNetComponentReference, ...sanitizedProperties } = dotNetObject.properties;
-        jsDictionaryVariable.properties = sanitizedProperties;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsDictionaryVariable);
@@ -52,11 +52,12 @@ export async function buildDotNetDictionaryVariableGenerated(jsObject: any): Pro
     let dotNetDictionaryVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.properties)) {
+        let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
+        dotNetDictionaryVariable.properties = jsObject.properties.map(i => buildDotNetIProfileVariable(i));
+    }
     if (hasValue(jsObject.name)) {
         dotNetDictionaryVariable.name = jsObject.name;
-    }
-    if (hasValue(jsObject.properties)) {
-        dotNetDictionaryVariable.properties = jsObject.properties;
     }
     if (hasValue(jsObject.type)) {
         dotNetDictionaryVariable.type = jsObject.type;

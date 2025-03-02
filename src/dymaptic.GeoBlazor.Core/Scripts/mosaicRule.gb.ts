@@ -3,8 +3,20 @@ import MosaicRule from '@arcgis/core/layers/support/MosaicRule';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMosaicRule } from './mosaicRule';
 
-export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.itemRasterFunction)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        properties.itemRasterFunction = await buildJsRasterFunction(dotNetObject.itemRasterFunction, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.itemRenderingRule)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        properties.itemRenderingRule = await buildJsRasterFunction(dotNetObject.itemRenderingRule, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsPoint } = await import('./point');
         properties.viewpoint = buildJsPoint(dotNetObject.viewpoint) as any;
@@ -13,23 +25,11 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
     if (hasValue(dotNetObject.ascending)) {
         properties.ascending = dotNetObject.ascending;
     }
-    if (hasValue(dotNetObject.itemRasterFunction)) {
-        const { id, dotNetComponentReference, ...sanitizedItemRasterFunction } = dotNetObject.itemRasterFunction;
-        properties.itemRasterFunction = sanitizedItemRasterFunction;
-    }
-    if (hasValue(dotNetObject.itemRenderingRule)) {
-        const { id, dotNetComponentReference, ...sanitizedItemRenderingRule } = dotNetObject.itemRenderingRule;
-        properties.itemRenderingRule = sanitizedItemRenderingRule;
-    }
     if (hasValue(dotNetObject.lockRasterIds)) {
         properties.lockRasterIds = dotNetObject.lockRasterIds;
     }
     if (hasValue(dotNetObject.method)) {
         properties.method = dotNetObject.method;
-    }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
-        properties.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.objectIds)) {
         properties.objectIds = dotNetObject.objectIds;
@@ -64,6 +64,18 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     let dotNetMosaicRule: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.itemRasterFunction)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetMosaicRule.itemRasterFunction = await buildDotNetRasterFunction(jsObject.itemRasterFunction);
+    }
+    if (hasValue(jsObject.itemRenderingRule)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetMosaicRule.itemRenderingRule = await buildDotNetRasterFunction(jsObject.itemRenderingRule);
+    }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        dotNetMosaicRule.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+    }
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetMosaicRule.viewpoint = buildDotNetPoint(jsObject.viewpoint);
@@ -71,20 +83,11 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
     if (hasValue(jsObject.ascending)) {
         dotNetMosaicRule.ascending = jsObject.ascending;
     }
-    if (hasValue(jsObject.itemRasterFunction)) {
-        dotNetMosaicRule.itemRasterFunction = jsObject.itemRasterFunction;
-    }
-    if (hasValue(jsObject.itemRenderingRule)) {
-        dotNetMosaicRule.itemRenderingRule = jsObject.itemRenderingRule;
-    }
     if (hasValue(jsObject.lockRasterIds)) {
         dotNetMosaicRule.lockRasterIds = jsObject.lockRasterIds;
     }
     if (hasValue(jsObject.method)) {
         dotNetMosaicRule.method = jsObject.method;
-    }
-    if (hasValue(jsObject.multidimensionalDefinition)) {
-        dotNetMosaicRule.multidimensionalDefinition = jsObject.multidimensionalDefinition;
     }
     if (hasValue(jsObject.objectIds)) {
         dotNetMosaicRule.objectIds = jsObject.objectIds;

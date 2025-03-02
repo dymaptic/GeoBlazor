@@ -9,6 +9,10 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
+    if (hasValue(dotNetObject.styles)) {
+        let { buildJsWMTSStyle } = await import('./wMTSStyle');
+        properties.styles = await Promise.all(dotNetObject.styles.map(async i => await buildJsWMTSStyle(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.tileMatrixSet)) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
         properties.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
@@ -29,10 +33,6 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.styleId)) {
         properties.styleId = dotNetObject.styleId;
-    }
-    if (hasValue(dotNetObject.styles)) {
-        const { id, dotNetComponentReference, ...sanitizedStyles } = dotNetObject.styles;
-        properties.styles = sanitizedStyles;
     }
     if (hasValue(dotNetObject.tileMatrixSetId)) {
         properties.tileMatrixSetId = dotNetObject.tileMatrixSetId;
@@ -88,6 +88,10 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
         let { buildDotNetExtent } = await import('./extent');
         dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    if (hasValue(jsObject.styles)) {
+        let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
+        dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i)));
+    }
     if (hasValue(jsObject.tileMatrixSet)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
         dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
@@ -107,9 +111,6 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.styleId)) {
         dotNetWMTSSublayer.styleId = jsObject.styleId;
-    }
-    if (hasValue(jsObject.styles)) {
-        dotNetWMTSSublayer.styles = jsObject.styles;
     }
     if (hasValue(jsObject.tileMatrixSetId)) {
         dotNetWMTSSublayer.tileMatrixSetId = jsObject.tileMatrixSetId;

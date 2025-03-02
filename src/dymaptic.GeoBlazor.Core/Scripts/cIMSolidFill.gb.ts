@@ -4,16 +4,16 @@ import { buildDotNetCIMSolidFill } from './cIMSolidFill';
 
 export async function buildJsCIMSolidFillGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCIMSolidFill: any = {};
+    if (hasValue(dotNetObject.effects)) {
+        let { buildJsICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        jsCIMSolidFill.effects = dotNetObject.effects.map(i => buildJsICIMGeometricEffect(i)) as any;
+    }
 
     if (hasValue(dotNetObject.color)) {
         jsCIMSolidFill.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.colorLocked)) {
         jsCIMSolidFill.colorLocked = dotNetObject.colorLocked;
-    }
-    if (hasValue(dotNetObject.effects)) {
-        const { id, dotNetComponentReference, ...sanitizedEffects } = dotNetObject.effects;
-        jsCIMSolidFill.effects = sanitizedEffects;
     }
     if (hasValue(dotNetObject.enable)) {
         jsCIMSolidFill.enable = dotNetObject.enable;
@@ -67,14 +67,15 @@ export async function buildDotNetCIMSolidFillGenerated(jsObject: any): Promise<a
     let dotNetCIMSolidFill: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.effects)) {
+        let { buildDotNetICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        dotNetCIMSolidFill.effects = jsObject.effects.map(i => buildDotNetICIMGeometricEffect(i));
+    }
     if (hasValue(jsObject.color)) {
         dotNetCIMSolidFill.color = jsObject.color;
     }
     if (hasValue(jsObject.colorLocked)) {
         dotNetCIMSolidFill.colorLocked = jsObject.colorLocked;
-    }
-    if (hasValue(jsObject.effects)) {
-        dotNetCIMSolidFill.effects = jsObject.effects;
     }
     if (hasValue(jsObject.enable)) {
         dotNetCIMSolidFill.enable = jsObject.enable;

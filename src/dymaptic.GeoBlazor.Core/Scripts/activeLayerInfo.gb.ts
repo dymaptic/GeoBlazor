@@ -16,16 +16,16 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
         let { buildJsLayerView } = await import('./layerView');
         properties.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.legendElements)) {
+        let { buildJsILegendElement } = await import('./iLegendElement');
+        properties.legendElements = dotNetObject.legendElements.map(i => buildJsILegendElement(i)) as any;
+    }
 
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
         properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
     }
     if (hasValue(dotNetObject.isScaleDriven)) {
         properties.isScaleDriven = dotNetObject.isScaleDriven;
-    }
-    if (hasValue(dotNetObject.legendElements)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendElements } = dotNetObject.legendElements;
-        properties.legendElements = sanitizedLegendElements;
     }
     if (hasValue(dotNetObject.ready)) {
         properties.ready = dotNetObject.ready;
@@ -90,14 +90,15 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
+    if (hasValue(jsObject.legendElements)) {
+        let { buildDotNetILegendElement } = await import('./iLegendElement');
+        dotNetActiveLayerInfo.legendElements = jsObject.legendElements.map(i => buildDotNetILegendElement(i));
+    }
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }
     if (hasValue(jsObject.isScaleDriven)) {
         dotNetActiveLayerInfo.isScaleDriven = jsObject.isScaleDriven;
-    }
-    if (hasValue(jsObject.legendElements)) {
-        dotNetActiveLayerInfo.legendElements = jsObject.legendElements;
     }
     if (hasValue(jsObject.opacity)) {
         dotNetActiveLayerInfo.opacity = jsObject.opacity;

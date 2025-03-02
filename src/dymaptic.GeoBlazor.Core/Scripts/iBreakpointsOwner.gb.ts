@@ -4,11 +4,11 @@ import { buildDotNetIBreakpointsOwner } from './iBreakpointsOwner';
 
 export async function buildJsIBreakpointsOwnerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBreakpointsOwner: any = {};
-
     if (hasValue(dotNetObject.breakpoints)) {
-        const { id, dotNetComponentReference, ...sanitizedBreakpoints } = dotNetObject.breakpoints;
-        jsBreakpointsOwner.breakpoints = sanitizedBreakpoints;
+        let { buildJsBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
+        jsBreakpointsOwner.breakpoints = await buildJsBreakpointsOwnerBreakpoints(dotNetObject.breakpoints, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.heightBreakpoint)) {
         jsBreakpointsOwner.heightBreakpoint = dotNetObject.heightBreakpoint;
     }
@@ -33,13 +33,15 @@ export async function buildDotNetIBreakpointsOwnerGenerated(jsObject: any): Prom
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.breakpoints)) {
-        dotNetIBreakpointsOwner.breakpoints = jsObject.breakpoints;
+        let { buildDotNetBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
+        dotNetIBreakpointsOwner.breakpoints = await buildDotNetBreakpointsOwnerBreakpoints(jsObject.breakpoints);
+    }
+    if (hasValue(jsObject.orientation)) {
+        let { buildDotNetOrientation } = await import('./orientation');
+        dotNetIBreakpointsOwner.orientation = await buildDotNetOrientation(jsObject.orientation);
     }
     if (hasValue(jsObject.heightBreakpoint)) {
         dotNetIBreakpointsOwner.heightBreakpoint = jsObject.heightBreakpoint;
-    }
-    if (hasValue(jsObject.orientation)) {
-        dotNetIBreakpointsOwner.orientation = jsObject.orientation;
     }
     if (hasValue(jsObject.widthBreakpoint)) {
         dotNetIBreakpointsOwner.widthBreakpoint = jsObject.widthBreakpoint;

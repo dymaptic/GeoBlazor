@@ -171,6 +171,20 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     
+    async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
+    }
+    
+    async setTimeOffset(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -236,6 +250,10 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
         properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeOffset)) {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -305,10 +323,6 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.spatialReferences)) {
         properties.spatialReferences = dotNetObject.spatialReferences;
-    }
-    if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
@@ -419,6 +433,10 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
     }
+    if (hasValue(jsObject.timeOffset)) {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+    }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
@@ -497,9 +515,6 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.spatialReferences)) {
         dotNetWMSLayer.spatialReferences = jsObject.spatialReferences;
-    }
-    if (hasValue(jsObject.timeOffset)) {
-        dotNetWMSLayer.timeOffset = jsObject.timeOffset;
     }
     if (hasValue(jsObject.title)) {
         dotNetWMSLayer.title = jsObject.title;

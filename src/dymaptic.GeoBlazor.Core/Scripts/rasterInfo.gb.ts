@@ -3,7 +3,7 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
@@ -12,6 +12,10 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         properties.extent = buildJsExtent(dotNetObject.extent) as any;
+    }
+    if (hasValue(dotNetObject.sensorInfo)) {
+        let { buildJsRasterSensorInfo } = await import('./rasterSensorInfo');
+        properties.sensorInfo = await buildJsRasterSensorInfo(dotNetObject.sensorInfo, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {
@@ -50,10 +54,6 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     if (hasValue(dotNetObject.pixelType)) {
         properties.pixelType = dotNetObject.pixelType;
     }
-    if (hasValue(dotNetObject.sensorInfo)) {
-        const { id, dotNetComponentReference, ...sanitizedSensorInfo } = dotNetObject.sensorInfo;
-        properties.sensorInfo = sanitizedSensorInfo;
-    }
     if (hasValue(dotNetObject.spatialReference)) {
         const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         properties.spatialReference = sanitizedSpatialReference;
@@ -85,6 +85,10 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
+    }
+    if (hasValue(jsObject.sensorInfo)) {
+        let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
+        dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo);
     }
     if (hasValue(jsObject.bandCount)) {
         dotNetRasterInfo.bandCount = jsObject.bandCount;
@@ -121,9 +125,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.pixelType)) {
         dotNetRasterInfo.pixelType = jsObject.pixelType;
-    }
-    if (hasValue(jsObject.sensorInfo)) {
-        dotNetRasterInfo.sensorInfo = jsObject.sensorInfo;
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetRasterInfo.spatialReference = jsObject.spatialReference;

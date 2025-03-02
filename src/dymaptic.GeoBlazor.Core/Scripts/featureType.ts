@@ -2,7 +2,7 @@
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildDotNetFeatureType(jsObject: FeatureType, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureType(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -30,8 +30,8 @@ export async function buildDotNetFeatureType(jsObject: FeatureType, layerId: str
     }
     
     if (hasValue(jsObject.templates)) {
-        let {buildDotNetFeatureTemplate} = await import('./iFeatureTemplate');
-        dotNetFeatureType.templates = jsObject.templates.map(t => buildDotNetFeatureTemplate(t, layerId, viewId));
+        let {buildDotNetIFeatureTemplate} = await import('./iFeatureTemplate');
+        dotNetFeatureType.templates = jsObject.templates.map(t => buildDotNetIFeatureTemplate(t, layerId, viewId));
     }
     
     return dotNetFeatureType;
@@ -51,8 +51,8 @@ export async function buildJsFeatureType(dotNetObject: any, layerId: string | nu
         properties.name = dotNetObject.name;
     }
     if (hasValue(dotNetObject.templates)) {
-        let { buildJsFeatureTemplate } = await import('./iFeatureTemplate');
-        properties.templates = dotNetObject.templates.map(t => buildJsFeatureTemplate(t, layerId, viewId));
+        let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
+        properties.templates = dotNetObject.templates.map(t => buildJsIFeatureTemplate(t, layerId, viewId));
     }
     let jsFeatureType = new FeatureType(properties);
 

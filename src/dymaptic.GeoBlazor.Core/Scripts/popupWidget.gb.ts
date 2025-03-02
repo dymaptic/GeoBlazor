@@ -107,6 +107,20 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
     }
     
+    async getDockOptions(): Promise<any> {
+        if (!hasValue(this.widget.dockOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
+        return await buildDotNetPopupDockOptions(this.widget.dockOptions);
+    }
+    
+    async setDockOptions(value: any): Promise<void> {
+        let { buildJsPopupDockOptions } = await import('./popupDockOptions');
+        this.widget.dockOptions = await  buildJsPopupDockOptions(value, this.layerId, this.viewId);
+    }
+    
     async getFeatures(): Promise<any> {
         if (!hasValue(this.widget.features)) {
             return null;
@@ -163,6 +177,20 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.viewModel = await  buildJsPopupViewModel(value, this.layerId, this.viewId);
     }
     
+    async getVisibleElements(): Promise<any> {
+        if (!hasValue(this.widget.visibleElements)) {
+            return null;
+        }
+        
+        let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
+        return await buildDotNetPopupVisibleElements(this.widget.visibleElements);
+    }
+    
+    async setVisibleElements(value: any): Promise<void> {
+        let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
+        this.widget.visibleElements = await  buildJsPopupVisibleElements(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -182,6 +210,10 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         let { buildJsActionBase } = await import('./actionBase');
         properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
     }
+    if (hasValue(dotNetObject.dockOptions)) {
+        let { buildJsPopupDockOptions } = await import('./popupDockOptions');
+        properties.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.features)) {
         let { buildJsGraphic } = await import('./graphic');
         properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -197,6 +229,10 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsPopupViewModel } = await import('./popupViewModel');
         properties.viewModel = await buildJsPopupViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.visibleElements)) {
+        let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
+        properties.visibleElements = await buildJsPopupVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.alignment)) {
@@ -219,10 +255,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.dockEnabled)) {
         properties.dockEnabled = dotNetObject.dockEnabled;
-    }
-    if (hasValue(dotNetObject.dockOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedDockOptions } = dotNetObject.dockOptions;
-        properties.dockOptions = sanitizedDockOptions;
     }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
@@ -247,10 +279,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
-    }
-    if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -312,6 +340,10 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         let { buildDotNetActionBase } = await import('./actionBase');
         dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
     }
+    if (hasValue(jsObject.dockOptions)) {
+        let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
+        dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions);
+    }
     if (hasValue(jsObject.features)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupWidget.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
@@ -331,6 +363,10 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
+    }
+    if (hasValue(jsObject.visibleElements)) {
+        let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
+        dotNetPopupWidget.visibleElements = await buildDotNetPopupVisibleElements(jsObject.visibleElements);
     }
     if (hasValue(jsObject.active)) {
         dotNetPopupWidget.active = jsObject.active;
@@ -361,9 +397,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.dockEnabled)) {
         dotNetPopupWidget.dockEnabled = jsObject.dockEnabled;
-    }
-    if (hasValue(jsObject.dockOptions)) {
-        dotNetPopupWidget.dockOptions = jsObject.dockOptions;
     }
     if (hasValue(jsObject.featureCount)) {
         dotNetPopupWidget.featureCount = jsObject.featureCount;
@@ -397,9 +430,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.type)) {
         dotNetPopupWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.visibleElements)) {
-        dotNetPopupWidget.visibleElements = jsObject.visibleElements;
     }
     if (hasValue(jsObject.id)) {
         dotNetPopupWidget.widgetId = jsObject.id;

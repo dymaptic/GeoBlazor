@@ -4,6 +4,10 @@ import { buildDotNetCIMSolidStroke } from './cIMSolidStroke';
 
 export async function buildJsCIMSolidStrokeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCIMSolidStroke: any = {};
+    if (hasValue(dotNetObject.effects)) {
+        let { buildJsICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        jsCIMSolidStroke.effects = dotNetObject.effects.map(i => buildJsICIMGeometricEffect(i)) as any;
+    }
 
     if (hasValue(dotNetObject.capStyle)) {
         jsCIMSolidStroke.capStyle = dotNetObject.capStyle;
@@ -16,10 +20,6 @@ export async function buildJsCIMSolidStrokeGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.colorLocked)) {
         jsCIMSolidStroke.colorLocked = dotNetObject.colorLocked;
-    }
-    if (hasValue(dotNetObject.effects)) {
-        const { id, dotNetComponentReference, ...sanitizedEffects } = dotNetObject.effects;
-        jsCIMSolidStroke.effects = sanitizedEffects;
     }
     if (hasValue(dotNetObject.enable)) {
         jsCIMSolidStroke.enable = dotNetObject.enable;
@@ -85,6 +85,10 @@ export async function buildDotNetCIMSolidStrokeGenerated(jsObject: any): Promise
     let dotNetCIMSolidStroke: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.effects)) {
+        let { buildDotNetICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        dotNetCIMSolidStroke.effects = jsObject.effects.map(i => buildDotNetICIMGeometricEffect(i));
+    }
     if (hasValue(jsObject.capStyle)) {
         dotNetCIMSolidStroke.capStyle = jsObject.capStyle;
     }
@@ -96,9 +100,6 @@ export async function buildDotNetCIMSolidStrokeGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.colorLocked)) {
         dotNetCIMSolidStroke.colorLocked = jsObject.colorLocked;
-    }
-    if (hasValue(jsObject.effects)) {
-        dotNetCIMSolidStroke.effects = jsObject.effects;
     }
     if (hasValue(jsObject.enable)) {
         dotNetCIMSolidStroke.enable = jsObject.enable;

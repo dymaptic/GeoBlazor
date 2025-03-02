@@ -29,6 +29,20 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getLods(): Promise<any> {
+        if (!hasValue(this.component.lods)) {
+            return null;
+        }
+        
+        let { buildDotNetLOD } = await import('./lOD');
+        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i)));
+    }
+    
+    async setLods(value: any): Promise<void> {
+        let { buildJsLOD } = await import('./lOD');
+        this.component.lods = await Promise.all(value.map(async i => await buildJsLOD(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getOrigin(): Promise<any> {
         if (!hasValue(this.component.origin)) {
             return null;
@@ -55,6 +69,10 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.lods)) {
+        let { buildJsLOD } = await import('./lOD');
+        properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./point');
         properties.origin = buildJsPoint(dotNetObject.origin) as any;
@@ -68,10 +86,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.isWrappable)) {
         properties.isWrappable = dotNetObject.isWrappable;
-    }
-    if (hasValue(dotNetObject.lods)) {
-        const { id, dotNetComponentReference, ...sanitizedLods } = dotNetObject.lods;
-        properties.lods = sanitizedLods;
     }
     if (hasValue(dotNetObject.size)) {
         properties.size = dotNetObject.size;
@@ -127,6 +141,10 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     let dotNetTileInfo: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.lods)) {
+        let { buildDotNetLOD } = await import('./lOD');
+        dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
+    }
     if (hasValue(jsObject.origin)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
@@ -139,9 +157,6 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.isWrappable)) {
         dotNetTileInfo.isWrappable = jsObject.isWrappable;
-    }
-    if (hasValue(jsObject.lods)) {
-        dotNetTileInfo.lods = jsObject.lods;
     }
     if (hasValue(jsObject.size)) {
         dotNetTileInfo.size = jsObject.size;

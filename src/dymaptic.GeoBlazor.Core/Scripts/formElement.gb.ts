@@ -13,6 +13,9 @@ export async function buildJsFormElementGenerated(dotNetObject: any, layerId: st
         case 'group': 
             let { buildJsGroupElement } = await import('./groupElement');
             return await buildJsGroupElement(dotNetObject, layerId, viewId);
+        case 'text': 
+            let { buildJsTextElement } = await import('./textElement');
+            return await buildJsTextElement(dotNetObject, layerId, viewId);
         case 'field': 
             let { buildJsFieldElement } = await import('./fieldElement');
             return await buildJsFieldElement(dotNetObject, layerId, viewId);
@@ -34,6 +37,9 @@ export async function buildDotNetFormElementGenerated(jsObject: any): Promise<an
         case 'group': 
             let { buildDotNetGroupElement } = await import('./groupElement');
             return await buildDotNetGroupElement(jsObject);
+        case 'text': 
+            let { buildDotNetTextElement } = await import('./textElement');
+            return await buildDotNetTextElement(jsObject);
         case 'field': 
             let { buildDotNetFieldElement } = await import('./fieldElement');
             return await buildDotNetFieldElement(jsObject);

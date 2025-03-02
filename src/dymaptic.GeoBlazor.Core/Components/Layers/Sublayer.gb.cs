@@ -1188,8 +1188,8 @@ public partial class Sublayer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "floorInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setFloorInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1458,8 +1458,8 @@ public partial class Sublayer
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

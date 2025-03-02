@@ -4,13 +4,13 @@ import { buildDotNetHitTestResult } from './hitTestResult';
 
 export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHitTestResult: any = {};
+    if (hasValue(dotNetObject.screenPoint)) {
+        let { buildJsMapViewScreenPoint } = await import('./mapViewScreenPoint');
+        jsHitTestResult.screenPoint = await buildJsMapViewScreenPoint(dotNetObject.screenPoint, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.results)) {
         jsHitTestResult.results = dotNetObject.results;
-    }
-    if (hasValue(dotNetObject.screenPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedScreenPoint } = dotNetObject.screenPoint;
-        jsHitTestResult.screenPoint = sanitizedScreenPoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsHitTestResult);
@@ -29,11 +29,12 @@ export async function buildDotNetHitTestResultGenerated(jsObject: any): Promise<
     let dotNetHitTestResult: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.screenPoint)) {
+        let { buildDotNetMapViewScreenPoint } = await import('./mapViewScreenPoint');
+        dotNetHitTestResult.screenPoint = await buildDotNetMapViewScreenPoint(jsObject.screenPoint);
+    }
     if (hasValue(jsObject.results)) {
         dotNetHitTestResult.results = jsObject.results;
-    }
-    if (hasValue(jsObject.screenPoint)) {
-        dotNetHitTestResult.screenPoint = jsObject.screenPoint;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

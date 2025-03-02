@@ -8,11 +8,11 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
         jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i, layerId, viewId))) as any;
     }
-
     if (hasValue(dotNetObject.operations)) {
-        const { id, dotNetComponentReference, ...sanitizedOperations } = dotNetObject.operations;
-        jsWFSCapabilities.operations = sanitizedOperations;
+        let { buildJsWFSOperations } = await import('./wFSOperations');
+        jsWFSCapabilities.operations = await buildJsWFSOperations(dotNetObject.operations, layerId, viewId) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -58,7 +58,8 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promis
         dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
     }
     if (hasValue(jsObject.operations)) {
-        dotNetWFSCapabilities.operations = jsObject.operations;
+        let { buildDotNetWFSOperations } = await import('./wFSOperations');
+        dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations);
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

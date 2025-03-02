@@ -4,11 +4,23 @@ import { buildDotNetCIMPictureMarker } from './cIMPictureMarker';
 
 export async function buildJsCIMPictureMarkerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCIMPictureMarker: any = {};
-
     if (hasValue(dotNetObject.anchorPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedAnchorPoint } = dotNetObject.anchorPoint;
-        jsCIMPictureMarker.anchorPoint = sanitizedAnchorPoint;
+        let { buildJsCIMPictureMarkerAnchorPoint } = await import('./cIMPictureMarkerAnchorPoint');
+        jsCIMPictureMarker.anchorPoint = await buildJsCIMPictureMarkerAnchorPoint(dotNetObject.anchorPoint, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.colorSubstitutions)) {
+        let { buildJsCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        jsCIMPictureMarker.colorSubstitutions = await Promise.all(dotNetObject.colorSubstitutions.map(async i => await buildJsCIMColorSubstitution(i, layerId, viewId))) as any;
+    }
+    if (hasValue(dotNetObject.effects)) {
+        let { buildJsICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        jsCIMPictureMarker.effects = dotNetObject.effects.map(i => buildJsICIMGeometricEffect(i)) as any;
+    }
+    if (hasValue(dotNetObject.markerPlacement)) {
+        let { buildJsIMarkerPlacement } = await import('./iMarkerPlacement');
+        jsCIMPictureMarker.markerPlacement = buildJsIMarkerPlacement(dotNetObject.markerPlacement) as any;
+    }
+
     if (hasValue(dotNetObject.anchorPointUnits)) {
         jsCIMPictureMarker.anchorPointUnits = dotNetObject.anchorPointUnits;
     }
@@ -27,19 +39,11 @@ export async function buildJsCIMPictureMarkerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.colorLocked)) {
         jsCIMPictureMarker.colorLocked = dotNetObject.colorLocked;
     }
-    if (hasValue(dotNetObject.colorSubstitutions)) {
-        const { id, dotNetComponentReference, ...sanitizedColorSubstitutions } = dotNetObject.colorSubstitutions;
-        jsCIMPictureMarker.colorSubstitutions = sanitizedColorSubstitutions;
-    }
     if (hasValue(dotNetObject.depth3D)) {
         jsCIMPictureMarker.depth3D = dotNetObject.depth3D;
     }
     if (hasValue(dotNetObject.dominantSizeAxis3D)) {
         jsCIMPictureMarker.dominantSizeAxis3D = dotNetObject.dominantSizeAxis3D;
-    }
-    if (hasValue(dotNetObject.effects)) {
-        const { id, dotNetComponentReference, ...sanitizedEffects } = dotNetObject.effects;
-        jsCIMPictureMarker.effects = sanitizedEffects;
     }
     if (hasValue(dotNetObject.enable)) {
         jsCIMPictureMarker.enable = dotNetObject.enable;
@@ -49,10 +53,6 @@ export async function buildJsCIMPictureMarkerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.invertBackfaceTexture)) {
         jsCIMPictureMarker.invertBackfaceTexture = dotNetObject.invertBackfaceTexture;
-    }
-    if (hasValue(dotNetObject.markerPlacement)) {
-        const { id, dotNetComponentReference, ...sanitizedMarkerPlacement } = dotNetObject.markerPlacement;
-        jsCIMPictureMarker.markerPlacement = sanitizedMarkerPlacement;
     }
     if (hasValue(dotNetObject.name)) {
         jsCIMPictureMarker.name = dotNetObject.name;
@@ -137,7 +137,20 @@ export async function buildDotNetCIMPictureMarkerGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.anchorPoint)) {
-        dotNetCIMPictureMarker.anchorPoint = jsObject.anchorPoint;
+        let { buildDotNetCIMPictureMarkerAnchorPoint } = await import('./cIMPictureMarkerAnchorPoint');
+        dotNetCIMPictureMarker.anchorPoint = await buildDotNetCIMPictureMarkerAnchorPoint(jsObject.anchorPoint);
+    }
+    if (hasValue(jsObject.colorSubstitutions)) {
+        let { buildDotNetCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        dotNetCIMPictureMarker.colorSubstitutions = await Promise.all(jsObject.colorSubstitutions.map(async i => await buildDotNetCIMColorSubstitution(i)));
+    }
+    if (hasValue(jsObject.effects)) {
+        let { buildDotNetICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        dotNetCIMPictureMarker.effects = jsObject.effects.map(i => buildDotNetICIMGeometricEffect(i));
+    }
+    if (hasValue(jsObject.markerPlacement)) {
+        let { buildDotNetIMarkerPlacement } = await import('./iMarkerPlacement');
+        dotNetCIMPictureMarker.markerPlacement = buildDotNetIMarkerPlacement(jsObject.markerPlacement);
     }
     if (hasValue(jsObject.anchorPointUnits)) {
         dotNetCIMPictureMarker.anchorPointUnits = jsObject.anchorPointUnits;
@@ -157,17 +170,11 @@ export async function buildDotNetCIMPictureMarkerGenerated(jsObject: any): Promi
     if (hasValue(jsObject.colorLocked)) {
         dotNetCIMPictureMarker.colorLocked = jsObject.colorLocked;
     }
-    if (hasValue(jsObject.colorSubstitutions)) {
-        dotNetCIMPictureMarker.colorSubstitutions = jsObject.colorSubstitutions;
-    }
     if (hasValue(jsObject.depth3D)) {
         dotNetCIMPictureMarker.depth3D = jsObject.depth3D;
     }
     if (hasValue(jsObject.dominantSizeAxis3D)) {
         dotNetCIMPictureMarker.dominantSizeAxis3D = jsObject.dominantSizeAxis3D;
-    }
-    if (hasValue(jsObject.effects)) {
-        dotNetCIMPictureMarker.effects = jsObject.effects;
     }
     if (hasValue(jsObject.enable)) {
         dotNetCIMPictureMarker.enable = jsObject.enable;
@@ -177,9 +184,6 @@ export async function buildDotNetCIMPictureMarkerGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.invertBackfaceTexture)) {
         dotNetCIMPictureMarker.invertBackfaceTexture = jsObject.invertBackfaceTexture;
-    }
-    if (hasValue(jsObject.markerPlacement)) {
-        dotNetCIMPictureMarker.markerPlacement = jsObject.markerPlacement;
     }
     if (hasValue(jsObject.name)) {
         dotNetCIMPictureMarker.name = jsObject.name;

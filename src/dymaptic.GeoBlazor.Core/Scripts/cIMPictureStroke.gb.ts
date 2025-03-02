@@ -4,6 +4,14 @@ import { buildDotNetCIMPictureStroke } from './cIMPictureStroke';
 
 export async function buildJsCIMPictureStrokeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCIMPictureStroke: any = {};
+    if (hasValue(dotNetObject.colorSubstitutions)) {
+        let { buildJsCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        jsCIMPictureStroke.colorSubstitutions = await Promise.all(dotNetObject.colorSubstitutions.map(async i => await buildJsCIMColorSubstitution(i, layerId, viewId))) as any;
+    }
+    if (hasValue(dotNetObject.effects)) {
+        let { buildJsICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        jsCIMPictureStroke.effects = dotNetObject.effects.map(i => buildJsICIMGeometricEffect(i)) as any;
+    }
 
     if (hasValue(dotNetObject.capStyle)) {
         jsCIMPictureStroke.capStyle = dotNetObject.capStyle;
@@ -13,14 +21,6 @@ export async function buildJsCIMPictureStrokeGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.colorLocked)) {
         jsCIMPictureStroke.colorLocked = dotNetObject.colorLocked;
-    }
-    if (hasValue(dotNetObject.colorSubstitutions)) {
-        const { id, dotNetComponentReference, ...sanitizedColorSubstitutions } = dotNetObject.colorSubstitutions;
-        jsCIMPictureStroke.colorSubstitutions = sanitizedColorSubstitutions;
-    }
-    if (hasValue(dotNetObject.effects)) {
-        const { id, dotNetComponentReference, ...sanitizedEffects } = dotNetObject.effects;
-        jsCIMPictureStroke.effects = sanitizedEffects;
     }
     if (hasValue(dotNetObject.enable)) {
         jsCIMPictureStroke.enable = dotNetObject.enable;
@@ -95,6 +95,14 @@ export async function buildDotNetCIMPictureStrokeGenerated(jsObject: any): Promi
     let dotNetCIMPictureStroke: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.colorSubstitutions)) {
+        let { buildDotNetCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        dotNetCIMPictureStroke.colorSubstitutions = await Promise.all(jsObject.colorSubstitutions.map(async i => await buildDotNetCIMColorSubstitution(i)));
+    }
+    if (hasValue(jsObject.effects)) {
+        let { buildDotNetICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        dotNetCIMPictureStroke.effects = jsObject.effects.map(i => buildDotNetICIMGeometricEffect(i));
+    }
     if (hasValue(jsObject.capStyle)) {
         dotNetCIMPictureStroke.capStyle = jsObject.capStyle;
     }
@@ -103,12 +111,6 @@ export async function buildDotNetCIMPictureStrokeGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.colorLocked)) {
         dotNetCIMPictureStroke.colorLocked = jsObject.colorLocked;
-    }
-    if (hasValue(jsObject.colorSubstitutions)) {
-        dotNetCIMPictureStroke.colorSubstitutions = jsObject.colorSubstitutions;
-    }
-    if (hasValue(jsObject.effects)) {
-        dotNetCIMPictureStroke.effects = jsObject.effects;
     }
     if (hasValue(jsObject.enable)) {
         dotNetCIMPictureStroke.enable = jsObject.enable;

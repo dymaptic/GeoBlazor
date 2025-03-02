@@ -4,17 +4,21 @@ import { buildDotNetIArcGISImageService } from './iArcGISImageService';
 
 export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArcGISImageService: any = {};
+    if (hasValue(dotNetObject.capabilities)) {
+        let { buildJsArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
+        jsArcGISImageService.capabilities = await buildJsArcGISImageServiceCapabilities(dotNetObject.capabilities, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         jsArcGISImageService.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        jsArcGISImageService.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
+        jsArcGISImageService.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        jsArcGISImageService.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        jsArcGISImageService.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         jsArcGISImageService.pixelFilter = async (pixelData) => {
@@ -24,13 +28,17 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
     }
+    if (hasValue(dotNetObject.rasterFunction)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        jsArcGISImageService.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.renderingRule)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        jsArcGISImageService.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.bandIds)) {
         jsArcGISImageService.bandIds = dotNetObject.bandIds;
-    }
-    if (hasValue(dotNetObject.capabilities)) {
-        const { id, dotNetComponentReference, ...sanitizedCapabilities } = dotNetObject.capabilities;
-        jsArcGISImageService.capabilities = sanitizedCapabilities;
     }
     if (hasValue(dotNetObject.compressionQuality)) {
         jsArcGISImageService.compressionQuality = dotNetObject.compressionQuality;
@@ -68,16 +76,8 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.pixelType)) {
         jsArcGISImageService.pixelType = dotNetObject.pixelType;
     }
-    if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
-        jsArcGISImageService.rasterFunction = sanitizedRasterFunction;
-    }
     if (hasValue(dotNetObject.renderer)) {
         jsArcGISImageService.renderer = dotNetObject.renderer;
-    }
-    if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
-        jsArcGISImageService.renderingRule = sanitizedRenderingRule;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
         jsArcGISImageService.sourceJSON = dotNetObject.sourceJSON;
@@ -125,6 +125,10 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     let dotNetIArcGISImageService: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.capabilities)) {
+        let { buildDotNetArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
+        dotNetIArcGISImageService.capabilities = await buildDotNetArcGISImageServiceCapabilities(jsObject.capabilities);
+    }
     if (hasValue(jsObject.defaultMosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetIArcGISImageService.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
@@ -149,15 +153,20 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         let { buildDotNetField } = await import('./field');
         dotNetIArcGISImageService.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
+    if (hasValue(jsObject.rasterFunction)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetIArcGISImageService.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetIArcGISImageService.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
+    }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
     }
     if (hasValue(jsObject.bandIds)) {
         dotNetIArcGISImageService.bandIds = jsObject.bandIds;
-    }
-    if (hasValue(jsObject.capabilities)) {
-        dotNetIArcGISImageService.capabilities = jsObject.capabilities;
     }
     if (hasValue(jsObject.compressionQuality)) {
         dotNetIArcGISImageService.compressionQuality = jsObject.compressionQuality;
@@ -204,17 +213,11 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     if (hasValue(jsObject.pixelType)) {
         dotNetIArcGISImageService.pixelType = jsObject.pixelType;
     }
-    if (hasValue(jsObject.rasterFunction)) {
-        dotNetIArcGISImageService.rasterFunction = jsObject.rasterFunction;
-    }
     if (hasValue(jsObject.rasterFunctionInfos)) {
         dotNetIArcGISImageService.rasterFunctionInfos = jsObject.rasterFunctionInfos;
     }
     if (hasValue(jsObject.renderer)) {
         dotNetIArcGISImageService.renderer = jsObject.renderer;
-    }
-    if (hasValue(jsObject.renderingRule)) {
-        dotNetIArcGISImageService.renderingRule = jsObject.renderingRule;
     }
     if (hasValue(jsObject.sourceType)) {
         dotNetIArcGISImageService.sourceType = jsObject.sourceType;

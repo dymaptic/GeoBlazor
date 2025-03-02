@@ -29,6 +29,15 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
 
     // region properties
     
+    async getMeasurement(): Promise<any> {
+        if (!hasValue(this.component.measurement)) {
+            return null;
+        }
+        
+        let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
+        return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -101,11 +110,12 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
     let dotNetDistanceMeasurement2DViewModel: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.measurement)) {
+        let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
+        dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement);
+    }
     if (hasValue(jsObject.geodesicDistanceThreshold)) {
         dotNetDistanceMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-    }
-    if (hasValue(jsObject.measurement)) {
-        dotNetDistanceMeasurement2DViewModel.measurement = jsObject.measurement;
     }
     if (hasValue(jsObject.measurementLabel)) {
         dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;

@@ -50,7 +50,7 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async setAuthoringInfo(value: any): Promise<void> {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        this.component.authoringInfo = await  buildJsAuthoringInfo(value);
+        this.component.authoringInfo = await  buildJsAuthoringInfo(value, this.layerId, this.viewId);
     }
     
     async getBackgroundFillSymbol(): Promise<any> {
@@ -65,6 +65,20 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     async setBackgroundFillSymbol(value: any): Promise<void> {
         let { buildJsFillSymbol } = await import('./fillSymbol');
         this.component.backgroundFillSymbol = await  buildJsFillSymbol(value);
+    }
+    
+    async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        return await buildDotNetUniqueValueRendererLegendOptions(this.component.legendOptions);
+    }
+    
+    async setLegendOptions(value: any): Promise<void> {
+        let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        this.component.legendOptions = await  buildJsUniqueValueRendererLegendOptions(value, this.layerId, this.viewId);
     }
     
     async getUniqueValueGroups(): Promise<any> {
@@ -123,11 +137,15 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.backgroundFillSymbol)) {
         let { buildJsFillSymbol } = await import('./fillSymbol');
         properties.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
+    }
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        properties.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.uniqueValueGroups)) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
@@ -159,10 +177,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.fieldDelimiter)) {
         properties.fieldDelimiter = dotNetObject.fieldDelimiter;
-    }
-    if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.orderByClassesEnabled)) {
         properties.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
@@ -228,6 +242,10 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         let { buildDotNetFillSymbol } = await import('./fillSymbol');
         dotNetUniqueValueRenderer.backgroundFillSymbol = await buildDotNetFillSymbol(jsObject.backgroundFillSymbol);
     }
+    if (hasValue(jsObject.legendOptions)) {
+        let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        dotNetUniqueValueRenderer.legendOptions = await buildDotNetUniqueValueRendererLegendOptions(jsObject.legendOptions);
+    }
     if (hasValue(jsObject.uniqueValueGroups)) {
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
         dotNetUniqueValueRenderer.uniqueValueGroups = await Promise.all(jsObject.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i)));
@@ -257,9 +275,6 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.fieldDelimiter)) {
         dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
-    }
-    if (hasValue(jsObject.legendOptions)) {
-        dotNetUniqueValueRenderer.legendOptions = jsObject.legendOptions;
     }
     if (hasValue(jsObject.orderByClassesEnabled)) {
         dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;

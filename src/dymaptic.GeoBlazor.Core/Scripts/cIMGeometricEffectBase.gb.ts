@@ -9,6 +9,72 @@ export async function buildJsCIMGeometricEffectBaseGenerated(dotNetObject: any, 
         case 'string': 
             let { buildJsCIMGeometricEffectBase } = await import('./cIMGeometricEffectBase');
             return await buildJsCIMGeometricEffectBase(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectArrow } = await import('./cIMGeometricEffectArrow');
+            return await buildJsCIMGeometricEffectArrow(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectEnclosingPolygon } = await import('./cIMGeometricEffectEnclosingPolygon');
+            return await buildJsCIMGeometricEffectEnclosingPolygon(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectMove } = await import('./cIMGeometricEffectMove');
+            return await buildJsCIMGeometricEffectMove(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectWave } = await import('./cIMGeometricEffectWave');
+            return await buildJsCIMGeometricEffectWave(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectOffset } = await import('./cIMGeometricEffectOffset');
+            return await buildJsCIMGeometricEffectOffset(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectSuppress } = await import('./cIMGeometricEffectSuppress');
+            return await buildJsCIMGeometricEffectSuppress(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectBuffer } = await import('./cIMGeometricEffectBuffer');
+            return await buildJsCIMGeometricEffectBuffer(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectLocalizerFeather } = await import('./cIMGeometricEffectLocalizerFeather');
+            return await buildJsCIMGeometricEffectLocalizerFeather(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectJog } = await import('./cIMGeometricEffectJog');
+            return await buildJsCIMGeometricEffectJog(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectRotate } = await import('./cIMGeometricEffectRotate');
+            return await buildJsCIMGeometricEffectRotate(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectReverse } = await import('./cIMGeometricEffectReverse');
+            return await buildJsCIMGeometricEffectReverse(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectAddControlPoints } = await import('./cIMGeometricEffectAddControlPoints');
+            return await buildJsCIMGeometricEffectAddControlPoints(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectDashes } = await import('./cIMGeometricEffectDashes');
+            return await buildJsCIMGeometricEffectDashes(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectOffsetHatch } = await import('./cIMGeometricEffectOffsetHatch');
+            return await buildJsCIMGeometricEffectOffsetHatch(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectCut } = await import('./cIMGeometricEffectCut');
+            return await buildJsCIMGeometricEffectCut(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectExtension } = await import('./cIMGeometricEffectExtension');
+            return await buildJsCIMGeometricEffectExtension(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectTaperedPolygon } = await import('./cIMGeometricEffectTaperedPolygon');
+            return await buildJsCIMGeometricEffectTaperedPolygon(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectRadial } = await import('./cIMGeometricEffectRadial');
+            return await buildJsCIMGeometricEffectRadial(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectOffsetTangent } = await import('./cIMGeometricEffectOffsetTangent');
+            return await buildJsCIMGeometricEffectOffsetTangent(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectScale } = await import('./cIMGeometricEffectScale');
+            return await buildJsCIMGeometricEffectScale(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectDonut } = await import('./cIMGeometricEffectDonut');
+            return await buildJsCIMGeometricEffectDonut(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGeometricEffectRegularPolygon } = await import('./cIMGeometricEffectRegularPolygon');
+            return await buildJsCIMGeometricEffectRegularPolygon(dotNetObject, layerId, viewId);
         default: 
             let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
@@ -24,6 +90,72 @@ export async function buildDotNetCIMGeometricEffectBaseGenerated(jsObject: any):
         case 'string': 
             let { buildDotNetCIMGeometricEffectBase } = await import('./cIMGeometricEffectBase');
             return await buildDotNetCIMGeometricEffectBase(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectArrow } = await import('./cIMGeometricEffectArrow');
+            return await buildDotNetCIMGeometricEffectArrow(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectEnclosingPolygon } = await import('./cIMGeometricEffectEnclosingPolygon');
+            return await buildDotNetCIMGeometricEffectEnclosingPolygon(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectMove } = await import('./cIMGeometricEffectMove');
+            return await buildDotNetCIMGeometricEffectMove(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectWave } = await import('./cIMGeometricEffectWave');
+            return await buildDotNetCIMGeometricEffectWave(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectOffset } = await import('./cIMGeometricEffectOffset');
+            return await buildDotNetCIMGeometricEffectOffset(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectSuppress } = await import('./cIMGeometricEffectSuppress');
+            return await buildDotNetCIMGeometricEffectSuppress(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectBuffer } = await import('./cIMGeometricEffectBuffer');
+            return await buildDotNetCIMGeometricEffectBuffer(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectLocalizerFeather } = await import('./cIMGeometricEffectLocalizerFeather');
+            return await buildDotNetCIMGeometricEffectLocalizerFeather(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectJog } = await import('./cIMGeometricEffectJog');
+            return await buildDotNetCIMGeometricEffectJog(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectRotate } = await import('./cIMGeometricEffectRotate');
+            return await buildDotNetCIMGeometricEffectRotate(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectReverse } = await import('./cIMGeometricEffectReverse');
+            return await buildDotNetCIMGeometricEffectReverse(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectAddControlPoints } = await import('./cIMGeometricEffectAddControlPoints');
+            return await buildDotNetCIMGeometricEffectAddControlPoints(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectDashes } = await import('./cIMGeometricEffectDashes');
+            return await buildDotNetCIMGeometricEffectDashes(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectOffsetHatch } = await import('./cIMGeometricEffectOffsetHatch');
+            return await buildDotNetCIMGeometricEffectOffsetHatch(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectCut } = await import('./cIMGeometricEffectCut');
+            return await buildDotNetCIMGeometricEffectCut(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectExtension } = await import('./cIMGeometricEffectExtension');
+            return await buildDotNetCIMGeometricEffectExtension(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectTaperedPolygon } = await import('./cIMGeometricEffectTaperedPolygon');
+            return await buildDotNetCIMGeometricEffectTaperedPolygon(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectRadial } = await import('./cIMGeometricEffectRadial');
+            return await buildDotNetCIMGeometricEffectRadial(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectOffsetTangent } = await import('./cIMGeometricEffectOffsetTangent');
+            return await buildDotNetCIMGeometricEffectOffsetTangent(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectScale } = await import('./cIMGeometricEffectScale');
+            return await buildDotNetCIMGeometricEffectScale(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectDonut } = await import('./cIMGeometricEffectDonut');
+            return await buildDotNetCIMGeometricEffectDonut(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGeometricEffectRegularPolygon } = await import('./cIMGeometricEffectRegularPolygon');
+            return await buildDotNetCIMGeometricEffectRegularPolygon(jsObject);
         default: 
             return jsObject;
     }

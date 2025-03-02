@@ -77,6 +77,20 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getViewModel(): Promise<any> {
+        if (!hasValue(this.widget.viewModel)) {
+            return null;
+        }
+        
+        let { buildDotNetExpandViewModel } = await import('./expandViewModel');
+        return await buildDotNetExpandViewModel(this.widget.viewModel);
+    }
+    
+    async setViewModel(value: any): Promise<void> {
+        let { buildJsExpandViewModel } = await import('./expandViewModel');
+        this.widget.viewModel = await  buildJsExpandViewModel(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -91,6 +105,10 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
+    }
+    if (hasValue(dotNetObject.viewModel)) {
+        let { buildJsExpandViewModel } = await import('./expandViewModel');
+        properties.viewModel = await buildJsExpandViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.autoCollapse)) {
@@ -134,10 +152,6 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.placement)) {
         properties.placement = dotNetObject.placement;
-    }
-    if (hasValue(dotNetObject.viewModel)) {
-        const { id, dotNetComponentReference, ...sanitizedViewModel } = dotNetObject.viewModel;
-        properties.viewModel = sanitizedViewModel;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -189,6 +203,10 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     let dotNetExpandWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetExpandViewModel } = await import('./expandViewModel');
+        dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.autoCollapse)) {
         dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
     }
@@ -236,9 +254,6 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetExpandWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.viewModel)) {
-        dotNetExpandWidget.viewModel = jsObject.viewModel;
     }
     if (hasValue(jsObject.id)) {
         dotNetExpandWidget.widgetId = jsObject.id;

@@ -3,15 +3,27 @@ import AuthoringInfo from '@arcgis/core/renderers/support/AuthoringInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfo } from './authoringInfo';
 
-export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./colorRamp');
         properties.colorRamp = buildJsColorRamp(dotNetObject.colorRamp) as any;
     }
+    if (hasValue(dotNetObject.field1)) {
+        let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
+        properties.field1 = await buildJsAuthoringInfoField(dotNetObject.field1, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.field2)) {
+        let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
+        properties.field2 = await buildJsAuthoringInfoField(dotNetObject.field2, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.statistics)) {
+        let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+        properties.statistics = await buildJsAuthoringInfoStatistics(dotNetObject.statistics, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.visualVariables)) {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.classificationMethod)) {
@@ -19,14 +31,6 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<
     }
     if (hasValue(dotNetObject.fadeRatio)) {
         properties.fadeRatio = dotNetObject.fadeRatio;
-    }
-    if (hasValue(dotNetObject.field1)) {
-        const { id, dotNetComponentReference, ...sanitizedField1 } = dotNetObject.field1;
-        properties.field1 = sanitizedField1;
-    }
-    if (hasValue(dotNetObject.field2)) {
-        const { id, dotNetComponentReference, ...sanitizedField2 } = dotNetObject.field2;
-        properties.field2 = sanitizedField2;
     }
     if (hasValue(dotNetObject.fields)) {
         properties.fields = dotNetObject.fields;
@@ -54,10 +58,6 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<
     }
     if (hasValue(dotNetObject.standardDeviationInterval)) {
         properties.standardDeviationInterval = dotNetObject.standardDeviationInterval;
-    }
-    if (hasValue(dotNetObject.statistics)) {
-        const { id, dotNetComponentReference, ...sanitizedStatistics } = dotNetObject.statistics;
-        properties.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.univariateSymbolStyle)) {
         properties.univariateSymbolStyle = dotNetObject.univariateSymbolStyle;
@@ -110,6 +110,18 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
         let { buildDotNetColorRamp } = await import('./colorRamp');
         dotNetAuthoringInfo.colorRamp = buildDotNetColorRamp(jsObject.colorRamp);
     }
+    if (hasValue(jsObject.field1)) {
+        let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+        dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
+    }
+    if (hasValue(jsObject.field2)) {
+        let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
+        dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2);
+    }
+    if (hasValue(jsObject.statistics)) {
+        let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+        dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics);
+    }
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
         dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
@@ -119,12 +131,6 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.fadeRatio)) {
         dotNetAuthoringInfo.fadeRatio = jsObject.fadeRatio;
-    }
-    if (hasValue(jsObject.field1)) {
-        dotNetAuthoringInfo.field1 = jsObject.field1;
-    }
-    if (hasValue(jsObject.field2)) {
-        dotNetAuthoringInfo.field2 = jsObject.field2;
     }
     if (hasValue(jsObject.fields)) {
         dotNetAuthoringInfo.fields = jsObject.fields;
@@ -152,9 +158,6 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.standardDeviationInterval)) {
         dotNetAuthoringInfo.standardDeviationInterval = jsObject.standardDeviationInterval;
-    }
-    if (hasValue(jsObject.statistics)) {
-        dotNetAuthoringInfo.statistics = jsObject.statistics;
     }
     if (hasValue(jsObject.type)) {
         dotNetAuthoringInfo.type = jsObject.type;

@@ -106,6 +106,20 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         this.widget.viewModel = await  buildJsBasemapToggleViewModel(value, this.layerId, this.viewId);
     }
     
+    async getVisibleElements(): Promise<any> {
+        if (!hasValue(this.widget.visibleElements)) {
+            return null;
+        }
+        
+        let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
+        return await buildDotNetBasemapToggleVisibleElements(this.widget.visibleElements);
+    }
+    
+    async setVisibleElements(value: any): Promise<void> {
+        let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
+        this.widget.visibleElements = await  buildJsBasemapToggleVisibleElements(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -129,6 +143,10 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         let { buildJsBasemapToggleViewModel } = await import('./basemapToggleViewModel');
         properties.viewModel = await buildJsBasemapToggleViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.visibleElements)) {
+        let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
+        properties.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.container)) {
         properties.container = dotNetObject.container;
@@ -138,10 +156,6 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -205,6 +219,10 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
         dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);
     }
+    if (hasValue(jsObject.visibleElements)) {
+        let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
+        dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements);
+    }
     if (hasValue(jsObject.container)) {
         dotNetBasemapToggleWidget.container = jsObject.container;
     }
@@ -216,9 +234,6 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.type)) {
         dotNetBasemapToggleWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.visibleElements)) {
-        dotNetBasemapToggleWidget.visibleElements = jsObject.visibleElements;
     }
     if (hasValue(jsObject.id)) {
         dotNetBasemapToggleWidget.widgetId = jsObject.id;

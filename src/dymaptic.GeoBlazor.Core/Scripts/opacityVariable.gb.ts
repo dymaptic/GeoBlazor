@@ -3,22 +3,22 @@ import OpacityVariable from '@arcgis/core/renderers/visualVariables/OpacityVaria
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetOpacityVariable } from './opacityVariable';
 
-export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsOpacityStop } = await import('./opacityStop');
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
     }
-    if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        properties.legendOptions = sanitizedLegendOptions;
-    }
     if (hasValue(dotNetObject.normalizationField)) {
         properties.normalizationField = dotNetObject.normalizationField;
-    }
-    if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, ...sanitizedStops } = dotNetObject.stops;
-        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.valueExpression)) {
         properties.valueExpression = dotNetObject.valueExpression;
@@ -67,17 +67,19 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
     let dotNetOpacityVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.legendOptions)) {
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+    }
+    if (hasValue(jsObject.stops)) {
+        let { buildDotNetOpacityStop } = await import('./opacityStop');
+        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i)));
+    }
     if (hasValue(jsObject.field)) {
         dotNetOpacityVariable.field = jsObject.field;
     }
-    if (hasValue(jsObject.legendOptions)) {
-        dotNetOpacityVariable.legendOptions = jsObject.legendOptions;
-    }
     if (hasValue(jsObject.normalizationField)) {
         dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
-    }
-    if (hasValue(jsObject.stops)) {
-        dotNetOpacityVariable.stops = jsObject.stops;
     }
     if (hasValue(jsObject.type)) {
         dotNetOpacityVariable.type = jsObject.type;

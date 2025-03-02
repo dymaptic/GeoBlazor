@@ -12,13 +12,13 @@ export async function buildJsMediaHitGenerated(dotNetObject: any, layerId: strin
         let { buildJsPoint } = await import('./point');
         jsMediaHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
     }
+    if (hasValue(dotNetObject.sourcePoint)) {
+        let { buildJsSourcePoint } = await import('./sourcePoint');
+        jsMediaHit.sourcePoint = await buildJsSourcePoint(dotNetObject.sourcePoint, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.element)) {
         jsMediaHit.element = dotNetObject.element;
-    }
-    if (hasValue(dotNetObject.sourcePoint)) {
-        const { id, dotNetComponentReference, ...sanitizedSourcePoint } = dotNetObject.sourcePoint;
-        jsMediaHit.sourcePoint = sanitizedSourcePoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsMediaHit);
@@ -41,11 +41,12 @@ export async function buildDotNetMediaHitGenerated(jsObject: any): Promise<any> 
         let { buildDotNetPoint } = await import('./point');
         dotNetMediaHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
     }
+    if (hasValue(jsObject.sourcePoint)) {
+        let { buildDotNetSourcePoint } = await import('./sourcePoint');
+        dotNetMediaHit.sourcePoint = await buildDotNetSourcePoint(jsObject.sourcePoint);
+    }
     if (hasValue(jsObject.element)) {
         dotNetMediaHit.element = jsObject.element;
-    }
-    if (hasValue(jsObject.sourcePoint)) {
-        dotNetMediaHit.sourcePoint = jsObject.sourcePoint;
     }
     if (hasValue(jsObject.type)) {
         dotNetMediaHit.type = jsObject.type;

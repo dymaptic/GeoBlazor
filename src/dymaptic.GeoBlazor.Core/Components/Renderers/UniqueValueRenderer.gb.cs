@@ -896,8 +896,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "legendOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setLegendOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

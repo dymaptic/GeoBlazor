@@ -67,6 +67,20 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         this.layer.outline = await  buildJsFillSymbol3DLayerOutline(value, this.layerId, this.viewId);
     }
     
+    async getPattern(): Promise<any> {
+        if (!hasValue(this.layer.pattern)) {
+            return null;
+        }
+        
+        let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
+        return await buildDotNetStylePattern3D(this.layer.pattern);
+    }
+    
+    async setPattern(value: any): Promise<void> {
+        let { buildJsStylePattern3D } = await import('./stylePattern3D');
+        this.layer.pattern = await  buildJsStylePattern3D(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.layer[prop];
     }
@@ -91,13 +105,13 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
         let { buildJsFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
         properties.outline = await buildJsFillSymbol3DLayerOutline(dotNetObject.outline, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.pattern)) {
+        let { buildJsStylePattern3D } = await import('./stylePattern3D');
+        properties.pattern = await buildJsStylePattern3D(dotNetObject.pattern, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.castShadows)) {
         properties.castShadows = dotNetObject.castShadows;
-    }
-    if (hasValue(dotNetObject.pattern)) {
-        const { id, dotNetComponentReference, ...sanitizedPattern } = dotNetObject.pattern;
-        properties.pattern = sanitizedPattern;
     }
     let jsFillSymbol3DLayer = new FillSymbol3DLayer(properties);
 
@@ -158,11 +172,12 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
         let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
         dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline);
     }
+    if (hasValue(jsObject.pattern)) {
+        let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
+        dotNetIFillSymbol3DLayer.pattern = await buildDotNetStylePattern3D(jsObject.pattern);
+    }
     if (hasValue(jsObject.castShadows)) {
         dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
-    }
-    if (hasValue(jsObject.pattern)) {
-        dotNetIFillSymbol3DLayer.pattern = jsObject.pattern;
     }
     if (hasValue(jsObject.type)) {
         dotNetIFillSymbol3DLayer.type = jsObject.type;

@@ -3,8 +3,12 @@ import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable'
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetColorVariable } from './colorVariable';
 
-export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.stops)) {
         let { buildJsColorStop } = await import('./colorStop');
         properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i))) as any;
@@ -12,10 +16,6 @@ export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<
 
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
-    }
-    if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.normalizationField)) {
         properties.normalizationField = dotNetObject.normalizationField;
@@ -67,15 +67,16 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
     let dotNetColorVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.legendOptions)) {
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+    }
     if (hasValue(jsObject.stops)) {
         let { buildDotNetColorStop } = await import('./colorStop');
         dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
     }
     if (hasValue(jsObject.field)) {
         dotNetColorVariable.field = jsObject.field;
-    }
-    if (hasValue(jsObject.legendOptions)) {
-        dotNetColorVariable.legendOptions = jsObject.legendOptions;
     }
     if (hasValue(jsObject.normalizationField)) {
         dotNetColorVariable.normalizationField = jsObject.normalizationField;

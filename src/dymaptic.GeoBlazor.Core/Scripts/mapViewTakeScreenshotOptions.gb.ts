@@ -4,6 +4,10 @@ import { buildDotNetMapViewTakeScreenshotOptions } from './mapViewTakeScreenshot
 
 export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMapViewTakeScreenshotOptions: any = {};
+    if (hasValue(dotNetObject.area)) {
+        let { buildJsMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
+        jsMapViewTakeScreenshotOptions.area = await buildJsMapViewTakeScreenshotOptionsArea(dotNetObject.area, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
         jsMapViewTakeScreenshotOptions.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
@@ -13,10 +17,6 @@ export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject:
         jsMapViewTakeScreenshotOptions.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
-        jsMapViewTakeScreenshotOptions.area = sanitizedArea;
-    }
     if (hasValue(dotNetObject.height)) {
         jsMapViewTakeScreenshotOptions.height = dotNetObject.height;
     }
@@ -49,12 +49,13 @@ export async function buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject:
     let dotNetMapViewTakeScreenshotOptions: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.area)) {
+        let { buildDotNetMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
+        dotNetMapViewTakeScreenshotOptions.area = await buildDotNetMapViewTakeScreenshotOptionsArea(jsObject.area);
+    }
     if (hasValue(jsObject.format)) {
         let { buildDotNetFormat } = await import('./format');
         dotNetMapViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
-    }
-    if (hasValue(jsObject.area)) {
-        dotNetMapViewTakeScreenshotOptions.area = jsObject.area;
     }
     if (hasValue(jsObject.height)) {
         dotNetMapViewTakeScreenshotOptions.height = jsObject.height;

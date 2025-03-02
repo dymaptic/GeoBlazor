@@ -29,6 +29,24 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
 
     // region properties
     
+    async getMeasurement(): Promise<any> {
+        if (!hasValue(this.component.measurement)) {
+            return null;
+        }
+        
+        let { buildDotNetAreaMeasurement2DViewModelMeasurement } = await import('./areaMeasurement2DViewModelMeasurement');
+        return await buildDotNetAreaMeasurement2DViewModelMeasurement(this.component.measurement);
+    }
+    
+    async getMeasurementLabel(): Promise<any> {
+        if (!hasValue(this.component.measurementLabel)) {
+            return null;
+        }
+        
+        let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
+        return await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(this.component.measurementLabel);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -101,14 +119,16 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
     let dotNetAreaMeasurement2DViewModel: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.geodesicDistanceThreshold)) {
-        dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
-    }
     if (hasValue(jsObject.measurement)) {
-        dotNetAreaMeasurement2DViewModel.measurement = jsObject.measurement;
+        let { buildDotNetAreaMeasurement2DViewModelMeasurement } = await import('./areaMeasurement2DViewModelMeasurement');
+        dotNetAreaMeasurement2DViewModel.measurement = await buildDotNetAreaMeasurement2DViewModelMeasurement(jsObject.measurement);
     }
     if (hasValue(jsObject.measurementLabel)) {
-        dotNetAreaMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
+        let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
+        dotNetAreaMeasurement2DViewModel.measurementLabel = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsObject.measurementLabel);
+    }
+    if (hasValue(jsObject.geodesicDistanceThreshold)) {
+        dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
     }
     if (hasValue(jsObject.state)) {
         dotNetAreaMeasurement2DViewModel.state = jsObject.state;

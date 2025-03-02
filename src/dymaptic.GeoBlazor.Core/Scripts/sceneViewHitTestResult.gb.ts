@@ -8,13 +8,13 @@ export async function buildJsSceneViewHitTestResultGenerated(dotNetObject: any, 
         let { buildJsHitTestResultGround } = await import('./hitTestResultGround');
         jsSceneViewHitTestResult.ground = await buildJsHitTestResultGround(dotNetObject.ground, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.screenPoint)) {
+        let { buildJsISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
+        jsSceneViewHitTestResult.screenPoint = await buildJsISceneViewHitTestResultScreenPoint(dotNetObject.screenPoint, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.results)) {
         jsSceneViewHitTestResult.results = dotNetObject.results;
-    }
-    if (hasValue(dotNetObject.screenPoint)) {
-        const { id, dotNetComponentReference, ...sanitizedScreenPoint } = dotNetObject.screenPoint;
-        jsSceneViewHitTestResult.screenPoint = sanitizedScreenPoint;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewHitTestResult);
@@ -37,11 +37,12 @@ export async function buildDotNetSceneViewHitTestResultGenerated(jsObject: any):
         let { buildDotNetHitTestResultGround } = await import('./hitTestResultGround');
         dotNetSceneViewHitTestResult.ground = await buildDotNetHitTestResultGround(jsObject.ground);
     }
+    if (hasValue(jsObject.screenPoint)) {
+        let { buildDotNetISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
+        dotNetSceneViewHitTestResult.screenPoint = await buildDotNetISceneViewHitTestResultScreenPoint(jsObject.screenPoint);
+    }
     if (hasValue(jsObject.results)) {
         dotNetSceneViewHitTestResult.results = jsObject.results;
-    }
-    if (hasValue(jsObject.screenPoint)) {
-        dotNetSceneViewHitTestResult.screenPoint = jsObject.screenPoint;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

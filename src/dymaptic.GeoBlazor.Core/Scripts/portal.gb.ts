@@ -131,6 +131,20 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.defaultVectorBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     
+    async getFeaturedGroups(): Promise<any> {
+        if (!hasValue(this.component.featuredGroups)) {
+            return null;
+        }
+        
+        let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        return await Promise.all(this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
+    }
+    
+    async setFeaturedGroups(value: any): Promise<void> {
+        let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getUser(): Promise<any> {
         if (!hasValue(this.component.user)) {
             return null;
@@ -160,6 +174,10 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.defaultExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
+    }
+    if (hasValue(dotNetObject.featuredGroups)) {
+        let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        properties.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
@@ -233,10 +251,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.eueiEnabled)) {
         properties.eueiEnabled = dotNetObject.eueiEnabled;
-    }
-    if (hasValue(dotNetObject.featuredGroups)) {
-        const { id, dotNetComponentReference, ...sanitizedFeaturedGroups } = dotNetObject.featuredGroups;
-        properties.featuredGroups = sanitizedFeaturedGroups;
     }
     if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
         properties.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
@@ -388,6 +402,10 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         let { buildDotNetExtent } = await import('./extent');
         dotNetPortal.defaultExtent = buildDotNetExtent(jsObject.defaultExtent);
     }
+    if (hasValue(jsObject.featuredGroups)) {
+        let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
+    }
     if (hasValue(jsObject.access)) {
         dotNetPortal.access = jsObject.access;
     }
@@ -459,9 +477,6 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.eueiEnabled)) {
         dotNetPortal.eueiEnabled = jsObject.eueiEnabled;
-    }
-    if (hasValue(jsObject.featuredGroups)) {
-        dotNetPortal.featuredGroups = jsObject.featuredGroups;
     }
     if (hasValue(jsObject.featuredItemsGroupQuery)) {
         dotNetPortal.featuredItemsGroupQuery = jsObject.featuredItemsGroupQuery;

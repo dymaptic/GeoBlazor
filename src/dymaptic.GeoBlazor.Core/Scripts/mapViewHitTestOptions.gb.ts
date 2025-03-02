@@ -4,15 +4,15 @@ import { buildDotNetMapViewHitTestOptions } from './mapViewHitTestOptions';
 
 export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMapViewHitTestOptions: any = {};
-
     if (hasValue(dotNetObject.exclude)) {
-        const { id, dotNetComponentReference, ...sanitizedExclude } = dotNetObject.exclude;
-        jsMapViewHitTestOptions.exclude = sanitizedExclude;
+        let { buildJsIHitTestItem } = await import('./iHitTestItem');
+        jsMapViewHitTestOptions.exclude = dotNetObject.exclude.map(i => buildJsIHitTestItem(i)) as any;
     }
     if (hasValue(dotNetObject.include)) {
-        const { id, dotNetComponentReference, ...sanitizedInclude } = dotNetObject.include;
-        jsMapViewHitTestOptions.include = sanitizedInclude;
+        let { buildJsIHitTestItem } = await import('./iHitTestItem');
+        jsMapViewHitTestOptions.include = dotNetObject.include.map(i => buildJsIHitTestItem(i)) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsMapViewHitTestOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -31,10 +31,12 @@ export async function buildDotNetMapViewHitTestOptionsGenerated(jsObject: any): 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.exclude)) {
-        dotNetMapViewHitTestOptions.exclude = jsObject.exclude;
+        let { buildDotNetIHitTestItem } = await import('./iHitTestItem');
+        dotNetMapViewHitTestOptions.exclude = jsObject.exclude.map(i => buildDotNetIHitTestItem(i));
     }
     if (hasValue(jsObject.include)) {
-        dotNetMapViewHitTestOptions.include = jsObject.include;
+        let { buildDotNetIHitTestItem } = await import('./iHitTestItem');
+        dotNetMapViewHitTestOptions.include = jsObject.include.map(i => buildDotNetIHitTestItem(i));
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

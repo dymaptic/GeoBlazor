@@ -4,11 +4,11 @@ import { buildDotNetProfile } from './profile';
 
 export async function buildJsProfileGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsProfile: any = {};
-
     if (hasValue(dotNetObject.variables)) {
-        const { id, dotNetComponentReference, ...sanitizedVariables } = dotNetObject.variables;
-        jsProfile.variables = sanitizedVariables;
+        let { buildJsIProfileVariable } = await import('./iProfileVariable');
+        jsProfile.variables = dotNetObject.variables.map(i => buildJsIProfileVariable(i)) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsProfile);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetProfileGenerated(jsObject: any): Promise<any> {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.variables)) {
-        dotNetProfile.variables = jsObject.variables;
+        let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
+        dotNetProfile.variables = jsObject.variables.map(i => buildDotNetIProfileVariable(i));
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

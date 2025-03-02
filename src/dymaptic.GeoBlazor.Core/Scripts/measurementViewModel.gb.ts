@@ -8,13 +8,13 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
+    if (hasValue(dotNetObject.activeViewModel)) {
+        let { buildJsIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
+        properties.activeViewModel = buildJsIMeasurementViewModelActiveViewModel(dotNetObject.activeViewModel) as any;
+    }
 
     if (hasValue(dotNetObject.activeTool)) {
         properties.activeTool = dotNetObject.activeTool;
-    }
-    if (hasValue(dotNetObject.activeViewModel)) {
-        const { id, dotNetComponentReference, ...sanitizedActiveViewModel } = dotNetObject.activeViewModel;
-        properties.activeViewModel = sanitizedActiveViewModel;
     }
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;
@@ -63,11 +63,12 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
     let dotNetMeasurementViewModel: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.activeViewModel)) {
+        let { buildDotNetIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
+        dotNetMeasurementViewModel.activeViewModel = buildDotNetIMeasurementViewModelActiveViewModel(jsObject.activeViewModel);
+    }
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementViewModel.activeTool = jsObject.activeTool;
-    }
-    if (hasValue(jsObject.activeViewModel)) {
-        dotNetMeasurementViewModel.activeViewModel = jsObject.activeViewModel;
     }
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementViewModel.areaUnit = jsObject.areaUnit;

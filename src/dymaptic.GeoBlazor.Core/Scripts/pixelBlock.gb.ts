@@ -37,6 +37,20 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getStatistics(): Promise<any> {
+        if (!hasValue(this.component.statistics)) {
+            return null;
+        }
+        
+        let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
+    }
+    
+    async setStatistics(value: any): Promise<void> {
+        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId))) as any;
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -49,6 +63,10 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
 export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.statistics)) {
+        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        properties.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.height)) {
         properties.height = dotNetObject.height;
@@ -64,10 +82,6 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.pixelType)) {
         properties.pixelType = dotNetObject.pixelType;
-    }
-    if (hasValue(dotNetObject.statistics)) {
-        const { id, dotNetComponentReference, ...sanitizedStatistics } = dotNetObject.statistics;
-        properties.statistics = sanitizedStatistics;
     }
     if (hasValue(dotNetObject.validPixelCount)) {
         properties.validPixelCount = dotNetObject.validPixelCount;
@@ -122,6 +136,10 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
     let dotNetPixelBlock: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.statistics)) {
+        let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
+    }
     if (hasValue(jsObject.height)) {
         dotNetPixelBlock.height = jsObject.height;
     }
@@ -136,9 +154,6 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.pixelType)) {
         dotNetPixelBlock.pixelType = jsObject.pixelType;
-    }
-    if (hasValue(jsObject.statistics)) {
-        dotNetPixelBlock.statistics = jsObject.statistics;
     }
     if (hasValue(jsObject.validPixelCount)) {
         dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;

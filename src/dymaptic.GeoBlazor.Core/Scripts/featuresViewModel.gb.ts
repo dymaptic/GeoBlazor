@@ -99,6 +99,20 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         this.component.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
+    async getFeatureViewModelAbilities(): Promise<any> {
+        if (!hasValue(this.component.featureViewModelAbilities)) {
+            return null;
+        }
+        
+        let { buildDotNetAbilities } = await import('./abilities');
+        return await buildDotNetAbilities(this.component.featureViewModelAbilities);
+    }
+    
+    async setFeatureViewModelAbilities(value: any): Promise<void> {
+        let { buildJsAbilities } = await import('./abilities');
+        this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
+    }
+    
     async getGoToOverride(): Promise<any> {
         if (!hasValue(this.component.goToOverride)) {
             return null;

@@ -258,8 +258,8 @@ public partial class Circle : Polygon
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "center", value);
+        await JsComponentReference.InvokeVoidAsync("setCenter", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

@@ -111,6 +111,20 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         this.layer.effect =  buildJsEffect(value);
     }
     
+    async getElevationInfo(): Promise<any> {
+        if (!hasValue(this.layer.elevationInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
+        return await buildDotNetGeoJSONLayerElevationInfo(this.layer.elevationInfo);
+    }
+    
+    async setElevationInfo(value: any): Promise<void> {
+        let { buildJsGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
+        this.layer.elevationInfo = await  buildJsGeoJSONLayerElevationInfo(value, this.layerId, this.viewId);
+    }
+    
     async getFeatureEffect(): Promise<any> {
         if (!hasValue(this.layer.featureEffect)) {
             return null;
@@ -174,6 +188,20 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i))) as any;
+    }
+    
+    async getOrderBy(): Promise<any> {
+        if (!hasValue(this.layer.orderBy)) {
+            return null;
+        }
+        
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
+    }
+    
+    async setOrderBy(value: any): Promise<void> {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -246,6 +274,20 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     
+    async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
+    }
+    
+    async setTimeOffset(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -276,6 +318,10 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
+    if (hasValue(dotNetObject.elevationInfo)) {
+        let { buildJsGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
+        properties.elevationInfo = await buildJsGeoJSONLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
@@ -291,6 +337,10 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+    }
+    if (hasValue(dotNetObject.orderBy)) {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -311,6 +361,10 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
         properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeOffset)) {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -337,10 +391,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
-    }
-    if (hasValue(dotNetObject.elevationInfo)) {
-        const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.featureReduction)) {
         properties.featureReduction = dotNetObject.featureReduction;
@@ -369,10 +419,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }
-    if (hasValue(dotNetObject.orderBy)) {
-        const { id, dotNetComponentReference, ...sanitizedOrderBy } = dotNetObject.orderBy;
-        properties.orderBy = sanitizedOrderBy;
-    }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
     }
@@ -394,10 +440,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.templates)) {
         properties.templates = dotNetObject.templates;
-    }
-    if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
@@ -485,6 +527,10 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
         let { buildDotNetEffect } = await import('./effect');
         dotNetGeoJSONLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    if (hasValue(jsObject.elevationInfo)) {
+        let { buildDotNetGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
+        dotNetGeoJSONLayer.elevationInfo = await buildDotNetGeoJSONLayerElevationInfo(jsObject.elevationInfo);
+    }
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetGeoJSONLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
@@ -505,6 +551,10 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
         let { buildDotNetLabel } = await import('./label');
         dotNetGeoJSONLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
+    if (hasValue(jsObject.orderBy)) {
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        dotNetGeoJSONLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
+    }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetGeoJSONLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
@@ -524,6 +574,10 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetGeoJSONLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        dotNetGeoJSONLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -555,9 +609,6 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.editingEnabled)) {
         dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
-    }
-    if (hasValue(jsObject.elevationInfo)) {
-        dotNetGeoJSONLayer.elevationInfo = jsObject.elevationInfo;
     }
     if (hasValue(jsObject.featureReduction)) {
         dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
@@ -595,9 +646,6 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.opacity)) {
         dotNetGeoJSONLayer.opacity = jsObject.opacity;
     }
-    if (hasValue(jsObject.orderBy)) {
-        dotNetGeoJSONLayer.orderBy = jsObject.orderBy;
-    }
     if (hasValue(jsObject.outFields)) {
         dotNetGeoJSONLayer.outFields = jsObject.outFields;
     }
@@ -618,9 +666,6 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.templates)) {
         dotNetGeoJSONLayer.templates = jsObject.templates;
-    }
-    if (hasValue(jsObject.timeOffset)) {
-        dotNetGeoJSONLayer.timeOffset = jsObject.timeOffset;
     }
     if (hasValue(jsObject.title)) {
         dotNetGeoJSONLayer.title = jsObject.title;

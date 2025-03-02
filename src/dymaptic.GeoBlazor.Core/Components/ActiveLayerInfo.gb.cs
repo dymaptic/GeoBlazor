@@ -324,17 +324,17 @@ public partial class ActiveLayerInfo : MapComponent
             return LayerView;
         }
 
-        // get the property value
-        LayerView? result = await JsComponentReference!.InvokeAsync<LayerView?>("getProperty",
-            CancellationTokenSource.Token, "layerView");
+        LayerView? result = await JsComponentReference.InvokeAsync<LayerView?>(
+            "getLayerView", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LayerView = result;
+            LayerView = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerView)] = LayerView;
+            ModifiedParameters[nameof(LayerView)] = LayerView;
         }
-         
+        
         return LayerView;
     }
     
@@ -354,17 +354,17 @@ public partial class ActiveLayerInfo : MapComponent
             return LegendElements;
         }
 
-        // get the property value
-        IReadOnlyList<ILegendElement>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ILegendElement>?>("getProperty",
-            CancellationTokenSource.Token, "legendElements");
+        IReadOnlyList<ILegendElement>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ILegendElement>?>(
+            "getLegendElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendElements = result;
+            LegendElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendElements)] = LegendElements;
+            ModifiedParameters[nameof(LegendElements)] = LegendElements;
         }
-         
+        
         return LegendElements;
     }
     
@@ -578,36 +578,6 @@ public partial class ActiveLayerInfo : MapComponent
         return Version;
     }
     
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
 #endregion
 
 #region Property Setters
@@ -698,8 +668,8 @@ public partial class ActiveLayerInfo : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layer", value);
     }
     
     /// <summary>
@@ -942,36 +912,6 @@ public partial class ActiveLayerInfo : MapComponent
             JsComponentReference, "version", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
 #endregion
 
 #region Add to Collection Methods
@@ -1066,6 +1006,16 @@ public partial class ActiveLayerInfo : MapComponent
                 }
                 
                 return true;
+            case ILegendElement legendElements:
+                LegendElements ??= [];
+                if (!LegendElements.Contains(legendElements))
+                {
+                    LegendElements = [..LegendElements, legendElements];
+                    
+                    ModifiedParameters[nameof(LegendElements)] = LegendElements;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1085,6 +1035,11 @@ public partial class ActiveLayerInfo : MapComponent
                 
                 ModifiedParameters[nameof(LayerView)] = LayerView;
                 return true;
+            case ILegendElement legendElements:
+                LegendElements = LegendElements?.Where(l => l != legendElements).ToList();
+                
+                ModifiedParameters[nameof(LegendElements)] = LegendElements;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -1102,6 +1057,13 @@ public partial class ActiveLayerInfo : MapComponent
             }
         }
         LayerView?.ValidateRequiredGeneratedChildren();
+        if (LegendElements is not null)
+        {
+            foreach (ILegendElement child in LegendElements)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         base.ValidateRequiredGeneratedChildren();
     }
       

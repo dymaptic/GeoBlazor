@@ -113,6 +113,20 @@ export default class SublayerGenerated implements IPropertyWrapper {
         return await buildDotNetFieldsIndex(this.component.fieldsIndex);
     }
     
+    async getFloorInfo(): Promise<any> {
+        if (!hasValue(this.component.floorInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
+        return await buildDotNetLayerFloorInfo(this.component.floorInfo);
+    }
+    
+    async setFloorInfo(value: any): Promise<void> {
+        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
+        this.component.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
+    }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.component.fullExtent)) {
             return null;
@@ -208,6 +222,10 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
 export async function buildJsSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.floorInfo)) {
+        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
+        properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
@@ -223,10 +241,6 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
 
     if (hasValue(dotNetObject.definitionExpression)) {
         properties.definitionExpression = dotNetObject.definitionExpression;
-    }
-    if (hasValue(dotNetObject.floorInfo)) {
-        const { id, dotNetComponentReference, ...sanitizedFloorInfo } = dotNetObject.floorInfo;
-        properties.floorInfo = sanitizedFloorInfo;
     }
     if (hasValue(dotNetObject.labelsVisible)) {
         properties.labelsVisible = dotNetObject.labelsVisible;
@@ -316,6 +330,10 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
+    if (hasValue(jsObject.floorInfo)) {
+        let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
+        dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
+    }
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -341,9 +359,6 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     }
     if (hasValue(jsObject.definitionExpression)) {
         dotNetSublayer.definitionExpression = jsObject.definitionExpression;
-    }
-    if (hasValue(jsObject.floorInfo)) {
-        dotNetSublayer.floorInfo = jsObject.floorInfo;
     }
     if (hasValue(jsObject.isTable)) {
         dotNetSublayer.isTable = jsObject.isTable;

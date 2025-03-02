@@ -196,8 +196,8 @@ public partial class LegendLayerInfos : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layer", value);
     }
     
     /// <summary>

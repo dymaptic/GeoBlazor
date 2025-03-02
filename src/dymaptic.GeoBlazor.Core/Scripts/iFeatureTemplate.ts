@@ -1,4 +1,4 @@
-export async function buildJsFeatureTemplate(dnFeatureTemplate: any, layerId: string | null, viewId: string | null) : Promise<any> {
+export async function buildJsIFeatureTemplate(dnFeatureTemplate: any, layerId: string | null, viewId: string | null) : Promise<any> {
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
@@ -8,7 +8,7 @@ export async function buildJsFeatureTemplate(dnFeatureTemplate: any, layerId: st
     }
 }
 
-export async function buildDotNetFeatureTemplate(jsObject: any, layerId: string | null, viewId: string | null) : Promise<any> {
+export async function buildDotNetIFeatureTemplate(jsObject: any, layerId: string | null, viewId: string | null) : Promise<any> {
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');

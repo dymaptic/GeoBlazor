@@ -9,13 +9,13 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
         let { buildJsSymbol } = await import('./symbol');
         properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
+    if (hasValue(dotNetObject.values)) {
+        let { buildJsUniqueValue } = await import('./uniqueValue');
+        properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.values)) {
-        const { id, dotNetComponentReference, ...sanitizedValues } = dotNetObject.values;
-        properties.values = sanitizedValues;
     }
     let jsUniqueValueClass = new UniqueValueClass(properties);
     
@@ -62,11 +62,12 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    if (hasValue(jsObject.values)) {
+        let { buildDotNetUniqueValue } = await import('./uniqueValue');
+        dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i)));
+    }
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueClass.label = jsObject.label;
-    }
-    if (hasValue(jsObject.values)) {
-        dotNetUniqueValueClass.values = jsObject.values;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

@@ -4,11 +4,11 @@ import { buildDotNetArrayElementType } from './arrayElementType';
 
 export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArrayElementType: any = {};
-
     if (hasValue(dotNetObject.properties)) {
-        const { id, dotNetComponentReference, ...sanitizedProperties } = dotNetObject.properties;
-        jsArrayElementType.properties = sanitizedProperties;
+        let { buildJsIProfileVariable } = await import('./iProfileVariable');
+        jsArrayElementType.properties = dotNetObject.properties.map(i => buildJsIProfileVariable(i)) as any;
     }
+
     
     let jsObjectRef = DotNet.createJSObjectReference(jsArrayElementType);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -50,7 +50,8 @@ export async function buildDotNetArrayElementTypeGenerated(jsObject: any): Promi
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.properties)) {
-        dotNetArrayElementType.properties = jsObject.properties;
+        let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
+        dotNetArrayElementType.properties = jsObject.properties.map(i => buildDotNetIProfileVariable(i));
     }
     if (hasValue(jsObject.type)) {
         dotNetArrayElementType.type = jsObject.type;

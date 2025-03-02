@@ -4,15 +4,15 @@ import { buildDotNetSceneViewTakeScreenshotOptions } from './sceneViewTakeScreen
 
 export async function buildJsSceneViewTakeScreenshotOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSceneViewTakeScreenshotOptions: any = {};
+    if (hasValue(dotNetObject.area)) {
+        let { buildJsSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
+        jsSceneViewTakeScreenshotOptions.area = await buildJsSceneViewTakeScreenshotOptionsArea(dotNetObject.area, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.format)) {
         let { buildJsFormat } = await import('./format');
         jsSceneViewTakeScreenshotOptions.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
-        jsSceneViewTakeScreenshotOptions.area = sanitizedArea;
-    }
     if (hasValue(dotNetObject.height)) {
         jsSceneViewTakeScreenshotOptions.height = dotNetObject.height;
     }
@@ -42,12 +42,13 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsGenerated(jsObjec
     let dotNetSceneViewTakeScreenshotOptions: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.area)) {
+        let { buildDotNetSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
+        dotNetSceneViewTakeScreenshotOptions.area = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsObject.area);
+    }
     if (hasValue(jsObject.format)) {
         let { buildDotNetFormat } = await import('./format');
         dotNetSceneViewTakeScreenshotOptions.format = await buildDotNetFormat(jsObject.format);
-    }
-    if (hasValue(jsObject.area)) {
-        dotNetSceneViewTakeScreenshotOptions.area = jsObject.area;
     }
     if (hasValue(jsObject.height)) {
         dotNetSceneViewTakeScreenshotOptions.height = jsObject.height;

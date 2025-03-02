@@ -11,7 +11,15 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.rasterFunction)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.renderingRule)) {
+        let { buildJsRasterFunction } = await import('./rasterFunction');
+        properties.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -20,14 +28,6 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
 
     if (hasValue(dotNetObject.pixelSize)) {
         properties.pixelSize = dotNetObject.pixelSize;
-    }
-    if (hasValue(dotNetObject.rasterFunction)) {
-        const { id, dotNetComponentReference, ...sanitizedRasterFunction } = dotNetObject.rasterFunction;
-        properties.rasterFunction = sanitizedRasterFunction;
-    }
-    if (hasValue(dotNetObject.renderingRule)) {
-        const { id, dotNetComponentReference, ...sanitizedRenderingRule } = dotNetObject.renderingRule;
-        properties.renderingRule = sanitizedRenderingRule;
     }
     let jsImageHistogramParameters = new ImageHistogramParameters(properties);
     
@@ -55,18 +55,20 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageHistogramParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
+    if (hasValue(jsObject.rasterFunction)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetImageHistogramParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
+    }
+    if (hasValue(jsObject.renderingRule)) {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        dotNetImageHistogramParameters.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
+    }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageHistogramParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
     if (hasValue(jsObject.pixelSize)) {
         dotNetImageHistogramParameters.pixelSize = jsObject.pixelSize;
-    }
-    if (hasValue(jsObject.rasterFunction)) {
-        dotNetImageHistogramParameters.rasterFunction = jsObject.rasterFunction;
-    }
-    if (hasValue(jsObject.renderingRule)) {
-        dotNetImageHistogramParameters.renderingRule = jsObject.renderingRule;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

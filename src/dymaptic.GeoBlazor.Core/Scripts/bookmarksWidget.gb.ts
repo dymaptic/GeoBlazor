@@ -141,6 +141,20 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         this.widget.viewModel = await  buildJsBookmarksViewModel(value, this.layerId, this.viewId);
     }
     
+    async getVisibleElements(): Promise<any> {
+        if (!hasValue(this.widget.visibleElements)) {
+            return null;
+        }
+        
+        let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
+        return await buildDotNetBookmarksVisibleElements(this.widget.visibleElements);
+    }
+    
+    async setVisibleElements(value: any): Promise<void> {
+        let { buildJsBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
+        this.widget.visibleElements = await  buildJsBookmarksVisibleElements(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -176,6 +190,10 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         let { buildJsBookmarksViewModel } = await import('./bookmarksViewModel');
         properties.viewModel = await buildJsBookmarksViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.visibleElements)) {
+        let { buildJsBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
+        properties.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.container)) {
         properties.container = dotNetObject.container;
@@ -203,10 +221,6 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
-    }
-    if (hasValue(dotNetObject.visibleElements)) {
-        const { id, dotNetComponentReference, ...sanitizedVisibleElements } = dotNetObject.visibleElements;
-        properties.visibleElements = sanitizedVisibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -288,6 +302,10 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
         let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
         dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel);
     }
+    if (hasValue(jsObject.visibleElements)) {
+        let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
+        dotNetBookmarksWidget.visibleElements = await buildDotNetBookmarksVisibleElements(jsObject.visibleElements);
+    }
     if (hasValue(jsObject.container)) {
         dotNetBookmarksWidget.container = jsObject.container;
     }
@@ -317,9 +335,6 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.type)) {
         dotNetBookmarksWidget.type = jsObject.type;
-    }
-    if (hasValue(jsObject.visibleElements)) {
-        dotNetBookmarksWidget.visibleElements = jsObject.visibleElements;
     }
     if (hasValue(jsObject.id)) {
         dotNetBookmarksWidget.widgetId = jsObject.id;

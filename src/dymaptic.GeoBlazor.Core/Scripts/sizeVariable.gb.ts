@@ -25,6 +25,34 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getLegendOptions(): Promise<any> {
+        if (!hasValue(this.component.legendOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
+    }
+    
+    async setLegendOptions(value: any): Promise<void> {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
+    }
+    
+    async getStops(): Promise<any> {
+        if (!hasValue(this.component.stops)) {
+            return null;
+        }
+        
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i)));
+    }
+    
+    async setStops(value: any): Promise<void> {
+        let { buildJsSizeStop } = await import('./sizeStop');
+        this.component.stops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -37,16 +65,20 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
 
 export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.stops)) {
+        let { buildJsSizeStop } = await import('./sizeStop');
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.axis)) {
         properties.axis = dotNetObject.axis;
     }
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
-    }
-    if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.maxDataValue)) {
         properties.maxDataValue = dotNetObject.maxDataValue;
@@ -62,10 +94,6 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.normalizationField)) {
         properties.normalizationField = dotNetObject.normalizationField;
-    }
-    if (hasValue(dotNetObject.stops)) {
-        const { id, dotNetComponentReference, ...sanitizedStops } = dotNetObject.stops;
-        properties.stops = sanitizedStops;
     }
     if (hasValue(dotNetObject.target)) {
         properties.target = dotNetObject.target;
@@ -132,14 +160,19 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
     let dotNetSizeVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.legendOptions)) {
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+    }
+    if (hasValue(jsObject.stops)) {
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
+    }
     if (hasValue(jsObject.axis)) {
         dotNetSizeVariable.axis = jsObject.axis;
     }
     if (hasValue(jsObject.field)) {
         dotNetSizeVariable.field = jsObject.field;
-    }
-    if (hasValue(jsObject.legendOptions)) {
-        dotNetSizeVariable.legendOptions = jsObject.legendOptions;
     }
     if (hasValue(jsObject.maxDataValue)) {
         dotNetSizeVariable.maxDataValue = jsObject.maxDataValue;
@@ -155,9 +188,6 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.normalizationField)) {
         dotNetSizeVariable.normalizationField = jsObject.normalizationField;
-    }
-    if (hasValue(jsObject.stops)) {
-        dotNetSizeVariable.stops = jsObject.stops;
     }
     if (hasValue(jsObject.target)) {
         dotNetSizeVariable.target = jsObject.target;

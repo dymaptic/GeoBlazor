@@ -1664,8 +1664,8 @@ public partial class PortalItem
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
+        await JsComponentReference.InvokeVoidAsync("setExtent", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

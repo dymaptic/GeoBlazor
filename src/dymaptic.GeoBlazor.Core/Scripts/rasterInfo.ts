@@ -2,9 +2,9 @@
 
 import {hasValue} from "./arcGisJsInterop";
 
-export async function buildJsRasterInfo(dotNetObject: any): Promise<any> {
+export async function buildJsRasterInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsRasterInfoGenerated} = await import('./rasterInfo.gb');
-    return await buildJsRasterInfoGenerated(dotNetObject);
+    return await buildJsRasterInfoGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetRasterInfo(jsObject: any): Promise<any> {

@@ -3,8 +3,12 @@ import AuthoringInfoVisualVariable from '@arcgis/core/renderers/support/Authorin
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
-export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.sizeStops)) {
+        let { buildJsSizeStop } = await import('./sizeStop');
+        properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.endTime)) {
         properties.endTime = dotNetObject.endTime;
@@ -26,10 +30,6 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     }
     if (hasValue(dotNetObject.referenceSizeSymbolStyle)) {
         properties.referenceSizeSymbolStyle = dotNetObject.referenceSizeSymbolStyle;
-    }
-    if (hasValue(dotNetObject.sizeStops)) {
-        const { id, dotNetComponentReference, ...sanitizedSizeStops } = dotNetObject.sizeStops;
-        properties.sizeStops = sanitizedSizeStops;
     }
     if (hasValue(dotNetObject.startTime)) {
         properties.startTime = dotNetObject.startTime;
@@ -84,6 +84,10 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     let dotNetAuthoringInfoVisualVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.sizeStops)) {
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i)));
+    }
     if (hasValue(jsObject.endTime)) {
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
     }
@@ -104,9 +108,6 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     }
     if (hasValue(jsObject.referenceSizeSymbolStyle)) {
         dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = jsObject.referenceSizeSymbolStyle;
-    }
-    if (hasValue(jsObject.sizeStops)) {
-        dotNetAuthoringInfoVisualVariable.sizeStops = jsObject.sizeStops;
     }
     if (hasValue(jsObject.startTime)) {
         dotNetAuthoringInfoVisualVariable.startTime = jsObject.startTime;

@@ -9,15 +9,27 @@ export async function buildJsCIMSymbolLayerBaseGenerated(dotNetObject: any, laye
         case 'string': 
             let { buildJsCIMSymbolLayerBase } = await import('./cIMSymbolLayerBase');
             return await buildJsCIMSymbolLayerBase(dotNetObject, layerId, viewId);
+        case '': 
+            let { buildJsCIMStroke } = await import('./cIMStroke');
+            return await buildJsCIMStroke(dotNetObject);
         case 'string': 
             let { buildJsCIMSolidStroke } = await import('./cIMSolidStroke');
             return await buildJsCIMSolidStroke(dotNetObject, layerId, viewId);
         case 'string': 
+            let { buildJsCIMGradientStroke } = await import('./cIMGradientStroke');
+            return await buildJsCIMGradientStroke(dotNetObject, layerId, viewId);
+        case 'string': 
             let { buildJsCIMPictureStroke } = await import('./cIMPictureStroke');
             return await buildJsCIMPictureStroke(dotNetObject, layerId, viewId);
+        case '': 
+            let { buildJsCIMFill } = await import('./cIMFill');
+            return await buildJsCIMFill(dotNetObject);
         case 'string': 
             let { buildJsCIMSolidFill } = await import('./cIMSolidFill');
             return await buildJsCIMSolidFill(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMGradientFill } = await import('./cIMGradientFill');
+            return await buildJsCIMGradientFill(dotNetObject, layerId, viewId);
         case 'string': 
             let { buildJsCIMPictureFill } = await import('./cIMPictureFill');
             return await buildJsCIMPictureFill(dotNetObject, layerId, viewId);
@@ -27,6 +39,9 @@ export async function buildJsCIMSymbolLayerBaseGenerated(dotNetObject: any, laye
         case 'string': 
             let { buildJsCIMPictureMarker } = await import('./cIMPictureMarker');
             return await buildJsCIMPictureMarker(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMObjectMarker3D } = await import('./cIMObjectMarker3D');
+            return await buildJsCIMObjectMarker3D(dotNetObject, layerId, viewId);
         default: 
             let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
@@ -42,15 +57,27 @@ export async function buildDotNetCIMSymbolLayerBaseGenerated(jsObject: any): Pro
         case 'string': 
             let { buildDotNetCIMSymbolLayerBase } = await import('./cIMSymbolLayerBase');
             return await buildDotNetCIMSymbolLayerBase(jsObject);
+        case '': 
+            let { buildDotNetCIMStroke } = await import('./cIMStroke');
+            return await buildDotNetCIMStroke(jsObject);
         case 'string': 
             let { buildDotNetCIMSolidStroke } = await import('./cIMSolidStroke');
             return await buildDotNetCIMSolidStroke(jsObject);
         case 'string': 
+            let { buildDotNetCIMGradientStroke } = await import('./cIMGradientStroke');
+            return await buildDotNetCIMGradientStroke(jsObject);
+        case 'string': 
             let { buildDotNetCIMPictureStroke } = await import('./cIMPictureStroke');
             return await buildDotNetCIMPictureStroke(jsObject);
+        case '': 
+            let { buildDotNetCIMFill } = await import('./cIMFill');
+            return await buildDotNetCIMFill(jsObject);
         case 'string': 
             let { buildDotNetCIMSolidFill } = await import('./cIMSolidFill');
             return await buildDotNetCIMSolidFill(jsObject);
+        case 'string': 
+            let { buildDotNetCIMGradientFill } = await import('./cIMGradientFill');
+            return await buildDotNetCIMGradientFill(jsObject);
         case 'string': 
             let { buildDotNetCIMPictureFill } = await import('./cIMPictureFill');
             return await buildDotNetCIMPictureFill(jsObject);
@@ -60,6 +87,9 @@ export async function buildDotNetCIMSymbolLayerBaseGenerated(jsObject: any): Pro
         case 'string': 
             let { buildDotNetCIMPictureMarker } = await import('./cIMPictureMarker');
             return await buildDotNetCIMPictureMarker(jsObject);
+        case 'string': 
+            let { buildDotNetCIMObjectMarker3D } = await import('./cIMObjectMarker3D');
+            return await buildDotNetCIMObjectMarker3D(jsObject);
         default: 
             return jsObject;
     }

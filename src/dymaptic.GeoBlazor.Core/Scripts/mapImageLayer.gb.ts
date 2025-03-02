@@ -188,6 +188,20 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     
+    async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
+    }
+    
+    async setTimeOffset(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -241,6 +255,10 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
         properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeOffset)) {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -297,10 +315,6 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
-    }
-    if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
@@ -408,6 +422,10 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetMapImageLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
     }
+    if (hasValue(jsObject.timeOffset)) {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        dotNetMapImageLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+    }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetMapImageLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
@@ -480,9 +498,6 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetMapImageLayer.spatialReference = jsObject.spatialReference;
-    }
-    if (hasValue(jsObject.timeOffset)) {
-        dotNetMapImageLayer.timeOffset = jsObject.timeOffset;
     }
     if (hasValue(jsObject.title)) {
         dotNetMapImageLayer.title = jsObject.title;

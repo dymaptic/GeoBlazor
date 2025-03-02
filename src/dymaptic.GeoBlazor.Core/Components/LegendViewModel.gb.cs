@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget, which displays a label and symbol for interpreting the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">Renderer</a> of each layer in a map.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class LegendViewModel : MapComponent,
-    IViewModel
+public partial class LegendViewModel : MapComponent
 {
 
     /// <summary>
@@ -121,7 +120,7 @@ public partial class LegendViewModel : MapComponent,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public LegendViewModelState? State { get; protected set; }
     
 #endregion
 
@@ -143,17 +142,17 @@ public partial class LegendViewModel : MapComponent,
             return ActiveLayerInfos;
         }
 
-        // get the property value
-        IReadOnlyList<ActiveLayerInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActiveLayerInfo>?>("getProperty",
-            CancellationTokenSource.Token, "activeLayerInfos");
+        IReadOnlyList<ActiveLayerInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActiveLayerInfo>?>(
+            "getActiveLayerInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveLayerInfos = result;
+            ActiveLayerInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+            ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
         }
-         
+        
         return ActiveLayerInfos;
     }
     
@@ -233,17 +232,17 @@ public partial class LegendViewModel : MapComponent,
             return LayerInfos;
         }
 
-        // get the property value
-        IReadOnlyList<LegendViewModelLayerInfos>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<LegendViewModelLayerInfos>?>("getProperty",
-            CancellationTokenSource.Token, "layerInfos");
+        IReadOnlyList<LegendViewModelLayerInfos>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<LegendViewModelLayerInfos>?>(
+            "getLayerInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LayerInfos = result;
+            LayerInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+            ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
         }
-         
+        
         return LayerInfos;
     }
     
@@ -280,7 +279,7 @@ public partial class LegendViewModel : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<LegendViewModelState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -294,47 +293,17 @@ public partial class LegendViewModel : MapComponent,
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<LegendViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LegendViewModelState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (LegendViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -489,36 +458,6 @@ public partial class LegendViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "respectLayerVisibility", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion

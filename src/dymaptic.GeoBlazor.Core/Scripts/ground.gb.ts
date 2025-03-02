@@ -59,6 +59,20 @@ export default class GroundGenerated implements IPropertyWrapper {
         this.component.layers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
     
+    async getNavigationConstraint(): Promise<any> {
+        if (!hasValue(this.component.navigationConstraint)) {
+            return null;
+        }
+        
+        let { buildDotNetGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+        return await buildDotNetGroundNavigationConstraint(this.component.navigationConstraint);
+    }
+    
+    async setNavigationConstraint(value: any): Promise<void> {
+        let { buildJsGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+        this.component.navigationConstraint = await  buildJsGroundNavigationConstraint(value, this.layerId, this.viewId);
+    }
+    
     async getSurfaceColor(): Promise<any> {
         if (!hasValue(this.component.surfaceColor)) {
             return null;
@@ -89,15 +103,15 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
         let { buildJsLayer } = await import('./layer');
         properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
+    if (hasValue(dotNetObject.navigationConstraint)) {
+        let { buildJsGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+        properties.navigationConstraint = await buildJsGroundNavigationConstraint(dotNetObject.navigationConstraint, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.surfaceColor)) {
         let { buildJsMapColor } = await import('./mapColor');
         properties.surfaceColor = buildJsMapColor(dotNetObject.surfaceColor) as any;
     }
 
-    if (hasValue(dotNetObject.navigationConstraint)) {
-        const { id, dotNetComponentReference, ...sanitizedNavigationConstraint } = dotNetObject.navigationConstraint;
-        properties.navigationConstraint = sanitizedNavigationConstraint;
-    }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }
@@ -125,15 +139,16 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
     let dotNetGround: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.navigationConstraint)) {
+        let { buildDotNetGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+        dotNetGround.navigationConstraint = await buildDotNetGroundNavigationConstraint(jsObject.navigationConstraint);
+    }
     if (hasValue(jsObject.surfaceColor)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetGround.surfaceColor = buildDotNetMapColor(jsObject.surfaceColor);
     }
     if (hasValue(jsObject.loaded)) {
         dotNetGround.loaded = jsObject.loaded;
-    }
-    if (hasValue(jsObject.navigationConstraint)) {
-        dotNetGround.navigationConstraint = jsObject.navigationConstraint;
     }
     if (hasValue(jsObject.opacity)) {
         dotNetGround.opacity = jsObject.opacity;

@@ -5,23 +5,23 @@ import { buildDotNetEnvironment } from './environment';
 
 export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.background)) {
+        let { buildJsBackground } = await import('./background');
+        properties.background = buildJsBackground(dotNetObject.background) as any;
+    }
+    if (hasValue(dotNetObject.weather)) {
+        let { buildJsIEnvironmentWeather } = await import('./iEnvironmentWeather');
+        properties.weather = buildJsIEnvironmentWeather(dotNetObject.weather) as any;
+    }
 
     if (hasValue(dotNetObject.atmosphereEnabled)) {
         properties.atmosphereEnabled = dotNetObject.atmosphereEnabled;
-    }
-    if (hasValue(dotNetObject.background)) {
-        const { id, dotNetComponentReference, ...sanitizedBackground } = dotNetObject.background;
-        properties.background = sanitizedBackground;
     }
     if (hasValue(dotNetObject.lighting)) {
         properties.lighting = dotNetObject.lighting;
     }
     if (hasValue(dotNetObject.starsEnabled)) {
         properties.starsEnabled = dotNetObject.starsEnabled;
-    }
-    if (hasValue(dotNetObject.weather)) {
-        const { id, dotNetComponentReference, ...sanitizedWeather } = dotNetObject.weather;
-        properties.weather = sanitizedWeather;
     }
     let jsEnvironment = new Environment(properties);
     
@@ -64,20 +64,22 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<an
     let dotNetEnvironment: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.background)) {
+        let { buildDotNetBackground } = await import('./background');
+        dotNetEnvironment.background = buildDotNetBackground(jsObject.background);
+    }
+    if (hasValue(jsObject.weather)) {
+        let { buildDotNetIEnvironmentWeather } = await import('./iEnvironmentWeather');
+        dotNetEnvironment.weather = buildDotNetIEnvironmentWeather(jsObject.weather);
+    }
     if (hasValue(jsObject.atmosphereEnabled)) {
         dotNetEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
-    }
-    if (hasValue(jsObject.background)) {
-        dotNetEnvironment.background = jsObject.background;
     }
     if (hasValue(jsObject.lighting)) {
         dotNetEnvironment.lighting = jsObject.lighting;
     }
     if (hasValue(jsObject.starsEnabled)) {
         dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
-    }
-    if (hasValue(jsObject.weather)) {
-        dotNetEnvironment.weather = jsObject.weather;
     }
 
     if (Object.values(arcGisObjectRefs).includes(jsObject)) {

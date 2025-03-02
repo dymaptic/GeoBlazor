@@ -65,6 +65,20 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getViewModel(): Promise<any> {
+        if (!hasValue(this.widget.viewModel)) {
+            return null;
+        }
+        
+        let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
+        return await buildDotNetScaleBarViewModel(this.widget.viewModel);
+    }
+    
+    async setViewModel(value: any): Promise<void> {
+        let { buildJsScaleBarViewModel } = await import('./scaleBarViewModel');
+        this.widget.viewModel = await  buildJsScaleBarViewModel(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -79,6 +93,10 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
+    }
+    if (hasValue(dotNetObject.viewModel)) {
+        let { buildJsScaleBarViewModel } = await import('./scaleBarViewModel');
+        properties.viewModel = await buildJsScaleBarViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.container)) {
@@ -95,10 +113,6 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.unit)) {
         properties.unit = dotNetObject.unit;
-    }
-    if (hasValue(dotNetObject.viewModel)) {
-        const { id, dotNetComponentReference, ...sanitizedViewModel } = dotNetObject.viewModel;
-        properties.viewModel = sanitizedViewModel;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -150,6 +164,10 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
     let dotNetScaleBarWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.viewModel)) {
+        let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
+        dotNetScaleBarWidget.viewModel = await buildDotNetScaleBarViewModel(jsObject.viewModel);
+    }
     if (hasValue(jsObject.container)) {
         dotNetScaleBarWidget.container = jsObject.container;
     }
@@ -167,9 +185,6 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.unit)) {
         dotNetScaleBarWidget.unit = jsObject.unit;
-    }
-    if (hasValue(jsObject.viewModel)) {
-        dotNetScaleBarWidget.viewModel = jsObject.viewModel;
     }
     if (hasValue(jsObject.id)) {
         dotNetScaleBarWidget.widgetId = jsObject.id;

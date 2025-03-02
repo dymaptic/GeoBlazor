@@ -9,6 +9,45 @@ export async function buildJsCIMMarkerPlacementBaseGenerated(dotNetObject: any, 
         case 'string': 
             let { buildJsCIMMarkerPlacementBase } = await import('./cIMMarkerPlacementBase');
             return await buildJsCIMMarkerPlacementBase(dotNetObject, layerId, viewId);
+        case '': 
+            let { buildJsCIMMarkerFillPlacement } = await import('./cIMMarkerFillPlacement');
+            return await buildJsCIMMarkerFillPlacement(dotNetObject);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementPolygonCenter } = await import('./cIMMarkerPlacementPolygonCenter');
+            return await buildJsCIMMarkerPlacementPolygonCenter(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementInsidePolygon } = await import('./cIMMarkerPlacementInsidePolygon');
+            return await buildJsCIMMarkerPlacementInsidePolygon(dotNetObject, layerId, viewId);
+        case '': 
+            let { buildJsCIMMarkerStrokePlacement } = await import('./cIMMarkerStrokePlacement');
+            return await buildJsCIMMarkerStrokePlacement(dotNetObject);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAtMeasuredUnits } = await import('./cIMMarkerPlacementAtMeasuredUnits');
+            return await buildJsCIMMarkerPlacementAtMeasuredUnits(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementOnVertices } = await import('./cIMMarkerPlacementOnVertices');
+            return await buildJsCIMMarkerPlacementOnVertices(dotNetObject, layerId, viewId);
+        case '': 
+            let { buildJsCIMMarkerPlacementAlongLine } = await import('./cIMMarkerPlacementAlongLine');
+            return await buildJsCIMMarkerPlacementAlongLine(dotNetObject);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAlongLineSameSize } = await import('./cIMMarkerPlacementAlongLineSameSize');
+            return await buildJsCIMMarkerPlacementAlongLineSameSize(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAlongLineVariableSize } = await import('./cIMMarkerPlacementAlongLineVariableSize');
+            return await buildJsCIMMarkerPlacementAlongLineVariableSize(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAlongLineRandomSize } = await import('./cIMMarkerPlacementAlongLineRandomSize');
+            return await buildJsCIMMarkerPlacementAlongLineRandomSize(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementOnLine } = await import('./cIMMarkerPlacementOnLine');
+            return await buildJsCIMMarkerPlacementOnLine(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAtExtremities } = await import('./cIMMarkerPlacementAtExtremities');
+            return await buildJsCIMMarkerPlacementAtExtremities(dotNetObject, layerId, viewId);
+        case 'string': 
+            let { buildJsCIMMarkerPlacementAtRatioPositions } = await import('./cIMMarkerPlacementAtRatioPositions');
+            return await buildJsCIMMarkerPlacementAtRatioPositions(dotNetObject, layerId, viewId);
         default: 
             let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
@@ -24,6 +63,45 @@ export async function buildDotNetCIMMarkerPlacementBaseGenerated(jsObject: any):
         case 'string': 
             let { buildDotNetCIMMarkerPlacementBase } = await import('./cIMMarkerPlacementBase');
             return await buildDotNetCIMMarkerPlacementBase(jsObject);
+        case '': 
+            let { buildDotNetCIMMarkerFillPlacement } = await import('./cIMMarkerFillPlacement');
+            return await buildDotNetCIMMarkerFillPlacement(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementPolygonCenter } = await import('./cIMMarkerPlacementPolygonCenter');
+            return await buildDotNetCIMMarkerPlacementPolygonCenter(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementInsidePolygon } = await import('./cIMMarkerPlacementInsidePolygon');
+            return await buildDotNetCIMMarkerPlacementInsidePolygon(jsObject);
+        case '': 
+            let { buildDotNetCIMMarkerStrokePlacement } = await import('./cIMMarkerStrokePlacement');
+            return await buildDotNetCIMMarkerStrokePlacement(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAtMeasuredUnits } = await import('./cIMMarkerPlacementAtMeasuredUnits');
+            return await buildDotNetCIMMarkerPlacementAtMeasuredUnits(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementOnVertices } = await import('./cIMMarkerPlacementOnVertices');
+            return await buildDotNetCIMMarkerPlacementOnVertices(jsObject);
+        case '': 
+            let { buildDotNetCIMMarkerPlacementAlongLine } = await import('./cIMMarkerPlacementAlongLine');
+            return await buildDotNetCIMMarkerPlacementAlongLine(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAlongLineSameSize } = await import('./cIMMarkerPlacementAlongLineSameSize');
+            return await buildDotNetCIMMarkerPlacementAlongLineSameSize(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAlongLineVariableSize } = await import('./cIMMarkerPlacementAlongLineVariableSize');
+            return await buildDotNetCIMMarkerPlacementAlongLineVariableSize(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAlongLineRandomSize } = await import('./cIMMarkerPlacementAlongLineRandomSize');
+            return await buildDotNetCIMMarkerPlacementAlongLineRandomSize(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementOnLine } = await import('./cIMMarkerPlacementOnLine');
+            return await buildDotNetCIMMarkerPlacementOnLine(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAtExtremities } = await import('./cIMMarkerPlacementAtExtremities');
+            return await buildDotNetCIMMarkerPlacementAtExtremities(jsObject);
+        case 'string': 
+            let { buildDotNetCIMMarkerPlacementAtRatioPositions } = await import('./cIMMarkerPlacementAtRatioPositions');
+            return await buildDotNetCIMMarkerPlacementAtRatioPositions(jsObject);
         default: 
             return jsObject;
     }

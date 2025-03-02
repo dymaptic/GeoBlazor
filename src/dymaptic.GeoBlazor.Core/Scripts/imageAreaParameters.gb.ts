@@ -11,7 +11,7 @@ export async function buildJsImageAreaParametersGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.areaUnit)) {

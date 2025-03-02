@@ -77,6 +77,20 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         this.layer.effect =  buildJsEffect(value);
     }
     
+    async getElevationInfo(): Promise<any> {
+        if (!hasValue(this.layer.elevationInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo);
+    }
+    
+    async setElevationInfo(value: any): Promise<void> {
+        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        this.layer.elevationInfo = await  buildJsGraphicsLayerElevationInfo(value, this.layerId, this.viewId);
+    }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -135,6 +149,10 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
+    if (hasValue(dotNetObject.elevationInfo)) {
+        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        properties.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -153,10 +171,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.blendMode)) {
         properties.blendMode = dotNetObject.blendMode;
-    }
-    if (hasValue(dotNetObject.elevationInfo)) {
-        const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        properties.elevationInfo = sanitizedElevationInfo;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -248,6 +262,10 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
         let { buildDotNetEffect } = await import('./effect');
         dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    if (hasValue(jsObject.elevationInfo)) {
+        let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
+        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo);
+    }
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -261,9 +279,6 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.blendMode)) {
         dotNetGraphicsLayer.blendMode = jsObject.blendMode;
-    }
-    if (hasValue(jsObject.elevationInfo)) {
-        dotNetGraphicsLayer.elevationInfo = jsObject.elevationInfo;
     }
     if (hasValue(jsObject.listMode)) {
         dotNetGraphicsLayer.listMode = jsObject.listMode;

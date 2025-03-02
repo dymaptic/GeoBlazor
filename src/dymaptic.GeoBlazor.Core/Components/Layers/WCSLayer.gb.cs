@@ -1590,8 +1590,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "multidimensionalDefinition", value);
+        await JsComponentReference.InvokeVoidAsync("setMultidimensionalDefinition", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1680,8 +1680,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1860,8 +1860,8 @@ public partial class WCSLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

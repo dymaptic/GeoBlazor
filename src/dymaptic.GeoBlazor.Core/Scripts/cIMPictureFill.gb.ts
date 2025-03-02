@@ -4,17 +4,17 @@ import { buildDotNetCIMPictureFill } from './cIMPictureFill';
 
 export async function buildJsCIMPictureFillGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCIMPictureFill: any = {};
+    if (hasValue(dotNetObject.colorSubstitutions)) {
+        let { buildJsCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        jsCIMPictureFill.colorSubstitutions = await Promise.all(dotNetObject.colorSubstitutions.map(async i => await buildJsCIMColorSubstitution(i, layerId, viewId))) as any;
+    }
+    if (hasValue(dotNetObject.effects)) {
+        let { buildJsICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        jsCIMPictureFill.effects = dotNetObject.effects.map(i => buildJsICIMGeometricEffect(i)) as any;
+    }
 
     if (hasValue(dotNetObject.colorLocked)) {
         jsCIMPictureFill.colorLocked = dotNetObject.colorLocked;
-    }
-    if (hasValue(dotNetObject.colorSubstitutions)) {
-        const { id, dotNetComponentReference, ...sanitizedColorSubstitutions } = dotNetObject.colorSubstitutions;
-        jsCIMPictureFill.colorSubstitutions = sanitizedColorSubstitutions;
-    }
-    if (hasValue(dotNetObject.effects)) {
-        const { id, dotNetComponentReference, ...sanitizedEffects } = dotNetObject.effects;
-        jsCIMPictureFill.effects = sanitizedEffects;
     }
     if (hasValue(dotNetObject.enable)) {
         jsCIMPictureFill.enable = dotNetObject.enable;
@@ -92,14 +92,16 @@ export async function buildDotNetCIMPictureFillGenerated(jsObject: any): Promise
     let dotNetCIMPictureFill: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.colorLocked)) {
-        dotNetCIMPictureFill.colorLocked = jsObject.colorLocked;
-    }
     if (hasValue(jsObject.colorSubstitutions)) {
-        dotNetCIMPictureFill.colorSubstitutions = jsObject.colorSubstitutions;
+        let { buildDotNetCIMColorSubstitution } = await import('./cIMColorSubstitution');
+        dotNetCIMPictureFill.colorSubstitutions = await Promise.all(jsObject.colorSubstitutions.map(async i => await buildDotNetCIMColorSubstitution(i)));
     }
     if (hasValue(jsObject.effects)) {
-        dotNetCIMPictureFill.effects = jsObject.effects;
+        let { buildDotNetICIMGeometricEffect } = await import('./iCIMGeometricEffect');
+        dotNetCIMPictureFill.effects = jsObject.effects.map(i => buildDotNetICIMGeometricEffect(i));
+    }
+    if (hasValue(jsObject.colorLocked)) {
+        dotNetCIMPictureFill.colorLocked = jsObject.colorLocked;
     }
     if (hasValue(jsObject.enable)) {
         dotNetCIMPictureFill.enable = jsObject.enable;

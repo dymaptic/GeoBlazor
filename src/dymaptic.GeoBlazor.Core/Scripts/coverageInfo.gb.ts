@@ -10,7 +10,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.rasterInfo)) {
         let { buildJsRasterInfo } = await import('./rasterInfo');
-        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo) as any;
+        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.bandNames)) {

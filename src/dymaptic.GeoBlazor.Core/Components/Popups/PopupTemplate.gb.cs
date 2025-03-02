@@ -115,17 +115,17 @@ public partial class PopupTemplate
             return Actions;
         }
 
-        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
-            "getActions", CancellationTokenSource.Token);
-        
+        // get the property value
+        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
+            CancellationTokenSource.Token, "actions");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Actions = result;
+             Actions = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Actions)] = Actions;
+             ModifiedParameters[nameof(Actions)] = Actions;
         }
-        
+         
         return Actions;
     }
     

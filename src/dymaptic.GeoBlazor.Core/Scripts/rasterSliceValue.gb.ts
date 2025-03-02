@@ -4,13 +4,13 @@ import { buildDotNetRasterSliceValue } from './rasterSliceValue';
 
 export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterSliceValue: any = {};
+    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        jsRasterSliceValue.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
+    }
 
     if (hasValue(dotNetObject.magdirValue)) {
         jsRasterSliceValue.magdirValue = dotNetObject.magdirValue;
-    }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
-        jsRasterSliceValue.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
     }
     if (hasValue(dotNetObject.value)) {
         jsRasterSliceValue.value = dotNetObject.value;
@@ -32,11 +32,12 @@ export async function buildDotNetRasterSliceValueGenerated(jsObject: any): Promi
     let dotNetRasterSliceValue: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        dotNetRasterSliceValue.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+    }
     if (hasValue(jsObject.magdirValue)) {
         dotNetRasterSliceValue.magdirValue = jsObject.magdirValue;
-    }
-    if (hasValue(jsObject.multidimensionalDefinition)) {
-        dotNetRasterSliceValue.multidimensionalDefinition = jsObject.multidimensionalDefinition;
     }
     if (hasValue(jsObject.value)) {
         dotNetRasterSliceValue.value = jsObject.value;

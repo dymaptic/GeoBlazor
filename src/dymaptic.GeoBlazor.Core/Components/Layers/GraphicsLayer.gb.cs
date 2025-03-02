@@ -414,8 +414,8 @@ public partial class GraphicsLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elevationInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

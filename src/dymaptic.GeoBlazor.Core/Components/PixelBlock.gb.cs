@@ -575,8 +575,8 @@ public partial class PixelBlock : MapComponent
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "statistics", value);
+        await JsComponentReference.InvokeVoidAsync("setStatistics", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

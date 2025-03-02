@@ -9,13 +9,13 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.fullTimeExtent = await buildJsTimeExtent(dotNetObject.fullTimeExtent, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.interval)) {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        properties.interval = await buildJsTimeInterval(dotNetObject.interval, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.endField)) {
         properties.endField = dotNetObject.endField;
-    }
-    if (hasValue(dotNetObject.interval)) {
-        const { id, dotNetComponentReference, ...sanitizedInterval } = dotNetObject.interval;
-        properties.interval = sanitizedInterval;
     }
     if (hasValue(dotNetObject.startField)) {
         properties.startField = dotNetObject.startField;
@@ -74,11 +74,12 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
     }
+    if (hasValue(jsObject.interval)) {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
+    }
     if (hasValue(jsObject.endField)) {
         dotNetTimeInfo.endField = jsObject.endField;
-    }
-    if (hasValue(jsObject.interval)) {
-        dotNetTimeInfo.interval = jsObject.interval;
     }
     if (hasValue(jsObject.startField)) {
         dotNetTimeInfo.startField = jsObject.startField;

@@ -5,6 +5,10 @@ import { buildDotNetCamera } from './camera';
 
 export async function buildJsCameraGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.layout)) {
+        let { buildJsCameraLayout } = await import('./cameraLayout');
+        properties.layout = await buildJsCameraLayout(dotNetObject.layout, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.position)) {
         let { buildJsPoint } = await import('./point');
         properties.position = buildJsPoint(dotNetObject.position) as any;
@@ -15,10 +19,6 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.heading)) {
         properties.heading = dotNetObject.heading;
-    }
-    if (hasValue(dotNetObject.layout)) {
-        const { id, dotNetComponentReference, ...sanitizedLayout } = dotNetObject.layout;
-        properties.layout = sanitizedLayout;
     }
     if (hasValue(dotNetObject.tilt)) {
         properties.tilt = dotNetObject.tilt;
@@ -64,6 +64,10 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
     let dotNetCamera: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.layout)) {
+        let { buildDotNetCameraLayout } = await import('./cameraLayout');
+        dotNetCamera.layout = await buildDotNetCameraLayout(jsObject.layout);
+    }
     if (hasValue(jsObject.position)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetCamera.position = buildDotNetPoint(jsObject.position);
@@ -73,9 +77,6 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.heading)) {
         dotNetCamera.heading = jsObject.heading;
-    }
-    if (hasValue(jsObject.layout)) {
-        dotNetCamera.layout = jsObject.layout;
     }
     if (hasValue(jsObject.tilt)) {
         dotNetCamera.tilt = jsObject.tilt;

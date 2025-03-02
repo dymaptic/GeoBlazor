@@ -105,6 +105,20 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         this.layer.effect =  buildJsEffect(value);
     }
     
+    async getElevationInfo(): Promise<any> {
+        if (!hasValue(this.layer.elevationInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
+        return await buildDotNetWFSLayerElevationInfo(this.layer.elevationInfo);
+    }
+    
+    async setElevationInfo(value: any): Promise<void> {
+        let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
+        this.layer.elevationInfo = await  buildJsWFSLayerElevationInfo(value, this.layerId, this.viewId);
+    }
+    
     async getFeatureEffect(): Promise<any> {
         if (!hasValue(this.layer.featureEffect)) {
             return null;
@@ -168,6 +182,20 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i))) as any;
+    }
+    
+    async getOrderBy(): Promise<any> {
+        if (!hasValue(this.layer.orderBy)) {
+            return null;
+        }
+        
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
+    }
+    
+    async setOrderBy(value: any): Promise<void> {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -256,6 +284,10 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
+    if (hasValue(dotNetObject.elevationInfo)) {
+        let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
+        properties.elevationInfo = await buildJsWFSLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
@@ -271,6 +303,10 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.labelingInfo)) {
         let { buildJsLabel } = await import('./label');
         properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+    }
+    if (hasValue(dotNetObject.orderBy)) {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -311,10 +347,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.displayField)) {
         properties.displayField = dotNetObject.displayField;
     }
-    if (hasValue(dotNetObject.elevationInfo)) {
-        const { id, dotNetComponentReference, ...sanitizedElevationInfo } = dotNetObject.elevationInfo;
-        properties.elevationInfo = sanitizedElevationInfo;
-    }
     if (hasValue(dotNetObject.featureReduction)) {
         properties.featureReduction = dotNetObject.featureReduction;
     }
@@ -353,10 +385,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
-    }
-    if (hasValue(dotNetObject.orderBy)) {
-        const { id, dotNetComponentReference, ...sanitizedOrderBy } = dotNetObject.orderBy;
-        properties.orderBy = sanitizedOrderBy;
     }
     if (hasValue(dotNetObject.outFields)) {
         properties.outFields = dotNetObject.outFields;
@@ -456,6 +484,10 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
         let { buildDotNetEffect } = await import('./effect');
         dotNetWFSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    if (hasValue(jsObject.elevationInfo)) {
+        let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
+        dotNetWFSLayer.elevationInfo = await buildDotNetWFSLayerElevationInfo(jsObject.elevationInfo);
+    }
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
@@ -475,6 +507,10 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
+    }
+    if (hasValue(jsObject.orderBy)) {
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        dotNetWFSLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
@@ -520,9 +556,6 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.displayField)) {
         dotNetWFSLayer.displayField = jsObject.displayField;
     }
-    if (hasValue(jsObject.elevationInfo)) {
-        dotNetWFSLayer.elevationInfo = jsObject.elevationInfo;
-    }
     if (hasValue(jsObject.featureReduction)) {
         dotNetWFSLayer.featureReduction = jsObject.featureReduction;
     }
@@ -564,9 +597,6 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.opacity)) {
         dotNetWFSLayer.opacity = jsObject.opacity;
-    }
-    if (hasValue(jsObject.orderBy)) {
-        dotNetWFSLayer.orderBy = jsObject.orderBy;
     }
     if (hasValue(jsObject.outFields)) {
         dotNetWFSLayer.outFields = jsObject.outFields;

@@ -103,6 +103,20 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.fullExtent =  buildJsExtent(value);
     }
     
+    async getMultidimensionalDefinition(): Promise<any> {
+        if (!hasValue(this.layer.multidimensionalDefinition)) {
+            return null;
+        }
+        
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+    }
+    
+    async setMultidimensionalDefinition(value: any): Promise<void> {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i, this.layerId, this.viewId))) as any;
+    }
+    
     async getMultidimensionalSubset(): Promise<any> {
         if (!hasValue(this.layer.multidimensionalSubset)) {
             return null;
@@ -114,7 +128,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setMultidimensionalSubset(value: any): Promise<void> {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value);
+        this.layer.multidimensionalSubset = await  buildJsMultidimensionalSubset(value, this.layerId, this.viewId);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -205,6 +219,20 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
     }
     
+    async getTimeOffset(): Promise<any> {
+        if (!hasValue(this.layer.timeOffset)) {
+            return null;
+        }
+        
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
+    }
+    
+    async setTimeOffset(value: any): Promise<void> {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -243,9 +271,13 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
+    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
+    }
     if (hasValue(dotNetObject.multidimensionalSubset)) {
         let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
-        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset) as any;
+        properties.multidimensionalSubset = await buildJsMultidimensionalSubset(dotNetObject.multidimensionalSubset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -266,6 +298,10 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
         properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.timeOffset)) {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -305,10 +341,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.minScale)) {
         properties.minScale = dotNetObject.minScale;
     }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
-        const { id, dotNetComponentReference, ...sanitizedMultidimensionalDefinition } = dotNetObject.multidimensionalDefinition;
-        properties.multidimensionalDefinition = sanitizedMultidimensionalDefinition;
-    }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }
@@ -320,10 +352,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.renderer)) {
         properties.renderer = dotNetObject.renderer;
-    }
-    if (hasValue(dotNetObject.timeOffset)) {
-        const { id, dotNetComponentReference, ...sanitizedTimeOffset } = dotNetObject.timeOffset;
-        properties.timeOffset = sanitizedTimeOffset;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
@@ -414,6 +442,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
         let { buildDotNetExtent } = await import('./extent');
         dotNetWCSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    if (hasValue(jsObject.multidimensionalDefinition)) {
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        dotNetWCSLayer.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+    }
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetWCSLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
@@ -445,6 +477,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetWCSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+    }
+    if (hasValue(jsObject.timeOffset)) {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        dotNetWCSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -486,9 +522,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.minScale)) {
         dotNetWCSLayer.minScale = jsObject.minScale;
     }
-    if (hasValue(jsObject.multidimensionalDefinition)) {
-        dotNetWCSLayer.multidimensionalDefinition = jsObject.multidimensionalDefinition;
-    }
     if (hasValue(jsObject.opacity)) {
         dotNetWCSLayer.opacity = jsObject.opacity;
     }
@@ -500,9 +533,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.renderer)) {
         dotNetWCSLayer.renderer = jsObject.renderer;
-    }
-    if (hasValue(jsObject.timeOffset)) {
-        dotNetWCSLayer.timeOffset = jsObject.timeOffset;
     }
     if (hasValue(jsObject.title)) {
         dotNetWCSLayer.title = jsObject.title;

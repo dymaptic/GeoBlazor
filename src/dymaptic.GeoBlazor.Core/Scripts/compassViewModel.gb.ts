@@ -39,6 +39,15 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
         this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
+    async getOrientation(): Promise<any> {
+        if (!hasValue(this.component.orientation)) {
+            return null;
+        }
+        
+        let { buildDotNetOrientation } = await import('./orientation');
+        return await buildDotNetOrientation(this.component.orientation);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -111,7 +120,8 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
         dotNetCompassViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
     if (hasValue(jsObject.orientation)) {
-        dotNetCompassViewModel.orientation = jsObject.orientation;
+        let { buildDotNetOrientation } = await import('./orientation');
+        dotNetCompassViewModel.orientation = await buildDotNetOrientation(jsObject.orientation);
     }
     if (hasValue(jsObject.state)) {
         dotNetCompassViewModel.state = jsObject.state;

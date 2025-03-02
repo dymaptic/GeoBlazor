@@ -3,18 +3,18 @@ import RotationVariable from '@arcgis/core/renderers/visualVariables/RotationVar
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRotationVariable } from './rotationVariable';
 
-export async function buildJsRotationVariableGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsRotationVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.legendOptions)) {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.axis)) {
         properties.axis = dotNetObject.axis;
     }
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
-    }
-    if (hasValue(dotNetObject.legendOptions)) {
-        const { id, dotNetComponentReference, ...sanitizedLegendOptions } = dotNetObject.legendOptions;
-        properties.legendOptions = sanitizedLegendOptions;
     }
     if (hasValue(dotNetObject.rotationType)) {
         properties.rotationType = dotNetObject.rotationType;
@@ -66,14 +66,15 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
     let dotNetRotationVariable: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
+    if (hasValue(jsObject.legendOptions)) {
+        let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+    }
     if (hasValue(jsObject.axis)) {
         dotNetRotationVariable.axis = jsObject.axis;
     }
     if (hasValue(jsObject.field)) {
         dotNetRotationVariable.field = jsObject.field;
-    }
-    if (hasValue(jsObject.legendOptions)) {
-        dotNetRotationVariable.legendOptions = jsObject.legendOptions;
     }
     if (hasValue(jsObject.rotationType)) {
         dotNetRotationVariable.rotationType = jsObject.rotationType;

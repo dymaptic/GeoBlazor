@@ -99,6 +99,20 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         this.component.features = value.map(i => buildJsGraphic(i)) as any;
     }
     
+    async getFeatureViewModelAbilities(): Promise<any> {
+        if (!hasValue(this.component.featureViewModelAbilities)) {
+            return null;
+        }
+        
+        let { buildDotNetAbilities } = await import('./abilities');
+        return await buildDotNetAbilities(this.component.featureViewModelAbilities);
+    }
+    
+    async setFeatureViewModelAbilities(value: any): Promise<void> {
+        let { buildJsAbilities } = await import('./abilities');
+        this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
+    }
+    
     async getGoToOverride(): Promise<any> {
         if (!hasValue(this.component.goToOverride)) {
             return null;
@@ -165,6 +179,10 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         let { buildJsGraphic } = await import('./graphic');
         properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }
+    if (hasValue(dotNetObject.featureViewModelAbilities)) {
+        let { buildJsAbilities } = await import('./abilities');
+        properties.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.goToOverride)) {
         let { buildJsGoToOverride } = await import('./goToOverride');
         properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
@@ -188,10 +206,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.featuresPerPage)) {
         properties.featuresPerPage = dotNetObject.featuresPerPage;
-    }
-    if (hasValue(dotNetObject.featureViewModelAbilities)) {
-        const { id, dotNetComponentReference, ...sanitizedFeatureViewModelAbilities } = dotNetObject.featureViewModelAbilities;
-        properties.featureViewModelAbilities = sanitizedFeatureViewModelAbilities;
     }
     if (hasValue(dotNetObject.highlightEnabled)) {
         properties.highlightEnabled = dotNetObject.highlightEnabled;
@@ -284,6 +298,10 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupViewModel.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
     }
+    if (hasValue(jsObject.featureViewModelAbilities)) {
+        let { buildDotNetAbilities } = await import('./abilities');
+        dotNetPopupViewModel.featureViewModelAbilities = await buildDotNetAbilities(jsObject.featureViewModelAbilities);
+    }
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetPopupViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
@@ -320,9 +338,6 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     if (hasValue(jsObject.featuresPerPage)) {
         dotNetPopupViewModel.featuresPerPage = jsObject.featuresPerPage;
-    }
-    if (hasValue(jsObject.featureViewModelAbilities)) {
-        dotNetPopupViewModel.featureViewModelAbilities = jsObject.featureViewModelAbilities;
     }
     if (hasValue(jsObject.featureViewModels)) {
         dotNetPopupViewModel.featureViewModels = jsObject.featureViewModels;

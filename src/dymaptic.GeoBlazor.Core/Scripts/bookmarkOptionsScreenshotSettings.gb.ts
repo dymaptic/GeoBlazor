@@ -4,15 +4,15 @@ import { buildDotNetBookmarkOptionsScreenshotSettings } from './bookmarkOptionsS
 
 export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsBookmarkOptionsScreenshotSettings: any = {};
+    if (hasValue(dotNetObject.area)) {
+        let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
+        jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.layers)) {
         let { buildJsLayer } = await import('./layer');
         jsBookmarkOptionsScreenshotSettings.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.area)) {
-        const { id, dotNetComponentReference, ...sanitizedArea } = dotNetObject.area;
-        jsBookmarkOptionsScreenshotSettings.area = sanitizedArea;
-    }
     if (hasValue(dotNetObject.height)) {
         jsBookmarkOptionsScreenshotSettings.height = dotNetObject.height;
     }
@@ -60,7 +60,8 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.area)) {
-        dotNetBookmarkOptionsScreenshotSettings.area = jsObject.area;
+        let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
+        dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area);
     }
     if (hasValue(jsObject.height)) {
         dotNetBookmarkOptionsScreenshotSettings.height = jsObject.height;

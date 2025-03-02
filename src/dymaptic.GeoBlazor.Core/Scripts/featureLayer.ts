@@ -275,7 +275,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let result = this.layer.getFeatureType(feature as Graphic);
 
         let {buildDotNetFeatureType} = await import('./featureType');
-        return buildDotNetFeatureType(result);
+        return buildDotNetFeatureType(result, this.layerId, this.viewId);
     }
 
     async getField(fieldName: string): Promise<DotNetField | null> {
@@ -314,7 +314,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
         let result = this.layer.clone();
 
-        return await buildDotNetFeatureLayer(result);
+        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
     }
 
     refresh() {
@@ -339,7 +339,7 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
     return await buildJsFeatureLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureLayer(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject);
+    return await buildDotNetFeatureLayerGenerated(jsObject, layerId, viewId);
 }

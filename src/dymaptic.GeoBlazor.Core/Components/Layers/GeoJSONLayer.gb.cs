@@ -2009,8 +2009,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elevationInfo", value);
+        await JsComponentReference.InvokeVoidAsync("setElevationInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2309,8 +2309,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "orderBy", value);
+        await JsComponentReference.InvokeVoidAsync("setOrderBy", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2399,8 +2399,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2549,8 +2549,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2669,8 +2669,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "timeOffset", value);
+        await JsComponentReference.InvokeVoidAsync("setTimeOffset", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

@@ -8,16 +8,16 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
         let { buildJsMapColor } = await import('./mapColor');
         jsRelationshipRampElement.colors = dotNetObject.colors.map(i => buildJsMapColor(i)) as any;
     }
+    if (hasValue(dotNetObject.labels)) {
+        let { buildJsRelationshipLabels } = await import('./relationshipLabels');
+        jsRelationshipRampElement.labels = await buildJsRelationshipLabels(dotNetObject.labels, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.focus)) {
         jsRelationshipRampElement.focus = dotNetObject.focus;
     }
     if (hasValue(dotNetObject.infos)) {
         jsRelationshipRampElement.infos = dotNetObject.infos;
-    }
-    if (hasValue(dotNetObject.labels)) {
-        const { id, dotNetComponentReference, ...sanitizedLabels } = dotNetObject.labels;
-        jsRelationshipRampElement.labels = sanitizedLabels;
     }
     if (hasValue(dotNetObject.numClasses)) {
         jsRelationshipRampElement.numClasses = dotNetObject.numClasses;
@@ -72,14 +72,15 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetRelationshipRampElement.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
     }
+    if (hasValue(jsObject.labels)) {
+        let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
+        dotNetRelationshipRampElement.labels = await buildDotNetRelationshipLabels(jsObject.labels);
+    }
     if (hasValue(jsObject.focus)) {
         dotNetRelationshipRampElement.focus = jsObject.focus;
     }
     if (hasValue(jsObject.infos)) {
         dotNetRelationshipRampElement.infos = jsObject.infos;
-    }
-    if (hasValue(jsObject.labels)) {
-        dotNetRelationshipRampElement.labels = jsObject.labels;
     }
     if (hasValue(jsObject.numClasses)) {
         dotNetRelationshipRampElement.numClasses = jsObject.numClasses;
