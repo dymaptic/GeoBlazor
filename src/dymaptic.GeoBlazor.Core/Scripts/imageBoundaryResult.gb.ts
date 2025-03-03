@@ -39,15 +39,6 @@ export async function buildDotNetImageBoundaryResultGenerated(jsObject: any): Pr
         dotNetImageBoundaryResult.area = jsObject.area;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageBoundaryResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageBoundaryResult;
 }
 

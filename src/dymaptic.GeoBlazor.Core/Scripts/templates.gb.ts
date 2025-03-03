@@ -39,15 +39,6 @@ export async function buildDotNetTemplatesGenerated(jsObject: any): Promise<any>
         dotNetTemplates.secondaryTemplates = await Promise.all(jsObject.secondaryTemplates.map(async i => await buildDotNetTemplate(i)));
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetTemplates.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetTemplates;
 }
 

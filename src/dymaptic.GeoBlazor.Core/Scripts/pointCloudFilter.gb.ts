@@ -11,7 +11,7 @@ export async function buildJsPointCloudFilterGenerated(dotNetObject: any, layerI
             let { buildJsPointCloudFilter } = await import('./pointCloudFilter');
             return await buildJsPointCloudFilter(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

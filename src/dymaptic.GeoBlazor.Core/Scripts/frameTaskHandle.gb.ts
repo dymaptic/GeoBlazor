@@ -70,15 +70,6 @@ export async function buildDotNetFrameTaskHandleGenerated(jsObject: any): Promis
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFrameTaskHandle.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFrameTaskHandle;
 }
 

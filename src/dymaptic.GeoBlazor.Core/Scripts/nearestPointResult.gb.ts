@@ -49,15 +49,6 @@ export async function buildDotNetNearestPointResultGenerated(jsObject: any): Pro
         dotNetNearestPointResult.vertexIndex = jsObject.vertexIndex;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetNearestPointResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetNearestPointResult;
 }
 

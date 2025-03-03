@@ -87,15 +87,6 @@ export async function buildDotNetPopupOpenOptionsGenerated(jsObject: any, layerI
         dotNetPopupOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPopupOpenOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPopupOpenOptions;
 }
 

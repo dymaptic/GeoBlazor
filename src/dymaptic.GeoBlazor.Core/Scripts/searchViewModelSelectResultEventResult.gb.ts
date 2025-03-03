@@ -45,15 +45,6 @@ export async function buildDotNetSearchViewModelSelectResultEventResultGenerated
         dotNetSearchViewModelSelectResultEventResult.name = jsObject.name;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchViewModelSelectResultEventResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchViewModelSelectResultEventResult;
 }
 

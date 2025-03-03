@@ -43,15 +43,6 @@ export async function buildDotNetDeleteItemsResultGenerated(jsObject: any): Prom
         dotNetDeleteItemsResult.success = jsObject.success;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetDeleteItemsResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetDeleteItemsResult;
 }
 

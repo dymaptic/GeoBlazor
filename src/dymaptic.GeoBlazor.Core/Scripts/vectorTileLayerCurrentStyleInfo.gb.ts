@@ -59,15 +59,6 @@ export async function buildDotNetVectorTileLayerCurrentStyleInfoGenerated(jsObje
         dotNetVectorTileLayerCurrentStyleInfo.styleUrl = jsObject.styleUrl;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetVectorTileLayerCurrentStyleInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetVectorTileLayerCurrentStyleInfo;
 }
 

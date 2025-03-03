@@ -48,15 +48,6 @@ export async function buildDotNetPredominantCategoriesPredominantCategoriesParam
         dotNetPredominantCategoriesPredominantCategoriesParams.signal = jsObject.signal;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPredominantCategoriesPredominantCategoriesParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPredominantCategoriesPredominantCategoriesParams;
 }
 

@@ -55,15 +55,6 @@ export async function buildDotNetSuggestResponseGenerated(jsObject: any): Promis
         dotNetSuggestResponse.searchTerm = jsObject.searchTerm;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSuggestResponse.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSuggestResponse;
 }
 

@@ -10,7 +10,7 @@ export async function buildJsDomainPropertiesGenerated(dotNetObject: any, layerI
             let { buildJsDomainProperties } = await import('./domainProperties');
             return await buildJsDomainProperties(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

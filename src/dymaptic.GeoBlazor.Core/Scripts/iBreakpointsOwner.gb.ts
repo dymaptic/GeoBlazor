@@ -47,15 +47,6 @@ export async function buildDotNetIBreakpointsOwnerGenerated(jsObject: any): Prom
         dotNetIBreakpointsOwner.widthBreakpoint = jsObject.widthBreakpoint;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetIBreakpointsOwner.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetIBreakpointsOwner;
 }
 

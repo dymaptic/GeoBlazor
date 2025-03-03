@@ -33,15 +33,6 @@ export async function buildDotNetElevationQueryResultSampleInfoGenerated(jsObjec
         dotNetElevationQueryResultSampleInfo.demResolution = jsObject.demResolution;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetElevationQueryResultSampleInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetElevationQueryResultSampleInfo;
 }
 

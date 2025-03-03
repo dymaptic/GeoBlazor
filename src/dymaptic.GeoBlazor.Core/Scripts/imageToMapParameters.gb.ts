@@ -17,7 +17,7 @@ export async function buildJsImageToMapParametersGenerated(dotNetObject: any, la
         properties.depthOffset = dotNetObject.depthOffset;
     }
     if (hasValue(dotNetObject.inSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedInSpatialReference } = dotNetObject.inSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedInSpatialReference } = dotNetObject.inSpatialReference;
         properties.inSpatialReference = sanitizedInSpatialReference;
     }
     if (hasValue(dotNetObject.rasterId)) {
@@ -56,15 +56,6 @@ export async function buildDotNetImageToMapParametersGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.rasterId)) {
         dotNetImageToMapParameters.rasterId = jsObject.rasterId;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageToMapParameters.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageToMapParameters;

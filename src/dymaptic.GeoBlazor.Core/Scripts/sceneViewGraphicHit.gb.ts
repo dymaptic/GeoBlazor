@@ -52,15 +52,6 @@ export async function buildDotNetSceneViewGraphicHitGenerated(jsObject: any, lay
         dotNetSceneViewGraphicHit.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSceneViewGraphicHit.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSceneViewGraphicHit;
 }
 

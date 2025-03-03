@@ -136,15 +136,6 @@ export async function buildDotNetHistogramHistogramParamsGenerated(jsObject: any
         dotNetHistogramHistogramParams.valueExpression = jsObject.valueExpression;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetHistogramHistogramParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetHistogramHistogramParams;
 }
 

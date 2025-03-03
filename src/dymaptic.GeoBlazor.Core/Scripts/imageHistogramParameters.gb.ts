@@ -71,15 +71,6 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
         dotNetImageHistogramParameters.pixelSize = jsObject.pixelSize;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageHistogramParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageHistogramParameters;
 }
 

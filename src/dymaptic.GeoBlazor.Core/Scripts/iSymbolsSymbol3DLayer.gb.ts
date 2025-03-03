@@ -23,6 +23,11 @@ export default class ISymbolsSymbol3DLayerGenerated implements IPropertyWrapper 
         await this.layer.load(options);
     }
 
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     // region properties
     
     getProperty(prop: string): any {
@@ -61,15 +66,6 @@ export async function buildDotNetISymbolsSymbol3DLayerGenerated(jsObject: any): 
     let dotNetISymbolsSymbol3DLayer: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetISymbolsSymbol3DLayer.id = k;
-                break;
-            }
-        }
-    }
 
     return dotNetISymbolsSymbol3DLayer;
 }

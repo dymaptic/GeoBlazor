@@ -39,15 +39,6 @@ export async function buildDotNetImageGPSInfoResultGenerated(jsObject: any): Pro
         dotNetImageGPSInfoResult.cameras = jsObject.cameras;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageGPSInfoResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageGPSInfoResult;
 }
 

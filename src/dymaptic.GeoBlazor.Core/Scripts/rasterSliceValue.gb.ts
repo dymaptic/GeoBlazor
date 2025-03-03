@@ -43,15 +43,6 @@ export async function buildDotNetRasterSliceValueGenerated(jsObject: any): Promi
         dotNetRasterSliceValue.value = jsObject.value;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetRasterSliceValue.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetRasterSliceValue;
 }
 

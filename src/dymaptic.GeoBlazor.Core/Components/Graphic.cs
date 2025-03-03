@@ -2,7 +2,7 @@ using ParameterValue = Microsoft.AspNetCore.Components.ParameterValue;
 
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class Graphic: MapComponent
+public partial class Graphic: MapComponent, IEquatable<Graphic>
 {
     /// <summary>
     ///     Parameterless constructor for use as a Razor Component.

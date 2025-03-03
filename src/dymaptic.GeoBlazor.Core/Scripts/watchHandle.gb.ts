@@ -62,15 +62,6 @@ export async function buildDotNetWatchHandleGenerated(jsObject: any): Promise<an
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWatchHandle.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetWatchHandle;
 }
 

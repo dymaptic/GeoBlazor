@@ -75,15 +75,6 @@ export async function buildDotNetPortalQueryParamsGenerated(jsObject: any): Prom
         dotNetPortalQueryParams.start = jsObject.start;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPortalQueryParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPortalQueryParams;
 }
 

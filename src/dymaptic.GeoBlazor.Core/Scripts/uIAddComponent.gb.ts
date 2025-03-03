@@ -48,15 +48,6 @@ export async function buildDotNetUIAddComponentGenerated(jsObject: any): Promise
         dotNetUIAddComponent.index = jsObject.index;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetUIAddComponent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetUIAddComponent;
 }
 

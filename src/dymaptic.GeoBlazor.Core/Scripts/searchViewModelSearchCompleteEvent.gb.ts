@@ -55,15 +55,6 @@ export async function buildDotNetSearchViewModelSearchCompleteEventGenerated(jsO
         dotNetSearchViewModelSearchCompleteEvent.searchTerm = jsObject.searchTerm;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchViewModelSearchCompleteEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchViewModelSearchCompleteEvent;
 }
 

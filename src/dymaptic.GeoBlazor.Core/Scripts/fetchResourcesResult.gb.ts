@@ -43,15 +43,6 @@ export async function buildDotNetFetchResourcesResultGenerated(jsObject: any): P
         dotNetFetchResourcesResult.total = jsObject.total;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFetchResourcesResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFetchResourcesResult;
 }
 

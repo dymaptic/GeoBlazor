@@ -141,8 +141,7 @@ public abstract partial class Widget : MapComponent
         if (CoreJsModule is null) return;
 
         // ReSharper disable once RedundantCast
-        await CoreJsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
-            (object)this, View!.Id);
+        await CoreJsModule!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
 
     /// <summary>

@@ -62,15 +62,6 @@ export async function buildDotNetHighlightHandleGenerated(jsObject: any): Promis
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetHighlightHandle.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetHighlightHandle;
 }
 

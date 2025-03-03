@@ -7,7 +7,7 @@ export async function buildJsImageBoundaryParametersGenerated(dotNetObject: any,
     let properties: any = {};
 
     if (hasValue(dotNetObject.outSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
         properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     let jsImageBoundaryParameters = new ImageBoundaryParameters(properties);
@@ -30,15 +30,6 @@ export async function buildDotNetImageBoundaryParametersGenerated(jsObject: any)
     };
     if (hasValue(jsObject.outSpatialReference)) {
         dotNetImageBoundaryParameters.outSpatialReference = jsObject.outSpatialReference;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageBoundaryParameters.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageBoundaryParameters;

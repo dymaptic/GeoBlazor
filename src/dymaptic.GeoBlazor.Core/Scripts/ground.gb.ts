@@ -154,15 +154,6 @@ export async function buildDotNetGroundGenerated(jsObject: any): Promise<any> {
         dotNetGround.opacity = jsObject.opacity;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGround.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetGround;
 }
 

@@ -33,15 +33,6 @@ export async function buildDotNetImageSampleResultGenerated(jsObject: any): Prom
         dotNetImageSampleResult.samples = await Promise.all(jsObject.samples.map(async i => await buildDotNetImageSample(i)));
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageSampleResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageSampleResult;
 }
 

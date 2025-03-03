@@ -39,15 +39,6 @@ export async function buildDotNetLayerListTriggerActionEventGenerated(jsObject: 
         dotNetLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerListTriggerActionEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetLayerListTriggerActionEvent;
 }
 

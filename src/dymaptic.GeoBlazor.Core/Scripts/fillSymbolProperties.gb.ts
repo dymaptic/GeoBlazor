@@ -10,7 +10,7 @@ export async function buildJsFillSymbolPropertiesGenerated(dotNetObject: any, la
             let { buildJsFillSymbolProperties } = await import('./fillSymbolProperties');
             return await buildJsFillSymbolProperties(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

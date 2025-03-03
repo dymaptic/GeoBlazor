@@ -15,7 +15,7 @@ export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, l
         jsTileInfoCreateOptions.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         jsTileInfoCreateOptions.spatialReference = sanitizedSpatialReference;
     }
     
@@ -46,15 +46,6 @@ export async function buildDotNetTileInfoCreateOptionsGenerated(jsObject: any): 
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetTileInfoCreateOptions.spatialReference = jsObject.spatialReference;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetTileInfoCreateOptions.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetTileInfoCreateOptions;

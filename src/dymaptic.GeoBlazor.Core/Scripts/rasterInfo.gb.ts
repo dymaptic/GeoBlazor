@@ -55,7 +55,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
         properties.pixelType = dotNetObject.pixelType;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         properties.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.statistics)) {
@@ -134,15 +134,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.width)) {
         dotNetRasterInfo.width = jsObject.width;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetRasterInfo.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetRasterInfo;

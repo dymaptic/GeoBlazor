@@ -31,15 +31,6 @@ export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any)
         dotNetPopupTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPopupTriggerActionEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPopupTriggerActionEvent;
 }
 

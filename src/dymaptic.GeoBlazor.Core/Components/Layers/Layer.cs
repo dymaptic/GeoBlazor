@@ -392,33 +392,23 @@ public abstract partial class Layer : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (LayerChanged && MapRendered)
+        if (LayerChanged && IsRenderedBlazorComponent)
         {
             await UpdateLayer();
         }
     }
 
-    private async Task UpdateLayer()
+    public async Task UpdateLayer()
     {
         LayerChanged = false;
 
-        if (CoreJsModule is null)
+        if (JsComponentReference is null)
         {
             return;
         }
 
-        if (GetType().Namespace!.Contains("Pro"))
-        {
-            // ReSharper disable once RedundantCast
-            await ProJsModule!.InvokeVoidAsync("updateProLayer", CancellationTokenSource.Token,
-                (object)this, View!.Id);
-        }
-        else
-        {
-            // ReSharper disable once RedundantCast
-            await CoreJsModule!.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
-                (object)this, View!.Id);
-        }
+        // ReSharper disable once RedundantCast
+        await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token, (object)this);
     }
 
     /// <summary>

@@ -100,15 +100,6 @@ export async function buildDotNetWebglGenerated(jsObject: any): Promise<any> {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWebgl.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetWebgl;
 }
 

@@ -69,15 +69,6 @@ export async function buildDotNetFeatureEditsGenerated(jsObject: any, layerId: s
         dotNetFeatureEdits.deleteAttachments = jsObject.deleteAttachments;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFeatureEdits.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFeatureEdits;
 }
 

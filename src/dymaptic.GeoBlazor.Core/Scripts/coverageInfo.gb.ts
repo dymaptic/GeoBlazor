@@ -93,15 +93,6 @@ export async function buildDotNetCoverageInfoGenerated(jsObject: any): Promise<a
         dotNetCoverageInfo.version = jsObject.version;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageInfo;
 }
 

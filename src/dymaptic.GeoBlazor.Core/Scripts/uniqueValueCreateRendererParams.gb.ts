@@ -69,15 +69,6 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
         dotNetUniqueValueCreateRendererParams.signal = jsObject.signal;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetUniqueValueCreateRendererParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetUniqueValueCreateRendererParams;
 }
 

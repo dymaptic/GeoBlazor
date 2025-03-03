@@ -37,15 +37,6 @@ export async function buildDotNetIPopupViewGenerated(jsObject: any, layerId: str
         dotNetIPopupView.popupEnabled = jsObject.popupEnabled;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetIPopupView.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetIPopupView;
 }
 

@@ -2,7 +2,7 @@
 import MediaElementBase from '@arcgis/core/layers/support/MediaElementBase';
 
 export function buildJsMediaElementBaseGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

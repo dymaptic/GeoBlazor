@@ -70,15 +70,6 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any): 
         dotNetImageHeightParameters.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageHeightParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageHeightParameters;
 }
 

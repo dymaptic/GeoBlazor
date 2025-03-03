@@ -55,15 +55,6 @@ export async function buildDotNetCoverageDescriptionV100DomainSetSpatialDomainGe
         dotNetCoverageDescriptionV100DomainSetSpatialDomain.rows = jsObject.rows;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV100DomainSetSpatialDomain.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV100DomainSetSpatialDomain;
 }
 

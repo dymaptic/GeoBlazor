@@ -136,15 +136,6 @@ export async function buildDotNetIntlGenerated(jsObject: any): Promise<any> {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetIntl.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetIntl;
 }
 

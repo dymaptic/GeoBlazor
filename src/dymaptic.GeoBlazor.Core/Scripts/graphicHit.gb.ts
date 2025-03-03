@@ -46,15 +46,6 @@ export async function buildDotNetGraphicHitGenerated(jsObject: any, layerId: str
         dotNetGraphicHit.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGraphicHit.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetGraphicHit;
 }
 

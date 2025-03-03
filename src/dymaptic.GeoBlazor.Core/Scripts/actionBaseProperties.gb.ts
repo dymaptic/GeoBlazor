@@ -10,7 +10,7 @@ export async function buildJsActionBasePropertiesGenerated(dotNetObject: any, la
             let { buildJsActionBaseProperties } = await import('./actionBaseProperties');
             return await buildJsActionBaseProperties(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

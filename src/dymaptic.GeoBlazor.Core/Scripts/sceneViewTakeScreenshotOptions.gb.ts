@@ -63,15 +63,6 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsGenerated(jsObjec
         dotNetSceneViewTakeScreenshotOptions.width = jsObject.width;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSceneViewTakeScreenshotOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSceneViewTakeScreenshotOptions;
 }
 

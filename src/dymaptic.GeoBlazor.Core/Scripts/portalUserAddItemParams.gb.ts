@@ -43,15 +43,6 @@ export async function buildDotNetPortalUserAddItemParamsGenerated(jsObject: any)
         dotNetPortalUserAddItemParams.folder = jsObject.folder;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPortalUserAddItemParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPortalUserAddItemParams;
 }
 

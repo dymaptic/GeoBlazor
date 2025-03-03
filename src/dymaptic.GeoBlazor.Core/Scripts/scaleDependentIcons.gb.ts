@@ -72,15 +72,6 @@ export async function buildDotNetScaleDependentIconsGenerated(jsObject: any): Pr
         dotNetScaleDependentIcons.valueExpression = jsObject.valueExpression;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetScaleDependentIcons.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetScaleDependentIcons;
 }
 

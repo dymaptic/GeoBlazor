@@ -73,15 +73,6 @@ export async function buildDotNetFeatureEditsResultGenerated(jsObject: any, laye
         dotNetFeatureEditsResult.updateFeatureResults = jsObject.updateFeatureResults;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFeatureEditsResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFeatureEditsResult;
 }
 

@@ -2,7 +2,7 @@
 import ChartMediaInfo from '@arcgis/core/popup/content/mixins/ChartMediaInfo';
 
 export function buildJsIChartMediaInfoGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

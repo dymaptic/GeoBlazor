@@ -31,15 +31,6 @@ export async function buildDotNetIdentityManagerCredentialCreateEventGenerated(j
         dotNetIdentityManagerCredentialCreateEvent.credential = await buildDotNetCredential(jsObject.credential);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetIdentityManagerCredentialCreateEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetIdentityManagerCredentialCreateEvent;
 }
 

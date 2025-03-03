@@ -10,7 +10,7 @@ export async function buildJsLineSymbolPropertiesGenerated(dotNetObject: any, la
             let { buildJsLineSymbolProperties } = await import('./lineSymbolProperties');
             return await buildJsLineSymbolProperties(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

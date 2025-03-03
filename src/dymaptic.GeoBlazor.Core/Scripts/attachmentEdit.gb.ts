@@ -37,15 +37,6 @@ export async function buildDotNetAttachmentEditGenerated(jsObject: any, layerId:
         dotNetAttachmentEdit.attachment = jsObject.attachment;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetAttachmentEdit.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetAttachmentEdit;
 }
 

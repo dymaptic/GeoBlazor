@@ -31,15 +31,6 @@ export async function buildDotNetCoverageDescriptionV201EoMetadataGenerated(jsOb
         dotNetCoverageDescriptionV201EoMetadata.observation = await buildDotNetCoverageDescriptionV201EoMetadataObservation(jsObject.observation);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV201EoMetadata.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV201EoMetadata;
 }
 

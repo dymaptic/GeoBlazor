@@ -10,7 +10,7 @@ export async function buildJsMarkerSymbolPropertiesGenerated(dotNetObject: any, 
             let { buildJsMarkerSymbolProperties } = await import('./markerSymbolProperties');
             return await buildJsMarkerSymbolProperties(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

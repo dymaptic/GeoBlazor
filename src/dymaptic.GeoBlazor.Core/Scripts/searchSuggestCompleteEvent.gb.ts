@@ -55,15 +55,6 @@ export async function buildDotNetSearchSuggestCompleteEventGenerated(jsObject: a
         dotNetSearchSuggestCompleteEvent.searchTerm = jsObject.searchTerm;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchSuggestCompleteEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchSuggestCompleteEvent;
 }
 

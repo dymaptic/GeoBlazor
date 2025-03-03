@@ -37,15 +37,6 @@ export async function buildDotNetImageryLayerSaveAsOptionsGenerated(jsObject: an
         dotNetImageryLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageryLayerSaveAsOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageryLayerSaveAsOptions;
 }
 

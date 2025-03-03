@@ -67,15 +67,6 @@ export async function buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObj
         dotNetCoverageDescriptionV201BoundedBy.uomLabels = jsObject.uomLabels;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV201BoundedBy.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV201BoundedBy;
 }
 

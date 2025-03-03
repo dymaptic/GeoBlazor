@@ -59,15 +59,6 @@ export async function buildDotNetImageGPSInfoParametersGenerated(jsObject: any):
         dotNetImageGPSInfoParameters.where = jsObject.where;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageGPSInfoParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageGPSInfoParameters;
 }
 

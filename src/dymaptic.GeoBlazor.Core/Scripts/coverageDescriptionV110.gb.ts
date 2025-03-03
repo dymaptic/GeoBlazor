@@ -85,15 +85,6 @@ export async function buildDotNetCoverageDescriptionV110Generated(jsObject: any)
         dotNetCoverageDescriptionV110.version = jsObject.version;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV110.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV110;
 }
 

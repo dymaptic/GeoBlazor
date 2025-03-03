@@ -32,15 +32,6 @@ export async function buildDotNetUnaryNodeGenerated(jsObject: any): Promise<any>
         dotNetUnaryNode.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetUnaryNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetUnaryNode;
 }
 

@@ -37,15 +37,6 @@ export async function buildDotNetSearchSourceFilterGenerated(jsObject: any): Pro
         dotNetSearchSourceFilter.where = jsObject.where;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchSourceFilter.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchSourceFilter;
 }
 

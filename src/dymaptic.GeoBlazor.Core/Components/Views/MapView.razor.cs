@@ -1983,8 +1983,7 @@ public partial class MapView : MapComponent
             foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
             {
                 // ReSharper disable once RedundantCast
-                await CoreJsModule.InvokeVoidAsync("updateLayer", CancellationTokenSource.Token,
-                    (object)layer, Id);
+                await layer.UpdateLayer();
             }
         }
     }

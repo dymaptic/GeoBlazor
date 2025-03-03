@@ -44,15 +44,6 @@ export async function buildDotNetIntervalNodeGenerated(jsObject: any): Promise<a
         dotNetIntervalNode.value = jsObject.value;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetIntervalNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetIntervalNode;
 }
 

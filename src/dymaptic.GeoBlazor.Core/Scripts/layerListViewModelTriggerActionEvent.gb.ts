@@ -39,15 +39,6 @@ export async function buildDotNetLayerListViewModelTriggerActionEventGenerated(j
         dotNetLayerListViewModelTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerListViewModelTriggerActionEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetLayerListViewModelTriggerActionEvent;
 }
 

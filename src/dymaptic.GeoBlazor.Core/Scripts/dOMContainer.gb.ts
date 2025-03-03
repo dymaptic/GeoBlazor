@@ -55,15 +55,6 @@ export async function buildDotNetDOMContainerGenerated(jsObject: any): Promise<a
         dotNetDOMContainer.width = jsObject.width;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetDOMContainer.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetDOMContainer;
 }
 

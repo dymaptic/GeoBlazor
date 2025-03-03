@@ -45,15 +45,6 @@ export async function buildDotNetSearchCompleteEventResultsGenerated(jsObject: a
         dotNetSearchCompleteEventResults.sourceIndex = jsObject.sourceIndex;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchCompleteEventResults.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchCompleteEventResults;
 }
 

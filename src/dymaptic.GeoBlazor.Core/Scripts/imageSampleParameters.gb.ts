@@ -99,15 +99,6 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any): 
         dotNetImageSampleParameters.sliceId = jsObject.sliceId;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageSampleParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageSampleParameters;
 }
 

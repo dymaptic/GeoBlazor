@@ -39,15 +39,6 @@ export async function buildDotNetFetchPopupFeaturesResultGenerated(jsObject: any
         dotNetFetchPopupFeaturesResult.location = buildDotNetPoint(jsObject.location);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFetchPopupFeaturesResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFetchPopupFeaturesResult;
 }
 

@@ -2,7 +2,7 @@
 import FeatureLayerViewMixin from '@arcgis/core/views/layers/FeatureLayerViewMixin';
 
 export function buildJsIFeatureLayerViewMixinGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

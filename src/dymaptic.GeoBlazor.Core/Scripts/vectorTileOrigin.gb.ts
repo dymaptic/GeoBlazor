@@ -42,15 +42,6 @@ export async function buildDotNetVectorTileOriginGenerated(jsObject: any): Promi
         dotNetVectorTileOrigin.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetVectorTileOrigin.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetVectorTileOrigin;
 }
 

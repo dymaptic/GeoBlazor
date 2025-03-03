@@ -43,15 +43,6 @@ export async function buildDotNetBaseLayerViewGL2DRenderRenderParametersGenerate
         dotNetBaseLayerViewGL2DRenderRenderParameters.stationary = jsObject.stationary;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetBaseLayerViewGL2DRenderRenderParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetBaseLayerViewGL2DRenderRenderParameters;
 }
 

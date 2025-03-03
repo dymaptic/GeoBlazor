@@ -51,15 +51,6 @@ export async function buildDotNetRasterIdentifyResultGenerated(jsObject: any): P
         dotNetRasterIdentifyResult.value = jsObject.value;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetRasterIdentifyResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetRasterIdentifyResult;
 }
 

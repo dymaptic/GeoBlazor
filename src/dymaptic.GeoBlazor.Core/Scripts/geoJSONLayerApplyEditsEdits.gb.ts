@@ -50,15 +50,6 @@ export async function buildDotNetGeoJSONLayerApplyEditsEditsGenerated(jsObject: 
         dotNetGeoJSONLayerApplyEditsEdits.updateFeatures = jsObject.updateFeatures.map(i => buildDotNetGraphic(i, layerId, viewId));
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGeoJSONLayerApplyEditsEdits.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetGeoJSONLayerApplyEditsEdits;
 }
 

@@ -39,15 +39,6 @@ export async function buildDotNetRelatedRecordsInfoGenerated(jsObject: any): Pro
         dotNetRelatedRecordsInfo.showRelatedRecords = jsObject.showRelatedRecords;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetRelatedRecordsInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetRelatedRecordsInfo;
 }
 

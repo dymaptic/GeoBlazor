@@ -90,15 +90,6 @@ export async function buildDotNetSunLightingGenerated(jsObject: any): Promise<an
         dotNetSunLighting.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSunLighting.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSunLighting;
 }
 

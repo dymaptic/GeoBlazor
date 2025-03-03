@@ -49,15 +49,6 @@ export async function buildDotNetQueryQuantizationParametersGenerated(jsObject: 
         dotNetQueryQuantizationParameters.tolerance = jsObject.tolerance;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetQueryQuantizationParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetQueryQuantizationParameters;
 }
 

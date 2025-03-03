@@ -51,15 +51,6 @@ export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
         dotNetSubtype.name = jsObject.name;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSubtype.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSubtype;
 }
 

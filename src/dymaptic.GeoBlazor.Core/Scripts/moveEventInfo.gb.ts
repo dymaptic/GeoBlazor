@@ -46,15 +46,6 @@ export async function buildDotNetMoveEventInfoGenerated(jsObject: any, layerId: 
         dotNetMoveEventInfo.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMoveEventInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMoveEventInfo;
 }
 

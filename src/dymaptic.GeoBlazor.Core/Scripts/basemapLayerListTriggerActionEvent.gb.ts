@@ -39,15 +39,6 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
         dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetBasemapLayerListTriggerActionEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetBasemapLayerListTriggerActionEvent;
 }
 

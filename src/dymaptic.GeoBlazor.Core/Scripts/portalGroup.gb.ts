@@ -167,15 +167,6 @@ export async function buildDotNetPortalGroupGenerated(jsObject: any): Promise<an
         dotNetPortalGroup.url = jsObject.url;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPortalGroup.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPortalGroup;
 }
 

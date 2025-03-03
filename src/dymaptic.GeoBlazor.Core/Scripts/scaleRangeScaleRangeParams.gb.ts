@@ -48,15 +48,6 @@ export async function buildDotNetScaleRangeScaleRangeParamsGenerated(jsObject: a
         dotNetScaleRangeScaleRangeParams.signal = jsObject.signal;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetScaleRangeScaleRangeParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetScaleRangeScaleRangeParams;
 }
 

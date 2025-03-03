@@ -2,7 +2,7 @@
 import BasemapLayerListWidgetGenerated from './basemapLayerListWidget.gb';
 import BasemapLayerList from '@arcgis/core/widgets/BasemapLayerList';
 import {DotNetListItem} from "./definitions";
-import {hasValue, updateListItem} from "./arcGisJsInterop";
+import {hasValue} from "./arcGisJsInterop";
 
 export default class BasemapLayerListWidgetWrapper extends BasemapLayerListWidgetGenerated {
 
@@ -21,6 +21,7 @@ export async function buildJsBasemapLayerListWidget(dotNetObject: any, layerId: 
             const dotNetBaseListItem = await buildDotNetListItem(evt.item);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnBaseListItemCreated', dotNetBaseListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
+                let {updateListItem} = await import('./listItem');
                 await updateListItem(evt.item, returnItem, dotNetBaseListItem?.layerId, viewId);
             }
         };
@@ -31,6 +32,7 @@ export async function buildJsBasemapLayerListWidget(dotNetObject: any, layerId: 
             const dotNetReferenceListItem = await buildDotNetListItem(evt.item);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnReferenceListItemCreated', dotNetReferenceListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
+                let {updateListItem} = await import('./listItem');
                 await updateListItem(evt.item, returnItem, dotNetReferenceListItem?.layerId, viewId);
             }
         };

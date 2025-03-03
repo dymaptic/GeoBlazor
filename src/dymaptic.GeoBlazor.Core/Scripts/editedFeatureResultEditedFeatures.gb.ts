@@ -18,7 +18,7 @@ export async function buildJsEditedFeatureResultEditedFeaturesGenerated(dotNetOb
     }
 
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         jsEditedFeatureResultEditedFeatures.spatialReference = sanitizedSpatialReference;
     }
     
@@ -52,15 +52,6 @@ export async function buildDotNetEditedFeatureResultEditedFeaturesGenerated(jsOb
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetEditedFeatureResultEditedFeatures.spatialReference = jsObject.spatialReference;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetEditedFeatureResultEditedFeatures.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetEditedFeatureResultEditedFeatures;

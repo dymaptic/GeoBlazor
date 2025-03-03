@@ -21,7 +21,7 @@ export async function buildJsImageParametersGenerated(dotNetObject: any, layerId
         properties.height = dotNetObject.height;
     }
     if (hasValue(dotNetObject.imageSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedImageSpatialReference } = dotNetObject.imageSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedImageSpatialReference } = dotNetObject.imageSpatialReference;
         properties.imageSpatialReference = sanitizedImageSpatialReference;
     }
     if (hasValue(dotNetObject.layerDefinitions)) {
@@ -88,15 +88,6 @@ export async function buildDotNetImageParametersGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.width)) {
         dotNetImageParameters.width = jsObject.width;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageParameters.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageParameters;

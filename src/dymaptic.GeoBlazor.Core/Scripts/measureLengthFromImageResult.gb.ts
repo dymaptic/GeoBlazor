@@ -39,15 +39,6 @@ export async function buildDotNetMeasureLengthFromImageResultGenerated(jsObject:
         dotNetMeasureLengthFromImageResult.length = jsObject.length;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMeasureLengthFromImageResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMeasureLengthFromImageResult;
 }
 

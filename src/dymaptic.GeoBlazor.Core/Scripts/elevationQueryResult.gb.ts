@@ -45,15 +45,6 @@ export async function buildDotNetElevationQueryResultGenerated(jsObject: any): P
         dotNetElevationQueryResult.noDataValue = jsObject.noDataValue;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetElevationQueryResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetElevationQueryResult;
 }
 

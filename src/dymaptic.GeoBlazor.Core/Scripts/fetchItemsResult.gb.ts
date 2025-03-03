@@ -43,15 +43,6 @@ export async function buildDotNetFetchItemsResultGenerated(jsObject: any): Promi
         dotNetFetchItemsResult.total = jsObject.total;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFetchItemsResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFetchItemsResult;
 }
 

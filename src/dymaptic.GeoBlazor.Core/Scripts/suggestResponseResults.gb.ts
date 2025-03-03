@@ -43,15 +43,6 @@ export async function buildDotNetSuggestResponseResultsGenerated(jsObject: any):
         dotNetSuggestResponseResults.sourceIndex = jsObject.sourceIndex;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSuggestResponseResults.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSuggestResponseResults;
 }
 

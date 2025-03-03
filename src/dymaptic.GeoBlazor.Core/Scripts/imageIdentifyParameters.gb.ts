@@ -115,15 +115,6 @@ export async function buildDotNetImageIdentifyParametersGenerated(jsObject: any)
         dotNetImageIdentifyParameters.returnPixelValues = jsObject.returnPixelValues;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageIdentifyParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageIdentifyParameters;
 }
 

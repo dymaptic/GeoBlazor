@@ -45,15 +45,6 @@ export async function buildDotNetMapToImageParametersGenerated(jsObject: any): P
         dotNetMapToImageParameters.visibleOnly = jsObject.visibleOnly;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMapToImageParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMapToImageParameters;
 }
 

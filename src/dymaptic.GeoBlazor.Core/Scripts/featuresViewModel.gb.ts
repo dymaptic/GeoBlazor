@@ -169,7 +169,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 }
 
 export function buildJsFeaturesViewModelGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

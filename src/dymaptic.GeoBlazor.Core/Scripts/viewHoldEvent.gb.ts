@@ -76,15 +76,6 @@ export async function buildDotNetViewHoldEventGenerated(jsObject: any): Promise<
         dotNetViewHoldEvent.y = jsObject.y;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetViewHoldEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetViewHoldEvent;
 }
 

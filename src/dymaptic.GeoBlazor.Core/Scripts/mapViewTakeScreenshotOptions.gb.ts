@@ -73,15 +73,6 @@ export async function buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject:
         dotNetMapViewTakeScreenshotOptions.width = jsObject.width;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMapViewTakeScreenshotOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMapViewTakeScreenshotOptions;
 }
 

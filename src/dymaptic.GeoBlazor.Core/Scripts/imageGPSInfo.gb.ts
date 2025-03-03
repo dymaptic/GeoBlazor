@@ -69,15 +69,6 @@ export async function buildDotNetImageGPSInfoGenerated(jsObject: any): Promise<a
         dotNetImageGPSInfo.orientation = jsObject.orientation;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageGPSInfo.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageGPSInfo;
 }
 

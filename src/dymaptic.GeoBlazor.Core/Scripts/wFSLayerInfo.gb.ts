@@ -33,7 +33,7 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
         jsWFSLayerInfo.objectIdField = dotNetObject.objectIdField;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         jsWFSLayerInfo.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.swapXY)) {
@@ -94,15 +94,6 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.url)) {
         dotNetWFSLayerInfo.url = jsObject.url;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWFSLayerInfo.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetWFSLayerInfo;

@@ -69,15 +69,6 @@ export async function buildDotNetFeaturesViewModelOpenOptionsGenerated(jsObject:
         dotNetFeaturesViewModelOpenOptions.updateLocationEnabled = jsObject.updateLocationEnabled;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFeaturesViewModelOpenOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFeaturesViewModelOpenOptions;
 }
 

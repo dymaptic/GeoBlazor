@@ -14,7 +14,7 @@ export async function buildJsFillSymbolGenerated(dotNetObject: any): Promise<any
             let { buildJsPictureFillSymbol } = await import('./pictureFillSymbol');
             return await buildJsPictureFillSymbol(dotNetObject);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

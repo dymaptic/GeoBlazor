@@ -31,15 +31,6 @@ export async function buildDotNetGeoJSONLayerGetFieldDomainOptionsGenerated(jsOb
         dotNetGeoJSONLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGeoJSONLayerGetFieldDomainOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetGeoJSONLayerGetFieldDomainOptions;
 }
 

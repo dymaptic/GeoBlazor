@@ -10,7 +10,7 @@ export async function buildJsImageAngleResultGenerated(dotNetObject: any, layerI
         properties.north = dotNetObject.north;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         properties.spatialReference = sanitizedSpatialReference;
     }
     if (hasValue(dotNetObject.up)) {
@@ -42,15 +42,6 @@ export async function buildDotNetImageAngleResultGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.up)) {
         dotNetImageAngleResult.up = jsObject.up;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageAngleResult.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageAngleResult;

@@ -37,15 +37,6 @@ export async function buildDotNetWebSceneSaveAsOptionsGenerated(jsObject: any): 
         dotNetWebSceneSaveAsOptions.ignoreUnsupported = jsObject.ignoreUnsupported;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWebSceneSaveAsOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetWebSceneSaveAsOptions;
 }
 

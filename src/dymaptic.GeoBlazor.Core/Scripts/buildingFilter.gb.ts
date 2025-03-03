@@ -48,15 +48,6 @@ export async function buildDotNetBuildingFilterGenerated(jsObject: any): Promise
         dotNetBuildingFilter.name = jsObject.name;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetBuildingFilter.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetBuildingFilter;
 }
 

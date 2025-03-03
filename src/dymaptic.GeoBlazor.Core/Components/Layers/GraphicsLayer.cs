@@ -298,6 +298,8 @@ public partial class GraphicsLayer : Layer
         {
             _graphics.Add(graphic);
             graphic.Parent = this;
+            graphic.View = View;
+            graphic.Layer = Layer;
         }
     }
 

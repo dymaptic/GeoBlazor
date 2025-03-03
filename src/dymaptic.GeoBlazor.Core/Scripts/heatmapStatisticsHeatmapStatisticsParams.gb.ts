@@ -48,15 +48,6 @@ export async function buildDotNetHeatmapStatisticsHeatmapStatisticsParamsGenerat
         dotNetHeatmapStatisticsHeatmapStatisticsParams.signal = jsObject.signal;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetHeatmapStatisticsHeatmapStatisticsParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetHeatmapStatisticsHeatmapStatisticsParams;
 }
 

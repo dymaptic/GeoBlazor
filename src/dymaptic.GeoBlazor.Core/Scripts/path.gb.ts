@@ -31,15 +31,6 @@ export async function buildDotNetPathGenerated(jsObject: any): Promise<any> {
         dotNetPath.path = jsObject.path;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPath.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPath;
 }
 

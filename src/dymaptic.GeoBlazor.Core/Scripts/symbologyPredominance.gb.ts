@@ -78,15 +78,6 @@ export async function buildDotNetSymbologyPredominanceGenerated(jsObject: any): 
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSymbologyPredominance.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSymbologyPredominance;
 }
 

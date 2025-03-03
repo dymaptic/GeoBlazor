@@ -33,15 +33,6 @@ export async function buildDotNetFindImagesResultGenerated(jsObject: any): Promi
         dotNetFindImagesResult.images = await Promise.all(jsObject.images.map(async i => await buildDotNetImageInspectionInfo(i)));
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFindImagesResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFindImagesResult;
 }
 

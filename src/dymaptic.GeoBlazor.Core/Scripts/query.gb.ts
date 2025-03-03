@@ -67,7 +67,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
         properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.outStatistics)) {
@@ -258,15 +258,6 @@ export async function buildDotNetQueryGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.where)) {
         dotNetQuery.where = jsObject.where;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetQuery.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetQuery;

@@ -102,15 +102,6 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any): Pro
         dotNetPortalItemResource.url = jsObject.url;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetPortalItemResource.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetPortalItemResource;
 }
 

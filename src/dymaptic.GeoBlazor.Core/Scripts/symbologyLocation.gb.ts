@@ -70,15 +70,6 @@ export async function buildDotNetSymbologyLocationGenerated(jsObject: any): Prom
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSymbologyLocation.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSymbologyLocation;
 }
 

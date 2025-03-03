@@ -37,15 +37,6 @@ export async function buildDotNetImageryTileLayerSaveAsOptionsGenerated(jsObject
         dotNetImageryTileLayerSaveAsOptions.validationOptions = jsObject.validationOptions;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageryTileLayerSaveAsOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageryTileLayerSaveAsOptions;
 }
 

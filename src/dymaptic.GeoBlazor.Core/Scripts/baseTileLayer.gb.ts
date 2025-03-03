@@ -23,6 +23,58 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         await this.layer.load(options);
     }
 
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.effect)) {
+            let { buildJsEffect } = await import('./effect');
+            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
+        }
+        if (hasValue(dotNetObject.fullExtent)) {
+            let { buildJsExtent } = await import('./extent');
+            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
+        }
+        if (hasValue(dotNetObject.tileInfo)) {
+            let { buildJsTileInfo } = await import('./tileInfo');
+            this.layer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.visibilityTimeExtent)) {
+            let { buildJsTimeExtent } = await import('./timeExtent');
+            this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.arcGISLayerId)) {
+            this.layer.id = dotNetObject.arcGISLayerId;
+        }
+        if (hasValue(dotNetObject.blendMode)) {
+            this.layer.blendMode = dotNetObject.blendMode;
+        }
+        if (hasValue(dotNetObject.listMode)) {
+            this.layer.listMode = dotNetObject.listMode;
+        }
+        if (hasValue(dotNetObject.maxScale)) {
+            this.layer.maxScale = dotNetObject.maxScale;
+        }
+        if (hasValue(dotNetObject.minScale)) {
+            this.layer.minScale = dotNetObject.minScale;
+        }
+        if (hasValue(dotNetObject.opacity)) {
+            this.layer.opacity = dotNetObject.opacity;
+        }
+        if (hasValue(dotNetObject.persistenceEnabled)) {
+            this.layer.persistenceEnabled = dotNetObject.persistenceEnabled;
+        }
+        if (hasValue(dotNetObject.refreshInterval)) {
+            this.layer.refreshInterval = dotNetObject.refreshInterval;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+            this.layer.spatialReference = sanitizedSpatialReference;
+        }
+        if (hasValue(dotNetObject.title)) {
+            this.layer.title = dotNetObject.title;
+        }
+    }
+    
     async addResolvingPromise(promiseToLoad: any): Promise<any> {
         return await this.layer.addResolvingPromise(promiseToLoad);
     }
@@ -134,7 +186,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
             return await buildJsBingMapsLayer(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

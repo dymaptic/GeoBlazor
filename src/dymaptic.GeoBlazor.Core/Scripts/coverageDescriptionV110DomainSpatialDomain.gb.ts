@@ -67,15 +67,6 @@ export async function buildDotNetCoverageDescriptionV110DomainSpatialDomainGener
         dotNetCoverageDescriptionV110DomainSpatialDomain.useEPSGAxis = jsObject.useEPSGAxis;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV110DomainSpatialDomain.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV110DomainSpatialDomain;
 }
 

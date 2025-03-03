@@ -52,15 +52,6 @@ export async function buildDotNetSimpleCaseNodeGenerated(jsObject: any): Promise
         dotNetSimpleCaseNode.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSimpleCaseNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSimpleCaseNode;
 }
 

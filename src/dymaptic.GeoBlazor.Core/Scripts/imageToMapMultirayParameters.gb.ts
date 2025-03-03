@@ -11,7 +11,7 @@ export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject:
     }
 
     if (hasValue(dotNetObject.outSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
         properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.rasterIds)) {
@@ -44,15 +44,6 @@ export async function buildDotNetImageToMapMultirayParametersGenerated(jsObject:
     }
     if (hasValue(jsObject.rasterIds)) {
         dotNetImageToMapMultirayParameters.rasterIds = jsObject.rasterIds;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageToMapMultirayParameters.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageToMapMultirayParameters;

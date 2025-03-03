@@ -34,15 +34,6 @@ export async function buildDotNetLayerViewDestroyEventGenerated(jsObject: any): 
         dotNetLayerViewDestroyEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerViewDestroyEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetLayerViewDestroyEvent;
 }
 

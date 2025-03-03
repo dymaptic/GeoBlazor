@@ -39,15 +39,6 @@ export async function buildDotNetMeasureFromImageParametersGenerated(jsObject: a
         dotNetMeasureFromImageParameters.rasterId = jsObject.rasterId;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMeasureFromImageParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMeasureFromImageParameters;
 }
 

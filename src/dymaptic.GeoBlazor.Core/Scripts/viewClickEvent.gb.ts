@@ -76,15 +76,6 @@ export async function buildDotNetViewClickEventGenerated(jsObject: any): Promise
         dotNetViewClickEvent.y = jsObject.y;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetViewClickEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetViewClickEvent;
 }
 

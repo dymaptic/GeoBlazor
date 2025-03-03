@@ -53,15 +53,6 @@ export async function buildDotNetMeasureAreaFromImageResultGenerated(jsObject: a
         dotNetMeasureAreaFromImageResult.length = jsObject.length;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMeasureAreaFromImageResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMeasureAreaFromImageResult;
 }
 

@@ -31,15 +31,6 @@ export async function buildDotNetHandleOwnerGenerated(jsObject: any): Promise<an
         dotNetHandleOwner.handles = await buildDotNetHandles(jsObject.handles);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetHandleOwner.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetHandleOwner;
 }
 

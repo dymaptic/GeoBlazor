@@ -96,15 +96,6 @@ export async function buildDotNetElevationSamplerGenerated(jsObject: any): Promi
         dotNetElevationSampler.spatialReference = jsObject.spatialReference;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetElevationSampler.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetElevationSampler;
 }
 

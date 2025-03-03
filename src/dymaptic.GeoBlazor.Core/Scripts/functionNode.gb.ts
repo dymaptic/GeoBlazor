@@ -40,15 +40,6 @@ export async function buildDotNetFunctionNodeGenerated(jsObject: any): Promise<a
         dotNetFunctionNode.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFunctionNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFunctionNode;
 }
 

@@ -71,15 +71,6 @@ export async function buildDotNetImageIdentifyResultGenerated(jsObject: any, lay
         dotNetImageIdentifyResult.value = jsObject.value;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageIdentifyResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageIdentifyResult;
 }
 

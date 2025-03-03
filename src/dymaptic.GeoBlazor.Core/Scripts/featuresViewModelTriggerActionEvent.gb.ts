@@ -31,15 +31,6 @@ export async function buildDotNetFeaturesViewModelTriggerActionEventGenerated(js
         dotNetFeaturesViewModelTriggerActionEvent.action = await buildDotNetActionBase(jsObject.action);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFeaturesViewModelTriggerActionEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFeaturesViewModelTriggerActionEvent;
 }
 

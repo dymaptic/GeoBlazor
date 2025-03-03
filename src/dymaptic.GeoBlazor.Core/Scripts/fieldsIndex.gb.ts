@@ -97,15 +97,6 @@ export async function buildDotNetFieldsIndexGenerated(jsObject: any): Promise<an
         dotNetFieldsIndex.dateFields = jsObject.dateFields.map(i => buildDotNetField(i));
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFieldsIndex.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFieldsIndex;
 }
 

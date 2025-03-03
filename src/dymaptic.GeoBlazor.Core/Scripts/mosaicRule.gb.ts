@@ -105,15 +105,6 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
         dotNetMosaicRule.where = jsObject.where;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetMosaicRule.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetMosaicRule;
 }
 

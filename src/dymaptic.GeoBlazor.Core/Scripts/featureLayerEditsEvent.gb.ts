@@ -73,15 +73,6 @@ export async function buildDotNetFeatureLayerEditsEventGenerated(jsObject: any, 
         dotNetFeatureLayerEditsEvent.updatedFeatures = jsObject.updatedFeatures;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFeatureLayerEditsEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFeatureLayerEditsEvent;
 }
 

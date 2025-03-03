@@ -2,7 +2,7 @@
 import HighlightLayerViewMixin from '@arcgis/core/views/layers/HighlightLayerViewMixin';
 
 export function buildJsIHighlightLayerViewMixinGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

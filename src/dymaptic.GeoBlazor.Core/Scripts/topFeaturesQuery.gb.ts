@@ -39,7 +39,7 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
         properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.returnGeometry)) {
@@ -142,15 +142,6 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.where)) {
         dotNetTopFeaturesQuery.where = jsObject.where;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetTopFeaturesQuery.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetTopFeaturesQuery;

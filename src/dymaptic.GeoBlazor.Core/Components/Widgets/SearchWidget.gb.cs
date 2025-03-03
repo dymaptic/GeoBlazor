@@ -1064,8 +1064,8 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupTemplate", value);
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1184,8 +1184,8 @@ public partial class SearchWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sources", value);
+        await JsComponentReference.InvokeVoidAsync("setSources", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

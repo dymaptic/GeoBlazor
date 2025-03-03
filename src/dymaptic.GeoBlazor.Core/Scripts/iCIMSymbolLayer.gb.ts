@@ -23,6 +23,11 @@ export default class ICIMSymbolLayerGenerated implements IPropertyWrapper {
         await this.layer.load(options);
     }
 
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     // region properties
     
     getProperty(prop: string): any {
@@ -35,7 +40,7 @@ export default class ICIMSymbolLayerGenerated implements IPropertyWrapper {
 }
 
 export function buildJsICIMSymbolLayerGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

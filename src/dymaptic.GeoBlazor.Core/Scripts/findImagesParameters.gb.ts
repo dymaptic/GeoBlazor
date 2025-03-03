@@ -59,15 +59,6 @@ export async function buildDotNetFindImagesParametersGenerated(jsObject: any): P
         dotNetFindImagesParameters.where = jsObject.where;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetFindImagesParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetFindImagesParameters;
 }
 

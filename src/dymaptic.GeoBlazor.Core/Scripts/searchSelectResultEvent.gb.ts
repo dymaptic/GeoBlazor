@@ -45,15 +45,6 @@ export async function buildDotNetSearchSelectResultEventGenerated(jsObject: any)
         dotNetSearchSelectResultEvent.sourceIndex = jsObject.sourceIndex;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchSelectResultEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchSelectResultEvent;
 }
 

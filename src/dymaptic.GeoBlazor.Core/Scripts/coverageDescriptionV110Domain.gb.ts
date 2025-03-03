@@ -37,15 +37,6 @@ export async function buildDotNetCoverageDescriptionV110DomainGenerated(jsObject
         dotNetCoverageDescriptionV110Domain.temporalDomain = jsObject.temporalDomain;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCoverageDescriptionV110Domain.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCoverageDescriptionV110Domain;
 }
 

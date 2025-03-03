@@ -43,7 +43,7 @@ export async function buildJsCIMSymbolLayerBaseGenerated(dotNetObject: any, laye
             let { buildJsCIMObjectMarker3D } = await import('./cIMObjectMarker3D');
             return await buildJsCIMObjectMarker3D(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

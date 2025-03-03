@@ -83,15 +83,6 @@ export async function buildDotNetGeographicTransformationStepGenerated(jsObject:
         dotNetGeographicTransformationStep.wkt = jsObject.wkt;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetGeographicTransformationStep.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetGeographicTransformationStep;
 }
 

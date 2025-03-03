@@ -2,7 +2,7 @@
 import LayerListWidgetGenerated from './layerListWidget.gb';
 import LayerList from '@arcgis/core/widgets/LayerList';
 import {DotNetListItem} from "./definitions";
-import {hasValue, updateListItem} from "./arcGisJsInterop";
+import {hasValue} from "./arcGisJsInterop";
 
 export default class LayerListWidgetWrapper extends LayerListWidgetGenerated {
 
@@ -21,6 +21,7 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
             const dotNetListItem = await buildDotNetListItem(evt.item);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
+                let {updateListItem} = await import('./listItem');
                 await updateListItem(evt.item, returnItem, dotNetListItem?.layerId, viewId);
             }
         };

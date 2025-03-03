@@ -17,7 +17,7 @@ export async function buildJsImageAngleParametersGenerated(dotNetObject: any, la
         properties.rasterId = dotNetObject.rasterId;
     }
     if (hasValue(dotNetObject.spatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedSpatialReference } = dotNetObject.spatialReference;
         properties.spatialReference = sanitizedSpatialReference;
     }
     let jsImageAngleParameters = new ImageAngleParameters(properties);
@@ -50,15 +50,6 @@ export async function buildDotNetImageAngleParametersGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.spatialReference)) {
         dotNetImageAngleParameters.spatialReference = jsObject.spatialReference;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageAngleParameters.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetImageAngleParameters;

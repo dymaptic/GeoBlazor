@@ -31,15 +31,6 @@ export async function buildDotNetWFSLayerGetFieldDomainOptionsGenerated(jsObject
         dotNetWFSLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWFSLayerGetFieldDomainOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetWFSLayerGetFieldDomainOptions;
 }
 

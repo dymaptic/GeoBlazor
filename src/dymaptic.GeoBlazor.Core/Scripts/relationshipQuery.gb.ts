@@ -34,7 +34,7 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
-        const { id, dotNetComponentReference, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
+        const { id, dotNetComponentReference, layerId, viewId, ...sanitizedOutSpatialReference } = dotNetObject.outSpatialReference;
         properties.outSpatialReference = sanitizedOutSpatialReference;
     }
     if (hasValue(dotNetObject.relationshipId)) {
@@ -120,15 +120,6 @@ export async function buildDotNetRelationshipQueryGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.where)) {
         dotNetRelationshipQuery.where = jsObject.where;
-    }
-
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetRelationshipQuery.id = k;
-                break;
-            }
-        }
     }
 
     return dotNetRelationshipQuery;

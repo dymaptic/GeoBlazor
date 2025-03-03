@@ -54,15 +54,6 @@ export async function buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeP
         dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.unit = jsObject.unit;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams;
 }
 

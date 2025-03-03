@@ -76,7 +76,7 @@ export async function buildJsCIMGeometricEffectBaseGenerated(dotNetObject: any, 
             let { buildJsCIMGeometricEffectRegularPolygon } = await import('./cIMGeometricEffectRegularPolygon');
             return await buildJsCIMGeometricEffectRegularPolygon(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

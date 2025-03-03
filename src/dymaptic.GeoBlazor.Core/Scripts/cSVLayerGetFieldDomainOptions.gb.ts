@@ -31,15 +31,6 @@ export async function buildDotNetCSVLayerGetFieldDomainOptionsGenerated(jsObject
         dotNetCSVLayerGetFieldDomainOptions.feature = buildDotNetGraphic(jsObject.feature, layerId, viewId);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCSVLayerGetFieldDomainOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCSVLayerGetFieldDomainOptions;
 }
 

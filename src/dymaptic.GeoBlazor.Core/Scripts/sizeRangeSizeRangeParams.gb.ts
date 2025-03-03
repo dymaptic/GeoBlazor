@@ -42,15 +42,6 @@ export async function buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject: any
         dotNetSizeRangeSizeRangeParams.signal = jsObject.signal;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSizeRangeSizeRangeParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSizeRangeSizeRangeParams;
 }
 

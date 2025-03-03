@@ -37,15 +37,6 @@ export async function buildDotNetHitTestResultGenerated(jsObject: any): Promise<
         dotNetHitTestResult.results = jsObject.results;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetHitTestResult.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetHitTestResult;
 }
 

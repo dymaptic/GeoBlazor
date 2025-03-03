@@ -33,15 +33,6 @@ export async function buildDotNetViewLayerviewCreateErrorEventGenerated(jsObject
         dotNetViewLayerviewCreateErrorEvent.error = jsObject.error;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetViewLayerviewCreateErrorEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetViewLayerviewCreateErrorEvent;
 }
 

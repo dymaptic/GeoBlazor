@@ -2,7 +2,7 @@
 import GeolocationPositioning from '@arcgis/core/widgets/support/GeolocationPositioning';
 
 export function buildJsIGeolocationPositioningGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

@@ -78,15 +78,6 @@ export async function buildDotNetCodedValueDomainGenerated(jsObject: any): Promi
         dotNetCodedValueDomain.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetCodedValueDomain.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetCodedValueDomain;
 }
 

@@ -34,15 +34,6 @@ export async function buildDotNetLayerViewCreateEventGenerated(jsObject: any): P
         dotNetLayerViewCreateEvent.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerViewCreateEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetLayerViewCreateEvent;
 }
 

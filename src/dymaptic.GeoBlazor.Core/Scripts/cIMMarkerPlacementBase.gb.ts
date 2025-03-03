@@ -49,7 +49,7 @@ export async function buildJsCIMMarkerPlacementBaseGenerated(dotNetObject: any, 
             let { buildJsCIMMarkerPlacementAtRatioPositions } = await import('./cIMMarkerPlacementAtRatioPositions');
             return await buildJsCIMMarkerPlacementAtRatioPositions(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

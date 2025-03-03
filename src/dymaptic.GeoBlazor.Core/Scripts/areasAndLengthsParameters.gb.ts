@@ -51,15 +51,6 @@ export async function buildDotNetAreasAndLengthsParametersGenerated(jsObject: an
         dotNetAreasAndLengthsParameters.lengthUnit = jsObject.lengthUnit;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetAreasAndLengthsParameters.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetAreasAndLengthsParameters;
 }
 

@@ -20,7 +20,7 @@ export async function buildJsFormElementGenerated(dotNetObject: any, layerId: st
             let { buildJsFieldElement } = await import('./fieldElement');
             return await buildJsFieldElement(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

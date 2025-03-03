@@ -63,15 +63,6 @@ export async function buildDotNetImageSampleGenerated(jsObject: any): Promise<an
         dotNetImageSample.resolution = jsObject.resolution;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetImageSample.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetImageSample;
 }
 

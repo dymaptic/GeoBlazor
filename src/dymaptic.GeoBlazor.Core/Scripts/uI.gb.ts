@@ -67,7 +67,7 @@ export default class UIGenerated implements IPropertyWrapper {
 }
 
 export function buildJsUIGenerated(dotNetObject: any): any {
-    let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+    let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
     return sanitizedDotNetObject;
 }
 

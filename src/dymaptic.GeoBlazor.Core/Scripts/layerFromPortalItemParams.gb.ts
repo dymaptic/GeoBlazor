@@ -31,15 +31,6 @@ export async function buildDotNetLayerFromPortalItemParamsGenerated(jsObject: an
         dotNetLayerFromPortalItemParams.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetLayerFromPortalItemParams.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetLayerFromPortalItemParams;
 }
 

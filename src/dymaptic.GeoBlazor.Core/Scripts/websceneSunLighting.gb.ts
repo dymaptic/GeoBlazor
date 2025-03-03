@@ -14,7 +14,7 @@ export async function buildJsWebsceneSunLightingGenerated(dotNetObject: any, lay
             let { buildJsSunLighting } = await import('./sunLighting');
             return await buildJsSunLighting(dotNetObject, layerId, viewId);
         default: 
-            let { id, dotNetComponentReference, ...sanitizedDotNetObject } = dotNetObject;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject } = dotNetObject;
             return sanitizedDotNetObject;
     }
 }     

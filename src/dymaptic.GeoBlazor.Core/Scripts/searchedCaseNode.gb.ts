@@ -46,15 +46,6 @@ export async function buildDotNetSearchedCaseNodeGenerated(jsObject: any): Promi
         dotNetSearchedCaseNode.type = jsObject.type;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetSearchedCaseNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetSearchedCaseNode;
 }
 

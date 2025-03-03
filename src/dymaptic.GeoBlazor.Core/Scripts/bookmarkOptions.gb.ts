@@ -61,15 +61,6 @@ export async function buildDotNetBookmarkOptionsGenerated(jsObject: any): Promis
         dotNetBookmarkOptions.takeScreenshot = jsObject.takeScreenshot;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetBookmarkOptions.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetBookmarkOptions;
 }
 

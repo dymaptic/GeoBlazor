@@ -38,15 +38,6 @@ export async function buildDotNetWhenNodeGenerated(jsObject: any): Promise<any> 
         dotNetWhenNode.value = jsObject.value;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetWhenNode.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetWhenNode;
 }
 

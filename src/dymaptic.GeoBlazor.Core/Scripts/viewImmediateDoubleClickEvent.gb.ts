@@ -76,15 +76,6 @@ export async function buildDotNetViewImmediateDoubleClickEventGenerated(jsObject
         dotNetViewImmediateDoubleClickEvent.y = jsObject.y;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetViewImmediateDoubleClickEvent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetViewImmediateDoubleClickEvent;
 }
 

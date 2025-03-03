@@ -48,15 +48,6 @@ export async function buildDotNetUIMoveComponentGenerated(jsObject: any): Promis
         dotNetUIMoveComponent.index = jsObject.index;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetUIMoveComponent.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetUIMoveComponent;
 }
 

@@ -37,15 +37,6 @@ export async function buildDotNetUIAddPositionGenerated(jsObject: any): Promise<
         dotNetUIAddPosition.index = jsObject.index;
     }
 
-    if (Object.values(arcGisObjectRefs).includes(jsObject)) {
-        for (const k of Object.keys(arcGisObjectRefs)) {
-            if (arcGisObjectRefs[k] === jsObject) {
-                dotNetUIAddPosition.id = k;
-                break;
-            }
-        }
-    }
-
     return dotNetUIAddPosition;
 }
 
