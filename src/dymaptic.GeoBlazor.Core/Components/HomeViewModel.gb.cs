@@ -52,7 +52,7 @@ public partial class HomeViewModel : IViewModel
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public HomeViewModelState? State { get; protected set; }
     
     /// <summary>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when going home.
@@ -71,7 +71,7 @@ public partial class HomeViewModel : IViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<HomeViewModelState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -85,12 +85,12 @@ public partial class HomeViewModel : IViewModel
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<HomeViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<HomeViewModelState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (HomeViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }

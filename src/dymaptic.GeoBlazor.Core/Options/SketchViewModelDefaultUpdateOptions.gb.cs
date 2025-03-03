@@ -65,4 +65,4 @@ public partial record SketchViewModelDefaultUpdateOptions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? ToggleToolOnClick = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Tool? Tool = null);
+    SketchTool? Tool = null);

@@ -75,12 +75,13 @@ export async function buildJsTimeExtentGenerated(dotNetObject: any, layerId: str
         let seenObjects = new WeakMap();
         dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
+                if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
-                if (typeof value === 'object' && value !== null) {
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type TimeExtent detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
+                        console.warn(`Circular reference in serializing type TimeExtent detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);

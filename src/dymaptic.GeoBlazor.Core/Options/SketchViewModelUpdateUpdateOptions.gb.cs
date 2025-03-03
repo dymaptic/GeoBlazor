@@ -45,7 +45,7 @@ public partial record SketchViewModelUpdateUpdateOptions(
     bool? MultipleSelectionEnabled = null,
     bool? PreserveAspectRatio = null,
     bool? ToggleToolOnClick = null,
-    Tool? Tool = null)
+    SketchTool? Tool = null)
 {
     /// <summary>
     ///     Indicates if the `rotation` operation will be enabled when updating graphics.
@@ -92,6 +92,6 @@ public partial record SketchViewModelUpdateUpdateOptions(
     ///     Name of the update tool.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch-SketchViewModel.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Tool? Tool { get; set; } = Tool;
+    public SketchTool? Tool { get; set; } = Tool;
     
 }

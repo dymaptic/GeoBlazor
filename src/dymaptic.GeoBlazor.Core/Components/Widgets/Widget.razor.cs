@@ -86,14 +86,30 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        // the value type of the parameters dictionary changed in .NET 8 to nullable objects.
+        await base.SetParametersAsync(parameters);
+        
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
             throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
         }
-        await base.SetParametersAsync(parameters);
+        
+        if (PreviousParameters is not null && MapRendered)
+        {
+            foreach (KeyValuePair<string, object?> kvp in dictionary)
+            {
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
+                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                {
+                    WidgetChanged = true;
+
+                    break;
+                }
+            }
+        }
+        
+        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
     
     /// <inheritdoc />
@@ -107,13 +123,6 @@ public abstract partial class Widget : MapComponent
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         await base.UnregisterChildComponent(child);
-        WidgetChanged = MapRendered;
-    }
-
-    /// <inheritdoc />
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
         WidgetChanged = MapRendered;
     }
 
@@ -138,10 +147,10 @@ public abstract partial class Widget : MapComponent
     {
         WidgetChanged = false;
 
-        if (CoreJsModule is null) return;
+        if (JsComponentReference is null) return;
 
         // ReSharper disable once RedundantCast
-        await CoreJsModule!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
+        await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
 
     /// <summary>

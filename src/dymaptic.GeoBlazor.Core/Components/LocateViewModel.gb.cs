@@ -146,7 +146,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public LocateViewModelState? State { get; protected set; }
     
     /// <summary>
     ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
@@ -350,7 +350,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<LocateViewModelState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -364,12 +364,12 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<LocateViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<LocateViewModelState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (LocateViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }

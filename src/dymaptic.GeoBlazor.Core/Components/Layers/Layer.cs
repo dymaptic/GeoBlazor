@@ -381,10 +381,27 @@ public abstract partial class Layer : MapComponent
     }
 
     /// <inheritdoc />
-    protected override async Task OnParametersSetAsync()
+    public override async Task SetParametersAsync(ParameterView parameters)
     {
-        LayerChanged = MapRendered;
-        await base.OnParametersSetAsync();
+        await base.SetParametersAsync(parameters);
+        
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
+        
+        if (PreviousParameters is not null && MapRendered)
+        {
+            foreach (KeyValuePair<string, object?> kvp in dictionary)
+            {
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
+                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                {
+                    LayerChanged = true;
+
+                    break;
+                }
+            }
+        }
+        
+        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
     /// <inheritdoc />

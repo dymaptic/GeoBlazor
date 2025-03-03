@@ -208,12 +208,13 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
+                if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
-                if (typeof value === 'object' && value !== null) {
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BasemapToggleWidget detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
+                        console.warn(`Circular reference in serializing type BasemapToggleWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -236,14 +237,6 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
     let dotNetBasemapToggleWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.activeBasemap)) {
-        let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapToggleWidget.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
-    }
-    if (hasValue(jsObject.nextBasemap)) {
-        let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapToggleWidget.nextBasemap = await buildDotNetBasemap(jsObject.nextBasemap);
-    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
         dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);

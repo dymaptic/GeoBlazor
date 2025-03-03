@@ -849,6 +849,11 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _listeners = new();
     private readonly Dictionary<string, (Delegate Handler, IJSObjectReference JsObjRef)> _waiters = new();
     private static Type? _proExtensions;
+    
+    /// <summary>
+    ///     The previous parameters that were set in the component.
+    /// </summary>
+    protected internal Dictionary<string, object?>? PreviousParameters;
 
     /// <summary>
     ///     Properties that were modified in code, and should no longer be set via markup, but instead set to the value here.

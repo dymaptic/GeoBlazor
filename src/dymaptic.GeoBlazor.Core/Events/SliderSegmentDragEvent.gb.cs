@@ -13,5 +13,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// </param>
 public partial record SliderSegmentDragEvent(
     int Index,
-    State State,
+    SliderDragEventState State,
     IReadOnlyCollection<double> ThumbIndices);

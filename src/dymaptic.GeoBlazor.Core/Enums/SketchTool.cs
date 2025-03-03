@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     The tools included in the <see cref="SketchWidget"/>.
+///     The tools included in the <see cref="SketchWidget"/> and <see cref="EditorWidget"/>.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SketchTool>))]
 public enum SketchTool
@@ -12,6 +12,8 @@ public enum SketchTool
     Polygon,
     Rectangle,
     Circle,
+    Multipoint,
+    Mesh,
     Move,
     Transform,
     Reshape,

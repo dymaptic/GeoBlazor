@@ -622,7 +622,8 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             // https://github.com/dotnet/aspnetcore/issues/23179
             let seenObjects = new WeakMap();
             const jsonLayerResult = JSON.stringify(result.layer, function (key, value) {
-                if (typeof value === 'object' && value !== null) {
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
                         return '[Circular]';
@@ -637,7 +638,8 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             
             seenObjects = new WeakMap();
             const jsonLayerViewResult = JSON.stringify(result.layerView, function (key, value) {
-                if (typeof value === 'object' && value !== null) {
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layerView type ${result.layerView.type} detected at path: ${key}, value: ${value}`);
                         return '[Circular]';

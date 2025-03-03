@@ -25,10 +25,6 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
             let { buildJsBasemap } = await import('./basemap');
             this.widget.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.source)) {
-            let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-            this.widget.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.viewModel)) {
             let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
             this.widget.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
@@ -48,6 +44,9 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
+        }
+        if (hasValue(dotNetObject.source)) {
+            this.widget.source = dotNetObject.source;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -114,20 +113,6 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         this.widget.activeBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     
-    async getSource(): Promise<any> {
-        if (!hasValue(this.widget.source)) {
-            return null;
-        }
-        
-        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-        return await buildDotNetIBasemapGalleryWidgetSource(this.widget.source);
-    }
-    
-    async setSource(value: any): Promise<void> {
-        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-        this.widget.source = await  buildJsIBasemapGalleryWidgetSource(value, this.layerId, this.viewId);
-    }
-    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -161,10 +146,6 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         let { buildJsBasemap } = await import('./basemap');
         properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.source)) {
-        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-        properties.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, layerId, viewId) as any;
-    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         properties.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
@@ -184,6 +165,9 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.source)) {
+        properties.source = dotNetObject.source;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -207,12 +191,13 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_')) {
+                if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
-                if (typeof value === 'object' && value !== null) {
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BasemapGalleryWidget detected at path: ${key}, value: ${value.__proto__?.declaredClass}`);
+                        console.warn(`Circular reference in serializing type BasemapGalleryWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -235,14 +220,6 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
     let dotNetBasemapGalleryWidget: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.activeBasemap)) {
-        let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapGalleryWidget.activeBasemap = await buildDotNetBasemap(jsObject.activeBasemap);
-    }
-    if (hasValue(jsObject.source)) {
-        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
-        dotNetBasemapGalleryWidget.source = await buildDotNetIBasemapGalleryWidgetSource(jsObject.source);
-    }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
