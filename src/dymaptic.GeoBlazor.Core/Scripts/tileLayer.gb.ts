@@ -374,7 +374,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
     
     let { buildDotNetTileLayer } = await import('./tileLayer');
-    let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer);
+    let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
