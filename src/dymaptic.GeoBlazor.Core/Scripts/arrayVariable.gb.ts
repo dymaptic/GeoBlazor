@@ -63,7 +63,10 @@ export async function buildDotNetArrayVariableGenerated(jsObject: any): Promise<
         dotNetArrayVariable.type = jsObject.type;
     }
 
-    dotNetArrayVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetArrayVariable.id = geoBlazorId;
+    }
 
     return dotNetArrayVariable;
 }

@@ -259,7 +259,10 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
         dotNetListItemPanelWidget.widgetId = jsObject.id;
     }
 
-    dotNetListItemPanelWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetListItemPanelWidget.id = geoBlazorId;
+    }
 
     return dotNetListItemPanelWidget;
 }

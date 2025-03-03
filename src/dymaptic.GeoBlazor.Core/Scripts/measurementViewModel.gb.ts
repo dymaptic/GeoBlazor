@@ -80,7 +80,10 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
         dotNetMeasurementViewModel.state = jsObject.state;
     }
 
-    dotNetMeasurementViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMeasurementViewModel.id = geoBlazorId;
+    }
 
     return dotNetMeasurementViewModel;
 }

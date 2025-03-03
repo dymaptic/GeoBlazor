@@ -2132,7 +2132,7 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 }
                 
@@ -2141,7 +2141,7 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (pixelDataSource != PixelDataSource)
                 {
                     PixelDataSource = pixelDataSource;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
                 }
                 
@@ -2150,7 +2150,7 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -2159,7 +2159,7 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 }
                 
@@ -2168,7 +2168,7 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 }
                 
@@ -2184,27 +2184,27 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 return true;
             case PixelData _:
                 PixelDataSource = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 return true;
             default:

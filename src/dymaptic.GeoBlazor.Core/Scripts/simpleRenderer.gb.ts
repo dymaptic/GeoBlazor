@@ -81,7 +81,10 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         dotNetSimpleRenderer.type = jsObject.type;
     }
 
-    dotNetSimpleRenderer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSimpleRenderer.id = geoBlazorId;
+    }
 
     return dotNetSimpleRenderer;
 }

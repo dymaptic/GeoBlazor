@@ -94,7 +94,7 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     {
         if (Layer is not null)
         {
-            Layer.LayerChanged = true;
+            Layer.LayerChanged = MapRendered;
         }
         return base.Refresh();
     }

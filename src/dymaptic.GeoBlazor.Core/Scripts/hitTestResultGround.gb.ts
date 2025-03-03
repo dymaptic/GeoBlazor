@@ -60,7 +60,10 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Pr
         dotNetHitTestResultGround.distance = jsObject.distance;
     }
 
-    dotNetHitTestResultGround.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetHitTestResultGround.id = geoBlazorId;
+    }
 
     return dotNetHitTestResultGround;
 }

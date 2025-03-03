@@ -50,7 +50,10 @@ export async function buildDotNetILayersMixinGenerated(jsObject: any): Promise<a
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetILayersMixin.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetILayersMixin.id = geoBlazorId;
+    }
 
     return dotNetILayersMixin;
 }

@@ -217,7 +217,10 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
         dotNetDistanceMeasurement2DWidget.widgetId = jsObject.id;
     }
 
-    dotNetDistanceMeasurement2DWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetDistanceMeasurement2DWidget.id = geoBlazorId;
+    }
 
     return dotNetDistanceMeasurement2DWidget;
 }

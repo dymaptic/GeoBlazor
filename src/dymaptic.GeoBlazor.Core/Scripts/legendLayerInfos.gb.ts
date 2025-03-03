@@ -62,7 +62,10 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promi
         dotNetLegendLayerInfos.title = jsObject.title;
     }
 
-    dotNetLegendLayerInfos.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLegendLayerInfos.id = geoBlazorId;
+    }
 
     return dotNetLegendLayerInfos;
 }

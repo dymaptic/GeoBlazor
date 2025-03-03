@@ -72,7 +72,10 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
         dotNetKMLSublayer.title = jsObject.title;
     }
 
-    dotNetKMLSublayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetKMLSublayer.id = geoBlazorId;
+    }
 
     return dotNetKMLSublayer;
 }

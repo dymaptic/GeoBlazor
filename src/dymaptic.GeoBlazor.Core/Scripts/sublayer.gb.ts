@@ -409,7 +409,10 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         dotNetSublayer.url = jsObject.url;
     }
 
-    dotNetSublayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSublayer.id = geoBlazorId;
+    }
 
     return dotNetSublayer;
 }

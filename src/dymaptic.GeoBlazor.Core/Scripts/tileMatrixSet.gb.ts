@@ -70,7 +70,10 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any): Promise<
         dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;
     }
 
-    dotNetTileMatrixSet.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTileMatrixSet.id = geoBlazorId;
+    }
 
     return dotNetTileMatrixSet;
 }

@@ -169,7 +169,10 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
         dotNetAuthoringInfo.univariateTheme = jsObject.univariateTheme;
     }
 
-    dotNetAuthoringInfo.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetAuthoringInfo.id = geoBlazorId;
+    }
 
     return dotNetAuthoringInfo;
 }

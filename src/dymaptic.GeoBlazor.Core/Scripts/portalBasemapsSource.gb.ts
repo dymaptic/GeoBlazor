@@ -75,7 +75,6 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         array) => {
             let { buildDotNetBasemap } = await import('./basemap');
             let dnItem = await buildDotNetBasemap(item);
-            let { buildDotNetBasemap } = await import('./basemap');
             let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i)));
 
             return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', dnItem,
@@ -94,7 +93,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
 
             let result = await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', dnItems);
             let { buildJsBasemap } = await import('./basemap');
-            return await Promise.all(result.map(async i => await buildJsBasemap(i)));
+            return await Promise.all(result.map(async i => await buildJsBasemap(i, layerId, viewId)));
         };
     }
 
@@ -169,7 +168,10 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): P
         dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
     }
 
-    dotNetPortalBasemapsSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPortalBasemapsSource.id = geoBlazorId;
+    }
 
     return dotNetPortalBasemapsSource;
 }

@@ -305,7 +305,10 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
         dotNetLegendWidget.widgetId = jsObject.id;
     }
 
-    dotNetLegendWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLegendWidget.id = geoBlazorId;
+    }
 
     return dotNetLegendWidget;
 }

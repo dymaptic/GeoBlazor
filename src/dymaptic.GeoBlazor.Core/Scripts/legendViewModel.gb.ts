@@ -88,7 +88,10 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promis
         dotNetLegendViewModel.state = jsObject.state;
     }
 
-    dotNetLegendViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLegendViewModel.id = geoBlazorId;
+    }
 
     return dotNetLegendViewModel;
 }

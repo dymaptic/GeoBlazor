@@ -149,7 +149,10 @@ export async function buildDotNetCIMPictureStrokeGenerated(jsObject: any): Promi
         dotNetCIMPictureStroke.width = jsObject.width;
     }
 
-    dotNetCIMPictureStroke.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCIMPictureStroke.id = geoBlazorId;
+    }
 
     return dotNetCIMPictureStroke;
 }

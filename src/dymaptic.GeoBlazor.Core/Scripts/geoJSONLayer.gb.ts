@@ -820,7 +820,10 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
         dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
     }
 
-    dotNetGeoJSONLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGeoJSONLayer.id = geoBlazorId;
+    }
 
     return dotNetGeoJSONLayer;
 }

@@ -66,7 +66,10 @@ export async function buildDotNetBuildingFilterBlockGenerated(jsObject: any): Pr
         dotNetBuildingFilterBlock.title = jsObject.title;
     }
 
-    dotNetBuildingFilterBlock.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBuildingFilterBlock.id = geoBlazorId;
+    }
 
     return dotNetBuildingFilterBlock;
 }

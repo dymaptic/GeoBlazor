@@ -61,7 +61,10 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any): Promi
         dotNetDynamicDataLayer.type = jsObject.type;
     }
 
-    dotNetDynamicDataLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetDynamicDataLayer.id = geoBlazorId;
+    }
 
     return dotNetDynamicDataLayer;
 }

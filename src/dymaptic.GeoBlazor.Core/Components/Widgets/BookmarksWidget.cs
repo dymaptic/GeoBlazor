@@ -91,7 +91,7 @@ public partial class BookmarksWidget : Widget
                 if (!Bookmarks!.Contains(bookmark))
                 {
                     Bookmarks = [..Bookmarks, bookmark];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                 }
                 break;
             default:
@@ -108,7 +108,7 @@ public partial class BookmarksWidget : Widget
         {
             case Bookmark bookmark:
                 Bookmarks = Bookmarks?.Except([bookmark]).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 break;
             default:
                 await base.UnregisterChildComponent(child);

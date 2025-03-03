@@ -1278,7 +1278,7 @@ public partial class WMTSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -1294,7 +1294,7 @@ public partial class WMTSLayer : Layer,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             default:

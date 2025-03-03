@@ -93,7 +93,10 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
         dotNetActionButton.type = jsObject.type;
     }
 
-    dotNetActionButton.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetActionButton.id = geoBlazorId;
+    }
 
     return dotNetActionButton;
 }

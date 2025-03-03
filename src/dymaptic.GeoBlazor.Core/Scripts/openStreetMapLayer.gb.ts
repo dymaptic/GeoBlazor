@@ -395,7 +395,10 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
         dotNetOpenStreetMapLayer.urlTemplate = jsObject.urlTemplate;
     }
 
-    dotNetOpenStreetMapLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetOpenStreetMapLayer.id = geoBlazorId;
+    }
 
     return dotNetOpenStreetMapLayer;
 }

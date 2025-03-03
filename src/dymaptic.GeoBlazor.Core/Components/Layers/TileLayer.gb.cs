@@ -1673,7 +1673,7 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -1683,7 +1683,7 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (!Subtables.Contains(subtables))
                 {
                     Subtables = [..Subtables, subtables];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Subtables)] = Subtables;
                 }
                 
@@ -1699,12 +1699,12 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Sublayer subtables:
                 Subtables = Subtables?.Where(s => s != subtables).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Subtables)] = Subtables;
                 return true;
             default:

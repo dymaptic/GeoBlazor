@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    The source for basemaps that the widget will display.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#source">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IBasemapGalleryWidgetSource 
+public partial interface IBasemapGalleryWidgetSource : IMapComponent
 {
 }

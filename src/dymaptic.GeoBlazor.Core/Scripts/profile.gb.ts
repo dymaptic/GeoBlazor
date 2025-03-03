@@ -54,7 +54,10 @@ export async function buildDotNetProfileGenerated(jsObject: any): Promise<any> {
         dotNetProfile.variables = jsObject.variables.map(i => buildDotNetIProfileVariable(i));
     }
 
-    dotNetProfile.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetProfile.id = geoBlazorId;
+    }
 
     return dotNetProfile;
 }

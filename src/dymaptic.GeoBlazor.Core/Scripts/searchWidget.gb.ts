@@ -514,7 +514,10 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         dotNetSearchWidget.widgetId = jsObject.id;
     }
 
-    dotNetSearchWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSearchWidget.id = geoBlazorId;
+    }
 
     return dotNetSearchWidget;
 }

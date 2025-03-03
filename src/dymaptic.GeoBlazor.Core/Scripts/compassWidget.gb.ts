@@ -229,7 +229,10 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
         dotNetCompassWidget.widgetId = jsObject.id;
     }
 
-    dotNetCompassWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCompassWidget.id = geoBlazorId;
+    }
 
     return dotNetCompassWidget;
 }

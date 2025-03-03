@@ -70,7 +70,10 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
         dotNetUniqueValueClass.label = jsObject.label;
     }
 
-    dotNetUniqueValueClass.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUniqueValueClass.id = geoBlazorId;
+    }
 
     return dotNetUniqueValueClass;
 }

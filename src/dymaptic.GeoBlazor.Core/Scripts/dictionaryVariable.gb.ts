@@ -63,7 +63,10 @@ export async function buildDotNetDictionaryVariableGenerated(jsObject: any): Pro
         dotNetDictionaryVariable.type = jsObject.type;
     }
 
-    dotNetDictionaryVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetDictionaryVariable.id = geoBlazorId;
+    }
 
     return dotNetDictionaryVariable;
 }

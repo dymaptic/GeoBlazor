@@ -108,7 +108,10 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<
         dotNetZoomViewModel.state = jsObject.state;
     }
 
-    dotNetZoomViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetZoomViewModel.id = geoBlazorId;
+    }
 
     return dotNetZoomViewModel;
 }

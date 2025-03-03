@@ -88,7 +88,10 @@ export async function buildDotNetUniqueValuesGenerated(jsObject: any): Promise<a
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetUniqueValues.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUniqueValues.id = geoBlazorId;
+    }
 
     return dotNetUniqueValues;
 }

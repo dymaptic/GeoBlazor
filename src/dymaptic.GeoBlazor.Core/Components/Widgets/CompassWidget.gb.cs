@@ -154,7 +154,7 @@ public partial class CompassWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -170,7 +170,7 @@ public partial class CompassWidget : IGoTo
         {
             case CompassViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

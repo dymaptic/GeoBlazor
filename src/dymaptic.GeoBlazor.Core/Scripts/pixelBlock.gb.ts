@@ -162,7 +162,10 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
         dotNetPixelBlock.width = jsObject.width;
     }
 
-    dotNetPixelBlock.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPixelBlock.id = geoBlazorId;
+    }
 
     return dotNetPixelBlock;
 }

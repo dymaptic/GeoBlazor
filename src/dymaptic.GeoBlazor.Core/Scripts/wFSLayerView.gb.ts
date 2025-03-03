@@ -254,7 +254,10 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any): Promise<a
         dotNetWFSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetWFSLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWFSLayerView.id = geoBlazorId;
+    }
 
     return dotNetWFSLayerView;
 }

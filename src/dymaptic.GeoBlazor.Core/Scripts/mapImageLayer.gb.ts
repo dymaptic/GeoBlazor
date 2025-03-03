@@ -616,7 +616,10 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
         dotNetMapImageLayer.version = jsObject.version;
     }
 
-    dotNetMapImageLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMapImageLayer.id = geoBlazorId;
+    }
 
     return dotNetMapImageLayer;
 }

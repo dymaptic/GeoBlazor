@@ -208,7 +208,10 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
     }
 
-    dotNetIdentityManager.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetIdentityManager.id = geoBlazorId;
+    }
 
     return dotNetIdentityManager;
 }

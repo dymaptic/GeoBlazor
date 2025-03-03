@@ -237,7 +237,10 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
         dotNetMeasurementWidget.widgetId = jsObject.id;
     }
 
-    dotNetMeasurementWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMeasurementWidget.id = geoBlazorId;
+    }
 
     return dotNetMeasurementWidget;
 }

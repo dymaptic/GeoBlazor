@@ -54,7 +54,10 @@ export async function buildDotNetIconSymbol3DLayerMaterialGenerated(jsObject: an
         dotNetIconSymbol3DLayerMaterial.color = buildDotNetMapColor(jsObject.color);
     }
 
-    dotNetIconSymbol3DLayerMaterial.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetIconSymbol3DLayerMaterial.id = geoBlazorId;
+    }
 
     return dotNetIconSymbol3DLayerMaterial;
 }

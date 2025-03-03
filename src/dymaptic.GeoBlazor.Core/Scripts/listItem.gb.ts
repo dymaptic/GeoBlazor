@@ -130,7 +130,10 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
         dotNetListItem.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetListItem.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetListItem.id = geoBlazorId;
+    }
 
     return dotNetListItem;
 }

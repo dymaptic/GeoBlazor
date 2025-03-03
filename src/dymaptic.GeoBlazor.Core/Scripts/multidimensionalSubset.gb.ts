@@ -70,7 +70,10 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
         dotNetMultidimensionalSubset.variables = jsObject.variables;
     }
 
-    dotNetMultidimensionalSubset.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMultidimensionalSubset.id = geoBlazorId;
+    }
 
     return dotNetMultidimensionalSubset;
 }

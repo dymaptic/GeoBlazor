@@ -888,7 +888,7 @@ public partial class LegendWidget
                 if (!ActiveLayerInfos.Contains(activeLayerInfos))
                 {
                     ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 }
                 
@@ -898,7 +898,7 @@ public partial class LegendWidget
                 if (!LayerInfos.Contains(layerInfos))
                 {
                     LayerInfos = [..LayerInfos, layerInfos];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
                 }
                 
@@ -907,7 +907,7 @@ public partial class LegendWidget
                 if (legendStyle != LegendStyle)
                 {
                     LegendStyle = legendStyle;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
                 }
                 
@@ -916,7 +916,7 @@ public partial class LegendWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -932,22 +932,22 @@ public partial class LegendWidget
         {
             case ActiveLayerInfo activeLayerInfos:
                 ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 return true;
             case LegendLayerInfos layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
                 return true;
             case LegendStyle _:
                 LegendStyle = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
                 return true;
             case LegendViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

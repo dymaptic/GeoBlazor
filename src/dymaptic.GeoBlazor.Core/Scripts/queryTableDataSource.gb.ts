@@ -80,7 +80,10 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): P
         dotNetQueryTableDataSource.workspaceId = jsObject.workspaceId;
     }
 
-    dotNetQueryTableDataSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetQueryTableDataSource.id = geoBlazorId;
+    }
 
     return dotNetQueryTableDataSource;
 }

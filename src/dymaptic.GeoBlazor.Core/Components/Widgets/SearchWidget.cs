@@ -335,7 +335,7 @@ public partial class SearchWidget : Widget
             case SearchSource source:
                 Sources ??= new List<SearchSource>();
                 Sources = [..Sources, source];
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 break;
 
             default:

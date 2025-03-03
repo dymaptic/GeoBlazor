@@ -272,7 +272,10 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
         dotNetHomeWidget.widgetId = jsObject.id;
     }
 
-    dotNetHomeWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetHomeWidget.id = geoBlazorId;
+    }
 
     return dotNetHomeWidget;
 }

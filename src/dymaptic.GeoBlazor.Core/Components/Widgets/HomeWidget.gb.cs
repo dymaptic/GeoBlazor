@@ -332,7 +332,7 @@ public partial class HomeWidget : IGoTo
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -348,7 +348,7 @@ public partial class HomeWidget : IGoTo
         {
             case Viewpoint _:
                 Viewpoint = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

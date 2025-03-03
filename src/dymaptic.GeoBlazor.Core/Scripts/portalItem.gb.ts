@@ -379,7 +379,10 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
         dotNetPortalItem.url = jsObject.url;
     }
 
-    dotNetPortalItem.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPortalItem.id = geoBlazorId;
+    }
 
     return dotNetPortalItem;
 }

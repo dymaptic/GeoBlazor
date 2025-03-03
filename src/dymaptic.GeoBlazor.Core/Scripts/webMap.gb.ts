@@ -140,7 +140,10 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         dotNetWebMap.widgets = jsObject.widgets;
     }
 
-    dotNetWebMap.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWebMap.id = geoBlazorId;
+    }
 
     return dotNetWebMap;
 }

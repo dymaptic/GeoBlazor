@@ -660,7 +660,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
         dotNetWCSLayer.version = jsObject.version;
     }
 
-    dotNetWCSLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWCSLayer.id = geoBlazorId;
+    }
 
     return dotNetWCSLayer;
 }

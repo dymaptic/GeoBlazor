@@ -211,7 +211,10 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
         dotNetSizeVariable.valueUnit = jsObject.valueUnit;
     }
 
-    dotNetSizeVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSizeVariable.id = geoBlazorId;
+    }
 
     return dotNetSizeVariable;
 }

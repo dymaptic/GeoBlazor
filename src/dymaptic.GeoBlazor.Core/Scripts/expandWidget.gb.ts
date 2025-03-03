@@ -313,7 +313,10 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
         dotNetExpandWidget.widgetId = jsObject.id;
     }
 
-    dotNetExpandWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetExpandWidget.id = geoBlazorId;
+    }
 
     return dotNetExpandWidget;
 }

@@ -95,7 +95,10 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
         dotNetRelationshipRampElement.type = jsObject.type;
     }
 
-    dotNetRelationshipRampElement.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetRelationshipRampElement.id = geoBlazorId;
+    }
 
     return dotNetRelationshipRampElement;
 }

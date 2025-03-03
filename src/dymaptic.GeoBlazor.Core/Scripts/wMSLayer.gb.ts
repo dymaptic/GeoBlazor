@@ -653,7 +653,10 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
         dotNetWMSLayer.version = jsObject.version;
     }
 
-    dotNetWMSLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWMSLayer.id = geoBlazorId;
+    }
 
     return dotNetWMSLayer;
 }

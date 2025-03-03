@@ -312,7 +312,10 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         dotNetLocateWidget.widgetId = jsObject.id;
     }
 
-    dotNetLocateWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLocateWidget.id = geoBlazorId;
+    }
 
     return dotNetLocateWidget;
 }

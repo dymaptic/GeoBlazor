@@ -144,7 +144,10 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<
         dotNetHomeViewModel.state = jsObject.state;
     }
 
-    dotNetHomeViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetHomeViewModel.id = geoBlazorId;
+    }
 
     return dotNetHomeViewModel;
 }

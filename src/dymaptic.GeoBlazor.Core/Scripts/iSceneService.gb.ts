@@ -74,7 +74,10 @@ export async function buildDotNetISceneServiceGenerated(jsObject: any): Promise<
         dotNetISceneService.version = jsObject.version;
     }
 
-    dotNetISceneService.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetISceneService.id = geoBlazorId;
+    }
 
     return dotNetISceneService;
 }

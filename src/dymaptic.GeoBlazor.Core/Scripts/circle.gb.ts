@@ -254,7 +254,10 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
         dotNetCircle.type = jsObject.type;
     }
 
-    dotNetCircle.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCircle.id = geoBlazorId;
+    }
 
     return dotNetCircle;
 }

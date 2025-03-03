@@ -1068,7 +1068,10 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         dotNetImageryLayer.version = jsObject.version;
     }
 
-    dotNetImageryLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetImageryLayer.id = geoBlazorId;
+    }
 
     return dotNetImageryLayer;
 }

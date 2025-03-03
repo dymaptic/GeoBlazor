@@ -93,7 +93,10 @@ export async function buildDotNetCIMSolidFillGenerated(jsObject: any): Promise<a
         dotNetCIMSolidFill.type = jsObject.type;
     }
 
-    dotNetCIMSolidFill.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCIMSolidFill.id = geoBlazorId;
+    }
 
     return dotNetCIMSolidFill;
 }

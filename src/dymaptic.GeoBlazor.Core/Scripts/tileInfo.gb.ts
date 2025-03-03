@@ -84,9 +84,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.format)) {
         properties.format = dotNetObject.format;
     }
-    if (hasValue(dotNetObject.isWrappable)) {
-        properties.isWrappable = dotNetObject.isWrappable;
-    }
     if (hasValue(dotNetObject.size)) {
         properties.size = dotNetObject.size;
     }
@@ -165,7 +162,10 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
         dotNetTileInfo.spatialReference = jsObject.spatialReference;
     }
 
-    dotNetTileInfo.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTileInfo.id = geoBlazorId;
+    }
 
     return dotNetTileInfo;
 }

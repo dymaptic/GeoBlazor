@@ -1640,7 +1640,7 @@ public partial class SliderWidget
                 if (!TickConfigs.Contains(tickConfigs))
                 {
                     TickConfigs = [..TickConfigs, tickConfigs];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
                 }
                 
@@ -1649,7 +1649,7 @@ public partial class SliderWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -1658,7 +1658,7 @@ public partial class SliderWidget
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 }
                 
@@ -1674,17 +1674,17 @@ public partial class SliderWidget
         {
             case TickConfig tickConfigs:
                 TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
                 return true;
             case SliderViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case SliderVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

@@ -102,7 +102,10 @@ export async function buildDotNetHandlesGenerated(jsObject: any): Promise<any> {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetHandles.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetHandles.id = geoBlazorId;
+    }
 
     return dotNetHandles;
 }

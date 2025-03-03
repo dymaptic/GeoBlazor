@@ -127,7 +127,10 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
         dotNetCompassViewModel.state = jsObject.state;
     }
 
-    dotNetCompassViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCompassViewModel.id = geoBlazorId;
+    }
 
     return dotNetCompassViewModel;
 }

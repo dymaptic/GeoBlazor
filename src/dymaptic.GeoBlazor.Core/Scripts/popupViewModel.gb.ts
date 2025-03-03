@@ -376,7 +376,10 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
     }
 
-    dotNetPopupViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPopupViewModel.id = geoBlazorId;
+    }
 
     return dotNetPopupViewModel;
 }

@@ -91,7 +91,10 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    dotNetOpacityVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetOpacityVariable.id = geoBlazorId;
+    }
 
     return dotNetOpacityVariable;
 }

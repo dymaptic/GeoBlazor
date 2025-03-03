@@ -56,7 +56,10 @@ export async function buildDotNetBackgroundColorBackgroundGenerated(jsObject: an
         dotNetBackgroundColorBackground.color = buildDotNetMapColor(jsObject.color);
     }
 
-    dotNetBackgroundColorBackground.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBackgroundColorBackground.id = geoBlazorId;
+    }
 
     return dotNetBackgroundColorBackground;
 }

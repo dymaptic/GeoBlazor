@@ -70,7 +70,10 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
         dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
     }
 
-    dotNetSearchViewModelDefaultSymbols.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSearchViewModelDefaultSymbols.id = geoBlazorId;
+    }
 
     return dotNetSearchViewModelDefaultSymbols;
 }

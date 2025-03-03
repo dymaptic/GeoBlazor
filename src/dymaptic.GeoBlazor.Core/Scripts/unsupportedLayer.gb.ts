@@ -222,7 +222,10 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any): Promi
         dotNetUnsupportedLayer.type = jsObject.type;
     }
 
-    dotNetUnsupportedLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUnsupportedLayer.id = geoBlazorId;
+    }
 
     return dotNetUnsupportedLayer;
 }

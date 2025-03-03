@@ -72,7 +72,10 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any): Promise<
         dotNetColorRampStop.value = jsObject.value;
     }
 
-    dotNetColorRampStop.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetColorRampStop.id = geoBlazorId;
+    }
 
     return dotNetColorRampStop;
 }

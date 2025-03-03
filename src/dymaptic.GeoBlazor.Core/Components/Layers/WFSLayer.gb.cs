@@ -3013,7 +3013,7 @@ public partial class WFSLayer : Layer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 }
                 
@@ -3022,7 +3022,7 @@ public partial class WFSLayer : Layer,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
                 
@@ -3032,7 +3032,7 @@ public partial class WFSLayer : Layer,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
                 }
                 
@@ -3042,7 +3042,7 @@ public partial class WFSLayer : Layer,
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 }
                 
@@ -3052,7 +3052,7 @@ public partial class WFSLayer : Layer,
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 }
                 
@@ -3061,7 +3061,7 @@ public partial class WFSLayer : Layer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -3070,7 +3070,7 @@ public partial class WFSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -3079,7 +3079,7 @@ public partial class WFSLayer : Layer,
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Renderer)] = Renderer;
                 }
                 
@@ -3088,7 +3088,7 @@ public partial class WFSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -3097,7 +3097,7 @@ public partial class WFSLayer : Layer,
                 if (wfsCapabilities != WfsCapabilities)
                 {
                     WfsCapabilities = wfsCapabilities;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
                 }
                 
@@ -3113,52 +3113,52 @@ public partial class WFSLayer : Layer,
         {
             case WFSLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case OrderedLayerOrderBy orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Renderer _:
                 Renderer = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case WFSCapabilities _:
                 WfsCapabilities = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
                 return true;
             default:

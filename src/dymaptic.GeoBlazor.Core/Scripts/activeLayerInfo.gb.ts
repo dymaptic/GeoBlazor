@@ -122,7 +122,10 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
         dotNetActiveLayerInfo.version = jsObject.version;
     }
 
-    dotNetActiveLayerInfo.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetActiveLayerInfo.id = geoBlazorId;
+    }
 
     return dotNetActiveLayerInfo;
 }

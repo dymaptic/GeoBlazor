@@ -360,7 +360,10 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
         dotNetGraphicsLayer.type = jsObject.type;
     }
 
-    dotNetGraphicsLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGraphicsLayer.id = geoBlazorId;
+    }
 
     return dotNetGraphicsLayer;
 }

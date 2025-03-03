@@ -337,7 +337,10 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
     }
 
-    dotNetISmartMappingSliderBaseWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetISmartMappingSliderBaseWidget.id = geoBlazorId;
+    }
 
     return dotNetISmartMappingSliderBaseWidget;
 }

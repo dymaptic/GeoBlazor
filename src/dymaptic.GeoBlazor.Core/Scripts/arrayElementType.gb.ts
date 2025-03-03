@@ -57,7 +57,10 @@ export async function buildDotNetArrayElementTypeGenerated(jsObject: any): Promi
         dotNetArrayElementType.type = jsObject.type;
     }
 
-    dotNetArrayElementType.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetArrayElementType.id = geoBlazorId;
+    }
 
     return dotNetArrayElementType;
 }

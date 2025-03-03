@@ -63,7 +63,7 @@ public partial class BasemapGalleryItem : MapComponent
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public BasemapGalleryItemState? State { get; protected set; }
     
 #endregion
 
@@ -137,7 +137,7 @@ public partial class BasemapGalleryItem : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<BasemapGalleryItemState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -151,47 +151,17 @@ public partial class BasemapGalleryItem : MapComponent
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BasemapGalleryItemState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryItemState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (BasemapGalleryItemState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -224,38 +194,8 @@ public partial class BasemapGalleryItem : MapComponent
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setBasemap", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
+            JsComponentReference, "basemap", value);
     }
     
 #endregion

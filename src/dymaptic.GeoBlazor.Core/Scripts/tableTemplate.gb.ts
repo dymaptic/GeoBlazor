@@ -56,7 +56,10 @@ export async function buildDotNetTableTemplateGenerated(jsObject: any): Promise<
         dotNetTableTemplate.columnTemplates = await Promise.all(jsObject.columnTemplates.map(async i => await buildDotNetColumnTemplateBase(i)));
     }
 
-    dotNetTableTemplate.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTableTemplate.id = geoBlazorId;
+    }
 
     return dotNetTableTemplate;
 }

@@ -25,7 +25,10 @@ export async function buildDotNetTickConfigGenerated(jsObject: any): Promise<any
         dotNetTickConfig.values = jsObject.values;
     }
 
-    dotNetTickConfig.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTickConfig.id = geoBlazorId;
+    }
 
     return dotNetTickConfig;
 }

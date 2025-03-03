@@ -89,7 +89,10 @@ export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetProjection.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetProjection.id = geoBlazorId;
+    }
 
     return dotNetProjection;
 }

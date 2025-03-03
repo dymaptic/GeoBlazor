@@ -590,7 +590,10 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
     }
 
-    dotNetPortal.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPortal.id = geoBlazorId;
+    }
 
     return dotNetPortal;
 }

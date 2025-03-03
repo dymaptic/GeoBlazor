@@ -1331,7 +1331,7 @@ public partial class BasemapLayerListWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -1347,7 +1347,7 @@ public partial class BasemapLayerListWidget
         {
             case BasemapLayerListViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

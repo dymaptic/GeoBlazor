@@ -217,7 +217,10 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
         dotNetAreaMeasurement2DWidget.widgetId = jsObject.id;
     }
 
-    dotNetAreaMeasurement2DWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetAreaMeasurement2DWidget.id = geoBlazorId;
+    }
 
     return dotNetAreaMeasurement2DWidget;
 }

@@ -105,7 +105,10 @@ export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any): Promis
         dotNetGeoRSSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetGeoRSSLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGeoRSSLayerView.id = geoBlazorId;
+    }
 
     return dotNetGeoRSSLayerView;
 }

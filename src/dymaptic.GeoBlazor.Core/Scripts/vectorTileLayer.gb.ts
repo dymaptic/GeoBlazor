@@ -481,7 +481,10 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
         dotNetVectorTileLayer.url = jsObject.url;
     }
 
-    dotNetVectorTileLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetVectorTileLayer.id = geoBlazorId;
+    }
 
     return dotNetVectorTileLayer;
 }

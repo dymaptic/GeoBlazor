@@ -216,7 +216,10 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promis
         dotNetSliderViewModel.values = jsObject.values;
     }
 
-    dotNetSliderViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSliderViewModel.id = geoBlazorId;
+    }
 
     return dotNetSliderViewModel;
 }

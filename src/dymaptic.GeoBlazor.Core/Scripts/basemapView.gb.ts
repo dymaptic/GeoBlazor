@@ -60,7 +60,10 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<an
         dotNetBasemapView.updating = jsObject.updating;
     }
 
-    dotNetBasemapView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapView.id = geoBlazorId;
+    }
 
     return dotNetBasemapView;
 }

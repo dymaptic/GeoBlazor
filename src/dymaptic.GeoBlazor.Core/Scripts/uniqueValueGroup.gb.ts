@@ -62,7 +62,10 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promi
         dotNetUniqueValueGroup.heading = jsObject.heading;
     }
 
-    dotNetUniqueValueGroup.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUniqueValueGroup.id = geoBlazorId;
+    }
 
     return dotNetUniqueValueGroup;
 }

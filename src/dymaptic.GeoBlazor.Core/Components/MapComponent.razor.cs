@@ -963,7 +963,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <summary>
     ///     Determines whether the component was added as a markup Blazor component or programmatically.
     /// </summary>
-    protected bool IsRenderedBlazorComponent;
+    protected internal bool IsRenderedBlazorComponent;
     private bool _registered;
     private IJSObjectReference? _coreJsModule;
     private IJSObjectReference? _proJsModule;

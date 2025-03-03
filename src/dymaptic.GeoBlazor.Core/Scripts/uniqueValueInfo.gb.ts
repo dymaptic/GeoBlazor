@@ -68,7 +68,10 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
         dotNetUniqueValueInfo.value = jsObject.value;
     }
 
-    dotNetUniqueValueInfo.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUniqueValueInfo.id = geoBlazorId;
+    }
 
     return dotNetUniqueValueInfo;
 }

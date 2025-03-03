@@ -82,7 +82,10 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
         dotNetCamera.tilt = jsObject.tilt;
     }
 
-    dotNetCamera.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCamera.id = geoBlazorId;
+    }
 
     return dotNetCamera;
 }

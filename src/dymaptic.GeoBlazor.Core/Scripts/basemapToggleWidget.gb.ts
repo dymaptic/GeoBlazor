@@ -268,7 +268,10 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
         dotNetBasemapToggleWidget.widgetId = jsObject.id;
     }
 
-    dotNetBasemapToggleWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapToggleWidget.id = geoBlazorId;
+    }
 
     return dotNetBasemapToggleWidget;
 }

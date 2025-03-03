@@ -130,7 +130,10 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
         dotNetMapViewConstraints.snapToZoom = jsObject.snapToZoom;
     }
 
-    dotNetMapViewConstraints.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetMapViewConstraints.id = geoBlazorId;
+    }
 
     return dotNetMapViewConstraints;
 }

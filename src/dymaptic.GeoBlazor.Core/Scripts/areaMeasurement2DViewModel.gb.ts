@@ -140,7 +140,10 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
         dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
     }
 
-    dotNetAreaMeasurement2DViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetAreaMeasurement2DViewModel.id = geoBlazorId;
+    }
 
     return dotNetAreaMeasurement2DViewModel;
 }

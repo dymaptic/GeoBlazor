@@ -129,7 +129,10 @@ export async function buildDotNetCIMSolidStrokeGenerated(jsObject: any): Promise
         dotNetCIMSolidStroke.width = jsObject.width;
     }
 
-    dotNetCIMSolidStroke.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCIMSolidStroke.id = geoBlazorId;
+    }
 
     return dotNetCIMSolidStroke;
 }

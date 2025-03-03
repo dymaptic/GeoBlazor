@@ -216,7 +216,10 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
         dotNetZoomWidget.widgetId = jsObject.id;
     }
 
-    dotNetZoomWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetZoomWidget.id = geoBlazorId;
+    }
 
     return dotNetZoomWidget;
 }

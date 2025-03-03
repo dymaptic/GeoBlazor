@@ -101,7 +101,10 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any): Pr
         dotNetRelationshipElement.visibilityExpression = jsObject.visibilityExpression;
     }
 
-    dotNetRelationshipElement.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetRelationshipElement.id = geoBlazorId;
+    }
 
     return dotNetRelationshipElement;
 }

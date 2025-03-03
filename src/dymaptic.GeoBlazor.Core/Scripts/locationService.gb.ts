@@ -81,7 +81,10 @@ export async function buildDotNetLocationServiceGenerated(jsObject: any): Promis
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetLocationService.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLocationService.id = geoBlazorId;
+    }
 
     return dotNetLocationService;
 }

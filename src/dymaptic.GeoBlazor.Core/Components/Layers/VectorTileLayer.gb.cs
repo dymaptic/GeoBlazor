@@ -1366,7 +1366,7 @@ public partial class VectorTileLayer : IBlendLayer,
                 if (initialExtent != InitialExtent)
                 {
                     InitialExtent = initialExtent;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
                 }
                 
@@ -1375,7 +1375,7 @@ public partial class VectorTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 }
                 
@@ -1391,12 +1391,12 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             case Extent _:
                 InitialExtent = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 return true;
             default:

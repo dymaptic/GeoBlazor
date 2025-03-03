@@ -876,7 +876,7 @@ public partial class BookmarksWidget : IGoTo
                 if (!Bookmarks.Contains(bookmarks))
                 {
                     Bookmarks = [..Bookmarks, bookmarks];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 }
                 
@@ -885,7 +885,7 @@ public partial class BookmarksWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -894,7 +894,7 @@ public partial class BookmarksWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 }
                 
@@ -910,17 +910,17 @@ public partial class BookmarksWidget : IGoTo
         {
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
             case BookmarksViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case BookmarksVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

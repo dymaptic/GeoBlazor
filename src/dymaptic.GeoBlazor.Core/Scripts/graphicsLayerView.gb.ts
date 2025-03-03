@@ -139,7 +139,10 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
         dotNetGraphicsLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetGraphicsLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGraphicsLayerView.id = geoBlazorId;
+    }
 
     return dotNetGraphicsLayerView;
 }

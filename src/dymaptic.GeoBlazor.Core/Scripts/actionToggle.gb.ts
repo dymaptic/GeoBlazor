@@ -93,7 +93,10 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
         dotNetActionToggle.value = jsObject.value;
     }
 
-    dotNetActionToggle.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetActionToggle.id = geoBlazorId;
+    }
 
     return dotNetActionToggle;
 }

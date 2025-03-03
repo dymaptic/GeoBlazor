@@ -136,7 +136,10 @@ export async function buildDotNetCredentialGenerated(jsObject: any): Promise<any
         dotNetCredential.userId = jsObject.userId;
     }
 
-    dotNetCredential.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCredential.id = geoBlazorId;
+    }
 
     return dotNetCredential;
 }

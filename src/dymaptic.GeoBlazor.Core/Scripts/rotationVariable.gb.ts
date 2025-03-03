@@ -89,7 +89,10 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
         dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    dotNetRotationVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetRotationVariable.id = geoBlazorId;
+    }
 
     return dotNetRotationVariable;
 }

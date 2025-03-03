@@ -56,7 +56,10 @@ export async function buildDotNetViewingGenerated(jsObject: any): Promise<any> {
         dotNetViewing.search = await buildDotNetSearch(jsObject.search);
     }
 
-    dotNetViewing.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetViewing.id = geoBlazorId;
+    }
 
     return dotNetViewing;
 }

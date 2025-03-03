@@ -42,7 +42,10 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
         dotNetPopupTemplate.title = jsObject.title;
     }
 
-    dotNetPopupTemplate.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPopupTemplate.id = geoBlazorId;
+    }
 
     return dotNetPopupTemplate;
 }

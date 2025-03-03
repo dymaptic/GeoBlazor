@@ -254,7 +254,10 @@ export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any): Promi
         dotNetGeoJSONLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetGeoJSONLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGeoJSONLayerView.id = geoBlazorId;
+    }
 
     return dotNetGeoJSONLayerView;
 }

@@ -1060,7 +1060,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
         dotNetFeatureLayer.version = jsObject.version;
     }
 
-    dotNetFeatureLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetFeatureLayer.id = geoBlazorId;
+    }
 
     return dotNetFeatureLayer;
 }

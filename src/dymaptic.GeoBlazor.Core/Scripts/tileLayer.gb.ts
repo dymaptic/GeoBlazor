@@ -506,7 +506,10 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         dotNetTileLayer.version = jsObject.version;
     }
 
-    dotNetTileLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTileLayer.id = geoBlazorId;
+    }
 
     return dotNetTileLayer;
 }

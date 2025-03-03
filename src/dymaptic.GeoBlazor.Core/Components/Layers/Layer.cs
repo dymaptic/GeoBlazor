@@ -247,13 +247,13 @@ public abstract partial class Layer : MapComponent
                 if (!extent.Equals(FullExtent))
                 {
                     FullExtent = extent;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 break;
         }
     }
@@ -265,12 +265,12 @@ public abstract partial class Layer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
 
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 break;
         }
     }
@@ -337,7 +337,7 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc/>
     public override async ValueTask Refresh()
     {
-        LayerChanged = true;
+        LayerChanged = MapRendered;
         await base.Refresh();
         if (JsComponentReference is null) return;
         
@@ -383,7 +383,7 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     protected override async Task OnParametersSetAsync()
     {
-        LayerChanged = true;
+        LayerChanged = MapRendered;
         await base.OnParametersSetAsync();
     }
 
@@ -392,7 +392,7 @@ public abstract partial class Layer : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (LayerChanged && IsRenderedBlazorComponent)
+        if (LayerChanged)
         {
             await UpdateLayer();
         }

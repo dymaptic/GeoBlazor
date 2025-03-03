@@ -160,7 +160,10 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
         dotNetBasemapLayerListViewModel.state = jsObject.state;
     }
 
-    dotNetBasemapLayerListViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapLayerListViewModel.id = geoBlazorId;
+    }
 
     return dotNetBasemapLayerListViewModel;
 }

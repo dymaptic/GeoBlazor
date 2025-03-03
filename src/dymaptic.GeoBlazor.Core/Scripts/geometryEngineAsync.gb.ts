@@ -422,7 +422,10 @@ export async function buildDotNetGeometryEngineAsyncGenerated(jsObject: any): Pr
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetGeometryEngineAsync.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGeometryEngineAsync.id = geoBlazorId;
+    }
 
     return dotNetGeometryEngineAsync;
 }

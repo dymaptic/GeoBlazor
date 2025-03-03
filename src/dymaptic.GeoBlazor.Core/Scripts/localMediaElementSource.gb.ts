@@ -54,7 +54,10 @@ export async function buildDotNetLocalMediaElementSourceGenerated(jsObject: any)
         dotNetLocalMediaElementSource.elements = jsObject.elements;
     }
 
-    dotNetLocalMediaElementSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLocalMediaElementSource.id = geoBlazorId;
+    }
 
     return dotNetLocalMediaElementSource;
 }

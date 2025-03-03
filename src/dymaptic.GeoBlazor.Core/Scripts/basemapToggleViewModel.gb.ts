@@ -133,7 +133,10 @@ export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any):
         dotNetBasemapToggleViewModel.state = jsObject.state;
     }
 
-    dotNetBasemapToggleViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapToggleViewModel.id = geoBlazorId;
+    }
 
     return dotNetBasemapToggleViewModel;
 }

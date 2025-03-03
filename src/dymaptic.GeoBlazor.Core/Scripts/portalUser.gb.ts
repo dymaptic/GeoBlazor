@@ -256,7 +256,10 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
         dotNetPortalUser.username = jsObject.username;
     }
 
-    dotNetPortalUser.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPortalUser.id = geoBlazorId;
+    }
 
     return dotNetPortalUser;
 }

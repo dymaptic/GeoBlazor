@@ -397,7 +397,10 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         dotNetBingMapsLayer.type = jsObject.type;
     }
 
-    dotNetBingMapsLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBingMapsLayer.id = geoBlazorId;
+    }
 
     return dotNetBingMapsLayer;
 }

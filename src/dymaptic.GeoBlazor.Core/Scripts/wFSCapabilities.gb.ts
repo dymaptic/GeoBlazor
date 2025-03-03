@@ -62,7 +62,10 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promis
         dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations);
     }
 
-    dotNetWFSCapabilities.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWFSCapabilities.id = geoBlazorId;
+    }
 
     return dotNetWFSCapabilities;
 }

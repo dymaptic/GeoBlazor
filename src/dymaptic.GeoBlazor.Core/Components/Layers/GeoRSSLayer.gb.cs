@@ -893,7 +893,7 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (lineSymbol != LineSymbol)
                 {
                     LineSymbol = lineSymbol;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
                 }
                 
@@ -902,7 +902,7 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (pointSymbol != PointSymbol)
                 {
                     PointSymbol = pointSymbol;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
                 }
                 
@@ -911,7 +911,7 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (polygonSymbol != PolygonSymbol)
                 {
                     PolygonSymbol = polygonSymbol;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
                 }
                 
@@ -927,17 +927,17 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             case SimpleLineSymbol _:
                 LineSymbol = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
                 return true;
             case MarkerSymbol _:
                 PointSymbol = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
                 return true;
             case SimpleFillSymbol _:
                 PolygonSymbol = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
                 return true;
             default:

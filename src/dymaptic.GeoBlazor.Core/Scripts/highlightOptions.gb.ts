@@ -94,7 +94,10 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promi
         dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
     }
 
-    dotNetHighlightOptions.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetHighlightOptions.id = geoBlazorId;
+    }
 
     return dotNetHighlightOptions;
 }

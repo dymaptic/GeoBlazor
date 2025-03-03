@@ -16,12 +16,6 @@ public partial class TileInfo : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TileInfoFormat? Format { get; set; }
 
-    /// <summary>
-    ///     Indicates if the tiling scheme supports wrap around.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public bool? IsWrappable { get; set; }
 
 
     /// <inheritdoc/>

@@ -1546,7 +1546,7 @@ public partial class PopupWidget : IGoTo
                 if (dockOptions != DockOptions)
                 {
                     DockOptions = dockOptions;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(DockOptions)] = DockOptions;
                 }
                 
@@ -1556,7 +1556,7 @@ public partial class PopupWidget : IGoTo
                 if (!Features.Contains(features))
                 {
                     Features = [..Features, features];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Features)] = Features;
                 }
                 
@@ -1565,7 +1565,7 @@ public partial class PopupWidget : IGoTo
                 if (location != Location)
                 {
                     Location = location;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Location)] = Location;
                 }
                 
@@ -1574,7 +1574,7 @@ public partial class PopupWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -1583,7 +1583,7 @@ public partial class PopupWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 }
                 
@@ -1599,27 +1599,27 @@ public partial class PopupWidget : IGoTo
         {
             case PopupDockOptions _:
                 DockOptions = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Features)] = Features;
                 return true;
             case Point _:
                 Location = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

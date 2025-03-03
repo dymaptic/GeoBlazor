@@ -647,7 +647,7 @@ public partial class BaseTileLayer : IBlendLayer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -656,7 +656,7 @@ public partial class BaseTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 }
                 
@@ -672,12 +672,12 @@ public partial class BaseTileLayer : IBlendLayer,
         {
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 return true;
             default:

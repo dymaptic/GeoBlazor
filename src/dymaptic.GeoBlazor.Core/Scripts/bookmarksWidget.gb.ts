@@ -399,7 +399,10 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
         dotNetBookmarksWidget.widgetId = jsObject.id;
     }
 
-    dotNetBookmarksWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBookmarksWidget.id = geoBlazorId;
+    }
 
     return dotNetBookmarksWidget;
 }

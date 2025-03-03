@@ -231,7 +231,10 @@ export async function buildDotNetCIMPictureMarkerGenerated(jsObject: any): Promi
         dotNetCIMPictureMarker.verticalOrientation3D = jsObject.verticalOrientation3D;
     }
 
-    dotNetCIMPictureMarker.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCIMPictureMarker.id = geoBlazorId;
+    }
 
     return dotNetCIMPictureMarker;
 }

@@ -2154,7 +2154,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 }
                 
@@ -2163,7 +2163,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
                     MultidimensionalSubset = multidimensionalSubset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 }
                 
@@ -2172,7 +2172,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -2181,7 +2181,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -2191,7 +2191,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (!RasterFields.Contains(rasterFields))
                 {
                     RasterFields = [..RasterFields, rasterFields];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFields)] = RasterFields;
                 }
                 
@@ -2200,7 +2200,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 }
                 
@@ -2209,7 +2209,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 }
                 
@@ -2218,7 +2218,7 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 }
                 
@@ -2234,42 +2234,42 @@ public partial class WCSLayer : IBlendLayer,
         {
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Field rasterFields:
                 RasterFields = RasterFields?.Where(r => r != rasterFields).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFields)] = RasterFields;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

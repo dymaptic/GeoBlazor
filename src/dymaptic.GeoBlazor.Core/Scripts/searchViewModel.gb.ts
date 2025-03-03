@@ -404,7 +404,10 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         dotNetSearchViewModel.updating = jsObject.updating;
     }
 
-    dotNetSearchViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSearchViewModel.id = geoBlazorId;
+    }
 
     return dotNetSearchViewModel;
 }

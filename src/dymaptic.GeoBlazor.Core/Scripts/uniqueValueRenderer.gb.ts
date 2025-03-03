@@ -289,7 +289,10 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    dotNetUniqueValueRenderer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUniqueValueRenderer.id = geoBlazorId;
+    }
 
     return dotNetUniqueValueRenderer;
 }

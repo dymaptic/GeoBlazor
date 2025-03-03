@@ -128,7 +128,10 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         dotNetLabel.where = jsObject.where;
     }
 
-    dotNetLabel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLabel.id = geoBlazorId;
+    }
 
     return dotNetLabel;
 }

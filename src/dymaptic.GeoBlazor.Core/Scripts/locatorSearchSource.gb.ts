@@ -230,7 +230,10 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
         dotNetLocatorSearchSource.zoomScale = jsObject.zoomScale;
     }
 
-    dotNetLocatorSearchSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLocatorSearchSource.id = geoBlazorId;
+    }
 
     return dotNetLocatorSearchSource;
 }

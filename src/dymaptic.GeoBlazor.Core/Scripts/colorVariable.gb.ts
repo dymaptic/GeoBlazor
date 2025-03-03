@@ -91,7 +91,10 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    dotNetColorVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetColorVariable.id = geoBlazorId;
+    }
 
     return dotNetColorVariable;
 }

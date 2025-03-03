@@ -12,6 +12,7 @@ internal static class GeoBlazorSerialization
             Converters =
             {
                 new NullableDateTimeConverter(),
+                new NullableGuidConverter(),
                 new LongConverter(),
                 new IntConverter(),
                 new StringConverter()

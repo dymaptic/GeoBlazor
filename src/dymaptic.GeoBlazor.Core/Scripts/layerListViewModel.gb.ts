@@ -152,7 +152,10 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Pro
         dotNetLayerListViewModel.state = jsObject.state;
     }
 
-    dotNetLayerListViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLayerListViewModel.id = geoBlazorId;
+    }
 
     return dotNetLayerListViewModel;
 }

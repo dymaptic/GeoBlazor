@@ -452,7 +452,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo = [..LabelingInfo, label];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -467,7 +467,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                     graphic.Layer ??= this;
                     Source = [..Source, graphic];
 
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -477,7 +477,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!Fields.Contains(field))
                 {
                     Fields = [..Fields, field];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -497,7 +497,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
             case Label label:
                 LabelingInfo = LabelingInfo?.Where(l => !l.Equals(label)).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
 
                 break;
 
@@ -505,7 +505,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (Source?.Contains(graphic) ?? false)
                 {
                     Source = Source?.Except([graphic]).ToList();
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -513,7 +513,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (Fields?.Contains(field) ?? false)
                 {
                     Fields = Fields?.Except([field]).ToList();
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;

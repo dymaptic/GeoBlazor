@@ -94,7 +94,10 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
         dotNetTimeInfo.trackIdField = jsObject.trackIdField;
     }
 
-    dotNetTimeInfo.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTimeInfo.id = geoBlazorId;
+    }
 
     return dotNetTimeInfo;
 }

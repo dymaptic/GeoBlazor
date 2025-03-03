@@ -78,7 +78,10 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<a
         dotNetBasemapStyle.worldview = jsObject.worldview;
     }
 
-    dotNetBasemapStyle.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapStyle.id = geoBlazorId;
+    }
 
     return dotNetBasemapStyle;
 }

@@ -207,7 +207,10 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
         dotNetIFillSymbol3DLayer.type = jsObject.type;
     }
 
-    dotNetIFillSymbol3DLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetIFillSymbol3DLayer.id = geoBlazorId;
+    }
 
     return dotNetIFillSymbol3DLayer;
 }

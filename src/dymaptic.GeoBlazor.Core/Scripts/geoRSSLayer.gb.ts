@@ -374,7 +374,10 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
         dotNetGeoRSSLayer.url = jsObject.url;
     }
 
-    dotNetGeoRSSLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGeoRSSLayer.id = geoBlazorId;
+    }
 
     return dotNetGeoRSSLayer;
 }

@@ -82,7 +82,10 @@ export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
         dotNetSearch.hintText = jsObject.hintText;
     }
 
-    dotNetSearch.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSearch.id = geoBlazorId;
+    }
 
     return dotNetSearch;
 }

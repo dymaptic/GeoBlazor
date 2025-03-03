@@ -88,7 +88,10 @@ export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any): P
         dotNetSceneViewEnvironment.starsEnabled = jsObject.starsEnabled;
     }
 
-    dotNetSceneViewEnvironment.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSceneViewEnvironment.id = geoBlazorId;
+    }
 
     return dotNetSceneViewEnvironment;
 }

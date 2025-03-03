@@ -816,7 +816,10 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
         dotNetCSVLayer.useViewTime = jsObject.useViewTime;
     }
 
-    dotNetCSVLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCSVLayer.id = geoBlazorId;
+    }
 
     return dotNetCSVLayer;
 }

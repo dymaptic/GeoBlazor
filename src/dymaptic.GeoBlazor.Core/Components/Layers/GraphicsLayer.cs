@@ -87,7 +87,7 @@ public partial class GraphicsLayer : Layer
 
         if (View is null || !View.MapRendered)
         {
-            LayerChanged = true;
+            LayerChanged = MapRendered;
             UpdateState();
 
             return;
@@ -278,7 +278,7 @@ public partial class GraphicsLayer : Layer
                 }
                 else
                 {
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;

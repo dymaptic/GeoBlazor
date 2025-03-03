@@ -102,7 +102,10 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise
         dotNetWFSFeatureType.typeName = jsObject.typeName;
     }
 
-    dotNetWFSFeatureType.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWFSFeatureType.id = geoBlazorId;
+    }
 
     return dotNetWFSFeatureType;
 }

@@ -254,7 +254,10 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any): Promise<a
         dotNetCSVLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetCSVLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCSVLayerView.id = geoBlazorId;
+    }
 
     return dotNetCSVLayerView;
 }

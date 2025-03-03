@@ -72,7 +72,10 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): P
         dotNetKMLLayerViewMapImage.rotation = jsObject.rotation;
     }
 
-    dotNetKMLLayerViewMapImage.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetKMLLayerViewMapImage.id = geoBlazorId;
+    }
 
     return dotNetKMLLayerViewMapImage;
 }

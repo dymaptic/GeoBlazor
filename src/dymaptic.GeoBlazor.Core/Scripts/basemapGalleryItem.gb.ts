@@ -65,7 +65,10 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Pro
         dotNetBasemapGalleryItem.state = jsObject.state;
     }
 
-    dotNetBasemapGalleryItem.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapGalleryItem.id = geoBlazorId;
+    }
 
     return dotNetBasemapGalleryItem;
 }

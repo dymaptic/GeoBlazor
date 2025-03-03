@@ -82,7 +82,10 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<an
         dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
     }
 
-    dotNetEnvironment.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetEnvironment.id = geoBlazorId;
+    }
 
     return dotNetEnvironment;
 }

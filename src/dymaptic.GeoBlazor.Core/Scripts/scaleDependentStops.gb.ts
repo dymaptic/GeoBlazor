@@ -69,7 +69,10 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Pr
         dotNetScaleDependentStops.valueExpression = jsObject.valueExpression;
     }
 
-    dotNetScaleDependentStops.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetScaleDependentStops.id = geoBlazorId;
+    }
 
     return dotNetScaleDependentStops;
 }

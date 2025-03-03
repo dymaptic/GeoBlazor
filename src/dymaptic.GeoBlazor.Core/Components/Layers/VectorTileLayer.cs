@@ -71,7 +71,7 @@ public partial class VectorTileLayer : Layer
                 if (!portalItem.Equals(PortalItem))
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -89,7 +89,7 @@ public partial class VectorTileLayer : Layer
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
 
                 break;
             default:

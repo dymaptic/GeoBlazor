@@ -78,7 +78,10 @@ export async function buildDotNetConfigGenerated(jsObject: any): Promise<any> {
         dotNetConfig.title = jsObject.title;
     }
 
-    dotNetConfig.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetConfig.id = geoBlazorId;
+    }
 
     return dotNetConfig;
 }

@@ -694,7 +694,10 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
         dotNetImageryTileLayer.version = jsObject.version;
     }
 
-    dotNetImageryTileLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetImageryTileLayer.id = geoBlazorId;
+    }
 
     return dotNetImageryTileLayer;
 }

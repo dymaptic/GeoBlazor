@@ -79,7 +79,10 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any): Pr
         dotNetJoinTableDataSource.type = jsObject.type;
     }
 
-    dotNetJoinTableDataSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetJoinTableDataSource.id = geoBlazorId;
+    }
 
     return dotNetJoinTableDataSource;
 }

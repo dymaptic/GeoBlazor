@@ -84,7 +84,10 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any): Promise<a
         dotNetSizeRampStop.value = jsObject.value;
     }
 
-    dotNetSizeRampStop.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSizeRampStop.id = geoBlazorId;
+    }
 
     return dotNetSizeRampStop;
 }

@@ -63,7 +63,10 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any): Promis
         dotNetSizeRampElement.type = jsObject.type;
     }
 
-    dotNetSizeRampElement.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSizeRampElement.id = geoBlazorId;
+    }
 
     return dotNetSizeRampElement;
 }

@@ -70,7 +70,10 @@ export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any): Pr
         dotNetITemporalSceneLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
 
-    dotNetITemporalSceneLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetITemporalSceneLayer.id = geoBlazorId;
+    }
 
     return dotNetITemporalSceneLayer;
 }

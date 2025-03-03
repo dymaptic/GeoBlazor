@@ -175,7 +175,10 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
         dotNetLocateViewModel.state = jsObject.state;
     }
 
-    dotNetLocateViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLocateViewModel.id = geoBlazorId;
+    }
 
     return dotNetLocateViewModel;
 }

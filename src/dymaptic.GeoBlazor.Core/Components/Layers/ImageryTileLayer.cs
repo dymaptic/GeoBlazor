@@ -151,7 +151,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!subset.Equals(MultidimensionalSubset))
                 {
                     MultidimensionalSubset = subset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -159,7 +159,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!popupTemplate.Equals(PopupTemplate))
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -167,7 +167,7 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!_multidimensionalDefinition.Contains(definition))
                 {
                     _multidimensionalDefinition.Add(definition);
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -185,17 +185,17 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
 
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 break;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
 
                 break;
             case DimensionalDefinition definition:
                 if (_multidimensionalDefinition.Remove(definition))
                 {
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                 }
 
                 break;

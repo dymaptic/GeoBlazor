@@ -196,7 +196,10 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         dotNetBasemap.title = jsObject.title;
     }
 
-    dotNetBasemap.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemap.id = geoBlazorId;
+    }
 
     return dotNetBasemap;
 }

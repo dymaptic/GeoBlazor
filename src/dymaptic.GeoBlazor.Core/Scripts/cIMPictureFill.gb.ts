@@ -143,7 +143,10 @@ export async function buildDotNetCIMPictureFillGenerated(jsObject: any): Promise
         dotNetCIMPictureFill.url = jsObject.url;
     }
 
-    dotNetCIMPictureFill.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetCIMPictureFill.id = geoBlazorId;
+    }
 
     return dotNetCIMPictureFill;
 }

@@ -50,7 +50,10 @@ export async function buildDotNetITablesMixinGenerated(jsObject: any): Promise<a
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
 
-    dotNetITablesMixin.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetITablesMixin.id = geoBlazorId;
+    }
 
     return dotNetITablesMixin;
 }

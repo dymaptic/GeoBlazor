@@ -3766,7 +3766,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (capabilities != Capabilities)
                 {
                     Capabilities = capabilities;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 }
                 
@@ -3776,7 +3776,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
                 }
                 
@@ -3785,7 +3785,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
                     MultidimensionalSubset = multidimensionalSubset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 }
                 
@@ -3794,7 +3794,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -3803,7 +3803,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -3812,7 +3812,7 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 }
                 
@@ -3828,32 +3828,32 @@ public partial class ImageryLayer : IArcGISImageService,
         {
             case ArcGISImageServiceCapabilities _:
                 Capabilities = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
             default:

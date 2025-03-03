@@ -145,7 +145,10 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<a
         dotNetKMLLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetKMLLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetKMLLayerView.id = geoBlazorId;
+    }
 
     return dotNetKMLLayerView;
 }

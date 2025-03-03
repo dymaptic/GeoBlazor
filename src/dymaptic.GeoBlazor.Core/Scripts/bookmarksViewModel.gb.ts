@@ -233,7 +233,10 @@ export async function buildDotNetBookmarksViewModelGenerated(jsObject: any): Pro
         dotNetBookmarksViewModel.state = jsObject.state;
     }
 
-    dotNetBookmarksViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBookmarksViewModel.id = geoBlazorId;
+    }
 
     return dotNetBookmarksViewModel;
 }

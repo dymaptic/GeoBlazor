@@ -232,7 +232,10 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         dotNetIArcGISImageService.version = jsObject.version;
     }
 
-    dotNetIArcGISImageService.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetIArcGISImageService.id = geoBlazorId;
+    }
 
     return dotNetIArcGISImageService;
 }

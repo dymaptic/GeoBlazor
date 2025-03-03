@@ -30,10 +30,6 @@ public partial class TileInfo
     ///     Image format of the cached tiles.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="isWrappable">
-    ///     Indicates if the tiling scheme supports wrap around.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#isWrappable">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="lods">
     ///     An array of levels of detail that define the tiling scheme.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#lods">ArcGIS Maps SDK for JavaScript</a>
@@ -53,7 +49,6 @@ public partial class TileInfo
     public TileInfo(
         double? dpi = null,
         TileInfoFormat? format = null,
-        bool? isWrappable = null,
         IReadOnlyList<LOD>? lods = null,
         Point? origin = null,
         IReadOnlyList<int>? size = null,
@@ -63,7 +58,6 @@ public partial class TileInfo
 #pragma warning disable BL0005
         Dpi = dpi;
         Format = format;
-        IsWrappable = isWrappable;
         Lods = lods;
         Origin = origin;
         Size = size;
@@ -74,6 +68,15 @@ public partial class TileInfo
     
 #region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     Indicates if the tiling scheme supports wrap around.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#isWrappable">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public bool? IsWrappable { get; protected set; }
+    
     /// <summary>
     ///     An array of levels of detail that define the tiling scheme.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileInfo.html#lods">ArcGIS Maps SDK for JavaScript</a>
@@ -391,36 +394,6 @@ public partial class TileInfo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "format", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the IsWrappable property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetIsWrappable(bool? value)
-    {
-#pragma warning disable BL0005
-        IsWrappable = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(IsWrappable)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "isWrappable", value);
     }
     
     /// <summary>

@@ -56,7 +56,10 @@ export async function buildDotNetLegendViewModelLayerInfosGenerated(jsObject: an
         dotNetLegendViewModelLayerInfos.title = jsObject.title;
     }
 
-    dotNetLegendViewModelLayerInfos.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLegendViewModelLayerInfos.id = geoBlazorId;
+    }
 
     return dotNetLegendViewModelLayerInfos;
 }

@@ -142,7 +142,10 @@ export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any>
         dotNetViewState.size = jsObject.size;
     }
 
-    dotNetViewState.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetViewState.id = geoBlazorId;
+    }
 
     return dotNetViewState;
 }

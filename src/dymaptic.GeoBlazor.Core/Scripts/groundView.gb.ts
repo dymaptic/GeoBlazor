@@ -63,7 +63,10 @@ export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any
         dotNetGroundView.updating = jsObject.updating;
     }
 
-    dotNetGroundView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetGroundView.id = geoBlazorId;
+    }
 
     return dotNetGroundView;
 }

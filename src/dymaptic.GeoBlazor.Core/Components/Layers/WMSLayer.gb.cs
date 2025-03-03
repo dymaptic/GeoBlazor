@@ -2595,7 +2595,7 @@ public partial class WMSLayer : Layer,
                 if (!FullExtents.Contains(fullExtents))
                 {
                     FullExtents = [..FullExtents, fullExtents];
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FullExtents)] = FullExtents;
                 }
                 
@@ -2604,7 +2604,7 @@ public partial class WMSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -2613,7 +2613,7 @@ public partial class WMSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -2622,7 +2622,7 @@ public partial class WMSLayer : Layer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 }
                 
@@ -2631,7 +2631,7 @@ public partial class WMSLayer : Layer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 }
                 
@@ -2640,7 +2640,7 @@ public partial class WMSLayer : Layer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 }
                 
@@ -2656,32 +2656,32 @@ public partial class WMSLayer : Layer,
         {
             case Extent fullExtents:
                 FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FullExtents)] = FullExtents;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

@@ -70,7 +70,10 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
         dotNetBookmarkOptionsScreenshotSettings.width = jsObject.width;
     }
 
-    dotNetBookmarkOptionsScreenshotSettings.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBookmarkOptionsScreenshotSettings.id = geoBlazorId;
+    }
 
     return dotNetBookmarkOptionsScreenshotSettings;
 }

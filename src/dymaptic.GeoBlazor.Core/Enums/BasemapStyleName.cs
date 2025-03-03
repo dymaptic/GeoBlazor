@@ -135,7 +135,16 @@ internal class EnumMemberConverter<T> : JsonConverter<T> where T: struct, IConve
 {
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        string? enumMemberValue = reader.GetString();
+        foreach (MemberInfo member in typeof(T).GetMembers())
+        {
+            EnumMemberAttribute? attribute = member.GetCustomAttribute<EnumMemberAttribute>();
+            if (attribute?.Value == enumMemberValue)
+            {
+                return (T)Enum.Parse(typeof(T), member.Name);
+            }
+        }
+        throw new JsonException($"Unable to convert \"{enumMemberValue}\" to Enum \"{typeof(T)}\"");
     }
 
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)

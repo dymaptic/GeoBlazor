@@ -244,48 +244,18 @@ public partial class BasemapGalleryWidget
             return Source;
         }
 
-        // get the property value
-        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
-            CancellationTokenSource.Token, "source");
+        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
+            "getSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Source = result;
+            Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+            ModifiedParameters[nameof(Source)] = Source;
         }
-         
+        
         return Source;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -448,36 +418,6 @@ public partial class BasemapGalleryWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -518,7 +458,7 @@ public partial class BasemapGalleryWidget
                 if (activeBasemap != ActiveBasemap)
                 {
                     ActiveBasemap = activeBasemap;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 }
                 
@@ -527,7 +467,7 @@ public partial class BasemapGalleryWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -543,12 +483,12 @@ public partial class BasemapGalleryWidget
         {
             case Basemap _:
                 ActiveBasemap = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
             case BasemapGalleryViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

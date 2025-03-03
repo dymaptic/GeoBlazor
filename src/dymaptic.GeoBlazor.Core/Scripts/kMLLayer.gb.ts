@@ -336,7 +336,10 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         dotNetKMLLayer.url = jsObject.url;
     }
 
-    dotNetKMLLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetKMLLayer.id = geoBlazorId;
+    }
 
     return dotNetKMLLayer;
 }

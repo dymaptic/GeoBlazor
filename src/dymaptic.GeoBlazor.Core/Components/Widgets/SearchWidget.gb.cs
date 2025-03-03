@@ -1467,7 +1467,7 @@ public partial class SearchWidget : IGoTo
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -1476,7 +1476,7 @@ public partial class SearchWidget : IGoTo
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -1486,7 +1486,7 @@ public partial class SearchWidget : IGoTo
                 if (!Sources.Contains(sources))
                 {
                     Sources = [..Sources, sources];
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Sources)] = Sources;
                 }
                 
@@ -1495,7 +1495,7 @@ public partial class SearchWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -1511,22 +1511,22 @@ public partial class SearchWidget : IGoTo
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Portal _:
                 Portal = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             case SearchViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

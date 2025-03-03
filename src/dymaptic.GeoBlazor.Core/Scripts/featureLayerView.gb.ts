@@ -197,7 +197,10 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promi
         dotNetFeatureLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    dotNetFeatureLayerView.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetFeatureLayerView.id = geoBlazorId;
+    }
 
     return dotNetFeatureLayerView;
 }

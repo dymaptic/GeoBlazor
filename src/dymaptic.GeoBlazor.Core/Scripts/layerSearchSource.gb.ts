@@ -216,7 +216,10 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
         dotNetLayerSearchSource.zoomScale = jsObject.zoomScale;
     }
 
-    dotNetLayerSearchSource.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLayerSearchSource.id = geoBlazorId;
+    }
 
     return dotNetLayerSearchSource;
 }

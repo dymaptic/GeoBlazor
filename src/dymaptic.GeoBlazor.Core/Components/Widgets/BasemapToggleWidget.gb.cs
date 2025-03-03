@@ -352,7 +352,7 @@ public partial class BasemapToggleWidget
                 if (activeBasemap != ActiveBasemap)
                 {
                     ActiveBasemap = activeBasemap;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 }
                 
@@ -361,7 +361,7 @@ public partial class BasemapToggleWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -370,7 +370,7 @@ public partial class BasemapToggleWidget
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 }
                 
@@ -386,17 +386,17 @@ public partial class BasemapToggleWidget
         {
             case Basemap _:
                 ActiveBasemap = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
             case BasemapToggleViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case BasemapToggleVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

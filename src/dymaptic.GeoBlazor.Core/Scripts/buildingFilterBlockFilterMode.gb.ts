@@ -57,7 +57,10 @@ export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject
         dotNetBuildingFilterBlockFilterMode.type = jsObject.type;
     }
 
-    dotNetBuildingFilterBlockFilterMode.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBuildingFilterBlockFilterMode.id = geoBlazorId;
+    }
 
     return dotNetBuildingFilterBlockFilterMode;
 }

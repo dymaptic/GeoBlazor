@@ -33,7 +33,7 @@ public partial class BasemapGalleryWidget : Widget
                 if (!pbms.Equals(PortalBasemapsSource))
                 {
                     PortalBasemapsSource = pbms;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                 }
 
                 break;
@@ -51,7 +51,7 @@ public partial class BasemapGalleryWidget : Widget
         {
             case PortalBasemapsSource _:
                 PortalBasemapsSource = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
 
                 break;
             default:

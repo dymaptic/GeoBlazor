@@ -222,7 +222,10 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<a
         dotNetUnknownLayer.type = jsObject.type;
     }
 
-    dotNetUnknownLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetUnknownLayer.id = geoBlazorId;
+    }
 
     return dotNetUnknownLayer;
 }

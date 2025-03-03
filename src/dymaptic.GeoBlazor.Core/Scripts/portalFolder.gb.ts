@@ -69,7 +69,10 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<a
         dotNetPortalFolder.url = jsObject.url;
     }
 
-    dotNetPortalFolder.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPortalFolder.id = geoBlazorId;
+    }
 
     return dotNetPortalFolder;
 }

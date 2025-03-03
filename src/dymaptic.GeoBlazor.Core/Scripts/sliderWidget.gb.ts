@@ -539,7 +539,10 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
         dotNetSliderWidget.widgetId = jsObject.id;
     }
 
-    dotNetSliderWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetSliderWidget.id = geoBlazorId;
+    }
 
     return dotNetSliderWidget;
 }

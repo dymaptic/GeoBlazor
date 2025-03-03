@@ -2190,7 +2190,7 @@ public partial class MapImageLayer : IArcGISMapService,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -2199,7 +2199,7 @@ public partial class MapImageLayer : IArcGISMapService,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 }
                 
@@ -2215,12 +2215,12 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">BasemapGallery</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-BasemapGalleryViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class BasemapGalleryViewModel : MapComponent,
-    IViewModel
+public partial class BasemapGalleryViewModel : MapComponent
 {
 
     /// <summary>
@@ -85,7 +84,7 @@ public partial class BasemapGalleryViewModel : MapComponent,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public State? State { get; protected set; }
+    public BasemapGalleryViewModelState? State { get; protected set; }
     
 #endregion
 
@@ -142,17 +141,17 @@ public partial class BasemapGalleryViewModel : MapComponent,
             return Items;
         }
 
-        // get the property value
-        IReadOnlyList<BasemapGalleryItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<BasemapGalleryItem>?>("getProperty",
-            CancellationTokenSource.Token, "items");
+        IReadOnlyList<BasemapGalleryItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<BasemapGalleryItem>?>(
+            "getItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Items = result;
+            Items = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Items)] = Items;
+            ModifiedParameters[nameof(Items)] = Items;
         }
-         
+        
         return Items;
     }
     
@@ -172,24 +171,24 @@ public partial class BasemapGalleryViewModel : MapComponent,
             return Source;
         }
 
-        // get the property value
-        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
-            CancellationTokenSource.Token, "source");
+        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
+            "getSource", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Source = result;
+            Source = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Source)] = Source;
+            ModifiedParameters[nameof(Source)] = Source;
         }
-         
+        
         return Source;
     }
     
     /// <summary>
     ///     Asynchronously retrieve the current value of the State property.
     /// </summary>
-    public async Task<State?> GetState()
+    public async Task<BasemapGalleryViewModelState?> GetState()
     {
         if (CoreJsModule is null)
         {
@@ -203,47 +202,17 @@ public partial class BasemapGalleryViewModel : MapComponent,
         }
 
         // get the property value
-        JsNullableEnumWrapper<State>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<State>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<BasemapGalleryViewModelState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<BasemapGalleryViewModelState>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "state");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             State = (State)result.Value.Value!;
+             State = (BasemapGalleryViewModelState)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(State)] = State;
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -338,36 +307,6 @@ public partial class BasemapGalleryViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "source", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion

@@ -138,7 +138,10 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
         dotNetWebScene.widgets = jsObject.widgets;
     }
 
-    dotNetWebScene.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWebScene.id = geoBlazorId;
+    }
 
     return dotNetWebScene;
 }

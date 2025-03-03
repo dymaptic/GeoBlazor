@@ -78,7 +78,10 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<
         dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
     }
 
-    dotNetFeatureEffect.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetFeatureEffect.id = geoBlazorId;
+    }
 
     return dotNetFeatureEffect;
 }

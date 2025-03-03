@@ -599,7 +599,7 @@ public partial class LocateWidget : IGoTo
                 if (graphic != Graphic)
                 {
                     Graphic = graphic;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Graphic)] = Graphic;
                 }
                 
@@ -608,7 +608,7 @@ public partial class LocateWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 }
                 
@@ -624,12 +624,12 @@ public partial class LocateWidget : IGoTo
         {
             case Graphic _:
                 Graphic = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
                 return true;
             case LocateViewModel _:
                 ViewModel = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

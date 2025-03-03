@@ -125,7 +125,10 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
         dotNetAuthoringInfoVisualVariable.units = jsObject.units;
     }
 
-    dotNetAuthoringInfoVisualVariable.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetAuthoringInfoVisualVariable.id = geoBlazorId;
+    }
 
     return dotNetAuthoringInfoVisualVariable;
 }

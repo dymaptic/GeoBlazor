@@ -130,7 +130,10 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
         dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
     }
 
-    dotNetDistanceMeasurement2DViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetDistanceMeasurement2DViewModel.id = geoBlazorId;
+    }
 
     return dotNetDistanceMeasurement2DViewModel;
 }

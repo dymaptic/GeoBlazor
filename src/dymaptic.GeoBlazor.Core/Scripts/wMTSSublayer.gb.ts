@@ -122,7 +122,10 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
         dotNetWMTSSublayer.wMTSSublayerId = jsObject.id;
     }
 
-    dotNetWMTSSublayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWMTSSublayer.id = geoBlazorId;
+    }
 
     return dotNetWMTSSublayer;
 }

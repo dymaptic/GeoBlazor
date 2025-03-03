@@ -636,7 +636,7 @@ public partial class ListItemPanelWidget
                 if (listItem != ListItem)
                 {
                     ListItem = listItem;
-                    WidgetChanged = true;
+                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ListItem)] = ListItem;
                 }
                 
@@ -652,7 +652,7 @@ public partial class ListItemPanelWidget
         {
             case ListItem _:
                 ListItem = null;
-                WidgetChanged = true;
+                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ListItem)] = ListItem;
                 return true;
             default:

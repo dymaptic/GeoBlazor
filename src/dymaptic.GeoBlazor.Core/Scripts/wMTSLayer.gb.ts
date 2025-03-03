@@ -434,7 +434,10 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any>
         dotNetWMTSLayer.version = jsObject.version;
     }
 
-    dotNetWMTSLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWMTSLayer.id = geoBlazorId;
+    }
 
     return dotNetWMTSLayer;
 }

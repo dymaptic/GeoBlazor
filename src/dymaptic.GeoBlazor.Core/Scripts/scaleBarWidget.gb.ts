@@ -217,7 +217,10 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
         dotNetScaleBarWidget.widgetId = jsObject.id;
     }
 
-    dotNetScaleBarWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetScaleBarWidget.id = geoBlazorId;
+    }
 
     return dotNetScaleBarWidget;
 }

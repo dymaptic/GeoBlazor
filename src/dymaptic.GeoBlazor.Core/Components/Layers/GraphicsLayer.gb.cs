@@ -573,7 +573,7 @@ public partial class GraphicsLayer : IBlendLayer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = true;
+                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 }
                 
@@ -589,7 +589,7 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             case GraphicsLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = true;
+                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
             default:

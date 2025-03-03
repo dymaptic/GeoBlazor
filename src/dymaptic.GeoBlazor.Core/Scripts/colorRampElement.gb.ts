@@ -63,7 +63,10 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any): Promi
         dotNetColorRampElement.type = jsObject.type;
     }
 
-    dotNetColorRampElement.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetColorRampElement.id = geoBlazorId;
+    }
 
     return dotNetColorRampElement;
 }

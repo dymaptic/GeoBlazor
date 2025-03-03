@@ -100,21 +100,21 @@ public abstract partial class Widget : MapComponent
     public override async Task RegisterChildComponent(MapComponent child)
     {
         await base.RegisterChildComponent(child);
-        WidgetChanged = true;
+        WidgetChanged = MapRendered;
     }
 
     /// <inheritdoc />
     public override async Task UnregisterChildComponent(MapComponent child)
     {
         await base.UnregisterChildComponent(child);
-        WidgetChanged = true;
+        WidgetChanged = MapRendered;
     }
 
     /// <inheritdoc />
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        WidgetChanged = true;
+        WidgetChanged = MapRendered;
     }
 
     /// <inheritdoc />
@@ -122,7 +122,7 @@ public abstract partial class Widget : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (WidgetChanged && MapRendered)
+        if (WidgetChanged)
         {
             await UpdateWidget();
         }

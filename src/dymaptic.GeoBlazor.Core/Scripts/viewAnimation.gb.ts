@@ -115,7 +115,10 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<
         dotNetViewAnimation.state = jsObject.state;
     }
 
-    dotNetViewAnimation.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetViewAnimation.id = geoBlazorId;
+    }
 
     return dotNetViewAnimation;
 }

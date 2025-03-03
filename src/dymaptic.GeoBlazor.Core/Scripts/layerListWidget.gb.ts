@@ -446,7 +446,10 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
         dotNetLayerListWidget.widgetId = jsObject.id;
     }
 
-    dotNetLayerListWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetLayerListWidget.id = geoBlazorId;
+    }
 
     return dotNetLayerListWidget;
 }

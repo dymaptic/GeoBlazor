@@ -68,7 +68,10 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         dotNetColorStop.value = jsObject.value;
     }
 
-    dotNetColorStop.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetColorStop.id = geoBlazorId;
+    }
 
     return dotNetColorStop;
 }

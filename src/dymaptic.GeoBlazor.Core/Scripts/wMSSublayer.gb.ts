@@ -125,7 +125,10 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
         dotNetWMSSublayer.wMSSublayerId = jsObject.id;
     }
 
-    dotNetWMSSublayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWMSSublayer.id = geoBlazorId;
+    }
 
     return dotNetWMSSublayer;
 }

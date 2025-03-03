@@ -64,7 +64,10 @@ export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
         dotNetTheme.textColor = buildDotNetMapColor(jsObject.textColor);
     }
 
-    dotNetTheme.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetTheme.id = geoBlazorId;
+    }
 
     return dotNetTheme;
 }

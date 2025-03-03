@@ -423,7 +423,10 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
         dotNetBasemapLayerListWidget.widgetId = jsObject.id;
     }
 
-    dotNetBasemapLayerListWidget.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapLayerListWidget.id = geoBlazorId;
+    }
 
     return dotNetBasemapLayerListWidget;
 }

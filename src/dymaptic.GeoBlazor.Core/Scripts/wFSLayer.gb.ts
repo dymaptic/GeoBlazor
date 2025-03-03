@@ -761,7 +761,10 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
         dotNetWFSLayer.url = jsObject.url;
     }
 
-    dotNetWFSLayer.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetWFSLayer.id = geoBlazorId;
+    }
 
     return dotNetWFSLayer;
 }

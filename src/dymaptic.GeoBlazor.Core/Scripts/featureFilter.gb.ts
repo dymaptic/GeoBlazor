@@ -160,7 +160,10 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<
         dotNetFeatureFilter.where = jsObject.where;
     }
 
-    dotNetFeatureFilter.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetFeatureFilter.id = geoBlazorId;
+    }
 
     return dotNetFeatureFilter;
 }

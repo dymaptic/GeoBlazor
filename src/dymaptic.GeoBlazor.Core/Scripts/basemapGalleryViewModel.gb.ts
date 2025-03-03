@@ -58,6 +58,20 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         this.component.items = await Promise.all(value.map(async i => await buildJsBasemapGalleryItem(i, this.layerId, this.viewId))) as any;
     }
     
+    async getSource(): Promise<any> {
+        if (!hasValue(this.component.source)) {
+            return null;
+        }
+        
+        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        return await buildDotNetIBasemapGalleryWidgetSource(this.component.source);
+    }
+    
+    async setSource(value: any): Promise<void> {
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        this.component.source = await  buildJsIBasemapGalleryWidgetSource(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -81,10 +95,11 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
         let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
         properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsBasemapGalleryItem(i, layerId, viewId))) as any;
     }
-
     if (hasValue(dotNetObject.source)) {
-        properties.source = dotNetObject.source;
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        properties.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, layerId, viewId) as any;
     }
+
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);
 
     let { default: BasemapGalleryViewModelWrapper } = await import('./basemapGalleryViewModel');
@@ -141,13 +156,17 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any)
         dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     if (hasValue(jsObject.source)) {
-        dotNetBasemapGalleryViewModel.source = jsObject.source;
+        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        dotNetBasemapGalleryViewModel.source = await buildDotNetIBasemapGalleryWidgetSource(jsObject.source);
     }
     if (hasValue(jsObject.state)) {
         dotNetBasemapGalleryViewModel.state = jsObject.state;
     }
 
-    dotNetBasemapGalleryViewModel.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetBasemapGalleryViewModel.id = geoBlazorId;
+    }
 
     return dotNetBasemapGalleryViewModel;
 }

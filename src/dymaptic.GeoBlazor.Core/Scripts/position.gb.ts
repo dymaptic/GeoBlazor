@@ -60,7 +60,10 @@ export async function buildDotNetPositionGenerated(jsObject: any): Promise<any> 
         dotNetPosition.coordinate = jsObject.coordinate;
     }
 
-    dotNetPosition.id = lookupGeoBlazorId(jsObject);
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetPosition.id = geoBlazorId;
+    }
 
     return dotNetPosition;
 }
