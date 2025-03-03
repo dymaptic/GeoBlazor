@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///          in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<Cardinality>))]
+[JsonConverter(typeof(EnumRelationshipConverter<Cardinality>))]
 public enum Cardinality
 {
 #pragma warning disable CS1591

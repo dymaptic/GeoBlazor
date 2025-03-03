@@ -391,6 +391,7 @@ public abstract partial class Layer : MapComponent
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
+                if (kvp.Key == nameof(View) || kvp.Key == nameof(MapRendered)) continue;
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
                 {

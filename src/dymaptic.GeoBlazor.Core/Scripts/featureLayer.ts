@@ -336,8 +336,15 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
 export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildJsFeatureLayerGenerated(dotNetObject, layerId, viewId);
+    let jsFeatureLayer = await buildJsFeatureLayerGenerated(dotNetObject, layerId, viewId);
+
+    if (hasValue(dotNetObject.geometryType) && hasValue(dotNetObject.source)) {
+        jsFeatureLayer.geometryType = dotNetObject.geometryType;
+    }
+
+    return jsFeatureLayer;
 }
+
 
 export async function buildDotNetFeatureLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');

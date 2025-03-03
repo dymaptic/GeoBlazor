@@ -536,18 +536,18 @@
             widgetCreated = true;
         }
         AddMapRenderFragment(
-    @<div>
-        <div id="external-container" />
-        <MapView class="map-view" OnViewRendered="renderHandler">
-            <Map>
-                <Basemap>
-                    <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-                </Basemap>
-            </Map>
-            <HomeWidget @ref="homeWidget" ContainerId="external-container"
-                        OnWidgetCreated="OnWidgetCreated" />
-        </MapView>
-    </div>);
+            @<div>
+                <div id="external-container" />
+                <MapView class="map-view" OnViewRendered="renderHandler">
+                    <Map>
+                        <Basemap>
+                            <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                        </Basemap>
+                    </Map>
+                    <HomeWidget @ref="homeWidget" ContainerId="external-container"
+                                OnWidgetCreated="OnWidgetCreated" />
+                </MapView>
+            </div>);
 
         await WaitForMapToRender();
 

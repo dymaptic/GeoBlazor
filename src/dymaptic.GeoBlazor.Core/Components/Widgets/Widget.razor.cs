@@ -99,6 +99,7 @@ public abstract partial class Widget : MapComponent
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
+                if (kvp.Key == nameof(View) || kvp.Key == nameof(MapRendered)) continue;
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
                 {

@@ -148,7 +148,8 @@
 		            </Basemap>
 		            <FeatureLayer @ref="layer" Source="@([])"
                                   GeometryType="FeatureGeometryType.Point"
-                                  ObjectIdField="OBJECT_ID">
+                                  ObjectIdField="OBJECT_ID"
+                                  OutFields="@(["*"])">
 		            </FeatureLayer>
 		        </Map>
 		    </MapView>);
