@@ -42,8 +42,6 @@ public partial class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLay
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>  
     /// </summary>  
     [Parameter]  
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
-    [CodeGenerationIgnore]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IFeatureReduction? FeatureReduction { get; set; }  
-
 }

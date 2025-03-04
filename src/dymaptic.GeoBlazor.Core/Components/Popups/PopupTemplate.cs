@@ -145,7 +145,7 @@ public partial class PopupTemplate : MapComponent
     ///     The action ID.
     /// </param>
     [JSInvokable]
-    public async Task OnTriggerAction(string actionId)
+    public async Task OnJsTriggerAction(string actionId)
     {
         ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
 

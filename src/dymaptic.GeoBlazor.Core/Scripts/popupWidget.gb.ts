@@ -244,6 +244,15 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.location =  buildJsPoint(value);
     }
     
+    async getSelectedFeatureWidget(): Promise<any> {
+        if (!hasValue(this.widget.selectedFeatureWidget)) {
+            return null;
+        }
+        
+        let { buildDotNetFeatureWidget } = await import('./featureWidget');
+        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;

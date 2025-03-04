@@ -278,26 +278,37 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()
     {
-        if (AbortManager is not null)
+        try
         {
-            await AbortManager.DisposeAsync();
-        }
-
-        if (LayerView is not null)
-        {
-            await LayerView.DisposeAsync();
-        }
-
-        if (JsComponentReference is not null)
-        {
-            try
+            if (AbortManager is not null)
             {
-                await JsComponentReference.DisposeAsync();
+                await AbortManager.DisposeAsync();
             }
-            catch (JSDisconnectedException)
+
+            if (LayerView is not null)
             {
-                // ignore, we have disconnected from the JS runtime
+                await LayerView.DisposeAsync();
             }
+
+            if (JsComponentReference is not null)
+            {
+                try
+                {
+                    await JsComponentReference.DisposeAsync();
+                }
+                catch (JSDisconnectedException)
+                {
+                    // ignore, we have disconnected from the JS runtime
+                }
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore
+        }
+        catch (TaskCanceledException)
+        {
+            // ignore
         }
 
         await base.DisposeAsync();

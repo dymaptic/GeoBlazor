@@ -1459,7 +1459,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null) return;
 
         await CoreJsModule.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.Id, Id, null);
+            graphic.Id);
         graphic.Parent = null;
         graphic.View = null;
     }
@@ -1485,7 +1485,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null) return;
 
         await CoreJsModule.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.Id), View!.Id);
+            oldGraphics.Select(g => g.Id));
         AllowRender = true;
     }
 
@@ -1948,6 +1948,10 @@ public partial class MapView : MapComponent
         catch (JSDisconnectedException)
         {
             // ignore, dispose is called by Blazor too early
+        }
+        catch (TaskCanceledException)
+        {
+            // ignore
         }
 
         _isDisposed = true;

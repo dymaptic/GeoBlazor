@@ -226,6 +226,7 @@ public async Task Close()
     ///     The action ID.
     /// </param>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsTriggerAction(string actionId)
     {
         ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
@@ -234,5 +235,14 @@ public async Task Close()
         {
             await action.CallbackFunction!.Invoke();
         }
+    }
+    
+    /// <summary>
+    ///     Override the default symbol of the displayed cluster extent. Only applies when a PopupTemplate is set on a FeatureReductionCluster instance.
+    /// </summary>
+    public async Task SetSelectedClusterBoundaryFeatureSymbol(Symbol symbol)
+    {
+        await JsComponentReference!.InvokeVoidAsync("setSelectedClusterBoundaryFeatureSymbol",
+            symbol);
     }
 }

@@ -37,8 +37,16 @@ export default class GroundGenerated implements IPropertyWrapper {
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.queryElevation(jsGeometry,
             options);
     }

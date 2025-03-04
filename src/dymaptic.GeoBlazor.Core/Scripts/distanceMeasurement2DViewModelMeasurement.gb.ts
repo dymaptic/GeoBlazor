@@ -4,10 +4,11 @@ import { buildDotNetDistanceMeasurement2DViewModelMeasurement } from './distance
 
 export async function buildJsDistanceMeasurement2DViewModelMeasurementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDistanceMeasurement2DViewModelMeasurement: any = {};
-
     if (hasValue(dotNetObject.geometry)) {
-        jsDistanceMeasurement2DViewModelMeasurement.geometry = dotNetObject.geometry;
+        let { buildJsPolyline } = await import('./polyline');
+        jsDistanceMeasurement2DViewModelMeasurement.geometry = buildJsPolyline(dotNetObject.geometry) as any;
     }
+
     if (hasValue(dotNetObject.length)) {
         jsDistanceMeasurement2DViewModelMeasurement.length = dotNetObject.length;
     }
@@ -53,7 +54,8 @@ export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenera
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.geometry)) {
-        dotNetDistanceMeasurement2DViewModelMeasurement.geometry = jsObject.geometry;
+        let { buildDotNetPolyline } = await import('./polyline');
+        dotNetDistanceMeasurement2DViewModelMeasurement.geometry = buildDotNetPolyline(jsObject.geometry);
     }
     if (hasValue(jsObject.length)) {
         dotNetDistanceMeasurement2DViewModelMeasurement.length = jsObject.length;

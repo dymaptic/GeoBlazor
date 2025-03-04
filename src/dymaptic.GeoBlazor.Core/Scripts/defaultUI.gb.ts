@@ -21,8 +21,16 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     
     async add(component: any,
         position: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let jsComponent: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsWidget } = await import('./widget');
+            // @ts-ignore GeoBlazor Pro only
+            jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsComponent = null;
+        }
         let { buildJsUIAddPosition } = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.add(jsComponent,
@@ -41,8 +49,16 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
 
     async move(component: any,
         position: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let jsComponent: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsWidget } = await import('./widget');
+            // @ts-ignore GeoBlazor Pro only
+            jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsComponent = null;
+        }
         let { buildJsUIAddPosition } = await import('./uIAddPosition');
         let jsPosition = await buildJsUIAddPosition(position, this.layerId, this.viewId) as any;
         this.component.move(jsComponent,
@@ -50,8 +66,16 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
     }
 
     async remove(component: any): Promise<void> {
-        let { buildJsWidget } = await import('./widget');
-        let jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        let jsComponent: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsWidget } = await import('./widget');
+            // @ts-ignore GeoBlazor Pro only
+            jsComponent = await buildJsWidget(component, this.layerId, this.viewId) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsComponent = null;
+        }
         this.component.remove(jsComponent);
     }
 

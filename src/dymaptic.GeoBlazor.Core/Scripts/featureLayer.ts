@@ -268,6 +268,22 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return buildDotNetEditsResult(result, this.geoBlazorId as string);
     }
 
+    async getFeatureReduction(): Promise<any> {
+        try {
+            let jsFeatureReduction = this.layer.featureReduction;
+            let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
+            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+        } catch (error) {
+            throw new Error("Available only in GeoBlazor Pro. " + error);
+        }
+    }
+
+    async setFeatureReduction(featureReduction: any) {
+        let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
+        let jsFeatureReduction = await buildJsIFeatureReduction(featureReduction, this.layerId, this.viewId);
+        this.layer.featureReduction = jsFeatureReduction;
+    }
+
     async getFeatureType(graphic: DotNetGraphic): Promise<any> {
 
         let feature = lookupJsGraphicById(graphic.id as string, this.geoBlazorId, this.viewId);

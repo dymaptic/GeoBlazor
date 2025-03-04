@@ -87,7 +87,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>  
     [Parameter]  
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
-    [CodeGenerationIgnore]
     public IFeatureReduction? FeatureReduction { get; set; }
 
     /// <summary>
@@ -209,8 +208,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
         
-        // return await JsComponentReference!.InvokeAsync<FeatureEditsResult>("applyEdits", edits, options,
-        //     View!.Id);
         FeatureEditsResult? addFeatureResults = null;
         FeatureEditsResult? updateFeatureResults = null;
         FeatureEditsResult? deleteFeatureResults = null;

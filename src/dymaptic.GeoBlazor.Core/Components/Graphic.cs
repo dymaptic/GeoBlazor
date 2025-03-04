@@ -510,9 +510,21 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     public override async ValueTask DisposeAsync()
     {
         await base.DisposeAsync();
-        if (CoreJsModule is not null)
+
+        try
         {
-            await CoreJsModule.InvokeVoidAsync("disposeGraphic", Id);
+            if (CoreJsModule is not null)
+            {
+                await CoreJsModule.InvokeVoidAsync("disposeGraphic", Id);
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore
+        }
+        catch (TaskCanceledException)
+        {
+            // ignore
         }
     }
 

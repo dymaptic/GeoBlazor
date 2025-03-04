@@ -35,7 +35,7 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
 
                 break;
             
-            case DefaultSymbol defaultSymbol:
+            case Symbol defaultSymbol:
                 DefaultSymbol = defaultSymbol;
 
                 break;
@@ -57,7 +57,7 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
                 UniqueValueInfos = UniqueValueInfos?.Except([uniqueValue]).ToList();
 
                 break;
-            case DefaultSymbol defaultSymbol:
+            case Symbol defaultSymbol:
                 DefaultSymbol = null;
 
                 break;

@@ -23,8 +23,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         distance: any,
         unit: any,
         unionResults: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.buffer(jsGeometry,
             distance,
             unit,
@@ -33,8 +41,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async clip(geometry: any,
         envelope: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsExtent } = await import('./extent');
         let jsEnvelope = buildJsExtent(envelope) as any;
         return await this.component.clip(jsGeometry,
@@ -43,34 +59,84 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async contains(containerGeometry: any,
         insideGeometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsContainerGeometry = buildJsGeometry(containerGeometry) as any;
-        let jsInsideGeometry = buildJsGeometry(insideGeometry) as any;
+        let jsContainerGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsContainerGeometry = buildJsGeometry(containerGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsContainerGeometry = null;
+        }
+        let jsInsideGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsInsideGeometry = buildJsGeometry(insideGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsInsideGeometry = null;
+        }
         return await this.component.contains(jsContainerGeometry,
             jsInsideGeometry);
     }
 
     async convexHull(geometry: any,
         merge: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.convexHull(jsGeometry,
             merge);
     }
 
     async crosses(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.crosses(jsGeometry1,
             jsGeometry2);
     }
 
     async cut(geometry: any,
         cutter: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPolyline } = await import('./polyline');
         let jsCutter = buildJsPolyline(cutter) as any;
         return await this.component.cut(jsGeometry,
@@ -80,8 +146,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     async densify(geometry: any,
         maxSegmentLength: any,
         maxSegmentLengthUnit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.densify(jsGeometry,
             maxSegmentLength,
             maxSegmentLengthUnit);
@@ -89,18 +163,52 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async difference(inputGeometry: any,
         subtractor: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsInputGeometry = buildJsGeometry(inputGeometry) as any;
-        let jsSubtractor = buildJsGeometry(subtractor) as any;
+        let jsInputGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsInputGeometry = buildJsGeometry(inputGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsInputGeometry = null;
+        }
+        let jsSubtractor: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsSubtractor = buildJsGeometry(subtractor) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsSubtractor = null;
+        }
         return await this.component.difference(jsInputGeometry,
             jsSubtractor);
     }
 
     async disjoint(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.disjoint(jsGeometry1,
             jsGeometry2);
     }
@@ -108,9 +216,26 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     async distance(geometry1: any,
         geometry2: any,
         distanceUnit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.distance(jsGeometry1,
             jsGeometry2,
             distanceUnit);
@@ -122,8 +247,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async flipHorizontal(geometry: any,
         flipOrigin: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipHorizontal(jsGeometry,
@@ -132,8 +265,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async flipVertical(geometry: any,
         flipOrigin: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsFlipOrigin = buildJsPoint(flipOrigin) as any;
         return await this.component.flipVertical(jsGeometry,
@@ -144,8 +285,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         maxDeviation: any,
         removeDegenerateParts: any,
         maxDeviationUnit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.generalize(jsGeometry,
             maxDeviation,
             removeDegenerateParts,
@@ -164,8 +313,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         distance: any,
         unit: any,
         unionResults: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.geodesicBuffer(jsGeometry,
             distance,
             unit,
@@ -175,8 +332,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     async geodesicDensify(geometry: any,
         maxSegmentLength: any,
         maxSegmentLengthUnit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.geodesicDensify(jsGeometry,
             maxSegmentLength,
             maxSegmentLengthUnit);
@@ -184,17 +349,42 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async geodesicLength(geometry: any,
         unit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.geodesicLength(jsGeometry,
             unit);
     }
 
     async intersect(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.intersect(jsGeometry1,
             jsGeometry2);
     }
@@ -210,23 +400,56 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async intersects(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.intersects(jsGeometry1,
             jsGeometry2);
     }
 
     async isSimple(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.isSimple(jsGeometry);
     }
 
     async nearestCoordinate(geometry: any,
         inputPoint: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestCoordinate(jsGeometry,
@@ -235,8 +458,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async nearestVertex(geometry: any,
         inputPoint: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertex(jsGeometry,
@@ -247,8 +478,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         inputPoint: any,
         searchRadius: any,
         maxVertexCountToReturn: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsInputPoint = buildJsPoint(inputPoint) as any;
         return await this.component.nearestVertices(jsGeometry,
@@ -263,8 +502,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         joinType: any,
         bevelRatio: any,
         flattenError: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.offset(jsGeometry,
             offsetDistance,
             offsetUnit,
@@ -275,9 +522,26 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async overlaps(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.overlaps(jsGeometry1,
             jsGeometry2);
     }
@@ -292,8 +556,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
 
     async planarLength(geometry: any,
         unit: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.planarLength(jsGeometry,
             unit);
     }
@@ -301,9 +573,26 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     async relate(geometry1: any,
         geometry2: any,
         relation: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.relate(jsGeometry1,
             jsGeometry2,
             relation);
@@ -312,8 +601,16 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     async rotate(geometry: any,
         angle: any,
         rotationOrigin: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         let { buildJsPoint } = await import('./point');
         let jsRotationOrigin = buildJsPoint(rotationOrigin) as any;
         return await this.component.rotate(jsGeometry,
@@ -322,40 +619,107 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
     }
 
     async simplify(geometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry = buildJsGeometry(geometry) as any;
+        let jsGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry = buildJsGeometry(geometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry = null;
+        }
         return await this.component.simplify(jsGeometry);
     }
 
     async symmetricDifference(leftGeometry: any,
         rightGeometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsLeftGeometry = buildJsGeometry(leftGeometry) as any;
-        let jsRightGeometry = buildJsGeometry(rightGeometry) as any;
+        let jsLeftGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsLeftGeometry = buildJsGeometry(leftGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsLeftGeometry = null;
+        }
+        let jsRightGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsRightGeometry = buildJsGeometry(rightGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsRightGeometry = null;
+        }
         return await this.component.symmetricDifference(jsLeftGeometry,
             jsRightGeometry);
     }
 
     async touches(geometry1: any,
         geometry2: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometry1 = buildJsGeometry(geometry1) as any;
-        let jsGeometry2 = buildJsGeometry(geometry2) as any;
+        let jsGeometry1: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry1 = buildJsGeometry(geometry1) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry1 = null;
+        }
+        let jsGeometry2: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometry2 = buildJsGeometry(geometry2) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometry2 = null;
+        }
         return await this.component.touches(jsGeometry1,
             jsGeometry2);
     }
 
     async union(geometries: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsGeometries = geometries.map(i => buildJsGeometry(i)) as any;
+        let jsGeometries: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsGeometries = geometries.map(i => buildJsGeometry(i)) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsGeometries = null;
+        }
         return await this.component.union(jsGeometries);
     }
 
     async within(innerGeometry: any,
         outerGeometry: any): Promise<any> {
-        let { buildJsGeometry } = await import('./geometry');
-        let jsInnerGeometry = buildJsGeometry(innerGeometry) as any;
-        let jsOuterGeometry = buildJsGeometry(outerGeometry) as any;
+        let jsInnerGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsInnerGeometry = buildJsGeometry(innerGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsInnerGeometry = null;
+        }
+        let jsOuterGeometry: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsGeometry } = await import('./geometry');
+            // @ts-ignore GeoBlazor Pro only
+            jsOuterGeometry = buildJsGeometry(outerGeometry) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsOuterGeometry = null;
+        }
         return await this.component.within(jsInnerGeometry,
             jsOuterGeometry);
     }

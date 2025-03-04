@@ -18,8 +18,8 @@ public partial record FeatureEditsResult
             AddAttachmentResults = AddAttachmentResults.Concat(other.AddAttachmentResults).ToArray(),
             UpdateAttachmentResults = UpdateAttachmentResults.Concat(other.UpdateAttachmentResults).ToArray(),
             DeleteAttachmentResults = DeleteAttachmentResults.Concat(other.DeleteAttachmentResults).ToArray(),
-            EditedFeatureResults = (EditedFeatureResults ?? Array.Empty<EditedFeatureResult>())
-            .Concat(other.EditedFeatureResults ?? Array.Empty<EditedFeatureResult>()).ToArray()
+            EditedFeatureResults = (EditedFeatureResults ?? [])
+            .Concat(other.EditedFeatureResults ?? []).ToArray()
         };
     }
 }

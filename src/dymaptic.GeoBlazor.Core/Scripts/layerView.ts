@@ -1,4 +1,4 @@
-import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, lookupGeoBlazorId, sanitize} from "./arcGisJsInterop";
 
 export async function buildJsLayerView(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject?.layer)) {
@@ -121,8 +121,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 throw e;
             }
         default:
-            let {id, dotNetComponentReference, ...sanitizedDotNetObject} = dotNetObject;
-            return sanitizedDotNetObject;
+            return sanitize(dotNetObject);
     }
 }
 
@@ -260,6 +259,7 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
             }
             break;
         default:
+            dnLayerView = {};
             if (hasValue(jsObject.spatialReferenceSupported)) {
                 dnLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
             }

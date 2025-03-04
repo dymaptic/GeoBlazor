@@ -205,6 +205,7 @@
         _testRenderFragments.Remove(methodInfo.Name);
         _mapRenderingExceptions.Remove(methodInfo.Name);
         _methodsWithRenderedMaps.Remove(methodInfo.Name);
+        Console.WriteLine($"Running test {methodInfo.Name}");
         try
         {
             bool hasParameters = methodInfo.GetParameters().Any();

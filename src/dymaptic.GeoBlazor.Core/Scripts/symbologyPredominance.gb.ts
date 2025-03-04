@@ -20,7 +20,17 @@ export default class SymbologyPredominanceGenerated implements IPropertyWrapper 
     }
     
     async cloneScheme(scheme: any): Promise<any> {
-        return this.component.cloneScheme(scheme);
+        let jsScheme: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsPredominanceSchemeForPolyline } = await import('./predominanceSchemeForPolyline');
+            // @ts-ignore GeoBlazor Pro only
+            jsScheme = await buildJsPredominanceSchemeForPolyline(scheme, this.layerId, this.viewId) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsScheme = null;
+        }
+        return this.component.cloneScheme(jsScheme);
     }
 
     async getSchemeByName(parameters: any): Promise<any> {

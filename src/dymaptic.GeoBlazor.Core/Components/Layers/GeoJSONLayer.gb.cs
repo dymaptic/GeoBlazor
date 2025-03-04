@@ -980,6 +980,36 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the FeatureReduction property.
+    /// </summary>
+    public async Task<IFeatureReduction?> GetFeatureReduction()
+    {
+        if (CoreJsModule is null)
+        {
+            return FeatureReduction;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return FeatureReduction;
+        }
+
+        IFeatureReduction? result = await JsComponentReference.InvokeAsync<IFeatureReduction?>(
+            "getFeatureReduction", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            FeatureReduction = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+        }
+        
+        return FeatureReduction;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Fields property.
     /// </summary>
     public async Task<IReadOnlyList<Field>?> GetFields()
@@ -2041,6 +2071,36 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setFeatureEffect", 
             CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureReduction property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetFeatureReduction(IFeatureReduction? value)
+    {
+#pragma warning disable BL0005
+        FeatureReduction = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureReduction)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "featureReduction", value);
     }
     
     /// <summary>

@@ -105,7 +105,8 @@
         _running = true;
         ParallelOptions options = new()
         {
-            CancellationToken = token
+            CancellationToken = token,
+            MaxDegreeOfParallelism = 8
         };
         await Parallel.ForEachAsync(_testClasses, options, async (kvp, cToken) =>
         {

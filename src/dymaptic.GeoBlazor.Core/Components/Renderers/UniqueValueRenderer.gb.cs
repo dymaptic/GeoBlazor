@@ -87,7 +87,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         AuthoringInfo? authoringInfo = null,
         FillSymbol? backgroundFillSymbol = null,
         string? defaultLabel = null,
-        DefaultSymbol? defaultSymbol = null,
+        Symbol? defaultSymbol = null,
         string? field = null,
         string? field2 = null,
         string? field3 = null,
@@ -139,7 +139,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public DefaultSymbol? DefaultSymbol { get; set; }
+    public Symbol? DefaultSymbol { get; set; }
     
     /// <summary>
     ///     Specifies the name of an additional attribute field used to categorize features.
@@ -299,7 +299,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <summary>
     ///     Asynchronously retrieve the current value of the DefaultSymbol property.
     /// </summary>
-    public async Task<DefaultSymbol?> GetDefaultSymbol()
+    public async Task<Symbol?> GetDefaultSymbol()
     {
         if (CoreJsModule is null)
         {
@@ -313,7 +313,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
 
         // get the property value
-        DefaultSymbol? result = await JsComponentReference!.InvokeAsync<DefaultSymbol?>("getProperty",
+        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
             CancellationTokenSource.Token, "defaultSymbol");
         if (result is not null)
         {
@@ -726,7 +726,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDefaultSymbol(DefaultSymbol? value)
+    public async Task SetDefaultSymbol(Symbol? value)
     {
 #pragma warning disable BL0005
         DefaultSymbol = value;
@@ -746,8 +746,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultSymbol", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultSymbol", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1259,6 +1259,15 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 }
                 
                 return true;
+            case Symbol defaultSymbol:
+                if (defaultSymbol != DefaultSymbol)
+                {
+                    DefaultSymbol = defaultSymbol;
+                    
+                    ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
+                }
+                
+                return true;
             case UniqueValueRendererLegendOptions legendOptions:
                 if (legendOptions != LegendOptions)
                 {
@@ -1312,6 +1321,11 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 return true;
+            case Symbol _:
+                DefaultSymbol = null;
+                
+                ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
+                return true;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
                 
@@ -1342,6 +1356,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     {
     
         BackgroundFillSymbol?.ValidateRequiredGeneratedChildren();
+        DefaultSymbol?.ValidateRequiredGeneratedChildren();
         LegendOptions?.ValidateRequiredGeneratedChildren();
         if (UniqueValueGroups is not null)
         {

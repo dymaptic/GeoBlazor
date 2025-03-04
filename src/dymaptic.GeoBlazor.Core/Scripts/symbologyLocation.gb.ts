@@ -20,7 +20,17 @@ export default class SymbologyLocationGenerated implements IPropertyWrapper {
     }
     
     async cloneScheme(scheme: any): Promise<any> {
-        return this.component.cloneScheme(scheme);
+        let jsScheme: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsLocationSchemeForMesh } = await import('./locationSchemeForMesh');
+            // @ts-ignore GeoBlazor Pro only
+            jsScheme = await buildJsLocationSchemeForMesh(scheme, this.layerId, this.viewId) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsScheme = null;
+        }
+        return this.component.cloneScheme(jsScheme);
     }
 
     async getSchemes(parameters: any): Promise<any> {

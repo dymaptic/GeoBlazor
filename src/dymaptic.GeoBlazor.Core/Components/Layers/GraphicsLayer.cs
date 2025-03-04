@@ -226,7 +226,7 @@ public partial class GraphicsLayer : Layer
         AllowRender = false;
         var removedGraphics = graphics.ToList();
         var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
-        await CoreJsModule!.InvokeVoidAsync("removeGraphics", wrapperIds, View?.Id, Id);
+        await CoreJsModule!.InvokeVoidAsync("removeGraphics", wrapperIds);
         _graphics.ExceptWith(removedGraphics);
         AllowRender = true;
     }
@@ -269,7 +269,7 @@ public partial class GraphicsLayer : Layer
                     try
                     {
                         await CoreJsModule.InvokeVoidAsync("removeGraphic",
-                            CancellationTokenSource.Token, graphic.Id, View?.Id, Id);
+                            CancellationTokenSource.Token, graphic.Id);
                     }
                     catch
                     {

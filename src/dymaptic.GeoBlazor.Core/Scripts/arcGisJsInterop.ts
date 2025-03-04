@@ -844,13 +844,12 @@ export function disposeView(viewId: string): void {
     }
 }
 
-export function disposeMapComponent(componentId: string, viewId: string): void {
+export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
     const component = arcGisObjectRefs[componentId];
     switch (component?.declaredClass) {
         case 'esri.Graphic':
-            const graphic = component as Graphic;
-            (graphic?.layer as GraphicsLayer)?.graphics?.remove(graphic);
-            break;
+            await disposeGraphic(componentId);
+            return;
     }
     component?.destroy();
     if (arcGisObjectRefs.hasOwnProperty(componentId)) {
@@ -864,15 +863,25 @@ export function disposeMapComponent(componentId: string, viewId: string): void {
     }
     const view = arcGisObjectRefs[viewId] as View;
     view?.ui?.remove(component as any);
-    disposeGraphic(componentId);
 }
 
-export function disposeGraphic(graphicId: string) {
-    for (const layerId in graphicsRefs) {
-        const layerGraphics = graphicsRefs[layerId];
-        if (layerGraphics.hasOwnProperty(graphicId)) {
-            layerGraphics[graphicId]?.destroy();
-            delete layerGraphics[graphicId];
+export async function disposeGraphic(graphicId: string) {
+    for (const groupId in graphicsRefs) {
+        const graphics = graphicsRefs[groupId];
+        if (graphics.hasOwnProperty(graphicId)) {
+            const group = arcGisObjectRefs[groupId];
+            const graphic = graphics[graphicId];
+            if (group instanceof MapView) {
+                (group as MapView).graphics.remove(graphic);
+            } else if (group instanceof GraphicsLayer) {
+                (group as GraphicsLayer).remove(graphic);
+            } else if (group instanceof FeatureLayer) {
+                await (group as FeatureLayer).applyEdits({
+                    deleteFeatures: [graphic]
+                });
+            }
+            graphic.destroy();
+            delete graphics[graphicId];
             return;
         }
     }
@@ -968,32 +977,14 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     });
 }
 
-export function removeGraphics(graphicWrapperIds: string[], viewId: string, layerId?: string | null): void {
-    const view = arcGisObjectRefs[viewId] as View;
-    const graphicsToRemove: Graphic[] = [];
-
+export async function removeGraphics(graphicWrapperIds: string[]): Promise<void> {
     for (const id of graphicWrapperIds) {
-        disposeGraphic(id);
-    }
-
-    if (hasValue(layerId)) {
-        const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
-        layer.removeMany(graphicsToRemove);
-    } else {
-        view.graphics.removeMany(graphicsToRemove);
+        await disposeGraphic(id);
     }
 }
 
-export function removeGraphic(graphicId: string, viewId: string, layerId?: string | null): void {
-    const view = arcGisObjectRefs[viewId] as View;
-    const graphic = graphicsRefs[layerId ?? viewId][graphicId];
-    disposeGraphic(graphicId);
-    if (hasValue(layerId)) {
-        const layer = arcGisObjectRefs[layerId as string] as GraphicsLayer;
-        layer.remove(graphic);
-    } else if (hasValue(view)) {
-        view.graphics.remove(graphic);
-    }
+export async function removeGraphic(graphicId: string): Promise<void> {
+    await disposeGraphic(graphicId);
 }
 
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
@@ -2099,4 +2090,10 @@ function findCircularReferences(obj: any, path = '') {
 
     detect(obj, path);
     return circularPaths;
+}
+
+
+export function sanitize(dotNetObject: any): any {
+    let {id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject} = dotNetObject;
+    return sanitizedDotNetObject;
 }

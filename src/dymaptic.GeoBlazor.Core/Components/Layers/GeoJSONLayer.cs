@@ -22,7 +22,6 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     /// </summary>  
     [Parameter]  
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
-    [CodeGenerationIgnore]
     public IFeatureReduction? FeatureReduction { get; set; }
 
 }

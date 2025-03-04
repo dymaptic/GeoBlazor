@@ -461,7 +461,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
     
     let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
-    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer);
 
     try {
         let seenObjects = new WeakMap();

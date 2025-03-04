@@ -21,8 +21,16 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
-        let { buildJsSymbol } = await import('./symbol');
-        let jsSymbol = buildJsSymbol(symbol) as any;
+        let jsSymbol: any; 
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildJsSymbol } = await import('./symbol');
+            // @ts-ignore GeoBlazor Pro only
+            jsSymbol = buildJsSymbol(symbol) as any;
+        } catch (e) {
+            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+            jsSymbol = null;
+        }
         this.component.addUniqueValueInfo(valueOrInfo,
             jsSymbol);
     }
@@ -65,6 +73,20 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
     async setBackgroundFillSymbol(value: any): Promise<void> {
         let { buildJsFillSymbol } = await import('./fillSymbol');
         this.component.backgroundFillSymbol = await  buildJsFillSymbol(value);
+    }
+    
+    async getDefaultSymbol(): Promise<any> {
+        if (!hasValue(this.component.defaultSymbol)) {
+            return null;
+        }
+        
+        let { buildDotNetSymbol } = await import('./symbol');
+        return buildDotNetSymbol(this.component.defaultSymbol);
+    }
+    
+    async setDefaultSymbol(value: any): Promise<void> {
+        let { buildJsSymbol } = await import('./symbol');
+        this.component.defaultSymbol =  buildJsSymbol(value);
     }
     
     async getLegendOptions(): Promise<any> {
@@ -143,6 +165,10 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         let { buildJsFillSymbol } = await import('./fillSymbol');
         properties.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
     }
+    if (hasValue(dotNetObject.defaultSymbol)) {
+        let { buildJsSymbol } = await import('./symbol');
+        properties.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+    }
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         properties.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
@@ -162,9 +188,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
 
     if (hasValue(dotNetObject.defaultLabel)) {
         properties.defaultLabel = dotNetObject.defaultLabel;
-    }
-    if (hasValue(dotNetObject.defaultSymbol)) {
-        properties.defaultSymbol = dotNetObject.defaultSymbol;
     }
     if (hasValue(dotNetObject.field)) {
         properties.field = dotNetObject.field;
@@ -243,6 +266,10 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
         let { buildDotNetFillSymbol } = await import('./fillSymbol');
         dotNetUniqueValueRenderer.backgroundFillSymbol = await buildDotNetFillSymbol(jsObject.backgroundFillSymbol);
     }
+    if (hasValue(jsObject.defaultSymbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
+    }
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         dotNetUniqueValueRenderer.legendOptions = await buildDotNetUniqueValueRendererLegendOptions(jsObject.legendOptions);
@@ -261,9 +288,6 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.defaultLabel)) {
         dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
-    }
-    if (hasValue(jsObject.defaultSymbol)) {
-        dotNetUniqueValueRenderer.defaultSymbol = jsObject.defaultSymbol;
     }
     if (hasValue(jsObject.field)) {
         dotNetUniqueValueRenderer.field = jsObject.field;

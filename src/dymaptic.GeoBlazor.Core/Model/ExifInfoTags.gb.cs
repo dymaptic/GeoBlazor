@@ -24,4 +24,4 @@ public partial record ExifInfoTags(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Value = null);
+    object? Value = null);
