@@ -3,8 +3,8 @@ export async function buildJsIFeatureTemplate(dnFeatureTemplate: any, layerId: s
         // @ts-ignore GeoBlazor Pro only
         let { buildJsFeatureTemplate } = await import('./featureTemplate');
         return await buildJsFeatureTemplate(dnFeatureTemplate, layerId, viewId);
-    } catch {
-        throw new Error("Feature template is only available in GeoBlazor Pro.");
+    } catch (e) {
+        throw e;
     }
 }
 
@@ -13,7 +13,7 @@ export async function buildDotNetIFeatureTemplate(jsObject: any, layerId: string
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
         return await buildDotNetFeatureTemplate(jsObject, layerId, viewId);
-    } catch {
-        throw new Error("Feature template is only available in GeoBlazor Pro.");
+    } catch (e) {
+        throw e;
     }
 }

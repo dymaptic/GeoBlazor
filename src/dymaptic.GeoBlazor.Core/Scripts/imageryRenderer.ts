@@ -8,8 +8,8 @@ export async function buildJsImageryRenderer(dnRenderer: any, layerId: string | 
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsRasterStretchRenderer} = await import('./rasterStretchRenderer');
                 return buildJsRasterStretchRenderer(dnRenderer);
-            } catch {
-                throw new Error("Raster stretch renderer is only available in GeoBlazor Pro.");
+            } catch (e) {
+                throw e;
             }
     }
 

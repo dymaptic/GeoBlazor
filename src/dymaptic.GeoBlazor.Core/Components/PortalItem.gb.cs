@@ -265,7 +265,7 @@ public partial class PortalItem
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public int? Size { get; set; }
+    public long? Size { get; set; }
     
     /// <summary>
     ///     A summary description of the item.
@@ -1187,7 +1187,7 @@ public partial class PortalItem
     /// <summary>
     ///     Asynchronously retrieve the current value of the Size property.
     /// </summary>
-    public async Task<int?> GetSize()
+    public async Task<long?> GetSize()
     {
         if (CoreJsModule is null)
         {

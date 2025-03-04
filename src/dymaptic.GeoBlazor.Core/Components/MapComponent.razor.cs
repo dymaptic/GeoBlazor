@@ -134,61 +134,65 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     public virtual async ValueTask DisposeAsync()
     {
-        await CancellationTokenSource.CancelAsync();
-        IsDisposed = true;
-        
-        if (Parent is not null && _registered)
+        try
         {
-            if (await Parent.UnregisterGeneratedChildComponent(this))
+            await CancellationTokenSource.CancelAsync();
+            IsDisposed = true;
+
+            if (Parent is not null && _registered)
             {
-                _registered = false;
+                if (await Parent.UnregisterGeneratedChildComponent(this))
+                {
+                    _registered = false;
+                }
+                else
+                {
+                    await Parent.UnregisterChildComponent(this);
+                    _registered = false;
+                }
             }
-            else
+
+            foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
             {
-                await Parent.UnregisterChildComponent(this);
-                _registered = false;
+                IJSObjectReference jsRef = tuple.JsObjRef;
+                await jsRef.InvokeVoidAsync("remove");
             }
-        }
 
-        foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _watchers.Values)
-        {
-            IJSObjectReference jsRef = tuple.JsObjRef;
-            await jsRef.InvokeVoidAsync("remove");
-        }
+            _watchers.Clear();
 
-        _watchers.Clear();
+            foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _listeners.Values)
+            {
+                IJSObjectReference jsRef = tuple.JsObjRef;
+                await jsRef.InvokeVoidAsync("remove");
+            }
 
-        foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _listeners.Values)
-        {
-            IJSObjectReference jsRef = tuple.JsObjRef;
-            await jsRef.InvokeVoidAsync("remove");
-        }
+            _listeners.Clear();
 
-        _listeners.Clear();
+            foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _waiters.Values)
+            {
+                IJSObjectReference jsRef = tuple.JsObjRef;
+                await jsRef.InvokeVoidAsync("remove");
+            }
 
-        foreach ((Delegate Handler, IJSObjectReference JsObjRef) tuple in _waiters.Values)
-        {
-            IJSObjectReference jsRef = tuple.JsObjRef;
-            await jsRef.InvokeVoidAsync("remove");
-        }
+            _waiters.Clear();
 
-        _waiters.Clear();
-
-        if (CoreJsModule is not null)
-        {
-            try
+            if (CoreJsModule is not null)
             {
                 await CoreJsModule.InvokeVoidAsync("disposeMapComponent", Id, View?.Id);
             }
-            catch (JSDisconnectedException)
+
+            if (JsComponentReference is not null)
             {
-                // it's fine
+                await JsComponentReference.DisposeAsync();
             }
         }
-        
-        if (JsComponentReference is not null)
+        catch (TaskCanceledException)
         {
-            await JsComponentReference.DisposeAsync();
+            // ignore
+        }
+        catch (JSDisconnectedException)
+        {
+            // ignore
         }
     }
 

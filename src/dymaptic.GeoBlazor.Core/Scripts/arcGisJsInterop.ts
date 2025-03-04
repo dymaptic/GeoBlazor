@@ -588,7 +588,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
                 layerView: await buildDotNetLayerView(evt.layerView),
-                layer: await buildDotNetLayer(evt.layer),
+                layer: await buildDotNetLayer(evt.layer, layerGeoBlazorId, view.id),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer

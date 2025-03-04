@@ -178,7 +178,8 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                                  GeometryType="FeatureGeometryType.Point"
+                          OutFields="@(["*"])"
+                          GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -202,7 +203,8 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                                  GeometryType="FeatureGeometryType.Point"
+                          OutFields="@(["*"])"
+                          GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -239,7 +241,8 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                                  GeometryType="FeatureGeometryType.Point"
+                          OutFields="@(["*"])"
+                          GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>
@@ -290,7 +293,8 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
-                                  GeometryType="FeatureGeometryType.Point"
+                          GeometryType="FeatureGeometryType.Point"
+                          OutFields="@(["*"])"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
         </Map>

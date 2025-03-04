@@ -66,88 +66,88 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsCatalogLayerListWidget} = await import('./catalogLayerListWidget');
                 return await buildJsCatalogLayerListWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'editor':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsEditorWidget} = await import('./editorWidget');
                 return await buildJsEditorWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'feature':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsFeatureWidget} = await import('./featureWidget');
                 return await buildJsFeatureWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'feature-form':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsFeatureFormWidget} = await import('./featureFormWidget');
                 return await buildJsFeatureFormWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'feature-templates':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsFeatureTemplatesWidget} = await import('./featureTemplatesWidget');
                 return await buildJsFeatureTemplatesWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'sketch':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsSketchWidget} = await import('./sketchWidget');
                 return await buildJsSketchWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'swipe':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsSwipeWidget} = await import('./swipeWidget');
                 return await buildJsSwipeWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'table-list-item-panel':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsTableListItemPanelWidget} = await import('./tableListItemPanelWidget');
                 return await buildJsTableListItemPanelWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'table-list':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsTableListWidget} = await import('./tableListWidget');
                 return await buildJsTableListWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'time-slider':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsTimeSliderWidget} = await import('./timeSliderWidget');
                 return await buildJsTimeSliderWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'track':
             try {
                 // @ts-ignore only available in GeoBlazor Pro
                 let {buildJsTrackWidget} = await import('./trackWidget');
                 return await buildJsTrackWidget(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         default:
             let {id, dotNetComponentReference, ...sanitizedDotNetObject} = dotNetObject;

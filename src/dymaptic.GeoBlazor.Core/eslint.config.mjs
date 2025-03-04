@@ -30,7 +30,8 @@ export default [
         'no-case-declarations': "off",
         '@typescript-eslint/no-unsafe-function-type': "off",
         '@typescript-eslint/no-unused-vars': 'off',
-        "no-undef": "error"
+        "no-undef": "error",
+        'no-useless-catch': 'off'
     }
   }
 ];

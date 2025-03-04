@@ -4,8 +4,8 @@ export async function buildJsIFeatureReduction(dotNetObject: any, layerId: strin
         let { buildDotNetFeatureReduction } = await import('./featureReduction');
         // @ts-ignore GeoBlazor Pro only
         return await buildDotNetFeatureReduction(dotNetObject, layerId, viewId);
-    } catch {
-        throw new Error("Feature reduction is only available in GeoBlazor Pro.");
+    } catch (e) {
+        throw e;
     }
 }
 
@@ -15,7 +15,7 @@ export async function buildDotNetIFeatureReduction(featureReduction: any, layerI
         let { buildDotNetFeatureReduction } = await import('./featureReduction');
         // @ts-ignore GeoBlazor Pro only
         return await buildDotNetFeatureReduction(featureReduction, layerId, viewId);
-    } catch {
-        throw new Error("Feature reduction is only available in GeoBlazor Pro.");
+    } catch (e) {
+        throw e;
     }
 }

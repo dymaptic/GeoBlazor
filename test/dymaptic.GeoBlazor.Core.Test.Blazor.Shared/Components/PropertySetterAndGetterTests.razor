@@ -17,7 +17,10 @@
                 <Basemap>
                     <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
                 </Basemap>
-                <FeatureLayer Title="TestLayer1" ObjectIdField="ObjectId" @ref="layer" Source="@( [])" />
+                <FeatureLayer Title="TestLayer1" 
+                              GeometryType="FeatureGeometryType.Point"
+                              ObjectIdField="ObjectId" @ref="layer" 
+                              Source="@( [])" />
             </Map>
         </MapView>);
 
@@ -53,7 +56,7 @@
         await WaitForMapToRender();
         
         Assert.IsNotNull(layer);
-        Assert.IsNull(layer.Renderer);
+        Assert.AreNotEqual("#008000", ((SimpleRenderer)layer.Renderer!).Symbol!.Color!.HexOrNameValue);
         await layer.SetProperty(nameof(FeatureLayer.Renderer), 
             new SimpleRenderer(new SimpleMarkerSymbol(null, new MapColor("green"))));
         Assert.IsNotNull(layer.Renderer);

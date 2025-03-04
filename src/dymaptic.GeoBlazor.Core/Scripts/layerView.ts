@@ -36,8 +36,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsBuildingSceneLayerView} = await import('./buildingSceneLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsBuildingSceneLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'catalog':
             try {
@@ -45,8 +45,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsCatalogLayerView} = await import('./catalogLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsCatalogLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'catalog-dynamic-group':
             try {
@@ -54,8 +54,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsCatalogDynamicGroupLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'catalog-footprint':
             try {
@@ -63,8 +63,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsCatalogFootprintLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'dimension':
             try {
@@ -72,8 +72,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsDimensionLayerView} = await import('./dimensionLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsDimensionLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'media':
             try {
@@ -81,8 +81,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsMediaLayerView} = await import('./mediaLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsMediaLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'ogc-feature':
             try {
@@ -90,8 +90,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsOGCFeatureLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'point-cloud':
             try {
@@ -99,8 +99,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsPointCloudLayerView} = await import('./pointCloudLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsPointCloudLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'scene':
             try {
@@ -108,8 +108,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsSceneLayerView} = await import('./sceneLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsSceneLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         case 'stream':
             try {
@@ -117,8 +117,8 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 let {buildJsStreamLayerView} = await import('./streamLayerView');
                 // @ts-ignore GeoBlazor Pro Only
                 return await buildJsStreamLayerView(dotNetObject, layerId, viewId);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
         default:
             let {id, dotNetComponentReference, ...sanitizedDotNetObject} = dotNetObject;
@@ -174,7 +174,7 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetBuildingSceneLayerView} = await import('./buildingSceneLayerView');
                 dnLayerView = await buildDotNetBuildingSceneLayerView(jsObject);
-            } catch {
+            } catch (e) {
                 throw new Error('Feature only available in GeoBlazor Pro');
             }
             break;
@@ -183,8 +183,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogLayerView} = await import('./catalogLayerView');
                 dnLayerView = await buildDotNetCatalogLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'catalog-dynamic-group':
@@ -192,8 +192,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogDynamicGroupLayerView} = await import('./catalogDynamicGroupLayerView');
                 dnLayerView = await buildDotNetCatalogDynamicGroupLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'catalog-footprint':
@@ -201,8 +201,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
                 dnLayerView = await buildDotNetCatalogFootprintLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'dimension':
@@ -210,8 +210,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetDimensionLayerView} = await import('./dimensionLayerView');
                 dnLayerView = await buildDotNetDimensionLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'media':
@@ -219,8 +219,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetMediaLayerView} = await import('./mediaLayerView');
                 dnLayerView = await buildDotNetMediaLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'ogc-feature':
@@ -228,8 +228,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetOGCFeatureLayerView} = await import('./oGCFeatureLayerView');
                 dnLayerView = await buildDotNetOGCFeatureLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'point-cloud':
@@ -237,8 +237,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetPointCloudLayerView} = await import('./pointCloudLayerView');
                 dnLayerView = await buildDotNetPointCloudLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'scene':
@@ -246,8 +246,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetSceneLayerView} = await import('./sceneLayerView');
                 dnLayerView = await buildDotNetSceneLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         case 'stream':
@@ -255,8 +255,8 @@ export async function buildDotNetLayerView(jsObject: any): Promise<any> {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetStreamLayerView} = await import('./streamLayerView');
                 dnLayerView = await buildDotNetStreamLayerView(jsObject);
-            } catch {
-                throw new Error("Feature only available in GeoBlazor Pro");
+            } catch (e) {
+                throw e;
             }
             break;
         default:
