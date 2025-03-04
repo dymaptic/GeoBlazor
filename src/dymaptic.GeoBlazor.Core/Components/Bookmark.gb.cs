@@ -188,17 +188,17 @@ public partial class Bookmark
             return Viewpoint;
         }
 
-        // get the property value
-        Viewpoint? result = await JsComponentReference!.InvokeAsync<Viewpoint?>("getProperty",
-            CancellationTokenSource.Token, "viewpoint");
+        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
+            "getViewpoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Viewpoint = result;
+            Viewpoint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+            ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
         }
-         
+        
         return Viewpoint;
     }
     
@@ -292,8 +292,8 @@ public partial class Bookmark
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setTimeExtent", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "timeExtent", value);
     }
     
     /// <summary>

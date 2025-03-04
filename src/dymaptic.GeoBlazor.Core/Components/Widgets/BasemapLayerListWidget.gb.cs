@@ -225,17 +225,17 @@ public partial class BasemapLayerListWidget
             return BaseItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "baseItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getBaseItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BaseItems = result;
+            BaseItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BaseItems)] = BaseItems;
+            ModifiedParameters[nameof(BaseItems)] = BaseItems;
         }
-         
+        
         return BaseItems;
     }
     
@@ -555,17 +555,17 @@ public partial class BasemapLayerListWidget
             return ReferenceItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "referenceItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getReferenceItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ReferenceItems = result;
+            ReferenceItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
+            ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
         }
-         
+        
         return ReferenceItems;
     }
     
@@ -585,17 +585,17 @@ public partial class BasemapLayerListWidget
             return SelectedItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "selectedItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getSelectedItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedItems = result;
+            SelectedItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+            ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
         }
-         
+        
         return SelectedItems;
     }
     
@@ -627,36 +627,6 @@ public partial class BasemapLayerListWidget
         }
          
         return SelectionMode;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -1119,36 +1089,6 @@ public partial class BasemapLayerListWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -1327,6 +1267,16 @@ public partial class BasemapLayerListWidget
     {
         switch (child)
         {
+            case ListItem selectedItems:
+                SelectedItems ??= [];
+                if (!SelectedItems.Contains(selectedItems))
+                {
+                    SelectedItems = [..SelectedItems, selectedItems];
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+                }
+                
+                return true;
             case BasemapLayerListViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -1345,6 +1295,11 @@ public partial class BasemapLayerListWidget
     {
         switch (child)
         {
+            case ListItem selectedItems:
+                SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+                return true;
             case BasemapLayerListViewModel _:
                 ViewModel = null;
                 WidgetChanged = MapRendered;
@@ -1359,6 +1314,13 @@ public partial class BasemapLayerListWidget
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (SelectedItems is not null)
+        {
+            foreach (ListItem child in SelectedItems)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

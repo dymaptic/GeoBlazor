@@ -11,6 +11,7 @@ public partial class LocateWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since 4.29. Use Track widget instead")]
     public bool? RotationEnabled { get; set; }
 
     /// <summary>

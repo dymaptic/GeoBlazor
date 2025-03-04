@@ -60,7 +60,7 @@ public partial record PopupOpenOptions(
     IReadOnlyCollection<Graphic>? Features = null,
     bool? FetchFeatures = null,
     Point? Location = null,
-    string? Promises = null,
+    object? Promises = null,
     bool? ShouldFocus = null,
     string? StringContent = null,
     string? Title = null,
@@ -107,7 +107,7 @@ public partial record PopupOpenOptions(
     ///     Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">promises</a> on the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? Promises { get; set; } = Promises;
+    public object? Promises { get; set; } = Promises;
     
     /// <summary>
     ///     Since: 4.23    When `true`, indicates that the focus should be on the popup after it has been opened.

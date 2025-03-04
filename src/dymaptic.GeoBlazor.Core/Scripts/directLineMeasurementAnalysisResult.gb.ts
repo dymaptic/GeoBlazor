@@ -45,10 +45,6 @@ export async function buildDotNetDirectLineMeasurementAnalysisResultGenerated(js
         let { buildDotNetLength } = await import('./length');
         dotNetDirectLineMeasurementAnalysisResult.directDistance = await buildDotNetLength(jsObject.directDistance);
     }
-    if (hasValue(jsObject.distance)) {
-        let { buildDotNetLength } = await import('./length');
-        dotNetDirectLineMeasurementAnalysisResult.distance = await buildDotNetLength(jsObject.distance);
-    }
     if (hasValue(jsObject.horizontalDistance)) {
         let { buildDotNetLength } = await import('./length');
         dotNetDirectLineMeasurementAnalysisResult.horizontalDistance = await buildDotNetLength(jsObject.horizontalDistance);

@@ -135,36 +135,6 @@ public partial class BasemapToggleWidget
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
     public async Task<BasemapToggleViewModel?> GetViewModel()
@@ -234,36 +204,6 @@ public partial class BasemapToggleWidget
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -319,8 +259,8 @@ public partial class BasemapToggleWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -332,11 +272,11 @@ public partial class BasemapToggleWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#toggle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string?> Toggle()
+    public async Task<object?> Toggle()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "toggle", 
             CancellationTokenSource.Token);
     }
@@ -348,15 +288,6 @@ public partial class BasemapToggleWidget
     {
         switch (child)
         {
-            case Basemap activeBasemap:
-                if (activeBasemap != ActiveBasemap)
-                {
-                    ActiveBasemap = activeBasemap;
-                    WidgetChanged = MapRendered;
-                    ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-                }
-                
-                return true;
             case BasemapToggleViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -384,11 +315,6 @@ public partial class BasemapToggleWidget
     {
         switch (child)
         {
-            case Basemap _:
-                ActiveBasemap = null;
-                WidgetChanged = MapRendered;
-                ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
-                return true;
             case BasemapToggleViewModel _:
                 ViewModel = null;
                 WidgetChanged = MapRendered;
@@ -408,13 +334,10 @@ public partial class BasemapToggleWidget
     public override void ValidateRequiredGeneratedChildren()
     {
     
-#pragma warning disable CS0618 // Type or member is obsolete
-        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        if (NextBasemap is null && NextBasemapStyle is null)
         {
-            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapStyle)]);
         }
-#pragma warning restore CS0618 // Type or member is obsolete
-        ActiveBasemap?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

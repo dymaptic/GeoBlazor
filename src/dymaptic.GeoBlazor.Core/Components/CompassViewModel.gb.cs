@@ -8,8 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CompassViewModel : MapComponent,
-    IGoTo,
-    IViewModel
+    IGoTo
 {
 
     /// <summary>

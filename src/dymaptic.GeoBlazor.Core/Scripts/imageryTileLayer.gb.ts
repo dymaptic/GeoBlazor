@@ -548,7 +548,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ImageryTileLayer detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type ImageryTileLayer detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -602,10 +602,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetImageryTileLayer.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
-    }
-    if (hasValue(jsObject.rasterInfo)) {
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetImageryTileLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');

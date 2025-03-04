@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///    default null
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeWidget">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IMeasurementWidgetActiveWidget 
+public partial interface IMeasurementWidgetActiveWidget : IMapComponent
 {
 }

@@ -13,7 +13,6 @@ public partial class BasemapToggleWidget : Widget
     /// </remarks>
     [Parameter]
     [Obsolete("Use NextBasemapStyle instead")]
-    [RequiredProperty(nameof(NextBasemap), nameof(NextBasemapStyle))]
     [CodeGenerationIgnore]
     public string? NextBasemapName { get; set; }
     
@@ -22,7 +21,7 @@ public partial class BasemapToggleWidget : Widget
     /// </summary>
     [Parameter]
 #pragma warning disable CS0618 // Type or member is obsolete
-    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemap))]
+    [RequiredProperty(nameof(NextBasemap))]
 #pragma warning restore CS0618 // Type or member is obsolete
     [CodeGenerationIgnore]
     public BasemapStyleName? NextBasemapStyle { get; set; }
@@ -34,7 +33,7 @@ public partial class BasemapToggleWidget : Widget
     [ArcGISProperty]
     [Parameter]
 #pragma warning disable CS0618 // Type or member is obsolete
-    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemapStyle))]
+    [RequiredProperty(nameof(NextBasemapStyle))]
 #pragma warning restore CS0618 // Type or member is obsolete
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]

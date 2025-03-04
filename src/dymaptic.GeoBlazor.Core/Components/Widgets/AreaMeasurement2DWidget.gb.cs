@@ -160,36 +160,6 @@ public partial class AreaMeasurement2DWidget
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
     public async Task<AreaMeasurement2DViewModel?> GetViewModel()
@@ -286,36 +256,6 @@ public partial class AreaMeasurement2DWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "unitOptions", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
     /// <summary>

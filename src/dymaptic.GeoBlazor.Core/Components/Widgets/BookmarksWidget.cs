@@ -17,6 +17,7 @@ public partial class BookmarksWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since 4.29. Use VisibleElements.EditBookmarkButton, VisibleElements.AddBookmarkButton, and DragEnabled instead.")]
     public bool? EditingEnabled { get; set; }
 
     /// <summary>

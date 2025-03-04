@@ -387,7 +387,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         (view as MapView).highlightOptions = highlightOptions;
     }
 
-    await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers);
+    await setEventListeners(view, dotNetRef, eventRateLimitInMilliseconds, activeEventHandlers, id);
 
     // popup widget needs to be registered before adding layers to not overwrite the popupTemplates
     const popupWidget = widgets.find(w => w.type === 'popup');
@@ -464,7 +464,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 }
 
 async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: number | null,
-                                 activeEventHandlers: Array<string>): Promise<void> {
+                                 activeEventHandlers: Array<string>, viewId: string): Promise<void> {
     view.on('click', async (evt) => {
         evt.mapPoint = buildDotNetPoint(evt.mapPoint) as any;
         await dotNetRef.invokeMethodAsync('OnJavascriptClick', evt);
@@ -588,7 +588,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                 layerObjectRef: layerRef,
                 layerViewObjectRef: layerViewRef,
                 layerView: await buildDotNetLayerView(evt.layerView),
-                layer: await buildDotNetLayer(evt.layer, layerGeoBlazorId, view.id),
+                layer: await buildDotNetLayer(evt.layer, layerGeoBlazorId ?? null, viewId),
                 layerGeoBlazorId: layerGeoBlazorId,
                 isBasemapLayer: isBasemapLayer,
                 isReferenceLayer: isReferenceLayer
@@ -1047,7 +1047,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
         return;
     }
     if (hasValue(dotNetPopup)) {
-        await dotNetPopup.dotNetComponentReference.invokeMethodAsync("OnTriggerAction", event.action.id);
+        await dotNetPopup.dotNetComponentReference.invokeMethodAsync("OnJsTriggerAction", event.action.id);
     }
     const viewRef = dotNetRefs[viewId];
     for (const k of Object.keys(popupTemplateRefs)) {
@@ -1060,7 +1060,7 @@ async function triggerActionCallback(event, viewId, dotNetPopup) {
         }
 
         if (hasValue(popupRef)) {
-            await popupRef.invokeMethodAsync("OnTriggerAction", event.action.id);
+            await popupRef.invokeMethodAsync("OnJsTriggerAction", event.action.id);
         }
     }
 }

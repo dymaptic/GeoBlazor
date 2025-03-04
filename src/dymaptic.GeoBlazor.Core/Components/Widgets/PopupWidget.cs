@@ -45,6 +45,7 @@ public partial class PopupWidget : Widget
     ///     DefaultValue: true
     /// </summary>
     [Parameter]
+    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.CollapseButton instead.")]
     public bool? CollapseEnabled { get; set; }
 
     /// <summary>
@@ -101,6 +102,7 @@ public partial class PopupWidget : Widget
     ///     Indicates whether to display a spinner at the popup location prior to its display when it has pending promises.
     /// </summary>
     [Parameter]
+    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.Spinner instead.")]
     public bool? SpinnerEnabled { get; set; }
 
     /// <summary>
@@ -224,7 +226,7 @@ public async Task Close()
     ///     The action ID.
     /// </param>
     [JSInvokable]
-    public async Task OnTriggerAction(string actionId)
+    public async Task OnJsTriggerAction(string actionId)
     {
         ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
 

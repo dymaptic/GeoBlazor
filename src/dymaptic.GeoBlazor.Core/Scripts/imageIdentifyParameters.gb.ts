@@ -85,10 +85,6 @@ export async function buildDotNetImageIdentifyParametersGenerated(jsObject: any)
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetImageIdentifyParameters.rasterFunctions = await buildDotNetRasterFunction(jsObject.rasterFunctions);
     }
-    if (hasValue(jsObject.renderingRules)) {
-        let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetImageIdentifyParameters.renderingRules = await buildDotNetRasterFunction(jsObject.renderingRules);
-    }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageIdentifyParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
@@ -101,9 +97,6 @@ export async function buildDotNetImageIdentifyParametersGenerated(jsObject: any)
     }
     if (hasValue(jsObject.processAsMultidimensional)) {
         dotNetImageIdentifyParameters.processAsMultidimensional = jsObject.processAsMultidimensional;
-    }
-    if (hasValue(jsObject.renderingRule)) {
-        dotNetImageIdentifyParameters.renderingRule = jsObject.renderingRule;
     }
     if (hasValue(jsObject.returnCatalogItems)) {
         dotNetImageIdentifyParameters.returnCatalogItems = jsObject.returnCatalogItems;

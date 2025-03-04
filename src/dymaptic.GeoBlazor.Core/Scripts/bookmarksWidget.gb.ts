@@ -319,7 +319,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BookmarksWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type BookmarksWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -374,9 +374,6 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBookmarksWidget.dragEnabled = jsObject.dragEnabled;
-    }
-    if (hasValue(jsObject.editingEnabled)) {
-        dotNetBookmarksWidget.editingEnabled = jsObject.editingEnabled;
     }
     if (hasValue(jsObject.filterPlaceholder)) {
         dotNetBookmarksWidget.filterPlaceholder = jsObject.filterPlaceholder;

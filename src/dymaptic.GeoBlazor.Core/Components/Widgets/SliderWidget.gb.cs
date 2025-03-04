@@ -434,6 +434,7 @@ public partial class SliderWidget
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
     public IReadOnlyList<IReadOnlyList<TickElementGroup>>? TickElements { get; protected set; }
     
     /// <summary>
@@ -1462,8 +1463,8 @@ public partial class SliderWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "tickConfigs", value);
+        await JsComponentReference.InvokeVoidAsync("setTickConfigs", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1552,8 +1553,8 @@ public partial class SliderWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

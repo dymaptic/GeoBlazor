@@ -33,7 +33,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i)));
+        return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async setBaseLayers(value: any): Promise<void> {
@@ -61,7 +61,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i)));
+        return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
     }
     
     async setReferenceLayers(value: any): Promise<void> {
@@ -150,7 +150,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type Basemap detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type Basemap detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);

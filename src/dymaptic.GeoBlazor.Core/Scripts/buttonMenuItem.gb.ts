@@ -49,7 +49,7 @@ export async function buildJsButtonMenuItemGenerated(dotNetObject: any, layerId:
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ButtonMenuItem detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type ButtonMenuItem detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -77,9 +77,6 @@ export async function buildDotNetButtonMenuItemGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.clickFunction)) {
         dotNetButtonMenuItem.clickFunction = jsObject.clickFunction;
-    }
-    if (hasValue(jsObject.iconClass)) {
-        dotNetButtonMenuItem.iconClass = jsObject.iconClass;
     }
     if (hasValue(jsObject.label)) {
         dotNetButtonMenuItem.label = jsObject.label;

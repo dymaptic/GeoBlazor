@@ -25,18 +25,37 @@ public partial class CompassWidget : IGoTo
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public CompassWidget(
         GoToOverride? goToOverride = null,
-        CompassViewModel? viewModel = null)
+        string? icon = null,
+        string? label = null,
+        CompassViewModel? viewModel = null,
+        string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
+        Icon = icon;
+        Label = label;
         ViewModel = viewModel;
+        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     

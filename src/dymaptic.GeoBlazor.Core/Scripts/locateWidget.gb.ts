@@ -247,7 +247,7 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LocateWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type LocateWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -299,9 +299,6 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
-    }
-    if (hasValue(jsObject.rotationEnabled)) {
-        dotNetLocateWidget.rotationEnabled = jsObject.rotationEnabled;
     }
     if (hasValue(jsObject.scale)) {
         dotNetLocateWidget.scale = jsObject.scale;

@@ -103,7 +103,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type IArcGISImageService detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type IArcGISImageService detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -157,10 +157,6 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetIArcGISImageService.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
-    }
-    if (hasValue(jsObject.renderingRule)) {
-        let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetIArcGISImageService.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');

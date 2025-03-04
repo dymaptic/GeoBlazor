@@ -237,36 +237,6 @@ public partial class MeasurementWidget
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ViewModel property.
     /// </summary>
     public async Task<MeasurementViewModel?> GetViewModel()
@@ -282,17 +252,17 @@ public partial class MeasurementWidget
             return ViewModel;
         }
 
-        // get the property value
-        MeasurementViewModel? result = await JsComponentReference!.InvokeAsync<MeasurementViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        MeasurementViewModel? result = await JsComponentReference.InvokeAsync<MeasurementViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -391,36 +361,6 @@ public partial class MeasurementWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -446,8 +386,8 @@ public partial class MeasurementWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewModel", value);
+        await JsComponentReference.InvokeVoidAsync("setViewModel", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

@@ -506,17 +506,17 @@ public partial class LayerListWidget
             return OperationalItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "operationalItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getOperationalItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OperationalItems = result;
+            OperationalItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
+            ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
         }
-         
+        
         return OperationalItems;
     }
     
@@ -536,17 +536,17 @@ public partial class LayerListWidget
             return SelectedItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "selectedItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getSelectedItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SelectedItems = result;
+            SelectedItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+            ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
         }
-         
+        
         return SelectedItems;
     }
     
@@ -608,36 +608,6 @@ public partial class LayerListWidget
         }
          
         return TableList;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -765,8 +735,8 @@ public partial class LayerListWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "catalogOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setCatalogOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -945,8 +915,8 @@ public partial class LayerListWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "knowledgeGraphOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setKnowledgeGraphOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1070,36 +1040,6 @@ public partial class LayerListWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -1185,8 +1125,8 @@ public partial class LayerListWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -1278,6 +1218,16 @@ public partial class LayerListWidget
     {
         switch (child)
         {
+            case ListItem selectedItems:
+                SelectedItems ??= [];
+                if (!SelectedItems.Contains(selectedItems))
+                {
+                    SelectedItems = [..SelectedItems, selectedItems];
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+                }
+                
+                return true;
             case LayerListViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -1305,6 +1255,11 @@ public partial class LayerListWidget
     {
         switch (child)
         {
+            case ListItem selectedItems:
+                SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+                return true;
             case LayerListViewModel _:
                 ViewModel = null;
                 WidgetChanged = MapRendered;
@@ -1324,6 +1279,13 @@ public partial class LayerListWidget
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (SelectedItems is not null)
+        {
+            foreach (ListItem child in SelectedItems)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

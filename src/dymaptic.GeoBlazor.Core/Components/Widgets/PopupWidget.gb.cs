@@ -67,6 +67,15 @@ public partial class PopupWidget : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="location">
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
@@ -91,6 +100,10 @@ public partial class PopupWidget : IGoTo
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public PopupWidget(
         IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
@@ -102,12 +115,15 @@ public partial class PopupWidget : IGoTo
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
         bool? highlightEnabled = null,
+        string? icon = null,
+        string? label = null,
         Point? location = null,
-        string? promises = null,
+        object? promises = null,
         int? selectedFeatureIndex = null,
         string? title = null,
         PopupViewModel? viewModel = null,
-        PopupVisibleElements? visibleElements = null)
+        PopupVisibleElements? visibleElements = null,
+        string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -121,12 +137,15 @@ public partial class PopupWidget : IGoTo
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
         HighlightEnabled = highlightEnabled;
+        Icon = icon;
+        Label = label;
         Location = location;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
         Title = title;
         ViewModel = viewModel;
         VisibleElements = visibleElements;
+        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     
@@ -205,7 +224,7 @@ public partial class PopupWidget : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Promises { get; set; }
+    public object? Promises { get; set; }
     
     /// <summary>
     ///     The selected feature accessed by the popup.
@@ -663,7 +682,7 @@ public partial class PopupWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Promises property.
     /// </summary>
-    public async Task<string?> GetPromises()
+    public async Task<object?> GetPromises()
     {
         if (CoreJsModule is null)
         {
@@ -677,7 +696,7 @@ public partial class PopupWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "promises");
         if (result is not null)
         {
@@ -861,17 +880,22 @@ public partial class PopupWidget : IGoTo
             return WidgetContent;
         }
 
-        // get the property value
-        Widget? result = await JsComponentReference!.InvokeAsync<Widget?>("getProperty",
-            CancellationTokenSource.Token, "widgetContent");
+        Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
+            "getWidgetContent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (WidgetContent is not null)
+            {
+                result.Id = WidgetContent.Id;
+            }
+            
 #pragma warning disable BL0005
-             WidgetContent = result;
+            WidgetContent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+            ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
         }
-         
+        
         return WidgetContent;
     }
     
@@ -1025,8 +1049,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "dockOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setDockOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1085,8 +1109,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "features", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatures", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1175,8 +1199,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "location", value);
+        await JsComponentReference.InvokeVoidAsync("setLocation", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1185,7 +1209,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPromises(string? value)
+    public async Task SetPromises(object? value)
     {
 #pragma warning disable BL0005
         Promises = value;
@@ -1355,8 +1379,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1385,8 +1409,8 @@ public partial class PopupWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "widgetContent", value);
+        await JsComponentReference.InvokeVoidAsync("setWidgetContent", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

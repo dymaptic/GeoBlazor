@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class BasemapLayerListViewModel : IViewModel
+public partial class BasemapLayerListViewModel
 {
 
     /// <summary>
@@ -18,49 +18,6 @@ public partial class BasemapLayerListViewModel : IViewModel
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="baseListItemCreatedFunction">
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="basemapTitle">
-    ///     The current basemap's title.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#basemapTitle">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="checkPublishStatusEnabled">
-    ///     Whether to provide an indication if a layer is being published in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="listModeDisabled">
-    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="referenceListItemCreatedFunction">
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing reference layers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public BasemapLayerListViewModel(
-        ListItemCreatedHandler? baseListItemCreatedFunction = null,
-        string? basemapTitle = null,
-        bool? checkPublishStatusEnabled = null,
-        bool? listModeDisabled = null,
-        ListItemCreatedHandler? referenceListItemCreatedFunction = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        BaseListItemCreatedFunction = baseListItemCreatedFunction;
-        BasemapTitle = basemapTitle;
-        CheckPublishStatusEnabled = checkPublishStatusEnabled;
-        ListModeDisabled = listModeDisabled;
-        ReferenceListItemCreatedFunction = referenceListItemCreatedFunction;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -71,33 +28,6 @@ public partial class BasemapLayerListViewModel : IViewModel
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
-    
-    /// <summary>
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#baseListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public ListItemCreatedHandler? BaseListItemCreatedFunction { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="BaseListItemCreatedFunction"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsBaseListItemCreatedFunction(string @event)
-    {
-        if (BaseListItemCreatedFunction is not null)
-        {
-            await BaseListItemCreatedFunction.Invoke(@event);
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="BaseListItemCreatedFunction" /> function was registered.
-    /// </summary>
-    public bool HasBaseListItemCreatedFunction => BaseListItemCreatedFunction is not null;
     
     /// <summary>
     ///     The current basemap's title.
@@ -138,33 +68,6 @@ public partial class BasemapLayerListViewModel : IViewModel
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
     
     /// <summary>
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a> representing reference layers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#referenceListItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public ListItemCreatedHandler? ReferenceListItemCreatedFunction { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="ReferenceListItemCreatedFunction"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsReferenceListItemCreatedFunction(string @event)
-    {
-        if (ReferenceListItemCreatedFunction is not null)
-        {
-            await ReferenceListItemCreatedFunction.Invoke(@event);
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="ReferenceListItemCreatedFunction" /> function was registered.
-    /// </summary>
-    public bool HasReferenceListItemCreatedFunction => ReferenceListItemCreatedFunction is not null;
-    
-    /// <summary>
     ///     The view model's state.
     ///     default disabled
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
@@ -194,17 +97,17 @@ public partial class BasemapLayerListViewModel : IViewModel
             return BaseItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "baseItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getBaseItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BaseItems = result;
+            BaseItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BaseItems)] = BaseItems;
+            ModifiedParameters[nameof(BaseItems)] = BaseItems;
         }
-         
+        
         return BaseItems;
     }
     
@@ -314,17 +217,17 @@ public partial class BasemapLayerListViewModel : IViewModel
             return ReferenceItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "referenceItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getReferenceItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ReferenceItems = result;
+            ReferenceItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
+            ModifiedParameters[nameof(ReferenceItems)] = ReferenceItems;
         }
-         
+        
         return ReferenceItems;
     }
     
@@ -356,36 +259,6 @@ public partial class BasemapLayerListViewModel : IViewModel
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -480,36 +353,6 @@ public partial class BasemapLayerListViewModel : IViewModel
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion

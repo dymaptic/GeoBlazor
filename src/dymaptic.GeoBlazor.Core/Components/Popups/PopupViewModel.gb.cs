@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> widget, which allows users to view content from feature attributes.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup-PopupViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class PopupViewModel : FeaturesViewModel,
-    IViewModel
+public partial class PopupViewModel : FeaturesViewModel
 {
 
     /// <summary>
@@ -105,7 +104,7 @@ public partial class PopupViewModel : FeaturesViewModel,
         bool? highlightEnabled = null,
         bool? includeDefaultActions = null,
         Point? location = null,
-        string? promises = null,
+        object? promises = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
         string? timeZone = null,

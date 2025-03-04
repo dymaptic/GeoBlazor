@@ -395,7 +395,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type PopupWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type PopupWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -462,9 +462,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupWidget.collapsed = jsObject.collapsed;
     }
-    if (hasValue(jsObject.collapseEnabled)) {
-        dotNetPopupWidget.collapseEnabled = jsObject.collapseEnabled;
-    }
     if (hasValue(jsObject.container)) {
         dotNetPopupWidget.container = jsObject.container;
     }
@@ -503,9 +500,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.selectedFeatureWidget)) {
         dotNetPopupWidget.selectedFeatureWidget = jsObject.selectedFeatureWidget;
-    }
-    if (hasValue(jsObject.spinnerEnabled)) {
-        dotNetPopupWidget.spinnerEnabled = jsObject.spinnerEnabled;
     }
     if (hasValue(jsObject.title)) {
         dotNetPopupWidget.title = jsObject.title;

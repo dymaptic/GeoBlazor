@@ -821,11 +821,11 @@ public partial class SliderViewModel
     ///     The index of the associated value.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GetBoundsForValueAtIndex(int index)
+    public async Task<object?> GetBoundsForValueAtIndex(int index)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "getBoundsForValueAtIndex", 
             CancellationTokenSource.Token,
             index);

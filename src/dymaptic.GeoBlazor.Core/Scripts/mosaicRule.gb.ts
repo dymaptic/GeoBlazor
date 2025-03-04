@@ -68,10 +68,6 @@ export async function buildDotNetMosaicRuleGenerated(jsObject: any): Promise<any
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetMosaicRule.itemRasterFunction = await buildDotNetRasterFunction(jsObject.itemRasterFunction);
     }
-    if (hasValue(jsObject.itemRenderingRule)) {
-        let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetMosaicRule.itemRenderingRule = await buildDotNetRasterFunction(jsObject.itemRenderingRule);
-    }
     if (hasValue(jsObject.multidimensionalDefinition)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
         dotNetMosaicRule.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));

@@ -53,7 +53,7 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BookmarksVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type BookmarksVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -76,9 +76,6 @@ export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any
     let dotNetBookmarksVisibleElements: any = {
         jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
-    if (hasValue(jsObject.addBookmark)) {
-        dotNetBookmarksVisibleElements.addBookmark = jsObject.addBookmark;
-    }
     if (hasValue(jsObject.addBookmarkButton)) {
         dotNetBookmarksVisibleElements.addBookmarkButton = jsObject.addBookmarkButton;
     }

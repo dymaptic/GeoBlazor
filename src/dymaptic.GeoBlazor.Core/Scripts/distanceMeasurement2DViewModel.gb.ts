@@ -88,7 +88,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type DistanceMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type DistanceMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -114,9 +114,6 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
         dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement);
-    }
-    if (hasValue(jsObject.geodesicDistanceThreshold)) {
-        dotNetDistanceMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
     }
     if (hasValue(jsObject.measurementLabel)) {
         dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;

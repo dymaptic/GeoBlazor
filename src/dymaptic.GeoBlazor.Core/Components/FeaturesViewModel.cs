@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class FeaturesViewModel
+public partial class FeaturesViewModel: IViewModel
 {
    // Add custom code to this file to override generated code
    /// <summary>
@@ -32,4 +32,40 @@ public partial class FeaturesViewModel
    /// </summary>
    [CodeGenerationIgnore]
    public bool HasGoToOverride => GoToOverride is not null;
+   
+   /// <summary>
+   ///     Use this method to return feature(s) at a given screen location.
+   ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
+   /// </summary>
+   /// <param name="screenPoint">
+   ///     An object representing a point on the screen. This point can be in either the
+   ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ScreenPoint">MapView</a> or
+   ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#ScreenPoint">SceneView</a>.
+   /// </param>
+   /// <param name="options">
+   ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html#FetchFeaturesOptions">options</a>
+   ///     to pass into the <code>fetchFeatures</code> method.
+   /// </param>
+   /// <param name="cancellationToken">
+   ///     The CancellationToken to cancel an asynchronous operation.
+   /// </param>
+   [ArcGISMethod]
+   [CodeGenerationIgnore]
+   public async Task<FetchPopupFeaturesResult?> FetchFeatures(ScreenPoint screenPoint,
+      PopupFetchFeaturesOptions options,
+      CancellationToken cancellationToken = default)
+   {
+      if (JsComponentReference is null) return null;
+        
+      IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+      FetchPopupFeaturesResult? result = await JsComponentReference!.InvokeAsync<FetchPopupFeaturesResult?>(
+         "fetchFeatures", 
+         CancellationTokenSource.Token,
+         screenPoint,
+         new { options.Event, signal = abortSignal });
+                
+      await AbortManager.DisposeAbortController(cancellationToken);
+        
+      return result;
+   }
 }

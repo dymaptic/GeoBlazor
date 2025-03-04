@@ -518,7 +518,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type WCSLayer detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type WCSLayer detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -572,10 +572,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
         dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
-    }
-    if (hasValue(jsObject.rasterInfo)) {
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetWCSLayer.rasterInfo = await buildDotNetRasterInfo(jsObject.rasterInfo);
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');

@@ -427,17 +427,17 @@ public partial class ListItem
             return LayerView;
         }
 
-        // get the property value
-        LayerView? result = await JsComponentReference!.InvokeAsync<LayerView?>("getProperty",
-            CancellationTokenSource.Token, "layerView");
+        LayerView? result = await JsComponentReference.InvokeAsync<LayerView?>(
+            "getLayerView", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LayerView = result;
+            LayerView = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerView)] = LayerView;
+            ModifiedParameters[nameof(LayerView)] = LayerView;
         }
-         
+        
         return LayerView;
     }
     
@@ -619,36 +619,6 @@ public partial class ListItem
         }
          
         return Updating;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
     /// <summary>
@@ -891,8 +861,8 @@ public partial class ListItem
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setLayer", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "layer", value);
     }
     
     /// <summary>
@@ -1015,36 +985,6 @@ public partial class ListItem
             JsComponentReference, "title", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
 #endregion
 
 
@@ -1059,15 +999,6 @@ public partial class ListItem
                     Children = [..Children, children];
                     
                     ModifiedParameters[nameof(Children)] = Children;
-                }
-                
-                return true;
-            case LayerView layerView:
-                if (layerView != LayerView)
-                {
-                    LayerView = layerView;
-                    
-                    ModifiedParameters[nameof(LayerView)] = LayerView;
                 }
                 
                 return true;
@@ -1094,11 +1025,6 @@ public partial class ListItem
                 
                 ModifiedParameters[nameof(Children)] = Children;
                 return true;
-            case LayerView _:
-                LayerView = null;
-                
-                ModifiedParameters[nameof(LayerView)] = LayerView;
-                return true;
             case ListItemPanelWidget _:
                 Panel = null;
                 
@@ -1120,7 +1046,6 @@ public partial class ListItem
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        LayerView?.ValidateRequiredGeneratedChildren();
         Panel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

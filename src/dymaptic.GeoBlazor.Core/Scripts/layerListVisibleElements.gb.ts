@@ -50,7 +50,7 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LayerListVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type LayerListVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);

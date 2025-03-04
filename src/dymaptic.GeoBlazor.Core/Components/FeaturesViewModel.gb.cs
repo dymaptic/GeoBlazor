@@ -8,8 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FeaturesViewModel : MapComponent,
-    IGoTo,
-    IViewModel
+    IGoTo
 {
 
     /// <summary>
@@ -106,7 +105,7 @@ public partial class FeaturesViewModel : MapComponent,
         bool? highlightEnabled = null,
         bool? includeDefaultActions = null,
         Point? location = null,
-        string? promises = null,
+        object? promises = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
         string? timeZone = null,
@@ -314,7 +313,7 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Promises { get; set; }
+    public object? Promises { get; set; }
     
     /// <summary>
     ///     The graphic used to represent the cluster extent when the `Browse features` action is active.
@@ -961,7 +960,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Promises property.
     /// </summary>
-    public async Task<string?> GetPromises()
+    public async Task<object?> GetPromises()
     {
         if (CoreJsModule is null)
         {
@@ -975,7 +974,7 @@ public partial class FeaturesViewModel : MapComponent,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "promises");
         if (result is not null)
         {
@@ -1284,17 +1283,22 @@ public partial class FeaturesViewModel : MapComponent,
             return WidgetContent;
         }
 
-        // get the property value
-        Widget? result = await JsComponentReference!.InvokeAsync<Widget?>("getProperty",
-            CancellationTokenSource.Token, "widgetContent");
+        Widget? result = await JsComponentReference.InvokeAsync<Widget?>(
+            "getWidgetContent", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (WidgetContent is not null)
+            {
+                result.Id = WidgetContent.Id;
+            }
+            
 #pragma warning disable BL0005
-             WidgetContent = result;
+            WidgetContent = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+            ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
         }
-         
+        
         return WidgetContent;
     }
     
@@ -1328,8 +1332,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "actions", value);
+        await JsComponentReference.InvokeVoidAsync("setActions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1478,8 +1482,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "features", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatures", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1538,8 +1542,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureViewModelAbilities", value);
+        await JsComponentReference.InvokeVoidAsync("setFeatureViewModelAbilities", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1628,8 +1632,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "location", value);
+        await JsComponentReference.InvokeVoidAsync("setLocation", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1638,7 +1642,7 @@ public partial class FeaturesViewModel : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPromises(string? value)
+    public async Task SetPromises(object? value)
     {
 #pragma warning disable BL0005
         Promises = value;
@@ -1718,8 +1722,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "spatialReference", value);
+        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1838,8 +1842,8 @@ public partial class FeaturesViewModel : MapComponent,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "widgetContent", value);
+        await JsComponentReference.InvokeVoidAsync("setWidgetContent", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -1926,41 +1930,6 @@ public partial class FeaturesViewModel : MapComponent,
         await JsComponentReference!.InvokeVoidAsync(
             "clear", 
             CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Use this method to return feature(s) at a given screen location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#fetchFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="screenPoint">
-    ///     An object representing a point on the screen. This point can be in either the
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#ScreenPoint">MapView</a> or
-    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#ScreenPoint">SceneView</a>.
-    /// </param>
-    /// <param name="options">
-    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html#FetchFeaturesOptions">options</a>
-    ///     to pass into the <code>fetchFeatures</code> method.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FetchPopupFeaturesResult?> FetchFeatures(ScreenPoint screenPoint,
-        PopupFetchFeaturesOptions options,
-        CancellationToken cancellationToken = default)
-    {
-        if (JsComponentReference is null) return null;
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FetchPopupFeaturesResult? result = await JsComponentReference!.InvokeAsync<FetchPopupFeaturesResult?>(
-            "fetchFeatures", 
-            CancellationTokenSource.Token,
-            screenPoint,
-            new { @event = options.Event, signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
     }
     
     /// <summary>

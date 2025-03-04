@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class LayerListViewModel : MapComponent,
-    IViewModel
+public partial class LayerListViewModel : MapComponent
 {
 
     /// <summary>
@@ -19,38 +18,6 @@ public partial class LayerListViewModel : MapComponent,
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="checkPublishStatusEnabled">
-    ///     Whether to provide an indication if a layer is being published in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a>.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="listItemCreatedFunction">
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="listModeDisabled">
-    ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public LayerListViewModel(
-        bool? checkPublishStatusEnabled = null,
-        LayerListListItemCreatedHandler? listItemCreatedFunction = null,
-        bool? listModeDisabled = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        CheckPublishStatusEnabled = checkPublishStatusEnabled;
-        ListItemCreatedFunction = listItemCreatedFunction;
-        ListModeDisabled = listModeDisabled;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
@@ -62,34 +29,6 @@ public partial class LayerListViewModel : MapComponent,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CheckPublishStatusEnabled { get; set; }
-    
-    /// <summary>
-    ///     Specifies a function that accesses each <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-LayerListViewModel.html#listItemCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore]
-    public LayerListListItemCreatedHandler? ListItemCreatedFunction { get; set; }
-    
-    /// <summary>
-    ///    JS-invokable method that triggers the <see cref="ListItemCreatedFunction"/> function.
-    ///     Should not be called by consuming code.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsListItemCreatedFunction(string @event)
-    {
-        if (ListItemCreatedFunction is not null)
-        {
-            await ListItemCreatedFunction.Invoke(@event);
-        }
-    }
-    
-    /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="ListItemCreatedFunction" /> function was registered.
-    /// </summary>
-    public bool HasListItemCreatedFunction => ListItemCreatedFunction is not null;
     
     /// <summary>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
@@ -200,17 +139,17 @@ public partial class LayerListViewModel : MapComponent,
             return OperationalItems;
         }
 
-        // get the property value
-        IReadOnlyList<ListItem>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ListItem>?>("getProperty",
-            CancellationTokenSource.Token, "operationalItems");
+        IReadOnlyList<ListItem>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ListItem>?>(
+            "getOperationalItems", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OperationalItems = result;
+            OperationalItems = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
+            ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
         }
-         
+        
         return OperationalItems;
     }
     
@@ -242,36 +181,6 @@ public partial class LayerListViewModel : MapComponent,
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -336,36 +245,6 @@ public partial class LayerListViewModel : MapComponent,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listModeDisabled", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
     }
     
 #endregion
@@ -451,52 +330,4 @@ public partial class LayerListViewModel : MapComponent,
    
 #endregion
 
-
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ListItem operationalItems:
-                OperationalItems ??= [];
-                if (!OperationalItems.Contains(operationalItems))
-                {
-                    OperationalItems = [..OperationalItems, operationalItems];
-                    
-                    ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case ListItem operationalItems:
-                OperationalItems = OperationalItems?.Where(o => o != operationalItems).ToList();
-                
-                ModifiedParameters[nameof(OperationalItems)] = OperationalItems;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        if (OperationalItems is not null)
-        {
-            foreach (ListItem child in OperationalItems)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

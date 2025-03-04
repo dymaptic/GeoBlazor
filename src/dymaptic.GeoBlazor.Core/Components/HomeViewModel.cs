@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
-public partial class HomeViewModel : MapComponent
+
+public partial class HomeViewModel : MapComponent, IViewModel
 {
     // Add custom code to this file to override generated code
     /// <summary>

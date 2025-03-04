@@ -342,7 +342,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type LayerListWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type LayerListWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -424,12 +424,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.minFilterItems)) {
         dotNetLayerListWidget.minFilterItems = jsObject.minFilterItems;
-    }
-    if (hasValue(jsObject.multipleSelectionEnabled)) {
-        dotNetLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
-    }
-    if (hasValue(jsObject.selectionEnabled)) {
-        dotNetLayerListWidget.selectionEnabled = jsObject.selectionEnabled;
     }
     if (hasValue(jsObject.selectionMode)) {
         dotNetLayerListWidget.selectionMode = jsObject.selectionMode;

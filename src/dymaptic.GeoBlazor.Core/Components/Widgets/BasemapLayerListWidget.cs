@@ -169,6 +169,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since 4.29. Use SelectionMode, VisibleElements.EditTitleButton, and DragEnabled instead.")]
     public bool? EditingEnabled { get; set; }
     
     /// <summary>
@@ -185,6 +186,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete("Deprecated since 4.29. Use SelectionMode instead.")]
     public bool? MultipleSelectionEnabled { get; set; }
 
 

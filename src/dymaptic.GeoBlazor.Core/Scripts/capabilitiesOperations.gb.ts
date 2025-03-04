@@ -53,7 +53,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, 
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type CapabilitiesOperations detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type CapabilitiesOperations detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -96,9 +96,6 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
     }
     if (hasValue(jsObject.supportsQueryTopFeatures)) {
         dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
-    }
-    if (hasValue(jsObject.supportsResizeAttachments)) {
-        dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
     }
     if (hasValue(jsObject.supportsUpdate)) {
         dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;

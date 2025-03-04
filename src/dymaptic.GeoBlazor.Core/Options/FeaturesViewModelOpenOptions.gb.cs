@@ -38,7 +38,7 @@ public partial record FeaturesViewModelOpenOptions(
     IReadOnlyCollection<Graphic>? Features = null,
     bool? FetchFeatures = null,
     Point? Location = null,
-    string? Promises = null,
+    object? Promises = null,
     string? Title = null,
     bool? UpdateLocationEnabled = null)
 {
@@ -70,7 +70,7 @@ public partial record FeaturesViewModelOpenOptions(
     ///     Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">promises</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public string? Promises { get; set; } = Promises;
+    public object? Promises { get; set; } = Promises;
     
     /// <summary>
     ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">title</a> of the popup.

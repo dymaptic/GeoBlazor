@@ -196,7 +196,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type ListItemPanelWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type ListItemPanelWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -222,9 +222,6 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     if (hasValue(jsObject.listItem)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
-    }
-    if (hasValue(jsObject.className)) {
-        dotNetListItemPanelWidget.className = jsObject.className;
     }
     if (hasValue(jsObject.container)) {
         dotNetListItemPanelWidget.container = jsObject.container;

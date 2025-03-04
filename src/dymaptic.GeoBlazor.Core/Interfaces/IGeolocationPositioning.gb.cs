@@ -14,7 +14,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? GeolocationOptions { get; set; }
+    object? GeolocationOptions { get; set; }
     
     /// <summary>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
@@ -43,7 +43,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the GeolocationOptions property after render.
     /// </summary>
-    Task SetGeolocationOptions(string? value);
+    Task SetGeolocationOptions(object? value);
     
     /// <summary>
     ///    Asynchronously set the value of the GoToLocationEnabled property after render.
@@ -67,7 +67,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    Task<string?> GetGeolocationOptions();
+    Task<object?> GetGeolocationOptions();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the GoToLocationEnabled property.

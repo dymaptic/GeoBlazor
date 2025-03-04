@@ -57,7 +57,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// </param>
     public LocateViewModel(
         Error? error = null,
-        string? geolocationOptions = null,
+        object? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
@@ -97,7 +97,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? GeolocationOptions { get; set; }
+    public object? GeolocationOptions { get; set; }
     
     /// <summary>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
@@ -117,6 +117,16 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Graphic? Graphic { get; set; }
+    
+    /// <summary>
+    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public object? ObjectError { get; set; }
     
     /// <summary>
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
@@ -147,16 +157,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LocateViewModelState? State { get; protected set; }
-    
-    /// <summary>
-    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? StringError { get; set; }
     
 #endregion
 
@@ -195,7 +195,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    public async Task<string?> GetGeolocationOptions()
+    public async Task<object?> GetGeolocationOptions()
     {
         if (CoreJsModule is null)
         {
@@ -209,7 +209,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -285,6 +285,36 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
         
         return Graphic;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ObjectError property.
+    /// </summary>
+    public async Task<object?> GetObjectError()
+    {
+        if (CoreJsModule is null)
+        {
+            return ObjectError;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return ObjectError;
+        }
+
+        // get the property value
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+            CancellationTokenSource.Token, "objectError");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ObjectError = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ObjectError)] = ObjectError;
+        }
+         
+        return ObjectError;
     }
     
     /// <summary>
@@ -377,36 +407,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
         return State;
     }
     
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the StringError property.
-    /// </summary>
-    public async Task<string?> GetStringError()
-    {
-        if (CoreJsModule is null)
-        {
-            return StringError;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return StringError;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringError");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             StringError = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(StringError)] = StringError;
-        }
-         
-        return StringError;
-    }
-    
 #endregion
 
 #region Property Setters
@@ -447,7 +447,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeolocationOptions(string? value)
+    public async Task SetGeolocationOptions(object? value)
     {
 #pragma warning disable BL0005
         GeolocationOptions = value;
@@ -527,8 +527,38 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return;
         }
         
+        await JsComponentReference.InvokeVoidAsync("setGraphic", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the ObjectError property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetObjectError(object? value)
+    {
+#pragma warning disable BL0005
+        ObjectError = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ObjectError)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "graphic", value);
+            JsComponentReference, "objectError", value);
     }
     
     /// <summary>
@@ -591,36 +621,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
             JsComponentReference, "scale", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the StringError property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetStringError(string? value)
-    {
-#pragma warning disable BL0005
-        StringError = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(StringError)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringError", value);
-    }
-    
 #endregion
 
 #region Public Methods
@@ -644,11 +644,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string?> Locate()
+    public async Task<object?> Locate()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "locate", 
             CancellationTokenSource.Token);
     }

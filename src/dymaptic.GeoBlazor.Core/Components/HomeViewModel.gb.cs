@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html">Home</a> widget that animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to its initial <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a> or a previously defined <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">viewpoint</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class HomeViewModel : IViewModel
+public partial class HomeViewModel : IGoTo
 {
 
     /// <summary>
@@ -99,36 +99,6 @@ public partial class HomeViewModel : IViewModel
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the Viewpoint property.
     /// </summary>
     public async Task<Viewpoint?> GetViewpoint()
@@ -144,17 +114,17 @@ public partial class HomeViewModel : IViewModel
             return Viewpoint;
         }
 
-        // get the property value
-        Viewpoint? result = await JsComponentReference!.InvokeAsync<Viewpoint?>("getProperty",
-            CancellationTokenSource.Token, "viewpoint");
+        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
+            "getViewpoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Viewpoint = result;
+            Viewpoint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+            ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
         }
-         
+        
         return Viewpoint;
     }
     
@@ -162,36 +132,6 @@ public partial class HomeViewModel : IViewModel
 
 #region Property Setters
 
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
     /// <summary>
     ///    Asynchronously set the value of the Viewpoint property after render.
     /// </summary>
@@ -218,8 +158,8 @@ public partial class HomeViewModel : IViewModel
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewpoint", value);
+        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion

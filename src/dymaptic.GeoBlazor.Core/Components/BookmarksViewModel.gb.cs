@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">Bookmarks</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class BookmarksViewModel : IGoTo,
-    IViewModel
+public partial class BookmarksViewModel : IGoTo
 {
 
     /// <summary>
@@ -137,17 +136,17 @@ public partial class BookmarksViewModel : IGoTo,
             return ActiveBookmark;
         }
 
-        // get the property value
-        Bookmark? result = await JsComponentReference!.InvokeAsync<Bookmark?>("getProperty",
-            CancellationTokenSource.Token, "activeBookmark");
+        Bookmark? result = await JsComponentReference.InvokeAsync<Bookmark?>(
+            "getActiveBookmark", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActiveBookmark = result;
+            ActiveBookmark = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveBookmark)] = ActiveBookmark;
+            ModifiedParameters[nameof(ActiveBookmark)] = ActiveBookmark;
         }
-         
+        
         return ActiveBookmark;
     }
     
@@ -167,17 +166,17 @@ public partial class BookmarksViewModel : IGoTo,
             return Bookmarks;
         }
 
-        // get the property value
-        IReadOnlyList<Bookmark>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Bookmark>?>("getProperty",
-            CancellationTokenSource.Token, "bookmarks");
+        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>(
+            "getBookmarks", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Bookmarks = result;
+            Bookmarks = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+            ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
         }
-         
+        
         return Bookmarks;
     }
     
@@ -331,8 +330,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "bookmarks", value);
+        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -361,8 +360,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "capabilities", value);
+        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -391,8 +390,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultCreateOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultCreateOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -421,8 +420,8 @@ public partial class BookmarksViewModel : IGoTo,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultEditOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultEditOptions", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -519,11 +518,11 @@ public partial class BookmarksViewModel : IGoTo,
     ///     The bookmark to zoom to.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GoTo(Bookmark bookmark)
+    public async Task<object?> GoTo(Bookmark bookmark)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "goTo", 
             CancellationTokenSource.Token,
             bookmark);

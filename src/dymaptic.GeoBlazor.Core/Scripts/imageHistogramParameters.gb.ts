@@ -59,10 +59,6 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetImageHistogramParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
     }
-    if (hasValue(jsObject.renderingRule)) {
-        let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetImageHistogramParameters.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
-    }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageHistogramParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);

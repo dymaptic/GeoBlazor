@@ -97,7 +97,7 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type AreaMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type AreaMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -127,9 +127,6 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
     if (hasValue(jsObject.measurementLabel)) {
         let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
         dotNetAreaMeasurement2DViewModel.measurementLabel = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsObject.measurementLabel);
-    }
-    if (hasValue(jsObject.geodesicDistanceThreshold)) {
-        dotNetAreaMeasurement2DViewModel.geodesicDistanceThreshold = jsObject.geodesicDistanceThreshold;
     }
     if (hasValue(jsObject.state)) {
         dotNetAreaMeasurement2DViewModel.state = jsObject.state;

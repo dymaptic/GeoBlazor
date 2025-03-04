@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumRelationshipConverter<Role>))]
+[CodeGenerationIgnore]
 public enum Role
 {
 #pragma warning disable CS1591

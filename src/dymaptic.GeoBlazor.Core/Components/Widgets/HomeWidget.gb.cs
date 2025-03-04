@@ -25,6 +25,15 @@ public partial class HomeWidget : IGoTo
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="uiStrings">
     ///     Overwrite localized strings for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#uiStrings">ArcGIS Maps SDK for JavaScript</a>
@@ -37,18 +46,28 @@ public partial class HomeWidget : IGoTo
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when going home.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public HomeWidget(
         GoToOverride? goToOverride = null,
-        string? uiStrings = null,
+        string? icon = null,
+        string? label = null,
+        object? uiStrings = null,
         HomeViewModel? viewModel = null,
-        Viewpoint? viewpoint = null)
+        Viewpoint? viewpoint = null,
+        string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         GoToOverride = goToOverride;
+        Icon = icon;
+        Label = label;
         UiStrings = uiStrings;
         ViewModel = viewModel;
         Viewpoint = viewpoint;
+        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     
@@ -62,7 +81,7 @@ public partial class HomeWidget : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? UiStrings { get; set; }
+    public object? UiStrings { get; set; }
     
     /// <summary>
     ///     The view model for this widget.
@@ -89,7 +108,7 @@ public partial class HomeWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the UiStrings property.
     /// </summary>
-    public async Task<string?> GetUiStrings()
+    public async Task<object?> GetUiStrings()
     {
         if (CoreJsModule is null)
         {
@@ -103,7 +122,7 @@ public partial class HomeWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "uiStrings");
         if (result is not null)
         {
@@ -132,17 +151,22 @@ public partial class HomeWidget : IGoTo
             return ViewModel;
         }
 
-        // get the property value
-        HomeViewModel? result = await JsComponentReference!.InvokeAsync<HomeViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        HomeViewModel? result = await JsComponentReference.InvokeAsync<HomeViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ViewModel is not null)
+            {
+                result.Id = ViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     
@@ -162,17 +186,17 @@ public partial class HomeWidget : IGoTo
             return Viewpoint;
         }
 
-        // get the property value
-        Viewpoint? result = await JsComponentReference!.InvokeAsync<Viewpoint?>("getProperty",
-            CancellationTokenSource.Token, "viewpoint");
+        Viewpoint? result = await JsComponentReference.InvokeAsync<Viewpoint?>(
+            "getViewpoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Viewpoint = result;
+            Viewpoint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
+            ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
         }
-         
+        
         return Viewpoint;
     }
     
@@ -186,7 +210,7 @@ public partial class HomeWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetUiStrings(string? value)
+    public async Task SetUiStrings(object? value)
     {
 #pragma warning disable BL0005
         UiStrings = value;
@@ -266,8 +290,8 @@ public partial class HomeWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "viewpoint", value);
+        await JsComponentReference.InvokeVoidAsync("setViewpoint", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -328,6 +352,15 @@ public partial class HomeWidget : IGoTo
     {
         switch (child)
         {
+            case HomeViewModel viewModel:
+                if (viewModel != ViewModel)
+                {
+                    ViewModel = viewModel;
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                }
+                
+                return true;
             case Viewpoint viewpoint:
                 if (viewpoint != Viewpoint)
                 {
@@ -346,6 +379,11 @@ public partial class HomeWidget : IGoTo
     {
         switch (child)
         {
+            case HomeViewModel _:
+                ViewModel = null;
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                return true;
             case Viewpoint _:
                 Viewpoint = null;
                 WidgetChanged = MapRendered;
@@ -360,6 +398,7 @@ public partial class HomeWidget : IGoTo
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        ViewModel?.ValidateRequiredGeneratedChildren();
         Viewpoint?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

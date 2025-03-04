@@ -299,17 +299,17 @@ public partial class ListItemPanelWidget
             return ListItem;
         }
 
-        // get the property value
-        ListItem? result = await JsComponentReference!.InvokeAsync<ListItem?>("getProperty",
-            CancellationTokenSource.Token, "listItem");
+        ListItem? result = await JsComponentReference.InvokeAsync<ListItem?>(
+            "getListItem", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ListItem = result;
+            ListItem = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ListItem)] = ListItem;
+            ModifiedParameters[nameof(ListItem)] = ListItem;
         }
-         
+        
         return ListItem;
     }
     

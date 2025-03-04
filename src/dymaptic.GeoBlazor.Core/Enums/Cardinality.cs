@@ -9,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumRelationshipConverter<Cardinality>))]
+[CodeGenerationIgnore]
 public enum Cardinality
 {
 #pragma warning disable CS1591

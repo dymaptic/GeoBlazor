@@ -315,7 +315,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
                 if (typeof value === 'object' && value !== null
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing type BasemapLayerListWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                        console.debug(`Circular reference in serializing type BasemapLayerListWidget detected at path: ${key}, value: ${value.declaredClass}`);
                         return undefined;
                     }
                     seenObjects.set(value, true);
@@ -378,9 +378,6 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
-    if (hasValue(jsObject.editingEnabled)) {
-        dotNetBasemapLayerListWidget.editingEnabled = jsObject.editingEnabled;
-    }
     if (hasValue(jsObject.editingTitle)) {
         dotNetBasemapLayerListWidget.editingTitle = jsObject.editingTitle;
     }
@@ -398,9 +395,6 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     }
     if (hasValue(jsObject.minFilterItems)) {
         dotNetBasemapLayerListWidget.minFilterItems = jsObject.minFilterItems;
-    }
-    if (hasValue(jsObject.multipleSelectionEnabled)) {
-        dotNetBasemapLayerListWidget.multipleSelectionEnabled = jsObject.multipleSelectionEnabled;
     }
     if (hasValue(jsObject.referenceFilterText)) {
         dotNetBasemapLayerListWidget.referenceFilterText = jsObject.referenceFilterText;

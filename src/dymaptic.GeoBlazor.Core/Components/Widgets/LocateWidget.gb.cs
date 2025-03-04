@@ -67,7 +67,7 @@ public partial class LocateWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LocateWidget(
-        string? geolocationOptions = null,
+        object? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
@@ -104,7 +104,7 @@ public partial class LocateWidget : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? GeolocationOptions { get; set; }
+    public object? GeolocationOptions { get; set; }
     
     /// <summary>
     ///     Indicates whether the widget should navigate the view to the position and scale of the geolocated result.
@@ -151,7 +151,7 @@ public partial class LocateWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    public async Task<string?> GetGeolocationOptions()
+    public async Task<object?> GetGeolocationOptions()
     {
         if (CoreJsModule is null)
         {
@@ -165,7 +165,7 @@ public partial class LocateWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -348,7 +348,7 @@ public partial class LocateWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeolocationOptions(string? value)
+    public async Task SetGeolocationOptions(object? value)
     {
 #pragma warning disable BL0005
         GeolocationOptions = value;
@@ -428,8 +428,8 @@ public partial class LocateWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "graphic", value);
+        await JsComponentReference.InvokeVoidAsync("setGraphic", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -545,11 +545,11 @@ public partial class LocateWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#locate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<string?> Locate()
+    public async Task<object?> Locate()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "locate", 
             CancellationTokenSource.Token);
     }

@@ -7,8 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///    Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html">Measurement</a> widget.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class MeasurementViewModel : MapComponent,
-    IViewModel
+public partial class MeasurementViewModel : MapComponent
 {
 
     /// <summary>
@@ -154,17 +153,22 @@ public partial class MeasurementViewModel : MapComponent,
             return ActiveViewModel;
         }
 
-        // get the property value
-        IMeasurementViewModelActiveViewModel? result = await JsComponentReference!.InvokeAsync<IMeasurementViewModelActiveViewModel?>("getProperty",
-            CancellationTokenSource.Token, "activeViewModel");
+        IMeasurementViewModelActiveViewModel? result = await JsComponentReference.InvokeAsync<IMeasurementViewModelActiveViewModel?>(
+            "getActiveViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (ActiveViewModel is not null)
+            {
+                result.Id = ActiveViewModel.Id;
+            }
+            
 #pragma warning disable BL0005
-             ActiveViewModel = result;
+            ActiveViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
+            ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
         }
-         
+        
         return ActiveViewModel;
     }
     
@@ -256,36 +260,6 @@ public partial class MeasurementViewModel : MapComponent,
         }
          
         return State;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the View property.
-    /// </summary>
-    public async Task<MapView?> GetView()
-    {
-        if (CoreJsModule is null)
-        {
-            return View;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return View;
-        }
-
-        // get the property value
-        MapView? result = await JsComponentReference!.InvokeAsync<MapView?>("getProperty",
-            CancellationTokenSource.Token, "view");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             View = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(View)] = View;
-        }
-         
-        return View;
     }
     
 #endregion
@@ -412,36 +386,47 @@ public partial class MeasurementViewModel : MapComponent,
             JsComponentReference, "linearUnit", value);
     }
     
-    /// <summary>
-    ///    Asynchronously set the value of the View property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetView(MapView? value)
-    {
-#pragma warning disable BL0005
-        View = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(View)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "view", value);
-    }
-    
 #endregion
 
+
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeasurementViewModelActiveViewModel activeViewModel:
+                if (activeViewModel != ActiveViewModel)
+                {
+                    ActiveViewModel = activeViewModel;
+                    
+                    ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeasurementViewModelActiveViewModel _:
+                ActiveViewModel = null;
+                
+                ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        ActiveViewModel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

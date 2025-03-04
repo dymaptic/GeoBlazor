@@ -55,10 +55,6 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetUniqueValueCreateRendererParams.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
     }
-    if (hasValue(jsObject.renderingRule)) {
-        let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetUniqueValueCreateRendererParams.renderingRule = await buildDotNetRasterFunction(jsObject.renderingRule);
-    }
     if (hasValue(jsObject.classFieldName)) {
         dotNetUniqueValueCreateRendererParams.classFieldName = jsObject.classFieldName;
     }

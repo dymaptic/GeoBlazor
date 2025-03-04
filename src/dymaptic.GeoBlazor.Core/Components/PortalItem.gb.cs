@@ -1201,7 +1201,7 @@ public partial class PortalItem
         }
 
         // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+        JsNullableLongWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableLongWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "size");
         if (result is { Value: not null })
         {
@@ -2034,7 +2034,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSize(int? value)
+    public async Task SetSize(long? value)
     {
 #pragma warning disable BL0005
         Size = value;

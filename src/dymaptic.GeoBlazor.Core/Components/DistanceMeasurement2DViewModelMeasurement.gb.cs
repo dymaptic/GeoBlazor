@@ -30,7 +30,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D-DistanceMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public DistanceMeasurement2DViewModelMeasurement(
-        string? geometry = null,
+        Polyline? geometry = null,
         double? length = null)
     {
         AllowRender = false;
@@ -50,7 +50,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Geometry { get; set; }
+    public Polyline? Geometry { get; set; }
     
     /// <summary>
     ///     Line length (m).
@@ -68,7 +68,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
-    public async Task<string?> GetGeometry()
+    public async Task<Polyline?> GetGeometry()
     {
         if (CoreJsModule is null)
         {
@@ -82,7 +82,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        Polyline? result = await JsComponentReference!.InvokeAsync<Polyline?>("getProperty",
             CancellationTokenSource.Token, "geometry");
         if (result is not null)
         {
@@ -135,7 +135,7 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometry(string? value)
+    public async Task SetGeometry(Polyline? value)
     {
 #pragma warning disable BL0005
         Geometry = value;

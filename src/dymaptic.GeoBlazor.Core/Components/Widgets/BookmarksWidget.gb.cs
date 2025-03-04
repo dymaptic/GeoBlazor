@@ -60,6 +60,15 @@ public partial class BookmarksWidget : IGoTo
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
@@ -67,6 +76,10 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="visibleElements">
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public BookmarksWidget(
         IReadOnlyList<Bookmark>? bookmarks = null,
@@ -78,8 +91,11 @@ public partial class BookmarksWidget : IGoTo
         string? filterText = null,
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
+        string? icon = null,
+        string? label = null,
         BookmarksViewModel? viewModel = null,
-        BookmarksVisibleElements? visibleElements = null)
+        BookmarksVisibleElements? visibleElements = null,
+        string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -92,8 +108,11 @@ public partial class BookmarksWidget : IGoTo
         FilterText = filterText;
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
+        Icon = icon;
+        Label = label;
         ViewModel = viewModel;
         VisibleElements = visibleElements;
+        WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
     
@@ -193,17 +212,17 @@ public partial class BookmarksWidget : IGoTo
             return Bookmarks;
         }
 
-        // get the property value
-        IReadOnlyList<Bookmark>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Bookmark>?>("getProperty",
-            CancellationTokenSource.Token, "bookmarks");
+        IReadOnlyList<Bookmark>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Bookmark>?>(
+            "getBookmarks", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Bookmarks = result;
+            Bookmarks = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+            ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
         }
-         
+        
         return Bookmarks;
     }
     
@@ -512,8 +531,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "bookmarks", value);
+        await JsComponentReference.InvokeVoidAsync("setBookmarks", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -542,8 +561,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultCreateOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultCreateOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -572,8 +591,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "defaultEditOptions", value);
+        await JsComponentReference.InvokeVoidAsync("setDefaultEditOptions", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -782,8 +801,8 @@ public partial class BookmarksWidget : IGoTo
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -835,11 +854,11 @@ public partial class BookmarksWidget : IGoTo
     /// <param name="bookmark">
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> GoTo(Bookmark bookmark)
+    public async Task<object?> GoTo(Bookmark bookmark)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<object?>(
             "goTo", 
             CancellationTokenSource.Token,
             bookmark);
