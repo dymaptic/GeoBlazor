@@ -34,9 +34,6 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
             this.widget.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -45,6 +42,9 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.uiStrings)) {
             this.widget.uiStrings = dotNetObject.uiStrings;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -175,9 +175,6 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -186,6 +183,9 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.uiStrings)) {
         properties.uiStrings = dotNetObject.uiStrings;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -254,9 +254,6 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetHomeWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetHomeWidget.icon = jsObject.icon;
     }
@@ -268,6 +265,9 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.uiStrings)) {
         dotNetHomeWidget.uiStrings = jsObject.uiStrings;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetHomeWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetHomeWidget.widgetId = jsObject.id;

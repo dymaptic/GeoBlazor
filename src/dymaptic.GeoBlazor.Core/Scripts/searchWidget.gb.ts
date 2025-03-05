@@ -54,9 +54,6 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.autoSelect)) {
             this.widget.autoSelect = dotNetObject.autoSelect;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -95,6 +92,9 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.suggestionsEnabled)) {
             this.widget.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -277,9 +277,6 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.autoSelect)) {
         properties.autoSelect = dotNetObject.autoSelect;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -318,6 +315,9 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.suggestionsEnabled)) {
         properties.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -460,9 +460,6 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchWidget.autoSelect = jsObject.autoSelect;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetSearchWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.disabled)) {
         dotNetSearchWidget.disabled = jsObject.disabled;
     }
@@ -510,6 +507,9 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.type)) {
         dotNetSearchWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetSearchWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetSearchWidget.widgetId = jsObject.id;

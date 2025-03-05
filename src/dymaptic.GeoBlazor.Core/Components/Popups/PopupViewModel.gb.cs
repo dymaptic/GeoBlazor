@@ -40,6 +40,10 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="htmlContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="features">
     ///     An array of features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">ArcGIS Maps SDK for JavaScript</a>
@@ -84,6 +88,10 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="stringContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="timeZone">
     ///     Dates and times will be displayed in this time zone.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#timeZone">ArcGIS Maps SDK for JavaScript</a>
@@ -92,11 +100,21 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     The title of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public PopupViewModel(
         IReadOnlyList<ActionBase>? actions = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
+        ElementReference? htmlContent = null,
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
@@ -107,8 +125,11 @@ public partial class PopupViewModel : FeaturesViewModel
         object? promises = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
+        string? stringContent = null,
         string? timeZone = null,
-        string? title = null)
+        string? title = null,
+        bool? visible = null,
+        Widget? widgetContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -116,6 +137,7 @@ public partial class PopupViewModel : FeaturesViewModel
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
+        HtmlContent = htmlContent;
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;
@@ -126,8 +148,11 @@ public partial class PopupViewModel : FeaturesViewModel
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
         SpatialReference = spatialReference;
+        StringContent = stringContent;
         TimeZone = timeZone;
         Title = title;
+        Visible = visible;
+        WidgetContent = widgetContent;
 #pragma warning restore BL0005    
     }
     

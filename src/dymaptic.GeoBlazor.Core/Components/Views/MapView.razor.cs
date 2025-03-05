@@ -1945,13 +1945,17 @@ public partial class MapView : MapComponent
                     CancellationTokenSource.Token, Id);
             }
         }
-        catch (JSDisconnectedException)
-        {
-            // ignore, dispose is called by Blazor too early
-        }
         catch (TaskCanceledException)
         {
-            // ignore
+            // user cancelled
+        }
+        catch (JSDisconnectedException)
+        {
+            // lost connection (page navigation)
+        }
+        catch (JSException)
+        {
+            // instance already destroyed
         }
 
         _isDisposed = true;

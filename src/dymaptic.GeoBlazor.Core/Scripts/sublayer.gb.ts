@@ -238,6 +238,9 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsRenderer } = await import('./renderer');
         properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.source)) {
+        properties.source = dotNetObject.dynamicLayer;
+    }
 
     if (hasValue(dotNetObject.definitionExpression)) {
         properties.definitionExpression = dotNetObject.definitionExpression;
@@ -263,9 +266,6 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
     }
-    if (hasValue(dotNetObject.source)) {
-        properties.source = dotNetObject.source;
-    }
     if (hasValue(dotNetObject.sublayerId)) {
         properties.id = dotNetObject.sublayerId;
     }
@@ -274,6 +274,9 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsSublayer = new Sublayer(properties);
 
@@ -408,6 +411,9 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     }
     if (hasValue(jsObject.url)) {
         dotNetSublayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetSublayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

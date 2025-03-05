@@ -178,7 +178,9 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     The visibility of the layer.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="customParameters">
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
@@ -188,6 +190,10 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="capabilities">
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -195,6 +201,9 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="fields">
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="mosaicRule">
     ///     Defines how overlapping images should be mosaicked.
@@ -262,8 +271,10 @@ public partial class ImageryLayer : IArcGISImageService,
         bool? visible = null,
         Dictionary<string, object>? customParameters = null,
         Extent? fullExtent = null,
+        string? arcGISLayerId = null,
         ArcGISImageServiceCapabilities? capabilities = null,
         IReadOnlyList<Field>? fields = null,
+        bool? isBasemapReferenceLayer = null,
         MosaicRule? mosaicRule = null,
         MultidimensionalSubset? multidimensionalSubset = null,
         PixelFilterFunction? pixelFilter = null,
@@ -310,14 +321,13 @@ public partial class ImageryLayer : IArcGISImageService,
         Title = title;
         Opacity = opacity;
         ListMode = listMode;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         CustomParameters = customParameters;
         FullExtent = fullExtent;
+        ArcGISLayerId = arcGISLayerId;
         Capabilities = capabilities;
         Fields = fields;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         MosaicRule = mosaicRule;
         MultidimensionalSubset = multidimensionalSubset;
         PixelFilter = pixelFilter;

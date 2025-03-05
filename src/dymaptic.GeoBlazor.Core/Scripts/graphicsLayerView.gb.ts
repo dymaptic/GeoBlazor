@@ -73,6 +73,9 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
         jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.visible)) {
+        jsGraphicsLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: GraphicsLayerViewWrapper } = await import('./graphicsLayerView');
     let graphicsLayerViewWrapper = new GraphicsLayerViewWrapper(jsGraphicsLayerView);
@@ -132,6 +135,9 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.updating)) {
         dotNetGraphicsLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGraphicsLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGraphicsLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

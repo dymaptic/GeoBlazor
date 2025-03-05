@@ -26,9 +26,6 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
             this.widget.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -40,6 +37,9 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         }
         if (hasValue(dotNetObject.unitOptions)) {
             this.widget.unitOptions = dotNetObject.unitOptions;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -126,9 +126,6 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
         properties.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -140,6 +137,9 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     }
     if (hasValue(dotNetObject.unitOptions)) {
         properties.unitOptions = dotNetObject.unitOptions;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -196,9 +196,6 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
         dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetAreaMeasurement2DWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetAreaMeasurement2DWidget.icon = jsObject.icon;
     }
@@ -213,6 +210,9 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
     }
     if (hasValue(jsObject.unitOptions)) {
         dotNetAreaMeasurement2DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetAreaMeasurement2DWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetAreaMeasurement2DWidget.widgetId = jsObject.id;

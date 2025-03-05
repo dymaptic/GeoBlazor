@@ -1,6 +1,7 @@
 // override generated code in this file
 import GeoJSONLayerGenerated from './geoJSONLayer.gb';
 import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
@@ -22,6 +23,20 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
         let jsFeatureReduction = await buildJsIFeatureReduction(featureReduction, this.layerId, this.viewId);
         this.layer.featureReduction = jsFeatureReduction;
+    }
+
+    async getTemplates(): Promise<any> {
+        if (!hasValue(this.layer.templates)) {
+            return null;
+        }
+
+        let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
+        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i, this.layerId, this.viewId)));
+    }
+
+    async setTemplates(value: any): Promise<void> {
+        let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
+        this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
     }
 }
 

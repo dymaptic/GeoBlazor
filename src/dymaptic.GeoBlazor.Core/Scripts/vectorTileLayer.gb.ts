@@ -89,6 +89,9 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -334,6 +337,9 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsVectorTileLayer = new VectorTileLayer(properties);
     jsVectorTileLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -478,6 +484,9 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.url)) {
         dotNetVectorTileLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetVectorTileLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

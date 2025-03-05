@@ -30,6 +30,9 @@ public partial class LegendWidget
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#basemapLegendVisible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="headingLevel">
     ///     Indicates the heading level to use for the legend title.
     ///     default 3
@@ -53,6 +56,17 @@ public partial class LegendWidget
     ///     Specifies a subset of the layers to display in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="legendStyle">
+    ///     Indicates the style of the legend.
+    ///     default classic
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="respectLayerDefinitionExpression">
     ///     If a layer uses a unique value render, only features that satisfy the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#definitionExpression">definition expression</a> will be displayed in the legend when set to true.
     ///     default false
@@ -63,9 +77,19 @@ public partial class LegendWidget
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#respectLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="stringStyle">
+    ///     Indicates the style of the legend.
+    ///     default classic
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#style">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
@@ -74,28 +98,40 @@ public partial class LegendWidget
     public LegendWidget(
         IReadOnlyList<ActiveLayerInfo>? activeLayerInfos = null,
         bool? basemapLegendVisible = null,
+        string? containerId = null,
         double? headingLevel = null,
         bool? hideLayersNotInCurrentView = null,
         string? icon = null,
         string? label = null,
         IReadOnlyList<LegendLayerInfos>? layerInfos = null,
+        LegendStyle? legendStyle = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         bool? respectLayerDefinitionExpression = null,
         bool? respectLayerVisibility = null,
+        string? stringStyle = null,
         LegendViewModel? viewModel = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveLayerInfos = activeLayerInfos;
         BasemapLegendVisible = basemapLegendVisible;
+        ContainerId = containerId;
         HeadingLevel = headingLevel;
         HideLayersNotInCurrentView = hideLayersNotInCurrentView;
         Icon = icon;
         Label = label;
         LayerInfos = layerInfos;
+        LegendStyle = legendStyle;
+        MapView = mapView;
+        Position = position;
         RespectLayerDefinitionExpression = respectLayerDefinitionExpression;
         RespectLayerVisibility = respectLayerVisibility;
+        StringStyle = stringStyle;
         ViewModel = viewModel;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

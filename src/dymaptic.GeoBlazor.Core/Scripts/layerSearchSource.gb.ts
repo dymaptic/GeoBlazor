@@ -17,12 +17,6 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
             return await Promise.all(result.map(async i => await buildJsSearchResult(i)));
         };
     }
-    if (hasValue(dotNetObject.hasGetSuggestionsHandler) && dotNetObject.hasGetSuggestionsHandler) {
-        properties.getSuggestions = async (parameters) => {
-
-            return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
-        };
-    }
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
         properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
@@ -44,6 +38,9 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.exactMatch)) {
         properties.exactMatch = dotNetObject.exactMatch;
+    }
+    if (hasValue(dotNetObject.getSuggestionsHandler)) {
+        properties.getSuggestions = dotNetObject.getSuggestionsHandler;
     }
     if (hasValue(dotNetObject.maxResults)) {
         properties.maxResults = dotNetObject.maxResults;

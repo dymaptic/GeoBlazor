@@ -9,9 +9,6 @@ export async function buildJsDOMContainerGenerated(dotNetObject: any, layerId: s
         jsDOMContainer.ui = await buildJsDefaultUI(dotNetObject.ui, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsDOMContainer.container = dotNetObject.container;
-    }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsDOMContainer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
@@ -32,9 +29,6 @@ export async function buildDotNetDOMContainerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.ui)) {
         let { buildDotNetDefaultUI } = await import('./defaultUI');
         dotNetDOMContainer.ui = await buildDotNetDefaultUI(jsObject.ui);
-    }
-    if (hasValue(jsObject.container)) {
-        dotNetDOMContainer.container = jsObject.container;
     }
     if (hasValue(jsObject.focused)) {
         dotNetDOMContainer.focused = jsObject.focused;

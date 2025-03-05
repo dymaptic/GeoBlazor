@@ -211,6 +211,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.useViewTime)) {
             this.layer.useViewTime = dotNetObject.useViewTime;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async addAttachment(feature: any,
@@ -473,20 +476,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.subtypes.map(async i => await buildDotNetSubtype(i)));
     }
     
-    async getTemplates(): Promise<any> {
-        if (!hasValue(this.layer.templates)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i, this.layerId, this.viewId)));
-    }
-    
-    async setTemplates(value: any): Promise<void> {
-        let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        this.layer.templates = await Promise.all(value.map(async i => await buildJsFeatureTemplate(i, this.layerId, this.viewId))) as any;
-    }
-    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
@@ -569,6 +558,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.dynamicDataSource)) {
+        properties.dynamicDataSource = dotNetObject.dynamicLayer;
+    }
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
@@ -581,6 +573,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.featureReduction)) {
+        properties.featureReduction = dotNetObject.iFeatureReduction;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -588,6 +583,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
         properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.formTemplate)) {
+        properties.formTemplate = dotNetObject.iFormTemplate;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -616,6 +614,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.source)) {
         let { buildJsGraphic } = await import('./graphic');
         properties.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
+    }
+    if (hasValue(dotNetObject.templates)) {
+        properties.templates = dotNetObject.iFeatureTemplate;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -665,17 +666,8 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.displayField)) {
         properties.displayField = dotNetObject.displayField;
     }
-    if (hasValue(dotNetObject.dynamicDataSource)) {
-        properties.dynamicDataSource = dotNetObject.dynamicDataSource;
-    }
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
-    }
-    if (hasValue(dotNetObject.featureReduction)) {
-        properties.featureReduction = dotNetObject.featureReduction;
-    }
-    if (hasValue(dotNetObject.formTemplate)) {
-        properties.formTemplate = dotNetObject.formTemplate;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -740,9 +732,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = sanitize(dotNetObject.spatialReference);
     }
-    if (hasValue(dotNetObject.templates)) {
-        properties.templates = dotNetObject.templates;
-    }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
@@ -754,6 +743,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.useViewTime)) {
         properties.useViewTime = dotNetObject.useViewTime;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsFeatureLayer = new FeatureLayer(properties);
     jsFeatureLayer.on('layerview-create', async (evt: any) => {
@@ -1071,6 +1063,9 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.version)) {
         dotNetFeatureLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetFeatureLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

@@ -5,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    
 /// </summary>
-public partial interface IElevationLayer 
+[JsonConverter(typeof(MultiTypeConverter<IElevationLayer>))]
+public partial interface IElevationLayer : IMapComponent
 {
 }

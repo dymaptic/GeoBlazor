@@ -87,6 +87,9 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
         properties.pixelData = await buildJsPixelData(dotNetObject.pixelData, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsImageryLayerView = new ImageryLayerView(properties);
 
     let { default: ImageryLayerViewWrapper } = await import('./imageryLayerView');
@@ -151,6 +154,9 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.updating)) {
         dotNetImageryLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetImageryLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetImageryLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

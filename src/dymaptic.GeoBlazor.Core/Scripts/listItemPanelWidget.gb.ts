@@ -29,9 +29,6 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.className)) {
             this.widget.className = dotNetObject.className;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.content)) {
             this.widget.content = dotNetObject.content;
         }
@@ -55,6 +52,9 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.title)) {
             this.widget.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -141,9 +141,6 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.className)) {
         properties.className = dotNetObject.className;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.content)) {
         properties.content = dotNetObject.content;
     }
@@ -167,6 +164,9 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -223,9 +223,6 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
         let { buildDotNetListItem } = await import('./listItem');
         dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetListItemPanelWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.content)) {
         dotNetListItemPanelWidget.content = jsObject.content;
     }
@@ -252,6 +249,9 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.type)) {
         dotNetListItemPanelWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetListItemPanelWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetListItemPanelWidget.widgetId = jsObject.id;

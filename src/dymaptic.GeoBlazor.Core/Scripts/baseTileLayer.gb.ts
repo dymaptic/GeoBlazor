@@ -72,6 +72,9 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async addResolvingPromise(promiseToLoad: any): Promise<any> {

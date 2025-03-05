@@ -49,6 +49,8 @@ public partial class FieldInfo
     /// </param>
     /// <param name="visible">
     ///     Indicates whether the field is visible in the popup window.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="statisticType">
     ///     Used in a `one:many` or `many:many` relationship to compute the statistics on the field to show in the popup.
@@ -72,10 +74,7 @@ public partial class FieldInfo
         StringFieldOption = stringFieldOption;
         Format = format;
         IsEditable = isEditable;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         StatisticType = statisticType;
 #pragma warning restore BL0005    
     }

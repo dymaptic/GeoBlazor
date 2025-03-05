@@ -26,12 +26,19 @@ public partial class GraphicsLayerView : LayerView,
     ///     Options for configuring the highlight.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     When `true`, the layer is visible in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public GraphicsLayerView(
-        HighlightOptions? highlightOptions = null)
+        HighlightOptions? highlightOptions = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         HighlightOptions = highlightOptions;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

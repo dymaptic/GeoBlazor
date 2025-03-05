@@ -45,6 +45,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     The graphic used to show the user's location on the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="objectError">
+    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
@@ -61,6 +66,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
+        object? objectError = null,
         bool? popupEnabled = null,
         double? scale = null)
     {
@@ -71,6 +77,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         GoToLocationEnabled = goToLocationEnabled;
         GoToOverride = goToOverride;
         Graphic = graphic;
+        ObjectError = objectError;
         PopupEnabled = popupEnabled;
         Scale = scale;
 #pragma warning restore BL0005    

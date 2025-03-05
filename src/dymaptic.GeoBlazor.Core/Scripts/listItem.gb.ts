@@ -38,6 +38,9 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsListItem = new ListItem(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsListItem);
@@ -123,6 +126,9 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.visibilityMode)) {
         dotNetListItem.visibilityMode = jsObject.visibilityMode;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetListItem.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetListItem.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

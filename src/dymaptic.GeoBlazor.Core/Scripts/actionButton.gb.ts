@@ -27,6 +27,9 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsActionButton = new ActionButton(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
@@ -92,6 +95,9 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetActionButton.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetActionButton.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

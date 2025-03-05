@@ -84,6 +84,9 @@ export default class BingMapsLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async addResolvingPromise(promiseToLoad: any): Promise<any> {
@@ -252,6 +255,9 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsBingMapsLayer = new BingMapsLayer(properties);
     jsBingMapsLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -394,6 +400,9 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.type)) {
         dotNetBingMapsLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetBingMapsLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

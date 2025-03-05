@@ -82,6 +82,9 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.urlTemplate)) {
             this.layer.urlTemplate = dotNetObject.urlTemplate;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,

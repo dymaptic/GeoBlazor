@@ -114,7 +114,7 @@
     private async Task DisplayCoordinates(Point? center)
     {
         var popupOptions = new PopupOptions(new PopupDockOptions(buttonEnabled: false),
-            new PopupVisibleElements { CloseButton = false, FeatureNavigation = false });
+            new PopupVisibleElements(false, false));
 
         var popupTemplate = new PopupTemplate($"WKID: {center!.SpatialReference!.Wkid}",
             $"<b>X:</b> {center.X!.Value.ToString("N5", CultureInfo.CurrentCulture)} | <b>Y:</b> {center.Y!.Value.ToString("N5", CultureInfo.CurrentCulture)}");

@@ -34,14 +34,14 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
             this.widget.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -177,14 +177,14 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
         properties.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -245,9 +245,6 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
         let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
         dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetBasemapToggleWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetBasemapToggleWidget.icon = jsObject.icon;
     }
@@ -256,6 +253,9 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.type)) {
         dotNetBasemapToggleWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetBasemapToggleWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetBasemapToggleWidget.widgetId = jsObject.id;

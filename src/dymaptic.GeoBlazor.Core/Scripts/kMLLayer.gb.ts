@@ -73,6 +73,9 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -217,6 +220,9 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsKMLLayer = new KMLLayer(properties);
     jsKMLLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -335,6 +341,9 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.url)) {
         dotNetKMLLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetKMLLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

@@ -25,6 +25,9 @@ public partial class BookmarksWidget : IGoTo
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">Bookmark</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#bookmarks">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="defaultCreateOptions">
     ///     Specifies how new bookmarks will be created if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#VisibleElements">visibleElements.addBookmarkButton</a> is set to `true`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#defaultCreateOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -69,9 +72,20 @@ public partial class BookmarksWidget : IGoTo
     ///     The widget's label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibleElements">
     ///     The visible elements that are displayed within the widget.
@@ -83,6 +97,7 @@ public partial class BookmarksWidget : IGoTo
     /// </param>
     public BookmarksWidget(
         IReadOnlyList<Bookmark>? bookmarks = null,
+        string? containerId = null,
         BookmarkOptions? defaultCreateOptions = null,
         BookmarkOptions? defaultEditOptions = null,
         bool? disabled = null,
@@ -93,13 +108,17 @@ public partial class BookmarksWidget : IGoTo
         int? headingLevel = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         BookmarksViewModel? viewModel = null,
+        bool? visible = null,
         BookmarksVisibleElements? visibleElements = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Bookmarks = bookmarks;
+        ContainerId = containerId;
         DefaultCreateOptions = defaultCreateOptions;
         DefaultEditOptions = defaultEditOptions;
         Disabled = disabled;
@@ -110,7 +129,10 @@ public partial class BookmarksWidget : IGoTo
         HeadingLevel = headingLevel;
         Icon = icon;
         Label = label;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
+        Visible = visible;
         VisibleElements = visibleElements;
         WidgetId = widgetId;
 #pragma warning restore BL0005    

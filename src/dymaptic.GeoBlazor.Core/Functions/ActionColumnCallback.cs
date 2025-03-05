@@ -5,5 +5,5 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 /// <param name="parameters">
 ///    
 /// </param>
-public delegate Task ActionColumnCallback(string parameters);
+public delegate Task ActionColumnCallback(object parameters);
 

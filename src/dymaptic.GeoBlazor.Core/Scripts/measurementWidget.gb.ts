@@ -32,9 +32,6 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.areaUnit)) {
             this.widget.areaUnit = dotNetObject.areaUnit;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -43,6 +40,9 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.linearUnit)) {
             this.widget.linearUnit = dotNetObject.linearUnit;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -143,9 +143,6 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -154,6 +151,9 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.linearUnit)) {
         properties.linearUnit = dotNetObject.linearUnit;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -219,9 +219,6 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetMeasurementWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetMeasurementWidget.icon = jsObject.icon;
     }
@@ -233,6 +230,9 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.type)) {
         dotNetMeasurementWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetMeasurementWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetMeasurementWidget.widgetId = jsObject.id;

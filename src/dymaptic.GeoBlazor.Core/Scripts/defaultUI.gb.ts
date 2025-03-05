@@ -97,9 +97,6 @@ export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.components)) {
         properties.components = dotNetObject.components;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.padding)) {
         properties.padding = dotNetObject.padding;
     }
@@ -129,9 +126,6 @@ export async function buildDotNetDefaultUIGenerated(jsObject: any): Promise<any>
     };
     if (hasValue(jsObject.components)) {
         dotNetDefaultUI.components = jsObject.components;
-    }
-    if (hasValue(jsObject.container)) {
-        dotNetDefaultUI.container = jsObject.container;
     }
     if (hasValue(jsObject.height)) {
         dotNetDefaultUI.height = jsObject.height;

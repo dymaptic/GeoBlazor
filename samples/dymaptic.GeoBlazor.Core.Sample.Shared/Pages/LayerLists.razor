@@ -55,7 +55,7 @@
         await item.SetVisibility(true);
         if (item.Title?.StartsWith("Transit") ?? false)
         {
-            item.Title = $"Mass {item.Title}";
+            await item.SetTitle($"Mass {item.Title}");
         }
         return item;
     }

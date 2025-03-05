@@ -1588,6 +1588,12 @@ export function removeWidget(widgetId: string, viewId: string): void {
     delete arcGisObjectRefs.widgetId;
 }
 
+export function setWidgetPosition(viewId: string, widgetId: string, position: string) {
+    const view = arcGisObjectRefs[viewId] as MapView;
+    const widget = arcGisObjectRefs[widgetId] as Widget;
+    view.ui.move(widget, position);
+}
+
 export async function addLayer(layerObject: any, viewId: string, isBasemapLayer?: boolean, isReferenceLayer?: boolean,
                                isQueryLayer?: boolean, callback?: Function): Promise<void> {
     const view = arcGisObjectRefs[viewId] as View;

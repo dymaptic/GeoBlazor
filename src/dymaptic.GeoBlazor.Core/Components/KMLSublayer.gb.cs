@@ -37,11 +37,16 @@ public partial class KMLSublayer : MapComponent
     ///     The title of the KML sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the sublayer is visible in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-KMLSublayer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public KMLSublayer(
         string? description = null,
         long? kMLSublayerId = null,
         object? networkLink = null,
-        string? title = null)
+        string? title = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -49,6 +54,7 @@ public partial class KMLSublayer : MapComponent
         KMLSublayerId = kMLSublayerId;
         NetworkLink = networkLink;
         Title = title;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

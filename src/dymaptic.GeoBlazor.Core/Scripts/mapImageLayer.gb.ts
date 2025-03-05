@@ -122,6 +122,9 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.useViewTime)) {
             this.layer.useViewTime = dotNetObject.useViewTime;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createExportImageParameters(extent: any,
@@ -426,6 +429,9 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.useViewTime)) {
         properties.useViewTime = dotNetObject.useViewTime;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsMapImageLayer = new MapImageLayer(properties);
     jsMapImageLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -461,7 +467,7 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsMapImageLayer;
     
     let { buildDotNetMapImageLayer } = await import('./mapImageLayer');
-    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer);
+    let dnInstantiatedObject = await buildDotNetMapImageLayer(jsMapImageLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -615,6 +621,9 @@ export async function buildDotNetMapImageLayerGenerated(jsObject: any, layerId: 
     }
     if (hasValue(jsObject.version)) {
         dotNetMapImageLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetMapImageLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

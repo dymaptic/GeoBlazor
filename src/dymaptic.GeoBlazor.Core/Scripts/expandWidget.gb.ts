@@ -38,9 +38,6 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.collapseTooltip)) {
             this.widget.collapseTooltip = dotNetObject.collapseTooltip;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.expanded)) {
             this.widget.expanded = dotNetObject.expanded;
         }
@@ -67,6 +64,9 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.placement)) {
             this.widget.placement = dotNetObject.placement;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -177,9 +177,6 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.collapseTooltip)) {
         properties.collapseTooltip = dotNetObject.collapseTooltip;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.expanded)) {
         properties.expanded = dotNetObject.expanded;
     }
@@ -206,6 +203,9 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.placement)) {
         properties.placement = dotNetObject.placement;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -274,9 +274,6 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.collapseTooltip)) {
         dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetExpandWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.content)) {
         dotNetExpandWidget.content = jsObject.content;
     }
@@ -309,6 +306,9 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetExpandWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetExpandWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetExpandWidget.widgetId = jsObject.id;

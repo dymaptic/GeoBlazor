@@ -113,15 +113,6 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
     }
     
-    async getFeatureViewModels(): Promise<any> {
-        if (!hasValue(this.component.featureViewModels)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureViewModel } = await import('./featureViewModel');
-        return await Promise.all(this.component.featureViewModels.map(async i => await buildDotNetFeatureViewModel(i, this.layerId, this.viewId)));
-    }
-    
     async getGoToOverride(): Promise<any> {
         if (!hasValue(this.component.goToOverride)) {
             return null;
@@ -236,6 +227,9 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsPopupViewModel = new PopupViewModel(properties);
     jsPopupViewModel.on('trigger-action', async (evt: any) => {
@@ -380,6 +374,9 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     if (hasValue(jsObject.title)) {
         dotNetPopupViewModel.title = jsObject.title;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetPopupViewModel.visible = jsObject.visible;
     }
     if (hasValue(jsObject.waitingForResult)) {
         dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;

@@ -36,6 +36,11 @@ public partial class SearchViewModel : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#autoSelect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="boolIncludeDefaultSources">
+    ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> in the Search UI.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="defaultSymbols">
     ///     The default <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">symbol(s)</a> for the search result.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSymbols">ArcGIS Maps SDK for JavaScript</a>
@@ -110,10 +115,16 @@ public partial class SearchViewModel : IGoTo
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="taskCollectionIncludeDefaultSources">
+    ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> in the Search UI.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public SearchViewModel(
         int? activeSourceIndex = null,
         string? allPlaceholder = null,
         bool? autoSelect = null,
+        bool? boolIncludeDefaultSources = null,
         SearchViewModelDefaultSymbols? defaultSymbols = null,
         GoToOverride? goToOverride = null,
         bool? locationEnabled = null,
@@ -129,13 +140,15 @@ public partial class SearchViewModel : IGoTo
         string? searchTerm = null,
         IReadOnlyList<SearchSource>? sources = null,
         double? suggestionDelay = null,
-        bool? suggestionsEnabled = null)
+        bool? suggestionsEnabled = null,
+        Func<Task>? taskCollectionIncludeDefaultSources = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveSourceIndex = activeSourceIndex;
         AllPlaceholder = allPlaceholder;
         AutoSelect = autoSelect;
+        BoolIncludeDefaultSources = boolIncludeDefaultSources;
         DefaultSymbols = defaultSymbols;
         GoToOverride = goToOverride;
         LocationEnabled = locationEnabled;
@@ -152,6 +165,7 @@ public partial class SearchViewModel : IGoTo
         Sources = sources;
         SuggestionDelay = suggestionDelay;
         SuggestionsEnabled = suggestionsEnabled;
+        TaskCollectionIncludeDefaultSources = taskCollectionIncludeDefaultSources;
 #pragma warning restore BL0005    
     }
     

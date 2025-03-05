@@ -18,8 +18,7 @@ public abstract partial class Widget : MapComponent
     public OverlayPosition? Position { get; set; }
 
     /// <summary>
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
-    ///     the map.
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -71,6 +70,238 @@ public abstract partial class Widget : MapComponent
         Widget? renderedWidget = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Widget;
         await OnWidgetCreated.InvokeAsync(this);
         return renderedWidget;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ContainerId property.
+    /// </summary>
+    public async Task<string?> GetContainerId()
+    {
+        if (CoreJsModule is null) return ContainerId;
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return ContainerId;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "containerId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ContainerId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ContainerId)] = result;
+        }
+
+        return ContainerId;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Icon property.
+    /// </summary>
+    public async Task<string?> GetIcon()
+    {
+        if (CoreJsModule is null) return Icon;
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return Icon;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "icon");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Icon = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Icon)] = result;
+        }
+
+        return Icon;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Label property.
+    /// </summary>
+    public async Task<string?> GetLabel()
+    {
+        if (CoreJsModule is null) return Label;
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return Label;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "label");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Label = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Label)] = result;
+        }
+
+        return Label;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Position property.
+    /// </summary>
+    public async Task<OverlayPosition?> GetPosition()
+    {
+        if (CoreJsModule is null) return Position;
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return Position;
+
+        // get the property value
+        JsNullableEnumWrapper<OverlayPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OverlayPosition>?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "position");
+
+        if (result?.Value is not null)
+        {
+#pragma warning disable BL0005
+            Position = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Position)] = result;
+        }
+
+        return Position;
+    }
+    
+    public async Task<string?> GetWidgetId()
+    {
+        if (CoreJsModule is null) return WidgetId;
+
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+
+        if (JsComponentReference is null) return WidgetId;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "widgetId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            WidgetId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(WidgetId)] = result;
+        }
+
+        return WidgetId;
+    }
+
+    /// <summary>
+    ///    Asynchronously set the value of the ContainerId property after render.
+    /// </summary>
+    public async Task SetContainerId(string? containerId)
+    {
+#pragma warning disable BL0005
+        ContainerId = containerId;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ContainerId)] = containerId;
+        
+        if (CoreJsModule is null) return;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "containerId", containerId);
+    }
+    
+    /// <summary>
+    ///     Asynchronously set the value of the Icon property after render.
+    /// </summary>
+    public async Task SetIcon(string? icon)
+    {
+#pragma warning disable BL0005
+        Icon = icon;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Icon)] = icon;
+        
+        if (CoreJsModule is null) return;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "icon", icon);
+    }
+    
+    /// <summary>
+    ///     Asynchronously set the value of the Label property after render.
+    /// </summary>
+    public async Task SetLabel(string? label)
+    {
+#pragma warning disable BL0005
+        Label = label;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Label)] = label;
+        
+        if (CoreJsModule is null) return;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "label", label);
+    }
+    
+    /// <summary>
+    ///     Asynchronously set the value of the Position property after render.
+    /// </summary>
+    public async Task SetPosition(OverlayPosition? position)
+    {
+#pragma warning disable BL0005
+        Position = position;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Position)] = position;
+        
+        if (CoreJsModule is null || View is null) return;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, View.Id, Id,
+            position);
+    }
+    
+    /// <summary>
+    ///     Asynchronously set the value of the WidgetId property after render.
+    /// </summary>
+    public async Task SetWidgetId(string? widgetId)
+    {
+#pragma warning disable BL0005
+        WidgetId = widgetId;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(WidgetId)] = widgetId;
+        
+        if (CoreJsModule is null) return;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "widgetId", widgetId);
     }
 
     /// <summary>

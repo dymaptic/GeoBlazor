@@ -62,7 +62,8 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates whether the layer is visible in the view.
+    ///     Indicates if the layer is visible in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="definitionExpression">
     ///     A SQL where clause used to filter features in the image.
@@ -127,10 +128,7 @@ public partial class Sublayer
         Opacity = opacity;
         PopupEnabled = popupEnabled;
         Title = title;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         DefinitionExpression = definitionExpression;
         FloorInfo = floorInfo;
         LabelingInfo = labelingInfo;

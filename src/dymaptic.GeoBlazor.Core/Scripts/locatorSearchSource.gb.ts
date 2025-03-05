@@ -17,12 +17,6 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
             return await Promise.all(result.map(async i => await buildJsSearchResult(i)));
         };
     }
-    if (hasValue(dotNetObject.hasGetSuggestionsHandler) && dotNetObject.hasGetSuggestionsHandler) {
-        properties.getSuggestions = async (parameters) => {
-
-            return await dotNetObject.invokeMethodAsync('OnJsGetSuggestionsHandler', parameters);
-        };
-    }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
@@ -46,6 +40,9 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.defaultZoomScale)) {
         properties.defaultZoomScale = dotNetObject.defaultZoomScale;
+    }
+    if (hasValue(dotNetObject.getSuggestionsHandler)) {
+        properties.getSuggestions = dotNetObject.getSuggestionsHandler;
     }
     if (hasValue(dotNetObject.localSearchDisabled)) {
         properties.localSearchDisabled = dotNetObject.localSearchDisabled;

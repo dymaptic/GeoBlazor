@@ -30,6 +30,9 @@ public partial class MeasurementWidget
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default null
@@ -43,9 +46,20 @@ public partial class MeasurementWidget
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="viewModel">
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
@@ -54,20 +68,28 @@ public partial class MeasurementWidget
     public MeasurementWidget(
         ActiveTool? activeTool = null,
         SystemOrAreaUnit? areaUnit = null,
+        string? containerId = null,
         string? icon = null,
         string? label = null,
         SystemOrLengthUnit? linearUnit = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         MeasurementViewModel? viewModel = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveTool = activeTool;
         AreaUnit = areaUnit;
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
         LinearUnit = linearUnit;
+        MapView = mapView;
+        Position = position;
         ViewModel = viewModel;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

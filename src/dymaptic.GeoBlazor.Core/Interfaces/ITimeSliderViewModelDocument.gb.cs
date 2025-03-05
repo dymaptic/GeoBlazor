@@ -5,6 +5,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 /// <summary>
 ///    Interface for types WebMap, WebScene
 /// </summary>
-public partial interface ITimeSliderViewModelDocument 
+public partial interface ITimeSliderViewModelDocument : IMapComponent
 {
 }

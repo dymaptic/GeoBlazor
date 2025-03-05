@@ -27,6 +27,9 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.value)) {
         properties.value = dotNetObject.value;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsActionToggle = new ActionToggle(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsActionToggle);
@@ -92,6 +95,9 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.value)) {
         dotNetActionToggle.value = jsObject.value;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetActionToggle.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

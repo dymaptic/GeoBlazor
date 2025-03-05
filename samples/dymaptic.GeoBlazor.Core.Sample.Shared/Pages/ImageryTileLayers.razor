@@ -148,11 +148,9 @@
     {
         if (listItem.LayerId == _layer?.Id)
         {
-            listItem.Panel = new ListItemPanelWidget
+            listItem.Panel = new ListItemPanelWidget(open: true, icon: "esri-icon-maps")
             {
-                ContainerId = "rendererDiv", 
-                Open = true, 
-                Icon = "esri-icon-maps"
+                ContainerId = "rendererDiv"
             };
         }
         return Task.FromResult(listItem);

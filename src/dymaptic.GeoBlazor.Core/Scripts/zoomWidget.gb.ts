@@ -26,9 +26,6 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
             this.widget.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -37,6 +34,9 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.layout)) {
             this.widget.layout = dotNetObject.layout;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -131,9 +131,6 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
         properties.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -142,6 +139,9 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.layout)) {
         properties.layout = dotNetObject.layout;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -198,9 +198,6 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
         dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetZoomWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetZoomWidget.icon = jsObject.icon;
     }
@@ -212,6 +209,9 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.type)) {
         dotNetZoomWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetZoomWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetZoomWidget.widgetId = jsObject.id;

@@ -35,6 +35,9 @@ public partial class PopupWidget : IGoTo
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#autoCloseEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="defaultPopupTemplateEnabled">
     ///     Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.
     ///     default false
@@ -48,6 +51,10 @@ public partial class PopupWidget : IGoTo
     /// <param name="dockOptions">
     ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="htmlContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="features">
     ///     An array of features associated with the popup.
@@ -80,6 +87,12 @@ public partial class PopupWidget : IGoTo
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="promises">
     ///     An array of pending Promises that have not yet been fulfilled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
@@ -87,6 +100,10 @@ public partial class PopupWidget : IGoTo
     /// <param name="selectedFeatureIndex">
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="stringContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title of the popup.
@@ -96,9 +113,18 @@ public partial class PopupWidget : IGoTo
     ///     This is a class that contains all the logic (properties and methods) that controls this widget's behavior.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="visibleElements">
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
@@ -108,9 +134,11 @@ public partial class PopupWidget : IGoTo
         IReadOnlyList<ActionBase>? actions = null,
         PopupAlignment? alignment = null,
         bool? autoCloseEnabled = null,
+        string? containerId = null,
         bool? defaultPopupTemplateEnabled = null,
         bool? dockEnabled = null,
         PopupDockOptions? dockOptions = null,
+        ElementReference? htmlContent = null,
         IReadOnlyList<Graphic>? features = null,
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
@@ -118,11 +146,16 @@ public partial class PopupWidget : IGoTo
         string? icon = null,
         string? label = null,
         Point? location = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         object? promises = null,
         int? selectedFeatureIndex = null,
+        string? stringContent = null,
         string? title = null,
         PopupViewModel? viewModel = null,
+        bool? visible = null,
         PopupVisibleElements? visibleElements = null,
+        Widget? widgetContent = null,
         string? widgetId = null)
     {
         AllowRender = false;
@@ -130,9 +163,11 @@ public partial class PopupWidget : IGoTo
         Actions = actions;
         Alignment = alignment;
         AutoCloseEnabled = autoCloseEnabled;
+        ContainerId = containerId;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
         DockEnabled = dockEnabled;
         DockOptions = dockOptions;
+        HtmlContent = htmlContent;
         Features = features;
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
@@ -140,11 +175,16 @@ public partial class PopupWidget : IGoTo
         Icon = icon;
         Label = label;
         Location = location;
+        MapView = mapView;
+        Position = position;
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
+        StringContent = stringContent;
         Title = title;
         ViewModel = viewModel;
+        Visible = visible;
         VisibleElements = visibleElements;
+        WidgetContent = widgetContent;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }
@@ -187,7 +227,7 @@ public partial class PopupWidget : IGoTo
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? ElementReferenceContent { get; set; }
+    public ElementReference? HtmlContent { get; set; }
     
     /// <summary>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a> available to the popup.
@@ -525,33 +565,33 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the ElementReferenceContent property.
+    ///     Asynchronously retrieve the current value of the HtmlContent property.
     /// </summary>
-    public async Task<ElementReference?> GetElementReferenceContent()
+    public async Task<ElementReference?> GetHtmlContent()
     {
         if (CoreJsModule is null)
         {
-            return ElementReferenceContent;
+            return HtmlContent;
         }
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
-            return ElementReferenceContent;
+            return HtmlContent;
         }
 
         // get the property value
         JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+            CancellationTokenSource.Token, JsComponentReference, "HtmlContent");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result.Value.Value;
+             HtmlContent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
+             ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
         }
          
-        return ElementReferenceContent;
+        return HtmlContent;
     }
     
     /// <summary>
@@ -1054,17 +1094,17 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ElementReferenceContent property after render.
+    ///    Asynchronously set the value of the HtmlContent property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElementReferenceContent(ElementReference? value)
+    public async Task SetHtmlContent(ElementReference? value)
     {
 #pragma warning disable BL0005
-        ElementReferenceContent = value;
+        HtmlContent = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(ElementReferenceContent)] = value;
+        ModifiedParameters[nameof(HtmlContent)] = value;
         
         if (CoreJsModule is null)
         {
@@ -1080,7 +1120,7 @@ public partial class PopupWidget : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elementReferenceContent", value);
+            JsComponentReference, "HtmlContent", value);
     }
     
     /// <summary>
@@ -1559,6 +1599,10 @@ public partial class PopupWidget : IGoTo
             actionIndex);
     }
     
+#endregion
+
+#region Event Handlers
+
 #endregion
 
 

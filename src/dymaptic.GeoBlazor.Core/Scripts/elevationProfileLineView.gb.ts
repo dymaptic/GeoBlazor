@@ -25,6 +25,9 @@ export async function buildJsElevationProfileLineViewGenerated(dotNetObject: any
     if (hasValue(dotNetObject.viewVisualizationEnabled)) {
         properties.viewVisualizationEnabled = dotNetObject.viewVisualizationEnabled;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsElevationProfileLineView = new ElevationProfileLineView(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsElevationProfileLineView);
@@ -101,6 +104,9 @@ export async function buildDotNetElevationProfileLineViewGenerated(jsObject: any
     }
     if (hasValue(jsObject.viewVisualizationEnabled)) {
         dotNetElevationProfileLineView.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetElevationProfileLineView.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

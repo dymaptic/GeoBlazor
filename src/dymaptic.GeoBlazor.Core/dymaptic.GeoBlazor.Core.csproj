@@ -1086,6 +1086,12 @@
         <None Remove="Scripts\actionBaseProperties.ts" />
         <None Remove="Scripts\actionBaseProperties.gb.ts" />
         <None Remove="Scripts\abilities.ts" />
+        <None Remove="Scripts\featureReductionSelection.gb.ts" />
+        <None Remove="Scripts\featureReductionSelection.ts" />
+        <None Remove="Scripts\attributeColorInfo.gb.ts" />
+        <None Remove="Scripts\attributeColorInfo.ts" />
+        <None Remove="Scripts\traceResult.gb.ts" />
+        <None Remove="Scripts\traceResult.ts" />
     </ItemGroup>
 
     <ItemGroup>
@@ -1096,6 +1102,10 @@
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Model\TimeSliderAction.cs" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">

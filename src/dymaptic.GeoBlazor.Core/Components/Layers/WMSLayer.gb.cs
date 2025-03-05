@@ -30,6 +30,10 @@ public partial class WMSLayer : Layer,
     ///     A flattened collection of all <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#sublayers">`sublayers`</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#allSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
@@ -95,6 +99,9 @@ public partial class WMSLayer : Layer,
     ///     Indicates whether the background of the image exported by the service is transparent.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#imageTransparency">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -183,8 +190,14 @@ public partial class WMSLayer : Layer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public WMSLayer(
         IReadOnlyList<WMSSublayer>? allSublayers = null,
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         object? customLayerParameters = null,
@@ -200,6 +213,7 @@ public partial class WMSLayer : Layer,
         int? imageMaxHeight = null,
         int? imageMaxWidth = null,
         bool? imageTransparency = null,
+        bool? isBasemapReferenceLayer = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -218,11 +232,13 @@ public partial class WMSLayer : Layer,
         string? url = null,
         bool? useViewTime = null,
         string? version = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         AllSublayers = allSublayers;
+        ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Copyright = copyright;
         CustomLayerParameters = customLayerParameters;
@@ -238,6 +254,7 @@ public partial class WMSLayer : Layer,
         ImageMaxHeight = imageMaxHeight;
         ImageMaxWidth = imageMaxWidth;
         ImageTransparency = imageTransparency;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LegendEnabled = legendEnabled;
         ListMode = listMode;
         MaxScale = maxScale;
@@ -257,6 +274,7 @@ public partial class WMSLayer : Layer,
         UseViewTime = useViewTime;
         Version = version;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

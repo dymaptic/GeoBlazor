@@ -4,6 +4,12 @@ import { buildDotNetJoinTableDataSource } from './joinTableDataSource';
 
 export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsJoinTableDataSource: any = {};
+    if (hasValue(dotNetObject.leftTableSource)) {
+        jsJoinTableDataSource.leftTableSource = dotNetObject.dynamicLayer;
+    }
+    if (hasValue(dotNetObject.rightTableSource)) {
+        jsJoinTableDataSource.rightTableSource = dotNetObject.dynamicLayer;
+    }
 
     if (hasValue(dotNetObject.joinType)) {
         jsJoinTableDataSource.joinType = dotNetObject.joinType;
@@ -11,14 +17,8 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.leftTableKey)) {
         jsJoinTableDataSource.leftTableKey = dotNetObject.leftTableKey;
     }
-    if (hasValue(dotNetObject.leftTableSource)) {
-        jsJoinTableDataSource.leftTableSource = dotNetObject.leftTableSource;
-    }
     if (hasValue(dotNetObject.rightTableKey)) {
         jsJoinTableDataSource.rightTableKey = dotNetObject.rightTableKey;
-    }
-    if (hasValue(dotNetObject.rightTableSource)) {
-        jsJoinTableDataSource.rightTableSource = dotNetObject.rightTableSource;
     }
     
     let jsObjectRef = DotNet.createJSObjectReference(jsJoinTableDataSource);

@@ -49,6 +49,9 @@ export default class UnsupportedLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -126,6 +129,9 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsUnsupportedLayer = new UnsupportedLayer(properties);
     jsUnsupportedLayer.on('layerview-create', async (evt: any) => {
@@ -221,6 +227,9 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.type)) {
         dotNetUnsupportedLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetUnsupportedLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

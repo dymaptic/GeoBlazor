@@ -21,6 +21,9 @@ public partial class LocateWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="geolocationOptions">
     ///     The browser's Geolocation API Position options for locating.
     ///     default null
@@ -48,10 +51,16 @@ public partial class LocateWidget : IGoTo
     ///     The widget's label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="scale">
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#event-track">track</a> event.
@@ -62,33 +71,46 @@ public partial class LocateWidget : IGoTo
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LocateWidget(
+        string? containerId = null,
         object? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
         bool? popupEnabled = null,
+        OverlayPosition? position = null,
         int? scale = null,
         LocateViewModel? viewModel = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         GeolocationOptions = geolocationOptions;
         GoToLocationEnabled = goToLocationEnabled;
         GoToOverride = goToOverride;
         Graphic = graphic;
         Icon = icon;
         Label = label;
+        MapView = mapView;
         PopupEnabled = popupEnabled;
+        Position = position;
         Scale = scale;
         ViewModel = viewModel;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

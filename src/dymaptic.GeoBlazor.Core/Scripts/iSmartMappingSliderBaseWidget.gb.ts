@@ -30,9 +30,6 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
             this.widget.visibleElements = await buildJsSmartMappingSliderBaseVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -50,6 +47,9 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
         }
         if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
             this.widget.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -193,9 +193,6 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
         jsSmartMappingSliderBase.visibleElements = await buildJsSmartMappingSliderBaseVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        jsSmartMappingSliderBase.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         jsSmartMappingSliderBase.icon = dotNetObject.icon;
     }
@@ -213,6 +210,9 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.syncedSegmentsEnabled)) {
         jsSmartMappingSliderBase.syncedSegmentsEnabled = dotNetObject.syncedSegmentsEnabled;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        jsSmartMappingSliderBase.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         jsSmartMappingSliderBase.id = dotNetObject.widgetId;
@@ -295,9 +295,6 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         let { buildDotNetSmartMappingSliderBaseVisibleElements } = await import('./smartMappingSliderBaseVisibleElements');
         dotNetISmartMappingSliderBaseWidget.visibleElements = await buildDotNetSmartMappingSliderBaseVisibleElements(jsObject.visibleElements);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetISmartMappingSliderBaseWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetISmartMappingSliderBaseWidget.icon = jsObject.icon;
     }
@@ -330,6 +327,9 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
     }
     if (hasValue(jsObject.type)) {
         dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetISmartMappingSliderBaseWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetISmartMappingSliderBaseWidget.widgetId = jsObject.id;

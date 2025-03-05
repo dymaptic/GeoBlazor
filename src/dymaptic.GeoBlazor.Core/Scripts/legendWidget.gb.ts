@@ -37,9 +37,6 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.basemapLegendVisible)) {
             this.widget.basemapLegendVisible = dotNetObject.basemapLegendVisible;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.headingLevel)) {
             this.widget.headingLevel = dotNetObject.headingLevel;
         }
@@ -60,6 +57,9 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.style)) {
             this.widget.style = dotNetObject.style;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -185,9 +185,6 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.basemapLegendVisible)) {
         properties.basemapLegendVisible = dotNetObject.basemapLegendVisible;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.headingLevel)) {
         properties.headingLevel = dotNetObject.headingLevel;
     }
@@ -208,6 +205,9 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.style)) {
         properties.style = dotNetObject.style;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -275,9 +275,6 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetLegendWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.headingLevel)) {
         dotNetLegendWidget.headingLevel = jsObject.headingLevel;
     }
@@ -301,6 +298,9 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetLegendWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetLegendWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetLegendWidget.widgetId = jsObject.id;

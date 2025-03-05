@@ -21,6 +21,9 @@ public partial class AreaMeasurement2DWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default null
@@ -29,6 +32,12 @@ public partial class AreaMeasurement2DWidget
     /// <param name="label">
     ///     The widget's label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="unit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
@@ -42,25 +51,38 @@ public partial class AreaMeasurement2DWidget
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public AreaMeasurement2DWidget(
+        string? containerId = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         SystemOrAreaUnit? unit = null,
         IReadOnlyList<SystemOrAreaUnit>? unitOptions = null,
         AreaMeasurement2DViewModel? viewModel = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Icon = icon;
         Label = label;
+        MapView = mapView;
+        Position = position;
         Unit = unit;
         UnitOptions = unitOptions;
         ViewModel = viewModel;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

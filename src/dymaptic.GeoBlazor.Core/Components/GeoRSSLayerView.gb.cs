@@ -18,4 +18,22 @@ public partial class GeoRSSLayerView : LayerView
     {
     }
 
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="visible">
+    ///     When `true`, the layer is visible in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public GeoRSSLayerView(
+        bool? visible = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        Visible = visible;
+#pragma warning restore BL0005    
+    }
+    
+    
 }

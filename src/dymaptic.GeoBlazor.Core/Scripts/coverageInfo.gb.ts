@@ -4,6 +4,9 @@ import { buildDotNetCoverageInfo } from './coverageInfo';
 
 export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoverageInfo: any = {};
+    if (hasValue(dotNetObject.coverageDescription)) {
+        jsCoverageInfo.coverageDescription = dotNetObject.iCoverageInfoCoverageDescription;
+    }
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
         jsCoverageInfo.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope) as any;
@@ -15,9 +18,6 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
 
     if (hasValue(dotNetObject.bandNames)) {
         jsCoverageInfo.bandNames = dotNetObject.bandNames;
-    }
-    if (hasValue(dotNetObject.coverageDescription)) {
-        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
     }
     if (hasValue(dotNetObject.coverageId)) {
         jsCoverageInfo.id = dotNetObject.coverageId;

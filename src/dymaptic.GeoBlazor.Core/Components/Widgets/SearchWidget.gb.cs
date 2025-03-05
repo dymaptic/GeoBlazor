@@ -18,6 +18,192 @@ public partial class SearchWidget : IGoTo
     {
     }
 
+    /// <summary>
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
+    /// </summary>
+    /// <param name="activeMenu">
+    ///     The current active menu of the Search widget.
+    ///     default none
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#activeMenu">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="activeSourceIndex">
+    ///     The selected source's index.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#activeSourceIndex">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="allPlaceholder">
+    ///     String value used as a hint for input text when searching on multiple sources.
+    ///     default "Find address or place"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#allPlaceholder">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="autoSelect">
+    ///     Indicates whether to automatically select and zoom to the first geocoded result.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#autoSelect">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
+    /// <param name="disabled">
+    ///     When true, the widget is visually withdrawn and cannot be interacted with.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#disabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="goToOverride">
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="icon">
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="includeDefaultSources">
+    ///     Indicates whether or not to include <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#defaultSources">defaultSources</a> in the Search UI.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#includeDefaultSources">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="label">
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="locationEnabled">
+    ///     Enables location services within the widget.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#locationEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="maxResults">
+    ///     The maximum number of results returned by the widget if not specified by the source.
+    ///     default 6
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#maxResults">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="maxSuggestions">
+    ///     The maximum number of suggestions returned by the widget if not specified by the source.
+    ///     default 6
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="minSuggestCharacters">
+    ///     The minimum number of characters needed for the search if not specified by the source.
+    ///     default 3
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="popupEnabled">
+    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> on feature click.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="popupTemplate">
+    ///     A customized <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> for the selected feature.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="portal">
+    ///     It is possible to search a specified portal instance's <a target="_blank" href="http://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-portal-to-geocode-addresses.htm">locator services</a> Use this property to set this <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Portal</a> instance to search.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#portal">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
+    /// <param name="resultGraphicEnabled">
+    ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphic">resultGraphic</a> will display at the location of the selected feature.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#resultGraphicEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="searchAllEnabled">
+    ///     Indicates whether to display the option to search all sources.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#searchAllEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="searchTerm">
+    ///     The value of the search box input text string.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#searchTerm">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="sources">
+    ///     The Search widget may be used to search features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">map</a>/<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">feature</a> service feature layer(s), <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html">SceneLayers</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-buildingSublayers-BuildingComponentSublayer.html">BuildingComponentSublayer</a> with an associated feature layer, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">GeoJSONLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">CSVLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OGCFeatureLayer.html">OGCFeatureLayer</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webdoc-applicationProperties-SearchTable.html">table</a>, or geocode locations with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-locator.html">locator</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="suggestionsEnabled">
+    ///     Enable suggestions for the widget.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="viewModel">
+    ///     The view model for this widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetId">
+    ///     The unique ID assigned to the widget when the widget is created.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    public SearchWidget(
+        SearchMenu? activeMenu = null,
+        int? activeSourceIndex = null,
+        string? allPlaceholder = null,
+        bool? autoSelect = null,
+        string? containerId = null,
+        bool? disabled = null,
+        GoToOverride? goToOverride = null,
+        string? icon = null,
+        bool? includeDefaultSources = null,
+        string? label = null,
+        bool? locationEnabled = null,
+        MapView? mapView = null,
+        int? maxResults = null,
+        int? maxSuggestions = null,
+        int? minSuggestCharacters = null,
+        bool? popupEnabled = null,
+        PopupTemplate? popupTemplate = null,
+        Portal? portal = null,
+        OverlayPosition? position = null,
+        bool? resultGraphicEnabled = null,
+        bool? searchAllEnabled = null,
+        string? searchTerm = null,
+        IReadOnlyList<SearchSource>? sources = null,
+        bool? suggestionsEnabled = null,
+        SearchViewModel? viewModel = null,
+        bool? visible = null,
+        string? widgetId = null)
+    {
+        AllowRender = false;
+#pragma warning disable BL0005
+        ActiveMenu = activeMenu;
+        ActiveSourceIndex = activeSourceIndex;
+        AllPlaceholder = allPlaceholder;
+        AutoSelect = autoSelect;
+        ContainerId = containerId;
+        Disabled = disabled;
+        GoToOverride = goToOverride;
+        Icon = icon;
+        IncludeDefaultSources = includeDefaultSources;
+        Label = label;
+        LocationEnabled = locationEnabled;
+        MapView = mapView;
+        MaxResults = maxResults;
+        MaxSuggestions = maxSuggestions;
+        MinSuggestCharacters = minSuggestCharacters;
+        PopupEnabled = popupEnabled;
+        PopupTemplate = popupTemplate;
+        Portal = portal;
+        Position = position;
+        ResultGraphicEnabled = resultGraphicEnabled;
+        SearchAllEnabled = searchAllEnabled;
+        SearchTerm = searchTerm;
+        Sources = sources;
+        SuggestionsEnabled = suggestionsEnabled;
+        ViewModel = viewModel;
+        Visible = visible;
+        WidgetId = widgetId;
+#pragma warning restore BL0005    
+    }
+    
+    
 #region Public Properties / Blazor Parameters
 
     /// <summary>

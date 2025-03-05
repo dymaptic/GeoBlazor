@@ -83,6 +83,9 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -241,6 +244,9 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsGeoRSSLayer = new GeoRSSLayer(properties);
     jsGeoRSSLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -373,6 +379,9 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<an
     }
     if (hasValue(jsObject.url)) {
         dotNetGeoRSSLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGeoRSSLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

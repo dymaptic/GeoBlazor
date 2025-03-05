@@ -34,6 +34,10 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     An authorization string used to access a resource or service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-APIKeyMixin.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
@@ -55,6 +59,9 @@ public partial class TileLayer : IAPIKeyMixin,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -125,13 +132,20 @@ public partial class TileLayer : IAPIKeyMixin,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public TileLayer(
         string? apiKey = null,
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         Dictionary<string, object>? customParameters = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -146,16 +160,19 @@ public partial class TileLayer : IAPIKeyMixin,
         IReadOnlyList<string>? tileServers = null,
         string? title = null,
         string? url = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ApiKey = apiKey;
+        ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Copyright = copyright;
         CustomParameters = customParameters;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LegendEnabled = legendEnabled;
         ListMode = listMode;
         MaxScale = maxScale;
@@ -171,6 +188,7 @@ public partial class TileLayer : IAPIKeyMixin,
         Title = title;
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

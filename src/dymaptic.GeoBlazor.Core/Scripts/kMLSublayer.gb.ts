@@ -18,6 +18,9 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsKMLSublayer = new KMLSublayer(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsKMLSublayer);
@@ -71,6 +74,9 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
     }
     if (hasValue(jsObject.title)) {
         dotNetKMLSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetKMLSublayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

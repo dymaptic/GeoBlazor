@@ -59,12 +59,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.collapseEnabled)) {
             this.widget.collapseEnabled = dotNetObject.collapseEnabled;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
-        if (hasValue(dotNetObject.content)) {
-            this.widget.content = dotNetObject.content;
-        }
         if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
             this.widget.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
         }
@@ -94,6 +88,9 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.title)) {
             this.widget.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -244,15 +241,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.location =  buildJsPoint(value);
     }
     
-    async getSelectedFeatureWidget(): Promise<any> {
-        if (!hasValue(this.widget.selectedFeatureWidget)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureWidget } = await import('./featureWidget');
-        return await buildDotNetFeatureWidget(this.widget.selectedFeatureWidget, this.layerId, this.viewId);
-    }
-    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -334,12 +322,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.collapseEnabled)) {
         properties.collapseEnabled = dotNetObject.collapseEnabled;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
-    if (hasValue(dotNetObject.content)) {
-        properties.content = dotNetObject.content;
-    }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
@@ -369,6 +351,9 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -471,9 +456,6 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupWidget.collapsed = jsObject.collapsed;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetPopupWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.content)) {
         dotNetPopupWidget.content = jsObject.content;
     }
@@ -515,6 +497,9 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     }
     if (hasValue(jsObject.type)) {
         dotNetPopupWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetPopupWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetPopupWidget.widgetId = jsObject.id;

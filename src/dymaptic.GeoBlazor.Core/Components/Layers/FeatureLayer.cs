@@ -479,6 +479,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
                 break;
 
+            case IFeatureReduction reduction:
+                if (!reduction.Equals(FeatureReduction))
+                {
+                    FeatureReduction = reduction;
+                    LayerChanged = MapRendered;
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -514,12 +522,49 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 }
 
                 break;
+            case IFeatureReduction _:
+                FeatureReduction = null;
+                LayerChanged = MapRendered;
+
+                break;
 
             default:
                 await base.UnregisterChildComponent(child);
 
                 break;
         }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+
+        if (LabelingInfo is not null)
+        {
+            foreach (Label label in LabelingInfo)
+            {
+                label.ValidateRequiredChildren();
+            }
+        }
+
+        if (Source is not null)
+        {
+            foreach (Graphic graphic in Source)
+            {
+                graphic.ValidateRequiredChildren();
+            }
+        }
+        
+        if (Fields is not null)
+        {
+            foreach (Field field in Fields)
+            {
+                field.ValidateRequiredChildren();
+            }
+        }
+        
+        FeatureReduction?.ValidateRequiredChildren();
     }
 
     /// <summary>

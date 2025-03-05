@@ -79,6 +79,9 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
 export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsKMLLayerView: any = {};
 
+    if (hasValue(dotNetObject.visible)) {
+        jsKMLLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: KMLLayerViewWrapper } = await import('./kMLLayerView');
     let kMLLayerViewWrapper = new KMLLayerViewWrapper(jsKMLLayerView);
@@ -138,6 +141,9 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.updating)) {
         dotNetKMLLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetKMLLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetKMLLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

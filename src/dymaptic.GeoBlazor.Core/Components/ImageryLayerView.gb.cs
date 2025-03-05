@@ -29,14 +29,21 @@ public partial class ImageryLayerView : LayerView
     ///     An object that provides the user access to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">pixels</a> and their values in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     When `true`, the layer is visible in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public ImageryLayerView(
         HighlightOptions? highlightOptions = null,
-        PixelData? pixelData = null)
+        PixelData? pixelData = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         HighlightOptions = highlightOptions;
         PixelData = pixelData;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

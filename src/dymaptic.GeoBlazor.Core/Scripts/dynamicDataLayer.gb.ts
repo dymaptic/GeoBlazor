@@ -4,10 +4,10 @@ import { buildDotNetDynamicDataLayer } from './dynamicDataLayer';
 
 export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDynamicDataLayer: any = {};
-
     if (hasValue(dotNetObject.dataSource)) {
-        jsDynamicDataLayer.dataSource = dotNetObject.dataSource;
+        jsDynamicDataLayer.dataSource = dotNetObject.dynamicDataSource;
     }
+
     if (hasValue(dotNetObject.fields)) {
         jsDynamicDataLayer.fields = dotNetObject.fields;
     }

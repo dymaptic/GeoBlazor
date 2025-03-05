@@ -34,9 +34,6 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
             this.widget.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -90,6 +87,9 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.values)) {
             this.widget.values = dotNetObject.values;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -270,9 +270,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
         properties.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -326,6 +323,9 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.values)) {
         properties.values = dotNetObject.values;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -434,9 +434,6 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
         dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetSliderWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.disabled)) {
         dotNetSliderWidget.disabled = jsObject.disabled;
     }
@@ -535,6 +532,9 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.values)) {
         dotNetSliderWidget.values = jsObject.values;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetSliderWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetSliderWidget.widgetId = jsObject.id;

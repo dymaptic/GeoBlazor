@@ -67,13 +67,18 @@ public partial class OpenStreetMapLayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///              referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     default "show"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
@@ -83,6 +88,9 @@ public partial class OpenStreetMapLayer
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="persistenceEnabled">
     ///     When `true`, the layer can be persisted.
@@ -111,8 +119,10 @@ public partial class OpenStreetMapLayer
         double? opacity = null,
         bool? visible = null,
         ListMode? listMode = null,
+        string? arcGISLayerId = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         bool? persistenceEnabled = null,
         string? urlTemplate = null,
         TimeExtent? visibilityTimeExtent = null)
@@ -129,13 +139,12 @@ public partial class OpenStreetMapLayer
         SubDomains = subDomains;
         TileInfo = tileInfo;
         Opacity = opacity;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         ListMode = listMode;
+        ArcGISLayerId = arcGISLayerId;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         PersistenceEnabled = persistenceEnabled;
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;

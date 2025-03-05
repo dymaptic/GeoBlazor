@@ -141,6 +141,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.version)) {
             this.layer.version = dotNetObject.version;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -455,6 +458,9 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.version)) {
         properties.version = dotNetObject.version;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsWMSLayer = new WMSLayer(properties);
     jsWMSLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -650,6 +656,9 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.version)) {
         dotNetWMSLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetWMSLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

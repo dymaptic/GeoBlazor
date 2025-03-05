@@ -43,12 +43,18 @@ public partial class CSVLayerView : LayerView,
     ///     Signifies whether the maximum number of features has been exceeded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     When `true`, the layer is visible in the view.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public CSVLayerView(
         FeatureEffect? featureEffect = null,
         FeatureFilter? filter = null,
         HighlightOptions? highlightOptions = null,
         double? maximumNumberOfFeatures = null,
-        bool? maximumNumberOfFeaturesExceeded = null)
+        bool? maximumNumberOfFeaturesExceeded = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -57,6 +63,7 @@ public partial class CSVLayerView : LayerView,
         HighlightOptions = highlightOptions;
         MaximumNumberOfFeatures = maximumNumberOfFeatures;
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

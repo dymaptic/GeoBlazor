@@ -73,6 +73,9 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async add(graphic: any): Promise<void> {
@@ -245,6 +248,9 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsGraphicsLayer = new GraphicsLayer(properties);
     jsGraphicsLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -359,6 +365,9 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.type)) {
         dotNetGraphicsLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGraphicsLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

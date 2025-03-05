@@ -159,6 +159,9 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
         jsWFSLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    if (hasValue(dotNetObject.visible)) {
+        jsWFSLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: WFSLayerViewWrapper } = await import('./wFSLayerView');
     let wFSLayerViewWrapper = new WFSLayerViewWrapper(jsWFSLayerView);
@@ -247,6 +250,9 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.updating)) {
         dotNetWFSLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetWFSLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetWFSLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

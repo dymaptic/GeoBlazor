@@ -125,15 +125,31 @@ public partial class SliderWidget
     /// </param>
     /// <param name="visible">
     ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibleElements">
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="doubleCollectionSteps">
+    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="doubleSteps">
+    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
     /// </param>
     /// <param name="trackElement">
     ///     The HTML Element node representing the slider track.
@@ -174,7 +190,11 @@ public partial class SliderWidget
         IReadOnlyList<TickConfig>? tickConfigs = null,
         bool? visible = null,
         SliderVisibleElements? visibleElements = null,
+        IReadOnlyList<double>? doubleCollectionSteps = null,
+        double? doubleSteps = null,
         string? icon = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         ElementReference? trackElement = null,
         SliderViewModel? viewModel = null,
         string? widgetId = null)
@@ -211,12 +231,13 @@ public partial class SliderWidget
         LabelFormatFunction = labelFormatFunction;
         ThumbCreatedFunction = thumbCreatedFunction;
         TickConfigs = tickConfigs;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         VisibleElements = visibleElements;
+        DoubleCollectionSteps = doubleCollectionSteps;
+        DoubleSteps = doubleSteps;
         Icon = icon;
+        MapView = mapView;
+        Position = position;
         TrackElement = trackElement;
         ViewModel = viewModel;
         WidgetId = widgetId;

@@ -1,59 +1,36 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-[JsonConverter(typeof(TimeExtentConverter))]
-public partial class TimeExtent: MapComponent
+public partial class TimeExtent: MapComponent, IEquatable<TimeExtent>
 {
-
-}
-
-internal class TimeExtentConverter: JsonConverter<TimeExtent>
-{
-    public override TimeExtent Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public bool Equals(TimeExtent? other)
     {
-        DateTime start = DateTime.MinValue;
-        DateTime end = DateTime.MinValue;
-        while (reader.TokenType != JsonTokenType.EndObject)
-        {
-            if (reader.TokenType == JsonTokenType.PropertyName)
-            {
-                string? propertyName = reader.GetString();
-                reader.Read();
-                if (reader.TokenType == JsonTokenType.String)
-                {
-                    switch (propertyName)
-                    {
-                        case "start":
-                            start = DateTime.Parse(reader.GetString()!);
-                            break;
-                        case "end":
-                            end = DateTime.Parse(reader.GetString()!);
-                            break;
-                    }
-                }
-                else if (reader.TokenType == JsonTokenType.Number)
-                {
-                    switch (propertyName)
-                    {
-                        case "start":
-                            start = DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64()).DateTime;
-                            break;
-                        case "end":
-                            end = DateTimeOffset.FromUnixTimeMilliseconds(reader.GetInt64()).DateTime;
-                            break;
-                    }
-                }
-            }
-            reader.Read();
-        }
-        return new TimeExtent(start, end);
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Nullable.Equals(End, other.End) && Nullable.Equals(Start, other.Start);
     }
 
-    public override void Write(Utf8JsonWriter writer, TimeExtent value, JsonSerializerOptions options)
+    public override bool Equals(object? obj)
     {
-        writer.WriteRawValue(JsonSerializer.Serialize(new
-        {
-            start = value.Start,
-            end = value.End
-        }));
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((TimeExtent)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(End, Start);
+    }
+
+    public static bool operator ==(TimeExtent? left, TimeExtent? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(TimeExtent? left, TimeExtent? right)
+    {
+        return !Equals(left, right);
     }
 }

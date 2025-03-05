@@ -45,9 +45,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.collapsed)) {
             this.widget.collapsed = dotNetObject.collapsed;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
@@ -83,6 +80,9 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibilityAppearance)) {
             this.widget.visibilityAppearance = dotNetObject.visibilityAppearance;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -269,9 +269,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
@@ -307,6 +304,9 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.visibilityAppearance)) {
         properties.visibilityAppearance = dotNetObject.visibilityAppearance;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -395,9 +395,6 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     if (hasValue(jsObject.collapsed)) {
         dotNetLayerListWidget.collapsed = jsObject.collapsed;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetLayerListWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
@@ -436,6 +433,9 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.visibilityAppearance)) {
         dotNetLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetLayerListWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetLayerListWidget.widgetId = jsObject.id;

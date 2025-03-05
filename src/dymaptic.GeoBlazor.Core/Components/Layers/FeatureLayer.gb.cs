@@ -85,8 +85,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///              referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -100,6 +101,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// <param name="apiKey">
     ///     An authorization string used to access a resource or service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-APIKeyMixin.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
@@ -186,6 +191,9 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     The historic moment to query.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
+    /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -194,6 +202,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ///     Indicates whether to display labels for this layer.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#labelsVisible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="layerIndex">
+    ///     The layer ID, or layer index, of a Feature Service layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureLayerBase.html#layerId">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -300,6 +312,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         ListMode? listMode = null,
         PopupTemplate? popupTemplate = null,
         string? apiKey = null,
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         IReadOnlyList<object>? charts = null,
         string? copyright = null,
@@ -320,8 +333,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
         bool? hasM = null,
         bool? hasZ = null,
         DateTime? historicMoment = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
+        int? layerIndex = null,
         bool? legendEnabled = null,
         IReadOnlyList<OrderedLayerOrderBy>? orderBy = null,
         bool? persistenceEnabled = null,
@@ -355,13 +370,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
         GeometryType = geometryType;
         Title = title;
         Opacity = opacity;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         ListMode = listMode;
         PopupTemplate = popupTemplate;
         ApiKey = apiKey;
+        ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Charts = charts;
         Copyright = copyright;
@@ -382,8 +395,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
         HasM = hasM;
         HasZ = hasZ;
         HistoricMoment = historicMoment;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
+        LayerIndex = layerIndex;
         LegendEnabled = legendEnabled;
         OrderBy = orderBy;
         PersistenceEnabled = persistenceEnabled;

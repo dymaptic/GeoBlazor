@@ -6,6 +6,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///    The parameters used to perform a query for Items, Groups, and Users within a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="Categories">
+///     An array of categories stored within the item.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#categories">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="Extent">
 ///     Only relevant when querying for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItems</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#extent">ArcGIS Maps SDK for JavaScript</a>
@@ -38,6 +42,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#start">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PortalQueryParams(
+    IReadOnlyCollection<string[]>? Categories = null,
     Extent? Extent = null,
     string? Filter = null,
     double? Num = null,
@@ -46,6 +51,12 @@ public partial record PortalQueryParams(
     PortalQuerySortOrder? SortOrder = null,
     double? Start = null)
 {
+    /// <summary>
+    ///     An array of categories stored within the item.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#categories">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public IReadOnlyCollection<string[]>? Categories { get; set; } = Categories;
+    
     /// <summary>
     ///     Only relevant when querying for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItems</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#extent">ArcGIS Maps SDK for JavaScript</a>

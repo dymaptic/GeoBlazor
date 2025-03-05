@@ -30,14 +30,14 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
             this.widget.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -146,14 +146,14 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         properties.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -214,9 +214,6 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
         dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetCompassWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetCompassWidget.icon = jsObject.icon;
     }
@@ -225,6 +222,9 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.type)) {
         dotNetCompassWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetCompassWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetCompassWidget.widgetId = jsObject.id;

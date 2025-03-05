@@ -98,6 +98,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -339,6 +342,9 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsTileLayer = new TileLayer(properties);
     jsTileLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -374,7 +380,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsTileLayer;
     
     let { buildDotNetTileLayer } = await import('./tileLayer');
-    let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer);
+    let dnInstantiatedObject = await buildDotNetTileLayer(jsTileLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -505,6 +511,9 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
     }
     if (hasValue(jsObject.version)) {
         dotNetTileLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetTileLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

@@ -163,6 +163,9 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.useViewTime)) {
             this.layer.useViewTime = dotNetObject.useViewTime;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -462,6 +465,9 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.featureReduction)) {
+        properties.featureReduction = dotNetObject.iFeatureReduction;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -528,9 +534,6 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.displayField)) {
         properties.displayField = dotNetObject.displayField;
     }
-    if (hasValue(dotNetObject.featureReduction)) {
-        properties.featureReduction = dotNetObject.featureReduction;
-    }
     if (hasValue(dotNetObject.geometryType)) {
         properties.geometryType = dotNetObject.geometryType;
     }
@@ -587,6 +590,9 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.useViewTime)) {
         properties.useViewTime = dotNetObject.useViewTime;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsCSVLayer = new CSVLayer(properties);
     jsCSVLayer.on('layerview-create', async (evt: any) => {
@@ -813,6 +819,9 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.useViewTime)) {
         dotNetCSVLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetCSVLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

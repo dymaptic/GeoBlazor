@@ -160,6 +160,9 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.useViewTime)) {
             this.layer.useViewTime = dotNetObject.useViewTime;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async applyEdits(edits: any): Promise<any> {
@@ -385,20 +388,6 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         this.layer.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
     }
     
-    async getTemplates(): Promise<any> {
-        if (!hasValue(this.layer.templates)) {
-            return null;
-        }
-        
-        let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetFeatureTemplate(i, this.layerId, this.viewId)));
-    }
-    
-    async setTemplates(value: any): Promise<void> {
-        let { buildJsFeatureTemplate } = await import('./featureTemplate');
-        this.layer.templates = await Promise.all(value.map(async i => await buildJsFeatureTemplate(i, this.layerId, this.viewId))) as any;
-    }
-    
     async getTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.timeExtent)) {
             return null;
@@ -479,6 +468,9 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.featureReduction)) {
+        properties.featureReduction = dotNetObject.iFeatureReduction;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -506,6 +498,9 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
         properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.templates)) {
+        properties.templates = dotNetObject.iFeatureTemplate;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -544,9 +539,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
-    }
-    if (hasValue(dotNetObject.featureReduction)) {
-        properties.featureReduction = dotNetObject.featureReduction;
     }
     if (hasValue(dotNetObject.geometryType)) {
         properties.geometryType = dotNetObject.geometryType;
@@ -590,9 +582,6 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = sanitize(dotNetObject.spatialReference);
     }
-    if (hasValue(dotNetObject.templates)) {
-        properties.templates = dotNetObject.templates;
-    }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
@@ -601,6 +590,9 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.useViewTime)) {
         properties.useViewTime = dotNetObject.useViewTime;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsGeoJSONLayer = new GeoJSONLayer(properties);
     jsGeoJSONLayer.on('layerview-create', async (evt: any) => {
@@ -831,6 +823,9 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.useViewTime)) {
         dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGeoJSONLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

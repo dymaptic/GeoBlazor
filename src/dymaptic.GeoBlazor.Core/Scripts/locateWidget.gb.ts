@@ -34,9 +34,6 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
             this.widget.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.geolocationOptions)) {
             this.widget.geolocationOptions = dotNetObject.geolocationOptions;
         }
@@ -57,6 +54,9 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.scale)) {
             this.widget.scale = dotNetObject.scale;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -187,9 +187,6 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
         properties.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.geolocationOptions)) {
         properties.geolocationOptions = dotNetObject.geolocationOptions;
     }
@@ -210,6 +207,9 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.scale)) {
         properties.scale = dotNetObject.scale;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -282,9 +282,6 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
         dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetLocateWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.geolocationOptions)) {
         dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
     }
@@ -305,6 +302,9 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.type)) {
         dotNetLocateWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetLocateWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetLocateWidget.widgetId = jsObject.id;

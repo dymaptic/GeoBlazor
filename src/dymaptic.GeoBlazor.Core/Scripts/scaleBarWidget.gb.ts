@@ -26,9 +26,6 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
             this.widget.viewModel = await buildJsScaleBarViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -40,6 +37,9 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.unit)) {
             this.widget.unit = dotNetObject.unit;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -126,9 +126,6 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
         properties.viewModel = await buildJsScaleBarViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -140,6 +137,9 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     }
     if (hasValue(dotNetObject.unit)) {
         properties.unit = dotNetObject.unit;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -196,9 +196,6 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
         let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
         dotNetScaleBarWidget.viewModel = await buildDotNetScaleBarViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetScaleBarWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetScaleBarWidget.icon = jsObject.icon;
     }
@@ -213,6 +210,9 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any): Promise
     }
     if (hasValue(jsObject.unit)) {
         dotNetScaleBarWidget.unit = jsObject.unit;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetScaleBarWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetScaleBarWidget.widgetId = jsObject.id;

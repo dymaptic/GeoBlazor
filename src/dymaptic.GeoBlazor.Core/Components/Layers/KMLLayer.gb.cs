@@ -32,6 +32,10 @@ public partial class KMLLayer : IBlendLayer,
     ///     The portal item from which the layer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
@@ -45,6 +49,9 @@ public partial class KMLLayer : IBlendLayer,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -84,12 +91,19 @@ public partial class KMLLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public KMLLayer(
         string? url = null,
         PortalItem? portalItem = null,
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
         double? minScale = null,
@@ -97,15 +111,18 @@ public partial class KMLLayer : IBlendLayer,
         bool? persistenceEnabled = null,
         IReadOnlyList<KMLSublayer>? sublayers = null,
         string? title = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Url = url;
         PortalItem = portalItem;
+        ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
@@ -114,6 +131,7 @@ public partial class KMLLayer : IBlendLayer,
         Sublayers = sublayers;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

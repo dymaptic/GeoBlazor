@@ -22,6 +22,9 @@ export async function buildJsMapImageGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.scale)) {
         properties.scale = dotNetObject.scale;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     if (hasValue(dotNetObject.width)) {
         properties.width = dotNetObject.width;
     }
@@ -58,6 +61,9 @@ export async function buildDotNetMapImageGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.scale)) {
         dotNetMapImage.scale = jsObject.scale;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetMapImage.visible = jsObject.visible;
     }
     if (hasValue(jsObject.width)) {
         dotNetMapImage.width = jsObject.width;

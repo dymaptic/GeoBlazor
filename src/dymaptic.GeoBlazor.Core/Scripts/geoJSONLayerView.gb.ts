@@ -159,6 +159,9 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
         jsGeoJSONLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    if (hasValue(dotNetObject.visible)) {
+        jsGeoJSONLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: GeoJSONLayerViewWrapper } = await import('./geoJSONLayerView');
     let geoJSONLayerViewWrapper = new GeoJSONLayerViewWrapper(jsGeoJSONLayerView);
@@ -247,6 +250,9 @@ export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.updating)) {
         dotNetGeoJSONLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGeoJSONLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGeoJSONLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

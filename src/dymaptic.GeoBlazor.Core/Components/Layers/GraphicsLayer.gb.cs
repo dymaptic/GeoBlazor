@@ -36,8 +36,9 @@ public partial class GraphicsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///              referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -69,6 +70,10 @@ public partial class GraphicsLayer : IBlendLayer,
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="effect">
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
     ///     default null
@@ -81,6 +86,9 @@ public partial class GraphicsLayer : IBlendLayer,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="visibilityTimeExtent">
     ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
@@ -98,9 +106,11 @@ public partial class GraphicsLayer : IBlendLayer,
         double? maxScale = null,
         bool? screenSizePerspectiveEnabled = null,
         BlendMode? blendMode = null,
+        string? arcGISLayerId = null,
         Effect? effect = null,
         GraphicsLayerElevationInfo? elevationInfo = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         TimeExtent? visibilityTimeExtent = null)
     {
         AllowRender = false;
@@ -111,19 +121,18 @@ public partial class GraphicsLayer : IBlendLayer,
         }
         Title = title;
         Opacity = opacity;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         ListMode = listMode;
         PersistenceEnabled = persistenceEnabled;
         MinScale = minScale;
         MaxScale = maxScale;
         ScreenSizePerspectiveEnabled = screenSizePerspectiveEnabled;
         BlendMode = blendMode;
+        ArcGISLayerId = arcGISLayerId;
         Effect = effect;
         ElevationInfo = elevationInfo;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         VisibilityTimeExtent = visibilityTimeExtent;
 #pragma warning restore BL0005    
     }

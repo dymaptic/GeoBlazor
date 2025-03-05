@@ -131,6 +131,9 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.version)) {
             this.layer.version = dotNetObject.version;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -401,6 +404,9 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsField } = await import('./field');
         properties.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
     }
+    if (hasValue(dotNetObject.renderer)) {
+        properties.renderer = dotNetObject.iImageryRenderer;
+    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
@@ -460,9 +466,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
     }
-    if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.renderer;
-    }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
@@ -474,6 +477,9 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.version)) {
         properties.version = dotNetObject.version;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsWCSLayer = new WCSLayer(properties);
     jsWCSLayer.on('layerview-create', async (evt: any) => {
@@ -655,6 +661,9 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.version)) {
         dotNetWCSLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetWCSLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

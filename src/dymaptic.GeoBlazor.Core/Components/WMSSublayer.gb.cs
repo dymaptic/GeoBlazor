@@ -70,6 +70,10 @@ public partial class WMSSublayer : MapComponent
     ///     The title of the WMS sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="wMSSublayerId">
     ///     The id for the WMS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
@@ -86,6 +90,7 @@ public partial class WMSSublayer : MapComponent
         bool? queryable = null,
         IReadOnlyList<double>? spatialReferences = null,
         string? title = null,
+        bool? visible = null,
         long? wMSSublayerId = null)
     {
         AllowRender = false;
@@ -101,6 +106,7 @@ public partial class WMSSublayer : MapComponent
         Queryable = queryable;
         SpatialReferences = spatialReferences;
         Title = title;
+        Visible = visible;
         WMSSublayerId = wMSSublayerId;
 #pragma warning restore BL0005    
     }

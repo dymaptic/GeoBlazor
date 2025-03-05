@@ -19,6 +19,9 @@ export async function buildJsElevationProfileLineGroundGenerated(dotNetObject: a
     if (hasValue(dotNetObject.viewVisualizationEnabled)) {
         properties.viewVisualizationEnabled = dotNetObject.viewVisualizationEnabled;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsElevationProfileLineGround = new ElevationProfileLineGround(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsElevationProfileLineGround);
@@ -89,6 +92,9 @@ export async function buildDotNetElevationProfileLineGroundGenerated(jsObject: a
     }
     if (hasValue(jsObject.viewVisualizationEnabled)) {
         dotNetElevationProfileLineGround.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetElevationProfileLineGround.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

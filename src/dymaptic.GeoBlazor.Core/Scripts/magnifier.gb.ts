@@ -32,6 +32,9 @@ export async function buildJsMagnifierGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.size)) {
         properties.size = dotNetObject.size;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsMagnifier = new Magnifier(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsMagnifier);
@@ -75,6 +78,9 @@ export async function buildDotNetMagnifierGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.size)) {
         dotNetMagnifier.size = jsObject.size;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetMagnifier.visible = jsObject.visible;
     }
 
     return dotNetMagnifier;

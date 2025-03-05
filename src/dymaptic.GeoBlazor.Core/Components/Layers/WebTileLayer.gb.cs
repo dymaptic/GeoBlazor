@@ -25,6 +25,10 @@ public partial class WebTileLayer : IBlendLayer,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="blendMode">
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
@@ -42,6 +46,9 @@ public partial class WebTileLayer : IBlendLayer,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -98,11 +105,18 @@ public partial class WebTileLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public WebTileLayer(
+        string? arcGISLayerId = null,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
         double? minScale = null,
@@ -114,14 +128,17 @@ public partial class WebTileLayer : IBlendLayer,
         TileInfo? tileInfo = null,
         string? title = null,
         string? urlTemplate = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ArcGISLayerId = arcGISLayerId;
         BlendMode = blendMode;
         Copyright = copyright;
         Effect = effect;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
         MinScale = minScale;
@@ -134,6 +151,7 @@ public partial class WebTileLayer : IBlendLayer,
         Title = title;
         UrlTemplate = urlTemplate;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

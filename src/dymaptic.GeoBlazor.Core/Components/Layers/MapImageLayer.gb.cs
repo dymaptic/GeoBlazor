@@ -129,12 +129,18 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates whether the layer is visible in the view.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="copyright">
     ///     The copyright text as defined by the service.
@@ -143,6 +149,9 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="subtables">
     ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
@@ -186,8 +195,10 @@ public partial class MapImageLayer : IArcGISMapService,
         ListMode? listMode = null,
         bool? visible = null,
         double? opacity = null,
+        string? arcGISLayerId = null,
         string? copyright = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Sublayer>? subtables = null,
         TimeInterval? timeOffset = null,
         string? title = null,
@@ -216,13 +227,12 @@ public partial class MapImageLayer : IArcGISMapService,
         UseViewTime = useViewTime;
         Sublayers = sublayers;
         ListMode = listMode;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         Opacity = opacity;
+        ArcGISLayerId = arcGISLayerId;
         Copyright = copyright;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         Subtables = subtables;
         TimeOffset = timeOffset;
         Title = title;

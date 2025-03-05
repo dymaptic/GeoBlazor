@@ -50,6 +50,10 @@ public partial class WCSLayer : IBlendLayer,
     ///     The portal item from which the layer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
@@ -87,6 +91,9 @@ public partial class WCSLayer : IBlendLayer,
     /// <param name="interpolation">
     ///     Defines how to interpolate pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -159,6 +166,11 @@ public partial class WCSLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public WCSLayer(
         string? url = null,
         IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null,
@@ -166,6 +178,7 @@ public partial class WCSLayer : IBlendLayer,
         double? opacity = null,
         string? title = null,
         PortalItem? portalItem = null,
+        string? arcGISLayerId = null,
         IReadOnlyList<long>? bandIds = null,
         BlendMode? blendMode = null,
         string? copyright = null,
@@ -175,6 +188,7 @@ public partial class WCSLayer : IBlendLayer,
         Effect? effect = null,
         Extent? fullExtent = null,
         Interpolation? interpolation = null,
+        bool? isBasemapReferenceLayer = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -189,7 +203,8 @@ public partial class WCSLayer : IBlendLayer,
         TimeInterval? timeOffset = null,
         bool? useViewTime = null,
         string? version = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -199,6 +214,7 @@ public partial class WCSLayer : IBlendLayer,
         Opacity = opacity;
         Title = title;
         PortalItem = portalItem;
+        ArcGISLayerId = arcGISLayerId;
         BandIds = bandIds;
         BlendMode = blendMode;
         Copyright = copyright;
@@ -208,6 +224,7 @@ public partial class WCSLayer : IBlendLayer,
         Effect = effect;
         FullExtent = fullExtent;
         Interpolation = interpolation;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LegendEnabled = legendEnabled;
         ListMode = listMode;
         MaxScale = maxScale;
@@ -223,6 +240,7 @@ public partial class WCSLayer : IBlendLayer,
         UseViewTime = useViewTime;
         Version = version;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

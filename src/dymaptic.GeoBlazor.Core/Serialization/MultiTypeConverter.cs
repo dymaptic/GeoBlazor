@@ -21,7 +21,7 @@ internal class MultiTypeConverter<T> : JsonConverter<T>
     public override T? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         Type[] possibleTypes = allTypes
-            .Where(t => t.IsAssignableTo(typeof(T)))
+            .Where(t => t.IsAssignableTo(typeof(T)) && t.IsClass)
             .ToArray();
 
         if (possibleTypes.Length == 0)

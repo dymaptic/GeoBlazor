@@ -155,6 +155,9 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -426,6 +429,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsFeatureEffect } = await import('./featureEffect');
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.featureReduction)) {
+        properties.featureReduction = dotNetObject.iFeatureReduction;
+    }
     if (hasValue(dotNetObject.fields)) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
@@ -480,9 +486,6 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.displayField)) {
         properties.displayField = dotNetObject.displayField;
-    }
-    if (hasValue(dotNetObject.featureReduction)) {
-        properties.featureReduction = dotNetObject.featureReduction;
     }
     if (hasValue(dotNetObject.geometryType)) {
         properties.geometryType = dotNetObject.geometryType;
@@ -543,6 +546,9 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsWFSLayer = new WFSLayer(properties);
     jsWFSLayer.on('layerview-create', async (evt: any) => {
@@ -758,6 +764,9 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.url)) {
         dotNetWFSLayer.url = jsObject.url;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetWFSLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

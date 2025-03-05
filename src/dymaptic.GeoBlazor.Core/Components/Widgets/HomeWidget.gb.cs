@@ -21,6 +21,9 @@ public partial class HomeWidget : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="goToOverride">
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
@@ -34,6 +37,12 @@ public partial class HomeWidget : IGoTo
     ///     The widget's label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="uiStrings">
     ///     Overwrite localized strings for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#uiStrings">ArcGIS Maps SDK for JavaScript</a>
@@ -46,27 +55,40 @@ public partial class HomeWidget : IGoTo
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when going home.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public HomeWidget(
+        string? containerId = null,
         GoToOverride? goToOverride = null,
         string? icon = null,
         string? label = null,
+        MapView? mapView = null,
+        OverlayPosition? position = null,
         object? uiStrings = null,
         HomeViewModel? viewModel = null,
         Viewpoint? viewpoint = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         GoToOverride = goToOverride;
         Icon = icon;
         Label = label;
+        MapView = mapView;
+        Position = position;
         UiStrings = uiStrings;
         ViewModel = viewModel;
         Viewpoint = viewpoint;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

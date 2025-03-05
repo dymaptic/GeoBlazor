@@ -40,6 +40,9 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     if (hasValue(dotNetObject.wMSSublayerId)) {
         properties.id = dotNetObject.wMSSublayerId;
     }
@@ -121,6 +124,9 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
     }
     if (hasValue(jsObject.title)) {
         dotNetWMSSublayer.title = jsObject.title;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetWMSSublayer.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetWMSSublayer.wMSSublayerId = jsObject.id;

@@ -53,9 +53,16 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     default {link module:esri/geometry/SpatialReference#WebMercator SpatialReference.WebMercator}
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -85,6 +92,11 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public BaseTileLayer(
         BlendMode? blendMode = null,
         Effect? effect = null,
@@ -92,13 +104,16 @@ public partial class BaseTileLayer : IBlendLayer,
         double? minScale = null,
         double? refreshInterval = null,
         SpatialReference? spatialReference = null,
+        string? arcGISLayerId = null,
         Extent? fullExtent = null,
+        bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? opacity = null,
         bool? persistenceEnabled = null,
         TileInfo? tileInfo = null,
         string? title = null,
-        TimeExtent? visibilityTimeExtent = null)
+        TimeExtent? visibilityTimeExtent = null,
+        bool? visible = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -108,13 +123,16 @@ public partial class BaseTileLayer : IBlendLayer,
         MinScale = minScale;
         RefreshInterval = refreshInterval;
         SpatialReference = spatialReference;
+        ArcGISLayerId = arcGISLayerId;
         FullExtent = fullExtent;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         Opacity = opacity;
         PersistenceEnabled = persistenceEnabled;
         TileInfo = tileInfo;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
+        Visible = visible;
 #pragma warning restore BL0005    
     }
     

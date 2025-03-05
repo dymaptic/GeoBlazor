@@ -82,6 +82,9 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.urlTemplate)) {
             this.layer.urlTemplate = dotNetObject.urlTemplate;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -257,6 +260,9 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.urlTemplate)) {
         properties.urlTemplate = dotNetObject.urlTemplate;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
@@ -394,6 +400,9 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.urlTemplate)) {
         dotNetOpenStreetMapLayer.urlTemplate = jsObject.urlTemplate;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetOpenStreetMapLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

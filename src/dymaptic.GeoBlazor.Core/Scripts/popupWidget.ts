@@ -13,6 +13,24 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
     }
 
 
+    async updateComponent(dotNetObject: any): Promise<void> {
+        await super.updateComponent(dotNetObject);
+        if (hasValue(dotNetObject.widgetContent)) {
+            const widgetContent = await buildJsWidget(dotNetObject.widgetContent, dotNetObject.widgetContent.layerId, this.viewId);
+            if (hasValue(widgetContent)) {
+                this.widget.content = widgetContent as Widget;
+            }
+        }
+
+        if (hasValue(dotNetObject.htmlContent)) {
+            this.widget.content = dotNetObject.htmlContent;
+        }
+
+        if (hasValue(dotNetObject.stringContent)) {
+            this.widget.content = dotNetObject.stringContent;
+        }
+    }
+    
     clear() {
         this.widget.clear();
     }
@@ -72,6 +90,14 @@ export async function buildJsPopupWidget(dotNetObject: any, layerId: string | nu
         if (hasValue(widgetContent)) {
             widget.content = widgetContent as Widget;
         }
+    }
+    
+    if (hasValue(dotNetObject.htmlContent)) {
+        widget.content = dotNetObject.htmlContent;
+    }
+    
+    if (hasValue(dotNetObject.stringContent)) {
+        widget.content = dotNetObject.stringContent;
     }
     
     return widget;

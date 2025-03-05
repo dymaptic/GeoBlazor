@@ -169,6 +169,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.useViewTime)) {
             this.layer.useViewTime = dotNetObject.useViewTime;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async computeAngles(parameters: any,
@@ -707,6 +710,9 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.renderer)) {
+        properties.renderer = dotNetObject.iImageryRenderer;
+    }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
@@ -800,9 +806,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
-    if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.renderer;
-    }
     if (hasValue(dotNetObject.sourceJSON)) {
         properties.sourceJSON = dotNetObject.sourceJSON;
     }
@@ -814,6 +817,9 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.useViewTime)) {
         properties.useViewTime = dotNetObject.useViewTime;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsImageryLayer = new ImageryLayer(properties);
     jsImageryLayer.on('layerview-create', async (evt: any) => {
@@ -1063,6 +1069,9 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.version)) {
         dotNetImageryLayer.version = jsObject.version;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetImageryLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

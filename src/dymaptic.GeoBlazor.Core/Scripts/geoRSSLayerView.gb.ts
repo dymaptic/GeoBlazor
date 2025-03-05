@@ -43,6 +43,9 @@ export default class GeoRSSLayerViewGenerated implements IPropertyWrapper {
 export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGeoRSSLayerView: any = {};
 
+    if (hasValue(dotNetObject.visible)) {
+        jsGeoRSSLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: GeoRSSLayerViewWrapper } = await import('./geoRSSLayerView');
     let geoRSSLayerViewWrapper = new GeoRSSLayerViewWrapper(jsGeoRSSLayerView);
@@ -98,6 +101,9 @@ export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.updating)) {
         dotNetGeoRSSLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetGeoRSSLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGeoRSSLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

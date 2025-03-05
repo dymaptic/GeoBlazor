@@ -56,6 +56,8 @@ internal class WidgetConverter : JsonConverter<Widget>
                     return JsonSerializer.Deserialize<ListItemPanelWidget>(ref cloneReader, newOptions);
                 case "distance-measurement-2d":
                     return JsonSerializer.Deserialize<DistanceMeasurement2DWidget>(ref cloneReader, newOptions);
+                case "zoom":
+                    return JsonSerializer.Deserialize<ZoomWidget>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:

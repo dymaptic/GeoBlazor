@@ -41,6 +41,10 @@ public partial class FeaturesViewModel : MapComponent,
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="htmlContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="features">
     ///     An array of features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">ArcGIS Maps SDK for JavaScript</a>
@@ -85,6 +89,10 @@ public partial class FeaturesViewModel : MapComponent,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="stringContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="timeZone">
     ///     Dates and times will be displayed in this time zone.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#timeZone">ArcGIS Maps SDK for JavaScript</a>
@@ -93,11 +101,21 @@ public partial class FeaturesViewModel : MapComponent,
     ///     The title of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#visible">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="widgetContent">
+    ///     The information to display.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public FeaturesViewModel(
         IReadOnlyList<ActionBase>? actions = null,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
+        ElementReference? htmlContent = null,
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
@@ -108,8 +126,11 @@ public partial class FeaturesViewModel : MapComponent,
         object? promises = null,
         int? selectedFeatureIndex = null,
         SpatialReference? spatialReference = null,
+        string? stringContent = null,
         string? timeZone = null,
-        string? title = null)
+        string? title = null,
+        bool? visible = null,
+        Widget? widgetContent = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -117,6 +138,7 @@ public partial class FeaturesViewModel : MapComponent,
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
+        HtmlContent = htmlContent;
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;
@@ -127,8 +149,11 @@ public partial class FeaturesViewModel : MapComponent,
         Promises = promises;
         SelectedFeatureIndex = selectedFeatureIndex;
         SpatialReference = spatialReference;
+        StringContent = stringContent;
         TimeZone = timeZone;
         Title = title;
+        Visible = visible;
+        WidgetContent = widgetContent;
 #pragma warning restore BL0005    
     }
     
@@ -208,7 +233,7 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? ElementReferenceContent { get; set; }
+    public ElementReference? HtmlContent { get; set; }
     
     /// <summary>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a> available.
@@ -623,33 +648,33 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the ElementReferenceContent property.
+    ///     Asynchronously retrieve the current value of the HtmlContent property.
     /// </summary>
-    public async Task<ElementReference?> GetElementReferenceContent()
+    public async Task<ElementReference?> GetHtmlContent()
     {
         if (CoreJsModule is null)
         {
-            return ElementReferenceContent;
+            return HtmlContent;
         }
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
-            return ElementReferenceContent;
+            return HtmlContent;
         }
 
         // get the property value
         JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
+            CancellationTokenSource.Token, JsComponentReference, "htmlContent");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ElementReferenceContent = result.Value.Value;
+             HtmlContent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
+             ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
         }
          
-        return ElementReferenceContent;
+        return HtmlContent;
     }
     
     /// <summary>
@@ -1427,17 +1452,17 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ElementReferenceContent property after render.
+    ///    Asynchronously set the value of the HtmlContent property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetElementReferenceContent(ElementReference? value)
+    public async Task SetHtmlContent(ElementReference? value)
     {
 #pragma warning disable BL0005
-        ElementReferenceContent = value;
+        HtmlContent = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(ElementReferenceContent)] = value;
+        ModifiedParameters[nameof(HtmlContent)] = value;
         
         if (CoreJsModule is null)
         {
@@ -1453,7 +1478,7 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "elementReferenceContent", value);
+            JsComponentReference, "htmlContent", value);
     }
     
     /// <summary>

@@ -49,6 +49,9 @@ export default class UnknownLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
         }
+        if (hasValue(dotNetObject.visible)) {
+            this.layer.visible = dotNetObject.visible;
+        }
     }
     
     async createLayerView(view: any,
@@ -126,6 +129,9 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     let jsUnknownLayer = new UnknownLayer(properties);
     jsUnknownLayer.on('layerview-create', async (evt: any) => {
@@ -221,6 +227,9 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.type)) {
         dotNetUnknownLayer.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetUnknownLayer.visible = jsObject.visible;
     }
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);

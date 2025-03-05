@@ -188,11 +188,15 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
         catch (TaskCanceledException)
         {
-            // ignore
+            // user cancelled
         }
         catch (JSDisconnectedException)
         {
-            // ignore
+            // lost connection (page navigation)
+        }
+        catch (JSException)
+        {
+            // instance already destroyed
         }
     }
 
@@ -594,6 +598,28 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public Task SetVisible(bool visible)
     {
         return SetVisibility(visible);
+    }
+    
+    public async Task<bool?> GetVisible()
+    {
+        if (CoreJsModule is null) return Visible;
+        
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return Visible;
+        
+        bool? result = await CoreJsModule.InvokeAsync<bool?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "visible");
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Visible = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Visible)] = Visible;
+        }
+        
+        return Visible;
     }
     
     /// <summary>

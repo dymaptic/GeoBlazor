@@ -21,6 +21,9 @@ public partial class ListItemPanelWidget
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="containerId">
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    /// </param>
     /// <param name="content">
     ///     The content displayed in the ListItem panel.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#content">ArcGIS Maps SDK for JavaScript</a>
@@ -51,20 +54,32 @@ public partial class ListItemPanelWidget
     ///     The panel's parent ListItem that represents a layer in the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#listItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="mapView">
+    ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
+    /// </param>
     /// <param name="open">
     ///     Indicates if the panel's content is open and visible to the user.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="position">
+    ///     The position of the widget in relation to the map view.
+    /// </param>
     /// <param name="title">
     ///     The title of the panel.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="visible">
+    ///     Indicates whether the widget is visible.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="widgetId">
     ///     The unique ID assigned to the widget when the widget is created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public ListItemPanelWidget(
+        string? containerId = null,
         IReadOnlyList<ListItemPanelContent>? content = null,
         bool? disabled = null,
         bool? flowEnabled = null,
@@ -72,12 +87,16 @@ public partial class ListItemPanelWidget
         string? image = null,
         string? label = null,
         ListItem? listItem = null,
+        MapView? mapView = null,
         bool? open = null,
+        OverlayPosition? position = null,
         string? title = null,
+        bool? visible = null,
         string? widgetId = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        ContainerId = containerId;
         Content = content;
         Disabled = disabled;
         FlowEnabled = flowEnabled;
@@ -85,8 +104,11 @@ public partial class ListItemPanelWidget
         Image = image;
         Label = label;
         ListItem = listItem;
+        MapView = mapView;
         Open = open;
+        Position = position;
         Title = title;
+        Visible = visible;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
     }

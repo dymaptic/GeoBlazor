@@ -42,9 +42,6 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         if (hasValue(dotNetObject.collapsed)) {
             this.widget.collapsed = dotNetObject.collapsed;
         }
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
@@ -80,6 +77,9 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         if (hasValue(dotNetObject.visibilityAppearance)) {
             this.widget.visibilityAppearance = dotNetObject.visibilityAppearance;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.visibleElements)) {
             this.widget.visibleElements = dotNetObject.visibleElements;
@@ -239,9 +239,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.collapsed)) {
         properties.collapsed = dotNetObject.collapsed;
     }
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
@@ -277,6 +274,9 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.visibilityAppearance)) {
         properties.visibilityAppearance = dotNetObject.visibilityAppearance;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.visibleElements)) {
         properties.visibleElements = dotNetObject.visibleElements;
@@ -372,9 +372,6 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     if (hasValue(jsObject.collapsed)) {
         dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
     }
-    if (hasValue(jsObject.container)) {
-        dotNetBasemapLayerListWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
@@ -410,6 +407,9 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
     }
     if (hasValue(jsObject.visibilityAppearance)) {
         dotNetBasemapLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetBasemapLayerListWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleElements)) {
         dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;

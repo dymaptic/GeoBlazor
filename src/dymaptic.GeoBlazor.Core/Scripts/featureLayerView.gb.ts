@@ -101,6 +101,9 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
         properties.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
     let jsFeatureLayerView = new FeatureLayerView(properties);
 
     let { default: FeatureLayerViewWrapper } = await import('./featureLayerView');
@@ -190,6 +193,9 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.updating)) {
         dotNetFeatureLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetFeatureLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetFeatureLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

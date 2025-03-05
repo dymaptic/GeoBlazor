@@ -50,6 +50,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Returns the multidimensional information associated with the raster service referenced in an imagery layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="NoDataValue">
+///     The pixel value representing no available information.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#noDataValue">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="PixelSize">
 ///     Raster pixel size.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#pixelSize">ArcGIS Maps SDK for JavaScript</a>
@@ -97,6 +101,8 @@ public partial record RasterInfo(
     object? KeyProperties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterMultidimensionalInfo? MultidimensionalInfo = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    NoData? NoDataValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterInfoPixelSize? PixelSize = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

@@ -45,8 +45,9 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
-    ///     Indicates if the layer is visible in the View. When false, the layer may still be added to a Map instance that is
-    ///              referenced in a view, but its features will not be visible in the view.
+    ///     Indicates if the layer is visible in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
     ///     Indicates how the layer should display in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -61,6 +62,10 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="popupTemplate">
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="arcGISLayerId">
+    ///     The unique ID assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="customParameters">
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
@@ -106,6 +111,9 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="geometryType">
     ///     The geometry type of features in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="isBasemapReferenceLayer">
+    ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
     ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
@@ -219,6 +227,7 @@ public partial class CSVLayer : IBlendLayer,
         ListMode? listMode = null,
         BlendMode? blendMode = null,
         PopupTemplate? popupTemplate = null,
+        string? arcGISLayerId = null,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
         CSVDelimiter? delimiter = null,
@@ -230,6 +239,7 @@ public partial class CSVLayer : IBlendLayer,
         IReadOnlyList<Field>? fields = null,
         Extent? fullExtent = null,
         string? geometryType = null,
+        bool? isBasemapReferenceLayer = null,
         IReadOnlyList<Label>? labelingInfo = null,
         bool? labelsVisible = null,
         string? latitudeField = null,
@@ -259,13 +269,11 @@ public partial class CSVLayer : IBlendLayer,
         Title = title;
         Copyright = copyright;
         Opacity = opacity;
-        if (visible is not null)
-        {
-            Visible = visible.Value;
-        }
+        Visible = visible;
         ListMode = listMode;
         BlendMode = blendMode;
         PopupTemplate = popupTemplate;
+        ArcGISLayerId = arcGISLayerId;
         CustomParameters = customParameters;
         DefinitionExpression = definitionExpression;
         Delimiter = delimiter;
@@ -277,6 +285,7 @@ public partial class CSVLayer : IBlendLayer,
         Fields = fields;
         FullExtent = fullExtent;
         GeometryType = geometryType;
+        IsBasemapReferenceLayer = isBasemapReferenceLayer;
         LabelingInfo = labelingInfo;
         LabelsVisible = labelsVisible;
         LatitudeField = latitudeField;

@@ -7,14 +7,6 @@ public abstract partial class Layer : MapComponent
     ///     Used internally to identify the sub type of Layer
     /// </summary>
     public abstract LayerType Type { get; }
-
-    /// <summary>
-    ///     The unique ID assigned to the layer in ArcGIS.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ArcGISId { get; set; }
     
     /// <summary>
     ///     The opacity of the layer.
@@ -302,13 +294,17 @@ public abstract partial class Layer : MapComponent
                 }
             }
         }
-        catch (JSDisconnectedException)
-        {
-            // ignore
-        }
         catch (TaskCanceledException)
         {
-            // ignore
+            // user cancelled
+        }
+        catch (JSDisconnectedException)
+        {
+            // lost connection (page navigation)
+        }
+        catch (JSException)
+        {
+            // instance already destroyed
         }
 
         await base.DisposeAsync();

@@ -81,17 +81,22 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
             return Geometry;
         }
 
-        // get the property value
-        Polyline? result = await JsComponentReference!.InvokeAsync<Polyline?>("getProperty",
-            CancellationTokenSource.Token, "geometry");
+        Polyline? result = await JsComponentReference.InvokeAsync<Polyline?>(
+            "getGeometry", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Geometry is not null)
+            {
+                result.Id = Geometry.Id;
+            }
+            
 #pragma warning disable BL0005
-             Geometry = result;
+            Geometry = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Geometry)] = Geometry;
+            ModifiedParameters[nameof(Geometry)] = Geometry;
         }
-         
+        
         return Geometry;
     }
     
@@ -191,4 +196,45 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     
 #endregion
 
+
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Polyline geometry:
+                if (geometry != Geometry)
+                {
+                    Geometry = geometry;
+                    
+                    ModifiedParameters[nameof(Geometry)] = Geometry;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Polyline _:
+                Geometry = null;
+                
+                ModifiedParameters[nameof(Geometry)] = Geometry;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Geometry?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

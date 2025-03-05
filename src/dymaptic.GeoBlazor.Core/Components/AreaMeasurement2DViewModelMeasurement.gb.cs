@@ -35,7 +35,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// </param>
     public AreaMeasurement2DViewModelMeasurement(
         double? area = null,
-        Polygon? geometry = null,
+        object? geometry = null,
         double? perimeter = null)
     {
         AllowRender = false;
@@ -65,7 +65,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Polygon? Geometry { get; set; }
+    public object? Geometry { get; set; }
     
     /// <summary>
     ///     The perimeter (m).
@@ -113,7 +113,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
-    public async Task<Polygon?> GetGeometry()
+    public async Task<object?> GetGeometry()
     {
         if (CoreJsModule is null)
         {
@@ -127,7 +127,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         }
 
         // get the property value
-        Polygon? result = await JsComponentReference!.InvokeAsync<Polygon?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "geometry");
         if (result is not null)
         {
@@ -210,7 +210,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometry(Polygon? value)
+    public async Task SetGeometry(object? value)
     {
 #pragma warning disable BL0005
         Geometry = value;

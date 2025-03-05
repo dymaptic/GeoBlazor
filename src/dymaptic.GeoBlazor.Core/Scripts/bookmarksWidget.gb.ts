@@ -46,9 +46,6 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
             this.widget.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -72,6 +69,9 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -254,9 +254,6 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         properties.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -280,6 +277,9 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -366,9 +366,6 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
         let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
         dotNetBookmarksWidget.visibleElements = await buildDotNetBookmarksVisibleElements(jsObject.visibleElements);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetBookmarksWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.disabled)) {
         dotNetBookmarksWidget.disabled = jsObject.disabled;
     }
@@ -392,6 +389,9 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any): Promis
     }
     if (hasValue(jsObject.type)) {
         dotNetBookmarksWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetBookmarksWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetBookmarksWidget.widgetId = jsObject.id;

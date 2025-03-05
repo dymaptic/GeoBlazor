@@ -26,9 +26,6 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
             this.widget.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
@@ -40,6 +37,9 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
         }
         if (hasValue(dotNetObject.unitOptions)) {
             this.widget.unitOptions = dotNetObject.unitOptions;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -126,9 +126,6 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
         properties.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
@@ -140,6 +137,9 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     }
     if (hasValue(dotNetObject.unitOptions)) {
         properties.unitOptions = dotNetObject.unitOptions;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -196,9 +196,6 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
         let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
         dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetDistanceMeasurement2DWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.icon)) {
         dotNetDistanceMeasurement2DWidget.icon = jsObject.icon;
     }
@@ -213,6 +210,9 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
     }
     if (hasValue(jsObject.unitOptions)) {
         dotNetDistanceMeasurement2DWidget.unitOptions = jsObject.unitOptions;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetDistanceMeasurement2DWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetDistanceMeasurement2DWidget.widgetId = jsObject.id;

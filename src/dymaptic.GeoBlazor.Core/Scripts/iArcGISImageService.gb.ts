@@ -32,6 +32,9 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         let { buildJsRasterFunction } = await import('./rasterFunction');
         jsArcGISImageService.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.renderer)) {
+        jsArcGISImageService.renderer = dotNetObject.iImageryRenderer;
+    }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
         jsArcGISImageService.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
@@ -75,9 +78,6 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.pixelType)) {
         jsArcGISImageService.pixelType = dotNetObject.pixelType;
-    }
-    if (hasValue(dotNetObject.renderer)) {
-        jsArcGISImageService.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.sourceJSON)) {
         jsArcGISImageService.sourceJSON = dotNetObject.sourceJSON;

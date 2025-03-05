@@ -25,14 +25,15 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
             let { buildJsBasemap } = await import('./basemap');
             this.widget.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.source)) {
+            let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+            this.widget.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, this.layerId, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.viewModel)) {
             let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
             this.widget.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
         }
 
-        if (hasValue(dotNetObject.container)) {
-            this.widget.container = dotNetObject.container;
-        }
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;
         }
@@ -45,8 +46,8 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
         }
-        if (hasValue(dotNetObject.source)) {
-            this.widget.source = dotNetObject.source;
+        if (hasValue(dotNetObject.visible)) {
+            this.widget.visible = dotNetObject.visible;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -113,6 +114,20 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         this.widget.activeBasemap = await  buildJsBasemap(value, this.layerId, this.viewId);
     }
     
+    async getSource(): Promise<any> {
+        if (!hasValue(this.widget.source)) {
+            return null;
+        }
+        
+        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        return await buildDotNetIBasemapGalleryWidgetSource(this.widget.source);
+    }
+    
+    async setSource(value: any): Promise<void> {
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        this.widget.source = await  buildJsIBasemapGalleryWidgetSource(value, this.layerId, this.viewId);
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -146,14 +161,15 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
         let { buildJsBasemap } = await import('./basemap');
         properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.source)) {
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        properties.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         properties.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.container)) {
-        properties.container = dotNetObject.container;
-    }
     if (hasValue(dotNetObject.disabled)) {
         properties.disabled = dotNetObject.disabled;
     }
@@ -166,8 +182,8 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
     }
-    if (hasValue(dotNetObject.source)) {
-        properties.source = dotNetObject.source;
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -224,9 +240,6 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
     }
-    if (hasValue(jsObject.container)) {
-        dotNetBasemapGalleryWidget.container = jsObject.container;
-    }
     if (hasValue(jsObject.disabled)) {
         dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
     }
@@ -241,6 +254,9 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): P
     }
     if (hasValue(jsObject.type)) {
         dotNetBasemapGalleryWidget.type = jsObject.type;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetBasemapGalleryWidget.visible = jsObject.visible;
     }
     if (hasValue(jsObject.id)) {
         dotNetBasemapGalleryWidget.widgetId = jsObject.id;

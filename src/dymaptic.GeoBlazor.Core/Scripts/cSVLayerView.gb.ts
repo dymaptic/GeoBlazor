@@ -159,6 +159,9 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
         jsCSVLayerView.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
     }
+    if (hasValue(dotNetObject.visible)) {
+        jsCSVLayerView.visible = dotNetObject.visible;
+    }
 
     let { default: CSVLayerViewWrapper } = await import('./cSVLayerView');
     let cSVLayerViewWrapper = new CSVLayerViewWrapper(jsCSVLayerView);
@@ -247,6 +250,9 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.updating)) {
         dotNetCSVLayerView.updating = jsObject.updating;
+    }
+    if (hasValue(jsObject.visible)) {
+        dotNetCSVLayerView.visible = jsObject.visible;
     }
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetCSVLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;

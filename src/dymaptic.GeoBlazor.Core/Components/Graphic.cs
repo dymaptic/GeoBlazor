@@ -54,7 +54,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         AttributesDictionary? attributes = null,
         bool? visible = null,
         string? legendLabel = null,
-        string? aggregateGeometries = null,
+        object? aggregateGeometries = null,
         GraphicOrigin? origin = null)
     {
 #pragma warning disable BL0005
@@ -518,13 +518,17 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
                 await CoreJsModule.InvokeVoidAsync("disposeGraphic", Id);
             }
         }
-        catch (JSDisconnectedException)
-        {
-            // ignore
-        }
         catch (TaskCanceledException)
         {
-            // ignore
+            // user cancelled
+        }
+        catch (JSDisconnectedException)
+        {
+            // lost connection (page navigation)
+        }
+        catch (JSException)
+        {
+            // instance already destroyed
         }
     }
 
