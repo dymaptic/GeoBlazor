@@ -45,27 +45,18 @@ export async function buildDotNetStreamConnectionGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetStreamConnection: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsStreamConnection } = await import('./streamConnection');
-        jsComponentRef = await buildJsStreamConnection(jsObject, layerId, viewId);
-    }
-    
-    let dotNetStreamConnection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.connectionError)) {
         dotNetStreamConnection.connectionError = jsObject.connectionError;
     }
+    
     if (hasValue(jsObject.connectionStatus)) {
         dotNetStreamConnection.connectionStatus = jsObject.connectionStatus;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetStreamConnection.id = geoBlazorId;
     }

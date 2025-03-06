@@ -49,27 +49,18 @@ export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureReferenceLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureReferenceLayer } = await import('./featureReferenceLayer');
-        jsComponentRef = await buildJsFeatureReferenceLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureReferenceLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.id)) {
         dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureReferenceLayer.id = geoBlazorId;
     }

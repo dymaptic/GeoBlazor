@@ -119,24 +119,14 @@ export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapToggleViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        jsComponentRef = await buildJsBasemapToggleViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapToggleViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.state)) {
         dotNetBasemapToggleViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapToggleViewModel.id = geoBlazorId;
     }

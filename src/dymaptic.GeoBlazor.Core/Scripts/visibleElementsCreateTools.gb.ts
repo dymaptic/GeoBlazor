@@ -58,36 +58,30 @@ export async function buildDotNetVisibleElementsCreateToolsGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElementsCreateTools: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
-        jsComponentRef = await buildJsVisibleElementsCreateTools(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsCreateTools: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.circle)) {
         dotNetVisibleElementsCreateTools.circle = jsObject.circle;
     }
+    
     if (hasValue(jsObject.point)) {
         dotNetVisibleElementsCreateTools.point = jsObject.point;
     }
+    
     if (hasValue(jsObject.polygon)) {
         dotNetVisibleElementsCreateTools.polygon = jsObject.polygon;
     }
+    
     if (hasValue(jsObject.polyline)) {
         dotNetVisibleElementsCreateTools.polyline = jsObject.polyline;
     }
+    
     if (hasValue(jsObject.rectangle)) {
         dotNetVisibleElementsCreateTools.rectangle = jsObject.rectangle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsCreateTools.id = geoBlazorId;
     }

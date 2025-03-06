@@ -56,27 +56,18 @@ export async function buildDotNetConfigLogGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConfigLog: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConfigLog } = await import('./configLog');
-        jsComponentRef = await buildJsConfigLog(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConfigLog: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.interceptors)) {
         dotNetConfigLog.interceptors = jsObject.interceptors;
     }
+    
     if (hasValue(jsObject.level)) {
         dotNetConfigLog.level = jsObject.level;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConfigLog.id = geoBlazorId;
     }

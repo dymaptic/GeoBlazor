@@ -58,36 +58,30 @@ export async function buildDotNetVisibleElementsConnectivityAssociationsSettings
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElementsConnectivityAssociationsSettings: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
-        jsComponentRef = await buildJsVisibleElementsConnectivityAssociationsSettings(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsConnectivityAssociationsSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.arrowsToggle)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.arrowsToggle = jsObject.arrowsToggle;
     }
+    
     if (hasValue(jsObject.capSelect)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.capSelect = jsObject.capSelect;
     }
+    
     if (hasValue(jsObject.colorPicker)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.colorPicker = jsObject.colorPicker;
     }
+    
     if (hasValue(jsObject.stylePicker)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.stylePicker = jsObject.stylePicker;
     }
+    
     if (hasValue(jsObject.widthInput)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.widthInput = jsObject.widthInput;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.id = geoBlazorId;
     }

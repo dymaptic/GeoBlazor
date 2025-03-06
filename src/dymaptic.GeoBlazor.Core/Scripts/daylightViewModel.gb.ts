@@ -75,48 +75,46 @@ export async function buildDotNetDaylightViewModelGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDaylightViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDaylightViewModel } = await import('./daylightViewModel');
-        jsComponentRef = await buildJsDaylightViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDaylightViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.currentSeason)) {
         dotNetDaylightViewModel.currentSeason = jsObject.currentSeason;
     }
+    
     if (hasValue(jsObject.dayPlaying)) {
         dotNetDaylightViewModel.dayPlaying = jsObject.dayPlaying;
     }
+    
     if (hasValue(jsObject.directShadowsEnabled)) {
         dotNetDaylightViewModel.directShadowsEnabled = jsObject.directShadowsEnabled;
     }
+    
     if (hasValue(jsObject.localDate)) {
         dotNetDaylightViewModel.localDate = jsObject.localDate;
     }
+    
     if (hasValue(jsObject.playSpeedMultiplier)) {
         dotNetDaylightViewModel.playSpeedMultiplier = jsObject.playSpeedMultiplier;
     }
+    
     if (hasValue(jsObject.sunLightingEnabled)) {
         dotNetDaylightViewModel.sunLightingEnabled = jsObject.sunLightingEnabled;
     }
+    
     if (hasValue(jsObject.timeSliderPosition)) {
         dotNetDaylightViewModel.timeSliderPosition = jsObject.timeSliderPosition;
     }
+    
     if (hasValue(jsObject.utcOffset)) {
         dotNetDaylightViewModel.utcOffset = jsObject.utcOffset;
     }
+    
     if (hasValue(jsObject.yearPlaying)) {
         dotNetDaylightViewModel.yearPlaying = jsObject.yearPlaying;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDaylightViewModel.id = geoBlazorId;
     }

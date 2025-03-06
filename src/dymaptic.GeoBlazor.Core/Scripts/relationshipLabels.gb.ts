@@ -55,33 +55,26 @@ export async function buildDotNetRelationshipLabelsGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRelationshipLabels: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRelationshipLabels } = await import('./relationshipLabels');
-        jsComponentRef = await buildJsRelationshipLabels(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRelationshipLabels: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bottom)) {
         dotNetRelationshipLabels.bottom = jsObject.bottom;
     }
+    
     if (hasValue(jsObject.left)) {
         dotNetRelationshipLabels.left = jsObject.left;
     }
+    
     if (hasValue(jsObject.right)) {
         dotNetRelationshipLabels.right = jsObject.right;
     }
+    
     if (hasValue(jsObject.top)) {
         dotNetRelationshipLabels.top = jsObject.top;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipLabels.id = geoBlazorId;
     }

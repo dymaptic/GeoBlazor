@@ -49,27 +49,18 @@ export async function buildDotNetVersionInfoVersionIdentifierGenerated(jsObject:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVersionInfoVersionIdentifier: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVersionInfoVersionIdentifier } = await import('./versionInfoVersionIdentifier');
-        jsComponentRef = await buildJsVersionInfoVersionIdentifier(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVersionInfoVersionIdentifier: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.guid)) {
         dotNetVersionInfoVersionIdentifier.guid = jsObject.guid;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetVersionInfoVersionIdentifier.name = jsObject.name;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVersionInfoVersionIdentifier.id = geoBlazorId;
     }

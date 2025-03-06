@@ -51,30 +51,22 @@ export async function buildDotNetRadioButtonsInputGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRadioButtonsInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRadioButtonsInput } = await import('./radioButtonsInput');
-        jsComponentRef = await buildJsRadioButtonsInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRadioButtonsInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.noValueOptionLabel)) {
         dotNetRadioButtonsInput.noValueOptionLabel = jsObject.noValueOptionLabel;
     }
+    
     if (hasValue(jsObject.showNoValueOption)) {
         dotNetRadioButtonsInput.showNoValueOption = jsObject.showNoValueOption;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetRadioButtonsInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRadioButtonsInput.id = geoBlazorId;
     }

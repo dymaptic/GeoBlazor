@@ -403,103 +403,117 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVectorTileLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVectorTileLayer } = await import('./vectorTileLayer');
-        jsComponentRef = await buildJsVectorTileLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVectorTileLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.currentStyleInfo)) {
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
         dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetVectorTileLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetVectorTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.initialExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetVectorTileLayer.initialExtent = buildDotNetExtent(jsObject.initialExtent);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetVectorTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.apiKey)) {
         dotNetVectorTileLayer.apiKey = jsObject.apiKey;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetVectorTileLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.attributionDataUrl)) {
         dotNetVectorTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetVectorTileLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetVectorTileLayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetVectorTileLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetVectorTileLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetVectorTileLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetVectorTileLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetVectorTileLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetVectorTileLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetVectorTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetVectorTileLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.style)) {
         dotNetVectorTileLayer.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetVectorTileLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetVectorTileLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetVectorTileLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetVectorTileLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVectorTileLayer.id = geoBlazorId;
     }

@@ -51,27 +51,18 @@ export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTimeInterval: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTimeInterval } = await import('./timeInterval');
-        jsComponentRef = await buildJsTimeInterval(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTimeInterval: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.unit)) {
         dotNetTimeInterval.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetTimeInterval.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTimeInterval.id = geoBlazorId;
     }

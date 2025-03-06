@@ -105,28 +105,19 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetViewAnimation: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsViewAnimation } = await import('./viewAnimation');
-        jsComponentRef = await buildJsViewAnimation(jsObject, layerId, viewId);
-    }
-    
-    let dotNetViewAnimation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.target)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetViewAnimation.target = buildDotNetViewpoint(jsObject.target);
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetViewAnimation.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetViewAnimation.id = geoBlazorId;
     }

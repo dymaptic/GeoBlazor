@@ -52,30 +52,22 @@ export async function buildDotNetPointCloudLayerElevationInfoGenerated(jsObject:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPointCloudLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPointCloudLayerElevationInfo } = await import('./pointCloudLayerElevationInfo');
-        jsComponentRef = await buildJsPointCloudLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPointCloudLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mode)) {
         dotNetPointCloudLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetPointCloudLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetPointCloudLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudLayerElevationInfo.id = geoBlazorId;
     }

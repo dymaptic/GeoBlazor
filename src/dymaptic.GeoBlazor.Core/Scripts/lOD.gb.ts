@@ -57,33 +57,26 @@ export async function buildDotNetLODGenerated(jsObject: any, layerId: string | n
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLOD: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLOD } = await import('./lOD');
-        jsComponentRef = await buildJsLOD(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLOD: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.level)) {
         dotNetLOD.level = jsObject.level;
     }
+    
     if (hasValue(jsObject.levelValue)) {
         dotNetLOD.levelValue = jsObject.levelValue;
     }
+    
     if (hasValue(jsObject.resolution)) {
         dotNetLOD.resolution = jsObject.resolution;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetLOD.scale = jsObject.scale;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLOD.id = geoBlazorId;
     }

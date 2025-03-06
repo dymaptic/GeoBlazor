@@ -49,27 +49,18 @@ export async function buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLabelClassLabelExpressionInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLabelClassLabelExpressionInfo } = await import('./labelClassLabelExpressionInfo');
-        jsComponentRef = await buildJsLabelClassLabelExpressionInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLabelClassLabelExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expression)) {
         dotNetLabelClassLabelExpressionInfo.expression = jsObject.expression;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetLabelClassLabelExpressionInfo.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLabelClassLabelExpressionInfo.id = geoBlazorId;
     }

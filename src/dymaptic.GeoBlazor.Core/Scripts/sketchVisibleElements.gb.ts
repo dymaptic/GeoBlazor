@@ -73,51 +73,49 @@ export async function buildDotNetSketchVisibleElementsGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSketchVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSketchVisibleElements } = await import('./sketchVisibleElements');
-        jsComponentRef = await buildJsSketchVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSketchVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.createTools)) {
         let { buildDotNetVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
         dotNetSketchVisibleElements.createTools = await buildDotNetVisibleElementsCreateTools(jsObject.createTools, layerId, viewId);
     }
+    
     if (hasValue(jsObject.selectionTools)) {
         let { buildDotNetVisibleElementsSelectionTools } = await import('./visibleElementsSelectionTools');
         dotNetSketchVisibleElements.selectionTools = await buildDotNetVisibleElementsSelectionTools(jsObject.selectionTools, layerId, viewId);
     }
+    
     if (hasValue(jsObject.snappingControlsElements)) {
         let { buildDotNetSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
         dotNetSketchVisibleElements.snappingControlsElements = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsObject.snappingControlsElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.duplicateButton)) {
         dotNetSketchVisibleElements.duplicateButton = jsObject.duplicateButton;
     }
+    
     if (hasValue(jsObject.labelsToggle)) {
         dotNetSketchVisibleElements.labelsToggle = jsObject.labelsToggle;
     }
+    
     if (hasValue(jsObject.settingsMenu)) {
         dotNetSketchVisibleElements.settingsMenu = jsObject.settingsMenu;
     }
+    
     if (hasValue(jsObject.snappingControls)) {
         dotNetSketchVisibleElements.snappingControls = jsObject.snappingControls;
     }
+    
     if (hasValue(jsObject.tooltipsToggle)) {
         dotNetSketchVisibleElements.tooltipsToggle = jsObject.tooltipsToggle;
     }
+    
     if (hasValue(jsObject.undoRedoMenu)) {
         dotNetSketchVisibleElements.undoRedoMenu = jsObject.undoRedoMenu;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSketchVisibleElements.id = geoBlazorId;
     }

@@ -145,41 +145,36 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPortalBasemapsSource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPortalBasemapsSource } = await import('./portalBasemapsSource');
-        jsComponentRef = await buildJsPortalBasemapsSource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPortalBasemapsSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.basemaps)) {
         let { buildDotNetBasemap } = await import('./basemap');
         dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
+    
     if (hasValue(jsObject.filterFunction)) {
         dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
     }
+    
     if (hasValue(jsObject.query)) {
         dotNetPortalBasemapsSource.query = jsObject.query;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetPortalBasemapsSource.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.updateBasemapsCallback)) {
         dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPortalBasemapsSource.id = geoBlazorId;
     }

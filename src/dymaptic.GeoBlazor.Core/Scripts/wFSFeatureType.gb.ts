@@ -71,49 +71,47 @@ export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSFeatureType: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
-        jsComponentRef = await buildJsWFSFeatureType(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSFeatureType: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWFSFeatureType.extent = buildDotNetExtent(jsObject.extent);
     }
+    
     if (hasValue(jsObject.defaultSpatialReference)) {
         dotNetWFSFeatureType.defaultSpatialReference = jsObject.defaultSpatialReference;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetWFSFeatureType.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetWFSFeatureType.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.namespacePrefix)) {
         dotNetWFSFeatureType.namespacePrefix = jsObject.namespacePrefix;
     }
+    
     if (hasValue(jsObject.namespaceUri)) {
         dotNetWFSFeatureType.namespaceUri = jsObject.namespaceUri;
     }
+    
     if (hasValue(jsObject.supportedSpatialReferences)) {
         dotNetWFSFeatureType.supportedSpatialReferences = jsObject.supportedSpatialReferences;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWFSFeatureType.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.typeName)) {
         dotNetWFSFeatureType.typeName = jsObject.typeName;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSFeatureType.id = geoBlazorId;
     }

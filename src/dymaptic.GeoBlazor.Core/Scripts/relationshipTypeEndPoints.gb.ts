@@ -49,27 +49,18 @@ export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRelationshipTypeEndPoints: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-        jsComponentRef = await buildJsRelationshipTypeEndPoints(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRelationshipTypeEndPoints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.destinationEntityType)) {
         dotNetRelationshipTypeEndPoints.destinationEntityType = jsObject.destinationEntityType;
     }
+    
     if (hasValue(jsObject.originEntityType)) {
         dotNetRelationshipTypeEndPoints.originEntityType = jsObject.originEntityType;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipTypeEndPoints.id = geoBlazorId;
     }

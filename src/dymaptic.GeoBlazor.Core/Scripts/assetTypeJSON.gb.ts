@@ -52,30 +52,22 @@ export async function buildDotNetAssetTypeJSONGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAssetTypeJSON: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAssetTypeJSON } = await import('./assetTypeJSON');
-        jsComponentRef = await buildJsAssetTypeJSON(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAssetTypeJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.assetTypeCode)) {
         dotNetAssetTypeJSON.assetTypeCode = jsObject.assetTypeCode;
     }
+    
     if (hasValue(jsObject.assetTypeName)) {
         dotNetAssetTypeJSON.assetTypeName = jsObject.assetTypeName;
     }
+    
     if (hasValue(jsObject.terminalConfigurationId)) {
         dotNetAssetTypeJSON.terminalConfigurationId = jsObject.terminalConfigurationId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAssetTypeJSON.id = geoBlazorId;
     }

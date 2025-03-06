@@ -43,21 +43,10 @@ export async function buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject: 
         return null;
     }
     
+    let dotNetIRouteSymbolsDirectionLines: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
-        jsComponentRef = await buildJsIRouteSymbolsDirectionLines(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIRouteSymbolsDirectionLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetIRouteSymbolsDirectionLines.id = geoBlazorId;
     }

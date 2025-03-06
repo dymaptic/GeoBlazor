@@ -70,48 +70,46 @@ export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesEditing: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesEditing } = await import('./capabilitiesEditing');
-        jsComponentRef = await buildJsCapabilitiesEditing(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesEditing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsDeleteByAnonymous)) {
         dotNetCapabilitiesEditing.supportsDeleteByAnonymous = jsObject.supportsDeleteByAnonymous;
     }
+    
     if (hasValue(jsObject.supportsDeleteByOthers)) {
         dotNetCapabilitiesEditing.supportsDeleteByOthers = jsObject.supportsDeleteByOthers;
     }
+    
     if (hasValue(jsObject.supportsGeometryUpdate)) {
         dotNetCapabilitiesEditing.supportsGeometryUpdate = jsObject.supportsGeometryUpdate;
     }
+    
     if (hasValue(jsObject.supportsGlobalId)) {
         dotNetCapabilitiesEditing.supportsGlobalId = jsObject.supportsGlobalId;
     }
+    
     if (hasValue(jsObject.supportsRollbackOnFailure)) {
         dotNetCapabilitiesEditing.supportsRollbackOnFailure = jsObject.supportsRollbackOnFailure;
     }
+    
     if (hasValue(jsObject.supportsUpdateByAnonymous)) {
         dotNetCapabilitiesEditing.supportsUpdateByAnonymous = jsObject.supportsUpdateByAnonymous;
     }
+    
     if (hasValue(jsObject.supportsUpdateByOthers)) {
         dotNetCapabilitiesEditing.supportsUpdateByOthers = jsObject.supportsUpdateByOthers;
     }
+    
     if (hasValue(jsObject.supportsUpdateWithoutM)) {
         dotNetCapabilitiesEditing.supportsUpdateWithoutM = jsObject.supportsUpdateWithoutM;
     }
+    
     if (hasValue(jsObject.supportsUploadWithItemId)) {
         dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesEditing.id = geoBlazorId;
     }

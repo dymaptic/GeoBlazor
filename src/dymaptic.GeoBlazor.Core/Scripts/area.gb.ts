@@ -49,30 +49,22 @@ export async function buildDotNetAreaGenerated(jsObject: any, layerId: string | 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetArea: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsArea } = await import('./area');
-        jsComponentRef = await buildJsArea(jsObject, layerId, viewId);
-    }
-    
-    let dotNetArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.type)) {
         dotNetArea.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetArea.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetArea.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetArea.id = geoBlazorId;
     }

@@ -52,30 +52,22 @@ export async function buildDotNetElevationSourceGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationSource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationSource } = await import('./elevationSource');
-        jsComponentRef = await buildJsElevationSource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.lod)) {
         dotNetElevationSource.lod = jsObject.lod;
     }
+    
     if (hasValue(jsObject.rasterFunction)) {
         dotNetElevationSource.rasterFunction = jsObject.rasterFunction;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetElevationSource.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationSource.id = geoBlazorId;
     }

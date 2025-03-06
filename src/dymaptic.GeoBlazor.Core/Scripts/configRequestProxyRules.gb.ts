@@ -49,27 +49,18 @@ export async function buildDotNetConfigRequestProxyRulesGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConfigRequestProxyRules: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConfigRequestProxyRules } = await import('./configRequestProxyRules');
-        jsComponentRef = await buildJsConfigRequestProxyRules(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConfigRequestProxyRules: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.proxyUrl)) {
         dotNetConfigRequestProxyRules.proxyUrl = jsObject.proxyUrl;
     }
+    
     if (hasValue(jsObject.urlPrefix)) {
         dotNetConfigRequestProxyRules.urlPrefix = jsObject.urlPrefix;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConfigRequestProxyRules.id = geoBlazorId;
     }

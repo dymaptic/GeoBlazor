@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///          The position of the <see cref="Label"/>. Possible values are based on the feature type. This property requires a value.
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LabelPlacement>))]
+[JsonConverter(typeof(LabelPlacementStringConverter))]
 public enum LabelPlacement
 {
 #pragma warning disable CS1591

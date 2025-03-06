@@ -146,47 +146,44 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLocateViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLocateViewModel } = await import('./locateViewModel');
-        jsComponentRef = await buildJsLocateViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLocateViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetLocateViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.graphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetLocateViewModel.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
     }
+    
     if (hasValue(jsObject.error)) {
         dotNetLocateViewModel.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.geolocationOptions)) {
         dotNetLocateViewModel.geolocationOptions = jsObject.geolocationOptions;
     }
+    
     if (hasValue(jsObject.goToLocationEnabled)) {
         dotNetLocateViewModel.goToLocationEnabled = jsObject.goToLocationEnabled;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocateViewModel.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetLocateViewModel.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetLocateViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLocateViewModel.id = geoBlazorId;
     }

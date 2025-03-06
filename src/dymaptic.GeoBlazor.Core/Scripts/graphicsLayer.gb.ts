@@ -314,73 +314,78 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGraphicsLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGraphicsLayer } = await import('./graphicsLayer');
-        jsComponentRef = await buildJsGraphicsLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGraphicsLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetGraphicsLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
         dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetGraphicsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetGraphicsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetGraphicsLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetGraphicsLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetGraphicsLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetGraphicsLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetGraphicsLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetGraphicsLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetGraphicsLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetGraphicsLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
         dotNetGraphicsLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetGraphicsLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetGraphicsLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetGraphicsLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGraphicsLayer.id = geoBlazorId;
     }

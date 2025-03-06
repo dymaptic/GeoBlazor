@@ -60,36 +60,30 @@ export async function buildDotNetVoxelSliceGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVoxelSlice: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVoxelSlice } = await import('./voxelSlice');
-        jsComponentRef = await buildJsVoxelSlice(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVoxelSlice: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.enabled)) {
         dotNetVoxelSlice.enabled = jsObject.enabled;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetVoxelSlice.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.orientation)) {
         dotNetVoxelSlice.orientation = jsObject.orientation;
     }
+    
     if (hasValue(jsObject.point)) {
         dotNetVoxelSlice.point = jsObject.point;
     }
+    
     if (hasValue(jsObject.tilt)) {
         dotNetVoxelSlice.tilt = jsObject.tilt;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVoxelSlice.id = geoBlazorId;
     }

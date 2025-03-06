@@ -49,27 +49,18 @@ export async function buildDotNetVoxelOpacityStopGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVoxelOpacityStop: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVoxelOpacityStop } = await import('./voxelOpacityStop');
-        jsComponentRef = await buildJsVoxelOpacityStop(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVoxelOpacityStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.opacity)) {
         dotNetVoxelOpacityStop.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.position)) {
         dotNetVoxelOpacityStop.position = jsObject.position;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVoxelOpacityStop.id = geoBlazorId;
     }

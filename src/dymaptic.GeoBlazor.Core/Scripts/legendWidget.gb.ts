@@ -257,66 +257,69 @@ export async function buildDotNetLegendWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLegendWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLegendWidget } = await import('./legendWidget');
-        jsComponentRef = await buildJsLegendWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLegendWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
         dotNetLegendWidget.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.layerInfos)) {
         let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
         dotNetLegendWidget.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendLayerInfos(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLegendViewModel } = await import('./legendViewModel');
         dotNetLegendWidget.viewModel = await buildDotNetLegendViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendWidget.basemapLegendVisible = jsObject.basemapLegendVisible;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetLegendWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetLegendWidget.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetLegendWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetLegendWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.respectLayerDefinitionExpression)) {
         dotNetLegendWidget.respectLayerDefinitionExpression = jsObject.respectLayerDefinitionExpression;
     }
+    
     if (hasValue(jsObject.respectLayerVisibility)) {
         dotNetLegendWidget.respectLayerVisibility = jsObject.respectLayerVisibility;
     }
+    
     if (hasValue(jsObject.style)) {
         dotNetLegendWidget.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLegendWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetLegendWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetLegendWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLegendWidget.id = geoBlazorId;
     }

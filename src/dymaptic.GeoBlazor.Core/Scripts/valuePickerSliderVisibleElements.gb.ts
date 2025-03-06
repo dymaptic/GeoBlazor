@@ -46,24 +46,14 @@ export async function buildDotNetValuePickerSliderVisibleElementsGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerSliderVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
-        jsComponentRef = await buildJsValuePickerSliderVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerSliderVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.thumbTooltip)) {
         dotNetValuePickerSliderVisibleElements.thumbTooltip = jsObject.thumbTooltip;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerSliderVisibleElements.id = geoBlazorId;
     }

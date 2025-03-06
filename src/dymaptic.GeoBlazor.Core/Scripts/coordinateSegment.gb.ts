@@ -52,30 +52,22 @@ export async function buildDotNetCoordinateSegmentGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCoordinateSegment: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCoordinateSegment } = await import('./coordinateSegment');
-        jsComponentRef = await buildJsCoordinateSegment(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCoordinateSegment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.alias)) {
         dotNetCoordinateSegment.alias = jsObject.alias;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetCoordinateSegment.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.searchPattern)) {
         dotNetCoordinateSegment.searchPattern = jsObject.searchPattern;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCoordinateSegment.id = geoBlazorId;
     }

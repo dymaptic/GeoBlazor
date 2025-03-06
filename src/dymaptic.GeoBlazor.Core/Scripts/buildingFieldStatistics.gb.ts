@@ -64,42 +64,38 @@ export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBuildingFieldStatistics: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-        jsComponentRef = await buildJsBuildingFieldStatistics(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBuildingFieldStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fieldName)) {
         dotNetBuildingFieldStatistics.fieldName = jsObject.fieldName;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetBuildingFieldStatistics.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetBuildingFieldStatistics.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetBuildingFieldStatistics.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.modelName)) {
         dotNetBuildingFieldStatistics.modelName = jsObject.modelName;
     }
+    
     if (hasValue(jsObject.mostFrequentValues)) {
         dotNetBuildingFieldStatistics.mostFrequentValues = jsObject.mostFrequentValues;
     }
+    
     if (hasValue(jsObject.subLayerIds)) {
         dotNetBuildingFieldStatistics.subLayerIds = jsObject.subLayerIds;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBuildingFieldStatistics.id = geoBlazorId;
     }

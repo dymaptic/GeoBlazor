@@ -62,40 +62,35 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSizeRampStop: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSizeRampStop } = await import('./sizeRampStop');
-        jsComponentRef = await buildJsSizeRampStop(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSizeRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetSizeRampStop.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.outlineSize)) {
         dotNetSizeRampStop.outlineSize = jsObject.outlineSize;
     }
+    
     if (hasValue(jsObject.preview)) {
         dotNetSizeRampStop.preview = jsObject.preview;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetSizeRampStop.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetSizeRampStop.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSizeRampStop.id = geoBlazorId;
     }

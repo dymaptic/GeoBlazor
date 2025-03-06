@@ -49,27 +49,18 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapab
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
-        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.allowLeadingWildcardQueries)) {
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.allowLeadingWildcardQueries = jsObject.allowLeadingWildcardQueries;
     }
+    
     if (hasValue(jsObject.searchTypeFilterCapabilities)) {
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.searchTypeFilterCapabilities = jsObject.searchTypeFilterCapabilities;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.id = geoBlazorId;
     }

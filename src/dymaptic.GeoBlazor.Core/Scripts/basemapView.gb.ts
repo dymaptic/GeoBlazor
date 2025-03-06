@@ -46,32 +46,24 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapView } = await import('./basemapView');
-        jsComponentRef = await buildJsBasemapView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.baseLayerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetBasemapView.baseLayerViews = await Promise.all(jsObject.baseLayerViews.map(async i => await buildDotNetLayerView(i)));
     }
+    
     if (hasValue(jsObject.referenceLayerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetBasemapView.referenceLayerViews = await Promise.all(jsObject.referenceLayerViews.map(async i => await buildDotNetLayerView(i)));
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetBasemapView.updating = jsObject.updating;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapView.id = geoBlazorId;
     }

@@ -43,21 +43,10 @@ export async function buildDotNetSupportJsonUtilsGenerated(jsObject: any, layerI
         return null;
     }
     
+    let dotNetSupportJsonUtils: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSupportJsonUtils } = await import('./supportJsonUtils');
-        jsComponentRef = await buildJsSupportJsonUtils(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSupportJsonUtils: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetSupportJsonUtils.id = geoBlazorId;
     }

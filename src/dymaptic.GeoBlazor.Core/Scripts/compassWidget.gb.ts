@@ -203,44 +203,40 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCompassWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCompassWidget } = await import('./compassWidget');
-        jsComponentRef = await buildJsCompassWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCompassWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetCompassWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
         dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetCompassWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetCompassWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetCompassWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetCompassWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetCompassWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCompassWidget.id = geoBlazorId;
     }

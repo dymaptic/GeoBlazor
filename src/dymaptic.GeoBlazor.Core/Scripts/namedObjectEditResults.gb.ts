@@ -49,27 +49,18 @@ export async function buildDotNetNamedObjectEditResultsGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetNamedObjectEditResults: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
-        jsComponentRef = await buildJsNamedObjectEditResults(jsObject, layerId, viewId);
-    }
-    
-    let dotNetNamedObjectEditResults: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.error)) {
         dotNetNamedObjectEditResults.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetNamedObjectEditResults.namedObjectEditResultsId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetNamedObjectEditResults.id = geoBlazorId;
     }

@@ -49,27 +49,18 @@ export async function buildDotNetObjectSymbol3DLayerResourceGenerated(jsObject: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetObjectSymbol3DLayerResource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsObjectSymbol3DLayerResource } = await import('./objectSymbol3DLayerResource');
-        jsComponentRef = await buildJsObjectSymbol3DLayerResource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetObjectSymbol3DLayerResource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.href)) {
         dotNetObjectSymbol3DLayerResource.href = jsObject.href;
     }
+    
     if (hasValue(jsObject.primitive)) {
         dotNetObjectSymbol3DLayerResource.primitive = jsObject.primitive;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetObjectSymbol3DLayerResource.id = geoBlazorId;
     }

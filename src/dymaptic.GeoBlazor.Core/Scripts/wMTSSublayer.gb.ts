@@ -82,58 +82,58 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWMTSSublayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
-        jsComponentRef = await buildJsWMTSSublayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWMTSSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWMTSSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.styles)) {
         let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
         dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.tileMatrixSet)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
         dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet, layerId, viewId);
     }
+    
     if (hasValue(jsObject.tileMatrixSets)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
         dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetWMTSSublayer.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.imageFormat)) {
         dotNetWMTSSublayer.imageFormat = jsObject.imageFormat;
     }
+    
     if (hasValue(jsObject.imageFormats)) {
         dotNetWMTSSublayer.imageFormats = jsObject.imageFormats;
     }
+    
     if (hasValue(jsObject.styleId)) {
         dotNetWMTSSublayer.styleId = jsObject.styleId;
     }
+    
     if (hasValue(jsObject.tileMatrixSetId)) {
         dotNetWMTSSublayer.tileMatrixSetId = jsObject.tileMatrixSetId;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWMTSSublayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWMTSSublayer.wMTSSublayerId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWMTSSublayer.id = geoBlazorId;
     }

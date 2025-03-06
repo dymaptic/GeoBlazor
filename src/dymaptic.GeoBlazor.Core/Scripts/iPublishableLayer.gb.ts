@@ -43,24 +43,14 @@ export async function buildDotNetIPublishableLayerGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIPublishableLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIPublishableLayer } = await import('./iPublishableLayer');
-        jsComponentRef = await buildJsIPublishableLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIPublishableLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.publishingInfo)) {
         dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIPublishableLayer.id = geoBlazorId;
     }

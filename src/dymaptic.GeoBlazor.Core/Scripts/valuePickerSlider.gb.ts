@@ -83,52 +83,51 @@ export async function buildDotNetValuePickerSliderGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerSlider: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerSlider } = await import('./valuePickerSlider');
-        jsComponentRef = await buildJsValuePickerSlider(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerSlider: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
         dotNetValuePickerSlider.visibleElements = await buildDotNetValuePickerSliderVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetValuePickerSlider.labelFormatFunction = jsObject.labelFormatFunction;
     }
+    
     if (hasValue(jsObject.labels)) {
         dotNetValuePickerSlider.labels = jsObject.labels;
     }
+    
     if (hasValue(jsObject.majorTicks)) {
         dotNetValuePickerSlider.majorTicks = jsObject.majorTicks;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetValuePickerSlider.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetValuePickerSlider.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.minorTicks)) {
         dotNetValuePickerSlider.minorTicks = jsObject.minorTicks;
     }
+    
     if (hasValue(jsObject.reversed)) {
         dotNetValuePickerSlider.reversed = jsObject.reversed;
     }
+    
     if (hasValue(jsObject.steps)) {
         dotNetValuePickerSlider.steps = jsObject.steps;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetValuePickerSlider.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerSlider.id = geoBlazorId;
     }

@@ -131,47 +131,44 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapLayerListViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        jsComponentRef = await buildJsBasemapLayerListViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapLayerListViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.baseListItemCreatedFunction)) {
         dotNetBasemapLayerListViewModel.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.basemapTitle)) {
         dotNetBasemapLayerListViewModel.basemapTitle = jsObject.basemapTitle;
     }
+    
     if (hasValue(jsObject.checkPublishStatusEnabled)) {
         dotNetBasemapLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
     }
+    
     if (hasValue(jsObject.listModeDisabled)) {
         dotNetBasemapLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
     }
+    
     if (hasValue(jsObject.referenceListItemCreatedFunction)) {
         dotNetBasemapLayerListViewModel.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetBasemapLayerListViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListViewModel.id = geoBlazorId;
     }

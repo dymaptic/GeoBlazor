@@ -108,37 +108,31 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDistanceMeasurement2DViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        jsComponentRef = await buildJsDistanceMeasurement2DViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDistanceMeasurement2DViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
         dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement, layerId, viewId);
     }
+    
     if (hasValue(jsObject.measurementLabel)) {
         dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetDistanceMeasurement2DViewModel.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetDistanceMeasurement2DViewModel.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.unitOptions)) {
         dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDistanceMeasurement2DViewModel.id = geoBlazorId;
     }

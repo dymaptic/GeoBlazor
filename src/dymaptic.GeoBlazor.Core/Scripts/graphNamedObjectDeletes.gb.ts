@@ -49,27 +49,18 @@ export async function buildDotNetGraphNamedObjectDeletesGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGraphNamedObjectDeletes: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
-        jsComponentRef = await buildJsGraphNamedObjectDeletes(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGraphNamedObjectDeletes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.ids)) {
         dotNetGraphNamedObjectDeletes.ids = jsObject.ids;
     }
+    
     if (hasValue(jsObject.typeName)) {
         dotNetGraphNamedObjectDeletes.typeName = jsObject.typeName;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGraphNamedObjectDeletes.id = geoBlazorId;
     }

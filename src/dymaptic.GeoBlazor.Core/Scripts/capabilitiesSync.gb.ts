@@ -49,27 +49,18 @@ export async function buildDotNetCapabilitiesSyncGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesSync: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesSync } = await import('./capabilitiesSync');
-        jsComponentRef = await buildJsCapabilitiesSync(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesSync: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportedSyncDataOptions)) {
         dotNetCapabilitiesSync.supportedSyncDataOptions = jsObject.supportedSyncDataOptions;
     }
+    
     if (hasValue(jsObject.supportsAsync)) {
         dotNetCapabilitiesSync.supportsAsync = jsObject.supportsAsync;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesSync.id = geoBlazorId;
     }

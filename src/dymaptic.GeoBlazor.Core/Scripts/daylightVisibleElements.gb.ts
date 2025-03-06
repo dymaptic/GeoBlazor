@@ -61,39 +61,34 @@ export async function buildDotNetDaylightVisibleElementsGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDaylightVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDaylightVisibleElements } = await import('./daylightVisibleElements');
-        jsComponentRef = await buildJsDaylightVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDaylightVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.datePicker)) {
         dotNetDaylightVisibleElements.datePicker = jsObject.datePicker;
     }
+    
     if (hasValue(jsObject.header)) {
         dotNetDaylightVisibleElements.header = jsObject.header;
     }
+    
     if (hasValue(jsObject.playButtons)) {
         dotNetDaylightVisibleElements.playButtons = jsObject.playButtons;
     }
+    
     if (hasValue(jsObject.shadowsToggle)) {
         dotNetDaylightVisibleElements.shadowsToggle = jsObject.shadowsToggle;
     }
+    
     if (hasValue(jsObject.sunLightingToggle)) {
         dotNetDaylightVisibleElements.sunLightingToggle = jsObject.sunLightingToggle;
     }
+    
     if (hasValue(jsObject.timezone)) {
         dotNetDaylightVisibleElements.timezone = jsObject.timezone;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDaylightVisibleElements.id = geoBlazorId;
     }

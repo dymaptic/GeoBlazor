@@ -64,42 +64,38 @@ export async function buildDotNetMeshVertexGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMeshVertex: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMeshVertex } = await import('./meshVertex');
-        jsComponentRef = await buildJsMeshVertex(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMeshVertex: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.distance)) {
         dotNetMeshVertex.distance = jsObject.distance;
     }
+    
     if (hasValue(jsObject.uTexcoord)) {
         dotNetMeshVertex.uTexcoord = jsObject.uTexcoord;
     }
+    
     if (hasValue(jsObject.vTexcoord)) {
         dotNetMeshVertex.vTexcoord = jsObject.vTexcoord;
     }
+    
     if (hasValue(jsObject.x)) {
         dotNetMeshVertex.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.xOffset)) {
         dotNetMeshVertex.xOffset = jsObject.xOffset;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetMeshVertex.y = jsObject.y;
     }
+    
     if (hasValue(jsObject.yOffset)) {
         dotNetMeshVertex.yOffset = jsObject.yOffset;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMeshVertex.id = geoBlazorId;
     }

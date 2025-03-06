@@ -55,34 +55,27 @@ export async function buildDotNetSketchEdges3DGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSketchEdges3D: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSketchEdges3D } = await import('./sketchEdges3D');
-        jsComponentRef = await buildJsSketchEdges3D(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSketchEdges3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetSketchEdges3D.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.extensionLength)) {
         dotNetSketchEdges3D.extensionLength = jsObject.extensionLength;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetSketchEdges3D.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSketchEdges3D.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSketchEdges3D.id = geoBlazorId;
     }

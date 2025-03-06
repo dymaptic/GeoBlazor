@@ -103,81 +103,90 @@ export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperation
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRasterFunctionConstantsLocalArithmeticOperation: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRasterFunctionConstantsLocalArithmeticOperation } = await import('./rasterFunctionConstantsLocalArithmeticOperation');
-        jsComponentRef = await buildJsRasterFunctionConstantsLocalArithmeticOperation(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRasterFunctionConstantsLocalArithmeticOperation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.abs)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.abs = jsObject.abs;
     }
+    
     if (hasValue(jsObject.divide)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.divide = jsObject.divide;
     }
+    
     if (hasValue(jsObject.exp)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.exp = jsObject.exp;
     }
+    
     if (hasValue(jsObject.exp10)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.exp10 = jsObject.exp10;
     }
+    
     if (hasValue(jsObject.exp2)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.exp2 = jsObject.exp2;
     }
+    
     if (hasValue(jsObject.float)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.float = jsObject.float;
     }
+    
     if (hasValue(jsObject.int)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.int = jsObject.int;
     }
+    
     if (hasValue(jsObject.ln)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.ln = jsObject.ln;
     }
+    
     if (hasValue(jsObject.log10)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.log10 = jsObject.log10;
     }
+    
     if (hasValue(jsObject.log2)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.log2 = jsObject.log2;
     }
+    
     if (hasValue(jsObject.minus)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.minus = jsObject.minus;
     }
+    
     if (hasValue(jsObject.mod)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.mod = jsObject.mod;
     }
+    
     if (hasValue(jsObject.negate)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.negate = jsObject.negate;
     }
+    
     if (hasValue(jsObject.plus)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.plus = jsObject.plus;
     }
+    
     if (hasValue(jsObject.power)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.power = jsObject.power;
     }
+    
     if (hasValue(jsObject.roundDown)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.roundDown = jsObject.roundDown;
     }
+    
     if (hasValue(jsObject.roundUp)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.roundUp = jsObject.roundUp;
     }
+    
     if (hasValue(jsObject.sqrt)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.sqrt = jsObject.sqrt;
     }
+    
     if (hasValue(jsObject.square)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.square = jsObject.square;
     }
+    
     if (hasValue(jsObject.times)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.times = jsObject.times;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.id = geoBlazorId;
     }

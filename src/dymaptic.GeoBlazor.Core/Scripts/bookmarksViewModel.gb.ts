@@ -203,48 +203,44 @@ export async function buildDotNetBookmarksViewModelGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBookmarksViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBookmarksViewModel } = await import('./bookmarksViewModel');
-        jsComponentRef = await buildJsBookmarksViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBookmarksViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeBookmark)) {
         let { buildDotNetBookmark } = await import('./bookmark');
         dotNetBookmarksViewModel.activeBookmark = await buildDotNetBookmark(jsObject.activeBookmark);
     }
+    
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
         dotNetBookmarksViewModel.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
     }
+    
     if (hasValue(jsObject.capabilities)) {
         let { buildDotNetBookmarksCapabilities } = await import('./bookmarksCapabilities');
         dotNetBookmarksViewModel.capabilities = await buildDotNetBookmarksCapabilities(jsObject.capabilities, layerId, viewId);
     }
+    
     if (hasValue(jsObject.defaultCreateOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         dotNetBookmarksViewModel.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.defaultEditOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         dotNetBookmarksViewModel.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetBookmarksViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetBookmarksViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBookmarksViewModel.id = geoBlazorId;
     }

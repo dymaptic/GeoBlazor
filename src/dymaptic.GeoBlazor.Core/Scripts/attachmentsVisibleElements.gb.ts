@@ -67,45 +67,42 @@ export async function buildDotNetAttachmentsVisibleElementsGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAttachmentsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAttachmentsVisibleElements } = await import('./attachmentsVisibleElements');
-        jsComponentRef = await buildJsAttachmentsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAttachmentsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.addButton)) {
         dotNetAttachmentsVisibleElements.addButton = jsObject.addButton;
     }
+    
     if (hasValue(jsObject.addSubmitButton)) {
         dotNetAttachmentsVisibleElements.addSubmitButton = jsObject.addSubmitButton;
     }
+    
     if (hasValue(jsObject.cancelAddButton)) {
         dotNetAttachmentsVisibleElements.cancelAddButton = jsObject.cancelAddButton;
     }
+    
     if (hasValue(jsObject.cancelUpdateButton)) {
         dotNetAttachmentsVisibleElements.cancelUpdateButton = jsObject.cancelUpdateButton;
     }
+    
     if (hasValue(jsObject.deleteButton)) {
         dotNetAttachmentsVisibleElements.deleteButton = jsObject.deleteButton;
     }
+    
     if (hasValue(jsObject.errorMessage)) {
         dotNetAttachmentsVisibleElements.errorMessage = jsObject.errorMessage;
     }
+    
     if (hasValue(jsObject.progressBar)) {
         dotNetAttachmentsVisibleElements.progressBar = jsObject.progressBar;
     }
+    
     if (hasValue(jsObject.updateButton)) {
         dotNetAttachmentsVisibleElements.updateButton = jsObject.updateButton;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAttachmentsVisibleElements.id = geoBlazorId;
     }

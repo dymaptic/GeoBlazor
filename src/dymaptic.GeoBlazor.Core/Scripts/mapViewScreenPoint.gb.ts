@@ -49,27 +49,18 @@ export async function buildDotNetMapViewScreenPointGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMapViewScreenPoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMapViewScreenPoint } = await import('./mapViewScreenPoint');
-        jsComponentRef = await buildJsMapViewScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMapViewScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetMapViewScreenPoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetMapViewScreenPoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMapViewScreenPoint.id = geoBlazorId;
     }

@@ -56,32 +56,24 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValueClass: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
-        jsComponentRef = await buildJsUniqueValueClass(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValueClass: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    
     if (hasValue(jsObject.values)) {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
         dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueClass.label = jsObject.label;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueClass.id = geoBlazorId;
     }

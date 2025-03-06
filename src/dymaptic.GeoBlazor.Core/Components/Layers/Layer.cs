@@ -374,9 +374,8 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-        await base.SetParametersAsync(parameters);
-        
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
+        await base.SetParametersAsync(parameters);
         
         if (PreviousParameters is not null && MapRendered)
         {

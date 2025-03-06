@@ -49,27 +49,18 @@ export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpre
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-        jsComponentRef = await buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expression)) {
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.id = geoBlazorId;
     }

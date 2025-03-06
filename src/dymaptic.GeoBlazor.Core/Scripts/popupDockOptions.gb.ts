@@ -52,30 +52,22 @@ export async function buildDotNetPopupDockOptionsGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPopupDockOptions: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPopupDockOptions } = await import('./popupDockOptions');
-        jsComponentRef = await buildJsPopupDockOptions(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPopupDockOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.breakpoint)) {
         dotNetPopupDockOptions.breakpoint = jsObject.breakpoint;
     }
+    
     if (hasValue(jsObject.buttonEnabled)) {
         dotNetPopupDockOptions.buttonEnabled = jsObject.buttonEnabled;
     }
+    
     if (hasValue(jsObject.position)) {
         dotNetPopupDockOptions.position = jsObject.position;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPopupDockOptions.id = geoBlazorId;
     }

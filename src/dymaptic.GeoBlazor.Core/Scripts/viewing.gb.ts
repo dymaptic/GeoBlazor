@@ -49,25 +49,15 @@ export async function buildDotNetViewingGenerated(jsObject: any, layerId: string
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetViewing: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsViewing } = await import('./viewing');
-        jsComponentRef = await buildJsViewing(jsObject, layerId, viewId);
-    }
-    
-    let dotNetViewing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.search)) {
         let { buildDotNetSearch } = await import('./search');
         dotNetViewing.search = await buildDotNetSearch(jsObject.search, layerId, viewId);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetViewing.id = geoBlazorId;
     }

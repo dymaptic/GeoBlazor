@@ -55,33 +55,26 @@ export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerListCatalogOptionsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-        jsComponentRef = await buildJsLayerListCatalogOptionsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerListCatalogOptionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.errors)) {
         dotNetLayerListCatalogOptionsVisibleElements.errors = jsObject.errors;
     }
+    
     if (hasValue(jsObject.filter)) {
         dotNetLayerListCatalogOptionsVisibleElements.filter = jsObject.filter;
     }
+    
     if (hasValue(jsObject.statusIndicators)) {
         dotNetLayerListCatalogOptionsVisibleElements.statusIndicators = jsObject.statusIndicators;
     }
+    
     if (hasValue(jsObject.temporaryLayerIndicators)) {
         dotNetLayerListCatalogOptionsVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerListCatalogOptionsVisibleElements.id = geoBlazorId;
     }

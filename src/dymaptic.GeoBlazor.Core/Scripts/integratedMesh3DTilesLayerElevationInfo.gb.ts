@@ -52,30 +52,22 @@ export async function buildDotNetIntegratedMesh3DTilesLayerElevationInfoGenerate
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIntegratedMesh3DTilesLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIntegratedMesh3DTilesLayerElevationInfo } = await import('./integratedMesh3DTilesLayerElevationInfo');
-        jsComponentRef = await buildJsIntegratedMesh3DTilesLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIntegratedMesh3DTilesLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mode)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.id = geoBlazorId;
     }

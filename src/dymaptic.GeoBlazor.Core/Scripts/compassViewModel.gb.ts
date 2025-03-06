@@ -113,32 +113,24 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCompassViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCompassViewModel } = await import('./compassViewModel');
-        jsComponentRef = await buildJsCompassViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCompassViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetCompassViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.orientation)) {
         let { buildDotNetOrientation } = await import('./orientation');
         dotNetCompassViewModel.orientation = await buildDotNetOrientation(jsObject.orientation, layerId, viewId);
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetCompassViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCompassViewModel.id = geoBlazorId;
     }

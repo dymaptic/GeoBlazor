@@ -49,27 +49,18 @@ export async function buildDotNetCategoryGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCategory: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCategory } = await import('./category');
-        jsComponentRef = await buildJsCategory(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCategory: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.categoryId)) {
         dotNetCategory.categoryId = jsObject.categoryId;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetCategory.label = jsObject.label;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCategory.id = geoBlazorId;
     }

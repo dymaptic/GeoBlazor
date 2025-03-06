@@ -52,30 +52,22 @@ export async function buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewConstraintsClipDistance: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
-        jsComponentRef = await buildJsSceneViewConstraintsClipDistance(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewConstraintsClipDistance: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.far)) {
         dotNetSceneViewConstraintsClipDistance.far = jsObject.far;
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetSceneViewConstraintsClipDistance.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.near)) {
         dotNetSceneViewConstraintsClipDistance.near = jsObject.near;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsClipDistance.id = geoBlazorId;
     }

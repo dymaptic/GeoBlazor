@@ -49,27 +49,18 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGener
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement2DViewModelMeasurementLabel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
-        jsComponentRef = await buildJsAreaMeasurement2DViewModelMeasurementLabel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement2DViewModelMeasurementLabel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         dotNetAreaMeasurement2DViewModelMeasurementLabel.area = jsObject.area;
     }
+    
     if (hasValue(jsObject.perimeter)) {
         dotNetAreaMeasurement2DViewModelMeasurementLabel.perimeter = jsObject.perimeter;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DViewModelMeasurementLabel.id = geoBlazorId;
     }

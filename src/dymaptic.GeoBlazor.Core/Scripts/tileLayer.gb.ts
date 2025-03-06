@@ -412,121 +412,141 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTileLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTileLayer } = await import('./tileLayer');
-        jsComponentRef = await buildJsTileLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTileLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetTileLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetTileLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetSublayer } = await import('./sublayer');
         dotNetTileLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetSublayer(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.subtables)) {
         let { buildDotNetSublayer } = await import('./sublayer');
         dotNetTileLayer.subtables = await Promise.all(jsObject.subtables.map(async i => await buildDotNetSublayer(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetTileLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.apiKey)) {
         dotNetTileLayer.apiKey = jsObject.apiKey;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetTileLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.attributionDataUrl)) {
         dotNetTileLayer.attributionDataUrl = jsObject.attributionDataUrl;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetTileLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetTileLayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetTileLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetTileLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.hasAttributionData)) {
         dotNetTileLayer.hasAttributionData = jsObject.hasAttributionData;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetTileLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetTileLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetTileLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetTileLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetTileLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetTileLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetTileLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetTileLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.resampling)) {
         dotNetTileLayer.resampling = jsObject.resampling;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetTileLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.tileServers)) {
         dotNetTileLayer.tileServers = jsObject.tileServers;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetTileLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetTileLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetTileLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetTileLayer.version = jsObject.version;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetTileLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTileLayer.id = geoBlazorId;
     }

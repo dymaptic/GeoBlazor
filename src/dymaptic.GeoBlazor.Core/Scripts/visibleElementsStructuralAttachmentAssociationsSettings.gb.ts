@@ -58,36 +58,30 @@ export async function buildDotNetVisibleElementsStructuralAttachmentAssociations
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElementsStructuralAttachmentAssociationsSettings: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsStructuralAttachmentAssociationsSettings } = await import('./visibleElementsStructuralAttachmentAssociationsSettings');
-        jsComponentRef = await buildJsVisibleElementsStructuralAttachmentAssociationsSettings(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsStructuralAttachmentAssociationsSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.arrowsToggle)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.arrowsToggle = jsObject.arrowsToggle;
     }
+    
     if (hasValue(jsObject.capSelect)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.capSelect = jsObject.capSelect;
     }
+    
     if (hasValue(jsObject.colorPicker)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.colorPicker = jsObject.colorPicker;
     }
+    
     if (hasValue(jsObject.stylePicker)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.stylePicker = jsObject.stylePicker;
     }
+    
     if (hasValue(jsObject.widthInput)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.widthInput = jsObject.widthInput;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.id = geoBlazorId;
     }

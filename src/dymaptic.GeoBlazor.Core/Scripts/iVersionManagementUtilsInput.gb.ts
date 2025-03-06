@@ -43,21 +43,10 @@ export async function buildDotNetIVersionManagementUtilsInputGenerated(jsObject:
         return null;
     }
     
+    let dotNetIVersionManagementUtilsInput: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIVersionManagementUtilsInput } = await import('./iVersionManagementUtilsInput');
-        jsComponentRef = await buildJsIVersionManagementUtilsInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIVersionManagementUtilsInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetIVersionManagementUtilsInput.id = geoBlazorId;
     }

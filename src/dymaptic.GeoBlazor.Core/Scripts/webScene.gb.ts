@@ -84,72 +84,77 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWebScene: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWebScene } = await import('./webScene');
-        jsComponentRef = await buildJsWebScene(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWebScene: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.clippingArea)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.presentation)) {
         let { buildDotNetPresentation } = await import('./presentation');
         dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation, layerId, viewId);
     }
+    
     if (hasValue(jsObject.applicationProperties)) {
         dotNetWebScene.applicationProperties = jsObject.applicationProperties;
     }
+    
     if (hasValue(jsObject.authoringApp)) {
         dotNetWebScene.authoringApp = jsObject.authoringApp;
     }
+    
     if (hasValue(jsObject.authoringAppVersion)) {
         dotNetWebScene.authoringAppVersion = jsObject.authoringAppVersion;
     }
+    
     if (hasValue(jsObject.clippingEnabled)) {
         dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
     }
+    
     if (hasValue(jsObject.floorInfo)) {
         dotNetWebScene.floorInfo = jsObject.floorInfo;
     }
+    
     if (hasValue(jsObject.heightModelInfo)) {
         dotNetWebScene.heightModelInfo = jsObject.heightModelInfo;
     }
+    
     if (hasValue(jsObject.initialViewProperties)) {
         dotNetWebScene.initialViewProperties = jsObject.initialViewProperties;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWebScene.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.loadError)) {
         dotNetWebScene.loadError = jsObject.loadError;
     }
+    
     if (hasValue(jsObject.loadStatus)) {
         dotNetWebScene.loadStatus = jsObject.loadStatus;
     }
+    
     if (hasValue(jsObject.sourceVersion)) {
         dotNetWebScene.sourceVersion = jsObject.sourceVersion;
     }
+    
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetWebScene.thumbnailUrl = jsObject.thumbnailUrl;
     }
+    
     if (hasValue(jsObject.widgets)) {
         dotNetWebScene.widgets = jsObject.widgets;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWebScene.id = geoBlazorId;
     }

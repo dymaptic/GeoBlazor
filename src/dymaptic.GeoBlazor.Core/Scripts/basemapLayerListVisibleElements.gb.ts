@@ -76,54 +76,54 @@ export async function buildDotNetBasemapLayerListVisibleElementsGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapLayerListVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapLayerListVisibleElements } = await import('./basemapLayerListVisibleElements');
-        jsComponentRef = await buildJsBasemapLayerListVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapLayerListVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.baseLayers)) {
         dotNetBasemapLayerListVisibleElements.baseLayers = jsObject.baseLayers;
     }
+    
     if (hasValue(jsObject.closeButton)) {
         dotNetBasemapLayerListVisibleElements.closeButton = jsObject.closeButton;
     }
+    
     if (hasValue(jsObject.collapseButton)) {
         dotNetBasemapLayerListVisibleElements.collapseButton = jsObject.collapseButton;
     }
+    
     if (hasValue(jsObject.editTitleButton)) {
         dotNetBasemapLayerListVisibleElements.editTitleButton = jsObject.editTitleButton;
     }
+    
     if (hasValue(jsObject.errors)) {
         dotNetBasemapLayerListVisibleElements.errors = jsObject.errors;
     }
+    
     if (hasValue(jsObject.filter)) {
         dotNetBasemapLayerListVisibleElements.filter = jsObject.filter;
     }
+    
     if (hasValue(jsObject.flow)) {
         dotNetBasemapLayerListVisibleElements.flow = jsObject.flow;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetBasemapLayerListVisibleElements.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.referenceLayers)) {
         dotNetBasemapLayerListVisibleElements.referenceLayers = jsObject.referenceLayers;
     }
+    
     if (hasValue(jsObject.statusIndicators)) {
         dotNetBasemapLayerListVisibleElements.statusIndicators = jsObject.statusIndicators;
     }
+    
     if (hasValue(jsObject.temporaryLayerIndicators)) {
         dotNetBasemapLayerListVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListVisibleElements.id = geoBlazorId;
     }

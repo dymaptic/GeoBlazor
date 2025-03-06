@@ -86,21 +86,10 @@ export async function buildDotNetProjectionGenerated(jsObject: any, layerId: str
         return null;
     }
     
+    let dotNetProjection: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsProjection } = await import('./projection');
-        jsComponentRef = await buildJsProjection(jsObject, layerId, viewId);
-    }
-    
-    let dotNetProjection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetProjection.id = geoBlazorId;
     }

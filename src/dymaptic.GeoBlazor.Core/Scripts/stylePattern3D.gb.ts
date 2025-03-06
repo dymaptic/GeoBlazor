@@ -48,27 +48,18 @@ export async function buildDotNetStylePattern3DGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetStylePattern3D: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsStylePattern3D } = await import('./stylePattern3D');
-        jsComponentRef = await buildJsStylePattern3D(jsObject, layerId, viewId);
-    }
-    
-    let dotNetStylePattern3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.style)) {
         dotNetStylePattern3D.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetStylePattern3D.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetStylePattern3D.id = geoBlazorId;
     }

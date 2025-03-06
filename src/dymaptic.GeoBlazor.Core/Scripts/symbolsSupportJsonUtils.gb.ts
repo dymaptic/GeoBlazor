@@ -43,21 +43,10 @@ export async function buildDotNetSymbolsSupportJsonUtilsGenerated(jsObject: any,
         return null;
     }
     
+    let dotNetSymbolsSupportJsonUtils: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSymbolsSupportJsonUtils } = await import('./symbolsSupportJsonUtils');
-        jsComponentRef = await buildJsSymbolsSupportJsonUtils(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSymbolsSupportJsonUtils: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetSymbolsSupportJsonUtils.id = geoBlazorId;
     }

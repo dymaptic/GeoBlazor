@@ -60,36 +60,30 @@ export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVoxelDynamicSection: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
-        jsComponentRef = await buildJsVoxelDynamicSection(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVoxelDynamicSection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.enabled)) {
         dotNetVoxelDynamicSection.enabled = jsObject.enabled;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetVoxelDynamicSection.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.orientation)) {
         dotNetVoxelDynamicSection.orientation = jsObject.orientation;
     }
+    
     if (hasValue(jsObject.point)) {
         dotNetVoxelDynamicSection.point = jsObject.point;
     }
+    
     if (hasValue(jsObject.tilt)) {
         dotNetVoxelDynamicSection.tilt = jsObject.tilt;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVoxelDynamicSection.id = geoBlazorId;
     }

@@ -182,43 +182,38 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIFillSymbol3DLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIFillSymbol3DLayer } = await import('./iFillSymbol3DLayer');
-        jsComponentRef = await buildJsIFillSymbol3DLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIFillSymbol3DLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.edges)) {
         let { buildDotNetEdges3D } = await import('./edges3D');
         dotNetIFillSymbol3DLayer.edges = buildDotNetEdges3D(jsObject.edges);
     }
+    
     if (hasValue(jsObject.material)) {
         let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
         dotNetIFillSymbol3DLayer.material = await buildDotNetFillSymbol3DLayerMaterial(jsObject.material, layerId, viewId);
     }
+    
     if (hasValue(jsObject.outline)) {
         let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
         dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline, layerId, viewId);
     }
+    
     if (hasValue(jsObject.pattern)) {
         let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
         dotNetIFillSymbol3DLayer.pattern = await buildDotNetStylePattern3D(jsObject.pattern, layerId, viewId);
     }
+    
     if (hasValue(jsObject.castShadows)) {
         dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetIFillSymbol3DLayer.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIFillSymbol3DLayer.id = geoBlazorId;
     }

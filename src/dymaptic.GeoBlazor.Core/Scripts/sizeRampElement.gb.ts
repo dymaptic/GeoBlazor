@@ -50,31 +50,23 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSizeRampElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSizeRampElement } = await import('./sizeRampElement');
-        jsComponentRef = await buildJsSizeRampElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSizeRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetSizeRampStop } = await import('./sizeRampStop');
         dotNetSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetSizeRampStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetSizeRampElement.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSizeRampElement.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSizeRampElement.id = geoBlazorId;
     }

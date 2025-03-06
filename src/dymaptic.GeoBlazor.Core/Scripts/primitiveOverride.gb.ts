@@ -53,34 +53,27 @@ export async function buildDotNetPrimitiveOverrideGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPrimitiveOverride: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPrimitiveOverride } = await import('./primitiveOverride');
-        jsComponentRef = await buildJsPrimitiveOverride(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPrimitiveOverride: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.valueExpressionInfo)) {
         let { buildDotNetPrimitiveOverrideValueExpressionInfo } = await import('./primitiveOverrideValueExpressionInfo');
         dotNetPrimitiveOverride.valueExpressionInfo = await buildDotNetPrimitiveOverrideValueExpressionInfo(jsObject.valueExpressionInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.primitiveName)) {
         dotNetPrimitiveOverride.primitiveName = jsObject.primitiveName;
     }
+    
     if (hasValue(jsObject.propertyName)) {
         dotNetPrimitiveOverride.propertyName = jsObject.propertyName;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetPrimitiveOverride.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPrimitiveOverride.id = geoBlazorId;
     }

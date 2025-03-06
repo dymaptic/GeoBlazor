@@ -55,34 +55,27 @@ export async function buildDotNetValuePickerComboboxGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerCombobox: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerCombobox } = await import('./valuePickerCombobox');
-        jsComponentRef = await buildJsValuePickerCombobox(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerCombobox: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.items)) {
         let { buildDotNetComboboxItem } = await import('./comboboxItem');
         dotNetValuePickerCombobox.items = await Promise.all(jsObject.items.map(async i => await buildDotNetComboboxItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetValuePickerCombobox.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.placeholder)) {
         dotNetValuePickerCombobox.placeholder = jsObject.placeholder;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetValuePickerCombobox.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerCombobox.id = geoBlazorId;
     }

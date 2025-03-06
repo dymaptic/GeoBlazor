@@ -50,28 +50,19 @@ export async function buildDotNetPositionGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPosition: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPosition } = await import('./position');
-        jsComponentRef = await buildJsPosition(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPosition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetPosition.location = buildDotNetPoint(jsObject.location);
     }
+    
     if (hasValue(jsObject.coordinate)) {
         dotNetPosition.coordinate = jsObject.coordinate;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPosition.id = geoBlazorId;
     }

@@ -55,33 +55,25 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSearchViewModelDefaultSymbols: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-        jsComponentRef = await buildJsSearchViewModelDefaultSymbols(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSearchViewModelDefaultSymbols: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.point)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point);
     }
+    
     if (hasValue(jsObject.polygon)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon);
     }
+    
     if (hasValue(jsObject.polyline)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSearchViewModelDefaultSymbols.id = geoBlazorId;
     }

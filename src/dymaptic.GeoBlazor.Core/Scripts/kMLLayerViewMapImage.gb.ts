@@ -56,34 +56,27 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKMLLayerViewMapImage: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        jsComponentRef = await buildJsKMLLayerViewMapImage(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKMLLayerViewMapImage: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.Extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetKMLLayerViewMapImage.extent = buildDotNetExtent(jsObject.Extent);
     }
+    
     if (hasValue(jsObject.href)) {
         dotNetKMLLayerViewMapImage.href = jsObject.href;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetKMLLayerViewMapImage.kMLLayerViewMapImageId = jsObject.id;
     }
+    
     if (hasValue(jsObject.rotation)) {
         dotNetKMLLayerViewMapImage.rotation = jsObject.rotation;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayerViewMapImage.id = geoBlazorId;
     }

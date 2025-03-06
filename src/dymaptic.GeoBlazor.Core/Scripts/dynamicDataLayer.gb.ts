@@ -49,30 +49,22 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDynamicDataLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDynamicDataLayer } = await import('./dynamicDataLayer');
-        jsComponentRef = await buildJsDynamicDataLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDynamicDataLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.dataSource)) {
         dotNetDynamicDataLayer.dataSource = jsObject.dataSource;
     }
+    
     if (hasValue(jsObject.fields)) {
         dotNetDynamicDataLayer.fields = jsObject.fields;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDynamicDataLayer.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDynamicDataLayer.id = geoBlazorId;
     }

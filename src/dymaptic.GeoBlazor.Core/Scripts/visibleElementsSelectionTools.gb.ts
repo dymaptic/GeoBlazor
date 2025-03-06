@@ -43,21 +43,10 @@ export async function buildDotNetVisibleElementsSelectionToolsGenerated(jsObject
         return null;
     }
     
+    let dotNetVisibleElementsSelectionTools: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsSelectionTools } = await import('./visibleElementsSelectionTools');
-        jsComponentRef = await buildJsVisibleElementsSelectionTools(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsSelectionTools: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsSelectionTools.id = geoBlazorId;
     }

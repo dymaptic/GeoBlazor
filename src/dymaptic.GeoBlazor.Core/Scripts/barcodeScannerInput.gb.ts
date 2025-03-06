@@ -51,30 +51,22 @@ export async function buildDotNetBarcodeScannerInputGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBarcodeScannerInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBarcodeScannerInput } = await import('./barcodeScannerInput');
-        jsComponentRef = await buildJsBarcodeScannerInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBarcodeScannerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.maxLength)) {
         dotNetBarcodeScannerInput.maxLength = jsObject.maxLength;
     }
+    
     if (hasValue(jsObject.minLength)) {
         dotNetBarcodeScannerInput.minLength = jsObject.minLength;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBarcodeScannerInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBarcodeScannerInput.id = geoBlazorId;
     }

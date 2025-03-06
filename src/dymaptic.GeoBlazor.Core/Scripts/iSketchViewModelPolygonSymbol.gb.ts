@@ -43,21 +43,10 @@ export async function buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject
         return null;
     }
     
+    let dotNetISketchViewModelPolygonSymbol: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsISketchViewModelPolygonSymbol } = await import('./iSketchViewModelPolygonSymbol');
-        jsComponentRef = await buildJsISketchViewModelPolygonSymbol(jsObject, layerId, viewId);
-    }
-    
-    let dotNetISketchViewModelPolygonSymbol: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetISketchViewModelPolygonSymbol.id = geoBlazorId;
     }

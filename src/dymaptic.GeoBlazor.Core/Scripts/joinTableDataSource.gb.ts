@@ -58,39 +58,34 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetJoinTableDataSource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsJoinTableDataSource } = await import('./joinTableDataSource');
-        jsComponentRef = await buildJsJoinTableDataSource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetJoinTableDataSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.joinType)) {
         dotNetJoinTableDataSource.joinType = jsObject.joinType;
     }
+    
     if (hasValue(jsObject.leftTableKey)) {
         dotNetJoinTableDataSource.leftTableKey = jsObject.leftTableKey;
     }
+    
     if (hasValue(jsObject.leftTableSource)) {
         dotNetJoinTableDataSource.leftTableSource = jsObject.leftTableSource;
     }
+    
     if (hasValue(jsObject.rightTableKey)) {
         dotNetJoinTableDataSource.rightTableKey = jsObject.rightTableKey;
     }
+    
     if (hasValue(jsObject.rightTableSource)) {
         dotNetJoinTableDataSource.rightTableSource = jsObject.rightTableSource;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetJoinTableDataSource.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetJoinTableDataSource.id = geoBlazorId;
     }

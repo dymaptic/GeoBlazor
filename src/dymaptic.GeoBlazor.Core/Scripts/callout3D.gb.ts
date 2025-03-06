@@ -45,21 +45,10 @@ export async function buildDotNetCallout3DGenerated(jsObject: any, layerId: stri
         return null;
     }
     
+    let dotNetCallout3D: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCallout3D } = await import('./callout3D');
-        jsComponentRef = await buildJsCallout3D(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCallout3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetCallout3D.id = geoBlazorId;
     }

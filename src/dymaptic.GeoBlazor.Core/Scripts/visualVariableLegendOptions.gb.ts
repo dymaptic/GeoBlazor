@@ -49,27 +49,18 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisualVariableLegendOptions: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        jsComponentRef = await buildJsVisualVariableLegendOptions(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisualVariableLegendOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.showLegend)) {
         dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetVisualVariableLegendOptions.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisualVariableLegendOptions.id = geoBlazorId;
     }

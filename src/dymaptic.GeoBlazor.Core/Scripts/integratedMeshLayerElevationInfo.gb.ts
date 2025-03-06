@@ -52,30 +52,22 @@ export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIntegratedMeshLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIntegratedMeshLayerElevationInfo } = await import('./integratedMeshLayerElevationInfo');
-        jsComponentRef = await buildJsIntegratedMeshLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIntegratedMeshLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mode)) {
         dotNetIntegratedMeshLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetIntegratedMeshLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetIntegratedMeshLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIntegratedMeshLayerElevationInfo.id = geoBlazorId;
     }

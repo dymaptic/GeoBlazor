@@ -69,48 +69,46 @@ export async function buildDotNetActionButtonGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetActionButton: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsActionButton } = await import('./actionButton');
-        jsComponentRef = await buildJsActionButton(jsObject, layerId, viewId);
-    }
-    
-    let dotNetActionButton: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.id)) {
         dotNetActionButton.actionId = jsObject.id;
     }
+    
     if (hasValue(jsObject.active)) {
         dotNetActionButton.active = jsObject.active;
     }
+    
     if (hasValue(jsObject.className)) {
         dotNetActionButton.className = jsObject.className;
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetActionButton.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetActionButton.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.image)) {
         dotNetActionButton.image = jsObject.image;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetActionButton.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetActionButton.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetActionButton.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetActionButton.id = geoBlazorId;
     }

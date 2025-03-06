@@ -56,34 +56,27 @@ export async function buildDotNetWFSLayerElevationInfoGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-        jsComponentRef = await buildJsWFSLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetWFSLayerElevationInfoFeatureExpressionInfo } = await import('./wFSLayerElevationInfoFeatureExpressionInfo');
         dotNetWFSLayerElevationInfo.featureExpressionInfo = await buildDotNetWFSLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetWFSLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetWFSLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetWFSLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSLayerElevationInfo.id = geoBlazorId;
     }

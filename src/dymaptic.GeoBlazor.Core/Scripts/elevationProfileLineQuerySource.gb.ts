@@ -55,24 +55,14 @@ export async function buildDotNetElevationProfileLineQuerySourceGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationProfileLineQuerySource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationProfileLineQuerySource } = await import('./elevationProfileLineQuerySource');
-        jsComponentRef = await buildJsElevationProfileLineQuerySource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationProfileLineQuerySource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.queryElevation)) {
         dotNetElevationProfileLineQuerySource.queryElevation = jsObject.queryElevation;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineQuerySource.id = geoBlazorId;
     }

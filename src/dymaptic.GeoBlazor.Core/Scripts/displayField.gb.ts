@@ -49,27 +49,18 @@ export async function buildDotNetDisplayFieldGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDisplayField: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDisplayField } = await import('./displayField');
-        jsComponentRef = await buildJsDisplayField(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDisplayField: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field)) {
         dotNetDisplayField.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetDisplayField.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDisplayField.id = geoBlazorId;
     }

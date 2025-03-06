@@ -49,27 +49,18 @@ export async function buildDotNetSceneViewConstraintsTiltGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewConstraintsTilt: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewConstraintsTilt } = await import('./sceneViewConstraintsTilt');
-        jsComponentRef = await buildJsSceneViewConstraintsTilt(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewConstraintsTilt: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetSceneViewConstraintsTilt.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetSceneViewConstraintsTilt.mode = jsObject.mode;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsTilt.id = geoBlazorId;
     }

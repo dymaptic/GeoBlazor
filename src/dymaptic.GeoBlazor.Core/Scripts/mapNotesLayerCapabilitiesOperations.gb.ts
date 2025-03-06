@@ -46,24 +46,14 @@ export async function buildDotNetMapNotesLayerCapabilitiesOperationsGenerated(js
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMapNotesLayerCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
-        jsComponentRef = await buildJsMapNotesLayerCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMapNotesLayerCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsMapNotesEditing)) {
         dotNetMapNotesLayerCapabilitiesOperations.supportsMapNotesEditing = jsObject.supportsMapNotesEditing;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMapNotesLayerCapabilitiesOperations.id = geoBlazorId;
     }

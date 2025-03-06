@@ -56,32 +56,24 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTileMatrixSet: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
-        jsComponentRef = await buildJsTileMatrixSet(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTileMatrixSet: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetTileMatrixSet.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTileMatrixSet.id = geoBlazorId;
     }

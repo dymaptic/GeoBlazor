@@ -169,44 +169,40 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemap: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemap } = await import('./basemap');
-        jsComponentRef = await buildJsBasemap(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.style)) {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
         dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBasemap.basemapId = jsObject.id;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetBasemap.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetBasemap.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetBasemap.thumbnailUrl = jsObject.thumbnailUrl;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetBasemap.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemap.id = geoBlazorId;
     }

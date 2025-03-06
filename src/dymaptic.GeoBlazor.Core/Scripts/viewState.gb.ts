@@ -120,40 +120,35 @@ export async function buildDotNetViewStateGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetViewState: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsViewState } = await import('./viewState');
-        jsComponentRef = await buildJsViewState(jsObject, layerId, viewId);
-    }
-    
-    let dotNetViewState: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetViewState.extent = buildDotNetExtent(jsObject.extent);
     }
+    
     if (hasValue(jsObject.center)) {
         dotNetViewState.center = jsObject.center;
     }
+    
     if (hasValue(jsObject.resolution)) {
         dotNetViewState.resolution = jsObject.resolution;
     }
+    
     if (hasValue(jsObject.rotation)) {
         dotNetViewState.rotation = jsObject.rotation;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetViewState.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetViewState.size = jsObject.size;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetViewState.id = geoBlazorId;
     }

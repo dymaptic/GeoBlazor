@@ -52,30 +52,22 @@ export async function buildDotNetBuildingExplorerVisibleElementsGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBuildingExplorerVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBuildingExplorerVisibleElements } = await import('./buildingExplorerVisibleElements');
-        jsComponentRef = await buildJsBuildingExplorerVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBuildingExplorerVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.disciplines)) {
         dotNetBuildingExplorerVisibleElements.disciplines = jsObject.disciplines;
     }
+    
     if (hasValue(jsObject.levels)) {
         dotNetBuildingExplorerVisibleElements.levels = jsObject.levels;
     }
+    
     if (hasValue(jsObject.phases)) {
         dotNetBuildingExplorerVisibleElements.phases = jsObject.phases;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBuildingExplorerVisibleElements.id = geoBlazorId;
     }

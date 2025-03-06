@@ -49,30 +49,22 @@ export async function buildDotNetDynamicMapLayerGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDynamicMapLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDynamicMapLayer } = await import('./dynamicMapLayer');
-        jsComponentRef = await buildJsDynamicMapLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDynamicMapLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.gdbVersion)) {
         dotNetDynamicMapLayer.gdbVersion = jsObject.gdbVersion;
     }
+    
     if (hasValue(jsObject.mapLayerId)) {
         dotNetDynamicMapLayer.mapLayerId = jsObject.mapLayerId;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDynamicMapLayer.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDynamicMapLayer.id = geoBlazorId;
     }

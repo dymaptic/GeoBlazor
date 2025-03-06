@@ -52,30 +52,22 @@ export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOrderedLayerOrderBy: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        jsComponentRef = await buildJsOrderedLayerOrderBy(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOrderedLayerOrderBy: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field)) {
         dotNetOrderedLayerOrderBy.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.order)) {
         dotNetOrderedLayerOrderBy.order = jsObject.order;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetOrderedLayerOrderBy.valueExpression = jsObject.valueExpression;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOrderedLayerOrderBy.id = geoBlazorId;
     }

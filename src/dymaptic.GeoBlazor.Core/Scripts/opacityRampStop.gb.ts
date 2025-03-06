@@ -56,34 +56,27 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOpacityRampStop: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOpacityRampStop } = await import('./opacityRampStop');
-        jsComponentRef = await buildJsOpacityRampStop(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOpacityRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetOpacityRampStop.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetOpacityRampStop.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetOpacityRampStop.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetOpacityRampStop.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOpacityRampStop.id = geoBlazorId;
     }

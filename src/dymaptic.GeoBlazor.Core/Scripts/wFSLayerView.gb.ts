@@ -206,72 +206,77 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSLayerView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSLayerView } = await import('./wFSLayerView');
-        jsComponentRef = await buildJsWFSLayerView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetWFSLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
+    
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         dotNetWFSLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
     }
+    
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         dotNetWFSLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.availableFields)) {
         dotNetWFSLayerView.availableFields = jsObject.availableFields;
     }
+    
     if (hasValue(jsObject.dataUpdating)) {
         dotNetWFSLayerView.dataUpdating = jsObject.dataUpdating;
     }
+    
     if (hasValue(jsObject.hasAllFeatures)) {
         dotNetWFSLayerView.hasAllFeatures = jsObject.hasAllFeatures;
     }
+    
     if (hasValue(jsObject.hasAllFeaturesInView)) {
         dotNetWFSLayerView.hasAllFeaturesInView = jsObject.hasAllFeaturesInView;
     }
+    
     if (hasValue(jsObject.hasFullGeometries)) {
         dotNetWFSLayerView.hasFullGeometries = jsObject.hasFullGeometries;
     }
+    
     if (hasValue(jsObject.maximumNumberOfFeatures)) {
         dotNetWFSLayerView.maximumNumberOfFeatures = jsObject.maximumNumberOfFeatures;
     }
+    
     if (hasValue(jsObject.maximumNumberOfFeaturesExceeded)) {
         dotNetWFSLayerView.maximumNumberOfFeaturesExceeded = jsObject.maximumNumberOfFeaturesExceeded;
     }
+    
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetWFSLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }
+    
     if (hasValue(jsObject.suspended)) {
         dotNetWFSLayerView.suspended = jsObject.suspended;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetWFSLayerView.updating = jsObject.updating;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetWFSLayerView.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetWFSLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
         dotNetWFSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSLayerView.id = geoBlazorId;
     }

@@ -299,123 +299,143 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSearchViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSearchViewModel } = await import('./searchViewModel');
-        jsComponentRef = await buildJsSearchViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSearchViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeSource)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchViewModel.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
     }
+    
     if (hasValue(jsObject.allSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchViewModel.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.defaultSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchViewModel.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.defaultSymbols)) {
         let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols, layerId, viewId);
     }
+    
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetSearchViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
+    
     if (hasValue(jsObject.resultGraphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetSearchViewModel.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchViewModel.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.activeSourceIndex)) {
         dotNetSearchViewModel.activeSourceIndex = jsObject.activeSourceIndex;
     }
+    
     if (hasValue(jsObject.allPlaceholder)) {
         dotNetSearchViewModel.allPlaceholder = jsObject.allPlaceholder;
     }
+    
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchViewModel.autoSelect = jsObject.autoSelect;
     }
+    
     if (hasValue(jsObject.includeDefaultSources)) {
         dotNetSearchViewModel.includeDefaultSources = jsObject.includeDefaultSources;
     }
+    
     if (hasValue(jsObject.locationEnabled)) {
         dotNetSearchViewModel.locationEnabled = jsObject.locationEnabled;
     }
+    
     if (hasValue(jsObject.maxInputLength)) {
         dotNetSearchViewModel.maxInputLength = jsObject.maxInputLength;
     }
+    
     if (hasValue(jsObject.maxResults)) {
         dotNetSearchViewModel.maxResults = jsObject.maxResults;
     }
+    
     if (hasValue(jsObject.maxSuggestions)) {
         dotNetSearchViewModel.maxSuggestions = jsObject.maxSuggestions;
     }
+    
     if (hasValue(jsObject.minSuggestCharacters)) {
         dotNetSearchViewModel.minSuggestCharacters = jsObject.minSuggestCharacters;
     }
+    
     if (hasValue(jsObject.placeholder)) {
         dotNetSearchViewModel.placeholder = jsObject.placeholder;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetSearchViewModel.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.resultGraphicEnabled)) {
         dotNetSearchViewModel.resultGraphicEnabled = jsObject.resultGraphicEnabled;
     }
+    
     if (hasValue(jsObject.results)) {
         dotNetSearchViewModel.results = jsObject.results;
     }
+    
     if (hasValue(jsObject.searchAllEnabled)) {
         dotNetSearchViewModel.searchAllEnabled = jsObject.searchAllEnabled;
     }
+    
     if (hasValue(jsObject.searchTerm)) {
         dotNetSearchViewModel.searchTerm = jsObject.searchTerm;
     }
+    
     if (hasValue(jsObject.selectedResult)) {
         dotNetSearchViewModel.selectedResult = jsObject.selectedResult;
     }
+    
     if (hasValue(jsObject.selectedSuggestion)) {
         dotNetSearchViewModel.selectedSuggestion = jsObject.selectedSuggestion;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetSearchViewModel.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.suggestionDelay)) {
         dotNetSearchViewModel.suggestionDelay = jsObject.suggestionDelay;
     }
+    
     if (hasValue(jsObject.suggestions)) {
         dotNetSearchViewModel.suggestions = jsObject.suggestions;
     }
+    
     if (hasValue(jsObject.suggestionsEnabled)) {
         dotNetSearchViewModel.suggestionsEnabled = jsObject.suggestionsEnabled;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetSearchViewModel.updating = jsObject.updating;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSearchViewModel.id = geoBlazorId;
     }

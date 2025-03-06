@@ -55,33 +55,26 @@ export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesQueryRelated: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
-        jsComponentRef = await buildJsCapabilitiesQueryRelated(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesQueryRelated: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsCacheHint)) {
         dotNetCapabilitiesQueryRelated.supportsCacheHint = jsObject.supportsCacheHint;
     }
+    
     if (hasValue(jsObject.supportsCount)) {
         dotNetCapabilitiesQueryRelated.supportsCount = jsObject.supportsCount;
     }
+    
     if (hasValue(jsObject.supportsOrderBy)) {
         dotNetCapabilitiesQueryRelated.supportsOrderBy = jsObject.supportsOrderBy;
     }
+    
     if (hasValue(jsObject.supportsPagination)) {
         dotNetCapabilitiesQueryRelated.supportsPagination = jsObject.supportsPagination;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesQueryRelated.id = geoBlazorId;
     }

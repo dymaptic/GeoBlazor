@@ -134,46 +134,43 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPixelBlock: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPixelBlock } = await import('./pixelBlock');
-        jsComponentRef = await buildJsPixelBlock(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPixelBlock: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.statistics)) {
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
         dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.height)) {
         dotNetPixelBlock.height = jsObject.height;
     }
+    
     if (hasValue(jsObject.mask)) {
         dotNetPixelBlock.mask = jsObject.mask;
     }
+    
     if (hasValue(jsObject.maskIsAlpha)) {
         dotNetPixelBlock.maskIsAlpha = jsObject.maskIsAlpha;
     }
+    
     if (hasValue(jsObject.pixels)) {
         dotNetPixelBlock.pixels = jsObject.pixels;
     }
+    
     if (hasValue(jsObject.pixelType)) {
         dotNetPixelBlock.pixelType = jsObject.pixelType;
     }
+    
     if (hasValue(jsObject.validPixelCount)) {
         dotNetPixelBlock.validPixelCount = jsObject.validPixelCount;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetPixelBlock.width = jsObject.width;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPixelBlock.id = geoBlazorId;
     }

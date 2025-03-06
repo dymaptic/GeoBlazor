@@ -120,43 +120,39 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGraphicsLayerView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGraphicsLayerView } = await import('./graphicsLayerView');
-        jsComponentRef = await buildJsGraphicsLayerView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGraphicsLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
         dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }
+    
     if (hasValue(jsObject.suspended)) {
         dotNetGraphicsLayerView.suspended = jsObject.suspended;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetGraphicsLayerView.updating = jsObject.updating;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetGraphicsLayerView.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGraphicsLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
         dotNetGraphicsLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGraphicsLayerView.id = geoBlazorId;
     }

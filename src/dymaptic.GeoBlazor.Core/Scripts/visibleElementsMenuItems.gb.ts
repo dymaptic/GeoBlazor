@@ -64,42 +64,38 @@ export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElementsMenuItems: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsMenuItems } = await import('./visibleElementsMenuItems');
-        jsComponentRef = await buildJsVisibleElementsMenuItems(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsMenuItems: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.clearSelection)) {
         dotNetVisibleElementsMenuItems.clearSelection = jsObject.clearSelection;
     }
+    
     if (hasValue(jsObject.deleteSelection)) {
         dotNetVisibleElementsMenuItems.deleteSelection = jsObject.deleteSelection;
     }
+    
     if (hasValue(jsObject.refreshData)) {
         dotNetVisibleElementsMenuItems.refreshData = jsObject.refreshData;
     }
+    
     if (hasValue(jsObject.selectedRecordsShowAllToggle)) {
         dotNetVisibleElementsMenuItems.selectedRecordsShowAllToggle = jsObject.selectedRecordsShowAllToggle;
     }
+    
     if (hasValue(jsObject.selectedRecordsShowSelectedToggle)) {
         dotNetVisibleElementsMenuItems.selectedRecordsShowSelectedToggle = jsObject.selectedRecordsShowSelectedToggle;
     }
+    
     if (hasValue(jsObject.toggleColumns)) {
         dotNetVisibleElementsMenuItems.toggleColumns = jsObject.toggleColumns;
     }
+    
     if (hasValue(jsObject.zoomToSelection)) {
         dotNetVisibleElementsMenuItems.zoomToSelection = jsObject.zoomToSelection;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsMenuItems.id = geoBlazorId;
     }

@@ -54,33 +54,26 @@ export async function buildDotNetTimePickerInputGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTimePickerInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTimePickerInput } = await import('./timePickerInput');
-        jsComponentRef = await buildJsTimePickerInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTimePickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetTimePickerInput.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetTimePickerInput.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.timeResolution)) {
         dotNetTimePickerInput.timeResolution = jsObject.timeResolution;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetTimePickerInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTimePickerInput.id = geoBlazorId;
     }

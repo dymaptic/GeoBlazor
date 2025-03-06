@@ -46,24 +46,14 @@ export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesQueryTopFeatures: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-        jsComponentRef = await buildJsCapabilitiesQueryTopFeatures(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesQueryTopFeatures: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsCacheHint)) {
         dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesQueryTopFeatures.id = geoBlazorId;
     }

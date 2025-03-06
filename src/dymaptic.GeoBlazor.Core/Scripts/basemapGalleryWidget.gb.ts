@@ -233,46 +233,43 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapGalleryWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapGalleryWidget } = await import('./basemapGalleryWidget');
-        jsComponentRef = await buildJsBasemapGalleryWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapGalleryWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
         dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetBasemapGalleryWidget.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetBasemapGalleryWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetBasemapGalleryWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetBasemapGalleryWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBasemapGalleryWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetBasemapGalleryWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBasemapGalleryWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapGalleryWidget.id = geoBlazorId;
     }

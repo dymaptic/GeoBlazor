@@ -57,33 +57,26 @@ export async function buildDotNetWMTSStyleGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWMTSStyle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWMTSStyle } = await import('./wMTSStyle');
-        jsComponentRef = await buildJsWMTSStyle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWMTSStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.description)) {
         dotNetWMTSStyle.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.legendUrl)) {
         dotNetWMTSStyle.legendUrl = jsObject.legendUrl;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWMTSStyle.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWMTSStyle.wMTSStyleId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWMTSStyle.id = geoBlazorId;
     }

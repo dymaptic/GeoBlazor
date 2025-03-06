@@ -51,30 +51,22 @@ export async function buildDotNetSwitchInputGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSwitchInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSwitchInput } = await import('./switchInput');
-        jsComponentRef = await buildJsSwitchInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSwitchInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.offValue)) {
         dotNetSwitchInput.offValue = jsObject.offValue;
     }
+    
     if (hasValue(jsObject.onValue)) {
         dotNetSwitchInput.onValue = jsObject.onValue;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSwitchInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSwitchInput.id = geoBlazorId;
     }

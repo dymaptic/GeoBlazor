@@ -48,27 +48,18 @@ export async function buildDotNetValuePickerCollectionGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerCollection: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerCollection } = await import('./valuePickerCollection');
-        jsComponentRef = await buildJsValuePickerCollection(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerCollection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.collection)) {
         dotNetValuePickerCollection.collection = jsObject.collection;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetValuePickerCollection.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerCollection.id = geoBlazorId;
     }

@@ -49,27 +49,18 @@ export async function buildDotNetColorAndIntensityGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetColorAndIntensity: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsColorAndIntensity } = await import('./colorAndIntensity');
-        jsComponentRef = await buildJsColorAndIntensity(jsObject, layerId, viewId);
-    }
-    
-    let dotNetColorAndIntensity: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         dotNetColorAndIntensity.color = jsObject.color;
     }
+    
     if (hasValue(jsObject.intensity)) {
         dotNetColorAndIntensity.intensity = jsObject.intensity;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetColorAndIntensity.id = geoBlazorId;
     }

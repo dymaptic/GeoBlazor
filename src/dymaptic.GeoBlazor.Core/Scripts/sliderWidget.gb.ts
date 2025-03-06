@@ -419,138 +419,165 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSliderWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSliderWidget } = await import('./sliderWidget');
-        jsComponentRef = await buildJsSliderWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSliderWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.tickConfigs)) {
         let { buildDotNetTickConfig } = await import('./tickConfig');
         dotNetSliderWidget.tickConfigs = await Promise.all(jsObject.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
         dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
         dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetSliderWidget.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.draggableSegmentsEnabled)) {
         dotNetSliderWidget.draggableSegmentsEnabled = jsObject.draggableSegmentsEnabled;
     }
+    
     if (hasValue(jsObject.effectiveMax)) {
         dotNetSliderWidget.effectiveMax = jsObject.effectiveMax;
     }
+    
     if (hasValue(jsObject.effectiveMin)) {
         dotNetSliderWidget.effectiveMin = jsObject.effectiveMin;
     }
+    
     if (hasValue(jsObject.effectiveSegmentElements)) {
         dotNetSliderWidget.effectiveSegmentElements = jsObject.effectiveSegmentElements;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetSliderWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.inputCreatedFunction)) {
         dotNetSliderWidget.inputCreatedFunction = jsObject.inputCreatedFunction;
     }
+    
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetSliderWidget.inputFormatFunction = jsObject.inputFormatFunction;
     }
+    
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetSliderWidget.inputParseFunction = jsObject.inputParseFunction;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetSliderWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.labelElements)) {
         dotNetSliderWidget.labelElements = jsObject.labelElements;
     }
+    
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetSliderWidget.labelFormatFunction = jsObject.labelFormatFunction;
     }
+    
     if (hasValue(jsObject.labelInputsEnabled)) {
         dotNetSliderWidget.labelInputsEnabled = jsObject.labelInputsEnabled;
     }
+    
     if (hasValue(jsObject.labels)) {
         dotNetSliderWidget.labels = jsObject.labels;
     }
+    
     if (hasValue(jsObject.layout)) {
         dotNetSliderWidget.layout = jsObject.layout;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetSliderWidget.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.maxLabelElement)) {
         dotNetSliderWidget.maxLabelElement = jsObject.maxLabelElement;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetSliderWidget.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.minLabelElement)) {
         dotNetSliderWidget.minLabelElement = jsObject.minLabelElement;
     }
+    
     if (hasValue(jsObject.precision)) {
         dotNetSliderWidget.precision = jsObject.precision;
     }
+    
     if (hasValue(jsObject.rangeLabelInputsEnabled)) {
         dotNetSliderWidget.rangeLabelInputsEnabled = jsObject.rangeLabelInputsEnabled;
     }
+    
     if (hasValue(jsObject.segmentElements)) {
         dotNetSliderWidget.segmentElements = jsObject.segmentElements;
     }
+    
     if (hasValue(jsObject.snapOnClickEnabled)) {
         dotNetSliderWidget.snapOnClickEnabled = jsObject.snapOnClickEnabled;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetSliderWidget.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.steps)) {
         dotNetSliderWidget.steps = jsObject.steps;
     }
+    
     if (hasValue(jsObject.syncedSegmentsEnabled)) {
         dotNetSliderWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
     }
+    
     if (hasValue(jsObject.thumbCreatedFunction)) {
         dotNetSliderWidget.thumbCreatedFunction = jsObject.thumbCreatedFunction;
     }
+    
     if (hasValue(jsObject.thumbElements)) {
         dotNetSliderWidget.thumbElements = jsObject.thumbElements;
     }
+    
     if (hasValue(jsObject.thumbsConstrained)) {
         dotNetSliderWidget.thumbsConstrained = jsObject.thumbsConstrained;
     }
+    
     if (hasValue(jsObject.tickElements)) {
         dotNetSliderWidget.tickElements = jsObject.tickElements;
     }
+    
     if (hasValue(jsObject.trackElement)) {
         dotNetSliderWidget.trackElement = jsObject.trackElement;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSliderWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.values)) {
         dotNetSliderWidget.values = jsObject.values;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetSliderWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetSliderWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSliderWidget.id = geoBlazorId;
     }

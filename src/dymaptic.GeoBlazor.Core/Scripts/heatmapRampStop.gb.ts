@@ -56,34 +56,27 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHeatmapRampStop: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHeatmapRampStop } = await import('./heatmapRampStop');
-        jsComponentRef = await buildJsHeatmapRampStop(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHeatmapRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetHeatmapRampStop.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetHeatmapRampStop.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetHeatmapRampStop.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.ratio)) {
         dotNetHeatmapRampStop.ratio = jsObject.ratio;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHeatmapRampStop.id = geoBlazorId;
     }

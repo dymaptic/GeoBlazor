@@ -46,24 +46,14 @@ export async function buildDotNetWFSOperationsDescribeFeatureTypeGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSOperationsDescribeFeatureType: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSOperationsDescribeFeatureType } = await import('./wFSOperationsDescribeFeatureType');
-        jsComponentRef = await buildJsWFSOperationsDescribeFeatureType(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSOperationsDescribeFeatureType: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.url)) {
         dotNetWFSOperationsDescribeFeatureType.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSOperationsDescribeFeatureType.id = geoBlazorId;
     }

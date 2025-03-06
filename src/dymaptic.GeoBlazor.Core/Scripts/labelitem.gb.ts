@@ -49,27 +49,18 @@ export async function buildDotNetLabelitemGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLabelitem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLabelitem } = await import('./labelitem');
-        jsComponentRef = await buildJsLabelitem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLabelitem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetLabelitem.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetLabelitem.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLabelitem.id = geoBlazorId;
     }

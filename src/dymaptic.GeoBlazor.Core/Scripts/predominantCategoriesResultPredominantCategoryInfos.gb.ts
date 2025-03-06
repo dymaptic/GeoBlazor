@@ -52,30 +52,22 @@ export async function buildDotNetPredominantCategoriesResultPredominantCategoryI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPredominantCategoriesResultPredominantCategoryInfos: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
-        jsComponentRef = await buildJsPredominantCategoriesResultPredominantCategoryInfos(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPredominantCategoriesResultPredominantCategoryInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.count)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.count = jsObject.count;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.id = geoBlazorId;
     }

@@ -43,21 +43,10 @@ export async function buildDotNetISceneViewHitTestResultScreenPointGenerated(jsO
         return null;
     }
     
+    let dotNetISceneViewHitTestResultScreenPoint: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
-        jsComponentRef = await buildJsISceneViewHitTestResultScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetISceneViewHitTestResultScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetISceneViewHitTestResultScreenPoint.id = geoBlazorId;
     }

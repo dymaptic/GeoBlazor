@@ -55,33 +55,26 @@ export async function buildDotNetViewPaddingGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetViewPadding: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsViewPadding } = await import('./viewPadding');
-        jsComponentRef = await buildJsViewPadding(jsObject, layerId, viewId);
-    }
-    
-    let dotNetViewPadding: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bottom)) {
         dotNetViewPadding.bottom = jsObject.bottom;
     }
+    
     if (hasValue(jsObject.left)) {
         dotNetViewPadding.left = jsObject.left;
     }
+    
     if (hasValue(jsObject.right)) {
         dotNetViewPadding.right = jsObject.right;
     }
+    
     if (hasValue(jsObject.top)) {
         dotNetViewPadding.top = jsObject.top;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetViewPadding.id = geoBlazorId;
     }

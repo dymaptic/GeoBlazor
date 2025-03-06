@@ -52,30 +52,22 @@ export async function buildDotNetGraphicColorGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGraphicColor: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGraphicColor } = await import('./graphicColor');
-        jsComponentRef = await buildJsGraphicColor(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGraphicColor: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         dotNetGraphicColor.color = jsObject.color;
     }
+    
     if (hasValue(jsObject.haloOpacity)) {
         dotNetGraphicColor.haloOpacity = jsObject.haloOpacity;
     }
+    
     if (hasValue(jsObject.hex)) {
         dotNetGraphicColor.hex = jsObject.hex;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGraphicColor.id = geoBlazorId;
     }

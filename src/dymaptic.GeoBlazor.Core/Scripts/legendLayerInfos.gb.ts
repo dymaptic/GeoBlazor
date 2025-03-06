@@ -53,27 +53,18 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLegendLayerInfos: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        jsComponentRef = await buildJsLegendLayerInfos(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLegendLayerInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.sublayerIds)) {
         dotNetLegendLayerInfos.sublayerIds = jsObject.sublayerIds;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetLegendLayerInfos.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLegendLayerInfos.id = geoBlazorId;
     }

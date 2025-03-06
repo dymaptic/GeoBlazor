@@ -49,27 +49,18 @@ export async function buildDotNetDirectLineMeasurement3DViewModelMeasurementValu
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDirectLineMeasurement3DViewModelMeasurementValue: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDirectLineMeasurement3DViewModelMeasurementValue } = await import('./directLineMeasurement3DViewModelMeasurementValue');
-        jsComponentRef = await buildJsDirectLineMeasurement3DViewModelMeasurementValue(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDirectLineMeasurement3DViewModelMeasurementValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.state)) {
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.text)) {
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.text = jsObject.text;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.id = geoBlazorId;
     }

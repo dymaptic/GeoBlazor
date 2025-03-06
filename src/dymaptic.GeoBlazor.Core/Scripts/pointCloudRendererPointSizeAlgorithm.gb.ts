@@ -52,33 +52,26 @@ export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(j
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPointCloudRendererPointSizeAlgorithm: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-        jsComponentRef = await buildJsPointCloudRendererPointSizeAlgorithm(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPointCloudRendererPointSizeAlgorithm: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.scaleFactor)) {
         dotNetPointCloudRendererPointSizeAlgorithm.scaleFactor = jsObject.scaleFactor;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetPointCloudRendererPointSizeAlgorithm.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetPointCloudRendererPointSizeAlgorithm.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.useRealWorldSymbolSizes)) {
         dotNetPointCloudRendererPointSizeAlgorithm.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRendererPointSizeAlgorithm.id = geoBlazorId;
     }

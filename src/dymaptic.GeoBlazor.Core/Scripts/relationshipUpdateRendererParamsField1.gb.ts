@@ -56,34 +56,27 @@ export async function buildDotNetRelationshipUpdateRendererParamsField1Generated
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRelationshipUpdateRendererParamsField1: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRelationshipUpdateRendererParamsField1 } = await import('./relationshipUpdateRendererParamsField1');
-        jsComponentRef = await buildJsRelationshipUpdateRendererParamsField1(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRelationshipUpdateRendererParamsField1: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetClassBreak } = await import('./classBreak');
         dotNetRelationshipUpdateRendererParamsField1.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetClassBreak(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetRelationshipUpdateRendererParamsField1.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetRelationshipUpdateRendererParamsField1.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetRelationshipUpdateRendererParamsField1.normalizationField = jsObject.normalizationField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipUpdateRendererParamsField1.id = geoBlazorId;
     }

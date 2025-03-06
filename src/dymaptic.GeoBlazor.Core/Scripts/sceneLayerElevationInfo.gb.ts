@@ -52,30 +52,22 @@ export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneLayerElevationInfo } = await import('./sceneLayerElevationInfo');
-        jsComponentRef = await buildJsSceneLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mode)) {
         dotNetSceneLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetSceneLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetSceneLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneLayerElevationInfo.id = geoBlazorId;
     }

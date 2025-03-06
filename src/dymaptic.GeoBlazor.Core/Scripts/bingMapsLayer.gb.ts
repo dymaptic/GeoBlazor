@@ -325,97 +325,110 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBingMapsLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
-        jsComponentRef = await buildJsBingMapsLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBingMapsLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetBingMapsLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetBingMapsLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetBingMapsLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBingMapsLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.bingLogo)) {
         dotNetBingMapsLayer.bingLogo = jsObject.bingLogo;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetBingMapsLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetBingMapsLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.culture)) {
         dotNetBingMapsLayer.culture = jsObject.culture;
     }
+    
     if (hasValue(jsObject.hasAttributionData)) {
         dotNetBingMapsLayer.hasAttributionData = jsObject.hasAttributionData;
     }
+    
     if (hasValue(jsObject.key)) {
         dotNetBingMapsLayer.key = jsObject.key;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetBingMapsLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetBingMapsLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetBingMapsLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetBingMapsLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetBingMapsLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetBingMapsLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetBingMapsLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.region)) {
         dotNetBingMapsLayer.region = jsObject.region;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetBingMapsLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.style)) {
         dotNetBingMapsLayer.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetBingMapsLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBingMapsLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetBingMapsLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBingMapsLayer.id = geoBlazorId;
     }

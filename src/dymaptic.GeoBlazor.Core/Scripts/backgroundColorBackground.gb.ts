@@ -49,25 +49,15 @@ export async function buildDotNetBackgroundColorBackgroundGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBackgroundColorBackground: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBackgroundColorBackground } = await import('./backgroundColorBackground');
-        jsComponentRef = await buildJsBackgroundColorBackground(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBackgroundColorBackground: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetBackgroundColorBackground.color = buildDotNetMapColor(jsObject.color);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBackgroundColorBackground.id = geoBlazorId;
     }

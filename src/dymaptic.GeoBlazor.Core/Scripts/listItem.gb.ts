@@ -174,74 +174,80 @@ export async function buildDotNetListItemGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetListItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsListItem } = await import('./listItem');
-        jsComponentRef = await buildJsListItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetListItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.actionsSections)) {
         let { buildDotNetActionBase } = await import('./actionBase');
         dotNetListItem.actionsSections = await Promise.all(jsObject.actionsSections.map(async i => await buildDotNetActionBase(i)));
     }
+    
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetListItem.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
+    
     if (hasValue(jsObject.actionsOpen)) {
         dotNetListItem.actionsOpen = jsObject.actionsOpen;
     }
+    
     if (hasValue(jsObject.childrenSortable)) {
         dotNetListItem.childrenSortable = jsObject.childrenSortable;
     }
+    
     if (hasValue(jsObject.connectionStatus)) {
         dotNetListItem.connectionStatus = jsObject.connectionStatus;
     }
+    
     if (hasValue(jsObject.error)) {
         dotNetListItem.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.hidden)) {
         dotNetListItem.hidden = jsObject.hidden;
     }
+    
     if (hasValue(jsObject.listModeDisabled)) {
         dotNetListItem.listModeDisabled = jsObject.listModeDisabled;
     }
+    
     if (hasValue(jsObject.open)) {
         dotNetListItem.open = jsObject.open;
     }
+    
     if (hasValue(jsObject.publishing)) {
         dotNetListItem.publishing = jsObject.publishing;
     }
+    
     if (hasValue(jsObject.sortable)) {
         dotNetListItem.sortable = jsObject.sortable;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetListItem.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetListItem.updating = jsObject.updating;
     }
+    
     if (hasValue(jsObject.visibilityMode)) {
         dotNetListItem.visibilityMode = jsObject.visibilityMode;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetListItem.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetListItem.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
         dotNetListItem.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetListItem.id = geoBlazorId;
     }

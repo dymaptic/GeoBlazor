@@ -53,31 +53,23 @@ export async function buildDotNetAssetGroupJSONGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAssetGroupJSON: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAssetGroupJSON } = await import('./assetGroupJSON');
-        jsComponentRef = await buildJsAssetGroupJSON(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAssetGroupJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.assetTypes)) {
         let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
         dotNetAssetGroupJSON.assetTypes = await Promise.all(jsObject.assetTypes.map(async i => await buildDotNetAssetTypeJSON(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.assetGroupCode)) {
         dotNetAssetGroupJSON.assetGroupCode = jsObject.assetGroupCode;
     }
+    
     if (hasValue(jsObject.assetGroupName)) {
         dotNetAssetGroupJSON.assetGroupName = jsObject.assetGroupName;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAssetGroupJSON.id = geoBlazorId;
     }

@@ -405,127 +405,148 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSearchWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSearchWidget } = await import('./searchWidget');
-        jsComponentRef = await buildJsSearchWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSearchWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeSource)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
     }
+    
     if (hasValue(jsObject.allSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.defaultSources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetSearchWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
+    
     if (hasValue(jsObject.resultGraphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetSearchWidget.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
     }
+    
     if (hasValue(jsObject.selectedResult)) {
         let { buildDotNetSearchResult } = await import('./searchResult');
         dotNetSearchWidget.selectedResult = buildDotNetSearchResult(jsObject.selectedResult);
     }
+    
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSearchViewModel } = await import('./searchViewModel');
         dotNetSearchWidget.viewModel = await buildDotNetSearchViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.activeMenu)) {
         dotNetSearchWidget.activeMenu = jsObject.activeMenu;
     }
+    
     if (hasValue(jsObject.activeSourceIndex)) {
         dotNetSearchWidget.activeSourceIndex = jsObject.activeSourceIndex;
     }
+    
     if (hasValue(jsObject.allPlaceholder)) {
         dotNetSearchWidget.allPlaceholder = jsObject.allPlaceholder;
     }
+    
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchWidget.autoSelect = jsObject.autoSelect;
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetSearchWidget.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetSearchWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.includeDefaultSources)) {
         dotNetSearchWidget.includeDefaultSources = jsObject.includeDefaultSources;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetSearchWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.locationEnabled)) {
         dotNetSearchWidget.locationEnabled = jsObject.locationEnabled;
     }
+    
     if (hasValue(jsObject.maxResults)) {
         dotNetSearchWidget.maxResults = jsObject.maxResults;
     }
+    
     if (hasValue(jsObject.maxSuggestions)) {
         dotNetSearchWidget.maxSuggestions = jsObject.maxSuggestions;
     }
+    
     if (hasValue(jsObject.minSuggestCharacters)) {
         dotNetSearchWidget.minSuggestCharacters = jsObject.minSuggestCharacters;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetSearchWidget.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.resultGraphicEnabled)) {
         dotNetSearchWidget.resultGraphicEnabled = jsObject.resultGraphicEnabled;
     }
+    
     if (hasValue(jsObject.results)) {
         dotNetSearchWidget.results = jsObject.results;
     }
+    
     if (hasValue(jsObject.searchAllEnabled)) {
         dotNetSearchWidget.searchAllEnabled = jsObject.searchAllEnabled;
     }
+    
     if (hasValue(jsObject.searchTerm)) {
         dotNetSearchWidget.searchTerm = jsObject.searchTerm;
     }
+    
     if (hasValue(jsObject.suggestions)) {
         dotNetSearchWidget.suggestions = jsObject.suggestions;
     }
+    
     if (hasValue(jsObject.suggestionsEnabled)) {
         dotNetSearchWidget.suggestionsEnabled = jsObject.suggestionsEnabled;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSearchWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetSearchWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetSearchWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSearchWidget.id = geoBlazorId;
     }

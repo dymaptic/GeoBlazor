@@ -49,27 +49,18 @@ export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsO
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAuthoringInfoField1ClassBreakInfos: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        jsComponentRef = await buildJsAuthoringInfoField1ClassBreakInfos(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAuthoringInfoField1ClassBreakInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.maxValue)) {
         dotNetAuthoringInfoField1ClassBreakInfos.maxValue = jsObject.maxValue;
     }
+    
     if (hasValue(jsObject.minValue)) {
         dotNetAuthoringInfoField1ClassBreakInfos.minValue = jsObject.minValue;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoField1ClassBreakInfos.id = geoBlazorId;
     }

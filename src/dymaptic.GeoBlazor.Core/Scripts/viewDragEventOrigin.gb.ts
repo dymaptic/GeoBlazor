@@ -49,27 +49,18 @@ export async function buildDotNetViewDragEventOriginGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetViewDragEventOrigin: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsViewDragEventOrigin } = await import('./viewDragEventOrigin');
-        jsComponentRef = await buildJsViewDragEventOrigin(jsObject, layerId, viewId);
-    }
-    
-    let dotNetViewDragEventOrigin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetViewDragEventOrigin.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetViewDragEventOrigin.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetViewDragEventOrigin.id = geoBlazorId;
     }

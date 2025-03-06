@@ -68,44 +68,40 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTimeInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTimeInfo } = await import('./timeInfo');
-        jsComponentRef = await buildJsTimeInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTimeInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fullTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetTimeInfo.fullTimeExtent = buildDotNetTimeExtent(jsObject.fullTimeExtent);
     }
+    
     if (hasValue(jsObject.interval)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval, layerId, viewId);
     }
+    
     if (hasValue(jsObject.endField)) {
         dotNetTimeInfo.endField = jsObject.endField;
     }
+    
     if (hasValue(jsObject.startField)) {
         dotNetTimeInfo.startField = jsObject.startField;
     }
+    
     if (hasValue(jsObject.stops)) {
         dotNetTimeInfo.stops = jsObject.stops;
     }
+    
     if (hasValue(jsObject.timeZone)) {
         dotNetTimeInfo.timeZone = jsObject.timeZone;
     }
+    
     if (hasValue(jsObject.trackIdField)) {
         dotNetTimeInfo.trackIdField = jsObject.trackIdField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTimeInfo.id = geoBlazorId;
     }

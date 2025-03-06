@@ -48,24 +48,14 @@ export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerFloorInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        jsComponentRef = await buildJsLayerFloorInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerFloorInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.floorField)) {
         dotNetLayerFloorInfo.floorField = jsObject.floorField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerFloorInfo.id = geoBlazorId;
     }

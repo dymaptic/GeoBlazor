@@ -49,27 +49,18 @@ export async function buildDotNetProjectParametersTransformationGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetProjectParametersTransformation: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsProjectParametersTransformation } = await import('./projectParametersTransformation');
-        jsComponentRef = await buildJsProjectParametersTransformation(jsObject, layerId, viewId);
-    }
-    
-    let dotNetProjectParametersTransformation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.wkid)) {
         dotNetProjectParametersTransformation.wkid = jsObject.wkid;
     }
+    
     if (hasValue(jsObject.wkt)) {
         dotNetProjectParametersTransformation.wkt = jsObject.wkt;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetProjectParametersTransformation.id = geoBlazorId;
     }

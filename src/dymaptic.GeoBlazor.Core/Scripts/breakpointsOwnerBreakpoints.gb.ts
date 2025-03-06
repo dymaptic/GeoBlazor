@@ -58,36 +58,30 @@ export async function buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBreakpointsOwnerBreakpoints: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
-        jsComponentRef = await buildJsBreakpointsOwnerBreakpoints(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBreakpointsOwnerBreakpoints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.large)) {
         dotNetBreakpointsOwnerBreakpoints.large = jsObject.large;
     }
+    
     if (hasValue(jsObject.medium)) {
         dotNetBreakpointsOwnerBreakpoints.medium = jsObject.medium;
     }
+    
     if (hasValue(jsObject.small)) {
         dotNetBreakpointsOwnerBreakpoints.small = jsObject.small;
     }
+    
     if (hasValue(jsObject.xlarge)) {
         dotNetBreakpointsOwnerBreakpoints.xlarge = jsObject.xlarge;
     }
+    
     if (hasValue(jsObject.xsmall)) {
         dotNetBreakpointsOwnerBreakpoints.xsmall = jsObject.xsmall;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBreakpointsOwnerBreakpoints.id = geoBlazorId;
     }

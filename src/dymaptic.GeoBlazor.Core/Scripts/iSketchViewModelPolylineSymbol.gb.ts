@@ -43,21 +43,10 @@ export async function buildDotNetISketchViewModelPolylineSymbolGenerated(jsObjec
         return null;
     }
     
+    let dotNetISketchViewModelPolylineSymbol: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsISketchViewModelPolylineSymbol } = await import('./iSketchViewModelPolylineSymbol');
-        jsComponentRef = await buildJsISketchViewModelPolylineSymbol(jsObject, layerId, viewId);
-    }
-    
-    let dotNetISketchViewModelPolylineSymbol: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetISketchViewModelPolylineSymbol.id = geoBlazorId;
     }

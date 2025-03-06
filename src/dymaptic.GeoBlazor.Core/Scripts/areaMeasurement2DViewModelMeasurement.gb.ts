@@ -52,30 +52,22 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementGenerated(
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement2DViewModelMeasurement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement2DViewModelMeasurement } = await import('./areaMeasurement2DViewModelMeasurement');
-        jsComponentRef = await buildJsAreaMeasurement2DViewModelMeasurement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement2DViewModelMeasurement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         dotNetAreaMeasurement2DViewModelMeasurement.area = jsObject.area;
     }
+    
     if (hasValue(jsObject.geometry)) {
         dotNetAreaMeasurement2DViewModelMeasurement.geometry = jsObject.geometry;
     }
+    
     if (hasValue(jsObject.perimeter)) {
         dotNetAreaMeasurement2DViewModelMeasurement.perimeter = jsObject.perimeter;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DViewModelMeasurement.id = geoBlazorId;
     }

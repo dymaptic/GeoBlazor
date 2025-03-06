@@ -82,61 +82,63 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAuthoringInfoVisualVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        jsComponentRef = await buildJsAuthoringInfoVisualVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAuthoringInfoVisualVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.sizeStops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
         dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.endTime)) {
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetAuthoringInfoVisualVariable.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.maxSliderValue)) {
         dotNetAuthoringInfoVisualVariable.maxSliderValue = jsObject.maxSliderValue;
     }
+    
     if (hasValue(jsObject.minSliderValue)) {
         dotNetAuthoringInfoVisualVariable.minSliderValue = jsObject.minSliderValue;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetAuthoringInfoVisualVariable.normalizationField = jsObject.normalizationField;
     }
+    
     if (hasValue(jsObject.referenceSizeScale)) {
         dotNetAuthoringInfoVisualVariable.referenceSizeScale = jsObject.referenceSizeScale;
     }
+    
     if (hasValue(jsObject.referenceSizeSymbolStyle)) {
         dotNetAuthoringInfoVisualVariable.referenceSizeSymbolStyle = jsObject.referenceSizeSymbolStyle;
     }
+    
     if (hasValue(jsObject.startTime)) {
         dotNetAuthoringInfoVisualVariable.startTime = jsObject.startTime;
     }
+    
     if (hasValue(jsObject.style)) {
         dotNetAuthoringInfoVisualVariable.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.theme)) {
         dotNetAuthoringInfoVisualVariable.theme = jsObject.theme;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetAuthoringInfoVisualVariable.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.units)) {
         dotNetAuthoringInfoVisualVariable.units = jsObject.units;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoVisualVariable.id = geoBlazorId;
     }

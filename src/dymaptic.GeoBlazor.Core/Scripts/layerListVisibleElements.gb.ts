@@ -70,48 +70,46 @@ export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerListVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerListVisibleElements } = await import('./layerListVisibleElements');
-        jsComponentRef = await buildJsLayerListVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerListVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListVisibleElements.catalogLayerList = jsObject.catalogLayerList;
     }
+    
     if (hasValue(jsObject.closeButton)) {
         dotNetLayerListVisibleElements.closeButton = jsObject.closeButton;
     }
+    
     if (hasValue(jsObject.collapseButton)) {
         dotNetLayerListVisibleElements.collapseButton = jsObject.collapseButton;
     }
+    
     if (hasValue(jsObject.errors)) {
         dotNetLayerListVisibleElements.errors = jsObject.errors;
     }
+    
     if (hasValue(jsObject.filter)) {
         dotNetLayerListVisibleElements.filter = jsObject.filter;
     }
+    
     if (hasValue(jsObject.flow)) {
         dotNetLayerListVisibleElements.flow = jsObject.flow;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetLayerListVisibleElements.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.statusIndicators)) {
         dotNetLayerListVisibleElements.statusIndicators = jsObject.statusIndicators;
     }
+    
     if (hasValue(jsObject.temporaryLayerIndicators)) {
         dotNetLayerListVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerListVisibleElements.id = geoBlazorId;
     }

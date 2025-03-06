@@ -52,33 +52,26 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSymbolTableElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSymbolTableElement } = await import('./symbolTableElement');
-        jsComponentRef = await buildJsSymbolTableElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSymbolTableElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.infos)) {
         dotNetSymbolTableElement.infos = jsObject.infos;
     }
+    
     if (hasValue(jsObject.legendType)) {
         dotNetSymbolTableElement.legendType = jsObject.legendType;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetSymbolTableElement.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSymbolTableElement.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSymbolTableElement.id = geoBlazorId;
     }

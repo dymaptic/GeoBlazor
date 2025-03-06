@@ -51,27 +51,18 @@ export async function buildDotNetArealUnitGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetArealUnit: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsArealUnit } = await import('./arealUnit');
-        jsComponentRef = await buildJsArealUnit(jsObject, layerId, viewId);
-    }
-    
-    let dotNetArealUnit: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         dotNetArealUnit.area = jsObject.area;
     }
+    
     if (hasValue(jsObject.units)) {
         dotNetArealUnit.units = jsObject.units;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetArealUnit.id = geoBlazorId;
     }

@@ -64,42 +64,38 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetArcGISImageServiceCapabilitiesMensuration: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-        jsComponentRef = await buildJsArcGISImageServiceCapabilitiesMensuration(jsObject, layerId, viewId);
-    }
-    
-    let dotNetArcGISImageServiceCapabilitiesMensuration: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supports3D)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supports3D = jsObject.supports3D;
     }
+    
     if (hasValue(jsObject.supportsAreaAndPerimeter)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsAreaAndPerimeter = jsObject.supportsAreaAndPerimeter;
     }
+    
     if (hasValue(jsObject.supportsDistanceAndAngle)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsDistanceAndAngle = jsObject.supportsDistanceAndAngle;
     }
+    
     if (hasValue(jsObject.supportsHeightFromBaseAndTop)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTop = jsObject.supportsHeightFromBaseAndTop;
     }
+    
     if (hasValue(jsObject.supportsHeightFromBaseAndTopShadow)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromBaseAndTopShadow = jsObject.supportsHeightFromBaseAndTopShadow;
     }
+    
     if (hasValue(jsObject.supportsHeightFromTopAndTopShadow)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsHeightFromTopAndTopShadow = jsObject.supportsHeightFromTopAndTopShadow;
     }
+    
     if (hasValue(jsObject.supportsPointOrCentroid)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.id = geoBlazorId;
     }

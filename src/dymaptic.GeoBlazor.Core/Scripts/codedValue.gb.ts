@@ -49,27 +49,18 @@ export async function buildDotNetCodedValueGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCodedValue: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCodedValue } = await import('./codedValue');
-        jsComponentRef = await buildJsCodedValue(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCodedValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.code)) {
         dotNetCodedValue.code = jsObject.code;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetCodedValue.name = jsObject.name;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCodedValue.id = geoBlazorId;
     }

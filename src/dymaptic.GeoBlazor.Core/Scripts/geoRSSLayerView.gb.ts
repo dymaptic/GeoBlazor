@@ -90,39 +90,34 @@ export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGeoRSSLayerView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGeoRSSLayerView } = await import('./geoRSSLayerView');
-        jsComponentRef = await buildJsGeoRSSLayerView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGeoRSSLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGeoRSSLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }
+    
     if (hasValue(jsObject.suspended)) {
         dotNetGeoRSSLayerView.suspended = jsObject.suspended;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetGeoRSSLayerView.updating = jsObject.updating;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetGeoRSSLayerView.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetGeoRSSLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
         dotNetGeoRSSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGeoRSSLayerView.id = geoBlazorId;
     }

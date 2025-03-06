@@ -69,39 +69,34 @@ export async function buildDotNetButtonMenuItemGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetButtonMenuItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsButtonMenuItem } = await import('./buttonMenuItem');
-        jsComponentRef = await buildJsButtonMenuItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetButtonMenuItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.autoCloseMenu)) {
         dotNetButtonMenuItem.autoCloseMenu = jsObject.autoCloseMenu;
     }
+    
     if (hasValue(jsObject.clickFunction)) {
         dotNetButtonMenuItem.clickFunction = jsObject.clickFunction;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetButtonMenuItem.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.open)) {
         dotNetButtonMenuItem.open = jsObject.open;
     }
+    
     if (hasValue(jsObject.selected)) {
         dotNetButtonMenuItem.selected = jsObject.selected;
     }
+    
     if (hasValue(jsObject.selectionEnabled)) {
         dotNetButtonMenuItem.selectionEnabled = jsObject.selectionEnabled;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetButtonMenuItem.id = geoBlazorId;
     }

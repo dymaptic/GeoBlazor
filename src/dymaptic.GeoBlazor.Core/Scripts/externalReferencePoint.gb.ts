@@ -59,37 +59,31 @@ export async function buildDotNetExternalReferencePointGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetExternalReferencePoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsExternalReferencePoint } = await import('./externalReferencePoint');
-        jsComponentRef = await buildJsExternalReferencePoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetExternalReferencePoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
         dotNetExternalReferencePoint.spatialReference = await buildDotNetExternalReferenceSpatialReference(jsObject.spatialReference, layerId, viewId);
     }
+    
     if (hasValue(jsObject.m)) {
         dotNetExternalReferencePoint.m = jsObject.m;
     }
+    
     if (hasValue(jsObject.x)) {
         dotNetExternalReferencePoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetExternalReferencePoint.y = jsObject.y;
     }
+    
     if (hasValue(jsObject.z)) {
         dotNetExternalReferencePoint.z = jsObject.z;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetExternalReferencePoint.id = geoBlazorId;
     }

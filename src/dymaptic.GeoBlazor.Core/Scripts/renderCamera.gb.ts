@@ -45,57 +45,58 @@ export async function buildDotNetRenderCameraGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRenderCamera: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRenderCamera } = await import('./renderCamera');
-        jsComponentRef = await buildJsRenderCamera(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRenderCamera: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.center)) {
         dotNetRenderCamera.center = jsObject.center;
     }
+    
     if (hasValue(jsObject.eye)) {
         dotNetRenderCamera.eye = jsObject.eye;
     }
+    
     if (hasValue(jsObject.far)) {
         dotNetRenderCamera.far = jsObject.far;
     }
+    
     if (hasValue(jsObject.fovX)) {
         dotNetRenderCamera.fovX = jsObject.fovX;
     }
+    
     if (hasValue(jsObject.fovY)) {
         dotNetRenderCamera.fovY = jsObject.fovY;
     }
+    
     if (hasValue(jsObject.near)) {
         dotNetRenderCamera.near = jsObject.near;
     }
+    
     if (hasValue(jsObject.pixelRatio)) {
         dotNetRenderCamera.pixelRatio = jsObject.pixelRatio;
     }
+    
     if (hasValue(jsObject.projectionMatrix)) {
         dotNetRenderCamera.projectionMatrix = jsObject.projectionMatrix;
     }
+    
     if (hasValue(jsObject.up)) {
         dotNetRenderCamera.up = jsObject.up;
     }
+    
     if (hasValue(jsObject.viewInverseTransposeMatrix)) {
         dotNetRenderCamera.viewInverseTransposeMatrix = jsObject.viewInverseTransposeMatrix;
     }
+    
     if (hasValue(jsObject.viewMatrix)) {
         dotNetRenderCamera.viewMatrix = jsObject.viewMatrix;
     }
+    
     if (hasValue(jsObject.viewport)) {
         dotNetRenderCamera.viewport = jsObject.viewport;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRenderCamera.id = geoBlazorId;
     }

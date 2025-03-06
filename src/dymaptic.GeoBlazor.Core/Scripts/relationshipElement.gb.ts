@@ -70,49 +70,47 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRelationshipElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRelationshipElement } = await import('./relationshipElement');
-        jsComponentRef = await buildJsRelationshipElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRelationshipElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.orderByFields)) {
         let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
         dotNetRelationshipElement.orderByFields = jsObject.orderByFields.map(i => buildDotNetRelatedRecordsInfoFieldOrder(i));
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetRelationshipElement.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.displayCount)) {
         dotNetRelationshipElement.displayCount = jsObject.displayCount;
     }
+    
     if (hasValue(jsObject.displayType)) {
         dotNetRelationshipElement.displayType = jsObject.displayType;
     }
+    
     if (hasValue(jsObject.editableExpression)) {
         dotNetRelationshipElement.editableExpression = jsObject.editableExpression;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetRelationshipElement.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.relationshipId)) {
         dotNetRelationshipElement.relationshipId = jsObject.relationshipId;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetRelationshipElement.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visibilityExpression)) {
         dotNetRelationshipElement.visibilityExpression = jsObject.visibilityExpression;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipElement.id = geoBlazorId;
     }

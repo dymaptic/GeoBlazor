@@ -196,53 +196,52 @@ export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUnsupportedLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUnsupportedLayer } = await import('./unsupportedLayer');
-        jsComponentRef = await buildJsUnsupportedLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUnsupportedLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetUnsupportedLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetUnsupportedLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetUnsupportedLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetUnsupportedLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetUnsupportedLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetUnsupportedLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetUnsupportedLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetUnsupportedLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetUnsupportedLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetUnsupportedLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUnsupportedLayer.id = geoBlazorId;
     }

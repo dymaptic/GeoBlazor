@@ -55,36 +55,30 @@ export async function buildDotNetLayerInfoGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerInfo } = await import('./layerInfo');
-        jsComponentRef = await buildJsLayerInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.geometryType)) {
         dotNetLayerInfo.geometryType = jsObject.geometryType;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetLayerInfo.layerInfoId = jsObject.id;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetLayerInfo.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLayerInfo.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetLayerInfo.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerInfo.id = geoBlazorId;
     }

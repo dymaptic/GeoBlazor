@@ -191,43 +191,39 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetZoomWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsZoomWidget } = await import('./zoomWidget');
-        jsComponentRef = await buildJsZoomWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetZoomWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
         dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetZoomWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetZoomWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.layout)) {
         dotNetZoomWidget.layout = jsObject.layout;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetZoomWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetZoomWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetZoomWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetZoomWidget.id = geoBlazorId;
     }

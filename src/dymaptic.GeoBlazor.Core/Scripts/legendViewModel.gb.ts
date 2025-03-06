@@ -65,41 +65,36 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLegendViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLegendViewModel } = await import('./legendViewModel');
-        jsComponentRef = await buildJsLegendViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLegendViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
         dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.layerInfos)) {
         let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
         dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendViewModel.basemapLegendVisible = jsObject.basemapLegendVisible;
     }
+    
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetLegendViewModel.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }
+    
     if (hasValue(jsObject.respectLayerVisibility)) {
         dotNetLegendViewModel.respectLayerVisibility = jsObject.respectLayerVisibility;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetLegendViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLegendViewModel.id = geoBlazorId;
     }

@@ -50,28 +50,19 @@ export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetInclusionModeDefinition: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsInclusionModeDefinition } = await import('./inclusionModeDefinition');
-        jsComponentRef = await buildJsInclusionModeDefinition(jsObject, layerId, viewId);
-    }
-    
-    let dotNetInclusionModeDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.namedTypeDefinitions)) {
         let { buildDotNetLayerInclusionDefinition } = await import('./layerInclusionDefinition');
         dotNetInclusionModeDefinition.namedTypeDefinitions = await buildDotNetLayerInclusionDefinition(jsObject.namedTypeDefinitions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.generateAllSublayers)) {
         dotNetInclusionModeDefinition.generateAllSublayers = jsObject.generateAllSublayers;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetInclusionModeDefinition.id = geoBlazorId;
     }

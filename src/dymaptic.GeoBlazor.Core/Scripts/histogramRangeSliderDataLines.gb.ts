@@ -49,27 +49,18 @@ export async function buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHistogramRangeSliderDataLines: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
-        jsComponentRef = await buildJsHistogramRangeSliderDataLines(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHistogramRangeSliderDataLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetHistogramRangeSliderDataLines.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetHistogramRangeSliderDataLines.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHistogramRangeSliderDataLines.id = geoBlazorId;
     }

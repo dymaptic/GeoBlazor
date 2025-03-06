@@ -55,31 +55,23 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValueInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
-        jsComponentRef = await buildJsUniqueValueInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValueInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueInfo.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetUniqueValueInfo.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueInfo.id = geoBlazorId;
     }

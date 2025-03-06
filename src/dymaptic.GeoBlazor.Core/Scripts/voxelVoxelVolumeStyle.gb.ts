@@ -59,38 +59,32 @@ export async function buildDotNetVoxelVoxelVolumeStyleGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVoxelVoxelVolumeStyle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
-        jsComponentRef = await buildJsVoxelVoxelVolumeStyle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVoxelVoxelVolumeStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.dynamicSections)) {
         let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
         dotNetVoxelVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.slices)) {
         let { buildDotNetVoxelSlice } = await import('./voxelSlice');
         dotNetVoxelVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.verticalExaggeration)) {
         dotNetVoxelVoxelVolumeStyle.verticalExaggeration = jsObject.verticalExaggeration;
     }
+    
     if (hasValue(jsObject.verticalOffset)) {
         dotNetVoxelVoxelVolumeStyle.verticalOffset = jsObject.verticalOffset;
     }
+    
     if (hasValue(jsObject.volumeId)) {
         dotNetVoxelVoxelVolumeStyle.volumeId = jsObject.volumeId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVoxelVoxelVolumeStyle.id = geoBlazorId;
     }

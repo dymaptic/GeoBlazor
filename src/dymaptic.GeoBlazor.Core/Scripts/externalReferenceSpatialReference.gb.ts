@@ -55,33 +55,26 @@ export async function buildDotNetExternalReferenceSpatialReferenceGenerated(jsOb
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetExternalReferenceSpatialReference: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
-        jsComponentRef = await buildJsExternalReferenceSpatialReference(jsObject, layerId, viewId);
-    }
-    
-    let dotNetExternalReferenceSpatialReference: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.latestVcsWkid)) {
         dotNetExternalReferenceSpatialReference.latestVcsWkid = jsObject.latestVcsWkid;
     }
+    
     if (hasValue(jsObject.latestWkid)) {
         dotNetExternalReferenceSpatialReference.latestWkid = jsObject.latestWkid;
     }
+    
     if (hasValue(jsObject.vcsWkid)) {
         dotNetExternalReferenceSpatialReference.vcsWkid = jsObject.vcsWkid;
     }
+    
     if (hasValue(jsObject.wkid)) {
         dotNetExternalReferenceSpatialReference.wkid = jsObject.wkid;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetExternalReferenceSpatialReference.id = geoBlazorId;
     }

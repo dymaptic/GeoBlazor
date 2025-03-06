@@ -49,27 +49,18 @@ export async function buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIconSymbol3DLayerAnchorPosition: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
-        jsComponentRef = await buildJsIconSymbol3DLayerAnchorPosition(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIconSymbol3DLayerAnchorPosition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetIconSymbol3DLayerAnchorPosition.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetIconSymbol3DLayerAnchorPosition.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIconSymbol3DLayerAnchorPosition.id = geoBlazorId;
     }

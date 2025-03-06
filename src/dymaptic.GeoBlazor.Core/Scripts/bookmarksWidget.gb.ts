@@ -339,75 +339,80 @@ export async function buildDotNetBookmarksWidgetGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBookmarksWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBookmarksWidget } = await import('./bookmarksWidget');
-        jsComponentRef = await buildJsBookmarksWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBookmarksWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
         dotNetBookmarksWidget.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
     }
+    
     if (hasValue(jsObject.defaultCreateOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         dotNetBookmarksWidget.defaultCreateOptions = await buildDotNetBookmarkOptions(jsObject.defaultCreateOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.defaultEditOptions)) {
         let { buildDotNetBookmarkOptions } = await import('./bookmarkOptions');
         dotNetBookmarksWidget.defaultEditOptions = await buildDotNetBookmarkOptions(jsObject.defaultEditOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetBookmarksWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
         dotNetBookmarksWidget.viewModel = await buildDotNetBookmarksViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
         dotNetBookmarksWidget.visibleElements = await buildDotNetBookmarksVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetBookmarksWidget.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBookmarksWidget.dragEnabled = jsObject.dragEnabled;
     }
+    
     if (hasValue(jsObject.filterPlaceholder)) {
         dotNetBookmarksWidget.filterPlaceholder = jsObject.filterPlaceholder;
     }
+    
     if (hasValue(jsObject.filterText)) {
         dotNetBookmarksWidget.filterText = jsObject.filterText;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetBookmarksWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetBookmarksWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetBookmarksWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBookmarksWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetBookmarksWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBookmarksWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBookmarksWidget.id = geoBlazorId;
     }

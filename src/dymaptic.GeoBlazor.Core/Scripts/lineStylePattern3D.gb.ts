@@ -48,27 +48,18 @@ export async function buildDotNetLineStylePattern3DGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLineStylePattern3D: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLineStylePattern3D } = await import('./lineStylePattern3D');
-        jsComponentRef = await buildJsLineStylePattern3D(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLineStylePattern3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.style)) {
         dotNetLineStylePattern3D.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLineStylePattern3D.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLineStylePattern3D.id = geoBlazorId;
     }

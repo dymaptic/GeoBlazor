@@ -52,30 +52,22 @@ export async function buildDotNetClassBreakGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetClassBreak: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsClassBreak } = await import('./classBreak');
-        jsComponentRef = await buildJsClassBreak(jsObject, layerId, viewId);
-    }
-    
-    let dotNetClassBreak: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetClassBreak.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.maxValue)) {
         dotNetClassBreak.maxValue = jsObject.maxValue;
     }
+    
     if (hasValue(jsObject.minValue)) {
         dotNetClassBreak.minValue = jsObject.minValue;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetClassBreak.id = geoBlazorId;
     }

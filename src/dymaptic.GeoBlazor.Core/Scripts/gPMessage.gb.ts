@@ -48,27 +48,18 @@ export async function buildDotNetGPMessageGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGPMessage: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGPMessage } = await import('./gPMessage');
-        jsComponentRef = await buildJsGPMessage(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGPMessage: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.description)) {
         dotNetGPMessage.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetGPMessage.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGPMessage.id = geoBlazorId;
     }

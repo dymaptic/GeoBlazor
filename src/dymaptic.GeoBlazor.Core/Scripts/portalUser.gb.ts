@@ -202,72 +202,78 @@ export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPortalUser: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPortalUser } = await import('./portalUser');
-        jsComponentRef = await buildJsPortalUser(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPortalUser: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.access)) {
         dotNetPortalUser.access = jsObject.access;
     }
+    
     if (hasValue(jsObject.created)) {
         dotNetPortalUser.created = jsObject.created;
     }
+    
     if (hasValue(jsObject.culture)) {
         dotNetPortalUser.culture = jsObject.culture;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetPortalUser.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.email)) {
         dotNetPortalUser.email = jsObject.email;
     }
+    
     if (hasValue(jsObject.fullName)) {
         dotNetPortalUser.fullName = jsObject.fullName;
     }
+    
     if (hasValue(jsObject.modified)) {
         dotNetPortalUser.modified = jsObject.modified;
     }
+    
     if (hasValue(jsObject.orgId)) {
         dotNetPortalUser.orgId = jsObject.orgId;
     }
+    
     if (hasValue(jsObject.preferredView)) {
         dotNetPortalUser.preferredView = jsObject.preferredView;
     }
+    
     if (hasValue(jsObject.privileges)) {
         dotNetPortalUser.privileges = jsObject.privileges;
     }
+    
     if (hasValue(jsObject.region)) {
         dotNetPortalUser.region = jsObject.region;
     }
+    
     if (hasValue(jsObject.role)) {
         dotNetPortalUser.role = jsObject.role;
     }
+    
     if (hasValue(jsObject.roleId)) {
         dotNetPortalUser.roleId = jsObject.roleId;
     }
+    
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetPortalUser.thumbnailUrl = jsObject.thumbnailUrl;
     }
+    
     if (hasValue(jsObject.units)) {
         dotNetPortalUser.units = jsObject.units;
     }
+    
     if (hasValue(jsObject.userContentUrl)) {
         dotNetPortalUser.userContentUrl = jsObject.userContentUrl;
     }
+    
     if (hasValue(jsObject.username)) {
         dotNetPortalUser.username = jsObject.username;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPortalUser.id = geoBlazorId;
     }

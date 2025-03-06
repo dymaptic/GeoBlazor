@@ -130,32 +130,24 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHomeViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHomeViewModel } = await import('./homeViewModel');
-        jsComponentRef = await buildJsHomeViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHomeViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetHomeViewModel.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetHomeViewModel.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetHomeViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHomeViewModel.id = geoBlazorId;
     }

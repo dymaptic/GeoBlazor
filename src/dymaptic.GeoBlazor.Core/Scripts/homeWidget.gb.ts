@@ -239,51 +239,49 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHomeWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHomeWidget } = await import('./homeWidget');
-        jsComponentRef = await buildJsHomeWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHomeWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetHomeWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
         dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
         dotNetHomeWidget.viewpoint = buildDotNetViewpoint(jsObject.viewpoint);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetHomeWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetHomeWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetHomeWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.uiStrings)) {
         dotNetHomeWidget.uiStrings = jsObject.uiStrings;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetHomeWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetHomeWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHomeWidget.id = geoBlazorId;
     }

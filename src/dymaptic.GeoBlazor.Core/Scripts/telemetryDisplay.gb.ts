@@ -60,36 +60,30 @@ export async function buildDotNetTelemetryDisplayGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTelemetryDisplay: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTelemetryDisplay } = await import('./telemetryDisplay');
-        jsComponentRef = await buildJsTelemetryDisplay(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTelemetryDisplay: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.frameCenter)) {
         dotNetTelemetryDisplay.frameCenter = jsObject.frameCenter;
     }
+    
     if (hasValue(jsObject.frameOutline)) {
         dotNetTelemetryDisplay.frameOutline = jsObject.frameOutline;
     }
+    
     if (hasValue(jsObject.lineOfSight)) {
         dotNetTelemetryDisplay.lineOfSight = jsObject.lineOfSight;
     }
+    
     if (hasValue(jsObject.sensorLocation)) {
         dotNetTelemetryDisplay.sensorLocation = jsObject.sensorLocation;
     }
+    
     if (hasValue(jsObject.sensorTrail)) {
         dotNetTelemetryDisplay.sensorTrail = jsObject.sensorTrail;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTelemetryDisplay.id = geoBlazorId;
     }

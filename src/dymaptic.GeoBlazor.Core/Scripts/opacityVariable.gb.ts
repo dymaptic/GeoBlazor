@@ -65,44 +65,40 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOpacityVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOpacityVariable } = await import('./opacityVariable');
-        jsComponentRef = await buildJsOpacityVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOpacityVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.stops)) {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
         dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetOpacityVariable.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetOpacityVariable.normalizationField = jsObject.normalizationField;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetOpacityVariable.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetOpacityVariable.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOpacityVariable.id = geoBlazorId;
     }

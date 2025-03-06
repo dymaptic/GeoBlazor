@@ -52,30 +52,22 @@ export async function buildDotNetDirectionalPadVisibleElementsGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDirectionalPadVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
-        jsComponentRef = await buildJsDirectionalPadVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDirectionalPadVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.directionalButtons)) {
         dotNetDirectionalPadVisibleElements.directionalButtons = jsObject.directionalButtons;
     }
+    
     if (hasValue(jsObject.rotationResetButton)) {
         dotNetDirectionalPadVisibleElements.rotationResetButton = jsObject.rotationResetButton;
     }
+    
     if (hasValue(jsObject.rotationSlider)) {
         dotNetDirectionalPadVisibleElements.rotationSlider = jsObject.rotationSlider;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDirectionalPadVisibleElements.id = geoBlazorId;
     }

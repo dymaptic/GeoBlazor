@@ -49,27 +49,18 @@ export async function buildDotNetPixelValueRangeMapGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPixelValueRangeMap: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPixelValueRangeMap } = await import('./pixelValueRangeMap');
-        jsComponentRef = await buildJsPixelValueRangeMap(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPixelValueRangeMap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.output)) {
         dotNetPixelValueRangeMap.output = jsObject.output;
     }
+    
     if (hasValue(jsObject.range)) {
         dotNetPixelValueRangeMap.range = jsObject.range;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPixelValueRangeMap.id = geoBlazorId;
     }

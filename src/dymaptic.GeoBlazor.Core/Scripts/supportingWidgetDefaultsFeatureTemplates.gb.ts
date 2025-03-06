@@ -53,31 +53,23 @@ export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesGenerat
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSupportingWidgetDefaultsFeatureTemplates: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
-        jsComponentRef = await buildJsSupportingWidgetDefaultsFeatureTemplates(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSupportingWidgetDefaultsFeatureTemplates: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements');
         dotNetSupportingWidgetDefaultsFeatureTemplates.visibleElements = await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.enableListScroll)) {
         dotNetSupportingWidgetDefaultsFeatureTemplates.enableListScroll = jsObject.enableListScroll;
     }
+    
     if (hasValue(jsObject.groupBy)) {
         dotNetSupportingWidgetDefaultsFeatureTemplates.groupBy = jsObject.groupBy;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSupportingWidgetDefaultsFeatureTemplates.id = geoBlazorId;
     }

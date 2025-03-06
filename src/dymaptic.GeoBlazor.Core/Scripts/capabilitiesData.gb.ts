@@ -55,33 +55,26 @@ export async function buildDotNetCapabilitiesDataGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesData: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesData } = await import('./capabilitiesData');
-        jsComponentRef = await buildJsCapabilitiesData(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesData: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.isVersioned)) {
         dotNetCapabilitiesData.isVersioned = jsObject.isVersioned;
     }
+    
     if (hasValue(jsObject.supportsAttachment)) {
         dotNetCapabilitiesData.supportsAttachment = jsObject.supportsAttachment;
     }
+    
     if (hasValue(jsObject.supportsM)) {
         dotNetCapabilitiesData.supportsM = jsObject.supportsM;
     }
+    
     if (hasValue(jsObject.supportsZ)) {
         dotNetCapabilitiesData.supportsZ = jsObject.supportsZ;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesData.id = geoBlazorId;
     }

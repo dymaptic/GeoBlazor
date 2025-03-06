@@ -55,33 +55,26 @@ export async function buildDotNetCoordinateConversionVisibleElementsGenerated(js
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCoordinateConversionVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCoordinateConversionVisibleElements } = await import('./coordinateConversionVisibleElements');
-        jsComponentRef = await buildJsCoordinateConversionVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCoordinateConversionVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.captureButton)) {
         dotNetCoordinateConversionVisibleElements.captureButton = jsObject.captureButton;
     }
+    
     if (hasValue(jsObject.editButton)) {
         dotNetCoordinateConversionVisibleElements.editButton = jsObject.editButton;
     }
+    
     if (hasValue(jsObject.expandButton)) {
         dotNetCoordinateConversionVisibleElements.expandButton = jsObject.expandButton;
     }
+    
     if (hasValue(jsObject.settingsButton)) {
         dotNetCoordinateConversionVisibleElements.settingsButton = jsObject.settingsButton;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCoordinateConversionVisibleElements.id = geoBlazorId;
     }

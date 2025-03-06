@@ -55,33 +55,26 @@ export async function buildDotNetFeatureServiceCapabilitiesEditingGenerated(jsOb
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureServiceCapabilitiesEditing: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
-        jsComponentRef = await buildJsFeatureServiceCapabilitiesEditing(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureServiceCapabilitiesEditing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsAsyncApplyEdits)) {
         dotNetFeatureServiceCapabilitiesEditing.supportsAsyncApplyEdits = jsObject.supportsAsyncApplyEdits;
     }
+    
     if (hasValue(jsObject.supportsGlobalId)) {
         dotNetFeatureServiceCapabilitiesEditing.supportsGlobalId = jsObject.supportsGlobalId;
     }
+    
     if (hasValue(jsObject.supportsReturnServiceEditsInSourceSpatialReference)) {
         dotNetFeatureServiceCapabilitiesEditing.supportsReturnServiceEditsInSourceSpatialReference = jsObject.supportsReturnServiceEditsInSourceSpatialReference;
     }
+    
     if (hasValue(jsObject.supportsSplit)) {
         dotNetFeatureServiceCapabilitiesEditing.supportsSplit = jsObject.supportsSplit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilitiesEditing.id = geoBlazorId;
     }

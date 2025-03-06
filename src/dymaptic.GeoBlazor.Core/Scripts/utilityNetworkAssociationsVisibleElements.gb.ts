@@ -54,32 +54,24 @@ export async function buildDotNetUtilityNetworkAssociationsVisibleElementsGenera
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUtilityNetworkAssociationsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUtilityNetworkAssociationsVisibleElements } = await import('./utilityNetworkAssociationsVisibleElements');
-        jsComponentRef = await buildJsUtilityNetworkAssociationsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUtilityNetworkAssociationsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.connectivityAssociationsSettings)) {
         let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
         dotNetUtilityNetworkAssociationsVisibleElements.connectivityAssociationsSettings = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsObject.connectivityAssociationsSettings, layerId, viewId);
     }
+    
     if (hasValue(jsObject.structuralAttachmentAssociationsSettings)) {
         let { buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings } = await import('./visibleElementsStructuralAttachmentAssociationsSettings');
         dotNetUtilityNetworkAssociationsVisibleElements.structuralAttachmentAssociationsSettings = await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsObject.structuralAttachmentAssociationsSettings, layerId, viewId);
     }
+    
     if (hasValue(jsObject.maxAllowableAssociationsSlider)) {
         dotNetUtilityNetworkAssociationsVisibleElements.maxAllowableAssociationsSlider = jsObject.maxAllowableAssociationsSlider;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUtilityNetworkAssociationsVisibleElements.id = geoBlazorId;
     }

@@ -205,66 +205,69 @@ export async function buildDotNetCircleGenerated(jsObject: any, layerId: string 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCircle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCircle } = await import('./circle');
-        jsComponentRef = await buildJsCircle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCircle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.center)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetCircle.center = buildDotNetPoint(jsObject.center);
     }
+    
     if (hasValue(jsObject.centroid)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetCircle.centroid = buildDotNetPoint(jsObject.centroid);
     }
+    
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetCircle.extent = buildDotNetExtent(jsObject.extent);
     }
+    
     if (hasValue(jsObject.cache)) {
         dotNetCircle.cache = jsObject.cache;
     }
+    
     if (hasValue(jsObject.geodesic)) {
         dotNetCircle.geodesic = jsObject.geodesic;
     }
+    
     if (hasValue(jsObject.hasM)) {
         dotNetCircle.hasM = jsObject.hasM;
     }
+    
     if (hasValue(jsObject.hasZ)) {
         dotNetCircle.hasZ = jsObject.hasZ;
     }
+    
     if (hasValue(jsObject.isSelfIntersecting)) {
         dotNetCircle.isSelfIntersecting = jsObject.isSelfIntersecting;
     }
+    
     if (hasValue(jsObject.numberOfPoints)) {
         dotNetCircle.numberOfPoints = jsObject.numberOfPoints;
     }
+    
     if (hasValue(jsObject.radius)) {
         dotNetCircle.radius = jsObject.radius;
     }
+    
     if (hasValue(jsObject.radiusUnit)) {
         dotNetCircle.radiusUnit = jsObject.radiusUnit;
     }
+    
     if (hasValue(jsObject.rings)) {
         dotNetCircle.rings = jsObject.rings;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetCircle.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetCircle.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCircle.id = geoBlazorId;
     }

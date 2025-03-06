@@ -49,27 +49,18 @@ export async function buildDotNetMagnifierScreenPointGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMagnifierScreenPoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMagnifierScreenPoint } = await import('./magnifierScreenPoint');
-        jsComponentRef = await buildJsMagnifierScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMagnifierScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetMagnifierScreenPoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetMagnifierScreenPoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMagnifierScreenPoint.id = geoBlazorId;
     }

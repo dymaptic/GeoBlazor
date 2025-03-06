@@ -52,30 +52,22 @@ export async function buildDotNetWFSOperationsGetFeatureGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSOperationsGetFeature: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSOperationsGetFeature } = await import('./wFSOperationsGetFeature');
-        jsComponentRef = await buildJsWFSOperationsGetFeature(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSOperationsGetFeature: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.outputFormat)) {
         dotNetWFSOperationsGetFeature.outputFormat = jsObject.outputFormat;
     }
+    
     if (hasValue(jsObject.supportsPagination)) {
         dotNetWFSOperationsGetFeature.supportsPagination = jsObject.supportsPagination;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetWFSOperationsGetFeature.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSOperationsGetFeature.id = geoBlazorId;
     }

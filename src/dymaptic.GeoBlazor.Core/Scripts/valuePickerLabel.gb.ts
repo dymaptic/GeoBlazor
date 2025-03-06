@@ -49,28 +49,19 @@ export async function buildDotNetValuePickerLabelGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerLabel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerLabel } = await import('./valuePickerLabel');
-        jsComponentRef = await buildJsValuePickerLabel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerLabel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.items)) {
         let { buildDotNetLabelitem } = await import('./labelitem');
         dotNetValuePickerLabel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetLabelitem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetValuePickerLabel.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerLabel.id = geoBlazorId;
     }

@@ -58,36 +58,30 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCap
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.geometryMaxBoundingRectangleSizeX)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.geometryMaxBoundingRectangleSizeX = jsObject.geometryMaxBoundingRectangleSizeX;
     }
+    
     if (hasValue(jsObject.geometryMaxBoundingRectangleSizeY)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.geometryMaxBoundingRectangleSizeY = jsObject.geometryMaxBoundingRectangleSizeY;
     }
+    
     if (hasValue(jsObject.supportedGeometryTypes)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.supportedGeometryTypes = jsObject.supportedGeometryTypes;
     }
+    
     if (hasValue(jsObject.supportsMValues)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.supportsMValues = jsObject.supportsMValues;
     }
+    
     if (hasValue(jsObject.supportsZValues)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.supportsZValues = jsObject.supportsZValues;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.id = geoBlazorId;
     }

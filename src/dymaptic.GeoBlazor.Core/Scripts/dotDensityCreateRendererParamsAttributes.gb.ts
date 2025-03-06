@@ -55,33 +55,26 @@ export async function buildDotNetDotDensityCreateRendererParamsAttributesGenerat
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDotDensityCreateRendererParamsAttributes: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
-        jsComponentRef = await buildJsDotDensityCreateRendererParamsAttributes(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDotDensityCreateRendererParamsAttributes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field)) {
         dotNetDotDensityCreateRendererParamsAttributes.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetDotDensityCreateRendererParamsAttributes.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetDotDensityCreateRendererParamsAttributes.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetDotDensityCreateRendererParamsAttributes.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDotDensityCreateRendererParamsAttributes.id = geoBlazorId;
     }

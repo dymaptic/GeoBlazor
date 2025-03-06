@@ -52,31 +52,23 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapGalleryItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
-        jsComponentRef = await buildJsBasemapGalleryItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapGalleryItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.basemap)) {
         let { buildDotNetBasemap } = await import('./basemap');
         dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap, layerId, viewId);
     }
+    
     if (hasValue(jsObject.error)) {
         dotNetBasemapGalleryItem.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetBasemapGalleryItem.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapGalleryItem.id = geoBlazorId;
     }

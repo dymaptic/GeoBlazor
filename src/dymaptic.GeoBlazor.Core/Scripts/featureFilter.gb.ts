@@ -134,44 +134,40 @@ export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureFilter: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureFilter } = await import('./featureFilter');
-        jsComponentRef = await buildJsFeatureFilter(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureFilter: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
         dotNetFeatureFilter.geometry = buildDotNetGeometry(jsObject.geometry);
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetFeatureFilter.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.distance)) {
         dotNetFeatureFilter.distance = jsObject.distance;
     }
+    
     if (hasValue(jsObject.objectIds)) {
         dotNetFeatureFilter.objectIds = jsObject.objectIds;
     }
+    
     if (hasValue(jsObject.spatialRelationship)) {
         dotNetFeatureFilter.spatialRelationship = jsObject.spatialRelationship;
     }
+    
     if (hasValue(jsObject.units)) {
         dotNetFeatureFilter.units = jsObject.units;
     }
+    
     if (hasValue(jsObject.where)) {
         dotNetFeatureFilter.where = jsObject.where;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureFilter.id = geoBlazorId;
     }

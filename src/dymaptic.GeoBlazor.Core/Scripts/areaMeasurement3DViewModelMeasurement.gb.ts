@@ -54,32 +54,24 @@ export async function buildDotNetAreaMeasurement3DViewModelMeasurementGenerated(
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement3DViewModelMeasurement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement3DViewModelMeasurement } = await import('./areaMeasurement3DViewModelMeasurement');
-        jsComponentRef = await buildJsAreaMeasurement3DViewModelMeasurement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement3DViewModelMeasurement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         let { buildDotNetAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
         dotNetAreaMeasurement3DViewModelMeasurement.area = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsObject.area, layerId, viewId);
     }
+    
     if (hasValue(jsObject.perimeterLength)) {
         let { buildDotNetAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
         dotNetAreaMeasurement3DViewModelMeasurement.perimeterLength = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsObject.perimeterLength, layerId, viewId);
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetAreaMeasurement3DViewModelMeasurement.mode = jsObject.mode;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement3DViewModelMeasurement.id = geoBlazorId;
     }

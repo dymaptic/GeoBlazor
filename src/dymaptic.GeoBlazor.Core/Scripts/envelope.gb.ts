@@ -55,33 +55,26 @@ export async function buildDotNetEnvelopeGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetEnvelope: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsEnvelope } = await import('./envelope');
-        jsComponentRef = await buildJsEnvelope(jsObject, layerId, viewId);
-    }
-    
-    let dotNetEnvelope: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.xmax)) {
         dotNetEnvelope.xmax = jsObject.xmax;
     }
+    
     if (hasValue(jsObject.xmin)) {
         dotNetEnvelope.xmin = jsObject.xmin;
     }
+    
     if (hasValue(jsObject.ymax)) {
         dotNetEnvelope.ymax = jsObject.ymax;
     }
+    
     if (hasValue(jsObject.ymin)) {
         dotNetEnvelope.ymin = jsObject.ymin;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetEnvelope.id = geoBlazorId;
     }

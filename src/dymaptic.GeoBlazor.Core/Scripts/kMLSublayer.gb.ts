@@ -60,36 +60,30 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKMLSublayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKMLSublayer } = await import('./kMLSublayer');
-        jsComponentRef = await buildJsKMLSublayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKMLSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.description)) {
         dotNetKMLSublayer.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetKMLSublayer.kMLSublayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.networkLink)) {
         dotNetKMLSublayer.networkLink = jsObject.networkLink;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetKMLSublayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetKMLSublayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKMLSublayer.id = geoBlazorId;
     }

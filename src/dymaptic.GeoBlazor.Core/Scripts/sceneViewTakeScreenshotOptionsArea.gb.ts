@@ -55,33 +55,26 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsAreaGenerated(jsO
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewTakeScreenshotOptionsArea: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
-        jsComponentRef = await buildJsSceneViewTakeScreenshotOptionsArea(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewTakeScreenshotOptionsArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.height)) {
         dotNetSceneViewTakeScreenshotOptionsArea.height = jsObject.height;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetSceneViewTakeScreenshotOptionsArea.width = jsObject.width;
     }
+    
     if (hasValue(jsObject.x)) {
         dotNetSceneViewTakeScreenshotOptionsArea.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetSceneViewTakeScreenshotOptionsArea.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewTakeScreenshotOptionsArea.id = geoBlazorId;
     }

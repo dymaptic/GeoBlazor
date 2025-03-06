@@ -665,180 +665,217 @@ export async function buildDotNetGeoJSONLayerGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGeoJSONLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGeoJSONLayer } = await import('./geoJSONLayer');
-        jsComponentRef = await buildJsGeoJSONLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGeoJSONLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetGeoJSONLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
         dotNetGeoJSONLayer.elevationInfo = await buildDotNetGeoJSONLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetGeoJSONLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetGeoJSONLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetGeoJSONLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetGeoJSONLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetGeoJSONLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
+    
     if (hasValue(jsObject.orderBy)) {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         dotNetGeoJSONLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetGeoJSONLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetGeoJSONLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.renderer)) {
         let { buildDotNetRenderer } = await import('./renderer');
         dotNetGeoJSONLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetGeoJSONLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetGeoJSONLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetGeoJSONLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetGeoJSONLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetGeoJSONLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetGeoJSONLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetGeoJSONLayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetGeoJSONLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetGeoJSONLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.dateFieldsTimeZone)) {
         dotNetGeoJSONLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
     }
+    
     if (hasValue(jsObject.definitionExpression)) {
         dotNetGeoJSONLayer.definitionExpression = jsObject.definitionExpression;
     }
+    
     if (hasValue(jsObject.displayField)) {
         dotNetGeoJSONLayer.displayField = jsObject.displayField;
     }
+    
     if (hasValue(jsObject.editingEnabled)) {
         dotNetGeoJSONLayer.editingEnabled = jsObject.editingEnabled;
     }
+    
     if (hasValue(jsObject.featureReduction)) {
         dotNetGeoJSONLayer.featureReduction = jsObject.featureReduction;
     }
+    
     if (hasValue(jsObject.geometryType)) {
         dotNetGeoJSONLayer.geometryType = jsObject.geometryType;
     }
+    
     if (hasValue(jsObject.hasZ)) {
         dotNetGeoJSONLayer.hasZ = jsObject.hasZ;
     }
+    
     if (hasValue(jsObject.isTable)) {
         dotNetGeoJSONLayer.isTable = jsObject.isTable;
     }
+    
     if (hasValue(jsObject.labelsVisible)) {
         dotNetGeoJSONLayer.labelsVisible = jsObject.labelsVisible;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetGeoJSONLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetGeoJSONLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetGeoJSONLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetGeoJSONLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetGeoJSONLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetGeoJSONLayer.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetGeoJSONLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.outFields)) {
         dotNetGeoJSONLayer.outFields = jsObject.outFields;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetGeoJSONLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetGeoJSONLayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetGeoJSONLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
         dotNetGeoJSONLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetGeoJSONLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.templates)) {
         dotNetGeoJSONLayer.templates = jsObject.templates;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetGeoJSONLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetGeoJSONLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetGeoJSONLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.useViewTime)) {
         dotNetGeoJSONLayer.useViewTime = jsObject.useViewTime;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetGeoJSONLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGeoJSONLayer.id = geoBlazorId;
     }

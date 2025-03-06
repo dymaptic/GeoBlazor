@@ -58,34 +58,27 @@ export async function buildDotNetGamepadGamepadSettingsGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGamepadGamepadSettings: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGamepadGamepadSettings } = await import('./gamepadGamepadSettings');
-        jsComponentRef = await buildJsGamepadGamepadSettings(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGamepadGamepadSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.device)) {
         let { buildDotNetGamepadInputDevice } = await import('./gamepadInputDevice');
         dotNetGamepadGamepadSettings.device = await buildDotNetGamepadInputDevice(jsObject.device, layerId, viewId);
     }
+    
     if (hasValue(jsObject.enabled)) {
         dotNetGamepadGamepadSettings.enabled = jsObject.enabled;
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetGamepadGamepadSettings.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.tiltDirection)) {
         dotNetGamepadGamepadSettings.tiltDirection = jsObject.tiltDirection;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGamepadGamepadSettings.id = geoBlazorId;
     }

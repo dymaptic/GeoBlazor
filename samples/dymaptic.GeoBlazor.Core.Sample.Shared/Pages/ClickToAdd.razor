@@ -45,7 +45,7 @@
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/dymaptic_logo.png", "test-1", AddPoint);
         PopupTemplate popupTemplate = new PopupTemplate(
             $"New Point at Long: {point.Longitude!.Value:N2} Lat: {point.Latitude!.Value:N2}", 
-            actions: new[]{ actionButton });
+            actions: [actionButton]);
         
         await _graphic.SetPopupTemplate(popupTemplate);
         await _graphic.SetSymbol(symbol);
@@ -60,5 +60,5 @@
 
     private Graphic? _graphic;
     private GraphicsLayer? _graphicsLayer;
-    private readonly List<Point> _points = new();
+    private readonly List<Point> _points = [];
 }

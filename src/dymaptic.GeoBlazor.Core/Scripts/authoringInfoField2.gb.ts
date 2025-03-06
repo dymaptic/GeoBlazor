@@ -56,34 +56,27 @@ export async function buildDotNetAuthoringInfoField2Generated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAuthoringInfoField2: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAuthoringInfoField2 } = await import('./authoringInfoField2');
-        jsComponentRef = await buildJsAuthoringInfoField2(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAuthoringInfoField2: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetAuthoringInfoField2ClassBreakInfos } = await import('./authoringInfoField2ClassBreakInfos');
         dotNetAuthoringInfoField2.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField2ClassBreakInfos(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetAuthoringInfoField2.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetAuthoringInfoField2.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetAuthoringInfoField2.normalizationField = jsObject.normalizationField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoField2.id = geoBlazorId;
     }

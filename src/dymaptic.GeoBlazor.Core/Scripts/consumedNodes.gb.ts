@@ -49,27 +49,18 @@ export async function buildDotNetConsumedNodesGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConsumedNodes: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConsumedNodes } = await import('./consumedNodes');
-        jsComponentRef = await buildJsConsumedNodes(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConsumedNodes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.optional)) {
         dotNetConsumedNodes.optional = jsObject.optional;
     }
+    
     if (hasValue(jsObject.required)) {
         dotNetConsumedNodes.required = jsObject.required;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConsumedNodes.id = geoBlazorId;
     }

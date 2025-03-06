@@ -196,53 +196,52 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUnknownLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUnknownLayer } = await import('./unknownLayer');
-        jsComponentRef = await buildJsUnknownLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUnknownLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetUnknownLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetUnknownLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetUnknownLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetUnknownLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetUnknownLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetUnknownLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetUnknownLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetUnknownLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetUnknownLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetUnknownLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUnknownLayer.id = geoBlazorId;
     }

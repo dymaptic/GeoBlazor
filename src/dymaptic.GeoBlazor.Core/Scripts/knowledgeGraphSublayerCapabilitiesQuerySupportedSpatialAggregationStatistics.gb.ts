@@ -52,30 +52,22 @@ export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupporte
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-        jsComponentRef = await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.centroid)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.centroid = jsObject.centroid;
     }
+    
     if (hasValue(jsObject.convexHull)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.convexHull = jsObject.convexHull;
     }
+    
     if (hasValue(jsObject.envelope)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.envelope = jsObject.envelope;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.id = geoBlazorId;
     }

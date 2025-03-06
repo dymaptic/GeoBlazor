@@ -60,36 +60,29 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureEffect: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureEffect } = await import('./featureEffect');
-        jsComponentRef = await buildJsFeatureEffect(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureEffect: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.excludedEffect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetFeatureEffect.excludedEffect = jsObject.excludedEffect.map(i => buildDotNetEffect(i));
     }
+    
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
         dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
     }
+    
     if (hasValue(jsObject.includedEffect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetFeatureEffect.includedEffect = jsObject.includedEffect.map(i => buildDotNetEffect(i));
     }
+    
     if (hasValue(jsObject.excludedLabelsVisible)) {
         dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureEffect.id = geoBlazorId;
     }

@@ -53,34 +53,27 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetScaleDependentStops: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsScaleDependentStops } = await import('./scaleDependentStops');
-        jsComponentRef = await buildJsScaleDependentStops(jsObject, layerId, viewId);
-    }
-    
-    let dotNetScaleDependentStops: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
         dotNetScaleDependentStops.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.target)) {
         dotNetScaleDependentStops.target = jsObject.target;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetScaleDependentStops.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetScaleDependentStops.valueExpression = jsObject.valueExpression;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetScaleDependentStops.id = geoBlazorId;
     }

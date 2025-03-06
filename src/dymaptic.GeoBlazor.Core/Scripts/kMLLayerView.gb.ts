@@ -126,43 +126,39 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKMLLayerView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKMLLayerView } = await import('./kMLLayerView');
-        jsComponentRef = await buildJsKMLLayerView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKMLLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.allVisibleMapImages)) {
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
         dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetKMLLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
     }
+    
     if (hasValue(jsObject.suspended)) {
         dotNetKMLLayerView.suspended = jsObject.suspended;
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetKMLLayerView.updating = jsObject.updating;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetKMLLayerView.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentScale)) {
         dotNetKMLLayerView.visibleAtCurrentScale = jsObject.visibleAtCurrentScale;
     }
+    
     if (hasValue(jsObject.visibleAtCurrentTimeExtent)) {
         dotNetKMLLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayerView.id = geoBlazorId;
     }

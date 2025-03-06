@@ -46,24 +46,14 @@ export async function buildDotNetSlideGroundGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSlideGround: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSlideGround } = await import('./slideGround');
-        jsComponentRef = await buildJsSlideGround(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSlideGround: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.opacity)) {
         dotNetSlideGround.opacity = jsObject.opacity;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSlideGround.id = geoBlazorId;
     }

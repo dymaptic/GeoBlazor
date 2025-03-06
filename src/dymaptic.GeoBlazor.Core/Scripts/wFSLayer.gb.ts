@@ -617,169 +617,203 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSLayer } = await import('./wFSLayer');
-        jsComponentRef = await buildJsWFSLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetWFSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
         dotNetWFSLayer.elevationInfo = await buildDotNetWFSLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetWFSLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetWFSLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWFSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetWFSLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
+    
     if (hasValue(jsObject.orderBy)) {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         dotNetWFSLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.renderer)) {
         let { buildDotNetRenderer } = await import('./renderer');
         dotNetWFSLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWFSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.wfsCapabilities)) {
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
         dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities, layerId, viewId);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWFSLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetWFSLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetWFSLayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetWFSLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetWFSLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.dateFieldsTimeZone)) {
         dotNetWFSLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
     }
+    
     if (hasValue(jsObject.definitionExpression)) {
         dotNetWFSLayer.definitionExpression = jsObject.definitionExpression;
     }
+    
     if (hasValue(jsObject.displayField)) {
         dotNetWFSLayer.displayField = jsObject.displayField;
     }
+    
     if (hasValue(jsObject.featureReduction)) {
         dotNetWFSLayer.featureReduction = jsObject.featureReduction;
     }
+    
     if (hasValue(jsObject.geometryType)) {
         dotNetWFSLayer.geometryType = jsObject.geometryType;
     }
+    
     if (hasValue(jsObject.labelsVisible)) {
         dotNetWFSLayer.labelsVisible = jsObject.labelsVisible;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetWFSLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetWFSLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWFSLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxPageCount)) {
         dotNetWFSLayer.maxPageCount = jsObject.maxPageCount;
     }
+    
     if (hasValue(jsObject.maxRecordCount)) {
         dotNetWFSLayer.maxRecordCount = jsObject.maxRecordCount;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetWFSLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetWFSLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetWFSLayer.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.namespaceUri)) {
         dotNetWFSLayer.namespaceUri = jsObject.namespaceUri;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetWFSLayer.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetWFSLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.outFields)) {
         dotNetWFSLayer.outFields = jsObject.outFields;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetWFSLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetWFSLayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetWFSLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
         dotNetWFSLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetWFSLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWFSLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetWFSLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetWFSLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetWFSLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSLayer.id = geoBlazorId;
     }

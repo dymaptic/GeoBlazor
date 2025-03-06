@@ -52,30 +52,22 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabi
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
-        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesIndexCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsDescendingIndex)) {
         dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities.supportsDescendingIndex = jsObject.supportsDescendingIndex;
     }
+    
     if (hasValue(jsObject.supportsRelationshipIndex)) {
         dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities.supportsRelationshipIndex = jsObject.supportsRelationshipIndex;
     }
+    
     if (hasValue(jsObject.supportsUniqueRelationshipConstraint)) {
         dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities.supportsUniqueRelationshipConstraint = jsObject.supportsUniqueRelationshipConstraint;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesIndexCapabilities.id = geoBlazorId;
     }

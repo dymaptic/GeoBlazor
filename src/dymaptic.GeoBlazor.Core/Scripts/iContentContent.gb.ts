@@ -43,21 +43,10 @@ export async function buildDotNetIContentContentGenerated(jsObject: any, layerId
         return null;
     }
     
+    let dotNetIContentContent: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIContentContent } = await import('./iContentContent');
-        jsComponentRef = await buildJsIContentContent(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIContentContent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetIContentContent.id = geoBlazorId;
     }

@@ -362,96 +362,108 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerListWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerListWidget } = await import('./layerListWidget');
-        jsComponentRef = await buildJsLayerListWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerListWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.catalogOptions)) {
         let { buildDotNetLayerListCatalogOptions } = await import('./layerListCatalogOptions');
         dotNetLayerListWidget.catalogOptions = await buildDotNetLayerListCatalogOptions(jsObject.catalogOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.knowledgeGraphOptions)) {
         let { buildDotNetLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
         dotNetLayerListWidget.knowledgeGraphOptions = await buildDotNetLayerListKnowledgeGraphOptions(jsObject.knowledgeGraphOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
         dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
         dotNetLayerListWidget.visibleElements = await buildDotNetLayerListVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
     }
+    
     if (hasValue(jsObject.collapsed)) {
         dotNetLayerListWidget.collapsed = jsObject.collapsed;
     }
+    
     if (hasValue(jsObject.dragEnabled)) {
         dotNetLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
+    
     if (hasValue(jsObject.filterPlaceholder)) {
         dotNetLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
     }
+    
     if (hasValue(jsObject.filterText)) {
         dotNetLayerListWidget.filterText = jsObject.filterText;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetLayerListWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetLayerListWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetLayerListWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.listItemCreatedFunction)) {
         dotNetLayerListWidget.listItemCreatedFunction = jsObject.listItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.minDragEnabledItems)) {
         dotNetLayerListWidget.minDragEnabledItems = jsObject.minDragEnabledItems;
     }
+    
     if (hasValue(jsObject.minFilterItems)) {
         dotNetLayerListWidget.minFilterItems = jsObject.minFilterItems;
     }
+    
     if (hasValue(jsObject.selectionMode)) {
         dotNetLayerListWidget.selectionMode = jsObject.selectionMode;
     }
+    
     if (hasValue(jsObject.tableList)) {
         dotNetLayerListWidget.tableList = jsObject.tableList;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLayerListWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visibilityAppearance)) {
         dotNetLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetLayerListWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetLayerListWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerListWidget.id = geoBlazorId;
     }

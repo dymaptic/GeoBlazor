@@ -48,27 +48,18 @@ export async function buildDotNetSunnyWeatherGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSunnyWeather: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSunnyWeather } = await import('./sunnyWeather');
-        jsComponentRef = await buildJsSunnyWeather(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSunnyWeather: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.cloudCover)) {
         dotNetSunnyWeather.cloudCover = jsObject.cloudCover;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSunnyWeather.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSunnyWeather.id = geoBlazorId;
     }

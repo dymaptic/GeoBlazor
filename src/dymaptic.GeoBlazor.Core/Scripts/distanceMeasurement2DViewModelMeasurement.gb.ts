@@ -50,28 +50,19 @@ export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenera
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDistanceMeasurement2DViewModelMeasurement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-        jsComponentRef = await buildJsDistanceMeasurement2DViewModelMeasurement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDistanceMeasurement2DViewModelMeasurement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetPolyline } = await import('./polyline');
         dotNetDistanceMeasurement2DViewModelMeasurement.geometry = buildDotNetPolyline(jsObject.geometry);
     }
+    
     if (hasValue(jsObject.length)) {
         dotNetDistanceMeasurement2DViewModelMeasurement.length = jsObject.length;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDistanceMeasurement2DViewModelMeasurement.id = geoBlazorId;
     }

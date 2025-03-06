@@ -7,7 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///          Name of the default drawing tool defined for the template to create a feature.
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DrawingTool>))]
+[JsonConverter(typeof(DrawingToolStringConverter))]
 public enum DrawingTool
 {
 #pragma warning disable CS1591

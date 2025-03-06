@@ -112,42 +112,38 @@ export async function buildDotNetCredentialGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCredential: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCredential } = await import('./credential');
-        jsComponentRef = await buildJsCredential(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCredential: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expires)) {
         dotNetCredential.expires = jsObject.expires;
     }
+    
     if (hasValue(jsObject.isAdmin)) {
         dotNetCredential.isAdmin = jsObject.isAdmin;
     }
+    
     if (hasValue(jsObject.oAuthState)) {
         dotNetCredential.oAuthState = jsObject.oAuthState;
     }
+    
     if (hasValue(jsObject.server)) {
         dotNetCredential.server = jsObject.server;
     }
+    
     if (hasValue(jsObject.ssl)) {
         dotNetCredential.ssl = jsObject.ssl;
     }
+    
     if (hasValue(jsObject.token)) {
         dotNetCredential.token = jsObject.token;
     }
+    
     if (hasValue(jsObject.userId)) {
         dotNetCredential.userId = jsObject.userId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCredential.id = geoBlazorId;
     }

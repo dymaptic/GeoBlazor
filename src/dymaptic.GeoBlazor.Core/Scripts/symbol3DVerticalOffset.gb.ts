@@ -54,30 +54,22 @@ export async function buildDotNetSymbol3DVerticalOffsetGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSymbol3DVerticalOffset: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSymbol3DVerticalOffset } = await import('./symbol3DVerticalOffset');
-        jsComponentRef = await buildJsSymbol3DVerticalOffset(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSymbol3DVerticalOffset: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.maxWorldLength)) {
         dotNetSymbol3DVerticalOffset.maxWorldLength = jsObject.maxWorldLength;
     }
+    
     if (hasValue(jsObject.minWorldLength)) {
         dotNetSymbol3DVerticalOffset.minWorldLength = jsObject.minWorldLength;
     }
+    
     if (hasValue(jsObject.screenLength)) {
         dotNetSymbol3DVerticalOffset.screenLength = jsObject.screenLength;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSymbol3DVerticalOffset.id = geoBlazorId;
     }

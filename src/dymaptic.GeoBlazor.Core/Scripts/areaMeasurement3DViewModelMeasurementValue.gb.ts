@@ -49,27 +49,18 @@ export async function buildDotNetAreaMeasurement3DViewModelMeasurementValueGener
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement3DViewModelMeasurementValue: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
-        jsComponentRef = await buildJsAreaMeasurement3DViewModelMeasurementValue(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement3DViewModelMeasurementValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.state)) {
         dotNetAreaMeasurement3DViewModelMeasurementValue.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.text)) {
         dotNetAreaMeasurement3DViewModelMeasurementValue.text = jsObject.text;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement3DViewModelMeasurementValue.id = geoBlazorId;
     }

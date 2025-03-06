@@ -70,48 +70,46 @@ export async function buildDotNetBaseLayerViewGL2DTileGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBaseLayerViewGL2DTile: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBaseLayerViewGL2DTile } = await import('./baseLayerViewGL2DTile');
-        jsComponentRef = await buildJsBaseLayerViewGL2DTile(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBaseLayerViewGL2DTile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.id)) {
         dotNetBaseLayerViewGL2DTile.baseLayerViewGL2DTileId = jsObject.id;
     }
+    
     if (hasValue(jsObject.bounds)) {
         dotNetBaseLayerViewGL2DTile.bounds = jsObject.bounds;
     }
+    
     if (hasValue(jsObject.col)) {
         dotNetBaseLayerViewGL2DTile.col = jsObject.col;
     }
+    
     if (hasValue(jsObject.coords)) {
         dotNetBaseLayerViewGL2DTile.coords = jsObject.coords;
     }
+    
     if (hasValue(jsObject.level)) {
         dotNetBaseLayerViewGL2DTile.level = jsObject.level;
     }
+    
     if (hasValue(jsObject.resolution)) {
         dotNetBaseLayerViewGL2DTile.resolution = jsObject.resolution;
     }
+    
     if (hasValue(jsObject.row)) {
         dotNetBaseLayerViewGL2DTile.row = jsObject.row;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetBaseLayerViewGL2DTile.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.world)) {
         dotNetBaseLayerViewGL2DTile.world = jsObject.world;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBaseLayerViewGL2DTile.id = geoBlazorId;
     }

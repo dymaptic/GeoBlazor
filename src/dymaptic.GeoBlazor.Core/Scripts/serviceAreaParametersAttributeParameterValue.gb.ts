@@ -52,30 +52,22 @@ export async function buildDotNetServiceAreaParametersAttributeParameterValueGen
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetServiceAreaParametersAttributeParameterValue: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsServiceAreaParametersAttributeParameterValue } = await import('./serviceAreaParametersAttributeParameterValue');
-        jsComponentRef = await buildJsServiceAreaParametersAttributeParameterValue(jsObject, layerId, viewId);
-    }
-    
-    let dotNetServiceAreaParametersAttributeParameterValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.attributeName)) {
         dotNetServiceAreaParametersAttributeParameterValue.attributeName = jsObject.attributeName;
     }
+    
     if (hasValue(jsObject.parameterName)) {
         dotNetServiceAreaParametersAttributeParameterValue.parameterName = jsObject.parameterName;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetServiceAreaParametersAttributeParameterValue.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetServiceAreaParametersAttributeParameterValue.id = geoBlazorId;
     }

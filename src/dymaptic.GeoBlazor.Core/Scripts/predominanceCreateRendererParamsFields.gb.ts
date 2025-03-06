@@ -49,27 +49,18 @@ export async function buildDotNetPredominanceCreateRendererParamsFieldsGenerated
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPredominanceCreateRendererParamsFields: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPredominanceCreateRendererParamsFields } = await import('./predominanceCreateRendererParamsFields');
-        jsComponentRef = await buildJsPredominanceCreateRendererParamsFields(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPredominanceCreateRendererParamsFields: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetPredominanceCreateRendererParamsFields.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetPredominanceCreateRendererParamsFields.name = jsObject.name;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPredominanceCreateRendererParamsFields.id = geoBlazorId;
     }

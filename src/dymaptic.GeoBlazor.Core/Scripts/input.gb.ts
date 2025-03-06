@@ -45,25 +45,15 @@ export async function buildDotNetInputGenerated(jsObject: any, layerId: string |
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsInput } = await import('./input');
-        jsComponentRef = await buildJsInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.gamepad)) {
         let { buildDotNetGamepadSettings } = await import('./gamepadSettings');
         dotNetInput.gamepad = await buildDotNetGamepadSettings(jsObject.gamepad, layerId, viewId);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetInput.id = geoBlazorId;
     }

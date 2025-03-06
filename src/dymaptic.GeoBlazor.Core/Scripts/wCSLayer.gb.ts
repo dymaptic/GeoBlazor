@@ -544,139 +544,163 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWCSLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWCSLayer } = await import('./wCSLayer');
-        jsComponentRef = await buildJsWCSLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWCSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.coverageInfo)) {
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
         dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetWCSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWCSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.multidimensionalDefinition)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
         dotNetWCSLayer.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetWCSLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetWCSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
         dotNetWCSLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWCSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetWCSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetWCSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWCSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWCSLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.bandIds)) {
         dotNetWCSLayer.bandIds = jsObject.bandIds;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetWCSLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetWCSLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.coverageId)) {
         dotNetWCSLayer.coverageId = jsObject.coverageId;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetWCSLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.interpolation)) {
         dotNetWCSLayer.interpolation = jsObject.interpolation;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetWCSLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetWCSLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWCSLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetWCSLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetWCSLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetWCSLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetWCSLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.renderer)) {
         dotNetWCSLayer.renderer = jsObject.renderer;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWCSLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetWCSLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetWCSLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.useViewTime)) {
         dotNetWCSLayer.useViewTime = jsObject.useViewTime;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetWCSLayer.version = jsObject.version;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetWCSLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWCSLayer.id = geoBlazorId;
     }

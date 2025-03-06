@@ -48,27 +48,18 @@ export async function buildDotNetFoggyWeatherGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFoggyWeather: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFoggyWeather } = await import('./foggyWeather');
-        jsComponentRef = await buildJsFoggyWeather(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFoggyWeather: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fogStrength)) {
         dotNetFoggyWeather.fogStrength = jsObject.fogStrength;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetFoggyWeather.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFoggyWeather.id = geoBlazorId;
     }

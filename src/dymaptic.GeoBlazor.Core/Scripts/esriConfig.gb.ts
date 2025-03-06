@@ -90,66 +90,69 @@ export async function buildDotNetEsriConfigGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetEsriConfig: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsEsriConfig } = await import('./esriConfig');
-        jsComponentRef = await buildJsEsriConfig(jsObject, layerId, viewId);
-    }
-    
-    let dotNetEsriConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.log)) {
         let { buildDotNetConfigLog } = await import('./configLog');
         dotNetEsriConfig.log = await buildDotNetConfigLog(jsObject.log, layerId, viewId);
     }
+    
     if (hasValue(jsObject.request)) {
         let { buildDotNetConfigRequest } = await import('./configRequest');
         dotNetEsriConfig.request = await buildDotNetConfigRequest(jsObject.request, layerId, viewId);
     }
+    
     if (hasValue(jsObject.workers)) {
         let { buildDotNetConfigWorkers } = await import('./configWorkers');
         dotNetEsriConfig.workers = await buildDotNetConfigWorkers(jsObject.workers, layerId, viewId);
     }
+    
     if (hasValue(jsObject.apiKey)) {
         dotNetEsriConfig.apiKey = jsObject.apiKey;
     }
+    
     if (hasValue(jsObject.applicationName)) {
         dotNetEsriConfig.applicationName = jsObject.applicationName;
     }
+    
     if (hasValue(jsObject.assetsPath)) {
         dotNetEsriConfig.assetsPath = jsObject.assetsPath;
     }
+    
     if (hasValue(jsObject.fontsUrl)) {
         dotNetEsriConfig.fontsUrl = jsObject.fontsUrl;
     }
+    
     if (hasValue(jsObject.geometryServiceUrl)) {
         dotNetEsriConfig.geometryServiceUrl = jsObject.geometryServiceUrl;
     }
+    
     if (hasValue(jsObject.geoRSSServiceUrl)) {
         dotNetEsriConfig.geoRSSServiceUrl = jsObject.geoRSSServiceUrl;
     }
+    
     if (hasValue(jsObject.kmlServiceUrl)) {
         dotNetEsriConfig.kmlServiceUrl = jsObject.kmlServiceUrl;
     }
+    
     if (hasValue(jsObject.portalUrl)) {
         dotNetEsriConfig.portalUrl = jsObject.portalUrl;
     }
+    
     if (hasValue(jsObject.respectPrefersReducedMotion)) {
         dotNetEsriConfig.respectPrefersReducedMotion = jsObject.respectPrefersReducedMotion;
     }
+    
     if (hasValue(jsObject.routeServiceUrl)) {
         dotNetEsriConfig.routeServiceUrl = jsObject.routeServiceUrl;
     }
+    
     if (hasValue(jsObject.userPrivilegesApplied)) {
         dotNetEsriConfig.userPrivilegesApplied = jsObject.userPrivilegesApplied;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetEsriConfig.id = geoBlazorId;
     }

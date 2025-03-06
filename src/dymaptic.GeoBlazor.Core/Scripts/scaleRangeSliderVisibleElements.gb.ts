@@ -49,27 +49,18 @@ export async function buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetScaleRangeSliderVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsScaleRangeSliderVisibleElements } = await import('./scaleRangeSliderVisibleElements');
-        jsComponentRef = await buildJsScaleRangeSliderVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetScaleRangeSliderVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.preview)) {
         dotNetScaleRangeSliderVisibleElements.preview = jsObject.preview;
     }
+    
     if (hasValue(jsObject.scaleMenus)) {
         dotNetScaleRangeSliderVisibleElements.scaleMenus = jsObject.scaleMenus;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetScaleRangeSliderVisibleElements.id = geoBlazorId;
     }

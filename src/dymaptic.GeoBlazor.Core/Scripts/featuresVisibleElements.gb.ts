@@ -67,45 +67,42 @@ export async function buildDotNetFeaturesVisibleElementsGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeaturesVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeaturesVisibleElements } = await import('./featuresVisibleElements');
-        jsComponentRef = await buildJsFeaturesVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeaturesVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.actionBar)) {
         dotNetFeaturesVisibleElements.actionBar = jsObject.actionBar;
     }
+    
     if (hasValue(jsObject.closeButton)) {
         dotNetFeaturesVisibleElements.closeButton = jsObject.closeButton;
     }
+    
     if (hasValue(jsObject.collapseButton)) {
         dotNetFeaturesVisibleElements.collapseButton = jsObject.collapseButton;
     }
+    
     if (hasValue(jsObject.featureListLayerTitle)) {
         dotNetFeaturesVisibleElements.featureListLayerTitle = jsObject.featureListLayerTitle;
     }
+    
     if (hasValue(jsObject.featureNavigation)) {
         dotNetFeaturesVisibleElements.featureNavigation = jsObject.featureNavigation;
     }
+    
     if (hasValue(jsObject.flow)) {
         dotNetFeaturesVisibleElements.flow = jsObject.flow;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetFeaturesVisibleElements.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.spinner)) {
         dotNetFeaturesVisibleElements.spinner = jsObject.spinner;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeaturesVisibleElements.id = geoBlazorId;
     }

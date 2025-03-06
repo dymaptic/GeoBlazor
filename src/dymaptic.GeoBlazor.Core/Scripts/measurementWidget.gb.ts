@@ -203,52 +203,51 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layer
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMeasurementWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMeasurementWidget } = await import('./measurementWidget');
-        jsComponentRef = await buildJsMeasurementWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMeasurementWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
         dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementWidget.activeTool = jsObject.activeTool;
     }
+    
     if (hasValue(jsObject.activeWidget)) {
         dotNetMeasurementWidget.activeWidget = jsObject.activeWidget;
     }
+    
     if (hasValue(jsObject.areaUnit)) {
         dotNetMeasurementWidget.areaUnit = jsObject.areaUnit;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetMeasurementWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetMeasurementWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.linearUnit)) {
         dotNetMeasurementWidget.linearUnit = jsObject.linearUnit;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetMeasurementWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetMeasurementWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetMeasurementWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMeasurementWidget.id = geoBlazorId;
     }

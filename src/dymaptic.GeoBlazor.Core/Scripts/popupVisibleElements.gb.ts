@@ -64,42 +64,38 @@ export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPopupVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
-        jsComponentRef = await buildJsPopupVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPopupVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.actionBar)) {
         dotNetPopupVisibleElements.actionBar = jsObject.actionBar;
     }
+    
     if (hasValue(jsObject.closeButton)) {
         dotNetPopupVisibleElements.closeButton = jsObject.closeButton;
     }
+    
     if (hasValue(jsObject.collapseButton)) {
         dotNetPopupVisibleElements.collapseButton = jsObject.collapseButton;
     }
+    
     if (hasValue(jsObject.featureListLayerTitle)) {
         dotNetPopupVisibleElements.featureListLayerTitle = jsObject.featureListLayerTitle;
     }
+    
     if (hasValue(jsObject.featureNavigation)) {
         dotNetPopupVisibleElements.featureNavigation = jsObject.featureNavigation;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetPopupVisibleElements.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.spinner)) {
         dotNetPopupVisibleElements.spinner = jsObject.spinner;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPopupVisibleElements.id = geoBlazorId;
     }

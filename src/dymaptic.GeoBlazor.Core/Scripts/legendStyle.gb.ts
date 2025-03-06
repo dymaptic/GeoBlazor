@@ -46,27 +46,18 @@ export async function buildDotNetLegendStyleGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLegendStyle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLegendStyle } = await import('./legendStyle');
-        jsComponentRef = await buildJsLegendStyle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLegendStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.layout)) {
         dotNetLegendStyle.layout = jsObject.layout;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLegendStyle.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLegendStyle.id = geoBlazorId;
     }

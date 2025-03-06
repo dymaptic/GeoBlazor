@@ -255,76 +255,83 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetExpandWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsExpandWidget } = await import('./expandWidget');
-        jsComponentRef = await buildJsExpandWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetExpandWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetExpandViewModel } = await import('./expandViewModel');
         dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.autoCollapse)) {
         dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
     }
+    
     if (hasValue(jsObject.closeOnEsc)) {
         dotNetExpandWidget.closeOnEsc = jsObject.closeOnEsc;
     }
+    
     if (hasValue(jsObject.collapseIcon)) {
         dotNetExpandWidget.collapseIcon = jsObject.collapseIcon;
     }
+    
     if (hasValue(jsObject.collapseTooltip)) {
         dotNetExpandWidget.collapseTooltip = jsObject.collapseTooltip;
     }
+    
     if (hasValue(jsObject.content)) {
         dotNetExpandWidget.content = jsObject.content;
     }
+    
     if (hasValue(jsObject.expanded)) {
         dotNetExpandWidget.expanded = jsObject.expanded;
     }
+    
     if (hasValue(jsObject.expandIcon)) {
         dotNetExpandWidget.expandIcon = jsObject.expandIcon;
     }
+    
     if (hasValue(jsObject.expandTooltip)) {
         dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
     }
+    
     if (hasValue(jsObject.group)) {
         dotNetExpandWidget.group = jsObject.group;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetExpandWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.iconNumber)) {
         dotNetExpandWidget.iconNumber = jsObject.iconNumber;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetExpandWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetExpandWidget.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.placement)) {
         dotNetExpandWidget.placement = jsObject.placement;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetExpandWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetExpandWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetExpandWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetExpandWidget.id = geoBlazorId;
     }

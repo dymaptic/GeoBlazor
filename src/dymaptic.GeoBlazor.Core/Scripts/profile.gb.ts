@@ -47,25 +47,15 @@ export async function buildDotNetProfileGenerated(jsObject: any, layerId: string
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetProfile: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsProfile } = await import('./profile');
-        jsComponentRef = await buildJsProfile(jsObject, layerId, viewId);
-    }
-    
-    let dotNetProfile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.variables)) {
         let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
         dotNetProfile.variables = jsObject.variables.map(i => buildDotNetIProfileVariable(i));
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetProfile.id = geoBlazorId;
     }

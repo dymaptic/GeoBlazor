@@ -59,37 +59,31 @@ export async function buildDotNetExternalReferencePolygonGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetExternalReferencePolygon: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsExternalReferencePolygon } = await import('./externalReferencePolygon');
-        jsComponentRef = await buildJsExternalReferencePolygon(jsObject, layerId, viewId);
-    }
-    
-    let dotNetExternalReferencePolygon: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.spatialReference)) {
         let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
         dotNetExternalReferencePolygon.spatialReference = await buildDotNetExternalReferenceSpatialReference(jsObject.spatialReference, layerId, viewId);
     }
+    
     if (hasValue(jsObject.curveRings)) {
         dotNetExternalReferencePolygon.curveRings = jsObject.curveRings;
     }
+    
     if (hasValue(jsObject.hasM)) {
         dotNetExternalReferencePolygon.hasM = jsObject.hasM;
     }
+    
     if (hasValue(jsObject.hasZ)) {
         dotNetExternalReferencePolygon.hasZ = jsObject.hasZ;
     }
+    
     if (hasValue(jsObject.rings)) {
         dotNetExternalReferencePolygon.rings = jsObject.rings;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetExternalReferencePolygon.id = geoBlazorId;
     }

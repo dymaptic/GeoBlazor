@@ -52,30 +52,22 @@ export async function buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetClassedSizeSliderViewModelBreaks: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsClassedSizeSliderViewModelBreaks } = await import('./classedSizeSliderViewModelBreaks');
-        jsComponentRef = await buildJsClassedSizeSliderViewModelBreaks(jsObject, layerId, viewId);
-    }
-    
-    let dotNetClassedSizeSliderViewModelBreaks: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetClassedSizeSliderViewModelBreaks.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetClassedSizeSliderViewModelBreaks.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetClassedSizeSliderViewModelBreaks.size = jsObject.size;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetClassedSizeSliderViewModelBreaks.id = geoBlazorId;
     }

@@ -52,30 +52,22 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGe
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerListKnowledgeGraphOptionsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-        jsComponentRef = await buildJsLayerListKnowledgeGraphOptionsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerListKnowledgeGraphOptionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.errors)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.errors = jsObject.errors;
     }
+    
     if (hasValue(jsObject.filter)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.filter = jsObject.filter;
     }
+    
     if (hasValue(jsObject.statusIndicators)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.statusIndicators = jsObject.statusIndicators;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.id = geoBlazorId;
     }

@@ -55,33 +55,26 @@ export async function buildDotNetRasterValueToColorGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRasterValueToColor: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRasterValueToColor } = await import('./rasterValueToColor');
-        jsComponentRef = await buildJsRasterValueToColor(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRasterValueToColor: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         dotNetRasterValueToColor.color = jsObject.color;
     }
+    
     if (hasValue(jsObject.outputPixelType)) {
         dotNetRasterValueToColor.outputPixelType = jsObject.outputPixelType;
     }
+    
     if (hasValue(jsObject.raster)) {
         dotNetRasterValueToColor.raster = jsObject.raster;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetRasterValueToColor.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRasterValueToColor.id = geoBlazorId;
     }

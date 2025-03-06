@@ -51,30 +51,22 @@ export async function buildDotNetTextAreaInputGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTextAreaInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTextAreaInput } = await import('./textAreaInput');
-        jsComponentRef = await buildJsTextAreaInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTextAreaInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.maxLength)) {
         dotNetTextAreaInput.maxLength = jsObject.maxLength;
     }
+    
     if (hasValue(jsObject.minLength)) {
         dotNetTextAreaInput.minLength = jsObject.minLength;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetTextAreaInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTextAreaInput.id = geoBlazorId;
     }

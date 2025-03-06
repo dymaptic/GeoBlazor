@@ -99,21 +99,10 @@ export async function buildDotNetHandlesGenerated(jsObject: any, layerId: string
         return null;
     }
     
+    let dotNetHandles: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHandles } = await import('./handles');
-        jsComponentRef = await buildJsHandles(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHandles: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetHandles.id = geoBlazorId;
     }

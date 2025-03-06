@@ -67,45 +67,41 @@ export async function buildDotNetHighlightOptionsGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHighlightOptions: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsComponentRef = await buildJsHighlightOptions(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHighlightOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetHighlightOptions.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.haloColor)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetHighlightOptions.haloColor = buildDotNetMapColor(jsObject.haloColor);
     }
+    
     if (hasValue(jsObject.shadowColor)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetHighlightOptions.shadowColor = buildDotNetMapColor(jsObject.shadowColor);
     }
+    
     if (hasValue(jsObject.fillOpacity)) {
         dotNetHighlightOptions.fillOpacity = jsObject.fillOpacity;
     }
+    
     if (hasValue(jsObject.haloOpacity)) {
         dotNetHighlightOptions.haloOpacity = jsObject.haloOpacity;
     }
+    
     if (hasValue(jsObject.shadowDifference)) {
         dotNetHighlightOptions.shadowDifference = jsObject.shadowDifference;
     }
+    
     if (hasValue(jsObject.shadowOpacity)) {
         dotNetHighlightOptions.shadowOpacity = jsObject.shadowOpacity;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHighlightOptions.id = geoBlazorId;
     }

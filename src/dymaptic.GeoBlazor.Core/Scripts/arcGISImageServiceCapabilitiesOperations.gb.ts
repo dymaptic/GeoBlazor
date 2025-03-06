@@ -97,75 +97,82 @@ export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerat
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetArcGISImageServiceCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
-        jsComponentRef = await buildJsArcGISImageServiceCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetArcGISImageServiceCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsCalculateVolume)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsCalculateVolume = jsObject.supportsCalculateVolume;
     }
+    
     if (hasValue(jsObject.supportsComputeHistograms)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeHistograms = jsObject.supportsComputeHistograms;
     }
+    
     if (hasValue(jsObject.supportsComputePixelLocation)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsComputePixelLocation = jsObject.supportsComputePixelLocation;
     }
+    
     if (hasValue(jsObject.supportsComputeStatisticsHistograms)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsComputeStatisticsHistograms = jsObject.supportsComputeStatisticsHistograms;
     }
+    
     if (hasValue(jsObject.supportsDownload)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsDownload = jsObject.supportsDownload;
     }
+    
     if (hasValue(jsObject.supportsExportImage)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsExportImage = jsObject.supportsExportImage;
     }
+    
     if (hasValue(jsObject.supportsFindImages)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsFindImages = jsObject.supportsFindImages;
     }
+    
     if (hasValue(jsObject.supportsGetImageUrl)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsGetImageUrl = jsObject.supportsGetImageUrl;
     }
+    
     if (hasValue(jsObject.supportsGetSamples)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsGetSamples = jsObject.supportsGetSamples;
     }
+    
     if (hasValue(jsObject.supportsIdentify)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsIdentify = jsObject.supportsIdentify;
     }
+    
     if (hasValue(jsObject.supportsImageToMap)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMap = jsObject.supportsImageToMap;
     }
+    
     if (hasValue(jsObject.supportsImageToMapMultiray)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsImageToMapMultiray = jsObject.supportsImageToMapMultiray;
     }
+    
     if (hasValue(jsObject.supportsMapToImage)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsMapToImage = jsObject.supportsMapToImage;
     }
+    
     if (hasValue(jsObject.supportsMeasure)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsMeasure = jsObject.supportsMeasure;
     }
+    
     if (hasValue(jsObject.supportsProject)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsProject = jsObject.supportsProject;
     }
+    
     if (hasValue(jsObject.supportsQuery)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
     }
+    
     if (hasValue(jsObject.supportsQueryBoundary)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryBoundary = jsObject.supportsQueryBoundary;
     }
+    
     if (hasValue(jsObject.supportsQueryGPSInfo)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = jsObject.supportsQueryGPSInfo;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetArcGISImageServiceCapabilitiesOperations.id = geoBlazorId;
     }

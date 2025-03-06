@@ -54,30 +54,22 @@ export async function buildDotNetGeotriggersInfoExpressionInfoGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGeotriggersInfoExpressionInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
-        jsComponentRef = await buildJsGeotriggersInfoExpressionInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGeotriggersInfoExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expression)) {
         dotNetGeotriggersInfoExpressionInfo.expression = jsObject.expression;
     }
+    
     if (hasValue(jsObject.returnType)) {
         dotNetGeotriggersInfoExpressionInfo.returnType = jsObject.returnType;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetGeotriggersInfoExpressionInfo.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGeotriggersInfoExpressionInfo.id = geoBlazorId;
     }

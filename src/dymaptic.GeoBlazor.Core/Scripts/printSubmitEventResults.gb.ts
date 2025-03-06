@@ -47,25 +47,15 @@ export async function buildDotNetPrintSubmitEventResultsGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPrintSubmitEventResults: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPrintSubmitEventResults } = await import('./printSubmitEventResults');
-        jsComponentRef = await buildJsPrintSubmitEventResults(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPrintSubmitEventResults: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.link)) {
         let { buildDotNetFileLink } = await import('./fileLink');
         dotNetPrintSubmitEventResults.link = await Promise.all(jsObject.link.map(async i => await buildDotNetFileLink(i, layerId, viewId)));
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPrintSubmitEventResults.id = geoBlazorId;
     }

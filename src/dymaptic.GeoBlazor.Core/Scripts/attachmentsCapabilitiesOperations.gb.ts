@@ -52,30 +52,22 @@ export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsOb
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAttachmentsCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAttachmentsCapabilitiesOperations } = await import('./attachmentsCapabilitiesOperations');
-        jsComponentRef = await buildJsAttachmentsCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAttachmentsCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.add)) {
         dotNetAttachmentsCapabilitiesOperations.add = jsObject.add;
     }
+    
     if (hasValue(jsObject.delete)) {
         dotNetAttachmentsCapabilitiesOperations.delete = jsObject.delete;
     }
+    
     if (hasValue(jsObject.update)) {
         dotNetAttachmentsCapabilitiesOperations.update = jsObject.update;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAttachmentsCapabilitiesOperations.id = geoBlazorId;
     }

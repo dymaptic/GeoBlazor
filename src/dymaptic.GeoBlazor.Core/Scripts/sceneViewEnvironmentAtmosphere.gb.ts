@@ -46,24 +46,14 @@ export async function buildDotNetSceneViewEnvironmentAtmosphereGenerated(jsObjec
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewEnvironmentAtmosphere: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
-        jsComponentRef = await buildJsSceneViewEnvironmentAtmosphere(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewEnvironmentAtmosphere: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.quality)) {
         dotNetSceneViewEnvironmentAtmosphere.quality = jsObject.quality;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewEnvironmentAtmosphere.id = geoBlazorId;
     }

@@ -66,47 +66,44 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRelationshipRampElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRelationshipRampElement } = await import('./relationshipRampElement');
-        jsComponentRef = await buildJsRelationshipRampElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRelationshipRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.colors)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetRelationshipRampElement.colors = jsObject.colors.map(i => buildDotNetMapColor(i));
     }
+    
     if (hasValue(jsObject.labels)) {
         let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
         dotNetRelationshipRampElement.labels = await buildDotNetRelationshipLabels(jsObject.labels, layerId, viewId);
     }
+    
     if (hasValue(jsObject.focus)) {
         dotNetRelationshipRampElement.focus = jsObject.focus;
     }
+    
     if (hasValue(jsObject.infos)) {
         dotNetRelationshipRampElement.infos = jsObject.infos;
     }
+    
     if (hasValue(jsObject.numClasses)) {
         dotNetRelationshipRampElement.numClasses = jsObject.numClasses;
     }
+    
     if (hasValue(jsObject.rotation)) {
         dotNetRelationshipRampElement.rotation = jsObject.rotation;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetRelationshipRampElement.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetRelationshipRampElement.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipRampElement.id = geoBlazorId;
     }

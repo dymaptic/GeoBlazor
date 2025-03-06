@@ -61,39 +61,34 @@ export async function buildDotNetFileLinkGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFileLink: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFileLink } = await import('./fileLink');
-        jsComponentRef = await buildJsFileLink(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFileLink: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.count)) {
         dotNetFileLink.count = jsObject.count;
     }
+    
     if (hasValue(jsObject.error)) {
         dotNetFileLink.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.extension)) {
         dotNetFileLink.extension = jsObject.extension;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetFileLink.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetFileLink.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetFileLink.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFileLink.id = geoBlazorId;
     }

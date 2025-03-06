@@ -59,37 +59,31 @@ export async function buildDotNetConfigGenerated(jsObject: any, layerId: string 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConfig: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConfig } = await import('./config');
-        jsComponentRef = await buildJsConfig(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetConfig.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.displayField)) {
         dotNetConfig.displayField = jsObject.displayField;
     }
+    
     if (hasValue(jsObject.editFieldsInfo)) {
         dotNetConfig.editFieldsInfo = jsObject.editFieldsInfo;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetConfig.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetConfig.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConfig.id = geoBlazorId;
     }

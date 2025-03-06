@@ -50,31 +50,23 @@ export async function buildDotNetDictionaryVariableGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDictionaryVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDictionaryVariable } = await import('./dictionaryVariable');
-        jsComponentRef = await buildJsDictionaryVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDictionaryVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.properties)) {
         let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
         dotNetDictionaryVariable.properties = jsObject.properties.map(i => buildDotNetIProfileVariable(i));
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetDictionaryVariable.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDictionaryVariable.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDictionaryVariable.id = geoBlazorId;
     }

@@ -55,33 +55,26 @@ export async function buildDotNetOutputQuantizationParametersExtentGenerated(jsO
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOutputQuantizationParametersExtent: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOutputQuantizationParametersExtent } = await import('./outputQuantizationParametersExtent');
-        jsComponentRef = await buildJsOutputQuantizationParametersExtent(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOutputQuantizationParametersExtent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.xmax)) {
         dotNetOutputQuantizationParametersExtent.xmax = jsObject.xmax;
     }
+    
     if (hasValue(jsObject.xmin)) {
         dotNetOutputQuantizationParametersExtent.xmin = jsObject.xmin;
     }
+    
     if (hasValue(jsObject.ymax)) {
         dotNetOutputQuantizationParametersExtent.ymax = jsObject.ymax;
     }
+    
     if (hasValue(jsObject.ymin)) {
         dotNetOutputQuantizationParametersExtent.ymin = jsObject.ymin;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOutputQuantizationParametersExtent.id = geoBlazorId;
     }

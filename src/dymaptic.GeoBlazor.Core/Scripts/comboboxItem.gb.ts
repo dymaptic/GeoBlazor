@@ -49,27 +49,18 @@ export async function buildDotNetComboboxItemGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetComboboxItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsComboboxItem } = await import('./comboboxItem');
-        jsComponentRef = await buildJsComboboxItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetComboboxItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetComboboxItem.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetComboboxItem.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetComboboxItem.id = geoBlazorId;
     }

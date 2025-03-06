@@ -85,21 +85,10 @@ export async function buildDotNetUniqueValuesGenerated(jsObject: any, layerId: s
         return null;
     }
     
+    let dotNetUniqueValues: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValues } = await import('./uniqueValues');
-        jsComponentRef = await buildJsUniqueValues(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValues: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValues.id = geoBlazorId;
     }

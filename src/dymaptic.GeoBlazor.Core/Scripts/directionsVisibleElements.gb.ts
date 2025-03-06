@@ -52,30 +52,22 @@ export async function buildDotNetDirectionsVisibleElementsGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDirectionsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDirectionsVisibleElements } = await import('./directionsVisibleElements');
-        jsComponentRef = await buildJsDirectionsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDirectionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.layerDetails)) {
         dotNetDirectionsVisibleElements.layerDetails = jsObject.layerDetails;
     }
+    
     if (hasValue(jsObject.saveAsButton)) {
         dotNetDirectionsVisibleElements.saveAsButton = jsObject.saveAsButton;
     }
+    
     if (hasValue(jsObject.saveButton)) {
         dotNetDirectionsVisibleElements.saveButton = jsObject.saveButton;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDirectionsVisibleElements.id = geoBlazorId;
     }

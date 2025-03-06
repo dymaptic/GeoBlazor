@@ -54,33 +54,26 @@ export async function buildDotNetSnowyWeatherGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSnowyWeather: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSnowyWeather } = await import('./snowyWeather');
-        jsComponentRef = await buildJsSnowyWeather(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSnowyWeather: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.cloudCover)) {
         dotNetSnowyWeather.cloudCover = jsObject.cloudCover;
     }
+    
     if (hasValue(jsObject.precipitation)) {
         dotNetSnowyWeather.precipitation = jsObject.precipitation;
     }
+    
     if (hasValue(jsObject.snowCover)) {
         dotNetSnowyWeather.snowCover = jsObject.snowCover;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSnowyWeather.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSnowyWeather.id = geoBlazorId;
     }

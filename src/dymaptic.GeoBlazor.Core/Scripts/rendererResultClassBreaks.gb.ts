@@ -51,29 +51,20 @@ export async function buildDotNetRendererResultClassBreaksGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRendererResultClassBreaks: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRendererResultClassBreaks } = await import('./rendererResultClassBreaks');
-        jsComponentRef = await buildJsRendererResultClassBreaks(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRendererResultClassBreaks: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field1)) {
         let { buildDotNetClassBreaksResult } = await import('./classBreaksResult');
         dotNetRendererResultClassBreaks.field1 = await buildDotNetClassBreaksResult(jsObject.field1, layerId, viewId);
     }
+    
     if (hasValue(jsObject.field2)) {
         let { buildDotNetClassBreaksResult } = await import('./classBreaksResult');
         dotNetRendererResultClassBreaks.field2 = await buildDotNetClassBreaksResult(jsObject.field2, layerId, viewId);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRendererResultClassBreaks.id = geoBlazorId;
     }

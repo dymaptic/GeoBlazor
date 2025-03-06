@@ -49,30 +49,22 @@ export async function buildDotNetRasterDataSourceGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRasterDataSource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRasterDataSource } = await import('./rasterDataSource');
-        jsComponentRef = await buildJsRasterDataSource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRasterDataSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.dataSourceName)) {
         dotNetRasterDataSource.dataSourceName = jsObject.dataSourceName;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetRasterDataSource.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.workspaceId)) {
         dotNetRasterDataSource.workspaceId = jsObject.workspaceId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRasterDataSource.id = geoBlazorId;
     }

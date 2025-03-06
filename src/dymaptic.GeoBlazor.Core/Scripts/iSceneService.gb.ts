@@ -55,36 +55,30 @@ export async function buildDotNetISceneServiceGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetISceneService: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsISceneService } = await import('./iSceneService');
-        jsComponentRef = await buildJsISceneService(jsObject, layerId, viewId);
-    }
-    
-    let dotNetISceneService: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.copyright)) {
         dotNetISceneService.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.layerId)) {
         dotNetISceneService.sceneServiceLayerId = jsObject.layerId;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetISceneService.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetISceneService.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetISceneService.version = jsObject.version;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetISceneService.id = geoBlazorId;
     }

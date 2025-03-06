@@ -49,27 +49,18 @@ export async function buildDotNetVisibleElementsColumnMenuItemsGenerated(jsObjec
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElementsColumnMenuItems: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElementsColumnMenuItems } = await import('./visibleElementsColumnMenuItems');
-        jsComponentRef = await buildJsVisibleElementsColumnMenuItems(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElementsColumnMenuItems: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.sortAscending)) {
         dotNetVisibleElementsColumnMenuItems.sortAscending = jsObject.sortAscending;
     }
+    
     if (hasValue(jsObject.sortDescending)) {
         dotNetVisibleElementsColumnMenuItems.sortDescending = jsObject.sortDescending;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsColumnMenuItems.id = geoBlazorId;
     }

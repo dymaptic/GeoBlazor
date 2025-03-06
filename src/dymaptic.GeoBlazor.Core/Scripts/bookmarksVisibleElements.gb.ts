@@ -73,48 +73,46 @@ export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBookmarksVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
-        jsComponentRef = await buildJsBookmarksVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBookmarksVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.addBookmarkButton)) {
         dotNetBookmarksVisibleElements.addBookmarkButton = jsObject.addBookmarkButton;
     }
+    
     if (hasValue(jsObject.closeButton)) {
         dotNetBookmarksVisibleElements.closeButton = jsObject.closeButton;
     }
+    
     if (hasValue(jsObject.collapseButton)) {
         dotNetBookmarksVisibleElements.collapseButton = jsObject.collapseButton;
     }
+    
     if (hasValue(jsObject.editBookmarkButton)) {
         dotNetBookmarksVisibleElements.editBookmarkButton = jsObject.editBookmarkButton;
     }
+    
     if (hasValue(jsObject.filter)) {
         dotNetBookmarksVisibleElements.filter = jsObject.filter;
     }
+    
     if (hasValue(jsObject.flow)) {
         dotNetBookmarksVisibleElements.flow = jsObject.flow;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetBookmarksVisibleElements.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.thumbnail)) {
         dotNetBookmarksVisibleElements.thumbnail = jsObject.thumbnail;
     }
+    
     if (hasValue(jsObject.time)) {
         dotNetBookmarksVisibleElements.time = jsObject.time;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBookmarksVisibleElements.id = geoBlazorId;
     }

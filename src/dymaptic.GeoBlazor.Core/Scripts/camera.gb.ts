@@ -62,38 +62,32 @@ export async function buildDotNetCameraGenerated(jsObject: any, layerId: string 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCamera: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCamera } = await import('./camera');
-        jsComponentRef = await buildJsCamera(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCamera: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.layout)) {
         let { buildDotNetCameraLayout } = await import('./cameraLayout');
         dotNetCamera.layout = await buildDotNetCameraLayout(jsObject.layout, layerId, viewId);
     }
+    
     if (hasValue(jsObject.position)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetCamera.position = buildDotNetPoint(jsObject.position);
     }
+    
     if (hasValue(jsObject.fov)) {
         dotNetCamera.fov = jsObject.fov;
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetCamera.heading = jsObject.heading;
     }
+    
     if (hasValue(jsObject.tilt)) {
         dotNetCamera.tilt = jsObject.tilt;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCamera.id = geoBlazorId;
     }

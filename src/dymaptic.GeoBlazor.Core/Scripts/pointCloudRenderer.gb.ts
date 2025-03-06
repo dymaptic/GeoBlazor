@@ -56,35 +56,28 @@ export async function buildDotNetPointCloudRendererGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPointCloudRenderer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPointCloudRenderer } = await import('./pointCloudRenderer');
-        jsComponentRef = await buildJsPointCloudRenderer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPointCloudRenderer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.colorModulation)) {
         let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
         dotNetPointCloudRenderer.colorModulation = await buildDotNetPointCloudRendererColorModulation(jsObject.colorModulation, layerId, viewId);
     }
+    
     if (hasValue(jsObject.pointSizeAlgorithm)) {
         let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
         dotNetPointCloudRenderer.pointSizeAlgorithm = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsObject.pointSizeAlgorithm, layerId, viewId);
     }
+    
     if (hasValue(jsObject.pointsPerInch)) {
         dotNetPointCloudRenderer.pointsPerInch = jsObject.pointsPerInch;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetPointCloudRenderer.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRenderer.id = geoBlazorId;
     }

@@ -74,42 +74,38 @@ export async function buildDotNetRequestInterceptorGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRequestInterceptor: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRequestInterceptor } = await import('./requestInterceptor');
-        jsComponentRef = await buildJsRequestInterceptor(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRequestInterceptor: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.after)) {
         dotNetRequestInterceptor.after = jsObject.after;
     }
+    
     if (hasValue(jsObject.before)) {
         dotNetRequestInterceptor.before = jsObject.before;
     }
+    
     if (hasValue(jsObject.error)) {
         dotNetRequestInterceptor.error = jsObject.error;
     }
+    
     if (hasValue(jsObject.headers)) {
         dotNetRequestInterceptor.headers = jsObject.headers;
     }
+    
     if (hasValue(jsObject.query)) {
         dotNetRequestInterceptor.query = jsObject.query;
     }
+    
     if (hasValue(jsObject.responseData)) {
         dotNetRequestInterceptor.responseData = jsObject.responseData;
     }
+    
     if (hasValue(jsObject.urls)) {
         dotNetRequestInterceptor.urls = jsObject.urls;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRequestInterceptor.id = geoBlazorId;
     }

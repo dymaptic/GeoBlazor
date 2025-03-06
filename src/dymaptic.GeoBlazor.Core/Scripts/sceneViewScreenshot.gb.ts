@@ -49,27 +49,18 @@ export async function buildDotNetSceneViewScreenshotGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewScreenshot: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewScreenshot } = await import('./sceneViewScreenshot');
-        jsComponentRef = await buildJsSceneViewScreenshot(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewScreenshot: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.data)) {
         dotNetSceneViewScreenshot.data = jsObject.data;
     }
+    
     if (hasValue(jsObject.dataUrl)) {
         dotNetSceneViewScreenshot.dataUrl = jsObject.dataUrl;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewScreenshot.id = geoBlazorId;
     }

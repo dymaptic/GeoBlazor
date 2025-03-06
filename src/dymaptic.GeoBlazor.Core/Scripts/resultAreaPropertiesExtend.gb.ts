@@ -59,40 +59,35 @@ export async function buildDotNetResultAreaPropertiesExtendGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetResultAreaPropertiesExtend: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
-        jsComponentRef = await buildJsResultAreaPropertiesExtend(jsObject, layerId, viewId);
-    }
-    
-    let dotNetResultAreaPropertiesExtend: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetGraphicColor } = await import('./graphicColor');
         dotNetResultAreaPropertiesExtend.color = await buildDotNetGraphicColor(jsObject.color, layerId, viewId);
     }
+    
     if (hasValue(jsObject.areaUnit)) {
         dotNetResultAreaPropertiesExtend.areaUnit = jsObject.areaUnit;
     }
+    
     if (hasValue(jsObject.distance)) {
         dotNetResultAreaPropertiesExtend.distance = jsObject.distance;
     }
+    
     if (hasValue(jsObject.show)) {
         dotNetResultAreaPropertiesExtend.show = jsObject.show;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetResultAreaPropertiesExtend.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetResultAreaPropertiesExtend.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetResultAreaPropertiesExtend.id = geoBlazorId;
     }

@@ -85,61 +85,63 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLabel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLabel } = await import('./label');
-        jsComponentRef = await buildJsLabel(jsObject);
-    }
-    
-    let dotNetLabel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    
     if (hasValue(jsObject.allowOverrun)) {
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
     }
+    
     if (hasValue(jsObject.deconflictionStrategy)) {
         dotNetLabel.deconflictionStrategy = jsObject.deconflictionStrategy;
     }
+    
     if (hasValue(jsObject.labelExpression)) {
         dotNetLabel.labelExpression = jsObject.labelExpression;
     }
+    
     if (hasValue(jsObject.labelExpressionInfo)) {
         dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
     }
+    
     if (hasValue(jsObject.labelPlacement)) {
         dotNetLabel.labelPlacement = jsObject.labelPlacement;
     }
+    
     if (hasValue(jsObject.labelPosition)) {
         dotNetLabel.labelPosition = jsObject.labelPosition;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetLabel.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetLabel.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.repeatLabel)) {
         dotNetLabel.repeatLabel = jsObject.repeatLabel;
     }
+    
     if (hasValue(jsObject.repeatLabelDistance)) {
         dotNetLabel.repeatLabelDistance = jsObject.repeatLabelDistance;
     }
+    
     if (hasValue(jsObject.useCodedValues)) {
         dotNetLabel.useCodedValues = jsObject.useCodedValues;
     }
+    
     if (hasValue(jsObject.where)) {
         dotNetLabel.where = jsObject.where;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLabel.id = geoBlazorId;
     }

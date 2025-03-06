@@ -64,42 +64,38 @@ export async function buildDotNetVersionManagementServiceCapabilitiesGenerated(j
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVersionManagementServiceCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
-        jsComponentRef = await buildJsVersionManagementServiceCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVersionManagementServiceCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsAsyncDifferences)) {
         dotNetVersionManagementServiceCapabilities.supportsAsyncDifferences = jsObject.supportsAsyncDifferences;
     }
+    
     if (hasValue(jsObject.supportsAsyncPost)) {
         dotNetVersionManagementServiceCapabilities.supportsAsyncPost = jsObject.supportsAsyncPost;
     }
+    
     if (hasValue(jsObject.supportsAsyncReconcile)) {
         dotNetVersionManagementServiceCapabilities.supportsAsyncReconcile = jsObject.supportsAsyncReconcile;
     }
+    
     if (hasValue(jsObject.supportsConflictDetectionByAttribute)) {
         dotNetVersionManagementServiceCapabilities.supportsConflictDetectionByAttribute = jsObject.supportsConflictDetectionByAttribute;
     }
+    
     if (hasValue(jsObject.supportsDifferencesFromMoment)) {
         dotNetVersionManagementServiceCapabilities.supportsDifferencesFromMoment = jsObject.supportsDifferencesFromMoment;
     }
+    
     if (hasValue(jsObject.supportsDifferencesWithLayers)) {
         dotNetVersionManagementServiceCapabilities.supportsDifferencesWithLayers = jsObject.supportsDifferencesWithLayers;
     }
+    
     if (hasValue(jsObject.supportsPartialPost)) {
         dotNetVersionManagementServiceCapabilities.supportsPartialPost = jsObject.supportsPartialPost;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementServiceCapabilities.id = geoBlazorId;
     }

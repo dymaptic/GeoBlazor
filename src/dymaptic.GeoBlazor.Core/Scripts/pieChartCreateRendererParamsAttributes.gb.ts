@@ -55,33 +55,26 @@ export async function buildDotNetPieChartCreateRendererParamsAttributesGenerated
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPieChartCreateRendererParamsAttributes: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPieChartCreateRendererParamsAttributes } = await import('./pieChartCreateRendererParamsAttributes');
-        jsComponentRef = await buildJsPieChartCreateRendererParamsAttributes(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPieChartCreateRendererParamsAttributes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field)) {
         dotNetPieChartCreateRendererParamsAttributes.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetPieChartCreateRendererParamsAttributes.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetPieChartCreateRendererParamsAttributes.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetPieChartCreateRendererParamsAttributes.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPieChartCreateRendererParamsAttributes.id = geoBlazorId;
     }

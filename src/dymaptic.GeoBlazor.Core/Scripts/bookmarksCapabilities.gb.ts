@@ -46,24 +46,14 @@ export async function buildDotNetBookmarksCapabilitiesGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBookmarksCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBookmarksCapabilities } = await import('./bookmarksCapabilities');
-        jsComponentRef = await buildJsBookmarksCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBookmarksCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.time)) {
         dotNetBookmarksCapabilities.time = jsObject.time;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBookmarksCapabilities.id = geoBlazorId;
     }

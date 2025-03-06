@@ -73,51 +73,50 @@ export async function buildDotNetFeatureServiceCapabilitiesOperationsGenerated(j
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureServiceCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureServiceCapabilitiesOperations } = await import('./featureServiceCapabilitiesOperations');
-        jsComponentRef = await buildJsFeatureServiceCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureServiceCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsAdd)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
     }
+    
     if (hasValue(jsObject.supportsChangeTracking)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsChangeTracking = jsObject.supportsChangeTracking;
     }
+    
     if (hasValue(jsObject.supportsDelete)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsDelete = jsObject.supportsDelete;
     }
+    
     if (hasValue(jsObject.supportsEditing)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsEditing = jsObject.supportsEditing;
     }
+    
     if (hasValue(jsObject.supportsQuery)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
     }
+    
     if (hasValue(jsObject.supportsQueryContingentValues)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsQueryContingentValues = jsObject.supportsQueryContingentValues;
     }
+    
     if (hasValue(jsObject.supportsQueryDataElements)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsQueryDataElements = jsObject.supportsQueryDataElements;
     }
+    
     if (hasValue(jsObject.supportsQueryDomains)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsQueryDomains = jsObject.supportsQueryDomains;
     }
+    
     if (hasValue(jsObject.supportsSync)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsSync = jsObject.supportsSync;
     }
+    
     if (hasValue(jsObject.supportsUpdate)) {
         dotNetFeatureServiceCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilitiesOperations.id = geoBlazorId;
     }

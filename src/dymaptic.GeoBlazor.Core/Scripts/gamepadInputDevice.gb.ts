@@ -45,24 +45,14 @@ export async function buildDotNetGamepadInputDeviceGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGamepadInputDevice: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGamepadInputDevice } = await import('./gamepadInputDevice');
-        jsComponentRef = await buildJsGamepadInputDevice(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGamepadInputDevice: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.native)) {
         dotNetGamepadInputDevice.native = jsObject.native;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGamepadInputDevice.id = geoBlazorId;
     }

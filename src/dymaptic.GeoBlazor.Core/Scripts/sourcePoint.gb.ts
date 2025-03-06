@@ -49,27 +49,18 @@ export async function buildDotNetSourcePointGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSourcePoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSourcePoint } = await import('./sourcePoint');
-        jsComponentRef = await buildJsSourcePoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSourcePoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetSourcePoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetSourcePoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSourcePoint.id = geoBlazorId;
     }

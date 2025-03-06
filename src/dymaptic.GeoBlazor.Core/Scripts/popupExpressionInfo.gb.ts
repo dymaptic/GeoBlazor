@@ -57,33 +57,26 @@ export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPopupExpressionInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPopupExpressionInfo } = await import('./popupExpressionInfo');
-        jsComponentRef = await buildJsPopupExpressionInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPopupExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expression)) {
         dotNetPopupExpressionInfo.expression = jsObject.expression;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetPopupExpressionInfo.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.returnType)) {
         dotNetPopupExpressionInfo.returnType = jsObject.returnType;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetPopupExpressionInfo.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPopupExpressionInfo.id = geoBlazorId;
     }

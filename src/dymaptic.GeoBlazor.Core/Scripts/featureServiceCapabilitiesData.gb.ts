@@ -46,24 +46,14 @@ export async function buildDotNetFeatureServiceCapabilitiesDataGenerated(jsObjec
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureServiceCapabilitiesData: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureServiceCapabilitiesData } = await import('./featureServiceCapabilitiesData');
-        jsComponentRef = await buildJsFeatureServiceCapabilitiesData(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureServiceCapabilitiesData: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.isVersioned)) {
         dotNetFeatureServiceCapabilitiesData.isVersioned = jsObject.isVersioned;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilitiesData.id = geoBlazorId;
     }

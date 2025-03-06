@@ -314,87 +314,96 @@ export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGeoRSSLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGeoRSSLayer } = await import('./geoRSSLayer');
-        jsComponentRef = await buildJsGeoRSSLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGeoRSSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetGeoRSSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetGeoRSSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.lineSymbol)) {
         let { buildDotNetSimpleLineSymbol } = await import('./simpleLineSymbol');
         dotNetGeoRSSLayer.lineSymbol = buildDotNetSimpleLineSymbol(jsObject.lineSymbol);
     }
+    
     if (hasValue(jsObject.pointSymbol)) {
         let { buildDotNetMarkerSymbol } = await import('./markerSymbol');
         dotNetGeoRSSLayer.pointSymbol = await buildDotNetMarkerSymbol(jsObject.pointSymbol);
     }
+    
     if (hasValue(jsObject.polygonSymbol)) {
         let { buildDotNetSimpleFillSymbol } = await import('./simpleFillSymbol');
         dotNetGeoRSSLayer.polygonSymbol = buildDotNetSimpleFillSymbol(jsObject.polygonSymbol);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetGeoRSSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetGeoRSSLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetGeoRSSLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetGeoRSSLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetGeoRSSLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetGeoRSSLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetGeoRSSLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetGeoRSSLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetGeoRSSLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetGeoRSSLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetGeoRSSLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetGeoRSSLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetGeoRSSLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetGeoRSSLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetGeoRSSLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGeoRSSLayer.id = geoBlazorId;
     }

@@ -198,28 +198,19 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetIdentityManager: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIdentityManager } = await import('./identityManager');
-        jsComponentRef = await buildJsIdentityManager(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIdentityManager: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.dialog)) {
         let { buildDotNetWidget } = await import('./widget');
         dotNetIdentityManager.dialog = await buildDotNetWidget(jsObject.dialog);
     }
+    
     if (hasValue(jsObject.tokenValidity)) {
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetIdentityManager.id = geoBlazorId;
     }

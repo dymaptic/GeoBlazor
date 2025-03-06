@@ -46,24 +46,14 @@ export async function buildDotNetWeatherVisibleElementsGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWeatherVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWeatherVisibleElements } = await import('./weatherVisibleElements');
-        jsComponentRef = await buildJsWeatherVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWeatherVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.header)) {
         dotNetWeatherVisibleElements.header = jsObject.header;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWeatherVisibleElements.id = geoBlazorId;
     }

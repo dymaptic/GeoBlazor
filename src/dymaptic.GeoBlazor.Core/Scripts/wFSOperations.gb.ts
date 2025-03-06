@@ -55,33 +55,25 @@ export async function buildDotNetWFSOperationsGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWFSOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWFSOperations } = await import('./wFSOperations');
-        jsComponentRef = await buildJsWFSOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWFSOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.DescribeFeatureType)) {
         let { buildDotNetWFSOperationsDescribeFeatureType } = await import('./wFSOperationsDescribeFeatureType');
         dotNetWFSOperations.describeFeatureType = await buildDotNetWFSOperationsDescribeFeatureType(jsObject.DescribeFeatureType, layerId, viewId);
     }
+    
     if (hasValue(jsObject.GetCapabilities)) {
         let { buildDotNetWFSOperationsGetCapabilities } = await import('./wFSOperationsGetCapabilities');
         dotNetWFSOperations.getCapabilities = await buildDotNetWFSOperationsGetCapabilities(jsObject.GetCapabilities, layerId, viewId);
     }
+    
     if (hasValue(jsObject.GetFeature)) {
         let { buildDotNetWFSOperationsGetFeature } = await import('./wFSOperationsGetFeature');
         dotNetWFSOperations.getFeature = await buildDotNetWFSOperationsGetFeature(jsObject.GetFeature, layerId, viewId);
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWFSOperations.id = geoBlazorId;
     }

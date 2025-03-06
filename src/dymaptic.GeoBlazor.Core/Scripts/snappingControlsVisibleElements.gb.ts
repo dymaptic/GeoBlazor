@@ -61,39 +61,34 @@ export async function buildDotNetSnappingControlsVisibleElementsGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSnappingControlsVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSnappingControlsVisibleElements } = await import('./snappingControlsVisibleElements');
-        jsComponentRef = await buildJsSnappingControlsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSnappingControlsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.enabledToggle)) {
         dotNetSnappingControlsVisibleElements.enabledToggle = jsObject.enabledToggle;
     }
+    
     if (hasValue(jsObject.featureEnabledToggle)) {
         dotNetSnappingControlsVisibleElements.featureEnabledToggle = jsObject.featureEnabledToggle;
     }
+    
     if (hasValue(jsObject.header)) {
         dotNetSnappingControlsVisibleElements.header = jsObject.header;
     }
+    
     if (hasValue(jsObject.layerList)) {
         dotNetSnappingControlsVisibleElements.layerList = jsObject.layerList;
     }
+    
     if (hasValue(jsObject.layerListToggleLayersButton)) {
         dotNetSnappingControlsVisibleElements.layerListToggleLayersButton = jsObject.layerListToggleLayersButton;
     }
+    
     if (hasValue(jsObject.selfEnabledToggle)) {
         dotNetSnappingControlsVisibleElements.selfEnabledToggle = jsObject.selfEnabledToggle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSnappingControlsVisibleElements.id = geoBlazorId;
     }

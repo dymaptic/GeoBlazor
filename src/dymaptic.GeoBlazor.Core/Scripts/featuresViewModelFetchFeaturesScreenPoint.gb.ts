@@ -49,27 +49,18 @@ export async function buildDotNetFeaturesViewModelFetchFeaturesScreenPointGenera
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeaturesViewModelFetchFeaturesScreenPoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeaturesViewModelFetchFeaturesScreenPoint } = await import('./featuresViewModelFetchFeaturesScreenPoint');
-        jsComponentRef = await buildJsFeaturesViewModelFetchFeaturesScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeaturesViewModelFetchFeaturesScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.id = geoBlazorId;
     }

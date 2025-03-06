@@ -317,10 +317,9 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
+        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
         
-        IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
-
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
             throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
@@ -330,7 +329,7 @@ public abstract partial class Widget : MapComponent
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
-                if (kvp.Key == nameof(View) || kvp.Key == nameof(MapRendered)) continue;
+                if (kvp.Key is nameof(View) or nameof(MapRendered)) continue;
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
                 {

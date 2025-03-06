@@ -62,40 +62,34 @@ export async function buildDotNetFeatureServiceCapabilitiesGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureServiceCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureServiceCapabilities } = await import('./featureServiceCapabilities');
-        jsComponentRef = await buildJsFeatureServiceCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureServiceCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.data)) {
         let { buildDotNetFeatureServiceCapabilitiesData } = await import('./featureServiceCapabilitiesData');
         dotNetFeatureServiceCapabilities.data = await buildDotNetFeatureServiceCapabilitiesData(jsObject.data, layerId, viewId);
     }
+    
     if (hasValue(jsObject.editing)) {
         let { buildDotNetFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
         dotNetFeatureServiceCapabilities.editing = await buildDotNetFeatureServiceCapabilitiesEditing(jsObject.editing, layerId, viewId);
     }
+    
     if (hasValue(jsObject.operations)) {
         let { buildDotNetFeatureServiceCapabilitiesOperations } = await import('./featureServiceCapabilitiesOperations');
         dotNetFeatureServiceCapabilities.operations = await buildDotNetFeatureServiceCapabilitiesOperations(jsObject.operations, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sync)) {
         let { buildDotNetCapabilitiesSync } = await import('./capabilitiesSync');
         dotNetFeatureServiceCapabilities.sync = await buildDotNetCapabilitiesSync(jsObject.sync, layerId, viewId);
     }
+    
     if (hasValue(jsObject.query)) {
         dotNetFeatureServiceCapabilities.query = jsObject.query;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilities.id = geoBlazorId;
     }

@@ -158,71 +158,76 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSizeVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSizeVariable } = await import('./sizeVariable');
-        jsComponentRef = await buildJsSizeVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSizeVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
         dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.axis)) {
         dotNetSizeVariable.axis = jsObject.axis;
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetSizeVariable.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.maxDataValue)) {
         dotNetSizeVariable.maxDataValue = jsObject.maxDataValue;
     }
+    
     if (hasValue(jsObject.maxSize)) {
         dotNetSizeVariable.maxSize = jsObject.maxSize;
     }
+    
     if (hasValue(jsObject.minDataValue)) {
         dotNetSizeVariable.minDataValue = jsObject.minDataValue;
     }
+    
     if (hasValue(jsObject.minSize)) {
         dotNetSizeVariable.minSize = jsObject.minSize;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetSizeVariable.normalizationField = jsObject.normalizationField;
     }
+    
     if (hasValue(jsObject.target)) {
         dotNetSizeVariable.target = jsObject.target;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSizeVariable.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.useSymbolValue)) {
         dotNetSizeVariable.useSymbolValue = jsObject.useSymbolValue;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetSizeVariable.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetSizeVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
     if (hasValue(jsObject.valueRepresentation)) {
         dotNetSizeVariable.valueRepresentation = jsObject.valueRepresentation;
     }
+    
     if (hasValue(jsObject.valueUnit)) {
         dotNetSizeVariable.valueUnit = jsObject.valueUnit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSizeVariable.id = geoBlazorId;
     }

@@ -56,34 +56,27 @@ export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGraphicsLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        jsComponentRef = await buildJsGraphicsLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGraphicsLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
         dotNetGraphicsLayerElevationInfo.featureExpressionInfo = await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetGraphicsLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetGraphicsLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetGraphicsLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGraphicsLayerElevationInfo.id = geoBlazorId;
     }

@@ -52,30 +52,22 @@ export async function buildDotNetValuePickerVisibleElementsGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetValuePickerVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsValuePickerVisibleElements } = await import('./valuePickerVisibleElements');
-        jsComponentRef = await buildJsValuePickerVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetValuePickerVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.nextButton)) {
         dotNetValuePickerVisibleElements.nextButton = jsObject.nextButton;
     }
+    
     if (hasValue(jsObject.playButton)) {
         dotNetValuePickerVisibleElements.playButton = jsObject.playButton;
     }
+    
     if (hasValue(jsObject.previousButton)) {
         dotNetValuePickerVisibleElements.previousButton = jsObject.previousButton;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerVisibleElements.id = geoBlazorId;
     }

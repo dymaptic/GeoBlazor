@@ -52,31 +52,23 @@ export async function buildDotNetLineSymbolGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLineSymbol: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLineSymbol } = await import('./lineSymbol');
-        jsComponentRef = await buildJsLineSymbol(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLineSymbol: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetLineSymbol.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLineSymbol.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetLineSymbol.width = jsObject.width;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLineSymbol.id = geoBlazorId;
     }

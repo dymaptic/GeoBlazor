@@ -49,27 +49,18 @@ export async function buildDotNetDirectionsViewModelTimeAttributeGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDirectionsViewModelTimeAttribute: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
-        jsComponentRef = await buildJsDirectionsViewModelTimeAttribute(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDirectionsViewModelTimeAttribute: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.name)) {
         dotNetDirectionsViewModelTimeAttribute.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.units)) {
         dotNetDirectionsViewModelTimeAttribute.units = jsObject.units;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDirectionsViewModelTimeAttribute.id = geoBlazorId;
     }

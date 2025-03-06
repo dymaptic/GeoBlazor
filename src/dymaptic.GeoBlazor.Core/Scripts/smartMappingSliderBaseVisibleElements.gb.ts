@@ -46,24 +46,14 @@ export async function buildDotNetSmartMappingSliderBaseVisibleElementsGenerated(
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSmartMappingSliderBaseVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSmartMappingSliderBaseVisibleElements } = await import('./smartMappingSliderBaseVisibleElements');
-        jsComponentRef = await buildJsSmartMappingSliderBaseVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSmartMappingSliderBaseVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.interactiveTrack)) {
         dotNetSmartMappingSliderBaseVisibleElements.interactiveTrack = jsObject.interactiveTrack;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSmartMappingSliderBaseVisibleElements.id = geoBlazorId;
     }

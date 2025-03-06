@@ -49,27 +49,18 @@ export async function buildDotNetColorRampNameGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetColorRampName: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsColorRampName } = await import('./colorRampName');
-        jsComponentRef = await buildJsColorRampName(jsObject, layerId, viewId);
-    }
-    
-    let dotNetColorRampName: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.inverted)) {
         dotNetColorRampName.inverted = jsObject.inverted;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetColorRampName.name = jsObject.name;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetColorRampName.id = geoBlazorId;
     }

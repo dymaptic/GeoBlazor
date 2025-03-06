@@ -52,28 +52,19 @@ export async function buildDotNetButtonMenuViewModelGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetButtonMenuViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsButtonMenuViewModel } = await import('./buttonMenuViewModel');
-        jsComponentRef = await buildJsButtonMenuViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetButtonMenuViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.items)) {
         let { buildDotNetButtonMenuItem } = await import('./buttonMenuItem');
         dotNetButtonMenuViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetButtonMenuItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.open)) {
         dotNetButtonMenuViewModel.open = jsObject.open;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetButtonMenuViewModel.id = geoBlazorId;
     }

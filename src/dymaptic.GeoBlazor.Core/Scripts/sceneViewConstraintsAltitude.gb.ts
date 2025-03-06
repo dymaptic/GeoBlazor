@@ -49,27 +49,18 @@ export async function buildDotNetSceneViewConstraintsAltitudeGenerated(jsObject:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewConstraintsAltitude: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewConstraintsAltitude } = await import('./sceneViewConstraintsAltitude');
-        jsComponentRef = await buildJsSceneViewConstraintsAltitude(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewConstraintsAltitude: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetSceneViewConstraintsAltitude.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetSceneViewConstraintsAltitude.min = jsObject.min;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsAltitude.id = geoBlazorId;
     }

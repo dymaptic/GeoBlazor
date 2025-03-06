@@ -54,32 +54,24 @@ export async function buildDotNetSunLightGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSunLight: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSunLight } = await import('./sunLight');
-        jsComponentRef = await buildJsSunLight(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSunLight: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.ambient)) {
         let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
         dotNetSunLight.ambient = await buildDotNetColorAndIntensity(jsObject.ambient, layerId, viewId);
     }
+    
     if (hasValue(jsObject.diffuse)) {
         let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
         dotNetSunLight.diffuse = await buildDotNetColorAndIntensity(jsObject.diffuse, layerId, viewId);
     }
+    
     if (hasValue(jsObject.direction)) {
         dotNetSunLight.direction = jsObject.direction;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSunLight.id = geoBlazorId;
     }

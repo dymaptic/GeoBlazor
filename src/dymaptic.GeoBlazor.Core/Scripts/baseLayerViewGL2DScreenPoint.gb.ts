@@ -49,27 +49,18 @@ export async function buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBaseLayerViewGL2DScreenPoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
-        jsComponentRef = await buildJsBaseLayerViewGL2DScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBaseLayerViewGL2DScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetBaseLayerViewGL2DScreenPoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetBaseLayerViewGL2DScreenPoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBaseLayerViewGL2DScreenPoint.id = geoBlazorId;
     }

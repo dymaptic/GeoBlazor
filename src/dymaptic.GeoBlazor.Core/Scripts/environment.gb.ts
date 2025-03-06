@@ -62,38 +62,32 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetEnvironment: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsEnvironment } = await import('./environment');
-        jsComponentRef = await buildJsEnvironment(jsObject, layerId, viewId);
-    }
-    
-    let dotNetEnvironment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.background)) {
         let { buildDotNetBackground } = await import('./background');
         dotNetEnvironment.background = buildDotNetBackground(jsObject.background);
     }
+    
     if (hasValue(jsObject.weather)) {
         let { buildDotNetIEnvironmentWeather } = await import('./iEnvironmentWeather');
         dotNetEnvironment.weather = buildDotNetIEnvironmentWeather(jsObject.weather);
     }
+    
     if (hasValue(jsObject.atmosphereEnabled)) {
         dotNetEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
     }
+    
     if (hasValue(jsObject.lighting)) {
         dotNetEnvironment.lighting = jsObject.lighting;
     }
+    
     if (hasValue(jsObject.starsEnabled)) {
         dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetEnvironment.id = geoBlazorId;
     }

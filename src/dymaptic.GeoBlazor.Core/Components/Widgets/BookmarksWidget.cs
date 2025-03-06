@@ -32,7 +32,7 @@ public partial class BookmarksWidget : Widget
     ///     Handler delegate for click events on the view.
     /// </summary>
     [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
 

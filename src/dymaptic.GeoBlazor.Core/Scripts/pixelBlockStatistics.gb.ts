@@ -52,30 +52,22 @@ export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPixelBlockStatistics: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        jsComponentRef = await buildJsPixelBlockStatistics(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPixelBlockStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.maxValue)) {
         dotNetPixelBlockStatistics.maxValue = jsObject.maxValue;
     }
+    
     if (hasValue(jsObject.minValue)) {
         dotNetPixelBlockStatistics.minValue = jsObject.minValue;
     }
+    
     if (hasValue(jsObject.noDataValue)) {
         dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPixelBlockStatistics.id = geoBlazorId;
     }

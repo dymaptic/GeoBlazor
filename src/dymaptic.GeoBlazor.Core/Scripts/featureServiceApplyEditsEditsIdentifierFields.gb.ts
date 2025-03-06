@@ -49,27 +49,18 @@ export async function buildDotNetFeatureServiceApplyEditsEditsIdentifierFieldsGe
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetFeatureServiceApplyEditsEditsIdentifierFields: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsFeatureServiceApplyEditsEditsIdentifierFields } = await import('./featureServiceApplyEditsEditsIdentifierFields');
-        jsComponentRef = await buildJsFeatureServiceApplyEditsEditsIdentifierFields(jsObject, layerId, viewId);
-    }
-    
-    let dotNetFeatureServiceApplyEditsEditsIdentifierFields: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.globalIdField)) {
         dotNetFeatureServiceApplyEditsEditsIdentifierFields.globalIdField = jsObject.globalIdField;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetFeatureServiceApplyEditsEditsIdentifierFields.objectIdField = jsObject.objectIdField;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceApplyEditsEditsIdentifierFields.id = geoBlazorId;
     }

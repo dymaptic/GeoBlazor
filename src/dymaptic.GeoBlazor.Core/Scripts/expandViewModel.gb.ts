@@ -57,33 +57,26 @@ export async function buildDotNetExpandViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetExpandViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsExpandViewModel } = await import('./expandViewModel');
-        jsComponentRef = await buildJsExpandViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetExpandViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.autoCollapse)) {
         dotNetExpandViewModel.autoCollapse = jsObject.autoCollapse;
     }
+    
     if (hasValue(jsObject.expanded)) {
         dotNetExpandViewModel.expanded = jsObject.expanded;
     }
+    
     if (hasValue(jsObject.group)) {
         dotNetExpandViewModel.group = jsObject.group;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetExpandViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetExpandViewModel.id = geoBlazorId;
     }

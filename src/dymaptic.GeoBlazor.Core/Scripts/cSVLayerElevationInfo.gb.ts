@@ -56,34 +56,27 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCSVLayerElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
-        jsComponentRef = await buildJsCSVLayerElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCSVLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
         dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.mode)) {
         dotNetCSVLayerElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetCSVLayerElevationInfo.offset = jsObject.offset;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetCSVLayerElevationInfo.unit = jsObject.unit;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCSVLayerElevationInfo.id = geoBlazorId;
     }

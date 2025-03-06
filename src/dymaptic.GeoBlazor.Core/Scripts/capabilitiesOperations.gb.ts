@@ -73,48 +73,46 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesOperations } = await import('./capabilitiesOperations');
-        jsComponentRef = await buildJsCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsAdd)) {
         dotNetCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
     }
+    
     if (hasValue(jsObject.supportsCalculate)) {
         dotNetCapabilitiesOperations.supportsCalculate = jsObject.supportsCalculate;
     }
+    
     if (hasValue(jsObject.supportsDelete)) {
         dotNetCapabilitiesOperations.supportsDelete = jsObject.supportsDelete;
     }
+    
     if (hasValue(jsObject.supportsEditing)) {
         dotNetCapabilitiesOperations.supportsEditing = jsObject.supportsEditing;
     }
+    
     if (hasValue(jsObject.supportsQuery)) {
         dotNetCapabilitiesOperations.supportsQuery = jsObject.supportsQuery;
     }
+    
     if (hasValue(jsObject.supportsQueryAttachments)) {
         dotNetCapabilitiesOperations.supportsQueryAttachments = jsObject.supportsQueryAttachments;
     }
+    
     if (hasValue(jsObject.supportsQueryTopFeatures)) {
         dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
     }
+    
     if (hasValue(jsObject.supportsUpdate)) {
         dotNetCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
     }
+    
     if (hasValue(jsObject.supportsValidateSql)) {
         dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesOperations.id = geoBlazorId;
     }

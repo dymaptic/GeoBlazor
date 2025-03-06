@@ -49,28 +49,19 @@ export async function buildDotNetDeviceLocationFeedGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDeviceLocationFeed: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDeviceLocationFeed } = await import('./deviceLocationFeed');
-        jsComponentRef = await buildJsDeviceLocationFeed(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDeviceLocationFeed: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.filterExpression)) {
         let { buildDotNetGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
         dotNetDeviceLocationFeed.filterExpression = await buildDotNetGeotriggersInfoExpressionInfo(jsObject.filterExpression, layerId, viewId);
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDeviceLocationFeed.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDeviceLocationFeed.id = geoBlazorId;
     }

@@ -49,30 +49,22 @@ export async function buildDotNetLengthGenerated(jsObject: any, layerId: string 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLength: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLength } = await import('./length');
-        jsComponentRef = await buildJsLength(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLength: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.type)) {
         dotNetLength.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetLength.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetLength.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLength.id = geoBlazorId;
     }

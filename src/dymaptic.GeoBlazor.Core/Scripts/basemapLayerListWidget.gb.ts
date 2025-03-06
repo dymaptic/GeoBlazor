@@ -335,100 +335,114 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapLayerListWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapLayerListWidget } = await import('./basemapLayerListWidget');
-        jsComponentRef = await buildJsBasemapLayerListWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapLayerListWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
         dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.baseFilterText)) {
         dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
     }
+    
     if (hasValue(jsObject.baseListItemCreatedFunction)) {
         dotNetBasemapLayerListWidget.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.basemapTitle)) {
         dotNetBasemapLayerListWidget.basemapTitle = jsObject.basemapTitle;
     }
+    
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetBasemapLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
     }
+    
     if (hasValue(jsObject.catalogOptions)) {
         dotNetBasemapLayerListWidget.catalogOptions = jsObject.catalogOptions;
     }
+    
     if (hasValue(jsObject.collapsed)) {
         dotNetBasemapLayerListWidget.collapsed = jsObject.collapsed;
     }
+    
     if (hasValue(jsObject.dragEnabled)) {
         dotNetBasemapLayerListWidget.dragEnabled = jsObject.dragEnabled;
     }
+    
     if (hasValue(jsObject.editingTitle)) {
         dotNetBasemapLayerListWidget.editingTitle = jsObject.editingTitle;
     }
+    
     if (hasValue(jsObject.filterPlaceholder)) {
         dotNetBasemapLayerListWidget.filterPlaceholder = jsObject.filterPlaceholder;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetBasemapLayerListWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetBasemapLayerListWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetBasemapLayerListWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.minFilterItems)) {
         dotNetBasemapLayerListWidget.minFilterItems = jsObject.minFilterItems;
     }
+    
     if (hasValue(jsObject.referenceFilterText)) {
         dotNetBasemapLayerListWidget.referenceFilterText = jsObject.referenceFilterText;
     }
+    
     if (hasValue(jsObject.referenceListItemCreatedFunction)) {
         dotNetBasemapLayerListWidget.referenceListItemCreatedFunction = jsObject.referenceListItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.selectionMode)) {
         dotNetBasemapLayerListWidget.selectionMode = jsObject.selectionMode;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBasemapLayerListWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visibilityAppearance)) {
         dotNetBasemapLayerListWidget.visibilityAppearance = jsObject.visibilityAppearance;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetBasemapLayerListWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBasemapLayerListWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListWidget.id = geoBlazorId;
     }

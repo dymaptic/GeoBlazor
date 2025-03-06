@@ -61,39 +61,34 @@ export async function buildDotNetAbilitiesGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAbilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAbilities } = await import('./abilities');
-        jsComponentRef = await buildJsAbilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAbilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.attachmentsContent)) {
         dotNetAbilities.attachmentsContent = jsObject.attachmentsContent;
     }
+    
     if (hasValue(jsObject.chartAnimation)) {
         dotNetAbilities.chartAnimation = jsObject.chartAnimation;
     }
+    
     if (hasValue(jsObject.customContent)) {
         dotNetAbilities.customContent = jsObject.customContent;
     }
+    
     if (hasValue(jsObject.fieldsContent)) {
         dotNetAbilities.fieldsContent = jsObject.fieldsContent;
     }
+    
     if (hasValue(jsObject.mediaContent)) {
         dotNetAbilities.mediaContent = jsObject.mediaContent;
     }
+    
     if (hasValue(jsObject.textContent)) {
         dotNetAbilities.textContent = jsObject.textContent;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAbilities.id = geoBlazorId;
     }

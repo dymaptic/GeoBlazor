@@ -49,27 +49,18 @@ export async function buildDotNetLineOfSightAnalysisTargetElevationInfoGenerated
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLineOfSightAnalysisTargetElevationInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLineOfSightAnalysisTargetElevationInfo } = await import('./lineOfSightAnalysisTargetElevationInfo');
-        jsComponentRef = await buildJsLineOfSightAnalysisTargetElevationInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLineOfSightAnalysisTargetElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mode)) {
         dotNetLineOfSightAnalysisTargetElevationInfo.mode = jsObject.mode;
     }
+    
     if (hasValue(jsObject.offset)) {
         dotNetLineOfSightAnalysisTargetElevationInfo.offset = jsObject.offset;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLineOfSightAnalysisTargetElevationInfo.id = geoBlazorId;
     }

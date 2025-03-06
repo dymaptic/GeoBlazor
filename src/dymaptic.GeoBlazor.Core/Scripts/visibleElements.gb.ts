@@ -82,60 +82,62 @@ export async function buildDotNetVisibleElementsGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVisibleElements } = await import('./visibleElements');
-        jsComponentRef = await buildJsVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         dotNetVisibleElements.area = jsObject.area;
     }
+    
     if (hasValue(jsObject.coordinates)) {
         dotNetVisibleElements.coordinates = jsObject.coordinates;
     }
+    
     if (hasValue(jsObject.direction)) {
         dotNetVisibleElements.direction = jsObject.direction;
     }
+    
     if (hasValue(jsObject.distance)) {
         dotNetVisibleElements.distance = jsObject.distance;
     }
+    
     if (hasValue(jsObject.elevation)) {
         dotNetVisibleElements.elevation = jsObject.elevation;
     }
+    
     if (hasValue(jsObject.header)) {
         dotNetVisibleElements.header = jsObject.header;
     }
+    
     if (hasValue(jsObject.helpMessage)) {
         dotNetVisibleElements.helpMessage = jsObject.helpMessage;
     }
+    
     if (hasValue(jsObject.orientation)) {
         dotNetVisibleElements.orientation = jsObject.orientation;
     }
+    
     if (hasValue(jsObject.radius)) {
         dotNetVisibleElements.radius = jsObject.radius;
     }
+    
     if (hasValue(jsObject.rotation)) {
         dotNetVisibleElements.rotation = jsObject.rotation;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetVisibleElements.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetVisibleElements.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.totalLength)) {
         dotNetVisibleElements.totalLength = jsObject.totalLength;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElements.id = geoBlazorId;
     }

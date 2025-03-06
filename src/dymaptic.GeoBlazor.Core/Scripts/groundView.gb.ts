@@ -45,36 +45,29 @@ export async function buildDotNetGroundViewGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGroundView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGroundView } = await import('./groundView');
-        jsComponentRef = await buildJsGroundView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGroundView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.elevationSampler)) {
         let { buildDotNetElevationSampler } = await import('./elevationSampler');
         dotNetGroundView.elevationSampler = await buildDotNetElevationSampler(jsObject.elevationSampler, layerId, viewId);
     }
+    
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetGroundView.extent = buildDotNetExtent(jsObject.extent);
     }
+    
     if (hasValue(jsObject.layerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetGroundView.layerViews = await Promise.all(jsObject.layerViews.map(async i => await buildDotNetLayerView(i)));
     }
+    
     if (hasValue(jsObject.updating)) {
         dotNetGroundView.updating = jsObject.updating;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGroundView.id = geoBlazorId;
     }

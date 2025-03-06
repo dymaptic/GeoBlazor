@@ -71,46 +71,43 @@ export async function buildDotNetHistogramViewModelGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHistogramViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHistogramViewModel } = await import('./histogramViewModel');
-        jsComponentRef = await buildJsHistogramViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHistogramViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bins)) {
         let { buildDotNetBin } = await import('./bin');
         dotNetHistogramViewModel.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.average)) {
         dotNetHistogramViewModel.average = jsObject.average;
     }
+    
     if (hasValue(jsObject.binRange)) {
         dotNetHistogramViewModel.binRange = jsObject.binRange;
     }
+    
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetHistogramViewModel.labelFormatFunction = jsObject.labelFormatFunction;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetHistogramViewModel.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetHistogramViewModel.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.range)) {
         dotNetHistogramViewModel.range = jsObject.range;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetHistogramViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHistogramViewModel.id = geoBlazorId;
     }

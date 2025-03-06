@@ -49,27 +49,18 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAuthoringInfoStatistics: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        jsComponentRef = await buildJsAuthoringInfoStatistics(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAuthoringInfoStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetAuthoringInfoStatistics.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetAuthoringInfoStatistics.min = jsObject.min;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoStatistics.id = geoBlazorId;
     }

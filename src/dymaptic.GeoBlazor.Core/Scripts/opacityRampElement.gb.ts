@@ -50,31 +50,23 @@ export async function buildDotNetOpacityRampElementGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOpacityRampElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOpacityRampElement } = await import('./opacityRampElement');
-        jsComponentRef = await buildJsOpacityRampElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOpacityRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
         dotNetOpacityRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetOpacityRampStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetOpacityRampElement.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetOpacityRampElement.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOpacityRampElement.id = geoBlazorId;
     }

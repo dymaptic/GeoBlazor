@@ -528,150 +528,179 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWMSLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWMSLayer } = await import('./wMSLayer');
-        jsComponentRef = await buildJsWMSLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWMSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetWMSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWMSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.fullExtents)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWMSLayer.fullExtents = jsObject.fullExtents.map(i => buildDotNetExtent(i));
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
         dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWMSLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWMSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWMSLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetWMSLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetWMSLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customLayerParameters)) {
         dotNetWMSLayer.customLayerParameters = jsObject.customLayerParameters;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetWMSLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetWMSLayer.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.dimensions)) {
         dotNetWMSLayer.dimensions = jsObject.dimensions;
     }
+    
     if (hasValue(jsObject.featureInfoFormat)) {
         dotNetWMSLayer.featureInfoFormat = jsObject.featureInfoFormat;
     }
+    
     if (hasValue(jsObject.featureInfoFormats)) {
         dotNetWMSLayer.featureInfoFormats = jsObject.featureInfoFormats;
     }
+    
     if (hasValue(jsObject.featureInfoUrl)) {
         dotNetWMSLayer.featureInfoUrl = jsObject.featureInfoUrl;
     }
+    
     if (hasValue(jsObject.fetchFeatureInfoFunction)) {
         dotNetWMSLayer.fetchFeatureInfoFunction = jsObject.fetchFeatureInfoFunction;
     }
+    
     if (hasValue(jsObject.imageFormat)) {
         dotNetWMSLayer.imageFormat = jsObject.imageFormat;
     }
+    
     if (hasValue(jsObject.imageMaxHeight)) {
         dotNetWMSLayer.imageMaxHeight = jsObject.imageMaxHeight;
     }
+    
     if (hasValue(jsObject.imageMaxWidth)) {
         dotNetWMSLayer.imageMaxWidth = jsObject.imageMaxWidth;
     }
+    
     if (hasValue(jsObject.imageTransparency)) {
         dotNetWMSLayer.imageTransparency = jsObject.imageTransparency;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetWMSLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetWMSLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWMSLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetWMSLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetWMSLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetWMSLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetWMSLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetWMSLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetWMSLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.spatialReferences)) {
         dotNetWMSLayer.spatialReferences = jsObject.spatialReferences;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWMSLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetWMSLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetWMSLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.useViewTime)) {
         dotNetWMSLayer.useViewTime = jsObject.useViewTime;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetWMSLayer.version = jsObject.version;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetWMSLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWMSLayer.id = geoBlazorId;
     }

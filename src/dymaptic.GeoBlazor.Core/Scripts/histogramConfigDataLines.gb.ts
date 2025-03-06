@@ -49,27 +49,18 @@ export async function buildDotNetHistogramConfigDataLinesGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHistogramConfigDataLines: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHistogramConfigDataLines } = await import('./histogramConfigDataLines');
-        jsComponentRef = await buildJsHistogramConfigDataLines(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHistogramConfigDataLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetHistogramConfigDataLines.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetHistogramConfigDataLines.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHistogramConfigDataLines.id = geoBlazorId;
     }

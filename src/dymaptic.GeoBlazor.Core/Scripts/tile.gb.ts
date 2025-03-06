@@ -70,48 +70,46 @@ export async function buildDotNetTileGenerated(jsObject: any, layerId: string | 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTile: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTile } = await import('./tile');
-        jsComponentRef = await buildJsTile(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bounds)) {
         dotNetTile.bounds = jsObject.bounds;
     }
+    
     if (hasValue(jsObject.col)) {
         dotNetTile.col = jsObject.col;
     }
+    
     if (hasValue(jsObject.coords)) {
         dotNetTile.coords = jsObject.coords;
     }
+    
     if (hasValue(jsObject.level)) {
         dotNetTile.level = jsObject.level;
     }
+    
     if (hasValue(jsObject.resolution)) {
         dotNetTile.resolution = jsObject.resolution;
     }
+    
     if (hasValue(jsObject.row)) {
         dotNetTile.row = jsObject.row;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetTile.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetTile.tileId = jsObject.id;
     }
+    
     if (hasValue(jsObject.world)) {
         dotNetTile.world = jsObject.world;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTile.id = geoBlazorId;
     }

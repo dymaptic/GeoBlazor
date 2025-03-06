@@ -115,7 +115,8 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
     {
         string? value = reader.GetString()
             ?.Replace("-", string.Empty)
-            .Replace("esriFeatureEditTool", string.Empty);
+            .Replace("esriFeatureEditTool", string.Empty)
+            .Replace("FeatureEditTool", string.Empty);
 
         try
         {

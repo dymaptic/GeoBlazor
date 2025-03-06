@@ -323,110 +323,126 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSublayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSublayer } = await import('./sublayer');
-        jsComponentRef = await buildJsSublayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetSublayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
+    
     if (hasValue(jsObject.floorInfo)) {
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
         dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetSublayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetSublayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.renderer)) {
         let { buildDotNetRenderer } = await import('./renderer');
         dotNetSublayer.renderer = await buildDotNetRenderer(jsObject.renderer);
     }
+    
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
         dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetSublayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.definitionExpression)) {
         dotNetSublayer.definitionExpression = jsObject.definitionExpression;
     }
+    
     if (hasValue(jsObject.isTable)) {
         dotNetSublayer.isTable = jsObject.isTable;
     }
+    
     if (hasValue(jsObject.labelsVisible)) {
         dotNetSublayer.labelsVisible = jsObject.labelsVisible;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetSublayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetSublayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetSublayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetSublayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetSublayer.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetSublayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetSublayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.relationships)) {
         dotNetSublayer.relationships = jsObject.relationships;
     }
+    
     if (hasValue(jsObject.source)) {
         dotNetSublayer.source = jsObject.source;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetSublayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetSublayer.sublayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetSublayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.typeIdField)) {
         dotNetSublayer.typeIdField = jsObject.typeIdField;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetSublayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetSublayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSublayer.id = geoBlazorId;
     }

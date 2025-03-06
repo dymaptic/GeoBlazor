@@ -117,38 +117,32 @@ export async function buildDotNetAreaMeasurement2DViewModelGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement2DViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        jsComponentRef = await buildJsAreaMeasurement2DViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement2DViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetAreaMeasurement2DViewModelMeasurement } = await import('./areaMeasurement2DViewModelMeasurement');
         dotNetAreaMeasurement2DViewModel.measurement = await buildDotNetAreaMeasurement2DViewModelMeasurement(jsObject.measurement, layerId, viewId);
     }
+    
     if (hasValue(jsObject.measurementLabel)) {
         let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
         dotNetAreaMeasurement2DViewModel.measurementLabel = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsObject.measurementLabel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetAreaMeasurement2DViewModel.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetAreaMeasurement2DViewModel.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.unitOptions)) {
         dotNetAreaMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DViewModel.id = geoBlazorId;
     }

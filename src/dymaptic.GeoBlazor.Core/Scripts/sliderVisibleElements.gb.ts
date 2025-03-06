@@ -49,27 +49,18 @@ export async function buildDotNetSliderVisibleElementsGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSliderVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
-        jsComponentRef = await buildJsSliderVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSliderVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.labels)) {
         dotNetSliderVisibleElements.labels = jsObject.labels;
     }
+    
     if (hasValue(jsObject.rangeLabels)) {
         dotNetSliderVisibleElements.rangeLabels = jsObject.rangeLabels;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSliderVisibleElements.id = geoBlazorId;
     }

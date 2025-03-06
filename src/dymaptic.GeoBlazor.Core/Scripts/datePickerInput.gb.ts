@@ -51,30 +51,22 @@ export async function buildDotNetDatePickerInputGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDatePickerInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDatePickerInput } = await import('./datePickerInput');
-        jsComponentRef = await buildJsDatePickerInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDatePickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.max)) {
         dotNetDatePickerInput.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetDatePickerInput.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDatePickerInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDatePickerInput.id = geoBlazorId;
     }

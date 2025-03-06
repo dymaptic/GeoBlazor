@@ -409,113 +409,130 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPopupWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPopupWidget } = await import('./popupWidget');
-        jsComponentRef = await buildJsPopupWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPopupWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.actions)) {
         let { buildDotNetActionBase } = await import('./actionBase');
         dotNetPopupWidget.actions = await Promise.all(jsObject.actions.map(async i => await buildDotNetActionBase(i)));
     }
+    
     if (hasValue(jsObject.dockOptions)) {
         let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
         dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.features)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupWidget.features = jsObject.features.map(i => buildDotNetGraphic(i, layerId, viewId));
     }
+    
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetPopupWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetPopupWidget.location = buildDotNetPoint(jsObject.location);
     }
+    
     if (hasValue(jsObject.selectedFeature)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetPopupWidget.selectedFeature = buildDotNetGraphic(jsObject.selectedFeature, layerId, viewId);
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         dotNetPopupWidget.viewModel = await buildDotNetPopupViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
         dotNetPopupWidget.visibleElements = await buildDotNetPopupVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.active)) {
         dotNetPopupWidget.active = jsObject.active;
     }
+    
     if (hasValue(jsObject.alignment)) {
         dotNetPopupWidget.alignment = jsObject.alignment;
     }
+    
     if (hasValue(jsObject.autoCloseEnabled)) {
         dotNetPopupWidget.autoCloseEnabled = jsObject.autoCloseEnabled;
     }
+    
     if (hasValue(jsObject.collapsed)) {
         dotNetPopupWidget.collapsed = jsObject.collapsed;
     }
+    
     if (hasValue(jsObject.content)) {
         dotNetPopupWidget.content = jsObject.content;
     }
+    
     if (hasValue(jsObject.currentDockPosition)) {
         dotNetPopupWidget.currentDockPosition = jsObject.currentDockPosition;
     }
+    
     if (hasValue(jsObject.defaultPopupTemplateEnabled)) {
         dotNetPopupWidget.defaultPopupTemplateEnabled = jsObject.defaultPopupTemplateEnabled;
     }
+    
     if (hasValue(jsObject.dockEnabled)) {
         dotNetPopupWidget.dockEnabled = jsObject.dockEnabled;
     }
+    
     if (hasValue(jsObject.featureCount)) {
         dotNetPopupWidget.featureCount = jsObject.featureCount;
     }
+    
     if (hasValue(jsObject.headingLevel)) {
         dotNetPopupWidget.headingLevel = jsObject.headingLevel;
     }
+    
     if (hasValue(jsObject.highlightEnabled)) {
         dotNetPopupWidget.highlightEnabled = jsObject.highlightEnabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetPopupWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetPopupWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.promises)) {
         dotNetPopupWidget.promises = jsObject.promises;
     }
+    
     if (hasValue(jsObject.selectedFeatureIndex)) {
         dotNetPopupWidget.selectedFeatureIndex = jsObject.selectedFeatureIndex;
     }
+    
     if (hasValue(jsObject.selectedFeatureWidget)) {
         dotNetPopupWidget.selectedFeatureWidget = jsObject.selectedFeatureWidget;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetPopupWidget.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetPopupWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetPopupWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetPopupWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPopupWidget.id = geoBlazorId;
     }

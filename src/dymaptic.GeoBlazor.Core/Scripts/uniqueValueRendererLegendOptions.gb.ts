@@ -46,24 +46,14 @@ export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValueRendererLegendOptions: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
-        jsComponentRef = await buildJsUniqueValueRendererLegendOptions(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValueRendererLegendOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.title)) {
         dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueRendererLegendOptions.id = geoBlazorId;
     }

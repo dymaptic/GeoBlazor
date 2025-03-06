@@ -53,31 +53,23 @@ export async function buildDotNetConfigWorkersGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConfigWorkers: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConfigWorkers } = await import('./configWorkers');
-        jsComponentRef = await buildJsConfigWorkers(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConfigWorkers: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.loaderConfig)) {
         let { buildDotNetConfigWorkersLoaderConfig } = await import('./configWorkersLoaderConfig');
         dotNetConfigWorkers.loaderConfig = await buildDotNetConfigWorkersLoaderConfig(jsObject.loaderConfig, layerId, viewId);
     }
+    
     if (hasValue(jsObject.loaderUrl)) {
         dotNetConfigWorkers.loaderUrl = jsObject.loaderUrl;
     }
+    
     if (hasValue(jsObject.workerPath)) {
         dotNetConfigWorkers.workerPath = jsObject.workerPath;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConfigWorkers.id = geoBlazorId;
     }

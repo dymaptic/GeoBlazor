@@ -95,73 +95,79 @@ export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJS
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVersionManagementViewModelVersionInfoExtendedJSON: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVersionManagementViewModelVersionInfoExtendedJSON } = await import('./versionManagementViewModelVersionInfoExtendedJSON');
-        jsComponentRef = await buildJsVersionManagementViewModelVersionInfoExtendedJSON(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVersionManagementViewModelVersionInfoExtendedJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.versionIdentifier)) {
         let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementViewModelVersionInfoExtendedJSONVersionIdentifier');
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.versionIdentifier = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsObject.versionIdentifier, layerId, viewId);
     }
+    
     if (hasValue(jsObject.access)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.access = jsObject.access;
     }
+    
     if (hasValue(jsObject.commonAncestorDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.commonAncestorDate = jsObject.commonAncestorDate;
     }
+    
     if (hasValue(jsObject.creationDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.creationDate = jsObject.creationDate;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.evaluationDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.evaluationDate = jsObject.evaluationDate;
     }
+    
     if (hasValue(jsObject.hasConflicts)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.hasConflicts = jsObject.hasConflicts;
     }
+    
     if (hasValue(jsObject.hasUninspectedConflicts)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.hasUninspectedConflicts = jsObject.hasUninspectedConflicts;
     }
+    
     if (hasValue(jsObject.isBeingEdited)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.isBeingEdited = jsObject.isBeingEdited;
     }
+    
     if (hasValue(jsObject.isBeingRead)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.isBeingRead = jsObject.isBeingRead;
     }
+    
     if (hasValue(jsObject.isLocked)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.isLocked = jsObject.isLocked;
     }
+    
     if (hasValue(jsObject.lockDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.lockDate = jsObject.lockDate;
     }
+    
     if (hasValue(jsObject.lockOwner)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.lockOwner = jsObject.lockOwner;
     }
+    
     if (hasValue(jsObject.modifiedDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.modifiedDate = jsObject.modifiedDate;
     }
+    
     if (hasValue(jsObject.previousAncestorDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.previousAncestorDate = jsObject.previousAncestorDate;
     }
+    
     if (hasValue(jsObject.reconcileDate)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.reconcileDate = jsObject.reconcileDate;
     }
+    
     if (hasValue(jsObject.versionId)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.versionId = jsObject.versionId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.id = geoBlazorId;
     }

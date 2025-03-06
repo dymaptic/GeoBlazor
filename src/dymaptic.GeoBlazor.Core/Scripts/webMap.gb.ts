@@ -85,73 +85,78 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWebMap: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWebMap } = await import('./webMap');
-        jsComponentRef = await buildJsWebMap(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWebMap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
         dotNetWebMap.bookmarks = await Promise.all(jsObject.bookmarks.map(async i => await buildDotNetBookmark(i)));
     }
+    
     if (hasValue(jsObject.geotriggersInfo)) {
         let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
         dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.utilityNetworks)) {
         let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
         dotNetWebMap.utilityNetworks = await Promise.all(jsObject.utilityNetworks.map(async i => await buildDotNetUtilityNetwork(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.applicationProperties)) {
         dotNetWebMap.applicationProperties = jsObject.applicationProperties;
     }
+    
     if (hasValue(jsObject.authoringApp)) {
         dotNetWebMap.authoringApp = jsObject.authoringApp;
     }
+    
     if (hasValue(jsObject.authoringAppVersion)) {
         dotNetWebMap.authoringAppVersion = jsObject.authoringAppVersion;
     }
+    
     if (hasValue(jsObject.floorInfo)) {
         dotNetWebMap.floorInfo = jsObject.floorInfo;
     }
+    
     if (hasValue(jsObject.initialViewProperties)) {
         dotNetWebMap.initialViewProperties = jsObject.initialViewProperties;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWebMap.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.loadError)) {
         dotNetWebMap.loadError = jsObject.loadError;
     }
+    
     if (hasValue(jsObject.loadStatus)) {
         dotNetWebMap.loadStatus = jsObject.loadStatus;
     }
+    
     if (hasValue(jsObject.presentation)) {
         dotNetWebMap.presentation = jsObject.presentation;
     }
+    
     if (hasValue(jsObject.sourceVersion)) {
         dotNetWebMap.sourceVersion = jsObject.sourceVersion;
     }
+    
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetWebMap.thumbnailUrl = jsObject.thumbnailUrl;
     }
+    
     if (hasValue(jsObject.widgets)) {
         dotNetWebMap.widgets = jsObject.widgets;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWebMap.id = geoBlazorId;
     }

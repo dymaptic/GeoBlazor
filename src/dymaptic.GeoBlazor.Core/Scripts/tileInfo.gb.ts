@@ -135,44 +135,40 @@ export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTileInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTileInfo } = await import('./tileInfo');
-        jsComponentRef = await buildJsTileInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTileInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
         dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.origin)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetTileInfo.origin = buildDotNetPoint(jsObject.origin);
     }
+    
     if (hasValue(jsObject.dpi)) {
         dotNetTileInfo.dpi = jsObject.dpi;
     }
+    
     if (hasValue(jsObject.format)) {
         dotNetTileInfo.format = jsObject.format;
     }
+    
     if (hasValue(jsObject.isWrappable)) {
         dotNetTileInfo.isWrappable = jsObject.isWrappable;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetTileInfo.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetTileInfo.spatialReference = jsObject.spatialReference;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTileInfo.id = geoBlazorId;
     }

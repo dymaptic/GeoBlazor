@@ -52,30 +52,22 @@ export async function buildDotNetBinGenerated(jsObject: any, layerId: string | n
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBin: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBin } = await import('./bin');
-        jsComponentRef = await buildJsBin(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.count)) {
         dotNetBin.count = jsObject.count;
     }
+    
     if (hasValue(jsObject.maxValue)) {
         dotNetBin.maxValue = jsObject.maxValue;
     }
+    
     if (hasValue(jsObject.minValue)) {
         dotNetBin.minValue = jsObject.minValue;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBin.id = geoBlazorId;
     }

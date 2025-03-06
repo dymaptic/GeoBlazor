@@ -50,28 +50,19 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHitTestResultGround: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHitTestResultGround } = await import('./hitTestResultGround');
-        jsComponentRef = await buildJsHitTestResultGround(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHitTestResultGround: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.mapPoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetHitTestResultGround.mapPoint = buildDotNetPoint(jsObject.mapPoint);
     }
+    
     if (hasValue(jsObject.distance)) {
         dotNetHitTestResultGround.distance = jsObject.distance;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHitTestResultGround.id = geoBlazorId;
     }

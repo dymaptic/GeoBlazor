@@ -286,77 +286,83 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetKMLLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsKMLLayer } = await import('./kMLLayer');
-        jsComponentRef = await buildJsKMLLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetKMLLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetKMLLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetKMLLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
         dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetKMLLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetKMLLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetKMLLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetKMLLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetKMLLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetKMLLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetKMLLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetKMLLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetKMLLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetKMLLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetKMLLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetKMLLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetKMLLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayer.id = geoBlazorId;
     }

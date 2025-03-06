@@ -43,21 +43,10 @@ export async function buildDotNetIRouteSymbolsPolylineBarriersGenerated(jsObject
         return null;
     }
     
+    let dotNetIRouteSymbolsPolylineBarriers: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsIRouteSymbolsPolylineBarriers } = await import('./iRouteSymbolsPolylineBarriers');
-        jsComponentRef = await buildJsIRouteSymbolsPolylineBarriers(jsObject, layerId, viewId);
-    }
-    
-    let dotNetIRouteSymbolsPolylineBarriers: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetIRouteSymbolsPolylineBarriers.id = geoBlazorId;
     }

@@ -49,27 +49,18 @@ export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPopupDockOptionsBreakpoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
-        jsComponentRef = await buildJsPopupDockOptionsBreakpoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPopupDockOptionsBreakpoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.height)) {
         dotNetPopupDockOptionsBreakpoint.height = jsObject.height;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetPopupDockOptionsBreakpoint.width = jsObject.width;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPopupDockOptionsBreakpoint.id = geoBlazorId;
     }

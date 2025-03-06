@@ -216,58 +216,59 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetListItemPanelWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
-        jsComponentRef = await buildJsListItemPanelWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetListItemPanelWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.listItem)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.content)) {
         dotNetListItemPanelWidget.content = jsObject.content;
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetListItemPanelWidget.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.flowEnabled)) {
         dotNetListItemPanelWidget.flowEnabled = jsObject.flowEnabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetListItemPanelWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.image)) {
         dotNetListItemPanelWidget.image = jsObject.image;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetListItemPanelWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.open)) {
         dotNetListItemPanelWidget.open = jsObject.open;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetListItemPanelWidget.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetListItemPanelWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetListItemPanelWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetListItemPanelWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetListItemPanelWidget.id = geoBlazorId;
     }

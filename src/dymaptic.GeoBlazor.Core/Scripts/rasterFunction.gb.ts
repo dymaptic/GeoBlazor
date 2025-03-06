@@ -60,36 +60,30 @@ export async function buildDotNetRasterFunctionGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRasterFunction: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRasterFunction } = await import('./rasterFunction');
-        jsComponentRef = await buildJsRasterFunction(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRasterFunction: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.functionArguments)) {
         dotNetRasterFunction.functionArguments = jsObject.functionArguments;
     }
+    
     if (hasValue(jsObject.functionName)) {
         dotNetRasterFunction.functionName = jsObject.functionName;
     }
+    
     if (hasValue(jsObject.outputPixelType)) {
         dotNetRasterFunction.outputPixelType = jsObject.outputPixelType;
     }
+    
     if (hasValue(jsObject.rasterFunctionDefinition)) {
         dotNetRasterFunction.rasterFunctionDefinition = jsObject.rasterFunctionDefinition;
     }
+    
     if (hasValue(jsObject.variableName)) {
         dotNetRasterFunction.variableName = jsObject.variableName;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRasterFunction.id = geoBlazorId;
     }

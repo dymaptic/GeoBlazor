@@ -189,46 +189,43 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any,
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetAreaMeasurement2DWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
-        jsComponentRef = await buildJsAreaMeasurement2DWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetAreaMeasurement2DWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
         dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetAreaMeasurement2DWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetAreaMeasurement2DWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetAreaMeasurement2DWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetAreaMeasurement2DWidget.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.unitOptions)) {
         dotNetAreaMeasurement2DWidget.unitOptions = jsObject.unitOptions;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetAreaMeasurement2DWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetAreaMeasurement2DWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DWidget.id = geoBlazorId;
     }

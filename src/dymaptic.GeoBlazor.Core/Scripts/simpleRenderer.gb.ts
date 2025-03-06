@@ -60,39 +60,33 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSimpleRenderer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSimpleRenderer } = await import('./simpleRenderer');
-        jsComponentRef = await buildJsSimpleRenderer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSimpleRenderer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.authoringInfo)) {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
         dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
     }
+    
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
         dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetSimpleRenderer.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSimpleRenderer.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSimpleRenderer.id = geoBlazorId;
     }

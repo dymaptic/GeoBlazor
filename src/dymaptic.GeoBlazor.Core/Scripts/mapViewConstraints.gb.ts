@@ -85,63 +85,65 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMapViewConstraints: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMapViewConstraints } = await import('./mapViewConstraints');
-        jsComponentRef = await buildJsMapViewConstraints(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMapViewConstraints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effectiveLODs)) {
         let { buildDotNetLOD } = await import('./lOD');
         dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
         dotNetMapViewConstraints.geometry = buildDotNetGeometry(jsObject.geometry);
     }
+    
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
         dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.effectiveMaxScale)) {
         dotNetMapViewConstraints.effectiveMaxScale = jsObject.effectiveMaxScale;
     }
+    
     if (hasValue(jsObject.effectiveMaxZoom)) {
         dotNetMapViewConstraints.effectiveMaxZoom = jsObject.effectiveMaxZoom;
     }
+    
     if (hasValue(jsObject.effectiveMinScale)) {
         dotNetMapViewConstraints.effectiveMinScale = jsObject.effectiveMinScale;
     }
+    
     if (hasValue(jsObject.effectiveMinZoom)) {
         dotNetMapViewConstraints.effectiveMinZoom = jsObject.effectiveMinZoom;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetMapViewConstraints.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.maxZoom)) {
         dotNetMapViewConstraints.maxZoom = jsObject.maxZoom;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetMapViewConstraints.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.minZoom)) {
         dotNetMapViewConstraints.minZoom = jsObject.minZoom;
     }
+    
     if (hasValue(jsObject.rotationEnabled)) {
         dotNetMapViewConstraints.rotationEnabled = jsObject.rotationEnabled;
     }
+    
     if (hasValue(jsObject.snapToZoom)) {
         dotNetMapViewConstraints.snapToZoom = jsObject.snapToZoom;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMapViewConstraints.id = geoBlazorId;
     }

@@ -43,24 +43,14 @@ export async function buildDotNetGroundNavigationConstraintGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetGroundNavigationConstraint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGroundNavigationConstraint } = await import('./groundNavigationConstraint');
-        jsComponentRef = await buildJsGroundNavigationConstraint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGroundNavigationConstraint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.type)) {
         dotNetGroundNavigationConstraint.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetGroundNavigationConstraint.id = geoBlazorId;
     }

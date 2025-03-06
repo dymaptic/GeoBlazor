@@ -48,27 +48,18 @@ export async function buildDotNetMeshLocalVertexSpaceGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMeshLocalVertexSpace: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMeshLocalVertexSpace } = await import('./meshLocalVertexSpace');
-        jsComponentRef = await buildJsMeshLocalVertexSpace(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMeshLocalVertexSpace: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.origin)) {
         dotNetMeshLocalVertexSpace.origin = jsObject.origin;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetMeshLocalVertexSpace.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMeshLocalVertexSpace.id = geoBlazorId;
     }

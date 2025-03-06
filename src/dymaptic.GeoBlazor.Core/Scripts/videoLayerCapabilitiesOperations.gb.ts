@@ -58,36 +58,30 @@ export async function buildDotNetVideoLayerCapabilitiesOperationsGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetVideoLayerCapabilitiesOperations: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
-        jsComponentRef = await buildJsVideoLayerCapabilitiesOperations(jsObject, layerId, viewId);
-    }
-    
-    let dotNetVideoLayerCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsAppend)) {
         dotNetVideoLayerCapabilitiesOperations.supportsAppend = jsObject.supportsAppend;
     }
+    
     if (hasValue(jsObject.supportsExportClip)) {
         dotNetVideoLayerCapabilitiesOperations.supportsExportClip = jsObject.supportsExportClip;
     }
+    
     if (hasValue(jsObject.supportsExportFrameset)) {
         dotNetVideoLayerCapabilitiesOperations.supportsExportFrameset = jsObject.supportsExportFrameset;
     }
+    
     if (hasValue(jsObject.supportsMensuration)) {
         dotNetVideoLayerCapabilitiesOperations.supportsMensuration = jsObject.supportsMensuration;
     }
+    
     if (hasValue(jsObject.supportsUpdate)) {
         dotNetVideoLayerCapabilitiesOperations.supportsUpdate = jsObject.supportsUpdate;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetVideoLayerCapabilitiesOperations.id = geoBlazorId;
     }

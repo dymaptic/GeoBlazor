@@ -57,33 +57,26 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDimensionalDefinition: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        jsComponentRef = await buildJsDimensionalDefinition(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDimensionalDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.dimensionName)) {
         dotNetDimensionalDefinition.dimensionName = jsObject.dimensionName;
     }
+    
     if (hasValue(jsObject.isSlice)) {
         dotNetDimensionalDefinition.isSlice = jsObject.isSlice;
     }
+    
     if (hasValue(jsObject.values)) {
         dotNetDimensionalDefinition.values = jsObject.values;
     }
+    
     if (hasValue(jsObject.variableName)) {
         dotNetDimensionalDefinition.variableName = jsObject.variableName;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDimensionalDefinition.id = geoBlazorId;
     }

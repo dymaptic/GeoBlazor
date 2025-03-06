@@ -69,45 +69,42 @@ export async function buildDotNetRasterSensorInfoGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRasterSensorInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRasterSensorInfo } = await import('./rasterSensorInfo');
-        jsComponentRef = await buildJsRasterSensorInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRasterSensorInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetRasterSensorInfo.acquisitionDate = jsObject.acquisitionDate;
     }
+    
     if (hasValue(jsObject.cloudCover)) {
         dotNetRasterSensorInfo.cloudCover = jsObject.cloudCover;
     }
+    
     if (hasValue(jsObject.productName)) {
         dotNetRasterSensorInfo.productName = jsObject.productName;
     }
+    
     if (hasValue(jsObject.sensorAzimuth)) {
         dotNetRasterSensorInfo.sensorAzimuth = jsObject.sensorAzimuth;
     }
+    
     if (hasValue(jsObject.sensorElevation)) {
         dotNetRasterSensorInfo.sensorElevation = jsObject.sensorElevation;
     }
+    
     if (hasValue(jsObject.sensorName)) {
         dotNetRasterSensorInfo.sensorName = jsObject.sensorName;
     }
+    
     if (hasValue(jsObject.sunAzimuth)) {
         dotNetRasterSensorInfo.sunAzimuth = jsObject.sunAzimuth;
     }
+    
     if (hasValue(jsObject.sunElevation)) {
         dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRasterSensorInfo.id = geoBlazorId;
     }

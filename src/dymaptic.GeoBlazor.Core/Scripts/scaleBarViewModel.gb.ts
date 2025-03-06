@@ -48,21 +48,10 @@ export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, layer
         return null;
     }
     
+    let dotNetScaleBarViewModel: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsScaleBarViewModel } = await import('./scaleBarViewModel');
-        jsComponentRef = await buildJsScaleBarViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetScaleBarViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetScaleBarViewModel.id = geoBlazorId;
     }

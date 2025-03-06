@@ -60,39 +60,34 @@ export async function buildDotNetTextElementGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTextElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTextElement } = await import('./textElement');
-        jsComponentRef = await buildJsTextElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTextElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.description)) {
         dotNetTextElement.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetTextElement.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.text)) {
         dotNetTextElement.text = jsObject.text;
     }
+    
     if (hasValue(jsObject.textFormat)) {
         dotNetTextElement.textFormat = jsObject.textFormat;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetTextElement.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visibilityExpression)) {
         dotNetTextElement.visibilityExpression = jsObject.visibilityExpression;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTextElement.id = geoBlazorId;
     }

@@ -783,21 +783,10 @@ export async function buildDotNetGeometryEngineAsyncGenerated(jsObject: any, lay
         return null;
     }
     
+    let dotNetGeometryEngineAsync: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsGeometryEngineAsync } = await import('./geometryEngineAsync');
-        jsComponentRef = await buildJsGeometryEngineAsync(jsObject, layerId, viewId);
-    }
-    
-    let dotNetGeometryEngineAsync: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetGeometryEngineAsync.id = geoBlazorId;
     }

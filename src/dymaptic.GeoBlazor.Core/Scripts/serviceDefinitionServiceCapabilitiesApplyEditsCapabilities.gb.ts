@@ -46,24 +46,14 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsC
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject, layerId, viewId);
-    }
-    
-    let dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.graphDefaultRollbackOnFailure)) {
         dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities.graphDefaultRollbackOnFailure = jsObject.graphDefaultRollbackOnFailure;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities.id = geoBlazorId;
     }

@@ -52,28 +52,19 @@ export async function buildDotNetUniqueValueGroupGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValueGroup: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
-        jsComponentRef = await buildJsUniqueValueGroup(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValueGroup: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.classes)) {
         let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
         dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.heading)) {
         dotNetUniqueValueGroup.heading = jsObject.heading;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueGroup.id = geoBlazorId;
     }

@@ -330,92 +330,103 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOpenStreetMapLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOpenStreetMapLayer } = await import('./openStreetMapLayer');
-        jsComponentRef = await buildJsOpenStreetMapLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOpenStreetMapLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetOpenStreetMapLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
         dotNetOpenStreetMapLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetOpenStreetMapLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetOpenStreetMapLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetOpenStreetMapLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetOpenStreetMapLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetOpenStreetMapLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetOpenStreetMapLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetOpenStreetMapLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetOpenStreetMapLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetOpenStreetMapLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetOpenStreetMapLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetOpenStreetMapLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetOpenStreetMapLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.subDomains)) {
         dotNetOpenStreetMapLayer.subDomains = jsObject.subDomains;
     }
+    
     if (hasValue(jsObject.tileServers)) {
         dotNetOpenStreetMapLayer.tileServers = jsObject.tileServers;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetOpenStreetMapLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetOpenStreetMapLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.urlTemplate)) {
         dotNetOpenStreetMapLayer.urlTemplate = jsObject.urlTemplate;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetOpenStreetMapLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOpenStreetMapLayer.id = geoBlazorId;
     }

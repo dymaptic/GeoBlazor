@@ -46,24 +46,14 @@ export async function buildDotNetSupportingWidgetDefaultsFeatureFormGenerated(js
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSupportingWidgetDefaultsFeatureForm: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
-        jsComponentRef = await buildJsSupportingWidgetDefaultsFeatureForm(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSupportingWidgetDefaultsFeatureForm: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.groupDisplay)) {
         dotNetSupportingWidgetDefaultsFeatureForm.groupDisplay = jsObject.groupDisplay;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSupportingWidgetDefaultsFeatureForm.id = geoBlazorId;
     }

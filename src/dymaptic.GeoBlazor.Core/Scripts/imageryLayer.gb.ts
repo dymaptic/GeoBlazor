@@ -888,203 +888,247 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetImageryLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsImageryLayer } = await import('./imageryLayer');
-        jsComponentRef = await buildJsImageryLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetImageryLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.capabilities)) {
         let { buildDotNetArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
         dotNetImageryLayer.capabilities = await buildDotNetArcGISImageServiceCapabilities(jsObject.capabilities, layerId, viewId);
     }
+    
     if (hasValue(jsObject.defaultMosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageryLayer.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule, layerId, viewId);
     }
+    
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetImageryLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetImageryLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetImageryLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetImageryLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule, layerId, viewId);
     }
+    
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetImageryLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
         dotNetImageryLayer.rasterFields = jsObject.rasterFields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
         dotNetImageryLayer.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction, layerId, viewId);
     }
+    
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
         dotNetImageryLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageryLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetImageryLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetImageryLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageryLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetImageryLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.bandIds)) {
         dotNetImageryLayer.bandIds = jsObject.bandIds;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetImageryLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.compressionQuality)) {
         dotNetImageryLayer.compressionQuality = jsObject.compressionQuality;
     }
+    
     if (hasValue(jsObject.compressionTolerance)) {
         dotNetImageryLayer.compressionTolerance = jsObject.compressionTolerance;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetImageryLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetImageryLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.definitionExpression)) {
         dotNetImageryLayer.definitionExpression = jsObject.definitionExpression;
     }
+    
     if (hasValue(jsObject.format)) {
         dotNetImageryLayer.format = jsObject.format;
     }
+    
     if (hasValue(jsObject.hasMultidimensions)) {
         dotNetImageryLayer.hasMultidimensions = jsObject.hasMultidimensions;
     }
+    
     if (hasValue(jsObject.imageMaxHeight)) {
         dotNetImageryLayer.imageMaxHeight = jsObject.imageMaxHeight;
     }
+    
     if (hasValue(jsObject.imageMaxWidth)) {
         dotNetImageryLayer.imageMaxWidth = jsObject.imageMaxWidth;
     }
+    
     if (hasValue(jsObject.interpolation)) {
         dotNetImageryLayer.interpolation = jsObject.interpolation;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetImageryLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetImageryLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetImageryLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetImageryLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetImageryLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.multidimensionalInfo)) {
         dotNetImageryLayer.multidimensionalInfo = jsObject.multidimensionalInfo;
     }
+    
     if (hasValue(jsObject.noData)) {
         dotNetImageryLayer.noData = jsObject.noData;
     }
+    
     if (hasValue(jsObject.noDataInterpretation)) {
         dotNetImageryLayer.noDataInterpretation = jsObject.noDataInterpretation;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetImageryLayer.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetImageryLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetImageryLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.pixelFilter)) {
         dotNetImageryLayer.pixelFilter = jsObject.pixelFilter;
     }
+    
     if (hasValue(jsObject.pixelType)) {
         dotNetImageryLayer.pixelType = jsObject.pixelType;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetImageryLayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.rasterFunctionInfos)) {
         dotNetImageryLayer.rasterFunctionInfos = jsObject.rasterFunctionInfos;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.renderer)) {
         dotNetImageryLayer.renderer = jsObject.renderer;
     }
+    
     if (hasValue(jsObject.sourceType)) {
         dotNetImageryLayer.sourceType = jsObject.sourceType;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetImageryLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetImageryLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetImageryLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetImageryLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.useViewTime)) {
         dotNetImageryLayer.useViewTime = jsObject.useViewTime;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetImageryLayer.version = jsObject.version;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetImageryLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetImageryLayer.id = geoBlazorId;
     }

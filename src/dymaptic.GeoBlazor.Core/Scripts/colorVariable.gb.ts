@@ -65,44 +65,40 @@ export async function buildDotNetColorVariableGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetColorVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsColorVariable } = await import('./colorVariable');
-        jsComponentRef = await buildJsColorVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetColorVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.stops)) {
         let { buildDotNetColorStop } = await import('./colorStop');
         dotNetColorVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetColorStop(i)));
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetColorVariable.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.normalizationField)) {
         dotNetColorVariable.normalizationField = jsObject.normalizationField;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetColorVariable.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetColorVariable.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetColorVariable.id = geoBlazorId;
     }

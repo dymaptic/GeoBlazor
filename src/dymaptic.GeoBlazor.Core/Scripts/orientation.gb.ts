@@ -46,24 +46,14 @@ export async function buildDotNetOrientationGenerated(jsObject: any, layerId: st
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetOrientation: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsOrientation } = await import('./orientation');
-        jsComponentRef = await buildJsOrientation(jsObject, layerId, viewId);
-    }
-    
-    let dotNetOrientation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.z)) {
         dotNetOrientation.z = jsObject.z;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetOrientation.id = geoBlazorId;
     }

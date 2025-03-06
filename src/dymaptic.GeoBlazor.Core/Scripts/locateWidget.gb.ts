@@ -267,60 +267,61 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLocateWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLocateWidget } = await import('./locateWidget');
-        jsComponentRef = await buildJsLocateWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLocateWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
         dotNetLocateWidget.goToOverride = await buildDotNetGoToOverride(jsObject.goToOverride);
     }
+    
     if (hasValue(jsObject.graphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
         dotNetLocateWidget.graphic = buildDotNetGraphic(jsObject.graphic, layerId, viewId);
     }
+    
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLocateViewModel } = await import('./locateViewModel');
         dotNetLocateWidget.viewModel = await buildDotNetLocateViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.geolocationOptions)) {
         dotNetLocateWidget.geolocationOptions = jsObject.geolocationOptions;
     }
+    
     if (hasValue(jsObject.goToLocationEnabled)) {
         dotNetLocateWidget.goToLocationEnabled = jsObject.goToLocationEnabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetLocateWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetLocateWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetLocateWidget.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetLocateWidget.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetLocateWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetLocateWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetLocateWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLocateWidget.id = geoBlazorId;
     }

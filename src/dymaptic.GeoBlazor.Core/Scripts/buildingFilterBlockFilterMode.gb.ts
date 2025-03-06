@@ -47,28 +47,19 @@ export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBuildingFilterBlockFilterMode: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
-        jsComponentRef = await buildJsBuildingFilterBlockFilterMode(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBuildingFilterBlockFilterMode: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.edges)) {
         let { buildDotNetIBuildingFilterBlockFilterModeEdges } = await import('./iBuildingFilterBlockFilterModeEdges');
         dotNetBuildingFilterBlockFilterMode.edges = buildDotNetIBuildingFilterBlockFilterModeEdges(jsObject.edges);
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBuildingFilterBlockFilterMode.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBuildingFilterBlockFilterMode.id = geoBlazorId;
     }

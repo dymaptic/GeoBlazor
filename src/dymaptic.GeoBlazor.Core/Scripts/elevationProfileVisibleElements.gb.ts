@@ -67,45 +67,42 @@ export async function buildDotNetElevationProfileVisibleElementsGenerated(jsObje
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationProfileVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationProfileVisibleElements } = await import('./elevationProfileVisibleElements');
-        jsComponentRef = await buildJsElevationProfileVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationProfileVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.chart)) {
         dotNetElevationProfileVisibleElements.chart = jsObject.chart;
     }
+    
     if (hasValue(jsObject.clearButton)) {
         dotNetElevationProfileVisibleElements.clearButton = jsObject.clearButton;
     }
+    
     if (hasValue(jsObject.legend)) {
         dotNetElevationProfileVisibleElements.legend = jsObject.legend;
     }
+    
     if (hasValue(jsObject.selectButton)) {
         dotNetElevationProfileVisibleElements.selectButton = jsObject.selectButton;
     }
+    
     if (hasValue(jsObject.settingsButton)) {
         dotNetElevationProfileVisibleElements.settingsButton = jsObject.settingsButton;
     }
+    
     if (hasValue(jsObject.sketchButton)) {
         dotNetElevationProfileVisibleElements.sketchButton = jsObject.sketchButton;
     }
+    
     if (hasValue(jsObject.uniformChartScalingToggle)) {
         dotNetElevationProfileVisibleElements.uniformChartScalingToggle = jsObject.uniformChartScalingToggle;
     }
+    
     if (hasValue(jsObject.unitSelector)) {
         dotNetElevationProfileVisibleElements.unitSelector = jsObject.unitSelector;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileVisibleElements.id = geoBlazorId;
     }

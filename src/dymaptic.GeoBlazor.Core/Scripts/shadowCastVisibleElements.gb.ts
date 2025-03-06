@@ -61,39 +61,34 @@ export async function buildDotNetShadowCastVisibleElementsGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetShadowCastVisibleElements: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
-        jsComponentRef = await buildJsShadowCastVisibleElements(jsObject, layerId, viewId);
-    }
-    
-    let dotNetShadowCastVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.colorPicker)) {
         dotNetShadowCastVisibleElements.colorPicker = jsObject.colorPicker;
     }
+    
     if (hasValue(jsObject.datePicker)) {
         dotNetShadowCastVisibleElements.datePicker = jsObject.datePicker;
     }
+    
     if (hasValue(jsObject.timeRangeSlider)) {
         dotNetShadowCastVisibleElements.timeRangeSlider = jsObject.timeRangeSlider;
     }
+    
     if (hasValue(jsObject.timezone)) {
         dotNetShadowCastVisibleElements.timezone = jsObject.timezone;
     }
+    
     if (hasValue(jsObject.tooltip)) {
         dotNetShadowCastVisibleElements.tooltip = jsObject.tooltip;
     }
+    
     if (hasValue(jsObject.visualizationOptions)) {
         dotNetShadowCastVisibleElements.visualizationOptions = jsObject.visualizationOptions;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetShadowCastVisibleElements.id = geoBlazorId;
     }

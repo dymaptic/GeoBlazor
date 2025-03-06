@@ -78,21 +78,10 @@ export async function buildDotNetLocationServiceGenerated(jsObject: any, layerId
         return null;
     }
     
+    let dotNetLocationService: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLocationService } = await import('./locationService');
-        jsComponentRef = await buildJsLocationService(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLocationService: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetLocationService.id = geoBlazorId;
     }

@@ -255,76 +255,81 @@ export async function buildDotNetUniqueValueRendererGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValueRenderer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValueRenderer } = await import('./uniqueValueRenderer');
-        jsComponentRef = await buildJsUniqueValueRenderer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValueRenderer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.authoringInfo)) {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
         dotNetUniqueValueRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.backgroundFillSymbol)) {
         let { buildDotNetFillSymbol } = await import('./fillSymbol');
         dotNetUniqueValueRenderer.backgroundFillSymbol = await buildDotNetFillSymbol(jsObject.backgroundFillSymbol);
     }
+    
     if (hasValue(jsObject.defaultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetUniqueValueRenderer.defaultSymbol = buildDotNetSymbol(jsObject.defaultSymbol);
     }
+    
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         dotNetUniqueValueRenderer.legendOptions = await buildDotNetUniqueValueRendererLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.uniqueValueGroups)) {
         let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
         dotNetUniqueValueRenderer.uniqueValueGroups = await Promise.all(jsObject.uniqueValueGroups.map(async i => await buildDotNetUniqueValueGroup(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.uniqueValueInfos)) {
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
         dotNetUniqueValueRenderer.uniqueValueInfos = await Promise.all(jsObject.uniqueValueInfos.map(async i => await buildDotNetUniqueValueInfo(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetVisualVariable } = await import('./visualVariable');
         dotNetUniqueValueRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
     }
+    
     if (hasValue(jsObject.defaultLabel)) {
         dotNetUniqueValueRenderer.defaultLabel = jsObject.defaultLabel;
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetUniqueValueRenderer.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.field2)) {
         dotNetUniqueValueRenderer.field2 = jsObject.field2;
     }
+    
     if (hasValue(jsObject.field3)) {
         dotNetUniqueValueRenderer.field3 = jsObject.field3;
     }
+    
     if (hasValue(jsObject.fieldDelimiter)) {
         dotNetUniqueValueRenderer.fieldDelimiter = jsObject.fieldDelimiter;
     }
+    
     if (hasValue(jsObject.orderByClassesEnabled)) {
         dotNetUniqueValueRenderer.orderByClassesEnabled = jsObject.orderByClassesEnabled;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetUniqueValueRenderer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetUniqueValueRenderer.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetUniqueValueRenderer.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueRenderer.id = geoBlazorId;
     }

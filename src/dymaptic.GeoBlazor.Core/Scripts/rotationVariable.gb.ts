@@ -64,43 +64,39 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetRotationVariable: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsRotationVariable } = await import('./rotationVariable');
-        jsComponentRef = await buildJsRotationVariable(jsObject, layerId, viewId);
-    }
-    
-    let dotNetRotationVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
+    
     if (hasValue(jsObject.axis)) {
         dotNetRotationVariable.axis = jsObject.axis;
     }
+    
     if (hasValue(jsObject.field)) {
         dotNetRotationVariable.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.rotationType)) {
         dotNetRotationVariable.rotationType = jsObject.rotationType;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetRotationVariable.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.valueExpression)) {
         dotNetRotationVariable.valueExpression = jsObject.valueExpression;
     }
+    
     if (hasValue(jsObject.valueExpressionTitle)) {
         dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetRotationVariable.id = geoBlazorId;
     }

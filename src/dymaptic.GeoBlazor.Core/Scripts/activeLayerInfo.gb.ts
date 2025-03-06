@@ -84,56 +84,56 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetActiveLayerInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
-        jsComponentRef = await buildJsActiveLayerInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetActiveLayerInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
         dotNetActiveLayerInfo.layerView = await buildDotNetLayerView(jsObject.layerView);
     }
+    
     if (hasValue(jsObject.legendElements)) {
         let { buildDotNetILegendElement } = await import('./iLegendElement');
         dotNetActiveLayerInfo.legendElements = jsObject.legendElements.map(i => buildDotNetILegendElement(i));
     }
+    
     if (hasValue(jsObject.hideLayersNotInCurrentView)) {
         dotNetActiveLayerInfo.hideLayersNotInCurrentView = jsObject.hideLayersNotInCurrentView;
     }
+    
     if (hasValue(jsObject.isScaleDriven)) {
         dotNetActiveLayerInfo.isScaleDriven = jsObject.isScaleDriven;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetActiveLayerInfo.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.ready)) {
         dotNetActiveLayerInfo.ready = jsObject.ready;
     }
+    
     if (hasValue(jsObject.respectLayerVisibility)) {
         dotNetActiveLayerInfo.respectLayerVisibility = jsObject.respectLayerVisibility;
     }
+    
     if (hasValue(jsObject.scale)) {
         dotNetActiveLayerInfo.scale = jsObject.scale;
     }
+    
     if (hasValue(jsObject.sublayerIds)) {
         dotNetActiveLayerInfo.sublayerIds = jsObject.sublayerIds;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetActiveLayerInfo.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetActiveLayerInfo.version = jsObject.version;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetActiveLayerInfo.id = geoBlazorId;
     }

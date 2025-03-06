@@ -64,42 +64,37 @@ export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewEnvironment: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewEnvironment } = await import('./sceneViewEnvironment');
-        jsComponentRef = await buildJsSceneViewEnvironment(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewEnvironment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.atmosphere)) {
         let { buildDotNetSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
         dotNetSceneViewEnvironment.atmosphere = await buildDotNetSceneViewEnvironmentAtmosphere(jsObject.atmosphere, layerId, viewId);
     }
+    
     if (hasValue(jsObject.background)) {
         let { buildDotNetBackground } = await import('./background');
         dotNetSceneViewEnvironment.background = buildDotNetBackground(jsObject.background);
     }
+    
     if (hasValue(jsObject.weather)) {
         let { buildDotNetISceneViewEnvironmentWeather } = await import('./iSceneViewEnvironmentWeather');
         dotNetSceneViewEnvironment.weather = buildDotNetISceneViewEnvironmentWeather(jsObject.weather);
     }
+    
     if (hasValue(jsObject.atmosphereEnabled)) {
         dotNetSceneViewEnvironment.atmosphereEnabled = jsObject.atmosphereEnabled;
     }
+    
     if (hasValue(jsObject.lighting)) {
         dotNetSceneViewEnvironment.lighting = jsObject.lighting;
     }
+    
     if (hasValue(jsObject.starsEnabled)) {
         dotNetSceneViewEnvironment.starsEnabled = jsObject.starsEnabled;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewEnvironment.id = geoBlazorId;
     }

@@ -69,48 +69,46 @@ export async function buildDotNetActionToggleGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetActionToggle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsActionToggle } = await import('./actionToggle');
-        jsComponentRef = await buildJsActionToggle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetActionToggle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.id)) {
         dotNetActionToggle.actionId = jsObject.id;
     }
+    
     if (hasValue(jsObject.active)) {
         dotNetActionToggle.active = jsObject.active;
     }
+    
     if (hasValue(jsObject.className)) {
         dotNetActionToggle.className = jsObject.className;
     }
+    
     if (hasValue(jsObject.disabled)) {
         dotNetActionToggle.disabled = jsObject.disabled;
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetActionToggle.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetActionToggle.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetActionToggle.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetActionToggle.value = jsObject.value;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetActionToggle.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetActionToggle.id = geoBlazorId;
     }

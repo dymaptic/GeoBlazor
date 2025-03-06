@@ -67,59 +67,60 @@ export async function buildDotNetElevationProfileLineViewGenerated(jsObject: any
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationProfileLineView: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationProfileLineView } = await import('./elevationProfileLineView');
-        jsComponentRef = await buildJsElevationProfileLineView(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationProfileLineView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetElevationProfileLineView.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.hoveredPoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetElevationProfileLineView.hoveredPoint = buildDotNetPoint(jsObject.hoveredPoint);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetElevationProfileLineView.elevationProfileLineId = jsObject.id;
     }
+    
     if (hasValue(jsObject.exclude)) {
         dotNetElevationProfileLineView.exclude = jsObject.exclude;
     }
+    
     if (hasValue(jsObject.include)) {
         dotNetElevationProfileLineView.include = jsObject.include;
     }
+    
     if (hasValue(jsObject.progress)) {
         dotNetElevationProfileLineView.progress = jsObject.progress;
     }
+    
     if (hasValue(jsObject.samples)) {
         dotNetElevationProfileLineView.samples = jsObject.samples;
     }
+    
     if (hasValue(jsObject.statistics)) {
         dotNetElevationProfileLineView.statistics = jsObject.statistics;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetElevationProfileLineView.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetElevationProfileLineView.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.viewVisualizationEnabled)) {
         dotNetElevationProfileLineView.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetElevationProfileLineView.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineView.id = geoBlazorId;
     }

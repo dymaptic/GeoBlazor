@@ -49,27 +49,18 @@ export async function buildDotNetUniqueValuesResultUniqueValueInfosGenerated(jsO
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetUniqueValuesResultUniqueValueInfos: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsUniqueValuesResultUniqueValueInfos } = await import('./uniqueValuesResultUniqueValueInfos');
-        jsComponentRef = await buildJsUniqueValuesResultUniqueValueInfos(jsObject, layerId, viewId);
-    }
-    
-    let dotNetUniqueValuesResultUniqueValueInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.count)) {
         dotNetUniqueValuesResultUniqueValueInfos.count = jsObject.count;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetUniqueValuesResultUniqueValueInfos.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValuesResultUniqueValueInfos.id = geoBlazorId;
     }

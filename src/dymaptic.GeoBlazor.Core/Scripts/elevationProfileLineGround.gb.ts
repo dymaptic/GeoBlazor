@@ -61,53 +61,52 @@ export async function buildDotNetElevationProfileLineGroundGenerated(jsObject: a
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationProfileLineGround: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationProfileLineGround } = await import('./elevationProfileLineGround');
-        jsComponentRef = await buildJsElevationProfileLineGround(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationProfileLineGround: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetElevationProfileLineGround.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.hoveredPoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetElevationProfileLineGround.hoveredPoint = buildDotNetPoint(jsObject.hoveredPoint);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetElevationProfileLineGround.elevationProfileLineId = jsObject.id;
     }
+    
     if (hasValue(jsObject.progress)) {
         dotNetElevationProfileLineGround.progress = jsObject.progress;
     }
+    
     if (hasValue(jsObject.samples)) {
         dotNetElevationProfileLineGround.samples = jsObject.samples;
     }
+    
     if (hasValue(jsObject.statistics)) {
         dotNetElevationProfileLineGround.statistics = jsObject.statistics;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetElevationProfileLineGround.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetElevationProfileLineGround.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.viewVisualizationEnabled)) {
         dotNetElevationProfileLineGround.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetElevationProfileLineGround.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineGround.id = geoBlazorId;
     }

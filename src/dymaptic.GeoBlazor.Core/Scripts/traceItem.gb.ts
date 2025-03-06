@@ -46,24 +46,14 @@ export async function buildDotNetTraceItemGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTraceItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTraceItem } = await import('./traceItem');
-        jsComponentRef = await buildJsTraceItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTraceItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.selected)) {
         dotNetTraceItem.selected = jsObject.selected;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTraceItem.id = geoBlazorId;
     }

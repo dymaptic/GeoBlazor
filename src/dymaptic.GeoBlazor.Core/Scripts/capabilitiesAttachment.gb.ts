@@ -64,42 +64,38 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCapabilitiesAttachment: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-        jsComponentRef = await buildJsCapabilitiesAttachment(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCapabilitiesAttachment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.supportsCacheHint)) {
         dotNetCapabilitiesAttachment.supportsCacheHint = jsObject.supportsCacheHint;
     }
+    
     if (hasValue(jsObject.supportsContentType)) {
         dotNetCapabilitiesAttachment.supportsContentType = jsObject.supportsContentType;
     }
+    
     if (hasValue(jsObject.supportsExifInfo)) {
         dotNetCapabilitiesAttachment.supportsExifInfo = jsObject.supportsExifInfo;
     }
+    
     if (hasValue(jsObject.supportsKeywords)) {
         dotNetCapabilitiesAttachment.supportsKeywords = jsObject.supportsKeywords;
     }
+    
     if (hasValue(jsObject.supportsName)) {
         dotNetCapabilitiesAttachment.supportsName = jsObject.supportsName;
     }
+    
     if (hasValue(jsObject.supportsResize)) {
         dotNetCapabilitiesAttachment.supportsResize = jsObject.supportsResize;
     }
+    
     if (hasValue(jsObject.supportsSize)) {
         dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesAttachment.id = geoBlazorId;
     }

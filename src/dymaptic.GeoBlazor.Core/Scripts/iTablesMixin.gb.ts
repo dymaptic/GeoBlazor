@@ -47,21 +47,10 @@ export async function buildDotNetITablesMixinGenerated(jsObject: any, layerId: s
         return null;
     }
     
+    let dotNetITablesMixin: any = {};
+    
+
     let geoBlazorId = lookupGeoBlazorId(jsObject);
-    
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsITablesMixin } = await import('./iTablesMixin');
-        jsComponentRef = await buildJsITablesMixin(jsObject, layerId, viewId);
-    }
-    
-    let dotNetITablesMixin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
-
-
     if (hasValue(geoBlazorId)) {
         dotNetITablesMixin.id = geoBlazorId;
     }

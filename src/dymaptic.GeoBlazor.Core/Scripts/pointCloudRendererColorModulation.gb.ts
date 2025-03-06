@@ -52,30 +52,22 @@ export async function buildDotNetPointCloudRendererColorModulationGenerated(jsOb
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPointCloudRendererColorModulation: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-        jsComponentRef = await buildJsPointCloudRendererColorModulation(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPointCloudRendererColorModulation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.field)) {
         dotNetPointCloudRendererColorModulation.field = jsObject.field;
     }
+    
     if (hasValue(jsObject.maxValue)) {
         dotNetPointCloudRendererColorModulation.maxValue = jsObject.maxValue;
     }
+    
     if (hasValue(jsObject.minValue)) {
         dotNetPointCloudRendererColorModulation.minValue = jsObject.minValue;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRendererColorModulation.id = geoBlazorId;
     }

@@ -67,33 +67,26 @@ export async function buildDotNetCustomContentGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCustomContent: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCustomContent } = await import('./customContent');
-        jsComponentRef = await buildJsCustomContent(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCustomContent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.creator)) {
         dotNetCustomContent.creator = jsObject.creator;
     }
+    
     if (hasValue(jsObject.destroyer)) {
         dotNetCustomContent.destroyer = jsObject.destroyer;
     }
+    
     if (hasValue(jsObject.outFields)) {
         dotNetCustomContent.outFields = jsObject.outFields;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetCustomContent.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCustomContent.id = geoBlazorId;
     }

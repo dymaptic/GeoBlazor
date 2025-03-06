@@ -58,39 +58,34 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetQueryTableDataSource: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsQueryTableDataSource } = await import('./queryTableDataSource');
-        jsComponentRef = await buildJsQueryTableDataSource(jsObject, layerId, viewId);
-    }
-    
-    let dotNetQueryTableDataSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.geometryType)) {
         dotNetQueryTableDataSource.geometryType = jsObject.geometryType;
     }
+    
     if (hasValue(jsObject.oidFields)) {
         dotNetQueryTableDataSource.oidFields = jsObject.oidFields;
     }
+    
     if (hasValue(jsObject.query)) {
         dotNetQueryTableDataSource.query = jsObject.query;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetQueryTableDataSource.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetQueryTableDataSource.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.workspaceId)) {
         dotNetQueryTableDataSource.workspaceId = jsObject.workspaceId;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetQueryTableDataSource.id = geoBlazorId;
     }

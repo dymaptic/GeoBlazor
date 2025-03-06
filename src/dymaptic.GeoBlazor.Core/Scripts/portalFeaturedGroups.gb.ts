@@ -49,27 +49,18 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPortalFeaturedGroups: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        jsComponentRef = await buildJsPortalFeaturedGroups(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPortalFeaturedGroups: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.owner)) {
         dotNetPortalFeaturedGroups.owner = jsObject.owner;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetPortalFeaturedGroups.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPortalFeaturedGroups.id = geoBlazorId;
     }

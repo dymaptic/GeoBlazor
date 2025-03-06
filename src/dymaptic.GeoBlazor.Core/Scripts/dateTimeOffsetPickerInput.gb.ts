@@ -57,36 +57,30 @@ export async function buildDotNetDateTimeOffsetPickerInputGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetDateTimeOffsetPickerInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsDateTimeOffsetPickerInput } = await import('./dateTimeOffsetPickerInput');
-        jsComponentRef = await buildJsDateTimeOffsetPickerInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetDateTimeOffsetPickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.includeTimeOffset)) {
         dotNetDateTimeOffsetPickerInput.includeTimeOffset = jsObject.includeTimeOffset;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetDateTimeOffsetPickerInput.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetDateTimeOffsetPickerInput.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.timeResolution)) {
         dotNetDateTimeOffsetPickerInput.timeResolution = jsObject.timeResolution;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetDateTimeOffsetPickerInput.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetDateTimeOffsetPickerInput.id = geoBlazorId;
     }

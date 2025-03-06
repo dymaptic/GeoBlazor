@@ -54,30 +54,22 @@ export async function buildDotNetSizeStopGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSizeStop: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSizeStop } = await import('./sizeStop');
-        jsComponentRef = await buildJsSizeStop(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSizeStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.label)) {
         dotNetSizeStop.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetSizeStop.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.value)) {
         dotNetSizeStop.value = jsObject.value;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSizeStop.id = geoBlazorId;
     }

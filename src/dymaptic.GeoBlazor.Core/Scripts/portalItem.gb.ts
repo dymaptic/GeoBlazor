@@ -266,131 +266,156 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetPortalItem: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsPortalItem } = await import('./portalItem');
-        jsComponentRef = await buildJsPortalItem(jsObject, layerId, viewId);
-    }
-    
-    let dotNetPortalItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetPortalItem.extent = buildDotNetExtent(jsObject.extent);
     }
+    
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
         dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
+    
     if (hasValue(jsObject.access)) {
         dotNetPortalItem.access = jsObject.access;
     }
+    
     if (hasValue(jsObject.accessInformation)) {
         dotNetPortalItem.accessInformation = jsObject.accessInformation;
     }
+    
     if (hasValue(jsObject.apiKey)) {
         dotNetPortalItem.apiKey = jsObject.apiKey;
     }
+    
     if (hasValue(jsObject.applicationProxies)) {
         dotNetPortalItem.applicationProxies = jsObject.applicationProxies;
     }
+    
     if (hasValue(jsObject.avgRating)) {
         dotNetPortalItem.avgRating = jsObject.avgRating;
     }
+    
     if (hasValue(jsObject.categories)) {
         dotNetPortalItem.categories = jsObject.categories;
     }
+    
     if (hasValue(jsObject.created)) {
         dotNetPortalItem.created = jsObject.created;
     }
+    
     if (hasValue(jsObject.culture)) {
         dotNetPortalItem.culture = jsObject.culture;
     }
+    
     if (hasValue(jsObject.description)) {
         dotNetPortalItem.description = jsObject.description;
     }
+    
     if (hasValue(jsObject.groupCategories)) {
         dotNetPortalItem.groupCategories = jsObject.groupCategories;
     }
+    
     if (hasValue(jsObject.isLayer)) {
         dotNetPortalItem.isLayer = jsObject.isLayer;
     }
+    
     if (hasValue(jsObject.isOrgItem)) {
         dotNetPortalItem.isOrgItem = jsObject.isOrgItem;
     }
+    
     if (hasValue(jsObject.itemControl)) {
         dotNetPortalItem.itemControl = jsObject.itemControl;
     }
+    
     if (hasValue(jsObject.itemPageUrl)) {
         dotNetPortalItem.itemPageUrl = jsObject.itemPageUrl;
     }
+    
     if (hasValue(jsObject.itemUrl)) {
         dotNetPortalItem.itemUrl = jsObject.itemUrl;
     }
+    
     if (hasValue(jsObject.licenseInfo)) {
         dotNetPortalItem.licenseInfo = jsObject.licenseInfo;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetPortalItem.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.modified)) {
         dotNetPortalItem.modified = jsObject.modified;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetPortalItem.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.numComments)) {
         dotNetPortalItem.numComments = jsObject.numComments;
     }
+    
     if (hasValue(jsObject.numRatings)) {
         dotNetPortalItem.numRatings = jsObject.numRatings;
     }
+    
     if (hasValue(jsObject.numViews)) {
         dotNetPortalItem.numViews = jsObject.numViews;
     }
+    
     if (hasValue(jsObject.owner)) {
         dotNetPortalItem.owner = jsObject.owner;
     }
+    
     if (hasValue(jsObject.ownerFolder)) {
         dotNetPortalItem.ownerFolder = jsObject.ownerFolder;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetPortalItem.portalItemId = jsObject.id;
     }
+    
     if (hasValue(jsObject.screenshots)) {
         dotNetPortalItem.screenshots = jsObject.screenshots;
     }
+    
     if (hasValue(jsObject.size)) {
         dotNetPortalItem.size = jsObject.size;
     }
+    
     if (hasValue(jsObject.snippet)) {
         dotNetPortalItem.snippet = jsObject.snippet;
     }
+    
     if (hasValue(jsObject.tags)) {
         dotNetPortalItem.tags = jsObject.tags;
     }
+    
     if (hasValue(jsObject.thumbnailUrl)) {
         dotNetPortalItem.thumbnailUrl = jsObject.thumbnailUrl;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetPortalItem.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetPortalItem.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.typeKeywords)) {
         dotNetPortalItem.typeKeywords = jsObject.typeKeywords;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetPortalItem.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetPortalItem.id = geoBlazorId;
     }

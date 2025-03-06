@@ -284,71 +284,76 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetISmartMappingSliderBaseWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
-        jsComponentRef = await buildJsISmartMappingSliderBaseWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetISmartMappingSliderBaseWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.histogramConfig)) {
         let { buildDotNetHistogramConfig } = await import('./histogramConfig');
         dotNetISmartMappingSliderBaseWidget.histogramConfig = await buildDotNetHistogramConfig(jsObject.histogramConfig, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSmartMappingSliderBaseVisibleElements } = await import('./smartMappingSliderBaseVisibleElements');
         dotNetISmartMappingSliderBaseWidget.visibleElements = await buildDotNetSmartMappingSliderBaseVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetISmartMappingSliderBaseWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetISmartMappingSliderBaseWidget.inputFormatFunction = jsObject.inputFormatFunction;
     }
+    
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetISmartMappingSliderBaseWidget.inputParseFunction = jsObject.inputParseFunction;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetISmartMappingSliderBaseWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetISmartMappingSliderBaseWidget.labelFormatFunction = jsObject.labelFormatFunction;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetISmartMappingSliderBaseWidget.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetISmartMappingSliderBaseWidget.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.precision)) {
         dotNetISmartMappingSliderBaseWidget.precision = jsObject.precision;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetISmartMappingSliderBaseWidget.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.syncedSegmentsEnabled)) {
         dotNetISmartMappingSliderBaseWidget.syncedSegmentsEnabled = jsObject.syncedSegmentsEnabled;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetISmartMappingSliderBaseWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetISmartMappingSliderBaseWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetISmartMappingSliderBaseWidget.widgetId = jsObject.id;
     }
+    
     if (hasValue(jsObject.zoomOptions)) {
         dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetISmartMappingSliderBaseWidget.id = geoBlazorId;
     }

@@ -8,6 +8,7 @@ public enum TileInfoFormat
 {
 #pragma warning disable CS1591
     Png,
+    Png8,
     Png24,
     Png32,
     Jpg,
@@ -21,6 +22,8 @@ public enum TileInfoFormat
     Svgz,
     Mixed,
     Lerc,
-    Pbf
+    Lerc2d,
+    Pbf,
+    Raw
 #pragma warning restore CS1591
 }

@@ -61,53 +61,52 @@ export async function buildDotNetElevationProfileLineInputGenerated(jsObject: an
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetElevationProfileLineInput: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsElevationProfileLineInput } = await import('./elevationProfileLineInput');
-        jsComponentRef = await buildJsElevationProfileLineInput(jsObject, layerId, viewId);
-    }
-    
-    let dotNetElevationProfileLineInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetElevationProfileLineInput.color = buildDotNetMapColor(jsObject.color);
     }
+    
     if (hasValue(jsObject.hoveredPoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetElevationProfileLineInput.hoveredPoint = buildDotNetPoint(jsObject.hoveredPoint);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetElevationProfileLineInput.elevationProfileLineId = jsObject.id;
     }
+    
     if (hasValue(jsObject.progress)) {
         dotNetElevationProfileLineInput.progress = jsObject.progress;
     }
+    
     if (hasValue(jsObject.samples)) {
         dotNetElevationProfileLineInput.samples = jsObject.samples;
     }
+    
     if (hasValue(jsObject.statistics)) {
         dotNetElevationProfileLineInput.statistics = jsObject.statistics;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetElevationProfileLineInput.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetElevationProfileLineInput.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.viewVisualizationEnabled)) {
         dotNetElevationProfileLineInput.viewVisualizationEnabled = jsObject.viewVisualizationEnabled;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetElevationProfileLineInput.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineInput.id = geoBlazorId;
     }

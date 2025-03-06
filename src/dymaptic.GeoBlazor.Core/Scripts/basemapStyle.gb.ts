@@ -60,36 +60,30 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: s
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapStyle: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapStyle } = await import('./basemapStyle');
-        jsComponentRef = await buildJsBasemapStyle(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.language)) {
         dotNetBasemapStyle.language = jsObject.language;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBasemapStyle.name = jsObject.id;
     }
+    
     if (hasValue(jsObject.places)) {
         dotNetBasemapStyle.places = jsObject.places;
     }
+    
     if (hasValue(jsObject.serviceUrl)) {
         dotNetBasemapStyle.serviceUrl = jsObject.serviceUrl;
     }
+    
     if (hasValue(jsObject.worldview)) {
         dotNetBasemapStyle.worldview = jsObject.worldview;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapStyle.id = geoBlazorId;
     }

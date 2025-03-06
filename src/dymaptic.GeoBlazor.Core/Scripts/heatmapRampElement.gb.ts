@@ -50,31 +50,23 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHeatmapRampElement: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHeatmapRampElement } = await import('./heatmapRampElement');
-        jsComponentRef = await buildJsHeatmapRampElement(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHeatmapRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
         dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetHeatmapRampElement.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetHeatmapRampElement.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHeatmapRampElement.id = geoBlazorId;
     }

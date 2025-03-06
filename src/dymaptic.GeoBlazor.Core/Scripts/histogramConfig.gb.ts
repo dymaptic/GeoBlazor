@@ -78,44 +78,40 @@ export async function buildDotNetHistogramConfigGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetHistogramConfig: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsHistogramConfig } = await import('./histogramConfig');
-        jsComponentRef = await buildJsHistogramConfig(jsObject, layerId, viewId);
-    }
-    
-    let dotNetHistogramConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.bins)) {
         let { buildDotNetBin } = await import('./bin');
         dotNetHistogramConfig.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.dataLines)) {
         let { buildDotNetHistogramConfigDataLines } = await import('./histogramConfigDataLines');
         dotNetHistogramConfig.dataLines = await Promise.all(jsObject.dataLines.map(async i => await buildDotNetHistogramConfigDataLines(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.average)) {
         dotNetHistogramConfig.average = jsObject.average;
     }
+    
     if (hasValue(jsObject.barCreatedFunction)) {
         dotNetHistogramConfig.barCreatedFunction = jsObject.barCreatedFunction;
     }
+    
     if (hasValue(jsObject.dataLineCreatedFunction)) {
         dotNetHistogramConfig.dataLineCreatedFunction = jsObject.dataLineCreatedFunction;
     }
+    
     if (hasValue(jsObject.standardDeviation)) {
         dotNetHistogramConfig.standardDeviation = jsObject.standardDeviation;
     }
+    
     if (hasValue(jsObject.standardDeviationCount)) {
         dotNetHistogramConfig.standardDeviationCount = jsObject.standardDeviationCount;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetHistogramConfig.id = geoBlazorId;
     }

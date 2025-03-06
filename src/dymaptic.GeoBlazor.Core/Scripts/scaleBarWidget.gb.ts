@@ -189,46 +189,43 @@ export async function buildDotNetScaleBarWidgetGenerated(jsObject: any, layerId:
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetScaleBarWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsScaleBarWidget } = await import('./scaleBarWidget');
-        jsComponentRef = await buildJsScaleBarWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetScaleBarWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
         dotNetScaleBarWidget.viewModel = await buildDotNetScaleBarViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetScaleBarWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetScaleBarWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.style)) {
         dotNetScaleBarWidget.style = jsObject.style;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetScaleBarWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.unit)) {
         dotNetScaleBarWidget.unit = jsObject.unit;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetScaleBarWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetScaleBarWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetScaleBarWidget.id = geoBlazorId;
     }

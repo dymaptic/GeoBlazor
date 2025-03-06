@@ -177,57 +177,58 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSliderViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSliderViewModel } = await import('./sliderViewModel');
-        jsComponentRef = await buildJsSliderViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSliderViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effectiveMax)) {
         dotNetSliderViewModel.effectiveMax = jsObject.effectiveMax;
     }
+    
     if (hasValue(jsObject.effectiveMin)) {
         dotNetSliderViewModel.effectiveMin = jsObject.effectiveMin;
     }
+    
     if (hasValue(jsObject.inputFormatFunction)) {
         dotNetSliderViewModel.inputFormatFunction = jsObject.inputFormatFunction;
     }
+    
     if (hasValue(jsObject.inputParseFunction)) {
         dotNetSliderViewModel.inputParseFunction = jsObject.inputParseFunction;
     }
+    
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetSliderViewModel.labelFormatFunction = jsObject.labelFormatFunction;
     }
+    
     if (hasValue(jsObject.labels)) {
         dotNetSliderViewModel.labels = jsObject.labels;
     }
+    
     if (hasValue(jsObject.max)) {
         dotNetSliderViewModel.max = jsObject.max;
     }
+    
     if (hasValue(jsObject.min)) {
         dotNetSliderViewModel.min = jsObject.min;
     }
+    
     if (hasValue(jsObject.precision)) {
         dotNetSliderViewModel.precision = jsObject.precision;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetSliderViewModel.state = jsObject.state;
     }
+    
     if (hasValue(jsObject.thumbsConstrained)) {
         dotNetSliderViewModel.thumbsConstrained = jsObject.thumbsConstrained;
     }
+    
     if (hasValue(jsObject.values)) {
         dotNetSliderViewModel.values = jsObject.values;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSliderViewModel.id = geoBlazorId;
     }

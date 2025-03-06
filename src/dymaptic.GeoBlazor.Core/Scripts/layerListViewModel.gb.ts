@@ -133,37 +133,31 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any, laye
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetLayerListViewModel: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsLayerListViewModel } = await import('./layerListViewModel');
-        jsComponentRef = await buildJsLayerListViewModel(jsObject, layerId, viewId);
-    }
-    
-    let dotNetLayerListViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
         dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.checkPublishStatusEnabled)) {
         dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
     }
+    
     if (hasValue(jsObject.listItemCreatedFunction)) {
         dotNetLayerListViewModel.listItemCreatedFunction = jsObject.listItemCreatedFunction;
     }
+    
     if (hasValue(jsObject.listModeDisabled)) {
         dotNetLayerListViewModel.listModeDisabled = jsObject.listModeDisabled;
     }
+    
     if (hasValue(jsObject.state)) {
         dotNetLayerListViewModel.state = jsObject.state;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetLayerListViewModel.id = geoBlazorId;
     }

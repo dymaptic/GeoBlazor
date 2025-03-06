@@ -72,50 +72,48 @@ export async function buildDotNetConfigRequestGenerated(jsObject: any, layerId: 
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetConfigRequest: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsConfigRequest } = await import('./configRequest');
-        jsComponentRef = await buildJsConfigRequest(jsObject, layerId, viewId);
-    }
-    
-    let dotNetConfigRequest: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.interceptors)) {
         let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
         dotNetConfigRequest.interceptors = await Promise.all(jsObject.interceptors.map(async i => await buildDotNetRequestInterceptor(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.proxyRules)) {
         let { buildDotNetConfigRequestProxyRules } = await import('./configRequestProxyRules');
         dotNetConfigRequest.proxyRules = await Promise.all(jsObject.proxyRules.map(async i => await buildDotNetConfigRequestProxyRules(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.httpsDomains)) {
         dotNetConfigRequest.httpsDomains = jsObject.httpsDomains;
     }
+    
     if (hasValue(jsObject.maxUrlLength)) {
         dotNetConfigRequest.maxUrlLength = jsObject.maxUrlLength;
     }
+    
     if (hasValue(jsObject.priority)) {
         dotNetConfigRequest.priority = jsObject.priority;
     }
+    
     if (hasValue(jsObject.proxyUrl)) {
         dotNetConfigRequest.proxyUrl = jsObject.proxyUrl;
     }
+    
     if (hasValue(jsObject.timeout)) {
         dotNetConfigRequest.timeout = jsObject.timeout;
     }
+    
     if (hasValue(jsObject.trustedServers)) {
         dotNetConfigRequest.trustedServers = jsObject.trustedServers;
     }
+    
     if (hasValue(jsObject.useIdentity)) {
         dotNetConfigRequest.useIdentity = jsObject.useIdentity;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetConfigRequest.id = geoBlazorId;
     }

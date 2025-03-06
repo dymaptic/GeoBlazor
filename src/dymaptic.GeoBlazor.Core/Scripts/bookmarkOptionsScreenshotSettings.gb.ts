@@ -57,31 +57,23 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBookmarkOptionsScreenshotSettings: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-        jsComponentRef = await buildJsBookmarkOptionsScreenshotSettings(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBookmarkOptionsScreenshotSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.area)) {
         let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
         dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area, layerId, viewId);
     }
+    
     if (hasValue(jsObject.height)) {
         dotNetBookmarkOptionsScreenshotSettings.height = jsObject.height;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetBookmarkOptionsScreenshotSettings.width = jsObject.width;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBookmarkOptionsScreenshotSettings.id = geoBlazorId;
     }

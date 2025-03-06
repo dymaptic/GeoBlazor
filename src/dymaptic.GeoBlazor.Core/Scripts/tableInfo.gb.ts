@@ -52,33 +52,26 @@ export async function buildDotNetTableInfoGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetTableInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsTableInfo } = await import('./tableInfo');
-        jsComponentRef = await buildJsTableInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetTableInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.name)) {
         dotNetTableInfo.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetTableInfo.tableInfoId = jsObject.id;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetTableInfo.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetTableInfo.url = jsObject.url;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetTableInfo.id = geoBlazorId;
     }

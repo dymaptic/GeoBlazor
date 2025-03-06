@@ -49,27 +49,18 @@ export async function buildDotNetSceneViewScreenPointGenerated(jsObject: any, la
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSceneViewScreenPoint: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSceneViewScreenPoint } = await import('./sceneViewScreenPoint');
-        jsComponentRef = await buildJsSceneViewScreenPoint(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSceneViewScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.x)) {
         dotNetSceneViewScreenPoint.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetSceneViewScreenPoint.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewScreenPoint.id = geoBlazorId;
     }

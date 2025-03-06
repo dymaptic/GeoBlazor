@@ -362,99 +362,112 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: stri
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetWMTSLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsWMTSLayer } = await import('./wMTSLayer');
-        jsComponentRef = await buildJsWMTSLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetWMTSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.activeLayer)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
         dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer, layerId, viewId);
     }
+    
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetWMTSLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWMTSLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
         dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetWMTSLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetWMTSLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetWMTSLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetWMTSLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customLayerParameters)) {
         dotNetWMTSLayer.customLayerParameters = jsObject.customLayerParameters;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetWMTSLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetWMTSLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetWMTSLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetWMTSLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetWMTSLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetWMTSLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetWMTSLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetWMTSLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.serviceMode)) {
         dotNetWMTSLayer.serviceMode = jsObject.serviceMode;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetWMTSLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetWMTSLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetWMTSLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.version)) {
         dotNetWMTSLayer.version = jsObject.version;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetWMTSLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetWMTSLayer.id = geoBlazorId;
     }

@@ -234,44 +234,40 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, lay
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetBasemapToggleWidget: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsBasemapToggleWidget } = await import('./basemapToggleWidget');
-        jsComponentRef = await buildJsBasemapToggleWidget(jsObject, layerId, viewId);
-    }
-    
-    let dotNetBasemapToggleWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
         dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
         dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
+    
     if (hasValue(jsObject.icon)) {
         dotNetBasemapToggleWidget.icon = jsObject.icon;
     }
+    
     if (hasValue(jsObject.label)) {
         dotNetBasemapToggleWidget.label = jsObject.label;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetBasemapToggleWidget.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetBasemapToggleWidget.visible = jsObject.visible;
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetBasemapToggleWidget.widgetId = jsObject.id;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetBasemapToggleWidget.id = geoBlazorId;
     }

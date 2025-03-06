@@ -51,30 +51,22 @@ export async function buildDotNetSearchTableFieldGenerated(jsObject: any, layerI
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSearchTableField: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSearchTableField } = await import('./searchTableField');
-        jsComponentRef = await buildJsSearchTableField(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSearchTableField: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.exactMatch)) {
         dotNetSearchTableField.exactMatch = jsObject.exactMatch;
     }
+    
     if (hasValue(jsObject.name)) {
         dotNetSearchTableField.name = jsObject.name;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetSearchTableField.type = jsObject.type;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSearchTableField.id = geoBlazorId;
     }

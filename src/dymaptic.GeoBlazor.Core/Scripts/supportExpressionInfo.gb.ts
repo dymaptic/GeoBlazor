@@ -54,30 +54,22 @@ export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any, l
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetSupportExpressionInfo: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsSupportExpressionInfo } = await import('./supportExpressionInfo');
-        jsComponentRef = await buildJsSupportExpressionInfo(jsObject, layerId, viewId);
-    }
-    
-    let dotNetSupportExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.expression)) {
         dotNetSupportExpressionInfo.expression = jsObject.expression;
     }
+    
     if (hasValue(jsObject.returnType)) {
         dotNetSupportExpressionInfo.returnType = jsObject.returnType;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetSupportExpressionInfo.title = jsObject.title;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetSupportExpressionInfo.id = geoBlazorId;
     }

@@ -55,33 +55,26 @@ export async function buildDotNetMapViewTakeScreenshotOptionsAreaGenerated(jsObj
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetMapViewTakeScreenshotOptionsArea: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
-        jsComponentRef = await buildJsMapViewTakeScreenshotOptionsArea(jsObject, layerId, viewId);
-    }
-    
-    let dotNetMapViewTakeScreenshotOptionsArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.height)) {
         dotNetMapViewTakeScreenshotOptionsArea.height = jsObject.height;
     }
+    
     if (hasValue(jsObject.width)) {
         dotNetMapViewTakeScreenshotOptionsArea.width = jsObject.width;
     }
+    
     if (hasValue(jsObject.x)) {
         dotNetMapViewTakeScreenshotOptionsArea.x = jsObject.x;
     }
+    
     if (hasValue(jsObject.y)) {
         dotNetMapViewTakeScreenshotOptionsArea.y = jsObject.y;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetMapViewTakeScreenshotOptionsArea.id = geoBlazorId;
     }

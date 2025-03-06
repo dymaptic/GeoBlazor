@@ -661,180 +661,217 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    let dotNetCSVLayer: any = {};
     
-    let jsComponentRef: any;
-    if (hasValue(geoBlazorId)) {
-        jsComponentRef = jsObjectRefs[geoBlazorId!];
-    } else {
-        let { buildJsCSVLayer } = await import('./cSVLayer');
-        jsComponentRef = await buildJsCSVLayer(jsObject, layerId, viewId);
-    }
-    
-    let dotNetCSVLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
-    };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetCSVLayer.effect = buildDotNetEffect(jsObject.effect);
     }
+    
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
         dotNetCSVLayer.elevationInfo = await buildDotNetCSVLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
         dotNetCSVLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetCSVLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
     }
+    
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
         dotNetCSVLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetCSVLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
     }
+    
     if (hasValue(jsObject.labelingInfo)) {
         let { buildDotNetLabel } = await import('./label');
         dotNetCSVLayer.labelingInfo = await Promise.all(jsObject.labelingInfo.map(async i => await buildDotNetLabel(i)));
     }
+    
     if (hasValue(jsObject.orderBy)) {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         dotNetCSVLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId)));
     }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetCSVLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
+    
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetCSVLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
+    
     if (hasValue(jsObject.renderer)) {
         let { buildDotNetRenderer } = await import('./renderer');
         dotNetCSVLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
     }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetCSVLayer.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
+    
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
         dotNetCSVLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
+    
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
         dotNetCSVLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
+    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetCSVLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
     }
+    
     if (hasValue(jsObject.id)) {
         dotNetCSVLayer.arcGISLayerId = jsObject.id;
     }
+    
     if (hasValue(jsObject.blendMode)) {
         dotNetCSVLayer.blendMode = jsObject.blendMode;
     }
+    
     if (hasValue(jsObject.capabilities)) {
         dotNetCSVLayer.capabilities = jsObject.capabilities;
     }
+    
     if (hasValue(jsObject.copyright)) {
         dotNetCSVLayer.copyright = jsObject.copyright;
     }
+    
     if (hasValue(jsObject.customParameters)) {
         dotNetCSVLayer.customParameters = jsObject.customParameters;
     }
+    
     if (hasValue(jsObject.dateFieldsTimeZone)) {
         dotNetCSVLayer.dateFieldsTimeZone = jsObject.dateFieldsTimeZone;
     }
+    
     if (hasValue(jsObject.definitionExpression)) {
         dotNetCSVLayer.definitionExpression = jsObject.definitionExpression;
     }
+    
     if (hasValue(jsObject.delimiter)) {
         dotNetCSVLayer.delimiter = jsObject.delimiter;
     }
+    
     if (hasValue(jsObject.displayField)) {
         dotNetCSVLayer.displayField = jsObject.displayField;
     }
+    
     if (hasValue(jsObject.featureReduction)) {
         dotNetCSVLayer.featureReduction = jsObject.featureReduction;
     }
+    
     if (hasValue(jsObject.geometryType)) {
         dotNetCSVLayer.geometryType = jsObject.geometryType;
     }
+    
     if (hasValue(jsObject.isTable)) {
         dotNetCSVLayer.isTable = jsObject.isTable;
     }
+    
     if (hasValue(jsObject.labelsVisible)) {
         dotNetCSVLayer.labelsVisible = jsObject.labelsVisible;
     }
+    
     if (hasValue(jsObject.latitudeField)) {
         dotNetCSVLayer.latitudeField = jsObject.latitudeField;
     }
+    
     if (hasValue(jsObject.legendEnabled)) {
         dotNetCSVLayer.legendEnabled = jsObject.legendEnabled;
     }
+    
     if (hasValue(jsObject.listMode)) {
         dotNetCSVLayer.listMode = jsObject.listMode;
     }
+    
     if (hasValue(jsObject.loaded)) {
         dotNetCSVLayer.loaded = jsObject.loaded;
     }
+    
     if (hasValue(jsObject.longitudeField)) {
         dotNetCSVLayer.longitudeField = jsObject.longitudeField;
     }
+    
     if (hasValue(jsObject.maxScale)) {
         dotNetCSVLayer.maxScale = jsObject.maxScale;
     }
+    
     if (hasValue(jsObject.minScale)) {
         dotNetCSVLayer.minScale = jsObject.minScale;
     }
+    
     if (hasValue(jsObject.objectIdField)) {
         dotNetCSVLayer.objectIdField = jsObject.objectIdField;
     }
+    
     if (hasValue(jsObject.opacity)) {
         dotNetCSVLayer.opacity = jsObject.opacity;
     }
+    
     if (hasValue(jsObject.outFields)) {
         dotNetCSVLayer.outFields = jsObject.outFields;
     }
+    
     if (hasValue(jsObject.persistenceEnabled)) {
         dotNetCSVLayer.persistenceEnabled = jsObject.persistenceEnabled;
     }
+    
     if (hasValue(jsObject.popupEnabled)) {
         dotNetCSVLayer.popupEnabled = jsObject.popupEnabled;
     }
+    
     if (hasValue(jsObject.refreshInterval)) {
         dotNetCSVLayer.refreshInterval = jsObject.refreshInterval;
     }
+    
     if (hasValue(jsObject.screenSizePerspectiveEnabled)) {
         dotNetCSVLayer.screenSizePerspectiveEnabled = jsObject.screenSizePerspectiveEnabled;
     }
+    
     if (hasValue(jsObject.spatialReference)) {
         dotNetCSVLayer.spatialReference = jsObject.spatialReference;
     }
+    
     if (hasValue(jsObject.title)) {
         dotNetCSVLayer.title = jsObject.title;
     }
+    
     if (hasValue(jsObject.type)) {
         dotNetCSVLayer.type = jsObject.type;
     }
+    
     if (hasValue(jsObject.url)) {
         dotNetCSVLayer.url = jsObject.url;
     }
+    
     if (hasValue(jsObject.useViewTime)) {
         dotNetCSVLayer.useViewTime = jsObject.useViewTime;
     }
+    
     if (hasValue(jsObject.visible)) {
         dotNetCSVLayer.visible = jsObject.visible;
     }
+    
 
-
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {
         dotNetCSVLayer.id = geoBlazorId;
     }
