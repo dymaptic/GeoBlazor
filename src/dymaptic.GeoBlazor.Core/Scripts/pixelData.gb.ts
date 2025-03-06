@@ -19,7 +19,7 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;
     
     let { buildDotNetPixelData } = await import('./pixelData');
-    let dnInstantiatedObject = await buildDotNetPixelData(jsPixelData);
+    let dnInstantiatedObject = await buildDotNetPixelData(jsPixelData, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPixelDataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPixelData } = await import('./pixelData');
+        jsComponentRef = await buildJsPixelData(jsObject, layerId, viewId);
+    }
+    
     let dotNetPixelData: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -60,10 +70,10 @@ export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any>
     }
     if (hasValue(jsObject.pixelBlock)) {
         let { buildDotNetPixelBlock } = await import('./pixelBlock');
-        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
+        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock, layerId, viewId);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPixelData.id = geoBlazorId;
     }

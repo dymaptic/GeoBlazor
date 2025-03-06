@@ -3,7 +3,7 @@ export async function buildJsLayerListViewModelTriggerActionEvent(dotNetObject: 
     return await buildJsLayerListViewModelTriggerActionEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLayerListViewModelTriggerActionEvent(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListViewModelTriggerActionEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLayerListViewModelTriggerActionEventGenerated} = await import('./layerListViewModelTriggerActionEvent.gb');
-    return await buildDotNetLayerListViewModelTriggerActionEventGenerated(jsObject);
+    return await buildDotNetLayerListViewModelTriggerActionEventGenerated(jsObject, layerId, viewId);
 }

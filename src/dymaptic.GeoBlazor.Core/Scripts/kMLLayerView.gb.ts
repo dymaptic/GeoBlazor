@@ -27,7 +27,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
+        return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i, this.layerId, this.viewId)));
     }
     
     async getAllVisiblePoints(): Promise<any> {
@@ -94,7 +94,7 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;
     
     let { buildDotNetKMLLayerView } = await import('./kMLLayerView');
-    let dnInstantiatedObject = await buildDotNetKMLLayerView(jsKMLLayerView);
+    let dnInstantiatedObject = await buildDotNetKMLLayerView(jsKMLLayerView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -121,17 +121,27 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKMLLayerView } = await import('./kMLLayerView');
+        jsComponentRef = await buildJsKMLLayerView(jsObject, layerId, viewId);
+    }
+    
     let dotNetKMLLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.allVisibleMapImages)) {
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
+        dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i, layerId, viewId)));
     }
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetKMLLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
@@ -152,7 +162,7 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<a
         dotNetKMLLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayerView.id = geoBlazorId;
     }

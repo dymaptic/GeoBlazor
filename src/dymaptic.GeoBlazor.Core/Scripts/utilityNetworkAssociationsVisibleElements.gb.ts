@@ -22,7 +22,7 @@ export async function buildJsUtilityNetworkAssociationsVisibleElementsGenerated(
     arcGisObjectRefs[dotNetObject.id] = jsUtilityNetworkAssociationsVisibleElements;
     
     let { buildDotNetUtilityNetworkAssociationsVisibleElements } = await import('./utilityNetworkAssociationsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetUtilityNetworkAssociationsVisibleElements(jsUtilityNetworkAssociationsVisibleElements);
+    let dnInstantiatedObject = await buildDotNetUtilityNetworkAssociationsVisibleElements(jsUtilityNetworkAssociationsVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,27 +49,37 @@ export async function buildJsUtilityNetworkAssociationsVisibleElementsGenerated(
 }
 
 
-export async function buildDotNetUtilityNetworkAssociationsVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUtilityNetworkAssociationsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUtilityNetworkAssociationsVisibleElements } = await import('./utilityNetworkAssociationsVisibleElements');
+        jsComponentRef = await buildJsUtilityNetworkAssociationsVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetUtilityNetworkAssociationsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.connectivityAssociationsSettings)) {
         let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
-        dotNetUtilityNetworkAssociationsVisibleElements.connectivityAssociationsSettings = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsObject.connectivityAssociationsSettings);
+        dotNetUtilityNetworkAssociationsVisibleElements.connectivityAssociationsSettings = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsObject.connectivityAssociationsSettings, layerId, viewId);
     }
     if (hasValue(jsObject.structuralAttachmentAssociationsSettings)) {
         let { buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings } = await import('./visibleElementsStructuralAttachmentAssociationsSettings');
-        dotNetUtilityNetworkAssociationsVisibleElements.structuralAttachmentAssociationsSettings = await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsObject.structuralAttachmentAssociationsSettings);
+        dotNetUtilityNetworkAssociationsVisibleElements.structuralAttachmentAssociationsSettings = await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsObject.structuralAttachmentAssociationsSettings, layerId, viewId);
     }
     if (hasValue(jsObject.maxAllowableAssociationsSlider)) {
         dotNetUtilityNetworkAssociationsVisibleElements.maxAllowableAssociationsSlider = jsObject.maxAllowableAssociationsSlider;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUtilityNetworkAssociationsVisibleElements.id = geoBlazorId;
     }

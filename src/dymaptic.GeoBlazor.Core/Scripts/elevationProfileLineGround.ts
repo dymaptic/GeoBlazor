@@ -4,7 +4,7 @@ export async function buildJsElevationProfileLineGround(dotNetObject: any, layer
     return await buildJsElevationProfileLineGroundGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetElevationProfileLineGround(jsObject: any): Promise<any> {
+export async function buildDotNetElevationProfileLineGround(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetElevationProfileLineGroundGenerated } = await import('./elevationProfileLineGround.gb');
-    return await buildDotNetElevationProfileLineGroundGenerated(jsObject);
+    return await buildDotNetElevationProfileLineGroundGenerated(jsObject, layerId, viewId);
 }

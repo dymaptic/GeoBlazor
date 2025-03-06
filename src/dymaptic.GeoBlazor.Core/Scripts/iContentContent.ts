@@ -4,7 +4,7 @@ export async function buildJsIContentContent(dotNetObject: any, layerId: string 
     return await buildJsIContentContentGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIContentContent(jsObject: any): Promise<any> {
+export async function buildDotNetIContentContent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIContentContentGenerated } = await import('./iContentContent.gb');
-    return await buildDotNetIContentContentGenerated(jsObject);
+    return await buildDotNetIContentContentGenerated(jsObject, layerId, viewId);
 }

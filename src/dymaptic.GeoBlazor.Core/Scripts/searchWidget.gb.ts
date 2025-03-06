@@ -179,7 +179,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.widget.popupTemplate);
+        return await buildDotNetPopupTemplate(this.widget.popupTemplate, this.layerId, this.viewId);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -193,7 +193,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.widget.portal);
+        return await buildDotNetPortal(this.widget.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -333,7 +333,7 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     jswidgetsSearch.on('search-complete', async (evt: any) => {
         let { buildDotNetSearchCompleteEvent } = await import('./searchCompleteEvent');
-        let dnEvent = await buildDotNetSearchCompleteEvent(evt);
+        let dnEvent = await buildDotNetSearchCompleteEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', dnEvent);
     });
     
@@ -347,13 +347,13 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     
     jswidgetsSearch.on('select-result', async (evt: any) => {
         let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
-        let dnEvent = await buildDotNetSearchSelectResultEvent(evt);
+        let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', dnEvent);
     });
     
     jswidgetsSearch.on('suggest-complete', async (evt: any) => {
         let { buildDotNetSearchSuggestCompleteEvent } = await import('./searchSuggestCompleteEvent');
-        let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt);
+        let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', dnEvent);
     });
     
@@ -405,8 +405,18 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchWidget } = await import('./searchWidget');
+        jsComponentRef = await buildJsSearchWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.activeSource)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
@@ -426,11 +436,11 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal);
+        dotNetSearchWidget.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     if (hasValue(jsObject.resultGraphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
@@ -515,7 +525,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
         dotNetSearchWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchWidget.id = geoBlazorId;
     }

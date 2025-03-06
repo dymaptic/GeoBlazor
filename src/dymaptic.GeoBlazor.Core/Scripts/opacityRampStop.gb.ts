@@ -24,7 +24,7 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     
     let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
-    let dnInstantiatedObject = await buildDotNetOpacityRampStop(jsOpacityRampStop);
+    let dnInstantiatedObject = await buildDotNetOpacityRampStop(jsOpacityRampStop, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetOpacityRampStopGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOpacityRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOpacityRampStop } = await import('./opacityRampStop');
+        jsComponentRef = await buildJsOpacityRampStop(jsObject, layerId, viewId);
+    }
+    
     let dotNetOpacityRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -73,7 +83,7 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any): Promis
         dotNetOpacityRampStop.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOpacityRampStop.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsPortalFeaturedGroups(dotNetObject: any, layerId: st
     return await buildJsPortalFeaturedGroupsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPortalFeaturedGroups(jsObject: any): Promise<any> {
+export async function buildDotNetPortalFeaturedGroups(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPortalFeaturedGroupsGenerated } = await import('./portalFeaturedGroups.gb');
-    return await buildDotNetPortalFeaturedGroupsGenerated(jsObject);
+    return await buildDotNetPortalFeaturedGroupsGenerated(jsObject, layerId, viewId);
 }

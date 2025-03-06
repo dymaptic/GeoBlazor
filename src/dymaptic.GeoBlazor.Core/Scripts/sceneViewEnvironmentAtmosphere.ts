@@ -4,7 +4,7 @@ export async function buildJsSceneViewEnvironmentAtmosphere(dotNetObject: any, l
     return await buildJsSceneViewEnvironmentAtmosphereGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSceneViewEnvironmentAtmosphere(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewEnvironmentAtmosphere(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSceneViewEnvironmentAtmosphereGenerated } = await import('./sceneViewEnvironmentAtmosphere.gb');
-    return await buildDotNetSceneViewEnvironmentAtmosphereGenerated(jsObject);
+    return await buildDotNetSceneViewEnvironmentAtmosphereGenerated(jsObject, layerId, viewId);
 }

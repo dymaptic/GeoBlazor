@@ -4,7 +4,7 @@ export async function buildJsSymbol3DVerticalOffset(dotNetObject: any, layerId: 
     return await buildJsSymbol3DVerticalOffsetGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSymbol3DVerticalOffset(jsObject: any): Promise<any> {
+export async function buildDotNetSymbol3DVerticalOffset(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSymbol3DVerticalOffsetGenerated } = await import('./symbol3DVerticalOffset.gb');
-    return await buildDotNetSymbol3DVerticalOffsetGenerated(jsObject);
+    return await buildDotNetSymbol3DVerticalOffsetGenerated(jsObject, layerId, viewId);
 }

@@ -17,7 +17,7 @@ export async function buildJsRasterDataSourceGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsRasterDataSource;
     
     let { buildDotNetRasterDataSource } = await import('./rasterDataSource');
-    let dnInstantiatedObject = await buildDotNetRasterDataSource(jsRasterDataSource);
+    let dnInstantiatedObject = await buildDotNetRasterDataSource(jsRasterDataSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsRasterDataSourceGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRasterDataSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterDataSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRasterDataSource } = await import('./rasterDataSource');
+        jsComponentRef = await buildJsRasterDataSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetRasterDataSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.dataSourceName)) {
         dotNetRasterDataSource.dataSourceName = jsObject.dataSourceName;
@@ -62,7 +72,7 @@ export async function buildDotNetRasterDataSourceGenerated(jsObject: any): Promi
         dotNetRasterDataSource.workspaceId = jsObject.workspaceId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRasterDataSource.id = geoBlazorId;
     }

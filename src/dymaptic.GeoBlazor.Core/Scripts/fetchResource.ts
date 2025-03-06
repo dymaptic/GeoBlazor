@@ -6,7 +6,7 @@ export async function buildJsFetchResource(dotNetObject: any, layerId: string | 
     return await buildJsFetchResourceGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFetchResource(jsObject: any): Promise<any> {
+export async function buildDotNetFetchResource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFetchResourceGenerated} = await import('./fetchResource.gb');
-    return await buildDotNetFetchResourceGenerated(jsObject);
+    return await buildDotNetFetchResourceGenerated(jsObject, layerId, viewId);
 }

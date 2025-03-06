@@ -33,7 +33,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;
     
     let { buildDotNetColorVariable } = await import('./colorVariable');
-    let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable);
+    let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -60,17 +60,27 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetColorVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorVariable } = await import('./colorVariable');
+        jsComponentRef = await buildJsColorVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetColorVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
     if (hasValue(jsObject.stops)) {
         let { buildDotNetColorStop } = await import('./colorStop');
@@ -92,7 +102,7 @@ export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<
         dotNetColorVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorVariable.id = geoBlazorId;
     }

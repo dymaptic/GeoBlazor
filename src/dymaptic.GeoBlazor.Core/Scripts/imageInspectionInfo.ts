@@ -5,7 +5,7 @@ export async function buildJsImageInspectionInfo(dotNetObject: any, layerId: str
     return await buildJsImageInspectionInfoGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageInspectionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetImageInspectionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageInspectionInfoGenerated} = await import('./imageInspectionInfo.gb');
-    return await buildDotNetImageInspectionInfoGenerated(jsObject);
+    return await buildDotNetImageInspectionInfoGenerated(jsObject, layerId, viewId);
 }

@@ -20,7 +20,7 @@ export async function buildJsIntegratedMesh3DTilesLayerElevationInfoGenerated(do
     arcGisObjectRefs[dotNetObject.id] = jsIntegratedMesh3DTilesLayerElevationInfo;
     
     let { buildDotNetIntegratedMesh3DTilesLayerElevationInfo } = await import('./integratedMesh3DTilesLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetIntegratedMesh3DTilesLayerElevationInfo(jsIntegratedMesh3DTilesLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetIntegratedMesh3DTilesLayerElevationInfo(jsIntegratedMesh3DTilesLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsIntegratedMesh3DTilesLayerElevationInfoGenerated(do
 }
 
 
-export async function buildDotNetIntegratedMesh3DTilesLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIntegratedMesh3DTilesLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIntegratedMesh3DTilesLayerElevationInfo } = await import('./integratedMesh3DTilesLayerElevationInfo');
+        jsComponentRef = await buildJsIntegratedMesh3DTilesLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetIntegratedMesh3DTilesLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mode)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.mode = jsObject.mode;
@@ -65,7 +75,7 @@ export async function buildDotNetIntegratedMesh3DTilesLayerElevationInfoGenerate
         dotNetIntegratedMesh3DTilesLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIntegratedMesh3DTilesLayerElevationInfo.id = geoBlazorId;
     }

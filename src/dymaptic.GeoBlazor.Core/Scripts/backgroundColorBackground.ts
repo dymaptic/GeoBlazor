@@ -3,7 +3,7 @@ export async function buildJsBackgroundColorBackground(dotNetObject: any, layerI
     return await buildJsBackgroundColorBackgroundGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBackgroundColorBackground(jsObject: any): Promise<any> {
+export async function buildDotNetBackgroundColorBackground(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBackgroundColorBackgroundGenerated} = await import('./backgroundColorBackground.gb');
-    return await buildDotNetBackgroundColorBackgroundGenerated(jsObject);
+    return await buildDotNetBackgroundColorBackgroundGenerated(jsObject, layerId, viewId);
 }

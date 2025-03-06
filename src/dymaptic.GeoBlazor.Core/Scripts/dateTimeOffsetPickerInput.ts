@@ -4,7 +4,7 @@ export async function buildJsDateTimeOffsetPickerInput(dotNetObject: any, layerI
     return await buildJsDateTimeOffsetPickerInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDateTimeOffsetPickerInput(jsObject: any): Promise<any> {
+export async function buildDotNetDateTimeOffsetPickerInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDateTimeOffsetPickerInputGenerated } = await import('./dateTimeOffsetPickerInput.gb');
-    return await buildDotNetDateTimeOffsetPickerInputGenerated(jsObject);
+    return await buildDotNetDateTimeOffsetPickerInputGenerated(jsObject, layerId, viewId);
 }

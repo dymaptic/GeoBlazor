@@ -15,7 +15,7 @@ export async function buildJsHandles(dotNetObject: any, layerId: string | null, 
     return await buildJsHandlesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHandles(jsObject: any): Promise<any> {
+export async function buildDotNetHandles(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHandlesGenerated } = await import('./handles.gb');
-    return await buildDotNetHandlesGenerated(jsObject);
+    return await buildDotNetHandlesGenerated(jsObject, layerId, viewId);
 }

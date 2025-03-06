@@ -4,7 +4,7 @@ export async function buildJsDistanceMeasurement2DViewModelMeasurement(dotNetObj
     return await buildJsDistanceMeasurement2DViewModelMeasurementGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject: any): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDistanceMeasurement2DViewModelMeasurementGenerated } = await import('./distanceMeasurement2DViewModelMeasurement.gb');
-    return await buildDotNetDistanceMeasurement2DViewModelMeasurementGenerated(jsObject);
+    return await buildDotNetDistanceMeasurement2DViewModelMeasurementGenerated(jsObject, layerId, viewId);
 }

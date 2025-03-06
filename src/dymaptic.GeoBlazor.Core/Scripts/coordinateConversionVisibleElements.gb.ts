@@ -23,7 +23,7 @@ export async function buildJsCoordinateConversionVisibleElementsGenerated(dotNet
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateConversionVisibleElements;
     
     let { buildDotNetCoordinateConversionVisibleElements } = await import('./coordinateConversionVisibleElements');
-    let dnInstantiatedObject = await buildDotNetCoordinateConversionVisibleElements(jsCoordinateConversionVisibleElements);
+    let dnInstantiatedObject = await buildDotNetCoordinateConversionVisibleElements(jsCoordinateConversionVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsCoordinateConversionVisibleElementsGenerated(dotNet
 }
 
 
-export async function buildDotNetCoordinateConversionVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCoordinateConversionVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCoordinateConversionVisibleElements } = await import('./coordinateConversionVisibleElements');
+        jsComponentRef = await buildJsCoordinateConversionVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetCoordinateConversionVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.captureButton)) {
         dotNetCoordinateConversionVisibleElements.captureButton = jsObject.captureButton;
@@ -71,7 +81,7 @@ export async function buildDotNetCoordinateConversionVisibleElementsGenerated(js
         dotNetCoordinateConversionVisibleElements.settingsButton = jsObject.settingsButton;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCoordinateConversionVisibleElements.id = geoBlazorId;
     }

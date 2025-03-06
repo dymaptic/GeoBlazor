@@ -15,7 +15,7 @@ export async function buildJsProfileGenerated(dotNetObject: any, layerId: string
     arcGisObjectRefs[dotNetObject.id] = jsProfile;
     
     let { buildDotNetProfile } = await import('./profile');
-    let dnInstantiatedObject = await buildDotNetProfile(jsProfile);
+    let dnInstantiatedObject = await buildDotNetProfile(jsProfile, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,20 +42,30 @@ export async function buildJsProfileGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetProfileGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetProfileGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsProfile } = await import('./profile');
+        jsComponentRef = await buildJsProfile(jsObject, layerId, viewId);
+    }
+    
     let dotNetProfile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.variables)) {
         let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
         dotNetProfile.variables = jsObject.variables.map(i => buildDotNetIProfileVariable(i));
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetProfile.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsGeotriggerNotificationOptions(dotNetObject: any, la
     return await buildJsGeotriggerNotificationOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeotriggerNotificationOptions(jsObject: any): Promise<any> {
+export async function buildDotNetGeotriggerNotificationOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGeotriggerNotificationOptionsGenerated } = await import('./geotriggerNotificationOptions.gb');
-    return await buildDotNetGeotriggerNotificationOptionsGenerated(jsObject);
+    return await buildDotNetGeotriggerNotificationOptionsGenerated(jsObject, layerId, viewId);
 }

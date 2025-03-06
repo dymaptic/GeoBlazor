@@ -52,7 +52,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
     let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-    let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
+    let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -79,13 +79,23 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
+        jsComponentRef = await buildJsActiveLayerInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetActiveLayerInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.layerView)) {
         let { buildDotNetLayerView } = await import('./layerView');
@@ -123,7 +133,7 @@ export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promis
         dotNetActiveLayerInfo.version = jsObject.version;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetActiveLayerInfo.id = geoBlazorId;
     }

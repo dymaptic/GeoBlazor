@@ -4,7 +4,7 @@ export async function buildJsIPublishableLayer(dotNetObject: any, layerId: strin
     return await buildJsIPublishableLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIPublishableLayer(jsObject: any): Promise<any> {
+export async function buildDotNetIPublishableLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIPublishableLayerGenerated } = await import('./iPublishableLayer.gb');
-    return await buildDotNetIPublishableLayerGenerated(jsObject);
+    return await buildDotNetIPublishableLayerGenerated(jsObject, layerId, viewId);
 }

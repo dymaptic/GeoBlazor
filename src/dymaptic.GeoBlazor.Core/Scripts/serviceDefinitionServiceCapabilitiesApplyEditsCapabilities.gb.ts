@@ -14,7 +14,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
+        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.graphDefaultRollbackOnFailure)) {
         dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities.graphDefaultRollbackOnFailure = jsObject.graphDefaultRollbackOnFailure;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities.id = geoBlazorId;
     }

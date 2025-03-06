@@ -45,7 +45,7 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetOrientation } = await import('./orientation');
-        return await buildDotNetOrientation(this.component.orientation);
+        return await buildDotNetOrientation(this.component.orientation, this.layerId, this.viewId);
     }
     
     getProperty(prop: string): any {
@@ -81,7 +81,7 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsCompassViewModel;
     
     let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-    let dnInstantiatedObject = await buildDotNetCompassViewModel(jsCompassViewModel);
+    let dnInstantiatedObject = await buildDotNetCompassViewModel(jsCompassViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -108,13 +108,23 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCompassViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCompassViewModel } = await import('./compassViewModel');
+        jsComponentRef = await buildJsCompassViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetCompassViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -122,13 +132,13 @@ export async function buildDotNetCompassViewModelGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.orientation)) {
         let { buildDotNetOrientation } = await import('./orientation');
-        dotNetCompassViewModel.orientation = await buildDotNetOrientation(jsObject.orientation);
+        dotNetCompassViewModel.orientation = await buildDotNetOrientation(jsObject.orientation, layerId, viewId);
     }
     if (hasValue(jsObject.state)) {
         dotNetCompassViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCompassViewModel.id = geoBlazorId;
     }

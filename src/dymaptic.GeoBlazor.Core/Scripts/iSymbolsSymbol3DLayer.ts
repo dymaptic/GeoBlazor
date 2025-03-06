@@ -15,7 +15,7 @@ export async function buildJsISymbolsSymbol3DLayer(dotNetObject: any, layerId: s
     return await buildJsISymbolsSymbol3DLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetISymbolsSymbol3DLayer(jsObject: any): Promise<any> {
+export async function buildDotNetISymbolsSymbol3DLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetISymbolsSymbol3DLayerGenerated} = await import('./iSymbolsSymbol3DLayer.gb');
-    return await buildDotNetISymbolsSymbol3DLayerGenerated(jsObject);
+    return await buildDotNetISymbolsSymbol3DLayerGenerated(jsObject, layerId, viewId);
 }

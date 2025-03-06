@@ -4,7 +4,7 @@ export async function buildJsSnappingControlsVisibleElements(dotNetObject: any, 
     return await buildJsSnappingControlsVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSnappingControlsVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetSnappingControlsVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSnappingControlsVisibleElementsGenerated } = await import('./snappingControlsVisibleElements.gb');
-    return await buildDotNetSnappingControlsVisibleElementsGenerated(jsObject);
+    return await buildDotNetSnappingControlsVisibleElementsGenerated(jsObject, layerId, viewId);
 }

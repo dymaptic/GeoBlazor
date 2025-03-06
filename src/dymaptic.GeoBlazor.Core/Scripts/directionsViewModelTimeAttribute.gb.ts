@@ -17,7 +17,7 @@ export async function buildJsDirectionsViewModelTimeAttributeGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsViewModelTimeAttribute;
     
     let { buildDotNetDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
-    let dnInstantiatedObject = await buildDotNetDirectionsViewModelTimeAttribute(jsDirectionsViewModelTimeAttribute);
+    let dnInstantiatedObject = await buildDotNetDirectionsViewModelTimeAttribute(jsDirectionsViewModelTimeAttribute, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDirectionsViewModelTimeAttributeGenerated(dotNetObj
 }
 
 
-export async function buildDotNetDirectionsViewModelTimeAttributeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionsViewModelTimeAttributeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
+        jsComponentRef = await buildJsDirectionsViewModelTimeAttribute(jsObject, layerId, viewId);
+    }
+    
     let dotNetDirectionsViewModelTimeAttribute: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.name)) {
         dotNetDirectionsViewModelTimeAttribute.name = jsObject.name;
@@ -59,7 +69,7 @@ export async function buildDotNetDirectionsViewModelTimeAttributeGenerated(jsObj
         dotNetDirectionsViewModelTimeAttribute.units = jsObject.units;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDirectionsViewModelTimeAttribute.id = geoBlazorId;
     }

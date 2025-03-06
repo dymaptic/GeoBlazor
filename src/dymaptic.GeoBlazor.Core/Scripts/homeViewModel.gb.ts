@@ -98,7 +98,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsHomeViewModel;
     
     let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-    let dnInstantiatedObject = await buildDotNetHomeViewModel(jsHomeViewModel);
+    let dnInstantiatedObject = await buildDotNetHomeViewModel(jsHomeViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -125,13 +125,23 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHomeViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHomeViewModel } = await import('./homeViewModel');
+        jsComponentRef = await buildJsHomeViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetHomeViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -145,7 +155,7 @@ export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<
         dotNetHomeViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHomeViewModel.id = geoBlazorId;
     }

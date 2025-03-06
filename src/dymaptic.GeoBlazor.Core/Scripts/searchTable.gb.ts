@@ -20,7 +20,7 @@ export async function buildJsSearchTableGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsSearchTable;
     
     let { buildDotNetSearchTable } = await import('./searchTable');
-    let dnInstantiatedObject = await buildDotNetSearchTable(jsSearchTable);
+    let dnInstantiatedObject = await buildDotNetSearchTable(jsSearchTable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,23 +47,33 @@ export async function buildJsSearchTableGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetSearchTableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchTableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchTable } = await import('./searchTable');
+        jsComponentRef = await buildJsSearchTable(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchTable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         let { buildDotNetSearchTableField } = await import('./searchTableField');
-        dotNetSearchTable.field = await buildDotNetSearchTableField(jsObject.field);
+        dotNetSearchTable.field = await buildDotNetSearchTableField(jsObject.field, layerId, viewId);
     }
     if (hasValue(jsObject.id)) {
         dotNetSearchTable.searchTableId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchTable.id = geoBlazorId;
     }

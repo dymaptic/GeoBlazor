@@ -28,7 +28,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
     
     let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
+    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapStyle } = await import('./basemapStyle');
+        jsComponentRef = await buildJsBasemapStyle(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.language)) {
         dotNetBasemapStyle.language = jsObject.language;
@@ -79,7 +89,7 @@ export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<a
         dotNetBasemapStyle.worldview = jsObject.worldview;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapStyle.id = geoBlazorId;
     }

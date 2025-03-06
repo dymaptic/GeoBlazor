@@ -20,7 +20,7 @@ export async function buildJsValuePickerVisibleElementsGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerVisibleElements;
     
     let { buildDotNetValuePickerVisibleElements } = await import('./valuePickerVisibleElements');
-    let dnInstantiatedObject = await buildDotNetValuePickerVisibleElements(jsValuePickerVisibleElements);
+    let dnInstantiatedObject = await buildDotNetValuePickerVisibleElements(jsValuePickerVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsValuePickerVisibleElementsGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetValuePickerVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsValuePickerVisibleElements } = await import('./valuePickerVisibleElements');
+        jsComponentRef = await buildJsValuePickerVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetValuePickerVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.nextButton)) {
         dotNetValuePickerVisibleElements.nextButton = jsObject.nextButton;
@@ -65,7 +75,7 @@ export async function buildDotNetValuePickerVisibleElementsGenerated(jsObject: a
         dotNetValuePickerVisibleElements.previousButton = jsObject.previousButton;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerVisibleElements.id = geoBlazorId;
     }

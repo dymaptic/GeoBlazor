@@ -37,7 +37,7 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsActionToggle;
     
     let { buildDotNetActionToggle } = await import('./actionToggle');
-    let dnInstantiatedObject = await buildDotNetActionToggle(jsActionToggle);
+    let dnInstantiatedObject = await buildDotNetActionToggle(jsActionToggle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -64,13 +64,23 @@ export async function buildJsActionToggleGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetActionToggleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsActionToggle } = await import('./actionToggle');
+        jsComponentRef = await buildJsActionToggle(jsObject, layerId, viewId);
+    }
+    
     let dotNetActionToggle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionToggle.actionId = jsObject.id;
@@ -100,7 +110,7 @@ export async function buildDotNetActionToggleGenerated(jsObject: any): Promise<a
         dotNetActionToggle.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetActionToggle.id = geoBlazorId;
     }

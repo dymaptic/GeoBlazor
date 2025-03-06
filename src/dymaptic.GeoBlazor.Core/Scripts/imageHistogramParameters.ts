@@ -5,7 +5,7 @@ export async function buildJsImageHistogramParameters(dotNetObject: any, layerId
     return await buildJsImageHistogramParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageHistogramParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageHistogramParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageHistogramParametersGenerated} = await import('./imageHistogramParameters.gb');
-    return await buildDotNetImageHistogramParametersGenerated(jsObject);
+    return await buildDotNetImageHistogramParametersGenerated(jsObject, layerId, viewId);
 }

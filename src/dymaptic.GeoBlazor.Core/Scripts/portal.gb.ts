@@ -28,7 +28,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(result.map(async i => await buildDotNetBasemap(i)));
+        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
 
     async fetchCategorySchema(options: any): Promise<any> {
@@ -38,7 +38,7 @@ export default class PortalGenerated implements IPropertyWrapper {
     async fetchFeaturedGroups(options: any): Promise<any> {
         let result = await this.component.fetchFeaturedGroups(options);
         let { buildDotNetPortalGroup } = await import('./portalGroup');
-        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i)));
+        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
     async fetchRegions(options: any): Promise<any> {
@@ -81,7 +81,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultBasemap);
+        return await buildDotNetBasemap(this.component.defaultBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultBasemap(value: any): Promise<void> {
@@ -95,7 +95,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultDevBasemap);
+        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultDevBasemap(value: any): Promise<void> {
@@ -123,7 +123,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultVectorBasemap);
+        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.layerId, this.viewId);
     }
     
     async setDefaultVectorBasemap(value: any): Promise<void> {
@@ -137,7 +137,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        return await Promise.all(this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
+        return await Promise.all(this.component.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i, this.layerId, this.viewId)));
     }
     
     async setFeaturedGroups(value: any): Promise<void> {
@@ -151,7 +151,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalUser } = await import('./portalUser');
-        return await buildDotNetPortalUser(this.component.user);
+        return await buildDotNetPortalUser(this.component.user, this.layerId, this.viewId);
     }
     
     async setUser(value: any): Promise<void> {
@@ -364,7 +364,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     
     let { buildDotNetPortal } = await import('./portal');
-    let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
+    let dnInstantiatedObject = await buildDotNetPortal(jsPortal, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -391,13 +391,23 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortal } = await import('./portal');
+        jsComponentRef = await buildJsPortal(jsObject, layerId, viewId);
+    }
+    
     let dotNetPortal: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.defaultExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -405,7 +415,7 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     }
     if (hasValue(jsObject.featuredGroups)) {
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
+        dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i, layerId, viewId)));
     }
     if (hasValue(jsObject.access)) {
         dotNetPortal.access = jsObject.access;
@@ -591,7 +601,7 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         dotNetPortal.vectorBasemapGalleryGroupQuery = jsObject.vectorBasemapGalleryGroupQuery;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortal.id = geoBlazorId;
     }

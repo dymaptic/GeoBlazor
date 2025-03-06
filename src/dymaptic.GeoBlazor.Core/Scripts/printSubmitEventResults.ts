@@ -4,7 +4,7 @@ export async function buildJsPrintSubmitEventResults(dotNetObject: any, layerId:
     return await buildJsPrintSubmitEventResultsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPrintSubmitEventResults(jsObject: any): Promise<any> {
+export async function buildDotNetPrintSubmitEventResults(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPrintSubmitEventResultsGenerated } = await import('./printSubmitEventResults.gb');
-    return await buildDotNetPrintSubmitEventResultsGenerated(jsObject);
+    return await buildDotNetPrintSubmitEventResultsGenerated(jsObject, layerId, viewId);
 }

@@ -52,10 +52,6 @@ public partial class PopupWidget : IGoTo
     ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="htmlContent">
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="features">
     ///     An array of features associated with the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">ArcGIS Maps SDK for JavaScript</a>
@@ -73,6 +69,10 @@ public partial class PopupWidget : IGoTo
     ///     Highlight the selected popup feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="htmlContent">
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
@@ -138,11 +138,11 @@ public partial class PopupWidget : IGoTo
         bool? defaultPopupTemplateEnabled = null,
         bool? dockEnabled = null,
         PopupDockOptions? dockOptions = null,
-        ElementReference? htmlContent = null,
         IReadOnlyList<Graphic>? features = null,
         GoToOverride? goToOverride = null,
         int? headingLevel = null,
         bool? highlightEnabled = null,
+        ElementReference? htmlContent = null,
         string? icon = null,
         string? label = null,
         Point? location = null,
@@ -167,11 +167,11 @@ public partial class PopupWidget : IGoTo
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
         DockEnabled = dockEnabled;
         DockOptions = dockOptions;
-        HtmlContent = htmlContent;
         Features = features;
         GoToOverride = goToOverride;
         HeadingLevel = headingLevel;
         HighlightEnabled = highlightEnabled;
+        HtmlContent = htmlContent;
         Icon = icon;
         Label = label;
         Location = location;
@@ -221,15 +221,6 @@ public partial class PopupWidget : IGoTo
     public PopupDockOptions? DockOptions { get; set; }
     
     /// <summary>
-    ///     The content of the popup.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? HtmlContent { get; set; }
-    
-    /// <summary>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a> available to the popup.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#featureCount">ArcGIS Maps SDK for JavaScript</a>
@@ -247,6 +238,15 @@ public partial class PopupWidget : IGoTo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyList<Graphic>? Features { get; set; }
+    
+    /// <summary>
+    ///     The content of the popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ElementReference? HtmlContent { get; set; }
     
     /// <summary>
     ///     Point used to position the popup.
@@ -565,36 +565,6 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the HtmlContent property.
-    /// </summary>
-    public async Task<ElementReference?> GetHtmlContent()
-    {
-        if (CoreJsModule is null)
-        {
-            return HtmlContent;
-        }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
-        if (JsComponentReference is null)
-        {
-            return HtmlContent;
-        }
-
-        // get the property value
-        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "HtmlContent");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             HtmlContent = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
-        }
-         
-        return HtmlContent;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the Features property.
     /// </summary>
     public async Task<IReadOnlyList<Graphic>?> GetFeatures()
@@ -682,6 +652,36 @@ public partial class PopupWidget : IGoTo
         }
          
         return HighlightEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the HtmlContent property.
+    /// </summary>
+    public async Task<ElementReference?> GetHtmlContent()
+    {
+        if (CoreJsModule is null)
+        {
+            return HtmlContent;
+        }
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null)
+        {
+            return HtmlContent;
+        }
+
+        // get the property value
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "htmlContent");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             HtmlContent = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
+        }
+         
+        return HtmlContent;
     }
     
     /// <summary>
@@ -1094,36 +1094,6 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the HtmlContent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHtmlContent(ElementReference? value)
-    {
-#pragma warning disable BL0005
-        HtmlContent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HtmlContent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "HtmlContent", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Features property after render.
     /// </summary>
     /// <param name="value">
@@ -1211,6 +1181,36 @@ public partial class PopupWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "highlightEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the HtmlContent property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetHtmlContent(ElementReference? value)
+    {
+#pragma warning disable BL0005
+        HtmlContent = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(HtmlContent)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "htmlContent", value);
     }
     
     /// <summary>

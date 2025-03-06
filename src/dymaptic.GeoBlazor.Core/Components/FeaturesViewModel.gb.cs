@@ -41,7 +41,7 @@ public partial class FeaturesViewModel : MapComponent,
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="htmlContent">
+    /// <param name="elementReferenceContent">
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -115,7 +115,7 @@ public partial class FeaturesViewModel : MapComponent,
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
-        ElementReference? htmlContent = null,
+        ElementReference? elementReferenceContent = null,
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
@@ -138,7 +138,7 @@ public partial class FeaturesViewModel : MapComponent,
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
-        HtmlContent = htmlContent;
+        ElementReferenceContent = elementReferenceContent;
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;
@@ -233,7 +233,7 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? HtmlContent { get; set; }
+    public ElementReference? ElementReferenceContent { get; set; }
     
     /// <summary>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#features">features</a> available.
@@ -648,33 +648,33 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the HtmlContent property.
+    ///     Asynchronously retrieve the current value of the ElementReferenceContent property.
     /// </summary>
-    public async Task<ElementReference?> GetHtmlContent()
+    public async Task<ElementReference?> GetElementReferenceContent()
     {
         if (CoreJsModule is null)
         {
-            return HtmlContent;
+            return ElementReferenceContent;
         }
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
-            return HtmlContent;
+            return ElementReferenceContent;
         }
 
         // get the property value
         JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "htmlContent");
+            CancellationTokenSource.Token, JsComponentReference, "elementReferenceContent");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             HtmlContent = result.Value.Value;
+             ElementReferenceContent = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(HtmlContent)] = HtmlContent;
+             ModifiedParameters[nameof(ElementReferenceContent)] = ElementReferenceContent;
         }
          
-        return HtmlContent;
+        return ElementReferenceContent;
     }
     
     /// <summary>
@@ -1452,17 +1452,17 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the HtmlContent property after render.
+    ///    Asynchronously set the value of the ElementReferenceContent property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHtmlContent(ElementReference? value)
+    public async Task SetElementReferenceContent(ElementReference? value)
     {
 #pragma warning disable BL0005
-        HtmlContent = value;
+        ElementReferenceContent = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(HtmlContent)] = value;
+        ModifiedParameters[nameof(ElementReferenceContent)] = value;
         
         if (CoreJsModule is null)
         {
@@ -1478,7 +1478,7 @@ public partial class FeaturesViewModel : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "htmlContent", value);
+            JsComponentReference, "elementReferenceContent", value);
     }
     
     /// <summary>

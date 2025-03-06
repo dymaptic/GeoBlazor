@@ -4,7 +4,7 @@ export async function buildJsRasterFunctionUtilsRemapParameters(dotNetObject: an
     return await buildJsRasterFunctionUtilsRemapParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterFunctionUtilsRemapParameters(jsObject: any): Promise<any> {
+export async function buildDotNetRasterFunctionUtilsRemapParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterFunctionUtilsRemapParametersGenerated } = await import('./rasterFunctionUtilsRemapParameters.gb');
-    return await buildDotNetRasterFunctionUtilsRemapParametersGenerated(jsObject);
+    return await buildDotNetRasterFunctionUtilsRemapParametersGenerated(jsObject, layerId, viewId);
 }

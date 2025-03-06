@@ -6,7 +6,7 @@ export async function buildJsImageryTileLayerSaveAsOptions(dotNetObject: any, la
     return await buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageryTileLayerSaveAsOptions(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayerSaveAsOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageryTileLayerSaveAsOptionsGenerated} = await import('./imageryTileLayerSaveAsOptions.gb');
-    return await buildDotNetImageryTileLayerSaveAsOptionsGenerated(jsObject);
+    return await buildDotNetImageryTileLayerSaveAsOptionsGenerated(jsObject, layerId, viewId);
 }

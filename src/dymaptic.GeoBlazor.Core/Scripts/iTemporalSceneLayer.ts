@@ -4,7 +4,7 @@ export async function buildJsITemporalSceneLayer(dotNetObject: any, layerId: str
     return await buildJsITemporalSceneLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetITemporalSceneLayer(jsObject: any): Promise<any> {
+export async function buildDotNetITemporalSceneLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetITemporalSceneLayerGenerated } = await import('./iTemporalSceneLayer.gb');
-    return await buildDotNetITemporalSceneLayerGenerated(jsObject);
+    return await buildDotNetITemporalSceneLayerGenerated(jsObject, layerId, viewId);
 }

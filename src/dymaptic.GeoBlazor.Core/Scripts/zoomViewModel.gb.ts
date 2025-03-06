@@ -64,7 +64,7 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsZoomViewModel;
     
     let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-    let dnInstantiatedObject = await buildDotNetZoomViewModel(jsZoomViewModel);
+    let dnInstantiatedObject = await buildDotNetZoomViewModel(jsZoomViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -91,13 +91,23 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetZoomViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsZoomViewModel } = await import('./zoomViewModel');
+        jsComponentRef = await buildJsZoomViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetZoomViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.canZoomIn)) {
         dotNetZoomViewModel.canZoomIn = jsObject.canZoomIn;
@@ -109,7 +119,7 @@ export async function buildDotNetZoomViewModelGenerated(jsObject: any): Promise<
         dotNetZoomViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetZoomViewModel.id = geoBlazorId;
     }

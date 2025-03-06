@@ -43,7 +43,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
+        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i, this.layerId, this.viewId)));
     }
     
     async setStatistics(value: any): Promise<void> {
@@ -102,7 +102,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
     
     let { buildDotNetPixelBlock } = await import('./pixelBlock');
-    let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
+    let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -129,17 +129,27 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPixelBlock } = await import('./pixelBlock');
+        jsComponentRef = await buildJsPixelBlock(jsObject, layerId, viewId);
+    }
+    
     let dotNetPixelBlock: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.statistics)) {
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
+        dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i, layerId, viewId)));
     }
     if (hasValue(jsObject.height)) {
         dotNetPixelBlock.height = jsObject.height;
@@ -163,7 +173,7 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any
         dotNetPixelBlock.width = jsObject.width;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPixelBlock.id = geoBlazorId;
     }

@@ -22,7 +22,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result);
+        return await buildDotNetBasemap(result, this.layerId, this.viewId);
     }
 
     // region properties
@@ -47,7 +47,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem);
+        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -75,7 +75,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        return await buildDotNetBasemapStyle(this.component.style);
+        return await buildDotNetBasemapStyle(this.component.style, this.layerId, this.viewId);
     }
     
     async setStyle(value: any): Promise<void> {
@@ -137,7 +137,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     
     let { buildDotNetBasemap } = await import('./basemap');
-    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
+    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -164,21 +164,31 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemap } = await import('./basemap');
+        jsComponentRef = await buildJsBasemap(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.style)) {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
+        dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
     }
     if (hasValue(jsObject.id)) {
         dotNetBasemap.basemapId = jsObject.id;
@@ -196,7 +206,7 @@ export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
         dotNetBasemap.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemap.id = geoBlazorId;
     }

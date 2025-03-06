@@ -13,7 +13,7 @@ export async function buildJsGamepadInputDeviceGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsGamepadInputDevice;
     
     let { buildDotNetGamepadInputDevice } = await import('./gamepadInputDevice');
-    let dnInstantiatedObject = await buildDotNetGamepadInputDevice(jsGamepadInputDevice);
+    let dnInstantiatedObject = await buildDotNetGamepadInputDevice(jsGamepadInputDevice, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -40,19 +40,29 @@ export async function buildJsGamepadInputDeviceGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetGamepadInputDeviceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGamepadInputDeviceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGamepadInputDevice } = await import('./gamepadInputDevice');
+        jsComponentRef = await buildJsGamepadInputDevice(jsObject, layerId, viewId);
+    }
+    
     let dotNetGamepadInputDevice: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.native)) {
         dotNetGamepadInputDevice.native = jsObject.native;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGamepadInputDevice.id = geoBlazorId;
     }

@@ -15,7 +15,7 @@ export async function buildJsCircle(dotNetObject: any, layerId: string | null, v
     return await buildJsCircleGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCircle(jsObject: any): Promise<any> {
+export async function buildDotNetCircle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCircleGenerated} = await import('./circle.gb');
-    return await buildDotNetCircleGenerated(jsObject);
+    return await buildDotNetCircleGenerated(jsObject, layerId, viewId);
 }

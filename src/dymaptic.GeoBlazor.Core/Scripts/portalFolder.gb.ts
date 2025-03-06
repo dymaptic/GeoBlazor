@@ -54,8 +54,18 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<a
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortalFolder } = await import('./portalFolder');
+        jsComponentRef = await buildJsPortalFolder(jsObject);
+    }
+    
     let dotNetPortalFolder: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.created)) {
         dotNetPortalFolder.created = jsObject.created;
@@ -70,7 +80,7 @@ export async function buildDotNetPortalFolderGenerated(jsObject: any): Promise<a
         dotNetPortalFolder.url = jsObject.url;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortalFolder.id = geoBlazorId;
     }

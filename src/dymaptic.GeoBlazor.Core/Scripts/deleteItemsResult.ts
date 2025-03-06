@@ -6,7 +6,7 @@ export async function buildJsDeleteItemsResult(dotNetObject: any, layerId: strin
     return await buildJsDeleteItemsResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetDeleteItemsResult(jsObject: any): Promise<any> {
+export async function buildDotNetDeleteItemsResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetDeleteItemsResultGenerated} = await import('./deleteItemsResult.gb');
-    return await buildDotNetDeleteItemsResultGenerated(jsObject);
+    return await buildDotNetDeleteItemsResultGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsLegendStyle(dotNetObject: any, layerId: string | nu
     return await buildJsLegendStyleGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLegendStyle(jsObject: any): Promise<any> {
+export async function buildDotNetLegendStyle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLegendStyleGenerated } = await import('./legendStyle.gb');
-    return await buildDotNetLegendStyleGenerated(jsObject);
+    return await buildDotNetLegendStyleGenerated(jsObject, layerId, viewId);
 }

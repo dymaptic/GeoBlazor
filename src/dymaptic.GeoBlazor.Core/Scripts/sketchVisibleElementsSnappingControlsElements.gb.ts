@@ -29,7 +29,7 @@ export async function buildJsSketchVisibleElementsSnappingControlsElementsGenera
     arcGisObjectRefs[dotNetObject.id] = jsSketchVisibleElementsSnappingControlsElements;
     
     let { buildDotNetSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
-    let dnInstantiatedObject = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsSketchVisibleElementsSnappingControlsElements);
+    let dnInstantiatedObject = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsSketchVisibleElementsSnappingControlsElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsSketchVisibleElementsSnappingControlsElementsGenera
 }
 
 
-export async function buildDotNetSketchVisibleElementsSnappingControlsElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSketchVisibleElementsSnappingControlsElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
+        jsComponentRef = await buildJsSketchVisibleElementsSnappingControlsElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetSketchVisibleElementsSnappingControlsElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.enabledToggle)) {
         dotNetSketchVisibleElementsSnappingControlsElements.enabledToggle = jsObject.enabledToggle;
@@ -83,7 +93,7 @@ export async function buildDotNetSketchVisibleElementsSnappingControlsElementsGe
         dotNetSketchVisibleElementsSnappingControlsElements.selfEnabledToggle = jsObject.selfEnabledToggle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSketchVisibleElementsSnappingControlsElements.id = geoBlazorId;
     }

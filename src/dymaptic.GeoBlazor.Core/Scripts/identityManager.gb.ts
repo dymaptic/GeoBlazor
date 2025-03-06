@@ -28,7 +28,7 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
     async checkSignInStatus(resUrl: any): Promise<any> {
         let result = await this.component.checkSignInStatus(resUrl);
         let { buildDotNetCredential } = await import('./credential');
-        return await buildDotNetCredential(result);
+        return await buildDotNetCredential(result, this.layerId, this.viewId);
     }
 
     async destroyCredentials(): Promise<void> {
@@ -48,7 +48,7 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         let result = this.component.findCredential(url,
             userId);
         let { buildDotNetCredential } = await import('./credential');
-        return await buildDotNetCredential(result);
+        return await buildDotNetCredential(result, this.layerId, this.viewId);
     }
 
     async findOAuthInfo(url: any): Promise<any> {
@@ -72,7 +72,7 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         let result = await this.component.getCredential(url,
             options);
         let { buildDotNetCredential } = await import('./credential');
-        return await buildDotNetCredential(result);
+        return await buildDotNetCredential(result, this.layerId, this.viewId);
     }
 
     async initialize(json: any): Promise<void> {
@@ -146,7 +146,7 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     let jsIdentityManager = new IdentityManager(properties);
     jsIdentityManager.on('credential-create', async (evt: any) => {
         let { buildDotNetIdentityManagerCredentialCreateEvent } = await import('./identityManagerCredentialCreateEvent');
-        let dnEvent = await buildDotNetIdentityManagerCredentialCreateEvent(evt);
+        let dnEvent = await buildDotNetIdentityManagerCredentialCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCredentialCreate', dnEvent);
     });
     
@@ -166,7 +166,7 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManager;
     
     let { buildDotNetIdentityManager } = await import('./identityManager');
-    let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager);
+    let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -193,13 +193,23 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIdentityManagerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIdentityManager } = await import('./identityManager');
+        jsComponentRef = await buildJsIdentityManager(jsObject, layerId, viewId);
+    }
+    
     let dotNetIdentityManager: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.dialog)) {
         let { buildDotNetWidget } = await import('./widget');
@@ -209,7 +219,7 @@ export async function buildDotNetIdentityManagerGenerated(jsObject: any): Promis
         dotNetIdentityManager.tokenValidity = jsObject.tokenValidity;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIdentityManager.id = geoBlazorId;
     }

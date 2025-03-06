@@ -18,7 +18,7 @@ export async function buildJsArrayVariableGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsArrayVariable;
     
     let { buildDotNetArrayVariable } = await import('./arrayVariable');
-    let dnInstantiatedObject = await buildDotNetArrayVariable(jsArrayVariable);
+    let dnInstantiatedObject = await buildDotNetArrayVariable(jsArrayVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,17 +45,27 @@ export async function buildJsArrayVariableGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetArrayVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArrayVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArrayVariable } = await import('./arrayVariable');
+        jsComponentRef = await buildJsArrayVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetArrayVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.elementType)) {
         let { buildDotNetArrayElementType } = await import('./arrayElementType');
-        dotNetArrayVariable.elementType = await buildDotNetArrayElementType(jsObject.elementType);
+        dotNetArrayVariable.elementType = await buildDotNetArrayElementType(jsObject.elementType, layerId, viewId);
     }
     if (hasValue(jsObject.name)) {
         dotNetArrayVariable.name = jsObject.name;
@@ -64,7 +74,7 @@ export async function buildDotNetArrayVariableGenerated(jsObject: any): Promise<
         dotNetArrayVariable.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArrayVariable.id = geoBlazorId;
     }

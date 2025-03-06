@@ -32,7 +32,7 @@ export async function buildJsVersionManagementServiceCapabilitiesGenerated(dotNe
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementServiceCapabilities;
     
     let { buildDotNetVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
-    let dnInstantiatedObject = await buildDotNetVersionManagementServiceCapabilities(jsVersionManagementServiceCapabilities);
+    let dnInstantiatedObject = await buildDotNetVersionManagementServiceCapabilities(jsVersionManagementServiceCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsVersionManagementServiceCapabilitiesGenerated(dotNe
 }
 
 
-export async function buildDotNetVersionManagementServiceCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionManagementServiceCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
+        jsComponentRef = await buildJsVersionManagementServiceCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionManagementServiceCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsAsyncDifferences)) {
         dotNetVersionManagementServiceCapabilities.supportsAsyncDifferences = jsObject.supportsAsyncDifferences;
@@ -89,7 +99,7 @@ export async function buildDotNetVersionManagementServiceCapabilitiesGenerated(j
         dotNetVersionManagementServiceCapabilities.supportsPartialPost = jsObject.supportsPartialPost;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementServiceCapabilities.id = geoBlazorId;
     }

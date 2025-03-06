@@ -5,7 +5,7 @@ export async function buildJsLayerSearchSource(dotNetObject: any, layerId: strin
     return await buildJsLayerSearchSourceGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLayerSearchSource(jsObject: any): Promise<any> {
+export async function buildDotNetLayerSearchSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLayerSearchSourceGenerated} = await import('./layerSearchSource.gb');
-    return await buildDotNetLayerSearchSourceGenerated(jsObject);
+    return await buildDotNetLayerSearchSourceGenerated(jsObject, layerId, viewId);
 }

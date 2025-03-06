@@ -5,7 +5,7 @@ export async function buildJsActionToggle(dotNetObject: any, layerId: string | n
     return await buildJsActionToggleGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetActionToggle(jsObject: any): Promise<any> {
+export async function buildDotNetActionToggle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetActionToggleGenerated} = await import('./actionToggle.gb');
-    return await buildDotNetActionToggleGenerated(jsObject);
+    return await buildDotNetActionToggleGenerated(jsObject, layerId, viewId);
 }

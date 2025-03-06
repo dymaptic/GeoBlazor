@@ -22,7 +22,7 @@ export async function buildJsTimePickerInputGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsTimePickerInput;
     
     let { buildDotNetTimePickerInput } = await import('./timePickerInput');
-    let dnInstantiatedObject = await buildDotNetTimePickerInput(jsTimePickerInput);
+    let dnInstantiatedObject = await buildDotNetTimePickerInput(jsTimePickerInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,13 +49,23 @@ export async function buildJsTimePickerInputGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetTimePickerInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimePickerInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTimePickerInput } = await import('./timePickerInput');
+        jsComponentRef = await buildJsTimePickerInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetTimePickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetTimePickerInput.max = jsObject.max;
@@ -70,7 +80,7 @@ export async function buildDotNetTimePickerInputGenerated(jsObject: any): Promis
         dotNetTimePickerInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTimePickerInput.id = geoBlazorId;
     }

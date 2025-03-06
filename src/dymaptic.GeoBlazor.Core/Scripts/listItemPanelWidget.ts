@@ -15,7 +15,7 @@ export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: str
     return await buildJsListItemPanelWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetListItemPanelWidget(jsObject: any): Promise<any> {
+export async function buildDotNetListItemPanelWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetListItemPanelWidgetGenerated} = await import('./listItemPanelWidget.gb');
-    return await buildDotNetListItemPanelWidgetGenerated(jsObject);
+    return await buildDotNetListItemPanelWidgetGenerated(jsObject, layerId, viewId);
 }

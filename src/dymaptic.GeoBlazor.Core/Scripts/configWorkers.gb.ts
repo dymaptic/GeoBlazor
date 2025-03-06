@@ -21,7 +21,7 @@ export async function buildJsConfigWorkersGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsconfigWorkers;
     
     let { buildDotNetConfigWorkers } = await import('./configWorkers');
-    let dnInstantiatedObject = await buildDotNetConfigWorkers(jsconfigWorkers);
+    let dnInstantiatedObject = await buildDotNetConfigWorkers(jsconfigWorkers, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,17 +48,27 @@ export async function buildJsConfigWorkersGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetConfigWorkersGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetConfigWorkersGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsConfigWorkers } = await import('./configWorkers');
+        jsComponentRef = await buildJsConfigWorkers(jsObject, layerId, viewId);
+    }
+    
     let dotNetConfigWorkers: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.loaderConfig)) {
         let { buildDotNetConfigWorkersLoaderConfig } = await import('./configWorkersLoaderConfig');
-        dotNetConfigWorkers.loaderConfig = await buildDotNetConfigWorkersLoaderConfig(jsObject.loaderConfig);
+        dotNetConfigWorkers.loaderConfig = await buildDotNetConfigWorkersLoaderConfig(jsObject.loaderConfig, layerId, viewId);
     }
     if (hasValue(jsObject.loaderUrl)) {
         dotNetConfigWorkers.loaderUrl = jsObject.loaderUrl;
@@ -67,7 +77,7 @@ export async function buildDotNetConfigWorkersGenerated(jsObject: any): Promise<
         dotNetConfigWorkers.workerPath = jsObject.workerPath;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetConfigWorkers.id = geoBlazorId;
     }

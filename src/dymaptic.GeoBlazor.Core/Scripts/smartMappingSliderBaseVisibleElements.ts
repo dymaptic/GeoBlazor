@@ -4,7 +4,7 @@ export async function buildJsSmartMappingSliderBaseVisibleElements(dotNetObject:
     return await buildJsSmartMappingSliderBaseVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSmartMappingSliderBaseVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetSmartMappingSliderBaseVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSmartMappingSliderBaseVisibleElementsGenerated } = await import('./smartMappingSliderBaseVisibleElements.gb');
-    return await buildDotNetSmartMappingSliderBaseVisibleElementsGenerated(jsObject);
+    return await buildDotNetSmartMappingSliderBaseVisibleElementsGenerated(jsObject, layerId, viewId);
 }

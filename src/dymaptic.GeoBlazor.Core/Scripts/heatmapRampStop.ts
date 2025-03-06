@@ -4,7 +4,7 @@ export async function buildJsHeatmapRampStop(dotNetObject: any, layerId: string 
     return await buildJsHeatmapRampStopGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHeatmapRampStop(jsObject: any): Promise<any> {
+export async function buildDotNetHeatmapRampStop(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHeatmapRampStopGenerated } = await import('./heatmapRampStop.gb');
-    return await buildDotNetHeatmapRampStopGenerated(jsObject);
+    return await buildDotNetHeatmapRampStopGenerated(jsObject, layerId, viewId);
 }

@@ -29,7 +29,7 @@ export async function buildJsElevationProfileLineInputGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineInput;
     
     let { buildDotNetElevationProfileLineInput } = await import('./elevationProfileLineInput');
-    let dnInstantiatedObject = await buildDotNetElevationProfileLineInput(jsElevationProfileLineInput);
+    let dnInstantiatedObject = await buildDotNetElevationProfileLineInput(jsElevationProfileLineInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsElevationProfileLineInputGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetElevationProfileLineInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationProfileLineInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsElevationProfileLineInput } = await import('./elevationProfileLineInput');
+        jsComponentRef = await buildJsElevationProfileLineInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetElevationProfileLineInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -97,7 +107,7 @@ export async function buildDotNetElevationProfileLineInputGenerated(jsObject: an
         dotNetElevationProfileLineInput.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineInput.id = geoBlazorId;
     }

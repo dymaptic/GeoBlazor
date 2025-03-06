@@ -5,7 +5,7 @@ export async function buildJsImageToMapMultirayParameters(dotNetObject: any, lay
     return await buildJsImageToMapMultirayParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageToMapMultirayParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageToMapMultirayParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageToMapMultirayParametersGenerated} = await import('./imageToMapMultirayParameters.gb');
-    return await buildDotNetImageToMapMultirayParametersGenerated(jsObject);
+    return await buildDotNetImageToMapMultirayParametersGenerated(jsObject, layerId, viewId);
 }

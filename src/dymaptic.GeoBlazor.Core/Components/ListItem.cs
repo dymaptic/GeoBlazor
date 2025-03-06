@@ -74,6 +74,40 @@ public partial class ListItem: MapComponent
 #pragma warning restore BL0005    
     }
     
+#region Set Properties
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Panel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPanel(ListItemPanelWidget? value)
+    {
+#pragma warning disable BL0005
+        Panel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Panel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
+            CancellationTokenSource.Token, Id);
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setPanel", CancellationTokenSource.Token,
+            value);
+    }
+    
+#endregion
+    
 #region Add to Collection Methods
 
     /// <summary>

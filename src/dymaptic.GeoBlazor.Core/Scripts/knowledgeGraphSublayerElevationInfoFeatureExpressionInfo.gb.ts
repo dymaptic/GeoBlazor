@@ -17,7 +17,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressio
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressio
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
+        jsComponentRef = await buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
@@ -59,7 +69,7 @@ export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpre
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo.id = geoBlazorId;
     }

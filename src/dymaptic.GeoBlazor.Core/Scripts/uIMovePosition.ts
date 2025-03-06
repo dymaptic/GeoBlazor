@@ -3,7 +3,7 @@ export async function buildJsUIMovePosition(dotNetObject: any, layerId: string |
     return await buildJsUIMovePositionGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetUIMovePosition(jsObject: any): Promise<any> {
+export async function buildDotNetUIMovePosition(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetUIMovePositionGenerated} = await import('./uIMovePosition.gb');
-    return await buildDotNetUIMovePositionGenerated(jsObject);
+    return await buildDotNetUIMovePositionGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsOutputQuantizationParametersExtent(dotNetObject: an
     return await buildJsOutputQuantizationParametersExtentGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOutputQuantizationParametersExtent(jsObject: any): Promise<any> {
+export async function buildDotNetOutputQuantizationParametersExtent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetOutputQuantizationParametersExtentGenerated } = await import('./outputQuantizationParametersExtent.gb');
-    return await buildDotNetOutputQuantizationParametersExtentGenerated(jsObject);
+    return await buildDotNetOutputQuantizationParametersExtentGenerated(jsObject, layerId, viewId);
 }

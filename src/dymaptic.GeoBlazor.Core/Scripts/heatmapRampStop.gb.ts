@@ -24,7 +24,7 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
     
     let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
-    let dnInstantiatedObject = await buildDotNetHeatmapRampStop(jsHeatmapRampStop);
+    let dnInstantiatedObject = await buildDotNetHeatmapRampStop(jsHeatmapRampStop, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetHeatmapRampStopGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHeatmapRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHeatmapRampStop } = await import('./heatmapRampStop');
+        jsComponentRef = await buildJsHeatmapRampStop(jsObject, layerId, viewId);
+    }
+    
     let dotNetHeatmapRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -73,7 +83,7 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any): Promis
         dotNetHeatmapRampStop.ratio = jsObject.ratio;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHeatmapRampStop.id = geoBlazorId;
     }

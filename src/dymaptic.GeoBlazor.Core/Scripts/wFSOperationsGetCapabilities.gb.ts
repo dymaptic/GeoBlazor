@@ -14,7 +14,7 @@ export async function buildJsWFSOperationsGetCapabilitiesGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsWFSOperationsGetCapabilities;
     
     let { buildDotNetWFSOperationsGetCapabilities } = await import('./wFSOperationsGetCapabilities');
-    let dnInstantiatedObject = await buildDotNetWFSOperationsGetCapabilities(jsWFSOperationsGetCapabilities);
+    let dnInstantiatedObject = await buildDotNetWFSOperationsGetCapabilities(jsWFSOperationsGetCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsWFSOperationsGetCapabilitiesGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetWFSOperationsGetCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWFSOperationsGetCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWFSOperationsGetCapabilities } = await import('./wFSOperationsGetCapabilities');
+        jsComponentRef = await buildJsWFSOperationsGetCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetWFSOperationsGetCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.url)) {
         dotNetWFSOperationsGetCapabilities.url = jsObject.url;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWFSOperationsGetCapabilities.id = geoBlazorId;
     }

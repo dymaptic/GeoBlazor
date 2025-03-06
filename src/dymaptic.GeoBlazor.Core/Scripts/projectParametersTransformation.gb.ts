@@ -17,7 +17,7 @@ export async function buildJsProjectParametersTransformationGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsProjectParametersTransformation;
     
     let { buildDotNetProjectParametersTransformation } = await import('./projectParametersTransformation');
-    let dnInstantiatedObject = await buildDotNetProjectParametersTransformation(jsProjectParametersTransformation);
+    let dnInstantiatedObject = await buildDotNetProjectParametersTransformation(jsProjectParametersTransformation, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsProjectParametersTransformationGenerated(dotNetObje
 }
 
 
-export async function buildDotNetProjectParametersTransformationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetProjectParametersTransformationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsProjectParametersTransformation } = await import('./projectParametersTransformation');
+        jsComponentRef = await buildJsProjectParametersTransformation(jsObject, layerId, viewId);
+    }
+    
     let dotNetProjectParametersTransformation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.wkid)) {
         dotNetProjectParametersTransformation.wkid = jsObject.wkid;
@@ -59,7 +69,7 @@ export async function buildDotNetProjectParametersTransformationGenerated(jsObje
         dotNetProjectParametersTransformation.wkt = jsObject.wkt;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetProjectParametersTransformation.id = geoBlazorId;
     }

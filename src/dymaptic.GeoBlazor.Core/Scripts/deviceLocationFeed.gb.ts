@@ -17,7 +17,7 @@ export async function buildJsDeviceLocationFeedGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsDeviceLocationFeed;
     
     let { buildDotNetDeviceLocationFeed } = await import('./deviceLocationFeed');
-    let dnInstantiatedObject = await buildDotNetDeviceLocationFeed(jsDeviceLocationFeed);
+    let dnInstantiatedObject = await buildDotNetDeviceLocationFeed(jsDeviceLocationFeed, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,23 +44,33 @@ export async function buildJsDeviceLocationFeedGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetDeviceLocationFeedGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDeviceLocationFeedGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDeviceLocationFeed } = await import('./deviceLocationFeed');
+        jsComponentRef = await buildJsDeviceLocationFeed(jsObject, layerId, viewId);
+    }
+    
     let dotNetDeviceLocationFeed: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.filterExpression)) {
         let { buildDotNetGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
-        dotNetDeviceLocationFeed.filterExpression = await buildDotNetGeotriggersInfoExpressionInfo(jsObject.filterExpression);
+        dotNetDeviceLocationFeed.filterExpression = await buildDotNetGeotriggersInfoExpressionInfo(jsObject.filterExpression, layerId, viewId);
     }
     if (hasValue(jsObject.type)) {
         dotNetDeviceLocationFeed.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDeviceLocationFeed.id = geoBlazorId;
     }

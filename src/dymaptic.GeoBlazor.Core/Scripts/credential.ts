@@ -15,7 +15,7 @@ export async function buildJsCredential(dotNetObject: any, layerId: string | nul
     return await buildJsCredentialGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCredential(jsObject: any): Promise<any> {
+export async function buildDotNetCredential(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCredentialGenerated} = await import('./credential.gb');
-    return await buildDotNetCredentialGenerated(jsObject);
+    return await buildDotNetCredentialGenerated(jsObject, layerId, viewId);
 }

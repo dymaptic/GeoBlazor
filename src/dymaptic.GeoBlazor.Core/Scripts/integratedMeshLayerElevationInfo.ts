@@ -4,7 +4,7 @@ export async function buildJsIntegratedMeshLayerElevationInfo(dotNetObject: any,
     return await buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIntegratedMeshLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetIntegratedMeshLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIntegratedMeshLayerElevationInfoGenerated } = await import('./integratedMeshLayerElevationInfo.gb');
-    return await buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject, layerId, viewId);
 }

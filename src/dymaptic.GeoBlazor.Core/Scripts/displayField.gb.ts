@@ -17,7 +17,7 @@ export async function buildJsDisplayFieldGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsDisplayField;
     
     let { buildDotNetDisplayField } = await import('./displayField');
-    let dnInstantiatedObject = await buildDotNetDisplayField(jsDisplayField);
+    let dnInstantiatedObject = await buildDotNetDisplayField(jsDisplayField, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDisplayFieldGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetDisplayFieldGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDisplayFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDisplayField } = await import('./displayField');
+        jsComponentRef = await buildJsDisplayField(jsObject, layerId, viewId);
+    }
+    
     let dotNetDisplayField: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetDisplayField.field = jsObject.field;
@@ -59,7 +69,7 @@ export async function buildDotNetDisplayFieldGenerated(jsObject: any): Promise<a
         dotNetDisplayField.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDisplayField.id = geoBlazorId;
     }

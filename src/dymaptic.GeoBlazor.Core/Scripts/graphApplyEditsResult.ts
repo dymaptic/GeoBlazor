@@ -4,7 +4,7 @@ export async function buildJsGraphApplyEditsResult(dotNetObject: any, layerId: s
     return await buildJsGraphApplyEditsResultGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGraphApplyEditsResult(jsObject: any): Promise<any> {
+export async function buildDotNetGraphApplyEditsResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGraphApplyEditsResultGenerated } = await import('./graphApplyEditsResult.gb');
-    return await buildDotNetGraphApplyEditsResultGenerated(jsObject);
+    return await buildDotNetGraphApplyEditsResultGenerated(jsObject, layerId, viewId);
 }

@@ -26,7 +26,7 @@ export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsQueryTableDataSource;
     
     let { buildDotNetQueryTableDataSource } = await import('./queryTableDataSource');
-    let dnInstantiatedObject = await buildDotNetQueryTableDataSource(jsQueryTableDataSource);
+    let dnInstantiatedObject = await buildDotNetQueryTableDataSource(jsQueryTableDataSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsQueryTableDataSourceGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsQueryTableDataSource } = await import('./queryTableDataSource');
+        jsComponentRef = await buildJsQueryTableDataSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetQueryTableDataSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.geometryType)) {
         dotNetQueryTableDataSource.geometryType = jsObject.geometryType;
@@ -80,7 +90,7 @@ export async function buildDotNetQueryTableDataSourceGenerated(jsObject: any): P
         dotNetQueryTableDataSource.workspaceId = jsObject.workspaceId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetQueryTableDataSource.id = geoBlazorId;
     }

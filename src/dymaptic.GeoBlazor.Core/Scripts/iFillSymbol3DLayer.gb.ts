@@ -69,7 +69,7 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
-        return await buildDotNetFillSymbol3DLayerMaterial(this.layer.material);
+        return await buildDotNetFillSymbol3DLayerMaterial(this.layer.material, this.layerId, this.viewId);
     }
     
     async setMaterial(value: any): Promise<void> {
@@ -83,7 +83,7 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
-        return await buildDotNetFillSymbol3DLayerOutline(this.layer.outline);
+        return await buildDotNetFillSymbol3DLayerOutline(this.layer.outline, this.layerId, this.viewId);
     }
     
     async setOutline(value: any): Promise<void> {
@@ -97,7 +97,7 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
-        return await buildDotNetStylePattern3D(this.layer.pattern);
+        return await buildDotNetStylePattern3D(this.layer.pattern, this.layerId, this.viewId);
     }
     
     async setPattern(value: any): Promise<void> {
@@ -150,7 +150,7 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsFillSymbol3DLayer;
     
     let { buildDotNetIFillSymbol3DLayer } = await import('./iFillSymbol3DLayer');
-    let dnInstantiatedObject = await buildDotNetIFillSymbol3DLayer(jsFillSymbol3DLayer);
+    let dnInstantiatedObject = await buildDotNetIFillSymbol3DLayer(jsFillSymbol3DLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -177,13 +177,23 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIFillSymbol3DLayer } = await import('./iFillSymbol3DLayer');
+        jsComponentRef = await buildJsIFillSymbol3DLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetIFillSymbol3DLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.edges)) {
         let { buildDotNetEdges3D } = await import('./edges3D');
@@ -191,15 +201,15 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.material)) {
         let { buildDotNetFillSymbol3DLayerMaterial } = await import('./fillSymbol3DLayerMaterial');
-        dotNetIFillSymbol3DLayer.material = await buildDotNetFillSymbol3DLayerMaterial(jsObject.material);
+        dotNetIFillSymbol3DLayer.material = await buildDotNetFillSymbol3DLayerMaterial(jsObject.material, layerId, viewId);
     }
     if (hasValue(jsObject.outline)) {
         let { buildDotNetFillSymbol3DLayerOutline } = await import('./fillSymbol3DLayerOutline');
-        dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline);
+        dotNetIFillSymbol3DLayer.outline = await buildDotNetFillSymbol3DLayerOutline(jsObject.outline, layerId, viewId);
     }
     if (hasValue(jsObject.pattern)) {
         let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
-        dotNetIFillSymbol3DLayer.pattern = await buildDotNetStylePattern3D(jsObject.pattern);
+        dotNetIFillSymbol3DLayer.pattern = await buildDotNetStylePattern3D(jsObject.pattern, layerId, viewId);
     }
     if (hasValue(jsObject.castShadows)) {
         dotNetIFillSymbol3DLayer.castShadows = jsObject.castShadows;
@@ -208,7 +218,7 @@ export async function buildDotNetIFillSymbol3DLayerGenerated(jsObject: any): Pro
         dotNetIFillSymbol3DLayer.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIFillSymbol3DLayer.id = geoBlazorId;
     }

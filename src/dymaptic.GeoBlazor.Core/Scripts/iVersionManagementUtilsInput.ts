@@ -4,7 +4,7 @@ export async function buildJsIVersionManagementUtilsInput(dotNetObject: any, lay
     return await buildJsIVersionManagementUtilsInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIVersionManagementUtilsInput(jsObject: any): Promise<any> {
+export async function buildDotNetIVersionManagementUtilsInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIVersionManagementUtilsInputGenerated } = await import('./iVersionManagementUtilsInput.gb');
-    return await buildDotNetIVersionManagementUtilsInputGenerated(jsObject);
+    return await buildDotNetIVersionManagementUtilsInputGenerated(jsObject, layerId, viewId);
 }

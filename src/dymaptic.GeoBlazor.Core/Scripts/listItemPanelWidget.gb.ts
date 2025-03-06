@@ -113,7 +113,7 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await buildDotNetListItem(this.widget.listItem);
+        return await buildDotNetListItem(this.widget.listItem, this.layerId, this.viewId);
     }
     
     async setListItem(value: any): Promise<void> {
@@ -184,7 +184,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
     
     let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
-    let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel);
+    let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -211,17 +211,27 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
+        jsComponentRef = await buildJsListItemPanelWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetListItemPanelWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.listItem)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
+        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem, layerId, viewId);
     }
     if (hasValue(jsObject.content)) {
         dotNetListItemPanelWidget.content = jsObject.content;
@@ -257,7 +267,7 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Pr
         dotNetListItemPanelWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetListItemPanelWidget.id = geoBlazorId;
     }

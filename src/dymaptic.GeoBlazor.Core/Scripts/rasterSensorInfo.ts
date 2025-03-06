@@ -4,7 +4,7 @@ export async function buildJsRasterSensorInfo(dotNetObject: any, layerId: string
     return await buildJsRasterSensorInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterSensorInfo(jsObject: any): Promise<any> {
+export async function buildDotNetRasterSensorInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterSensorInfoGenerated } = await import('./rasterSensorInfo.gb');
-    return await buildDotNetRasterSensorInfoGenerated(jsObject);
+    return await buildDotNetRasterSensorInfoGenerated(jsObject, layerId, viewId);
 }

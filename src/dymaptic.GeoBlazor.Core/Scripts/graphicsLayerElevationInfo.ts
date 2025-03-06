@@ -4,7 +4,7 @@ export async function buildJsGraphicsLayerElevationInfo(dotNetObject: any, layer
     return await buildJsGraphicsLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGraphicsLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetGraphicsLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGraphicsLayerElevationInfoGenerated } = await import('./graphicsLayerElevationInfo.gb');
-    return await buildDotNetGraphicsLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetGraphicsLayerElevationInfoGenerated(jsObject, layerId, viewId);
 }

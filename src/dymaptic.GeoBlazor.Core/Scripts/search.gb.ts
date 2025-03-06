@@ -30,7 +30,7 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
     arcGisObjectRefs[dotNetObject.id] = jsSearch;
     
     let { buildDotNetSearch } = await import('./search');
-    let dnInstantiatedObject = await buildDotNetSearch(jsSearch);
+    let dnInstantiatedObject = await buildDotNetSearch(jsSearch, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -57,21 +57,31 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearch } = await import('./search');
+        jsComponentRef = await buildJsSearch(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearch: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.layers)) {
         let { buildDotNetSearchLayer } = await import('./searchLayer');
-        dotNetSearch.layers = await Promise.all(jsObject.layers.map(async i => await buildDotNetSearchLayer(i)));
+        dotNetSearch.layers = await Promise.all(jsObject.layers.map(async i => await buildDotNetSearchLayer(i, layerId, viewId)));
     }
     if (hasValue(jsObject.tables)) {
         let { buildDotNetSearchTable } = await import('./searchTable');
-        dotNetSearch.tables = await Promise.all(jsObject.tables.map(async i => await buildDotNetSearchTable(i)));
+        dotNetSearch.tables = await Promise.all(jsObject.tables.map(async i => await buildDotNetSearchTable(i, layerId, viewId)));
     }
     if (hasValue(jsObject.addressSearchEnabled)) {
         dotNetSearch.addressSearchEnabled = jsObject.addressSearchEnabled;
@@ -83,7 +93,7 @@ export async function buildDotNetSearchGenerated(jsObject: any): Promise<any> {
         dotNetSearch.hintText = jsObject.hintText;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearch.id = geoBlazorId;
     }

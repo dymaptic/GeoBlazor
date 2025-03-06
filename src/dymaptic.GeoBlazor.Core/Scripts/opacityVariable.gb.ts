@@ -33,7 +33,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
     let { buildDotNetOpacityVariable } = await import('./opacityVariable');
-    let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable);
+    let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -60,21 +60,31 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOpacityVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOpacityVariable } = await import('./opacityVariable');
+        jsComponentRef = await buildJsOpacityVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetOpacityVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
     if (hasValue(jsObject.stops)) {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
-        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i)));
+        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.field)) {
         dotNetOpacityVariable.field = jsObject.field;
@@ -92,7 +102,7 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promis
         dotNetOpacityVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOpacityVariable.id = geoBlazorId;
     }

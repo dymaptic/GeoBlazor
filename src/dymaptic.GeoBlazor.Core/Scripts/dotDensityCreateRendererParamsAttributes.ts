@@ -4,7 +4,7 @@ export async function buildJsDotDensityCreateRendererParamsAttributes(dotNetObje
     return await buildJsDotDensityCreateRendererParamsAttributesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDotDensityCreateRendererParamsAttributes(jsObject: any): Promise<any> {
+export async function buildDotNetDotDensityCreateRendererParamsAttributes(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDotDensityCreateRendererParamsAttributesGenerated } = await import('./dotDensityCreateRendererParamsAttributes.gb');
-    return await buildDotNetDotDensityCreateRendererParamsAttributesGenerated(jsObject);
+    return await buildDotNetDotDensityCreateRendererParamsAttributesGenerated(jsObject, layerId, viewId);
 }

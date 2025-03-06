@@ -17,7 +17,7 @@ export async function buildJsBackgroundColorBackgroundGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsbackgroundColorBackground;
     
     let { buildDotNetBackgroundColorBackground } = await import('./backgroundColorBackground');
-    let dnInstantiatedObject = await buildDotNetBackgroundColorBackground(jsbackgroundColorBackground);
+    let dnInstantiatedObject = await buildDotNetBackgroundColorBackground(jsbackgroundColorBackground, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,20 +44,30 @@ export async function buildJsBackgroundColorBackgroundGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetBackgroundColorBackgroundGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBackgroundColorBackgroundGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBackgroundColorBackground } = await import('./backgroundColorBackground');
+        jsComponentRef = await buildJsBackgroundColorBackground(jsObject, layerId, viewId);
+    }
+    
     let dotNetBackgroundColorBackground: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
         dotNetBackgroundColorBackground.color = buildDotNetMapColor(jsObject.color);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBackgroundColorBackground.id = geoBlazorId;
     }

@@ -28,7 +28,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsFeatureEffect;
     
     let { buildDotNetFeatureEffect } = await import('./featureEffect');
-    let dnInstantiatedObject = await buildDotNetFeatureEffect(jsFeatureEffect);
+    let dnInstantiatedObject = await buildDotNetFeatureEffect(jsFeatureEffect, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeatureEffect } = await import('./featureEffect');
+        jsComponentRef = await buildJsFeatureEffect(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeatureEffect: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.excludedEffect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -69,7 +79,7 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
+        dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
     }
     if (hasValue(jsObject.includedEffect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -79,7 +89,7 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<
         dotNetFeatureEffect.excludedLabelsVisible = jsObject.excludedLabelsVisible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeatureEffect.id = geoBlazorId;
     }

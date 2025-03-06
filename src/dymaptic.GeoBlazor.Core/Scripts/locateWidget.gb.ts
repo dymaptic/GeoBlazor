@@ -267,8 +267,18 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLocateWidget } = await import('./locateWidget');
+        jsComponentRef = await buildJsLocateWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetLocateWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -310,7 +320,7 @@ export async function buildDotNetLocateWidgetGenerated(jsObject: any, layerId: s
         dotNetLocateWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLocateWidget.id = geoBlazorId;
     }

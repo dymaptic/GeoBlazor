@@ -13,6 +13,10 @@ export function buildJsGoToOverride(dotNetObject: any, viewId: string | null) {
     };
 }
 
+export async function buildDotNetGoToOverride(jsObject: any): Promise<any> {
+    return null;
+}
+
 export function buildDotNetGoToOverrideParameters(parameters: any, viewId: string): any {
     let dnParams: any = {
         viewId: viewId,
@@ -57,8 +61,4 @@ export function buildDotNetGoToOverrideParameters(parameters: any, viewId: strin
     }
 
     return dnParams;
-}
-export async function buildDotNetGoToOverride(jsObject: any): Promise<any> {
-    let { buildDotNetGoToOverrideGenerated } = await import('./goToOverride.gb');
-    return await buildDotNetGoToOverrideGenerated(jsObject);
 }

@@ -15,7 +15,7 @@ export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFilterBlockFilterMode;
     
     let { buildDotNetBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
-    let dnInstantiatedObject = await buildDotNetBuildingFilterBlockFilterMode(jsBuildingFilterBlockFilterMode);
+    let dnInstantiatedObject = await buildDotNetBuildingFilterBlockFilterMode(jsBuildingFilterBlockFilterMode, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,13 +42,23 @@ export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject
 }
 
 
-export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
+        jsComponentRef = await buildJsBuildingFilterBlockFilterMode(jsObject, layerId, viewId);
+    }
+    
     let dotNetBuildingFilterBlockFilterMode: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.edges)) {
         let { buildDotNetIBuildingFilterBlockFilterModeEdges } = await import('./iBuildingFilterBlockFilterModeEdges');
@@ -58,7 +68,7 @@ export async function buildDotNetBuildingFilterBlockFilterModeGenerated(jsObject
         dotNetBuildingFilterBlockFilterMode.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBuildingFilterBlockFilterMode.id = geoBlazorId;
     }

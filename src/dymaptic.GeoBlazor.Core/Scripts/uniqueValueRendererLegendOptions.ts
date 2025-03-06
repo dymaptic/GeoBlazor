@@ -4,7 +4,7 @@ export async function buildJsUniqueValueRendererLegendOptions(dotNetObject: any,
     return await buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUniqueValueRendererLegendOptions(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueRendererLegendOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUniqueValueRendererLegendOptionsGenerated } = await import('./uniqueValueRendererLegendOptions.gb');
-    return await buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject);
+    return await buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject, layerId, viewId);
 }

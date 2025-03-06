@@ -14,7 +14,7 @@ export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsBasemapView;
     
     let { buildDotNetBasemapView } = await import('./basemapView');
-    let dnInstantiatedObject = await buildDotNetBasemapView(jsBasemapView);
+    let dnInstantiatedObject = await buildDotNetBasemapView(jsBasemapView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,13 +41,23 @@ export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapView } = await import('./basemapView');
+        jsComponentRef = await buildJsBasemapView(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.baseLayerViews)) {
         let { buildDotNetLayerView } = await import('./layerView');
@@ -61,7 +71,7 @@ export async function buildDotNetBasemapViewGenerated(jsObject: any): Promise<an
         dotNetBasemapView.updating = jsObject.updating;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapView.id = geoBlazorId;
     }

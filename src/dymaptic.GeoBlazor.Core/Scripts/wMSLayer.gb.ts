@@ -188,7 +188,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
+        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i, this.layerId, this.viewId)));
     }
     
     async setAllSublayers(value: any): Promise<void> {
@@ -244,7 +244,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -258,7 +258,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -286,7 +286,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return await buildDotNetTimeInfo(this.layer.timeInfo, this.layerId, this.viewId);
     }
     
     async setTimeInfo(value: any): Promise<void> {
@@ -300,7 +300,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset);
+        return await buildDotNetTimeInterval(this.layer.timeOffset, this.layerId, this.viewId);
     }
     
     async setTimeOffset(value: any): Promise<void> {
@@ -464,19 +464,19 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWMSLayer = new WMSLayer(properties);
     jsWMSLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsWMSLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsWMSLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -496,7 +496,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
     
     let { buildDotNetWMSLayer } = await import('./wMSLayer');
-    let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
+    let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -523,13 +523,23 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWMSLayer } = await import('./wMSLayer');
+        jsComponentRef = await buildJsWMSLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetWMSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -545,11 +555,11 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
+        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i, layerId, viewId)));
     }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -557,11 +567,11 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -661,7 +671,7 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
         dotNetWMSLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWMSLayer.id = geoBlazorId;
     }

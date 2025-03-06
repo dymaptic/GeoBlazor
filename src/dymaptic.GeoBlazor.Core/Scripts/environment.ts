@@ -3,7 +3,7 @@ export async function buildJsEnvironment(dotNetObject: any, layerId: string | nu
     return await buildJsEnvironmentGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetEnvironment(jsObject: any): Promise<any> {
+export async function buildDotNetEnvironment(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetEnvironmentGenerated} = await import('./environment.gb');
-    return await buildDotNetEnvironmentGenerated(jsObject);
+    return await buildDotNetEnvironmentGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsValuePickerCombobox(dotNetObject: any, layerId: str
     return await buildJsValuePickerComboboxGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetValuePickerCombobox(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerCombobox(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetValuePickerComboboxGenerated } = await import('./valuePickerCombobox.gb');
-    return await buildDotNetValuePickerComboboxGenerated(jsObject);
+    return await buildDotNetValuePickerComboboxGenerated(jsObject, layerId, viewId);
 }

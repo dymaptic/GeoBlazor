@@ -4,7 +4,7 @@ export async function buildJsMeshVertex(dotNetObject: any, layerId: string | nul
     return await buildJsMeshVertexGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMeshVertex(jsObject: any): Promise<any> {
+export async function buildDotNetMeshVertex(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetMeshVertexGenerated } = await import('./meshVertex.gb');
-    return await buildDotNetMeshVertexGenerated(jsObject);
+    return await buildDotNetMeshVertexGenerated(jsObject, layerId, viewId);
 }

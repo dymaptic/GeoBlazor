@@ -105,7 +105,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAbilities } = await import('./abilities');
-        return await buildDotNetAbilities(this.component.featureViewModelAbilities);
+        return await buildDotNetAbilities(this.component.featureViewModelAbilities, this.layerId, this.viewId);
     }
     
     async setFeatureViewModelAbilities(value: any): Promise<void> {
@@ -198,9 +198,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.browseClusterEnabled)) {
         properties.browseClusterEnabled = dotNetObject.browseClusterEnabled;
     }
-    if (hasValue(dotNetObject.content)) {
-        properties.content = dotNetObject.content;
-    }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
@@ -234,7 +231,7 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     let jsPopupViewModel = new PopupViewModel(properties);
     jsPopupViewModel.on('trigger-action', async (evt: any) => {
         let { buildDotNetFeaturesViewModelTriggerActionEvent } = await import('./featuresViewModelTriggerActionEvent');
-        let dnEvent = await buildDotNetFeaturesViewModelTriggerActionEvent(evt);
+        let dnEvent = await buildDotNetFeaturesViewModelTriggerActionEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
@@ -282,8 +279,18 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPopupViewModel } = await import('./popupViewModel');
+        jsComponentRef = await buildJsPopupViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetPopupViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.actions)) {
         let { buildDotNetActionBase } = await import('./actionBase');
@@ -303,7 +310,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
     }
     if (hasValue(jsObject.featureViewModelAbilities)) {
         let { buildDotNetAbilities } = await import('./abilities');
-        dotNetPopupViewModel.featureViewModelAbilities = await buildDotNetAbilities(jsObject.featureViewModelAbilities);
+        dotNetPopupViewModel.featureViewModelAbilities = await buildDotNetAbilities(jsObject.featureViewModelAbilities, layerId, viewId);
     }
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -382,7 +389,7 @@ export async function buildDotNetPopupViewModelGenerated(jsObject: any, layerId:
         dotNetPopupViewModel.waitingForResult = jsObject.waitingForResult;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPopupViewModel.id = geoBlazorId;
     }

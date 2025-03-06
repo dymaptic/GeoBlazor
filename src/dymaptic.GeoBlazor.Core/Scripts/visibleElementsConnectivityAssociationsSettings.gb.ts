@@ -26,7 +26,7 @@ export async function buildJsVisibleElementsConnectivityAssociationsSettingsGene
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsConnectivityAssociationsSettings;
     
     let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsVisibleElementsConnectivityAssociationsSettings);
+    let dnInstantiatedObject = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsVisibleElementsConnectivityAssociationsSettings, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsVisibleElementsConnectivityAssociationsSettingsGene
 }
 
 
-export async function buildDotNetVisibleElementsConnectivityAssociationsSettingsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsConnectivityAssociationsSettingsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
+        jsComponentRef = await buildJsVisibleElementsConnectivityAssociationsSettings(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElementsConnectivityAssociationsSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.arrowsToggle)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.arrowsToggle = jsObject.arrowsToggle;
@@ -77,7 +87,7 @@ export async function buildDotNetVisibleElementsConnectivityAssociationsSettings
         dotNetVisibleElementsConnectivityAssociationsSettings.widthInput = jsObject.widthInput;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsConnectivityAssociationsSettings.id = geoBlazorId;
     }

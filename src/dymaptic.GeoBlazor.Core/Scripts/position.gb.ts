@@ -18,7 +18,7 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsPosition;
     
     let { buildDotNetPosition } = await import('./position');
-    let dnInstantiatedObject = await buildDotNetPosition(jsPosition);
+    let dnInstantiatedObject = await buildDotNetPosition(jsPosition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,13 +45,23 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetPositionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPositionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPosition } = await import('./position');
+        jsComponentRef = await buildJsPosition(jsObject, layerId, viewId);
+    }
+    
     let dotNetPosition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
@@ -61,7 +71,7 @@ export async function buildDotNetPositionGenerated(jsObject: any): Promise<any> 
         dotNetPosition.coordinate = jsObject.coordinate;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPosition.id = geoBlazorId;
     }

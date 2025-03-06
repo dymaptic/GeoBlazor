@@ -103,7 +103,7 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-        return await buildDotNetZoomViewModel(this.widget.viewModel);
+        return await buildDotNetZoomViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -159,7 +159,7 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
     
     let { buildDotNetZoomWidget } = await import('./zoomWidget');
-    let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom);
+    let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -186,17 +186,27 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetZoomWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsZoomWidget } = await import('./zoomWidget');
+        jsComponentRef = await buildJsZoomWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetZoomWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel);
+        dotNetZoomWidget.viewModel = await buildDotNetZoomViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.icon)) {
         dotNetZoomWidget.icon = jsObject.icon;
@@ -217,7 +227,7 @@ export async function buildDotNetZoomWidgetGenerated(jsObject: any): Promise<any
         dotNetZoomWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetZoomWidget.id = geoBlazorId;
     }

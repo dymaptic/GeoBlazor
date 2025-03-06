@@ -198,7 +198,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -235,7 +235,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -348,19 +348,19 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     let jsTileLayer = new TileLayer(properties);
     jsTileLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsTileLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsTileLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -412,8 +412,18 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTileLayer } = await import('./tileLayer');
+        jsComponentRef = await buildJsTileLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetTileLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -425,7 +435,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetSublayer } = await import('./sublayer');
@@ -437,7 +447,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
     }
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        dotNetTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -516,7 +526,7 @@ export async function buildDotNetTileLayerGenerated(jsObject: any, layerId: stri
         dotNetTileLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTileLayer.id = geoBlazorId;
     }

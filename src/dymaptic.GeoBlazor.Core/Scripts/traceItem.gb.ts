@@ -14,7 +14,7 @@ export async function buildJsTraceItemGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsTraceItem;
     
     let { buildDotNetTraceItem } = await import('./traceItem');
-    let dnInstantiatedObject = await buildDotNetTraceItem(jsTraceItem);
+    let dnInstantiatedObject = await buildDotNetTraceItem(jsTraceItem, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsTraceItemGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetTraceItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTraceItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTraceItem } = await import('./traceItem');
+        jsComponentRef = await buildJsTraceItem(jsObject, layerId, viewId);
+    }
+    
     let dotNetTraceItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.selected)) {
         dotNetTraceItem.selected = jsObject.selected;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTraceItem.id = geoBlazorId;
     }

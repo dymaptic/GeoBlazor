@@ -23,7 +23,7 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
     
     let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-    let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols);
+    let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
 }
 
 
-export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
+        jsComponentRef = await buildJsSearchViewModelDefaultSymbols(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchViewModelDefaultSymbols: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.point)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -71,7 +81,7 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
         dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchViewModelDefaultSymbols.id = geoBlazorId;
     }

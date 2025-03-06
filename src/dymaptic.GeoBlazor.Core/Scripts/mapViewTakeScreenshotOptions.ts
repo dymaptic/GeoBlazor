@@ -3,7 +3,7 @@ export async function buildJsMapViewTakeScreenshotOptions(dotNetObject: any, lay
     return await buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMapViewTakeScreenshotOptions(jsObject: any): Promise<any> {
+export async function buildDotNetMapViewTakeScreenshotOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMapViewTakeScreenshotOptionsGenerated} = await import('./mapViewTakeScreenshotOptions.gb');
-    return await buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject);
+    return await buildDotNetMapViewTakeScreenshotOptionsGenerated(jsObject, layerId, viewId);
 }

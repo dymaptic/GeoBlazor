@@ -4,7 +4,7 @@ export async function buildJsSizeRangeSizeRangeParams(dotNetObject: any, layerId
     return await buildJsSizeRangeSizeRangeParamsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSizeRangeSizeRangeParams(jsObject: any): Promise<any> {
+export async function buildDotNetSizeRangeSizeRangeParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSizeRangeSizeRangeParamsGenerated } = await import('./sizeRangeSizeRangeParams.gb');
-    return await buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject);
+    return await buildDotNetSizeRangeSizeRangeParamsGenerated(jsObject, layerId, viewId);
 }

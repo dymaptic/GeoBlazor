@@ -4,7 +4,7 @@ export async function buildJsLocalMediaElementSource(dotNetObject: any, layerId:
     return await buildJsLocalMediaElementSourceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLocalMediaElementSource(jsObject: any): Promise<any> {
+export async function buildDotNetLocalMediaElementSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLocalMediaElementSourceGenerated } = await import('./localMediaElementSource.gb');
-    return await buildDotNetLocalMediaElementSourceGenerated(jsObject);
+    return await buildDotNetLocalMediaElementSourceGenerated(jsObject, layerId, viewId);
 }

@@ -15,7 +15,7 @@ export async function buildJsCSVLayerView(dotNetObject: any, layerId: string | n
     return await buildJsCSVLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCSVLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetCSVLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetCSVLayerViewGenerated } = await import('./cSVLayerView.gb');
-    return await buildDotNetCSVLayerViewGenerated(jsObject);
+    return await buildDotNetCSVLayerViewGenerated(jsObject, layerId, viewId);
 }

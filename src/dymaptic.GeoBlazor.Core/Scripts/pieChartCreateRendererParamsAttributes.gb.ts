@@ -23,7 +23,7 @@ export async function buildJsPieChartCreateRendererParamsAttributesGenerated(dot
     arcGisObjectRefs[dotNetObject.id] = jspieChartCreateRendererParamsAttributes;
     
     let { buildDotNetPieChartCreateRendererParamsAttributes } = await import('./pieChartCreateRendererParamsAttributes');
-    let dnInstantiatedObject = await buildDotNetPieChartCreateRendererParamsAttributes(jspieChartCreateRendererParamsAttributes);
+    let dnInstantiatedObject = await buildDotNetPieChartCreateRendererParamsAttributes(jspieChartCreateRendererParamsAttributes, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsPieChartCreateRendererParamsAttributesGenerated(dot
 }
 
 
-export async function buildDotNetPieChartCreateRendererParamsAttributesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPieChartCreateRendererParamsAttributesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPieChartCreateRendererParamsAttributes } = await import('./pieChartCreateRendererParamsAttributes');
+        jsComponentRef = await buildJsPieChartCreateRendererParamsAttributes(jsObject, layerId, viewId);
+    }
+    
     let dotNetPieChartCreateRendererParamsAttributes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetPieChartCreateRendererParamsAttributes.field = jsObject.field;
@@ -71,7 +81,7 @@ export async function buildDotNetPieChartCreateRendererParamsAttributesGenerated
         dotNetPieChartCreateRendererParamsAttributes.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPieChartCreateRendererParamsAttributes.id = geoBlazorId;
     }

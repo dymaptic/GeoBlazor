@@ -17,7 +17,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilit
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesSearchCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsServiceDefinitionServiceCapabilitiesSearchCapabilities);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsServiceDefinitionServiceCapabilitiesSearchCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilit
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
+        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.allowLeadingWildcardQueries)) {
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.allowLeadingWildcardQueries = jsObject.allowLeadingWildcardQueries;
@@ -59,7 +69,7 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapab
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.searchTypeFilterCapabilities = jsObject.searchTypeFilterCapabilities;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesSearchCapabilities.id = geoBlazorId;
     }

@@ -14,7 +14,7 @@ export async function buildJsBookmarksViewModel(dotNetObject: any, layerId: stri
     return await buildJsBookmarksViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBookmarksViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarksViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBookmarksViewModelGenerated} = await import('./bookmarksViewModel.gb');
-    return await buildDotNetBookmarksViewModelGenerated(jsObject);
+    return await buildDotNetBookmarksViewModelGenerated(jsObject, layerId, viewId);
 }

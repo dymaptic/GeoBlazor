@@ -17,7 +17,7 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSONVe
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier;
     
     let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementViewModelVersionInfoExtendedJSONVersionIdentifier');
-    let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier);
+    let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSONVe
 }
 
 
-export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementViewModelVersionInfoExtendedJSONVersionIdentifier');
+        jsComponentRef = await buildJsVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.guid)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier.guid = jsObject.guid;
@@ -59,7 +69,7 @@ export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJS
         dotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier.id = geoBlazorId;
     }

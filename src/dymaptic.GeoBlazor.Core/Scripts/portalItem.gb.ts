@@ -52,7 +52,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let result = await this.component.fetchRelatedItems(parameters,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i)));
+        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId)));
     }
 
     async fetchResources(parameters: any,
@@ -68,7 +68,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async reload(): Promise<any> {
         let result = await this.component.reload();
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async removeAllResources(options: any): Promise<any> {
@@ -86,13 +86,13 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async update(parameters: any): Promise<any> {
         let result = await this.component.update(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async updateThumbnail(parameters: any): Promise<any> {
         let result = await this.component.updateThumbnail(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     // region properties
@@ -117,7 +117,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -234,7 +234,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
     
     let { buildDotNetPortalItem } = await import('./portalItem');
-    let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem);
+    let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -261,13 +261,23 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortalItem } = await import('./portalItem');
+        jsComponentRef = await buildJsPortalItem(jsObject, layerId, viewId);
+    }
+    
     let dotNetPortalItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -275,7 +285,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
+        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     if (hasValue(jsObject.access)) {
         dotNetPortalItem.access = jsObject.access;
@@ -380,7 +390,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
         dotNetPortalItem.url = jsObject.url;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortalItem.id = geoBlazorId;
     }

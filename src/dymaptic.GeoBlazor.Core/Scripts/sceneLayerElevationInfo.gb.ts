@@ -20,7 +20,7 @@ export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsSceneLayerElevationInfo;
     
     let { buildDotNetSceneLayerElevationInfo } = await import('./sceneLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetSceneLayerElevationInfo(jsSceneLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetSceneLayerElevationInfo(jsSceneLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneLayerElevationInfo } = await import('./sceneLayerElevationInfo');
+        jsComponentRef = await buildJsSceneLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mode)) {
         dotNetSceneLayerElevationInfo.mode = jsObject.mode;
@@ -65,7 +75,7 @@ export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any)
         dotNetSceneLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneLayerElevationInfo.id = geoBlazorId;
     }

@@ -3,7 +3,7 @@ export async function buildJsRasterIdentifyResult(dotNetObject: any, layerId: st
     return await buildJsRasterIdentifyResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetRasterIdentifyResult(jsObject: any): Promise<any> {
+export async function buildDotNetRasterIdentifyResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetRasterIdentifyResultGenerated} = await import('./rasterIdentifyResult.gb');
-    return await buildDotNetRasterIdentifyResultGenerated(jsObject);
+    return await buildDotNetRasterIdentifyResultGenerated(jsObject, layerId, viewId);
 }

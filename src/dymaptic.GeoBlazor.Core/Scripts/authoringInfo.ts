@@ -3,7 +3,7 @@ export async function buildJsAuthoringInfo(dotNetObject: any, layerId: string | 
     return await buildJsAuthoringInfoGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetAuthoringInfo(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetAuthoringInfoGenerated} = await import('./authoringInfo.gb');
-    return await buildDotNetAuthoringInfoGenerated(jsObject);
+    return await buildDotNetAuthoringInfoGenerated(jsObject, layerId, viewId);
 }

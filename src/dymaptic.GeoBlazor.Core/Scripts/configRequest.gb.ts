@@ -40,7 +40,7 @@ export async function buildJsConfigRequestGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsconfigRequest;
     
     let { buildDotNetConfigRequest } = await import('./configRequest');
-    let dnInstantiatedObject = await buildDotNetConfigRequest(jsconfigRequest);
+    let dnInstantiatedObject = await buildDotNetConfigRequest(jsconfigRequest, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -67,21 +67,31 @@ export async function buildJsConfigRequestGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetConfigRequestGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetConfigRequestGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsConfigRequest } = await import('./configRequest');
+        jsComponentRef = await buildJsConfigRequest(jsObject, layerId, viewId);
+    }
+    
     let dotNetConfigRequest: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.interceptors)) {
         let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
-        dotNetConfigRequest.interceptors = await Promise.all(jsObject.interceptors.map(async i => await buildDotNetRequestInterceptor(i)));
+        dotNetConfigRequest.interceptors = await Promise.all(jsObject.interceptors.map(async i => await buildDotNetRequestInterceptor(i, layerId, viewId)));
     }
     if (hasValue(jsObject.proxyRules)) {
         let { buildDotNetConfigRequestProxyRules } = await import('./configRequestProxyRules');
-        dotNetConfigRequest.proxyRules = await Promise.all(jsObject.proxyRules.map(async i => await buildDotNetConfigRequestProxyRules(i)));
+        dotNetConfigRequest.proxyRules = await Promise.all(jsObject.proxyRules.map(async i => await buildDotNetConfigRequestProxyRules(i, layerId, viewId)));
     }
     if (hasValue(jsObject.httpsDomains)) {
         dotNetConfigRequest.httpsDomains = jsObject.httpsDomains;
@@ -105,7 +115,7 @@ export async function buildDotNetConfigRequestGenerated(jsObject: any): Promise<
         dotNetConfigRequest.useIdentity = jsObject.useIdentity;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetConfigRequest.id = geoBlazorId;
     }

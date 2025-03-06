@@ -18,7 +18,7 @@ export async function buildJsDictionaryVariableGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsDictionaryVariable;
     
     let { buildDotNetDictionaryVariable } = await import('./dictionaryVariable');
-    let dnInstantiatedObject = await buildDotNetDictionaryVariable(jsDictionaryVariable);
+    let dnInstantiatedObject = await buildDotNetDictionaryVariable(jsDictionaryVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,13 +45,23 @@ export async function buildJsDictionaryVariableGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetDictionaryVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDictionaryVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDictionaryVariable } = await import('./dictionaryVariable');
+        jsComponentRef = await buildJsDictionaryVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetDictionaryVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.properties)) {
         let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
@@ -64,7 +74,7 @@ export async function buildDotNetDictionaryVariableGenerated(jsObject: any): Pro
         dotNetDictionaryVariable.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDictionaryVariable.id = geoBlazorId;
     }

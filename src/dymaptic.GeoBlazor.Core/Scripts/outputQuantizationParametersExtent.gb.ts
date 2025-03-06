@@ -23,7 +23,7 @@ export async function buildJsOutputQuantizationParametersExtentGenerated(dotNetO
     arcGisObjectRefs[dotNetObject.id] = jsOutputQuantizationParametersExtent;
     
     let { buildDotNetOutputQuantizationParametersExtent } = await import('./outputQuantizationParametersExtent');
-    let dnInstantiatedObject = await buildDotNetOutputQuantizationParametersExtent(jsOutputQuantizationParametersExtent);
+    let dnInstantiatedObject = await buildDotNetOutputQuantizationParametersExtent(jsOutputQuantizationParametersExtent, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsOutputQuantizationParametersExtentGenerated(dotNetO
 }
 
 
-export async function buildDotNetOutputQuantizationParametersExtentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOutputQuantizationParametersExtentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOutputQuantizationParametersExtent } = await import('./outputQuantizationParametersExtent');
+        jsComponentRef = await buildJsOutputQuantizationParametersExtent(jsObject, layerId, viewId);
+    }
+    
     let dotNetOutputQuantizationParametersExtent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.xmax)) {
         dotNetOutputQuantizationParametersExtent.xmax = jsObject.xmax;
@@ -71,7 +81,7 @@ export async function buildDotNetOutputQuantizationParametersExtentGenerated(jsO
         dotNetOutputQuantizationParametersExtent.ymin = jsObject.ymin;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOutputQuantizationParametersExtent.id = geoBlazorId;
     }

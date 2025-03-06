@@ -32,7 +32,7 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     
     let { buildDotNetVisibleElementsMenuItems } = await import('./visibleElementsMenuItems');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsMenuItems(jsVisibleElementsMenuItems);
+    let dnInstantiatedObject = await buildDotNetVisibleElementsMenuItems(jsVisibleElementsMenuItems, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElementsMenuItems } = await import('./visibleElementsMenuItems');
+        jsComponentRef = await buildJsVisibleElementsMenuItems(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElementsMenuItems: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.clearSelection)) {
         dotNetVisibleElementsMenuItems.clearSelection = jsObject.clearSelection;
@@ -89,7 +99,7 @@ export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any
         dotNetVisibleElementsMenuItems.zoomToSelection = jsObject.zoomToSelection;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsMenuItems.id = geoBlazorId;
     }

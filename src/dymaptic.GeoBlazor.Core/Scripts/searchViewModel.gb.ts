@@ -70,7 +70,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-        return await buildDotNetSearchViewModelDefaultSymbols(this.component.defaultSymbols);
+        return await buildDotNetSearchViewModelDefaultSymbols(this.component.defaultSymbols, this.layerId, this.viewId);
     }
     
     async setDefaultSymbols(value: any): Promise<void> {
@@ -98,7 +98,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate, this.layerId, this.viewId);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -112,7 +112,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -231,7 +231,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     jsSearchViewModel.on('search-complete', async (evt: any) => {
         let { buildDotNetSearchViewModelSearchCompleteEvent } = await import('./searchViewModelSearchCompleteEvent');
-        let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt);
+        let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', dnEvent);
     });
     
@@ -247,7 +247,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     jsSearchViewModel.on('suggest-complete', async (evt: any) => {
         let { buildDotNetSearchViewModelSuggestCompleteEvent } = await import('./searchViewModelSuggestCompleteEvent');
-        let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt);
+        let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', dnEvent);
     });
     
@@ -299,8 +299,18 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchViewModel } = await import('./searchViewModel');
+        jsComponentRef = await buildJsSearchViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.activeSource)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
@@ -316,7 +326,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.defaultSymbols)) {
         let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-        dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols);
+        dotNetSearchViewModel.defaultSymbols = await buildDotNetSearchViewModelDefaultSymbols(jsObject.defaultSymbols, layerId, viewId);
     }
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -324,11 +334,11 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal);
+        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     if (hasValue(jsObject.resultGraphic)) {
         let { buildDotNetGraphic } = await import('./graphic');
@@ -405,7 +415,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         dotNetSearchViewModel.updating = jsObject.updating;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchViewModel.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsKMLSublayer(dotNetObject: any, layerId: string | nu
     return await buildJsKMLSublayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetKMLSublayer(jsObject: any): Promise<any> {
+export async function buildDotNetKMLSublayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetKMLSublayerGenerated } = await import('./kMLSublayer.gb');
-    return await buildDotNetKMLSublayerGenerated(jsObject);
+    return await buildDotNetKMLSublayerGenerated(jsObject, layerId, viewId);
 }

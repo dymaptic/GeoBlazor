@@ -4,7 +4,7 @@ export async function buildJsHistogramDataLines(dotNetObject: any, layerId: stri
     return await buildJsHistogramDataLinesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHistogramDataLines(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramDataLines(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHistogramDataLinesGenerated } = await import('./histogramDataLines.gb');
-    return await buildDotNetHistogramDataLinesGenerated(jsObject);
+    return await buildDotNetHistogramDataLinesGenerated(jsObject, layerId, viewId);
 }

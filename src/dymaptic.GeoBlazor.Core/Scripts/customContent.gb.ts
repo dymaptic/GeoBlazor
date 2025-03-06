@@ -35,7 +35,7 @@ export async function buildJsCustomContentGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsCustomContent;
     
     let { buildDotNetCustomContent } = await import('./customContent');
-    let dnInstantiatedObject = await buildDotNetCustomContent(jsCustomContent);
+    let dnInstantiatedObject = await buildDotNetCustomContent(jsCustomContent, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -62,13 +62,23 @@ export async function buildJsCustomContentGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetCustomContentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCustomContentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCustomContent } = await import('./customContent');
+        jsComponentRef = await buildJsCustomContent(jsObject, layerId, viewId);
+    }
+    
     let dotNetCustomContent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.creator)) {
         dotNetCustomContent.creator = jsObject.creator;
@@ -83,7 +93,7 @@ export async function buildDotNetCustomContentGenerated(jsObject: any): Promise<
         dotNetCustomContent.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCustomContent.id = geoBlazorId;
     }

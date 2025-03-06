@@ -35,7 +35,7 @@ export async function buildJsFeaturesVisibleElementsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesVisibleElements;
     
     let { buildDotNetFeaturesVisibleElements } = await import('./featuresVisibleElements');
-    let dnInstantiatedObject = await buildDotNetFeaturesVisibleElements(jsFeaturesVisibleElements);
+    let dnInstantiatedObject = await buildDotNetFeaturesVisibleElements(jsFeaturesVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -62,13 +62,23 @@ export async function buildJsFeaturesVisibleElementsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetFeaturesVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeaturesVisibleElements } = await import('./featuresVisibleElements');
+        jsComponentRef = await buildJsFeaturesVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeaturesVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.actionBar)) {
         dotNetFeaturesVisibleElements.actionBar = jsObject.actionBar;
@@ -95,7 +105,7 @@ export async function buildDotNetFeaturesVisibleElementsGenerated(jsObject: any)
         dotNetFeaturesVisibleElements.spinner = jsObject.spinner;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeaturesVisibleElements.id = geoBlazorId;
     }

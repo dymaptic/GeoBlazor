@@ -24,7 +24,7 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsTileMatrixSet;
     
     let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-    let dnInstantiatedObject = await buildDotNetTileMatrixSet(jsTileMatrixSet);
+    let dnInstantiatedObject = await buildDotNetTileMatrixSet(jsTileMatrixSet, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetTileMatrixSetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTileMatrixSetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
+        jsComponentRef = await buildJsTileMatrixSet(jsObject, layerId, viewId);
+    }
+    
     let dotNetTileMatrixSet: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -65,13 +75,13 @@ export async function buildDotNetTileMatrixSetGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        dotNetTileMatrixSet.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     if (hasValue(jsObject.id)) {
         dotNetTileMatrixSet.tileMatrixSetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTileMatrixSet.id = geoBlazorId;
     }

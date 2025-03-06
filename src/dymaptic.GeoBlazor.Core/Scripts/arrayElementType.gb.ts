@@ -15,7 +15,7 @@ export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsArrayElementType;
     
     let { buildDotNetArrayElementType } = await import('./arrayElementType');
-    let dnInstantiatedObject = await buildDotNetArrayElementType(jsArrayElementType);
+    let dnInstantiatedObject = await buildDotNetArrayElementType(jsArrayElementType, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,13 +42,23 @@ export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetArrayElementTypeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArrayElementTypeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArrayElementType } = await import('./arrayElementType');
+        jsComponentRef = await buildJsArrayElementType(jsObject, layerId, viewId);
+    }
+    
     let dotNetArrayElementType: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.properties)) {
         let { buildDotNetIProfileVariable } = await import('./iProfileVariable');
@@ -58,7 +68,7 @@ export async function buildDotNetArrayElementTypeGenerated(jsObject: any): Promi
         dotNetArrayElementType.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArrayElementType.id = geoBlazorId;
     }

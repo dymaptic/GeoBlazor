@@ -4,7 +4,7 @@ export async function buildJsInput(dotNetObject: any, layerId: string | null, vi
     return await buildJsInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetInput(jsObject: any): Promise<any> {
+export async function buildDotNetInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetInputGenerated } = await import('./input.gb');
-    return await buildDotNetInputGenerated(jsObject);
+    return await buildDotNetInputGenerated(jsObject, layerId, viewId);
 }

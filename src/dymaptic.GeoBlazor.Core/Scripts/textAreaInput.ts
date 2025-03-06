@@ -4,7 +4,7 @@ export async function buildJsTextAreaInput(dotNetObject: any, layerId: string | 
     return await buildJsTextAreaInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTextAreaInput(jsObject: any): Promise<any> {
+export async function buildDotNetTextAreaInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTextAreaInputGenerated } = await import('./textAreaInput.gb');
-    return await buildDotNetTextAreaInputGenerated(jsObject);
+    return await buildDotNetTextAreaInputGenerated(jsObject, layerId, viewId);
 }

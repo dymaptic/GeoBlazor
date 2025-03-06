@@ -20,7 +20,7 @@ export async function buildJsAssetTypeJSONGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsAssetTypeJSON;
     
     let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
-    let dnInstantiatedObject = await buildDotNetAssetTypeJSON(jsAssetTypeJSON);
+    let dnInstantiatedObject = await buildDotNetAssetTypeJSON(jsAssetTypeJSON, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsAssetTypeJSONGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetAssetTypeJSONGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAssetTypeJSONGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAssetTypeJSON } = await import('./assetTypeJSON');
+        jsComponentRef = await buildJsAssetTypeJSON(jsObject, layerId, viewId);
+    }
+    
     let dotNetAssetTypeJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.assetTypeCode)) {
         dotNetAssetTypeJSON.assetTypeCode = jsObject.assetTypeCode;
@@ -65,7 +75,7 @@ export async function buildDotNetAssetTypeJSONGenerated(jsObject: any): Promise<
         dotNetAssetTypeJSON.terminalConfigurationId = jsObject.terminalConfigurationId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAssetTypeJSON.id = geoBlazorId;
     }

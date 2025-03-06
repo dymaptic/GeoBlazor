@@ -3,7 +3,7 @@ export async function buildJsViewClickEvent(dotNetObject: any, layerId: string |
     return await buildJsViewClickEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetViewClickEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewClickEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetViewClickEventGenerated} = await import('./viewClickEvent.gb');
-    return await buildDotNetViewClickEventGenerated(jsObject);
+    return await buildDotNetViewClickEventGenerated(jsObject, layerId, viewId);
 }

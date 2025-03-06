@@ -30,7 +30,7 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
     arcGisObjectRefs[dotNetObject.id] = jsCamera;
     
     let { buildDotNetCamera } = await import('./camera');
-    let dnInstantiatedObject = await buildDotNetCamera(jsCamera);
+    let dnInstantiatedObject = await buildDotNetCamera(jsCamera, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -57,17 +57,27 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCameraGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCamera } = await import('./camera');
+        jsComponentRef = await buildJsCamera(jsObject, layerId, viewId);
+    }
+    
     let dotNetCamera: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.layout)) {
         let { buildDotNetCameraLayout } = await import('./cameraLayout');
-        dotNetCamera.layout = await buildDotNetCameraLayout(jsObject.layout);
+        dotNetCamera.layout = await buildDotNetCameraLayout(jsObject.layout, layerId, viewId);
     }
     if (hasValue(jsObject.position)) {
         let { buildDotNetPoint } = await import('./point');
@@ -83,7 +93,7 @@ export async function buildDotNetCameraGenerated(jsObject: any): Promise<any> {
         dotNetCamera.tilt = jsObject.tilt;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCamera.id = geoBlazorId;
     }

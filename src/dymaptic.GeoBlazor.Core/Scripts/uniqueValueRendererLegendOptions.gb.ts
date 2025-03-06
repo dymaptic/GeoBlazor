@@ -14,7 +14,7 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
     
     let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
-    let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions);
+    let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
 }
 
 
-export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+        jsComponentRef = await buildJsUniqueValueRendererLegendOptions(jsObject, layerId, viewId);
+    }
+    
     let dotNetUniqueValueRendererLegendOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.title)) {
         dotNetUniqueValueRendererLegendOptions.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueRendererLegendOptions.id = geoBlazorId;
     }

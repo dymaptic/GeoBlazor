@@ -158,22 +158,6 @@ public abstract partial class Layer : MapComponent
             JsComponentReference, 
             "opacity");
     }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Visible property.
-    /// </summary>
-    public async Task<bool?> GetVisible()
-    {
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-    
-        return await JsComponentReference!.InvokeAsync<bool>("getProperty", 
-            CancellationTokenSource.Token,
-            JsComponentReference, 
-            "visible");
-    }
 
 
 #endregion

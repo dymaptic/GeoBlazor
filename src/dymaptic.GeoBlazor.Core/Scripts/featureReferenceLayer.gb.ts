@@ -17,7 +17,7 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReferenceLayer;
     
     let { buildDotNetFeatureReferenceLayer } = await import('./featureReferenceLayer');
-    let dnInstantiatedObject = await buildDotNetFeatureReferenceLayer(jsFeatureReferenceLayer);
+    let dnInstantiatedObject = await buildDotNetFeatureReferenceLayer(jsFeatureReferenceLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeatureReferenceLayer } = await import('./featureReferenceLayer');
+        jsComponentRef = await buildJsFeatureReferenceLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeatureReferenceLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.id)) {
         dotNetFeatureReferenceLayer.featureReferenceLayerId = jsObject.id;
@@ -59,7 +69,7 @@ export async function buildDotNetFeatureReferenceLayerGenerated(jsObject: any): 
         dotNetFeatureReferenceLayer.objectIdField = jsObject.objectIdField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeatureReferenceLayer.id = geoBlazorId;
     }

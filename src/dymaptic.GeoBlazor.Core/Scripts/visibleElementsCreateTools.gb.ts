@@ -26,7 +26,7 @@ export async function buildJsVisibleElementsCreateToolsGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsCreateTools;
     
     let { buildDotNetVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsCreateTools(jsVisibleElementsCreateTools);
+    let dnInstantiatedObject = await buildDotNetVisibleElementsCreateTools(jsVisibleElementsCreateTools, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsVisibleElementsCreateToolsGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetVisibleElementsCreateToolsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsCreateToolsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
+        jsComponentRef = await buildJsVisibleElementsCreateTools(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElementsCreateTools: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.circle)) {
         dotNetVisibleElementsCreateTools.circle = jsObject.circle;
@@ -77,7 +87,7 @@ export async function buildDotNetVisibleElementsCreateToolsGenerated(jsObject: a
         dotNetVisibleElementsCreateTools.rectangle = jsObject.rectangle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsCreateTools.id = geoBlazorId;
     }

@@ -17,7 +17,7 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsDynamicMapLayer;
     
     let { buildDotNetDynamicMapLayer } = await import('./dynamicMapLayer');
-    let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer);
+    let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetDynamicMapLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDynamicMapLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDynamicMapLayer } = await import('./dynamicMapLayer');
+        jsComponentRef = await buildJsDynamicMapLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetDynamicMapLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.gdbVersion)) {
         dotNetDynamicMapLayer.gdbVersion = jsObject.gdbVersion;
@@ -62,7 +72,7 @@ export async function buildDotNetDynamicMapLayerGenerated(jsObject: any): Promis
         dotNetDynamicMapLayer.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDynamicMapLayer.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsRasterValueToColor(dotNetObject: any, layerId: stri
     return await buildJsRasterValueToColorGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterValueToColor(jsObject: any): Promise<any> {
+export async function buildDotNetRasterValueToColor(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterValueToColorGenerated } = await import('./rasterValueToColor.gb');
-    return await buildDotNetRasterValueToColorGenerated(jsObject);
+    return await buildDotNetRasterValueToColorGenerated(jsObject, layerId, viewId);
 }

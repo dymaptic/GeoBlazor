@@ -4,7 +4,7 @@ export async function buildJsRasterColormapByMapParameters(dotNetObject: any, la
     return await buildJsRasterColormapByMapParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterColormapByMapParameters(jsObject: any): Promise<any> {
+export async function buildDotNetRasterColormapByMapParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterColormapByMapParametersGenerated } = await import('./rasterColormapByMapParameters.gb');
-    return await buildDotNetRasterColormapByMapParametersGenerated(jsObject);
+    return await buildDotNetRasterColormapByMapParametersGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsGroundNavigationConstraint(dotNetObject: any, layer
     return await buildJsGroundNavigationConstraintGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGroundNavigationConstraint(jsObject: any): Promise<any> {
+export async function buildDotNetGroundNavigationConstraint(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGroundNavigationConstraintGenerated } = await import('./groundNavigationConstraint.gb');
-    return await buildDotNetGroundNavigationConstraintGenerated(jsObject);
+    return await buildDotNetGroundNavigationConstraintGenerated(jsObject, layerId, viewId);
 }

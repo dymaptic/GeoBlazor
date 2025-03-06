@@ -23,7 +23,7 @@ export async function buildJsConfigWorkersLoaderConfigGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsconfigWorkersLoaderConfig;
     
     let { buildDotNetConfigWorkersLoaderConfig } = await import('./configWorkersLoaderConfig');
-    let dnInstantiatedObject = await buildDotNetConfigWorkersLoaderConfig(jsconfigWorkersLoaderConfig);
+    let dnInstantiatedObject = await buildDotNetConfigWorkersLoaderConfig(jsconfigWorkersLoaderConfig, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsConfigWorkersLoaderConfigGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetConfigWorkersLoaderConfigGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetConfigWorkersLoaderConfigGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsConfigWorkersLoaderConfig } = await import('./configWorkersLoaderConfig');
+        jsComponentRef = await buildJsConfigWorkersLoaderConfig(jsObject, layerId, viewId);
+    }
+    
     let dotNetConfigWorkersLoaderConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.baseUrl)) {
         dotNetConfigWorkersLoaderConfig.baseUrl = jsObject.baseUrl;
@@ -71,7 +81,7 @@ export async function buildDotNetConfigWorkersLoaderConfigGenerated(jsObject: an
         dotNetConfigWorkersLoaderConfig.paths = jsObject.paths;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetConfigWorkersLoaderConfig.id = geoBlazorId;
     }

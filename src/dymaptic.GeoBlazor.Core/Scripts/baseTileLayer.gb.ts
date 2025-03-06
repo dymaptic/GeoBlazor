@@ -144,7 +144,7 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -192,7 +192,7 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
     }
 }     
 
-export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBaseTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -200,10 +200,10 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
     switch (jsObject.type) {
         case 'base-tile': 
             let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
-            return await buildDotNetBaseTileLayer(jsObject);
+            return await buildDotNetBaseTileLayer(jsObject, layerId, viewId);
         case 'bing-maps': 
             let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-            return await buildDotNetBingMapsLayer(jsObject);
+            return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
         default: 
             return jsObject;
     }

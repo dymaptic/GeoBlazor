@@ -54,7 +54,7 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsprojection;
     
     let { buildDotNetProjection } = await import('./projection');
-    let dnInstantiatedObject = await buildDotNetProjection(jsprojection);
+    let dnInstantiatedObject = await buildDotNetProjection(jsprojection, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -81,16 +81,26 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetProjectionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetProjectionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsProjection } = await import('./projection');
+        jsComponentRef = await buildJsProjection(jsObject, layerId, viewId);
+    }
+    
     let dotNetProjection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetProjection.id = geoBlazorId;
     }

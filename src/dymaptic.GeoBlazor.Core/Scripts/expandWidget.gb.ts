@@ -137,7 +137,7 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExpandViewModel } = await import('./expandViewModel');
-        return await buildDotNetExpandViewModel(this.widget.viewModel);
+        return await buildDotNetExpandViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -223,7 +223,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
     
     let { buildDotNetExpandWidget } = await import('./expandWidget');
-    let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
+    let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -250,17 +250,27 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsExpandWidget } = await import('./expandWidget');
+        jsComponentRef = await buildJsExpandWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetExpandWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetExpandViewModel } = await import('./expandViewModel');
-        dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel);
+        dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.autoCollapse)) {
         dotNetExpandWidget.autoCollapse = jsObject.autoCollapse;
@@ -314,7 +324,7 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
         dotNetExpandWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetExpandWidget.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsPath(dotNetObject: any, layerId: string | null, vie
     return await buildJsPathGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPath(jsObject: any): Promise<any> {
+export async function buildDotNetPath(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPathGenerated } = await import('./path.gb');
-    return await buildDotNetPathGenerated(jsObject);
+    return await buildDotNetPathGenerated(jsObject, layerId, viewId);
 }

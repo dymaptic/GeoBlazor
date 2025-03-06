@@ -20,7 +20,7 @@ export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsIntegratedMeshLayerElevationInfo;
     
     let { buildDotNetIntegratedMeshLayerElevationInfo } = await import('./integratedMeshLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetIntegratedMeshLayerElevationInfo(jsIntegratedMeshLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetIntegratedMeshLayerElevationInfo(jsIntegratedMeshLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObj
 }
 
 
-export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIntegratedMeshLayerElevationInfo } = await import('./integratedMeshLayerElevationInfo');
+        jsComponentRef = await buildJsIntegratedMeshLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetIntegratedMeshLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mode)) {
         dotNetIntegratedMeshLayerElevationInfo.mode = jsObject.mode;
@@ -65,7 +75,7 @@ export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObj
         dotNetIntegratedMeshLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIntegratedMeshLayerElevationInfo.id = geoBlazorId;
     }

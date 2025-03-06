@@ -32,7 +32,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     
     let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesAttachment } = await import('./capabilitiesAttachment');
+        jsComponentRef = await buildJsCapabilitiesAttachment(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesAttachment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsCacheHint)) {
         dotNetCapabilitiesAttachment.supportsCacheHint = jsObject.supportsCacheHint;
@@ -89,7 +99,7 @@ export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any):
         dotNetCapabilitiesAttachment.supportsSize = jsObject.supportsSize;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesAttachment.id = geoBlazorId;
     }

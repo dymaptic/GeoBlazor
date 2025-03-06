@@ -23,7 +23,7 @@ export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dot
     arcGisObjectRefs[dotNetObject.id] = jsLayerListCatalogOptionsVisibleElements;
     
     let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements);
+    let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dot
 }
 
 
-export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
+        jsComponentRef = await buildJsLayerListCatalogOptionsVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerListCatalogOptionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.errors)) {
         dotNetLayerListCatalogOptionsVisibleElements.errors = jsObject.errors;
@@ -71,7 +81,7 @@ export async function buildDotNetLayerListCatalogOptionsVisibleElementsGenerated
         dotNetLayerListCatalogOptionsVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerListCatalogOptionsVisibleElements.id = geoBlazorId;
     }

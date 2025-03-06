@@ -18,7 +18,7 @@ export async function buildJsColorRampElementGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsColorRampElement;
     
     let { buildDotNetColorRampElement } = await import('./colorRampElement');
-    let dnInstantiatedObject = await buildDotNetColorRampElement(jsColorRampElement);
+    let dnInstantiatedObject = await buildDotNetColorRampElement(jsColorRampElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,17 +45,27 @@ export async function buildJsColorRampElementGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetColorRampElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetColorRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorRampElement } = await import('./colorRampElement');
+        jsComponentRef = await buildJsColorRampElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetColorRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetColorRampStop } = await import('./colorRampStop');
-        dotNetColorRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetColorRampStop(i)));
+        dotNetColorRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetColorRampStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.title)) {
         dotNetColorRampElement.title = jsObject.title;
@@ -64,7 +74,7 @@ export async function buildDotNetColorRampElementGenerated(jsObject: any): Promi
         dotNetColorRampElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorRampElement.id = geoBlazorId;
     }

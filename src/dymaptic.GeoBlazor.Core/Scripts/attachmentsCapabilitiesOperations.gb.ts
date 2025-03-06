@@ -20,7 +20,7 @@ export async function buildJsAttachmentsCapabilitiesOperationsGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsCapabilitiesOperations;
     
     let { buildDotNetAttachmentsCapabilitiesOperations } = await import('./attachmentsCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetAttachmentsCapabilitiesOperations(jsAttachmentsCapabilitiesOperations);
+    let dnInstantiatedObject = await buildDotNetAttachmentsCapabilitiesOperations(jsAttachmentsCapabilitiesOperations, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsAttachmentsCapabilitiesOperationsGenerated(dotNetOb
 }
 
 
-export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAttachmentsCapabilitiesOperations } = await import('./attachmentsCapabilitiesOperations');
+        jsComponentRef = await buildJsAttachmentsCapabilitiesOperations(jsObject, layerId, viewId);
+    }
+    
     let dotNetAttachmentsCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.add)) {
         dotNetAttachmentsCapabilitiesOperations.add = jsObject.add;
@@ -65,7 +75,7 @@ export async function buildDotNetAttachmentsCapabilitiesOperationsGenerated(jsOb
         dotNetAttachmentsCapabilitiesOperations.update = jsObject.update;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAttachmentsCapabilitiesOperations.id = geoBlazorId;
     }

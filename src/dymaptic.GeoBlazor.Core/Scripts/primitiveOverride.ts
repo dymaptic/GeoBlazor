@@ -4,7 +4,7 @@ export async function buildJsPrimitiveOverride(dotNetObject: any, layerId: strin
     return await buildJsPrimitiveOverrideGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPrimitiveOverride(jsObject: any): Promise<any> {
+export async function buildDotNetPrimitiveOverride(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPrimitiveOverrideGenerated } = await import('./primitiveOverride.gb');
-    return await buildDotNetPrimitiveOverrideGenerated(jsObject);
+    return await buildDotNetPrimitiveOverrideGenerated(jsObject, layerId, viewId);
 }

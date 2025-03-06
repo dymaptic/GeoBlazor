@@ -24,7 +24,7 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
-        return await buildDotNetHighlightHandle(result);
+        return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
     }
 
     async queryGraphics(): Promise<any> {
@@ -39,7 +39,7 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
@@ -88,7 +88,7 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerView;
     
     let { buildDotNetGraphicsLayerView } = await import('./graphicsLayerView');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayerView(jsGraphicsLayerView);
+    let dnInstantiatedObject = await buildDotNetGraphicsLayerView(jsGraphicsLayerView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -115,17 +115,27 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGraphicsLayerView } = await import('./graphicsLayerView');
+        jsComponentRef = await buildJsGraphicsLayerView(jsObject, layerId, viewId);
+    }
+    
     let dotNetGraphicsLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
     }
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGraphicsLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
@@ -146,7 +156,7 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Prom
         dotNetGraphicsLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGraphicsLayerView.id = geoBlazorId;
     }

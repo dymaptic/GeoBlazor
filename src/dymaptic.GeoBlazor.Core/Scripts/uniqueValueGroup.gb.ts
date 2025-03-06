@@ -20,7 +20,7 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
     
     let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
-    let dnInstantiatedObject = await buildDotNetUniqueValueGroup(jsUniqueValueGroup);
+    let dnInstantiatedObject = await buildDotNetUniqueValueGroup(jsUniqueValueGroup, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,23 +47,33 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetUniqueValueGroupGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueGroupGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
+        jsComponentRef = await buildJsUniqueValueGroup(jsObject, layerId, viewId);
+    }
+    
     let dotNetUniqueValueGroup: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.classes)) {
         let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-        dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i)));
+        dotNetUniqueValueGroup.classes = await Promise.all(jsObject.classes.map(async i => await buildDotNetUniqueValueClass(i, layerId, viewId)));
     }
     if (hasValue(jsObject.heading)) {
         dotNetUniqueValueGroup.heading = jsObject.heading;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueGroup.id = geoBlazorId;
     }

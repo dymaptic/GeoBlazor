@@ -4,7 +4,7 @@ export async function buildJsDisplayField(dotNetObject: any, layerId: string | n
     return await buildJsDisplayFieldGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDisplayField(jsObject: any): Promise<any> {
+export async function buildDotNetDisplayField(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDisplayFieldGenerated } = await import('./displayField.gb');
-    return await buildDotNetDisplayFieldGenerated(jsObject);
+    return await buildDotNetDisplayFieldGenerated(jsObject, layerId, viewId);
 }

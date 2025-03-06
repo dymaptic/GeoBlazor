@@ -17,7 +17,7 @@ export async function buildJsColorRampNameGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsColorRampName;
     
     let { buildDotNetColorRampName } = await import('./colorRampName');
-    let dnInstantiatedObject = await buildDotNetColorRampName(jsColorRampName);
+    let dnInstantiatedObject = await buildDotNetColorRampName(jsColorRampName, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsColorRampNameGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetColorRampNameGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetColorRampNameGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorRampName } = await import('./colorRampName');
+        jsComponentRef = await buildJsColorRampName(jsObject, layerId, viewId);
+    }
+    
     let dotNetColorRampName: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.inverted)) {
         dotNetColorRampName.inverted = jsObject.inverted;
@@ -59,7 +69,7 @@ export async function buildDotNetColorRampNameGenerated(jsObject: any): Promise<
         dotNetColorRampName.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorRampName.id = geoBlazorId;
     }

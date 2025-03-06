@@ -4,7 +4,7 @@ export async function buildJsConfigWorkersLoaderConfig(dotNetObject: any, layerI
     return await buildJsConfigWorkersLoaderConfigGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetConfigWorkersLoaderConfig(jsObject: any): Promise<any> {
+export async function buildDotNetConfigWorkersLoaderConfig(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetConfigWorkersLoaderConfigGenerated } = await import('./configWorkersLoaderConfig.gb');
-    return await buildDotNetConfigWorkersLoaderConfigGenerated(jsObject);
+    return await buildDotNetConfigWorkersLoaderConfigGenerated(jsObject, layerId, viewId);
 }

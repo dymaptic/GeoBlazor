@@ -19,7 +19,7 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsBarcodeScannerInput;
     
     let { buildDotNetBarcodeScannerInput } = await import('./barcodeScannerInput');
-    let dnInstantiatedObject = await buildDotNetBarcodeScannerInput(jsBarcodeScannerInput);
+    let dnInstantiatedObject = await buildDotNetBarcodeScannerInput(jsBarcodeScannerInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetBarcodeScannerInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBarcodeScannerInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBarcodeScannerInput } = await import('./barcodeScannerInput');
+        jsComponentRef = await buildJsBarcodeScannerInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetBarcodeScannerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxLength)) {
         dotNetBarcodeScannerInput.maxLength = jsObject.maxLength;
@@ -64,7 +74,7 @@ export async function buildDotNetBarcodeScannerInputGenerated(jsObject: any): Pr
         dotNetBarcodeScannerInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBarcodeScannerInput.id = geoBlazorId;
     }

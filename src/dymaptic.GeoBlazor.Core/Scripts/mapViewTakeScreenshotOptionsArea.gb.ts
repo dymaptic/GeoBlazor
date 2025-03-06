@@ -23,7 +23,7 @@ export async function buildJsMapViewTakeScreenshotOptionsAreaGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsMapViewTakeScreenshotOptionsArea;
     
     let { buildDotNetMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
-    let dnInstantiatedObject = await buildDotNetMapViewTakeScreenshotOptionsArea(jsMapViewTakeScreenshotOptionsArea);
+    let dnInstantiatedObject = await buildDotNetMapViewTakeScreenshotOptionsArea(jsMapViewTakeScreenshotOptionsArea, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsMapViewTakeScreenshotOptionsAreaGenerated(dotNetObj
 }
 
 
-export async function buildDotNetMapViewTakeScreenshotOptionsAreaGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMapViewTakeScreenshotOptionsAreaGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
+        jsComponentRef = await buildJsMapViewTakeScreenshotOptionsArea(jsObject, layerId, viewId);
+    }
+    
     let dotNetMapViewTakeScreenshotOptionsArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.height)) {
         dotNetMapViewTakeScreenshotOptionsArea.height = jsObject.height;
@@ -71,7 +81,7 @@ export async function buildDotNetMapViewTakeScreenshotOptionsAreaGenerated(jsObj
         dotNetMapViewTakeScreenshotOptionsArea.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMapViewTakeScreenshotOptionsArea.id = geoBlazorId;
     }

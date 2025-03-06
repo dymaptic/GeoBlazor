@@ -28,7 +28,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
     
     let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
-    let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer);
+    let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,17 +55,27 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSimpleRenderer } = await import('./simpleRenderer');
+        jsComponentRef = await buildJsSimpleRenderer(jsObject, layerId, viewId);
+    }
+    
     let dotNetSimpleRenderer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.authoringInfo)) {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
+        dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo, layerId, viewId);
     }
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -82,7 +92,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         dotNetSimpleRenderer.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSimpleRenderer.id = geoBlazorId;
     }

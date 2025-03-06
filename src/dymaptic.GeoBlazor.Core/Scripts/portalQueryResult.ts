@@ -3,7 +3,7 @@ export async function buildJsPortalQueryResult(dotNetObject: any, layerId: strin
     return await buildJsPortalQueryResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalQueryResult(jsObject: any): Promise<any> {
+export async function buildDotNetPortalQueryResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalQueryResultGenerated} = await import('./portalQueryResult.gb');
-    return await buildDotNetPortalQueryResultGenerated(jsObject);
+    return await buildDotNetPortalQueryResultGenerated(jsObject, layerId, viewId);
 }

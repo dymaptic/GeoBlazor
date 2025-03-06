@@ -4,7 +4,7 @@ export async function buildJsGPMessage(dotNetObject: any, layerId: string | null
     return await buildJsGPMessageGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGPMessage(jsObject: any): Promise<any> {
+export async function buildDotNetGPMessage(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGPMessageGenerated } = await import('./gPMessage.gb');
-    return await buildDotNetGPMessageGenerated(jsObject);
+    return await buildDotNetGPMessageGenerated(jsObject, layerId, viewId);
 }

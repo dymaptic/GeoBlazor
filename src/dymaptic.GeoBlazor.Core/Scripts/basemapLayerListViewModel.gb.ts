@@ -37,7 +37,7 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.baseItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.baseItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getReferenceItems(): Promise<any> {
@@ -46,7 +46,7 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.referenceItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.referenceItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {
@@ -99,7 +99,7 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListViewModel;
     
     let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel);
+    let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -126,21 +126,31 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
+        jsComponentRef = await buildJsBasemapLayerListViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapLayerListViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
+        dotNetBasemapLayerListViewModel.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
+        dotNetBasemapLayerListViewModel.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.baseListItemCreatedFunction)) {
         dotNetBasemapLayerListViewModel.baseListItemCreatedFunction = jsObject.baseListItemCreatedFunction;
@@ -161,7 +171,7 @@ export async function buildDotNetBasemapLayerListViewModelGenerated(jsObject: an
         dotNetBasemapLayerListViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListViewModel.id = geoBlazorId;
     }

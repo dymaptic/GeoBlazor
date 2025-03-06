@@ -148,6 +148,7 @@
     {
         if (listItem.LayerId == _layer?.Id)
         {
+            await listItem.SetPanel
             listItem.Panel = new ListItemPanelWidget(open: true, icon: "esri-icon-maps")
             {
                 ContainerId = "rendererDiv"

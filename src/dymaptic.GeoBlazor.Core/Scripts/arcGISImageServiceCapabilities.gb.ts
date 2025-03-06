@@ -22,7 +22,7 @@ export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilities;
     
     let { buildDotNetArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
-    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilities(jsArcGISImageServiceCapabilities);
+    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilities(jsArcGISImageServiceCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,27 +49,37 @@ export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetArcGISImageServiceCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArcGISImageServiceCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
+        jsComponentRef = await buildJsArcGISImageServiceCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetArcGISImageServiceCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mensuration)) {
         let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-        dotNetArcGISImageServiceCapabilities.mensuration = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsObject.mensuration);
+        dotNetArcGISImageServiceCapabilities.mensuration = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsObject.mensuration, layerId, viewId);
     }
     if (hasValue(jsObject.operations)) {
         let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
-        dotNetArcGISImageServiceCapabilities.operations = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsObject.operations);
+        dotNetArcGISImageServiceCapabilities.operations = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsObject.operations, layerId, viewId);
     }
     if (hasValue(jsObject.query)) {
         dotNetArcGISImageServiceCapabilities.query = jsObject.query;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArcGISImageServiceCapabilities.id = geoBlazorId;
     }

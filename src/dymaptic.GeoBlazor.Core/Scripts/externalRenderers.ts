@@ -14,7 +14,7 @@ export async function buildJsExternalRenderers(dotNetObject: any, layerId: strin
     return await buildJsExternalRenderersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetExternalRenderers(jsObject: any): Promise<any> {
+export async function buildDotNetExternalRenderers(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetExternalRenderersGenerated} = await import('./externalRenderers.gb');
-    return await buildDotNetExternalRenderersGenerated(jsObject);
+    return await buildDotNetExternalRenderersGenerated(jsObject, layerId, viewId);
 }

@@ -6,7 +6,7 @@ export async function buildJsPortalUserAddItemParams(dotNetObject: any, layerId:
     return await buildJsPortalUserAddItemParamsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalUserAddItemParams(jsObject: any): Promise<any> {
+export async function buildDotNetPortalUserAddItemParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalUserAddItemParamsGenerated} = await import('./portalUserAddItemParams.gb');
-    return await buildDotNetPortalUserAddItemParamsGenerated(jsObject);
+    return await buildDotNetPortalUserAddItemParamsGenerated(jsObject, layerId, viewId);
 }

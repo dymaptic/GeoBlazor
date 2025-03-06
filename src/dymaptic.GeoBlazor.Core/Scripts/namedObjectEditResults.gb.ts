@@ -17,7 +17,7 @@ export async function buildJsNamedObjectEditResultsGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsNamedObjectEditResults;
     
     let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
-    let dnInstantiatedObject = await buildDotNetNamedObjectEditResults(jsNamedObjectEditResults);
+    let dnInstantiatedObject = await buildDotNetNamedObjectEditResults(jsNamedObjectEditResults, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsNamedObjectEditResultsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetNamedObjectEditResultsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetNamedObjectEditResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
+        jsComponentRef = await buildJsNamedObjectEditResults(jsObject, layerId, viewId);
+    }
+    
     let dotNetNamedObjectEditResults: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.error)) {
         dotNetNamedObjectEditResults.error = jsObject.error;
@@ -59,7 +69,7 @@ export async function buildDotNetNamedObjectEditResultsGenerated(jsObject: any):
         dotNetNamedObjectEditResults.namedObjectEditResultsId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetNamedObjectEditResults.id = geoBlazorId;
     }

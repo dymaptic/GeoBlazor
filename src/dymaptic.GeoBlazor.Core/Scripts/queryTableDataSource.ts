@@ -3,7 +3,7 @@ export async function buildJsQueryTableDataSource(dotNetObject: any, layerId: st
     return await buildJsQueryTableDataSourceGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetQueryTableDataSource(jsObject: any): Promise<any> {
+export async function buildDotNetQueryTableDataSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetQueryTableDataSourceGenerated} = await import('./queryTableDataSource.gb');
-    return await buildDotNetQueryTableDataSourceGenerated(jsObject);
+    return await buildDotNetQueryTableDataSourceGenerated(jsObject, layerId, viewId);
 }

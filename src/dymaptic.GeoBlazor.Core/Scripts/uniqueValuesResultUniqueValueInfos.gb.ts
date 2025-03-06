@@ -17,7 +17,7 @@ export async function buildJsUniqueValuesResultUniqueValueInfosGenerated(dotNetO
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValuesResultUniqueValueInfos;
     
     let { buildDotNetUniqueValuesResultUniqueValueInfos } = await import('./uniqueValuesResultUniqueValueInfos');
-    let dnInstantiatedObject = await buildDotNetUniqueValuesResultUniqueValueInfos(jsUniqueValuesResultUniqueValueInfos);
+    let dnInstantiatedObject = await buildDotNetUniqueValuesResultUniqueValueInfos(jsUniqueValuesResultUniqueValueInfos, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsUniqueValuesResultUniqueValueInfosGenerated(dotNetO
 }
 
 
-export async function buildDotNetUniqueValuesResultUniqueValueInfosGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValuesResultUniqueValueInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUniqueValuesResultUniqueValueInfos } = await import('./uniqueValuesResultUniqueValueInfos');
+        jsComponentRef = await buildJsUniqueValuesResultUniqueValueInfos(jsObject, layerId, viewId);
+    }
+    
     let dotNetUniqueValuesResultUniqueValueInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.count)) {
         dotNetUniqueValuesResultUniqueValueInfos.count = jsObject.count;
@@ -59,7 +69,7 @@ export async function buildDotNetUniqueValuesResultUniqueValueInfosGenerated(jsO
         dotNetUniqueValuesResultUniqueValueInfos.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValuesResultUniqueValueInfos.id = geoBlazorId;
     }

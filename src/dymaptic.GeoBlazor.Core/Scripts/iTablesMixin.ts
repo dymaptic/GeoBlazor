@@ -4,7 +4,7 @@ export async function buildJsITablesMixin(dotNetObject: any, layerId: string | n
     return await buildJsITablesMixinGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetITablesMixin(jsObject: any): Promise<any> {
+export async function buildDotNetITablesMixin(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetITablesMixinGenerated } = await import('./iTablesMixin.gb');
-    return await buildDotNetITablesMixinGenerated(jsObject);
+    return await buildDotNetITablesMixinGenerated(jsObject, layerId, viewId);
 }

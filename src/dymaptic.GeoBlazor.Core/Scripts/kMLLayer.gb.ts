@@ -124,7 +124,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -138,7 +138,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetKMLSublayer(i, this.layerId, this.viewId)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -226,19 +226,19 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     let jsKMLLayer = new KMLLayer(properties);
     jsKMLLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsKMLLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsKMLLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -254,7 +254,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayer;
     
     let { buildDotNetKMLLayer } = await import('./kMLLayer');
-    let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer);
+    let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -281,13 +281,23 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKMLLayer } = await import('./kMLLayer');
+        jsComponentRef = await buildJsKMLLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetKMLLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -299,11 +309,11 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetKMLLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-        dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i)));
+        dotNetKMLLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetKMLSublayer(i, layerId, viewId)));
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -346,7 +356,7 @@ export async function buildDotNetKMLLayerGenerated(jsObject: any): Promise<any> 
         dotNetKMLLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayer.id = geoBlazorId;
     }

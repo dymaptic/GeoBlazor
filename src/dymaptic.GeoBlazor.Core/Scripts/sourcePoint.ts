@@ -4,7 +4,7 @@ export async function buildJsSourcePoint(dotNetObject: any, layerId: string | nu
     return await buildJsSourcePointGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSourcePoint(jsObject: any): Promise<any> {
+export async function buildDotNetSourcePoint(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSourcePointGenerated } = await import('./sourcePoint.gb');
-    return await buildDotNetSourcePointGenerated(jsObject);
+    return await buildDotNetSourcePointGenerated(jsObject, layerId, viewId);
 }

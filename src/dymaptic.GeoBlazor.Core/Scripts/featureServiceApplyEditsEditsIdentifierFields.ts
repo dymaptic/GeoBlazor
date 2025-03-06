@@ -4,7 +4,7 @@ export async function buildJsFeatureServiceApplyEditsEditsIdentifierFields(dotNe
     return await buildJsFeatureServiceApplyEditsEditsIdentifierFieldsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeatureServiceApplyEditsEditsIdentifierFields(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureServiceApplyEditsEditsIdentifierFields(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureServiceApplyEditsEditsIdentifierFieldsGenerated } = await import('./featureServiceApplyEditsEditsIdentifierFields.gb');
-    return await buildDotNetFeatureServiceApplyEditsEditsIdentifierFieldsGenerated(jsObject);
+    return await buildDotNetFeatureServiceApplyEditsEditsIdentifierFieldsGenerated(jsObject, layerId, viewId);
 }

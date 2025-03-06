@@ -4,7 +4,7 @@ export async function buildJsStreamConnection(dotNetObject: any, layerId: string
     return await buildJsStreamConnectionGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetStreamConnection(jsObject: any): Promise<any> {
+export async function buildDotNetStreamConnection(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetStreamConnectionGenerated } = await import('./streamConnection.gb');
-    return await buildDotNetStreamConnectionGenerated(jsObject);
+    return await buildDotNetStreamConnectionGenerated(jsObject, layerId, viewId);
 }

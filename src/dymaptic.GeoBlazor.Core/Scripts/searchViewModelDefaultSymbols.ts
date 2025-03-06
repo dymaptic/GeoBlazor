@@ -3,7 +3,7 @@ export async function buildJsSearchViewModelDefaultSymbols(dotNetObject: any, la
     return await buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSearchViewModelDefaultSymbols(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelDefaultSymbols(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSearchViewModelDefaultSymbolsGenerated} = await import('./searchViewModelDefaultSymbols.gb');
-    return await buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject);
+    return await buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject, layerId, viewId);
 }

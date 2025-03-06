@@ -5,7 +5,7 @@ export async function buildJsImageAngleParameters(dotNetObject: any, layerId: st
     return await buildJsImageAngleParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageAngleParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageAngleParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageAngleParametersGenerated} = await import('./imageAngleParameters.gb');
-    return await buildDotNetImageAngleParametersGenerated(jsObject);
+    return await buildDotNetImageAngleParametersGenerated(jsObject, layerId, viewId);
 }

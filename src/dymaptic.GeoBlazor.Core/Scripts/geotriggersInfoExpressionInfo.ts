@@ -4,7 +4,7 @@ export async function buildJsGeotriggersInfoExpressionInfo(dotNetObject: any, la
     return await buildJsGeotriggersInfoExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeotriggersInfoExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetGeotriggersInfoExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGeotriggersInfoExpressionInfoGenerated } = await import('./geotriggersInfoExpressionInfo.gb');
-    return await buildDotNetGeotriggersInfoExpressionInfoGenerated(jsObject);
+    return await buildDotNetGeotriggersInfoExpressionInfoGenerated(jsObject, layerId, viewId);
 }

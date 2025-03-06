@@ -44,7 +44,7 @@ export async function buildJsBasemapLayerListVisibleElementsGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListVisibleElements;
     
     let { buildDotNetBasemapLayerListVisibleElements } = await import('./basemapLayerListVisibleElements');
-    let dnInstantiatedObject = await buildDotNetBasemapLayerListVisibleElements(jsBasemapLayerListVisibleElements);
+    let dnInstantiatedObject = await buildDotNetBasemapLayerListVisibleElements(jsBasemapLayerListVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -71,13 +71,23 @@ export async function buildJsBasemapLayerListVisibleElementsGenerated(dotNetObje
 }
 
 
-export async function buildDotNetBasemapLayerListVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapLayerListVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapLayerListVisibleElements } = await import('./basemapLayerListVisibleElements');
+        jsComponentRef = await buildJsBasemapLayerListVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapLayerListVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.baseLayers)) {
         dotNetBasemapLayerListVisibleElements.baseLayers = jsObject.baseLayers;
@@ -113,7 +123,7 @@ export async function buildDotNetBasemapLayerListVisibleElementsGenerated(jsObje
         dotNetBasemapLayerListVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListVisibleElements.id = geoBlazorId;
     }

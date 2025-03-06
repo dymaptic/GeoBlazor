@@ -20,7 +20,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics;
     
     let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
+        jsComponentRef = await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject, layerId, viewId);
+    }
+    
     let dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.centroid)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.centroid = jsObject.centroid;
@@ -65,7 +75,7 @@ export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupporte
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.envelope = jsObject.envelope;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.id = geoBlazorId;
     }

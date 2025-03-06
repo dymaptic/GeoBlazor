@@ -17,7 +17,7 @@ export async function buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsVersionInfoExtendedJSONVersionIdentifier;
     
     let { buildDotNetVersionInfoExtendedJSONVersionIdentifier } = await import('./versionInfoExtendedJSONVersionIdentifier');
-    let dnInstantiatedObject = await buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsVersionInfoExtendedJSONVersionIdentifier);
+    let dnInstantiatedObject = await buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(d
 }
 
 
-export async function buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionInfoExtendedJSONVersionIdentifier } = await import('./versionInfoExtendedJSONVersionIdentifier');
+        jsComponentRef = await buildJsVersionInfoExtendedJSONVersionIdentifier(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionInfoExtendedJSONVersionIdentifier: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.guid)) {
         dotNetVersionInfoExtendedJSONVersionIdentifier.guid = jsObject.guid;
@@ -59,7 +69,7 @@ export async function buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerat
         dotNetVersionInfoExtendedJSONVersionIdentifier.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionInfoExtendedJSONVersionIdentifier.id = geoBlazorId;
     }

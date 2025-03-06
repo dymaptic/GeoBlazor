@@ -4,7 +4,7 @@ export async function buildJsSupportJsonUtils(dotNetObject: any, layerId: string
     return await buildJsSupportJsonUtilsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSupportJsonUtils(jsObject: any): Promise<any> {
+export async function buildDotNetSupportJsonUtils(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSupportJsonUtilsGenerated } = await import('./supportJsonUtils.gb');
-    return await buildDotNetSupportJsonUtilsGenerated(jsObject);
+    return await buildDotNetSupportJsonUtilsGenerated(jsObject, layerId, viewId);
 }

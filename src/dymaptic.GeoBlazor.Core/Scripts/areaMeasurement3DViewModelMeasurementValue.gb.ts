@@ -17,7 +17,7 @@ export async function buildJsAreaMeasurement3DViewModelMeasurementValueGenerated
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement3DViewModelMeasurementValue;
     
     let { buildDotNetAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsAreaMeasurement3DViewModelMeasurementValue);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsAreaMeasurement3DViewModelMeasurementValue, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsAreaMeasurement3DViewModelMeasurementValueGenerated
 }
 
 
-export async function buildDotNetAreaMeasurement3DViewModelMeasurementValueGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAreaMeasurement3DViewModelMeasurementValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
+        jsComponentRef = await buildJsAreaMeasurement3DViewModelMeasurementValue(jsObject, layerId, viewId);
+    }
+    
     let dotNetAreaMeasurement3DViewModelMeasurementValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.state)) {
         dotNetAreaMeasurement3DViewModelMeasurementValue.state = jsObject.state;
@@ -59,7 +69,7 @@ export async function buildDotNetAreaMeasurement3DViewModelMeasurementValueGener
         dotNetAreaMeasurement3DViewModelMeasurementValue.text = jsObject.text;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement3DViewModelMeasurementValue.id = geoBlazorId;
     }

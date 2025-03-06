@@ -23,7 +23,7 @@ export async function buildJsBaseTileLayer(dotNetObject: any, layerId: string | 
     return await buildJsBaseTileLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBaseTileLayer(jsObject: any): Promise<any> {
+export async function buildDotNetBaseTileLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBaseTileLayerGenerated} = await import('./baseTileLayer.gb');
-    return await buildDotNetBaseTileLayerGenerated(jsObject);
+    return await buildDotNetBaseTileLayerGenerated(jsObject, layerId, viewId);
 }

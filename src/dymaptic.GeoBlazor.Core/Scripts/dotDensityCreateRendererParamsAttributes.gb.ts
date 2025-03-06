@@ -23,7 +23,7 @@ export async function buildJsDotDensityCreateRendererParamsAttributesGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsdotDensityCreateRendererParamsAttributes;
     
     let { buildDotNetDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
-    let dnInstantiatedObject = await buildDotNetDotDensityCreateRendererParamsAttributes(jsdotDensityCreateRendererParamsAttributes);
+    let dnInstantiatedObject = await buildDotNetDotDensityCreateRendererParamsAttributes(jsdotDensityCreateRendererParamsAttributes, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsDotDensityCreateRendererParamsAttributesGenerated(d
 }
 
 
-export async function buildDotNetDotDensityCreateRendererParamsAttributesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDotDensityCreateRendererParamsAttributesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
+        jsComponentRef = await buildJsDotDensityCreateRendererParamsAttributes(jsObject, layerId, viewId);
+    }
+    
     let dotNetDotDensityCreateRendererParamsAttributes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetDotDensityCreateRendererParamsAttributes.field = jsObject.field;
@@ -71,7 +81,7 @@ export async function buildDotNetDotDensityCreateRendererParamsAttributesGenerat
         dotNetDotDensityCreateRendererParamsAttributes.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDotDensityCreateRendererParamsAttributes.id = geoBlazorId;
     }

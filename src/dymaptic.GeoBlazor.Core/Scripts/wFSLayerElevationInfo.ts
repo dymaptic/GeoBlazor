@@ -4,7 +4,7 @@ export async function buildJsWFSLayerElevationInfo(dotNetObject: any, layerId: s
     return await buildJsWFSLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWFSLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetWFSLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSLayerElevationInfoGenerated } = await import('./wFSLayerElevationInfo.gb');
-    return await buildDotNetWFSLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetWFSLayerElevationInfoGenerated(jsObject, layerId, viewId);
 }

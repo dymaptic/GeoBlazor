@@ -4,7 +4,7 @@ export async function buildJsDirectLineMeasurementAnalysisResult(dotNetObject: a
     return await buildJsDirectLineMeasurementAnalysisResultGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDirectLineMeasurementAnalysisResult(jsObject: any): Promise<any> {
+export async function buildDotNetDirectLineMeasurementAnalysisResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDirectLineMeasurementAnalysisResultGenerated } = await import('./directLineMeasurementAnalysisResult.gb');
-    return await buildDotNetDirectLineMeasurementAnalysisResultGenerated(jsObject);
+    return await buildDotNetDirectLineMeasurementAnalysisResultGenerated(jsObject, layerId, viewId);
 }

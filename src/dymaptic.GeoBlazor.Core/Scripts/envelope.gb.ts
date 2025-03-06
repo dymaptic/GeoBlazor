@@ -23,7 +23,7 @@ export async function buildJsEnvelopeGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsEnvelope;
     
     let { buildDotNetEnvelope } = await import('./envelope');
-    let dnInstantiatedObject = await buildDotNetEnvelope(jsEnvelope);
+    let dnInstantiatedObject = await buildDotNetEnvelope(jsEnvelope, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsEnvelopeGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetEnvelopeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetEnvelopeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsEnvelope } = await import('./envelope');
+        jsComponentRef = await buildJsEnvelope(jsObject, layerId, viewId);
+    }
+    
     let dotNetEnvelope: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.xmax)) {
         dotNetEnvelope.xmax = jsObject.xmax;
@@ -71,7 +81,7 @@ export async function buildDotNetEnvelopeGenerated(jsObject: any): Promise<any> 
         dotNetEnvelope.ymin = jsObject.ymin;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetEnvelope.id = geoBlazorId;
     }

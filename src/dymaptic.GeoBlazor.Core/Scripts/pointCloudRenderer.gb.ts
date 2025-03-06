@@ -24,7 +24,7 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRenderer;
     
     let { buildDotNetPointCloudRenderer } = await import('./pointCloudRenderer');
-    let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer);
+    let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,21 +51,31 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetPointCloudRendererGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPointCloudRenderer } = await import('./pointCloudRenderer');
+        jsComponentRef = await buildJsPointCloudRenderer(jsObject, layerId, viewId);
+    }
+    
     let dotNetPointCloudRenderer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.colorModulation)) {
         let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-        dotNetPointCloudRenderer.colorModulation = await buildDotNetPointCloudRendererColorModulation(jsObject.colorModulation);
+        dotNetPointCloudRenderer.colorModulation = await buildDotNetPointCloudRendererColorModulation(jsObject.colorModulation, layerId, viewId);
     }
     if (hasValue(jsObject.pointSizeAlgorithm)) {
         let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-        dotNetPointCloudRenderer.pointSizeAlgorithm = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsObject.pointSizeAlgorithm);
+        dotNetPointCloudRenderer.pointSizeAlgorithm = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsObject.pointSizeAlgorithm, layerId, viewId);
     }
     if (hasValue(jsObject.pointsPerInch)) {
         dotNetPointCloudRenderer.pointsPerInch = jsObject.pointsPerInch;
@@ -74,7 +84,7 @@ export async function buildDotNetPointCloudRendererGenerated(jsObject: any): Pro
         dotNetPointCloudRenderer.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRenderer.id = geoBlazorId;
     }

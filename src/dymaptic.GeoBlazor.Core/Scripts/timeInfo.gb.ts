@@ -36,7 +36,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
     
     let { buildDotNetTimeInfo } = await import('./timeInfo');
-    let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo);
+    let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -63,13 +63,23 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTimeInfo } = await import('./timeInfo');
+        jsComponentRef = await buildJsTimeInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetTimeInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fullTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -77,7 +87,7 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.interval)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
+        dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval, layerId, viewId);
     }
     if (hasValue(jsObject.endField)) {
         dotNetTimeInfo.endField = jsObject.endField;
@@ -95,7 +105,7 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> 
         dotNetTimeInfo.trackIdField = jsObject.trackIdField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTimeInfo.id = geoBlazorId;
     }

@@ -155,7 +155,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -169,7 +169,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -266,19 +266,19 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsOpenStreetMapLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -298,7 +298,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
     
     let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-    let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer);
+    let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -325,13 +325,23 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOpenStreetMapLayer } = await import('./openStreetMapLayer');
+        jsComponentRef = await buildJsOpenStreetMapLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetOpenStreetMapLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -343,11 +353,11 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetOpenStreetMapLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        dotNetOpenStreetMapLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -405,7 +415,7 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
         dotNetOpenStreetMapLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOpenStreetMapLayer.id = geoBlazorId;
     }

@@ -17,7 +17,7 @@ export async function buildJsSceneViewScreenshotGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewScreenshot;
     
     let { buildDotNetSceneViewScreenshot } = await import('./sceneViewScreenshot');
-    let dnInstantiatedObject = await buildDotNetSceneViewScreenshot(jsSceneViewScreenshot);
+    let dnInstantiatedObject = await buildDotNetSceneViewScreenshot(jsSceneViewScreenshot, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsSceneViewScreenshotGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetSceneViewScreenshotGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewScreenshotGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewScreenshot } = await import('./sceneViewScreenshot');
+        jsComponentRef = await buildJsSceneViewScreenshot(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewScreenshot: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.data)) {
         dotNetSceneViewScreenshot.data = jsObject.data;
@@ -59,7 +69,7 @@ export async function buildDotNetSceneViewScreenshotGenerated(jsObject: any): Pr
         dotNetSceneViewScreenshot.dataUrl = jsObject.dataUrl;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewScreenshot.id = geoBlazorId;
     }

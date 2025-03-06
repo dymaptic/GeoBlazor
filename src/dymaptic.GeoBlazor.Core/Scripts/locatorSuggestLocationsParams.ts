@@ -4,7 +4,7 @@ export async function buildJsLocatorSuggestLocationsParams(dotNetObject: any, la
     return await buildJsLocatorSuggestLocationsParamsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLocatorSuggestLocationsParams(jsObject: any): Promise<any> {
+export async function buildDotNetLocatorSuggestLocationsParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLocatorSuggestLocationsParamsGenerated } = await import('./locatorSuggestLocationsParams.gb');
-    return await buildDotNetLocatorSuggestLocationsParamsGenerated(jsObject);
+    return await buildDotNetLocatorSuggestLocationsParamsGenerated(jsObject, layerId, viewId);
 }

@@ -17,7 +17,7 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsCSVLayerElevationInfoFeatureExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsCSVLayerElevationInfoFeatureExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
 }
 
 
-export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
+        jsComponentRef = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetCSVLayerElevationInfoFeatureExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetCSVLayerElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
@@ -59,7 +69,7 @@ export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGener
         dotNetCSVLayerElevationInfoFeatureExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCSVLayerElevationInfoFeatureExpressionInfo.id = geoBlazorId;
     }

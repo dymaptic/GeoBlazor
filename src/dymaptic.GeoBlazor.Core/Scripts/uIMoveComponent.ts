@@ -3,7 +3,7 @@ export async function buildJsUIMoveComponent(dotNetObject: any, layerId: string 
     return await buildJsUIMoveComponentGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetUIMoveComponent(jsObject: any): Promise<any> {
+export async function buildDotNetUIMoveComponent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetUIMoveComponentGenerated} = await import('./uIMoveComponent.gb');
-    return await buildDotNetUIMoveComponentGenerated(jsObject);
+    return await buildDotNetUIMoveComponentGenerated(jsObject, layerId, viewId);
 }

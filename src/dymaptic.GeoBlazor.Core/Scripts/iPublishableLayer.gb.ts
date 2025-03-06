@@ -11,7 +11,7 @@ export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsPublishableLayer;
     
     let { buildDotNetIPublishableLayer } = await import('./iPublishableLayer');
-    let dnInstantiatedObject = await buildDotNetIPublishableLayer(jsPublishableLayer);
+    let dnInstantiatedObject = await buildDotNetIPublishableLayer(jsPublishableLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,19 +38,29 @@ export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetIPublishableLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIPublishableLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIPublishableLayer } = await import('./iPublishableLayer');
+        jsComponentRef = await buildJsIPublishableLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetIPublishableLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.publishingInfo)) {
         dotNetIPublishableLayer.publishingInfo = jsObject.publishingInfo;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIPublishableLayer.id = geoBlazorId;
     }

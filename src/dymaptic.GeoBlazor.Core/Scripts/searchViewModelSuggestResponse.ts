@@ -4,7 +4,7 @@ export async function buildJsSearchViewModelSuggestResponse(dotNetObject: any, l
     return await buildJsSearchViewModelSuggestResponseGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSearchViewModelSuggestResponse(jsObject: any): Promise<any> {
+export async function buildDotNetSearchViewModelSuggestResponse(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSearchViewModelSuggestResponseGenerated } = await import('./searchViewModelSuggestResponse.gb');
-    return await buildDotNetSearchViewModelSuggestResponseGenerated(jsObject);
+    return await buildDotNetSearchViewModelSuggestResponseGenerated(jsObject, layerId, viewId);
 }

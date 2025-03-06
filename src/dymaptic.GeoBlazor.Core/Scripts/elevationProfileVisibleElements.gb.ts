@@ -35,7 +35,7 @@ export async function buildJsElevationProfileVisibleElementsGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileVisibleElements;
     
     let { buildDotNetElevationProfileVisibleElements } = await import('./elevationProfileVisibleElements');
-    let dnInstantiatedObject = await buildDotNetElevationProfileVisibleElements(jsElevationProfileVisibleElements);
+    let dnInstantiatedObject = await buildDotNetElevationProfileVisibleElements(jsElevationProfileVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -62,13 +62,23 @@ export async function buildJsElevationProfileVisibleElementsGenerated(dotNetObje
 }
 
 
-export async function buildDotNetElevationProfileVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationProfileVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsElevationProfileVisibleElements } = await import('./elevationProfileVisibleElements');
+        jsComponentRef = await buildJsElevationProfileVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetElevationProfileVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.chart)) {
         dotNetElevationProfileVisibleElements.chart = jsObject.chart;
@@ -95,7 +105,7 @@ export async function buildDotNetElevationProfileVisibleElementsGenerated(jsObje
         dotNetElevationProfileVisibleElements.unitSelector = jsObject.unitSelector;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileVisibleElements.id = geoBlazorId;
     }

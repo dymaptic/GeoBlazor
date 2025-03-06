@@ -23,7 +23,7 @@ export async function buildJsValuePickerComboboxGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerCombobox;
     
     let { buildDotNetValuePickerCombobox } = await import('./valuePickerCombobox');
-    let dnInstantiatedObject = await buildDotNetValuePickerCombobox(jsValuePickerCombobox);
+    let dnInstantiatedObject = await buildDotNetValuePickerCombobox(jsValuePickerCombobox, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,17 +50,27 @@ export async function buildJsValuePickerComboboxGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetValuePickerComboboxGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerComboboxGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsValuePickerCombobox } = await import('./valuePickerCombobox');
+        jsComponentRef = await buildJsValuePickerCombobox(jsObject, layerId, viewId);
+    }
+    
     let dotNetValuePickerCombobox: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.items)) {
         let { buildDotNetComboboxItem } = await import('./comboboxItem');
-        dotNetValuePickerCombobox.items = await Promise.all(jsObject.items.map(async i => await buildDotNetComboboxItem(i)));
+        dotNetValuePickerCombobox.items = await Promise.all(jsObject.items.map(async i => await buildDotNetComboboxItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.label)) {
         dotNetValuePickerCombobox.label = jsObject.label;
@@ -72,7 +82,7 @@ export async function buildDotNetValuePickerComboboxGenerated(jsObject: any): Pr
         dotNetValuePickerCombobox.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerCombobox.id = geoBlazorId;
     }

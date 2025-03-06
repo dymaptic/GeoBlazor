@@ -24,7 +24,7 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     
     let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
+        jsComponentRef = await buildJsCSVLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetCSVLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-        dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+        dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
     if (hasValue(jsObject.mode)) {
         dotNetCSVLayerElevationInfo.mode = jsObject.mode;
@@ -73,7 +83,7 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): 
         dotNetCSVLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCSVLayerElevationInfo.id = geoBlazorId;
     }

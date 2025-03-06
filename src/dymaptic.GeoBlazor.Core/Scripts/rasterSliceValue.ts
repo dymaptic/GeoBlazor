@@ -6,7 +6,7 @@ export async function buildJsRasterSliceValue(dotNetObject: any, layerId: string
     return await buildJsRasterSliceValueGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetRasterSliceValue(jsObject: any): Promise<any> {
+export async function buildDotNetRasterSliceValue(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetRasterSliceValueGenerated} = await import('./rasterSliceValue.gb');
-    return await buildDotNetRasterSliceValueGenerated(jsObject);
+    return await buildDotNetRasterSliceValueGenerated(jsObject, layerId, viewId);
 }

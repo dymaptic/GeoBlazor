@@ -20,7 +20,7 @@ export async function buildJsClassedSizeSliderViewModelBreaksGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsClassedSizeSliderViewModelBreaks;
     
     let { buildDotNetClassedSizeSliderViewModelBreaks } = await import('./classedSizeSliderViewModelBreaks');
-    let dnInstantiatedObject = await buildDotNetClassedSizeSliderViewModelBreaks(jsClassedSizeSliderViewModelBreaks);
+    let dnInstantiatedObject = await buildDotNetClassedSizeSliderViewModelBreaks(jsClassedSizeSliderViewModelBreaks, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsClassedSizeSliderViewModelBreaksGenerated(dotNetObj
 }
 
 
-export async function buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsClassedSizeSliderViewModelBreaks } = await import('./classedSizeSliderViewModelBreaks');
+        jsComponentRef = await buildJsClassedSizeSliderViewModelBreaks(jsObject, layerId, viewId);
+    }
+    
     let dotNetClassedSizeSliderViewModelBreaks: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetClassedSizeSliderViewModelBreaks.max = jsObject.max;
@@ -65,7 +75,7 @@ export async function buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObj
         dotNetClassedSizeSliderViewModelBreaks.size = jsObject.size;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetClassedSizeSliderViewModelBreaks.id = geoBlazorId;
     }

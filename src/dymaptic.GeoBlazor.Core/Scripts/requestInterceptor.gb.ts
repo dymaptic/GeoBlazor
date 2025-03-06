@@ -42,7 +42,7 @@ export async function buildJsRequestInterceptorGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsRequestInterceptor;
     
     let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
-    let dnInstantiatedObject = await buildDotNetRequestInterceptor(jsRequestInterceptor);
+    let dnInstantiatedObject = await buildDotNetRequestInterceptor(jsRequestInterceptor, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -69,13 +69,23 @@ export async function buildJsRequestInterceptorGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetRequestInterceptorGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRequestInterceptorGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRequestInterceptor } = await import('./requestInterceptor');
+        jsComponentRef = await buildJsRequestInterceptor(jsObject, layerId, viewId);
+    }
+    
     let dotNetRequestInterceptor: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.after)) {
         dotNetRequestInterceptor.after = jsObject.after;
@@ -99,7 +109,7 @@ export async function buildDotNetRequestInterceptorGenerated(jsObject: any): Pro
         dotNetRequestInterceptor.urls = jsObject.urls;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRequestInterceptor.id = geoBlazorId;
     }

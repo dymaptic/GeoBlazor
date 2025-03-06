@@ -17,7 +17,7 @@ export async function buildJsPopupDockOptionsBreakpointGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptionsBreakpoint;
     
     let { buildDotNetPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
-    let dnInstantiatedObject = await buildDotNetPopupDockOptionsBreakpoint(jsPopupDockOptionsBreakpoint);
+    let dnInstantiatedObject = await buildDotNetPopupDockOptionsBreakpoint(jsPopupDockOptionsBreakpoint, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsPopupDockOptionsBreakpointGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
+        jsComponentRef = await buildJsPopupDockOptionsBreakpoint(jsObject, layerId, viewId);
+    }
+    
     let dotNetPopupDockOptionsBreakpoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.height)) {
         dotNetPopupDockOptionsBreakpoint.height = jsObject.height;
@@ -59,7 +69,7 @@ export async function buildDotNetPopupDockOptionsBreakpointGenerated(jsObject: a
         dotNetPopupDockOptionsBreakpoint.width = jsObject.width;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPopupDockOptionsBreakpoint.id = geoBlazorId;
     }

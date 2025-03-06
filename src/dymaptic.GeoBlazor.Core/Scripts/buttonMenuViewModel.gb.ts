@@ -20,7 +20,7 @@ export async function buildJsButtonMenuViewModelGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsButtonMenuViewModel;
     
     let { buildDotNetButtonMenuViewModel } = await import('./buttonMenuViewModel');
-    let dnInstantiatedObject = await buildDotNetButtonMenuViewModel(jsButtonMenuViewModel);
+    let dnInstantiatedObject = await buildDotNetButtonMenuViewModel(jsButtonMenuViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,23 +47,33 @@ export async function buildJsButtonMenuViewModelGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetButtonMenuViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetButtonMenuViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsButtonMenuViewModel } = await import('./buttonMenuViewModel');
+        jsComponentRef = await buildJsButtonMenuViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetButtonMenuViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.items)) {
         let { buildDotNetButtonMenuItem } = await import('./buttonMenuItem');
-        dotNetButtonMenuViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetButtonMenuItem(i)));
+        dotNetButtonMenuViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetButtonMenuItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.open)) {
         dotNetButtonMenuViewModel.open = jsObject.open;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetButtonMenuViewModel.id = geoBlazorId;
     }

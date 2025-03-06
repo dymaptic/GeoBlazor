@@ -11,7 +11,7 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsDirectionLines;
     
     let { buildDotNetIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
-    let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines);
+    let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
+        jsComponentRef = await buildJsIRouteSymbolsDirectionLines(jsObject, layerId, viewId);
+    }
+    
     let dotNetIRouteSymbolsDirectionLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIRouteSymbolsDirectionLines.id = geoBlazorId;
     }

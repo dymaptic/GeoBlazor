@@ -3,7 +3,7 @@ export async function buildJsBasemapLayerListTriggerActionEvent(dotNetObject: an
     return await buildJsBasemapLayerListTriggerActionEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBasemapLayerListTriggerActionEvent(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapLayerListTriggerActionEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBasemapLayerListTriggerActionEventGenerated} = await import('./basemapLayerListTriggerActionEvent.gb');
-    return await buildDotNetBasemapLayerListTriggerActionEventGenerated(jsObject);
+    return await buildDotNetBasemapLayerListTriggerActionEventGenerated(jsObject, layerId, viewId);
 }

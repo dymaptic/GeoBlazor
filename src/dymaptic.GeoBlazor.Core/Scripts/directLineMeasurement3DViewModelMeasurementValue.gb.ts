@@ -17,7 +17,7 @@ export async function buildJsDirectLineMeasurement3DViewModelMeasurementValueGen
     arcGisObjectRefs[dotNetObject.id] = jsDirectLineMeasurement3DViewModelMeasurementValue;
     
     let { buildDotNetDirectLineMeasurement3DViewModelMeasurementValue } = await import('./directLineMeasurement3DViewModelMeasurementValue');
-    let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DViewModelMeasurementValue(jsDirectLineMeasurement3DViewModelMeasurementValue);
+    let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DViewModelMeasurementValue(jsDirectLineMeasurement3DViewModelMeasurementValue, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDirectLineMeasurement3DViewModelMeasurementValueGen
 }
 
 
-export async function buildDotNetDirectLineMeasurement3DViewModelMeasurementValueGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDirectLineMeasurement3DViewModelMeasurementValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDirectLineMeasurement3DViewModelMeasurementValue } = await import('./directLineMeasurement3DViewModelMeasurementValue');
+        jsComponentRef = await buildJsDirectLineMeasurement3DViewModelMeasurementValue(jsObject, layerId, viewId);
+    }
+    
     let dotNetDirectLineMeasurement3DViewModelMeasurementValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.state)) {
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.state = jsObject.state;
@@ -59,7 +69,7 @@ export async function buildDotNetDirectLineMeasurement3DViewModelMeasurementValu
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.text = jsObject.text;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDirectLineMeasurement3DViewModelMeasurementValue.id = geoBlazorId;
     }

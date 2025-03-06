@@ -16,7 +16,7 @@ export async function buildJsLineStylePattern3DGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsLineStylePattern3D;
     
     let { buildDotNetLineStylePattern3D } = await import('./lineStylePattern3D');
-    let dnInstantiatedObject = await buildDotNetLineStylePattern3D(jsLineStylePattern3D);
+    let dnInstantiatedObject = await buildDotNetLineStylePattern3D(jsLineStylePattern3D, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,13 +43,23 @@ export async function buildJsLineStylePattern3DGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetLineStylePattern3DGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLineStylePattern3DGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLineStylePattern3D } = await import('./lineStylePattern3D');
+        jsComponentRef = await buildJsLineStylePattern3D(jsObject, layerId, viewId);
+    }
+    
     let dotNetLineStylePattern3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.style)) {
         dotNetLineStylePattern3D.style = jsObject.style;
@@ -58,7 +68,7 @@ export async function buildDotNetLineStylePattern3DGenerated(jsObject: any): Pro
         dotNetLineStylePattern3D.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLineStylePattern3D.id = geoBlazorId;
     }

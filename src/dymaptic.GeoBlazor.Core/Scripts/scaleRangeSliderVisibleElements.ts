@@ -4,7 +4,7 @@ export async function buildJsScaleRangeSliderVisibleElements(dotNetObject: any, 
     return await buildJsScaleRangeSliderVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetScaleRangeSliderVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetScaleRangeSliderVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetScaleRangeSliderVisibleElementsGenerated } = await import('./scaleRangeSliderVisibleElements.gb');
-    return await buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObject);
+    return await buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObject, layerId, viewId);
 }

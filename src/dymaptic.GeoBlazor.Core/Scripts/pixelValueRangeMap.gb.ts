@@ -17,7 +17,7 @@ export async function buildJsPixelValueRangeMapGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsPixelValueRangeMap;
     
     let { buildDotNetPixelValueRangeMap } = await import('./pixelValueRangeMap');
-    let dnInstantiatedObject = await buildDotNetPixelValueRangeMap(jsPixelValueRangeMap);
+    let dnInstantiatedObject = await buildDotNetPixelValueRangeMap(jsPixelValueRangeMap, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsPixelValueRangeMapGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetPixelValueRangeMapGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPixelValueRangeMapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPixelValueRangeMap } = await import('./pixelValueRangeMap');
+        jsComponentRef = await buildJsPixelValueRangeMap(jsObject, layerId, viewId);
+    }
+    
     let dotNetPixelValueRangeMap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.output)) {
         dotNetPixelValueRangeMap.output = jsObject.output;
@@ -59,7 +69,7 @@ export async function buildDotNetPixelValueRangeMapGenerated(jsObject: any): Pro
         dotNetPixelValueRangeMap.range = jsObject.range;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPixelValueRangeMap.id = geoBlazorId;
     }

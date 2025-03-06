@@ -18,7 +18,7 @@ export async function buildJsLayerInclusionDefinitionGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsLayerInclusionDefinition;
     
     let { buildDotNetLayerInclusionDefinition } = await import('./layerInclusionDefinition');
-    let dnInstantiatedObject = await buildDotNetLayerInclusionDefinition(jsLayerInclusionDefinition);
+    let dnInstantiatedObject = await buildDotNetLayerInclusionDefinition(jsLayerInclusionDefinition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,23 +45,33 @@ export async function buildJsLayerInclusionDefinitionGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetLayerInclusionDefinitionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerInclusionDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerInclusionDefinition } = await import('./layerInclusionDefinition');
+        jsComponentRef = await buildJsLayerInclusionDefinition(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerInclusionDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.members)) {
         let { buildDotNetLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
-        dotNetLayerInclusionDefinition.members = await buildDotNetLayerInclusionMemberDefinition(jsObject.members);
+        dotNetLayerInclusionDefinition.members = await buildDotNetLayerInclusionMemberDefinition(jsObject.members, layerId, viewId);
     }
     if (hasValue(jsObject.useAllData)) {
         dotNetLayerInclusionDefinition.useAllData = jsObject.useAllData;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerInclusionDefinition.id = geoBlazorId;
     }

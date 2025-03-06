@@ -4,7 +4,7 @@ export async function buildJsLabelClassLabelExpressionInfo(dotNetObject: any, la
     return await buildJsLabelClassLabelExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLabelClassLabelExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetLabelClassLabelExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLabelClassLabelExpressionInfoGenerated } = await import('./labelClassLabelExpressionInfo.gb');
-    return await buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject);
+    return await buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject, layerId, viewId);
 }

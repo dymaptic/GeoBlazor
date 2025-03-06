@@ -3,7 +3,7 @@ export async function buildJsCoverageDescriptionV201EoMetadataObservation(dotNet
     return await buildJsCoverageDescriptionV201EoMetadataObservationGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCoverageDescriptionV201EoMetadataObservation(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageDescriptionV201EoMetadataObservation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCoverageDescriptionV201EoMetadataObservationGenerated} = await import('./coverageDescriptionV201EoMetadataObservation.gb');
-    return await buildDotNetCoverageDescriptionV201EoMetadataObservationGenerated(jsObject);
+    return await buildDotNetCoverageDescriptionV201EoMetadataObservationGenerated(jsObject, layerId, viewId);
 }

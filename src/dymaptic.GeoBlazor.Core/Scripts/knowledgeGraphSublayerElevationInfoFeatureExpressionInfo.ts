@@ -4,7 +4,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressio
     return await buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
+    return await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
 }

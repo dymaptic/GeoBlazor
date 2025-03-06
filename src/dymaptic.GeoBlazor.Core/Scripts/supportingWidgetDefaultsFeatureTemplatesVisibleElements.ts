@@ -4,7 +4,7 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesVisibleElem
     return await buildJsSupportingWidgetDefaultsFeatureTemplatesVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElementsGenerated } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements.gb');
-    return await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElementsGenerated(jsObject);
+    return await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElementsGenerated(jsObject, layerId, viewId);
 }

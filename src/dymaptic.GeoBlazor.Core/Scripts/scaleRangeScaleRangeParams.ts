@@ -4,7 +4,7 @@ export async function buildJsScaleRangeScaleRangeParams(dotNetObject: any, layer
     return await buildJsScaleRangeScaleRangeParamsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetScaleRangeScaleRangeParams(jsObject: any): Promise<any> {
+export async function buildDotNetScaleRangeScaleRangeParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetScaleRangeScaleRangeParamsGenerated } = await import('./scaleRangeScaleRangeParams.gb');
-    return await buildDotNetScaleRangeScaleRangeParamsGenerated(jsObject);
+    return await buildDotNetScaleRangeScaleRangeParamsGenerated(jsObject, layerId, viewId);
 }

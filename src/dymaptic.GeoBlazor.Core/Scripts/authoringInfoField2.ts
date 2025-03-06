@@ -4,7 +4,7 @@ export async function buildJsAuthoringInfoField2(dotNetObject: any, layerId: str
     return await buildJsAuthoringInfoField2Generated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetAuthoringInfoField2(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoField2(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetAuthoringInfoField2Generated } = await import('./authoringInfoField2.gb');
-    return await buildDotNetAuthoringInfoField2Generated(jsObject);
+    return await buildDotNetAuthoringInfoField2Generated(jsObject, layerId, viewId);
 }

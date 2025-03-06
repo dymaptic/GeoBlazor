@@ -4,7 +4,7 @@ export async function buildJsBuildingFilterBlock(dotNetObject: any, layerId: str
     return await buildJsBuildingFilterBlockGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBuildingFilterBlock(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingFilterBlock(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBuildingFilterBlockGenerated } = await import('./buildingFilterBlock.gb');
-    return await buildDotNetBuildingFilterBlockGenerated(jsObject);
+    return await buildDotNetBuildingFilterBlockGenerated(jsObject, layerId, viewId);
 }

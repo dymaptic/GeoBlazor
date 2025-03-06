@@ -4,7 +4,7 @@ export async function buildJsColorAndIntensity(dotNetObject: any, layerId: strin
     return await buildJsColorAndIntensityGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetColorAndIntensity(jsObject: any): Promise<any> {
+export async function buildDotNetColorAndIntensity(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetColorAndIntensityGenerated } = await import('./colorAndIntensity.gb');
-    return await buildDotNetColorAndIntensityGenerated(jsObject);
+    return await buildDotNetColorAndIntensityGenerated(jsObject, layerId, viewId);
 }

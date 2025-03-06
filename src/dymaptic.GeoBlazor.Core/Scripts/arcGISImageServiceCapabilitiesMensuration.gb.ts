@@ -32,7 +32,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
     
     let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration);
+    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
 }
 
 
-export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
+        jsComponentRef = await buildJsArcGISImageServiceCapabilitiesMensuration(jsObject, layerId, viewId);
+    }
+    
     let dotNetArcGISImageServiceCapabilitiesMensuration: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supports3D)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.supports3D = jsObject.supports3D;
@@ -89,7 +99,7 @@ export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenera
         dotNetArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = jsObject.supportsPointOrCentroid;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArcGISImageServiceCapabilitiesMensuration.id = geoBlazorId;
     }

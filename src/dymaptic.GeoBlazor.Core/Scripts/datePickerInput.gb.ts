@@ -19,7 +19,7 @@ export async function buildJsDatePickerInputGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsDatePickerInput;
     
     let { buildDotNetDatePickerInput } = await import('./datePickerInput');
-    let dnInstantiatedObject = await buildDotNetDatePickerInput(jsDatePickerInput);
+    let dnInstantiatedObject = await buildDotNetDatePickerInput(jsDatePickerInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsDatePickerInputGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetDatePickerInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDatePickerInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDatePickerInput } = await import('./datePickerInput');
+        jsComponentRef = await buildJsDatePickerInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetDatePickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetDatePickerInput.max = jsObject.max;
@@ -64,7 +74,7 @@ export async function buildDotNetDatePickerInputGenerated(jsObject: any): Promis
         dotNetDatePickerInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDatePickerInput.id = geoBlazorId;
     }

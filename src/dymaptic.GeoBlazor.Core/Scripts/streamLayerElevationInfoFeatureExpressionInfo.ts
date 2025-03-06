@@ -4,7 +4,7 @@ export async function buildJsStreamLayerElevationInfoFeatureExpressionInfo(dotNe
     return await buildJsStreamLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./streamLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetStreamLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
+    return await buildDotNetStreamLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
 }

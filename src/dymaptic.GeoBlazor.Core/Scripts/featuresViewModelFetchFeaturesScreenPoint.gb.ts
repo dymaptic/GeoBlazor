@@ -17,7 +17,7 @@ export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelFetchFeaturesScreenPoint;
     
     let { buildDotNetFeaturesViewModelFetchFeaturesScreenPoint } = await import('./featuresViewModelFetchFeaturesScreenPoint');
-    let dnInstantiatedObject = await buildDotNetFeaturesViewModelFetchFeaturesScreenPoint(jsFeaturesViewModelFetchFeaturesScreenPoint);
+    let dnInstantiatedObject = await buildDotNetFeaturesViewModelFetchFeaturesScreenPoint(jsFeaturesViewModelFetchFeaturesScreenPoint, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(
 }
 
 
-export async function buildDotNetFeaturesViewModelFetchFeaturesScreenPointGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesViewModelFetchFeaturesScreenPointGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeaturesViewModelFetchFeaturesScreenPoint } = await import('./featuresViewModelFetchFeaturesScreenPoint');
+        jsComponentRef = await buildJsFeaturesViewModelFetchFeaturesScreenPoint(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeaturesViewModelFetchFeaturesScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.x)) {
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.x = jsObject.x;
@@ -59,7 +69,7 @@ export async function buildDotNetFeaturesViewModelFetchFeaturesScreenPointGenera
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeaturesViewModelFetchFeaturesScreenPoint.id = geoBlazorId;
     }

@@ -34,7 +34,7 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipRampElement;
     
     let { buildDotNetRelationshipRampElement } = await import('./relationshipRampElement');
-    let dnInstantiatedObject = await buildDotNetRelationshipRampElement(jsRelationshipRampElement);
+    let dnInstantiatedObject = await buildDotNetRelationshipRampElement(jsRelationshipRampElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -61,13 +61,23 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetRelationshipRampElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRelationshipRampElement } = await import('./relationshipRampElement');
+        jsComponentRef = await buildJsRelationshipRampElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetRelationshipRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.colors)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -75,7 +85,7 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
     }
     if (hasValue(jsObject.labels)) {
         let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
-        dotNetRelationshipRampElement.labels = await buildDotNetRelationshipLabels(jsObject.labels);
+        dotNetRelationshipRampElement.labels = await buildDotNetRelationshipLabels(jsObject.labels, layerId, viewId);
     }
     if (hasValue(jsObject.focus)) {
         dotNetRelationshipRampElement.focus = jsObject.focus;
@@ -96,7 +106,7 @@ export async function buildDotNetRelationshipRampElementGenerated(jsObject: any)
         dotNetRelationshipRampElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipRampElement.id = geoBlazorId;
     }

@@ -27,7 +27,7 @@ export async function buildJsResultAreaPropertiesExtendGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsResultAreaPropertiesExtend;
     
     let { buildDotNetResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
-    let dnInstantiatedObject = await buildDotNetResultAreaPropertiesExtend(jsResultAreaPropertiesExtend);
+    let dnInstantiatedObject = await buildDotNetResultAreaPropertiesExtend(jsResultAreaPropertiesExtend, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -54,17 +54,27 @@ export async function buildJsResultAreaPropertiesExtendGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetResultAreaPropertiesExtendGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetResultAreaPropertiesExtendGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
+        jsComponentRef = await buildJsResultAreaPropertiesExtend(jsObject, layerId, viewId);
+    }
+    
     let dotNetResultAreaPropertiesExtend: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetGraphicColor } = await import('./graphicColor');
-        dotNetResultAreaPropertiesExtend.color = await buildDotNetGraphicColor(jsObject.color);
+        dotNetResultAreaPropertiesExtend.color = await buildDotNetGraphicColor(jsObject.color, layerId, viewId);
     }
     if (hasValue(jsObject.areaUnit)) {
         dotNetResultAreaPropertiesExtend.areaUnit = jsObject.areaUnit;
@@ -82,7 +92,7 @@ export async function buildDotNetResultAreaPropertiesExtendGenerated(jsObject: a
         dotNetResultAreaPropertiesExtend.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetResultAreaPropertiesExtend.id = geoBlazorId;
     }

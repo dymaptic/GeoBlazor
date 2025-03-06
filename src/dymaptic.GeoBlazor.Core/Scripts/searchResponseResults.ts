@@ -3,7 +3,7 @@ export async function buildJsSearchResponseResults(dotNetObject: any, layerId: s
     return await buildJsSearchResponseResultsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSearchResponseResults(jsObject: any): Promise<any> {
+export async function buildDotNetSearchResponseResults(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSearchResponseResultsGenerated} = await import('./searchResponseResults.gb');
-    return await buildDotNetSearchResponseResultsGenerated(jsObject);
+    return await buildDotNetSearchResponseResultsGenerated(jsObject, layerId, viewId);
 }

@@ -17,7 +17,7 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsFeatureLayerBaseElevationInfoFeatureExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsFeatureLayerBaseElevationInfoFeatureExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
 }
 
 
-export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
+        jsComponentRef = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.expression = jsObject.expression;
@@ -59,7 +69,7 @@ export async function buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionI
         dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo.id = geoBlazorId;
     }

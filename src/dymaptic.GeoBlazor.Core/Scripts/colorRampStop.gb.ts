@@ -24,7 +24,7 @@ export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsColorRampStop;
     
     let { buildDotNetColorRampStop } = await import('./colorRampStop');
-    let dnInstantiatedObject = await buildDotNetColorRampStop(jsColorRampStop);
+    let dnInstantiatedObject = await buildDotNetColorRampStop(jsColorRampStop, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetColorRampStopGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetColorRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorRampStop } = await import('./colorRampStop');
+        jsComponentRef = await buildJsColorRampStop(jsObject, layerId, viewId);
+    }
+    
     let dotNetColorRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -73,7 +83,7 @@ export async function buildDotNetColorRampStopGenerated(jsObject: any): Promise<
         dotNetColorRampStop.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorRampStop.id = geoBlazorId;
     }

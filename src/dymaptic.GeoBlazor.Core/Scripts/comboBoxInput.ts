@@ -4,7 +4,7 @@ export async function buildJsComboBoxInput(dotNetObject: any, layerId: string | 
     return await buildJsComboBoxInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetComboBoxInput(jsObject: any): Promise<any> {
+export async function buildDotNetComboBoxInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetComboBoxInputGenerated } = await import('./comboBoxInput.gb');
-    return await buildDotNetComboBoxInputGenerated(jsObject);
+    return await buildDotNetComboBoxInputGenerated(jsObject, layerId, viewId);
 }

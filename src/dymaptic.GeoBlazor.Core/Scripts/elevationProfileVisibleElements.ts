@@ -4,7 +4,7 @@ export async function buildJsElevationProfileVisibleElements(dotNetObject: any, 
     return await buildJsElevationProfileVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetElevationProfileVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetElevationProfileVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetElevationProfileVisibleElementsGenerated } = await import('./elevationProfileVisibleElements.gb');
-    return await buildDotNetElevationProfileVisibleElementsGenerated(jsObject);
+    return await buildDotNetElevationProfileVisibleElementsGenerated(jsObject, layerId, viewId);
 }

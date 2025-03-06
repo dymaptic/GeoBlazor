@@ -4,7 +4,7 @@ export async function buildJsArrayElementType(dotNetObject: any, layerId: string
     return await buildJsArrayElementTypeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetArrayElementType(jsObject: any): Promise<any> {
+export async function buildDotNetArrayElementType(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetArrayElementTypeGenerated } = await import('./arrayElementType.gb');
-    return await buildDotNetArrayElementTypeGenerated(jsObject);
+    return await buildDotNetArrayElementTypeGenerated(jsObject, layerId, viewId);
 }

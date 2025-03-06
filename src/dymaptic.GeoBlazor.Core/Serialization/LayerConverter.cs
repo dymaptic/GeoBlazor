@@ -56,6 +56,10 @@ internal class LayerConverter : JsonConverter<Layer>
                     return JsonSerializer.Deserialize<WMSLayer>(ref cloneReader, newOptions);
                 case "wmts":
                     return JsonSerializer.Deserialize<WMTSLayer>(ref cloneReader, newOptions);
+                case "unsupported":
+                    return JsonSerializer.Deserialize<UnsupportedLayer>(ref cloneReader, newOptions);
+                case "unknown":
+                    return JsonSerializer.Deserialize<UnknownLayer>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:

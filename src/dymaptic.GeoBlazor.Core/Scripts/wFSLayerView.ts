@@ -15,7 +15,7 @@ export async function buildJsWFSLayerView(dotNetObject: any, layerId: string | n
     return await buildJsWFSLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWFSLayerView(jsObject: any): Promise<any> {
+export async function buildDotNetWFSLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSLayerViewGenerated } = await import('./wFSLayerView.gb');
-    return await buildDotNetWFSLayerViewGenerated(jsObject);
+    return await buildDotNetWFSLayerViewGenerated(jsObject, layerId, viewId);
 }

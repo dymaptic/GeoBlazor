@@ -26,7 +26,7 @@ export async function buildJsEditResultsObjectGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsEditResultsObject;
     
     let { buildDotNetEditResultsObject } = await import('./editResultsObject');
-    let dnInstantiatedObject = await buildDotNetEditResultsObject(jsEditResultsObject);
+    let dnInstantiatedObject = await buildDotNetEditResultsObject(jsEditResultsObject, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,31 +53,41 @@ export async function buildJsEditResultsObjectGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetEditResultsObjectGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetEditResultsObjectGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsEditResultsObject } = await import('./editResultsObject');
+        jsComponentRef = await buildJsEditResultsObject(jsObject, layerId, viewId);
+    }
+    
     let dotNetEditResultsObject: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.adds)) {
         let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
-        dotNetEditResultsObject.adds = await Promise.all(jsObject.adds.map(async i => await buildDotNetNamedObjectEditResults(i)));
+        dotNetEditResultsObject.adds = await Promise.all(jsObject.adds.map(async i => await buildDotNetNamedObjectEditResults(i, layerId, viewId)));
     }
     if (hasValue(jsObject.deletes)) {
         let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
-        dotNetEditResultsObject.deletes = await Promise.all(jsObject.deletes.map(async i => await buildDotNetNamedObjectEditResults(i)));
+        dotNetEditResultsObject.deletes = await Promise.all(jsObject.deletes.map(async i => await buildDotNetNamedObjectEditResults(i, layerId, viewId)));
     }
     if (hasValue(jsObject.updates)) {
         let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
-        dotNetEditResultsObject.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetNamedObjectEditResults(i)));
+        dotNetEditResultsObject.updates = await Promise.all(jsObject.updates.map(async i => await buildDotNetNamedObjectEditResults(i, layerId, viewId)));
     }
     if (hasValue(jsObject.typeName)) {
         dotNetEditResultsObject.typeName = jsObject.typeName;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetEditResultsObject.id = geoBlazorId;
     }

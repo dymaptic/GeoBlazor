@@ -20,7 +20,7 @@ export async function buildJsElevationSourceGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsElevationSource;
     
     let { buildDotNetElevationSource } = await import('./elevationSource');
-    let dnInstantiatedObject = await buildDotNetElevationSource(jsElevationSource);
+    let dnInstantiatedObject = await buildDotNetElevationSource(jsElevationSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsElevationSourceGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetElevationSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsElevationSource } = await import('./elevationSource');
+        jsComponentRef = await buildJsElevationSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetElevationSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.lod)) {
         dotNetElevationSource.lod = jsObject.lod;
@@ -65,7 +75,7 @@ export async function buildDotNetElevationSourceGenerated(jsObject: any): Promis
         dotNetElevationSource.url = jsObject.url;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetElevationSource.id = geoBlazorId;
     }

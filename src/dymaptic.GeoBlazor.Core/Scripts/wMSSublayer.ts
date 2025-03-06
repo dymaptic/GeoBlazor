@@ -5,7 +5,7 @@ export async function buildJsWMSSublayer(dotNetObject: any, layerId: string | nu
     return await buildJsWMSSublayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWMSSublayer(jsObject: any): Promise<any> {
+export async function buildDotNetWMSSublayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWMSSublayerGenerated} = await import('./wMSSublayer.gb');
-    return await buildDotNetWMSSublayerGenerated(jsObject);
+    return await buildDotNetWMSSublayerGenerated(jsObject, layerId, viewId);
 }

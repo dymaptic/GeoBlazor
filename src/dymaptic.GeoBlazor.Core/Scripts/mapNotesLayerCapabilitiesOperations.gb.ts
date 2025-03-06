@@ -14,7 +14,7 @@ export async function buildJsMapNotesLayerCapabilitiesOperationsGenerated(dotNet
     arcGisObjectRefs[dotNetObject.id] = jsMapNotesLayerCapabilitiesOperations;
     
     let { buildDotNetMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetMapNotesLayerCapabilitiesOperations(jsMapNotesLayerCapabilitiesOperations);
+    let dnInstantiatedObject = await buildDotNetMapNotesLayerCapabilitiesOperations(jsMapNotesLayerCapabilitiesOperations, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsMapNotesLayerCapabilitiesOperationsGenerated(dotNet
 }
 
 
-export async function buildDotNetMapNotesLayerCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMapNotesLayerCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
+        jsComponentRef = await buildJsMapNotesLayerCapabilitiesOperations(jsObject, layerId, viewId);
+    }
+    
     let dotNetMapNotesLayerCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsMapNotesEditing)) {
         dotNetMapNotesLayerCapabilitiesOperations.supportsMapNotesEditing = jsObject.supportsMapNotesEditing;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMapNotesLayerCapabilitiesOperations.id = geoBlazorId;
     }

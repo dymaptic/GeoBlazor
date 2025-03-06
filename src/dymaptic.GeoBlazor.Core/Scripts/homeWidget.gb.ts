@@ -125,7 +125,7 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        return await buildDotNetHomeViewModel(this.widget.viewModel);
+        return await buildDotNetHomeViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -207,7 +207,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsHome;
     
     let { buildDotNetHomeWidget } = await import('./homeWidget');
-    let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
+    let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -234,13 +234,23 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHomeWidget } = await import('./homeWidget');
+        jsComponentRef = await buildJsHomeWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetHomeWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -248,7 +258,7 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel);
+        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.viewpoint)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
@@ -273,7 +283,7 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any
         dotNetHomeWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHomeWidget.id = geoBlazorId;
     }

@@ -17,7 +17,7 @@ export async function buildJsViewingGenerated(dotNetObject: any, layerId: string
     arcGisObjectRefs[dotNetObject.id] = jsViewing;
     
     let { buildDotNetViewing } = await import('./viewing');
-    let dnInstantiatedObject = await buildDotNetViewing(jsViewing);
+    let dnInstantiatedObject = await buildDotNetViewing(jsViewing, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,20 +44,30 @@ export async function buildJsViewingGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetViewingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetViewingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsViewing } = await import('./viewing');
+        jsComponentRef = await buildJsViewing(jsObject, layerId, viewId);
+    }
+    
     let dotNetViewing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.search)) {
         let { buildDotNetSearch } = await import('./search');
-        dotNetViewing.search = await buildDotNetSearch(jsObject.search);
+        dotNetViewing.search = await buildDotNetSearch(jsObject.search, layerId, viewId);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetViewing.id = geoBlazorId;
     }

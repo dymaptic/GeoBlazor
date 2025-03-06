@@ -6,7 +6,7 @@ export async function buildJsPortalUserFetchItemsParams(dotNetObject: any, layer
     return await buildJsPortalUserFetchItemsParamsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalUserFetchItemsParams(jsObject: any): Promise<any> {
+export async function buildDotNetPortalUserFetchItemsParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalUserFetchItemsParamsGenerated} = await import('./portalUserFetchItemsParams.gb');
-    return await buildDotNetPortalUserFetchItemsParamsGenerated(jsObject);
+    return await buildDotNetPortalUserFetchItemsParamsGenerated(jsObject, layerId, viewId);
 }

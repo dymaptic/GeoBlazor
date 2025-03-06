@@ -53,8 +53,18 @@ export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTheme } = await import('./theme');
+        jsComponentRef = await buildJsTheme(jsObject);
+    }
+    
     let dotNetTheme: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.accentColor)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -65,7 +75,7 @@ export async function buildDotNetThemeGenerated(jsObject: any): Promise<any> {
         dotNetTheme.textColor = buildDotNetMapColor(jsObject.textColor);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTheme.id = geoBlazorId;
     }

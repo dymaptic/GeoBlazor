@@ -18,7 +18,7 @@ export async function buildJsHitTestResultGroundGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsHitTestResultGround;
     
     let { buildDotNetHitTestResultGround } = await import('./hitTestResultGround');
-    let dnInstantiatedObject = await buildDotNetHitTestResultGround(jsHitTestResultGround);
+    let dnInstantiatedObject = await buildDotNetHitTestResultGround(jsHitTestResultGround, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,13 +45,23 @@ export async function buildJsHitTestResultGroundGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHitTestResultGroundGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHitTestResultGround } = await import('./hitTestResultGround');
+        jsComponentRef = await buildJsHitTestResultGround(jsObject, layerId, viewId);
+    }
+    
     let dotNetHitTestResultGround: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mapPoint)) {
         let { buildDotNetPoint } = await import('./point');
@@ -61,7 +71,7 @@ export async function buildDotNetHitTestResultGroundGenerated(jsObject: any): Pr
         dotNetHitTestResultGround.distance = jsObject.distance;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHitTestResultGround.id = geoBlazorId;
     }

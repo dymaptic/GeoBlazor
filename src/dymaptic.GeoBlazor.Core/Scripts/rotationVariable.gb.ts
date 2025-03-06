@@ -32,7 +32,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
     
     let { buildDotNetRotationVariable } = await import('./rotationVariable');
-    let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable);
+    let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,17 +59,27 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRotationVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRotationVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRotationVariable } = await import('./rotationVariable');
+        jsComponentRef = await buildJsRotationVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetRotationVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
     if (hasValue(jsObject.axis)) {
         dotNetRotationVariable.axis = jsObject.axis;
@@ -90,7 +100,7 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any): Promi
         dotNetRotationVariable.valueExpressionTitle = jsObject.valueExpressionTitle;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRotationVariable.id = geoBlazorId;
     }

@@ -22,7 +22,7 @@ export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jssupportExpressionInfo;
     
     let { buildDotNetSupportExpressionInfo } = await import('./supportExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetSupportExpressionInfo(jssupportExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetSupportExpressionInfo(jssupportExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,13 +49,23 @@ export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSupportExpressionInfo } = await import('./supportExpressionInfo');
+        jsComponentRef = await buildJsSupportExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetSupportExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetSupportExpressionInfo.expression = jsObject.expression;
@@ -67,7 +77,7 @@ export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any): 
         dotNetSupportExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSupportExpressionInfo.id = geoBlazorId;
     }

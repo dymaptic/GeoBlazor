@@ -18,7 +18,7 @@ export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsInclusionModeDefinition;
     
     let { buildDotNetInclusionModeDefinition } = await import('./inclusionModeDefinition');
-    let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition);
+    let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,23 +45,33 @@ export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsInclusionModeDefinition } = await import('./inclusionModeDefinition');
+        jsComponentRef = await buildJsInclusionModeDefinition(jsObject, layerId, viewId);
+    }
+    
     let dotNetInclusionModeDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.namedTypeDefinitions)) {
         let { buildDotNetLayerInclusionDefinition } = await import('./layerInclusionDefinition');
-        dotNetInclusionModeDefinition.namedTypeDefinitions = await buildDotNetLayerInclusionDefinition(jsObject.namedTypeDefinitions);
+        dotNetInclusionModeDefinition.namedTypeDefinitions = await buildDotNetLayerInclusionDefinition(jsObject.namedTypeDefinitions, layerId, viewId);
     }
     if (hasValue(jsObject.generateAllSublayers)) {
         dotNetInclusionModeDefinition.generateAllSublayers = jsObject.generateAllSublayers;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetInclusionModeDefinition.id = geoBlazorId;
     }

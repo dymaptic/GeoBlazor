@@ -4,7 +4,7 @@ export async function buildJsRelationshipTypeEndPoints(dotNetObject: any, layerI
     return await buildJsRelationshipTypeEndPointsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRelationshipTypeEndPoints(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipTypeEndPoints(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRelationshipTypeEndPointsGenerated } = await import('./relationshipTypeEndPoints.gb');
-    return await buildDotNetRelationshipTypeEndPointsGenerated(jsObject);
+    return await buildDotNetRelationshipTypeEndPointsGenerated(jsObject, layerId, viewId);
 }

@@ -33,7 +33,7 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
         }
         
         let { buildDotNetGeographicTransformationStep } = await import('./geographicTransformationStep');
-        return await Promise.all(this.component.steps.map(async i => await buildDotNetGeographicTransformationStep(i)));
+        return await Promise.all(this.component.steps.map(async i => await buildDotNetGeographicTransformationStep(i, this.layerId, this.viewId)));
     }
     
     async setSteps(value: any): Promise<void> {

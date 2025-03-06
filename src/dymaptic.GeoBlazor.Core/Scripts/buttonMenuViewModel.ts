@@ -4,7 +4,7 @@ export async function buildJsButtonMenuViewModel(dotNetObject: any, layerId: str
     return await buildJsButtonMenuViewModelGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetButtonMenuViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetButtonMenuViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetButtonMenuViewModelGenerated } = await import('./buttonMenuViewModel.gb');
-    return await buildDotNetButtonMenuViewModelGenerated(jsObject);
+    return await buildDotNetButtonMenuViewModelGenerated(jsObject, layerId, viewId);
 }

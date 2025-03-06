@@ -146,8 +146,18 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLocateViewModel } = await import('./locateViewModel');
+        jsComponentRef = await buildJsLocateViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetLocateViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -176,7 +186,7 @@ export async function buildDotNetLocateViewModelGenerated(jsObject: any, layerId
         dotNetLocateViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLocateViewModel.id = geoBlazorId;
     }

@@ -37,7 +37,7 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsActionButton;
     
     let { buildDotNetActionButton } = await import('./actionButton');
-    let dnInstantiatedObject = await buildDotNetActionButton(jsActionButton);
+    let dnInstantiatedObject = await buildDotNetActionButton(jsActionButton, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -64,13 +64,23 @@ export async function buildJsActionButtonGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetActionButtonGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsActionButton } = await import('./actionButton');
+        jsComponentRef = await buildJsActionButton(jsObject, layerId, viewId);
+    }
+    
     let dotNetActionButton: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.id)) {
         dotNetActionButton.actionId = jsObject.id;
@@ -100,7 +110,7 @@ export async function buildDotNetActionButtonGenerated(jsObject: any): Promise<a
         dotNetActionButton.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetActionButton.id = geoBlazorId;
     }

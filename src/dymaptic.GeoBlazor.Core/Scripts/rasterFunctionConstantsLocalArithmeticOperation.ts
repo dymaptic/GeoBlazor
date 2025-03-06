@@ -4,7 +4,7 @@ export async function buildJsRasterFunctionConstantsLocalArithmeticOperation(dot
     return await buildJsRasterFunctionConstantsLocalArithmeticOperationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperation(jsObject: any): Promise<any> {
+export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterFunctionConstantsLocalArithmeticOperationGenerated } = await import('./rasterFunctionConstantsLocalArithmeticOperation.gb');
-    return await buildDotNetRasterFunctionConstantsLocalArithmeticOperationGenerated(jsObject);
+    return await buildDotNetRasterFunctionConstantsLocalArithmeticOperationGenerated(jsObject, layerId, viewId);
 }

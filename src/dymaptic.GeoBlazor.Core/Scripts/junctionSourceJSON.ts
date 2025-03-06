@@ -4,7 +4,7 @@ export async function buildJsJunctionSourceJSON(dotNetObject: any, layerId: stri
     return await buildJsJunctionSourceJSONGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetJunctionSourceJSON(jsObject: any): Promise<any> {
+export async function buildDotNetJunctionSourceJSON(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetJunctionSourceJSONGenerated } = await import('./junctionSourceJSON.gb');
-    return await buildDotNetJunctionSourceJSONGenerated(jsObject);
+    return await buildDotNetJunctionSourceJSONGenerated(jsObject, layerId, viewId);
 }

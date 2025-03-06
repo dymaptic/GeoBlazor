@@ -3,7 +3,7 @@ export async function buildJsGroundView(dotNetObject: any, layerId: string | nul
     return await buildJsGroundViewGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGroundView(jsObject: any): Promise<any> {
+export async function buildDotNetGroundView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGroundViewGenerated} = await import('./groundView.gb');
-    return await buildDotNetGroundViewGenerated(jsObject);
+    return await buildDotNetGroundViewGenerated(jsObject, layerId, viewId);
 }

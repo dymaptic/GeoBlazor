@@ -4,7 +4,7 @@ export async function buildJsISceneService(dotNetObject: any, layerId: string | 
     return await buildJsISceneServiceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetISceneService(jsObject: any): Promise<any> {
+export async function buildDotNetISceneService(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetISceneServiceGenerated } = await import('./iSceneService.gb');
-    return await buildDotNetISceneServiceGenerated(jsObject);
+    return await buildDotNetISceneServiceGenerated(jsObject, layerId, viewId);
 }

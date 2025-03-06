@@ -24,7 +24,7 @@ export async function buildJsOGCFeatureLayerElevationInfoGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsOGCFeatureLayerElevationInfo;
     
     let { buildDotNetOGCFeatureLayerElevationInfo } = await import('./oGCFeatureLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetOGCFeatureLayerElevationInfo(jsOGCFeatureLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetOGCFeatureLayerElevationInfo(jsOGCFeatureLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsOGCFeatureLayerElevationInfoGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetOGCFeatureLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOGCFeatureLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOGCFeatureLayerElevationInfo } = await import('./oGCFeatureLayerElevationInfo');
+        jsComponentRef = await buildJsOGCFeatureLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetOGCFeatureLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo } = await import('./oGCFeatureLayerElevationInfoFeatureExpressionInfo');
-        dotNetOGCFeatureLayerElevationInfo.featureExpressionInfo = await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+        dotNetOGCFeatureLayerElevationInfo.featureExpressionInfo = await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
     if (hasValue(jsObject.mode)) {
         dotNetOGCFeatureLayerElevationInfo.mode = jsObject.mode;
@@ -73,7 +83,7 @@ export async function buildDotNetOGCFeatureLayerElevationInfoGenerated(jsObject:
         dotNetOGCFeatureLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOGCFeatureLayerElevationInfo.id = geoBlazorId;
     }

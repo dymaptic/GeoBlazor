@@ -4,7 +4,7 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSON(d
     return await buildJsVersionManagementViewModelVersionInfoExtendedJSONGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsObject: any): Promise<any> {
+export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSONGenerated } = await import('./versionManagementViewModelVersionInfoExtendedJSON.gb');
-    return await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONGenerated(jsObject);
+    return await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONGenerated(jsObject, layerId, viewId);
 }

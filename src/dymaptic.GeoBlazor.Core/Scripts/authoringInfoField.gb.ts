@@ -24,7 +24,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
     
     let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1);
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
+        jsComponentRef = await buildJsAuthoringInfoField(jsObject, layerId, viewId);
+    }
+    
     let dotNetAuthoringInfoField: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i)));
+        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i, layerId, viewId)));
     }
     if (hasValue(jsObject.field)) {
         dotNetAuthoringInfoField.field = jsObject.field;
@@ -73,7 +83,7 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Pro
         dotNetAuthoringInfoField.normalizationField = jsObject.normalizationField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoField.id = geoBlazorId;
     }

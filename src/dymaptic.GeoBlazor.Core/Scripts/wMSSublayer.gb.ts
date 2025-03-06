@@ -53,7 +53,7 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsWMSSublayer;
     
     let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-    let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer);
+    let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -80,13 +80,23 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWMSSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWMSSublayer } = await import('./wMSSublayer');
+        jsComponentRef = await buildJsWMSSublayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetWMSSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -132,7 +142,7 @@ export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<an
         dotNetWMSSublayer.wMSSublayerId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWMSSublayer.id = geoBlazorId;
     }

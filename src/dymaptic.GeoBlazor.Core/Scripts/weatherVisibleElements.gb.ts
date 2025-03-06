@@ -14,7 +14,7 @@ export async function buildJsWeatherVisibleElementsGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsWeatherVisibleElements;
     
     let { buildDotNetWeatherVisibleElements } = await import('./weatherVisibleElements');
-    let dnInstantiatedObject = await buildDotNetWeatherVisibleElements(jsWeatherVisibleElements);
+    let dnInstantiatedObject = await buildDotNetWeatherVisibleElements(jsWeatherVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsWeatherVisibleElementsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetWeatherVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWeatherVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWeatherVisibleElements } = await import('./weatherVisibleElements');
+        jsComponentRef = await buildJsWeatherVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetWeatherVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.header)) {
         dotNetWeatherVisibleElements.header = jsObject.header;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWeatherVisibleElements.id = geoBlazorId;
     }

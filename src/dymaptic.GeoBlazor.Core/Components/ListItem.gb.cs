@@ -771,8 +771,8 @@ public partial class ListItem
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "actionsSections", value);
+        await JsComponentReference.InvokeVoidAsync("setActionsSections", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -861,8 +861,8 @@ public partial class ListItem
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layer", value);
+        await JsComponentReference.InvokeVoidAsync("setLayer", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

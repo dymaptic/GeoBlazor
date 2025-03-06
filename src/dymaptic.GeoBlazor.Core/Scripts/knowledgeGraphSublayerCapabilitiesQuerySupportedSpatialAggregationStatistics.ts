@@ -4,7 +4,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
     return await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject: any): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.gb');
-    return await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject);
+    return await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject, layerId, viewId);
 }

@@ -43,7 +43,7 @@ export async function buildJsDaylightViewModelGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsDaylightViewModel;
     
     let { buildDotNetDaylightViewModel } = await import('./daylightViewModel');
-    let dnInstantiatedObject = await buildDotNetDaylightViewModel(jsDaylightViewModel);
+    let dnInstantiatedObject = await buildDotNetDaylightViewModel(jsDaylightViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -70,13 +70,23 @@ export async function buildJsDaylightViewModelGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetDaylightViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDaylightViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDaylightViewModel } = await import('./daylightViewModel');
+        jsComponentRef = await buildJsDaylightViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetDaylightViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.currentSeason)) {
         dotNetDaylightViewModel.currentSeason = jsObject.currentSeason;
@@ -106,7 +116,7 @@ export async function buildDotNetDaylightViewModelGenerated(jsObject: any): Prom
         dotNetDaylightViewModel.yearPlaying = jsObject.yearPlaying;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDaylightViewModel.id = geoBlazorId;
     }

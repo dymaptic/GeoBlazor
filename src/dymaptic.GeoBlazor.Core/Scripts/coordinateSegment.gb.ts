@@ -20,7 +20,7 @@ export async function buildJsCoordinateSegmentGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateSegment;
     
     let { buildDotNetCoordinateSegment } = await import('./coordinateSegment');
-    let dnInstantiatedObject = await buildDotNetCoordinateSegment(jsCoordinateSegment);
+    let dnInstantiatedObject = await buildDotNetCoordinateSegment(jsCoordinateSegment, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsCoordinateSegmentGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetCoordinateSegmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCoordinateSegmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCoordinateSegment } = await import('./coordinateSegment');
+        jsComponentRef = await buildJsCoordinateSegment(jsObject, layerId, viewId);
+    }
+    
     let dotNetCoordinateSegment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.alias)) {
         dotNetCoordinateSegment.alias = jsObject.alias;
@@ -65,7 +75,7 @@ export async function buildDotNetCoordinateSegmentGenerated(jsObject: any): Prom
         dotNetCoordinateSegment.searchPattern = jsObject.searchPattern;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCoordinateSegment.id = geoBlazorId;
     }

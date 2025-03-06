@@ -24,7 +24,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
     
     let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-    let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass);
+    let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueClassGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
+        jsComponentRef = await buildJsUniqueValueClass(jsObject, layerId, viewId);
+    }
+    
     let dotNetUniqueValueClass: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -65,13 +75,13 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     }
     if (hasValue(jsObject.values)) {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
-        dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i)));
+        dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i, layerId, viewId)));
     }
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueClass.label = jsObject.label;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUniqueValueClass.id = geoBlazorId;
     }

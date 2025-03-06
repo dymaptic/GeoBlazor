@@ -32,7 +32,7 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
-        return await buildDotNetHighlightHandle(result);
+        return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
     }
 
     async queryAggregates(query: any,
@@ -83,7 +83,7 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect);
+        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -97,7 +97,7 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter);
+        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
     }
     
     async setFilter(value: any): Promise<void> {
@@ -111,7 +111,7 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
@@ -174,7 +174,7 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerView;
     
     let { buildDotNetWFSLayerView } = await import('./wFSLayerView');
-    let dnInstantiatedObject = await buildDotNetWFSLayerView(jsWFSLayerView);
+    let dnInstantiatedObject = await buildDotNetWFSLayerView(jsWFSLayerView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -201,25 +201,35 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetWFSLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWFSLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWFSLayerView } = await import('./wFSLayerView');
+        jsComponentRef = await buildJsWFSLayerView(jsObject, layerId, viewId);
+    }
+    
     let dotNetWFSLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetWFSLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        dotNetWFSLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetWFSLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+        dotNetWFSLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
     }
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetWFSLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+        dotNetWFSLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
     }
     if (hasValue(jsObject.availableFields)) {
         dotNetWFSLayerView.availableFields = jsObject.availableFields;
@@ -261,7 +271,7 @@ export async function buildDotNetWFSLayerViewGenerated(jsObject: any): Promise<a
         dotNetWFSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWFSLayerView.id = geoBlazorId;
     }

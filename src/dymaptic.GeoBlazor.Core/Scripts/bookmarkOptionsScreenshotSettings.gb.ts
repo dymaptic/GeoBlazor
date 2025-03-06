@@ -25,7 +25,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
     
     let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings);
+    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,17 +52,27 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
 }
 
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
+        jsComponentRef = await buildJsBookmarkOptionsScreenshotSettings(jsObject, layerId, viewId);
+    }
+    
     let dotNetBookmarkOptionsScreenshotSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.area)) {
         let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-        dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area);
+        dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area, layerId, viewId);
     }
     if (hasValue(jsObject.height)) {
         dotNetBookmarkOptionsScreenshotSettings.height = jsObject.height;
@@ -71,7 +81,7 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
         dotNetBookmarkOptionsScreenshotSettings.width = jsObject.width;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBookmarkOptionsScreenshotSettings.id = geoBlazorId;
     }

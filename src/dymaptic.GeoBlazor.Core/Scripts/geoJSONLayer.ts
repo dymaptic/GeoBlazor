@@ -45,7 +45,7 @@ export async function buildJsGeoJSONLayer(dotNetObject: any, layerId: string | n
     return await buildJsGeoJSONLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGeoJSONLayer(jsObject: any): Promise<any> {
+export async function buildDotNetGeoJSONLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetGeoJSONLayerGenerated} = await import('./geoJSONLayer.gb');
-    return await buildDotNetGeoJSONLayerGenerated(jsObject);
+    return await buildDotNetGeoJSONLayerGenerated(jsObject, layerId, viewId);
 }

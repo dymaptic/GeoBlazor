@@ -23,7 +23,7 @@ export async function buildJsPrimitiveOverrideValueExpressionInfoGenerated(dotNe
     arcGisObjectRefs[dotNetObject.id] = jsPrimitiveOverrideValueExpressionInfo;
     
     let { buildDotNetPrimitiveOverrideValueExpressionInfo } = await import('./primitiveOverrideValueExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetPrimitiveOverrideValueExpressionInfo(jsPrimitiveOverrideValueExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetPrimitiveOverrideValueExpressionInfo(jsPrimitiveOverrideValueExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsPrimitiveOverrideValueExpressionInfoGenerated(dotNe
 }
 
 
-export async function buildDotNetPrimitiveOverrideValueExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPrimitiveOverrideValueExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPrimitiveOverrideValueExpressionInfo } = await import('./primitiveOverrideValueExpressionInfo');
+        jsComponentRef = await buildJsPrimitiveOverrideValueExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetPrimitiveOverrideValueExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetPrimitiveOverrideValueExpressionInfo.expression = jsObject.expression;
@@ -74,7 +84,7 @@ export async function buildDotNetPrimitiveOverrideValueExpressionInfoGenerated(j
         dotNetPrimitiveOverrideValueExpressionInfo.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPrimitiveOverrideValueExpressionInfo.id = geoBlazorId;
     }

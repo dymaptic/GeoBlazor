@@ -4,7 +4,7 @@ export async function buildJsFeaturesViewModelTriggerActionEvent(dotNetObject: a
     return await buildJsFeaturesViewModelTriggerActionEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeaturesViewModelTriggerActionEvent(jsObject: any): Promise<any> {
+export async function buildDotNetFeaturesViewModelTriggerActionEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeaturesViewModelTriggerActionEventGenerated } = await import('./featuresViewModelTriggerActionEvent.gb');
-    return await buildDotNetFeaturesViewModelTriggerActionEventGenerated(jsObject);
+    return await buildDotNetFeaturesViewModelTriggerActionEventGenerated(jsObject, layerId, viewId);
 }

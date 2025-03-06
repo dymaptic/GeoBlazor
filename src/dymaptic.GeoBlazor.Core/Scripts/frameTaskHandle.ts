@@ -15,7 +15,7 @@ export async function buildJsFrameTaskHandle(dotNetObject: any, layerId: string 
     return await buildJsFrameTaskHandleGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFrameTaskHandle(jsObject: any): Promise<any> {
+export async function buildDotNetFrameTaskHandle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFrameTaskHandleGenerated } = await import('./frameTaskHandle.gb');
-    return await buildDotNetFrameTaskHandleGenerated(jsObject);
+    return await buildDotNetFrameTaskHandleGenerated(jsObject, layerId, viewId);
 }

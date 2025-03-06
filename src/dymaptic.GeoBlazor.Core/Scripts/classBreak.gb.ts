@@ -20,7 +20,7 @@ export async function buildJsClassBreakGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsClassBreak;
     
     let { buildDotNetClassBreak } = await import('./classBreak');
-    let dnInstantiatedObject = await buildDotNetClassBreak(jsClassBreak);
+    let dnInstantiatedObject = await buildDotNetClassBreak(jsClassBreak, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsClassBreakGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetClassBreakGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetClassBreakGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsClassBreak } = await import('./classBreak');
+        jsComponentRef = await buildJsClassBreak(jsObject, layerId, viewId);
+    }
+    
     let dotNetClassBreak: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.label)) {
         dotNetClassBreak.label = jsObject.label;
@@ -65,7 +75,7 @@ export async function buildDotNetClassBreakGenerated(jsObject: any): Promise<any
         dotNetClassBreak.minValue = jsObject.minValue;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetClassBreak.id = geoBlazorId;
     }

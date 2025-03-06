@@ -14,7 +14,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
     let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesMetadata } = await import('./capabilitiesMetadata');
+        jsComponentRef = await buildJsCapabilitiesMetadata(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesMetadata: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsAdvancedFieldProperties)) {
         dotNetCapabilitiesMetadata.supportsAdvancedFieldProperties = jsObject.supportsAdvancedFieldProperties;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesMetadata.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsWhenNode(dotNetObject: any, layerId: string | null,
     return await buildJsWhenNodeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWhenNode(jsObject: any): Promise<any> {
+export async function buildDotNetWhenNode(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWhenNodeGenerated } = await import('./whenNode.gb');
-    return await buildDotNetWhenNodeGenerated(jsObject);
+    return await buildDotNetWhenNodeGenerated(jsObject, layerId, viewId);
 }

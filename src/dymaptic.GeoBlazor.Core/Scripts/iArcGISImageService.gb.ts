@@ -23,7 +23,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         jsArcGISImageService.pixelFilter = async (pixelData) => {
             let { buildDotNetPixelData } = await import('./pixelData');
-            let dnPixelData = await buildDotNetPixelData(pixelData);
+            let dnPixelData = await buildDotNetPixelData(pixelData, layerId, viewId);
 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
@@ -123,16 +123,26 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIArcGISImageService } = await import('./iArcGISImageService');
+        jsComponentRef = await buildJsIArcGISImageService(jsObject, layerId, viewId);
+    }
+    
     let dotNetIArcGISImageService: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.capabilities)) {
         let { buildDotNetArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
-        dotNetIArcGISImageService.capabilities = await buildDotNetArcGISImageServiceCapabilities(jsObject.capabilities);
+        dotNetIArcGISImageService.capabilities = await buildDotNetArcGISImageServiceCapabilities(jsObject.capabilities, layerId, viewId);
     }
     if (hasValue(jsObject.defaultMosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
-        dotNetIArcGISImageService.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule);
+        dotNetIArcGISImageService.defaultMosaicRule = await buildDotNetMosaicRule(jsObject.defaultMosaicRule, layerId, viewId);
     }
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
@@ -140,15 +150,15 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetIArcGISImageService.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+        dotNetIArcGISImageService.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
-        dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+        dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule, layerId, viewId);
     }
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-        dotNetIArcGISImageService.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
+        dotNetIArcGISImageService.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset, layerId, viewId);
     }
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
@@ -156,11 +166,11 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     }
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetIArcGISImageService.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
+        dotNetIArcGISImageService.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction, layerId, viewId);
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+        dotNetIArcGISImageService.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
     }
     if (hasValue(jsObject.bandIds)) {
         dotNetIArcGISImageService.bandIds = jsObject.bandIds;
@@ -229,7 +239,7 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         dotNetIArcGISImageService.version = jsObject.version;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIArcGISImageService.id = geoBlazorId;
     }

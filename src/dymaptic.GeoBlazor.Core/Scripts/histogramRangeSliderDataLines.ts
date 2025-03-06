@@ -4,7 +4,7 @@ export async function buildJsHistogramRangeSliderDataLines(dotNetObject: any, la
     return await buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHistogramRangeSliderDataLines(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramRangeSliderDataLines(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHistogramRangeSliderDataLinesGenerated } = await import('./histogramRangeSliderDataLines.gb');
-    return await buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject);
+    return await buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject, layerId, viewId);
 }

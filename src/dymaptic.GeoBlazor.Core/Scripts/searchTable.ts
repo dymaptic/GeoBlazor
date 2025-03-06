@@ -4,7 +4,7 @@ export async function buildJsSearchTable(dotNetObject: any, layerId: string | nu
     return await buildJsSearchTableGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSearchTable(jsObject: any): Promise<any> {
+export async function buildDotNetSearchTable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSearchTableGenerated } = await import('./searchTable.gb');
-    return await buildDotNetSearchTableGenerated(jsObject);
+    return await buildDotNetSearchTableGenerated(jsObject, layerId, viewId);
 }

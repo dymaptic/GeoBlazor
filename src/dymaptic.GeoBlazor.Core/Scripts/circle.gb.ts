@@ -173,7 +173,7 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
     arcGisObjectRefs[dotNetObject.id] = jsCircle;
     
     let { buildDotNetCircle } = await import('./circle');
-    let dnInstantiatedObject = await buildDotNetCircle(jsCircle);
+    let dnInstantiatedObject = await buildDotNetCircle(jsCircle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -200,13 +200,23 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCircleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCircle } = await import('./circle');
+        jsComponentRef = await buildJsCircle(jsObject, layerId, viewId);
+    }
+    
     let dotNetCircle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.center)) {
         let { buildDotNetPoint } = await import('./point');
@@ -254,7 +264,7 @@ export async function buildDotNetCircleGenerated(jsObject: any): Promise<any> {
         dotNetCircle.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCircle.id = geoBlazorId;
     }

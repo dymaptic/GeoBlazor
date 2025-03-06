@@ -15,7 +15,7 @@ export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;
     
     let { buildDotNetITablesMixin } = await import('./iTablesMixin');
-    let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin);
+    let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,16 +42,26 @@ export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetITablesMixinGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetITablesMixinGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsITablesMixin } = await import('./iTablesMixin');
+        jsComponentRef = await buildJsITablesMixin(jsObject, layerId, viewId);
+    }
+    
     let dotNetITablesMixin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetITablesMixin.id = geoBlazorId;
     }

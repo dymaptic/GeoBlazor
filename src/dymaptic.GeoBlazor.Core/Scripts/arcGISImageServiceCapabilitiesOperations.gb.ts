@@ -65,7 +65,7 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
     
     let { buildDotNetArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsArcGISImageServiceCapabilitiesOperations);
+    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesOperations(jsArcGISImageServiceCapabilitiesOperations, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -92,13 +92,23 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
 }
 
 
-export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArcGISImageServiceCapabilitiesOperations } = await import('./arcGISImageServiceCapabilitiesOperations');
+        jsComponentRef = await buildJsArcGISImageServiceCapabilitiesOperations(jsObject, layerId, viewId);
+    }
+    
     let dotNetArcGISImageServiceCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsCalculateVolume)) {
         dotNetArcGISImageServiceCapabilitiesOperations.supportsCalculateVolume = jsObject.supportsCalculateVolume;
@@ -155,7 +165,7 @@ export async function buildDotNetArcGISImageServiceCapabilitiesOperationsGenerat
         dotNetArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = jsObject.supportsQueryGPSInfo;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArcGISImageServiceCapabilitiesOperations.id = geoBlazorId;
     }

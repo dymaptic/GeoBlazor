@@ -17,7 +17,7 @@ export async function buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2DScreenPoint;
     
     let { buildDotNetBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
-    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DScreenPoint(jsBaseLayerViewGL2DScreenPoint);
+    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DScreenPoint(jsBaseLayerViewGL2DScreenPoint, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
+        jsComponentRef = await buildJsBaseLayerViewGL2DScreenPoint(jsObject, layerId, viewId);
+    }
+    
     let dotNetBaseLayerViewGL2DScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.x)) {
         dotNetBaseLayerViewGL2DScreenPoint.x = jsObject.x;
@@ -59,7 +69,7 @@ export async function buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject:
         dotNetBaseLayerViewGL2DScreenPoint.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBaseLayerViewGL2DScreenPoint.id = geoBlazorId;
     }

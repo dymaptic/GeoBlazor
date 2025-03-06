@@ -46,7 +46,7 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsHistogramConfig;
     
     let { buildDotNetHistogramConfig } = await import('./histogramConfig');
-    let dnInstantiatedObject = await buildDotNetHistogramConfig(jsHistogramConfig);
+    let dnInstantiatedObject = await buildDotNetHistogramConfig(jsHistogramConfig, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -73,21 +73,31 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetHistogramConfigGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramConfigGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHistogramConfig } = await import('./histogramConfig');
+        jsComponentRef = await buildJsHistogramConfig(jsObject, layerId, viewId);
+    }
+    
     let dotNetHistogramConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.bins)) {
         let { buildDotNetBin } = await import('./bin');
-        dotNetHistogramConfig.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i)));
+        dotNetHistogramConfig.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i, layerId, viewId)));
     }
     if (hasValue(jsObject.dataLines)) {
         let { buildDotNetHistogramConfigDataLines } = await import('./histogramConfigDataLines');
-        dotNetHistogramConfig.dataLines = await Promise.all(jsObject.dataLines.map(async i => await buildDotNetHistogramConfigDataLines(i)));
+        dotNetHistogramConfig.dataLines = await Promise.all(jsObject.dataLines.map(async i => await buildDotNetHistogramConfigDataLines(i, layerId, viewId)));
     }
     if (hasValue(jsObject.average)) {
         dotNetHistogramConfig.average = jsObject.average;
@@ -105,7 +115,7 @@ export async function buildDotNetHistogramConfigGenerated(jsObject: any): Promis
         dotNetHistogramConfig.standardDeviationCount = jsObject.standardDeviationCount;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHistogramConfig.id = geoBlazorId;
     }

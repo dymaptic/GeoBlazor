@@ -85,7 +85,7 @@ export async function buildJsProjection(dotNetObject: any, layerId: string | nul
     return await buildJsProjectionGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetProjection(jsObject: any): Promise<any> {
+export async function buildDotNetProjection(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetProjectionGenerated} = await import('./projection.gb');
-    return await buildDotNetProjectionGenerated(jsObject);
+    return await buildDotNetProjectionGenerated(jsObject, layerId, viewId);
 }

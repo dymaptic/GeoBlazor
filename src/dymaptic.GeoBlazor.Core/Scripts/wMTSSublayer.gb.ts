@@ -50,7 +50,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     
     let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-    let dnInstantiatedObject = await buildDotNetWMTSSublayer(jsWMTSSublayer);
+    let dnInstantiatedObject = await buildDotNetWMTSSublayer(jsWMTSSublayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -77,13 +77,23 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWMTSSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
+        jsComponentRef = await buildJsWMTSSublayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetWMTSSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -91,15 +101,15 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.styles)) {
         let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-        dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i)));
+        dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i, layerId, viewId)));
     }
     if (hasValue(jsObject.tileMatrixSet)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-        dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
+        dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet, layerId, viewId);
     }
     if (hasValue(jsObject.tileMatrixSets)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-        dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i)));
+        dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i, layerId, viewId)));
     }
     if (hasValue(jsObject.description)) {
         dotNetWMTSSublayer.description = jsObject.description;
@@ -123,7 +133,7 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<a
         dotNetWMTSSublayer.wMTSSublayerId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWMTSSublayer.id = geoBlazorId;
     }

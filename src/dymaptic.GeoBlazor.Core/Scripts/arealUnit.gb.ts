@@ -19,7 +19,7 @@ export async function buildJsArealUnitGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsArealUnit;
     
     let { buildDotNetArealUnit } = await import('./arealUnit');
-    let dnInstantiatedObject = await buildDotNetArealUnit(jsArealUnit);
+    let dnInstantiatedObject = await buildDotNetArealUnit(jsArealUnit, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsArealUnitGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetArealUnitGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetArealUnitGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsArealUnit } = await import('./arealUnit');
+        jsComponentRef = await buildJsArealUnit(jsObject, layerId, viewId);
+    }
+    
     let dotNetArealUnit: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.area)) {
         dotNetArealUnit.area = jsObject.area;
@@ -61,7 +71,7 @@ export async function buildDotNetArealUnitGenerated(jsObject: any): Promise<any>
         dotNetArealUnit.units = jsObject.units;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetArealUnit.id = geoBlazorId;
     }

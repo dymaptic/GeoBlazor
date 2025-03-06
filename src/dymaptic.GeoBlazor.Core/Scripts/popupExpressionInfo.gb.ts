@@ -25,7 +25,7 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jspopupExpressionInfo;
     
     let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,13 +52,23 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPopupExpressionInfo } = await import('./popupExpressionInfo');
+        jsComponentRef = await buildJsPopupExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetPopupExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetPopupExpressionInfo.expression = jsObject.expression;
@@ -73,7 +83,7 @@ export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any): Pr
         dotNetPopupExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPopupExpressionInfo.id = geoBlazorId;
     }

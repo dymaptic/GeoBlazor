@@ -20,7 +20,7 @@ export async function buildJsBuildingExplorerVisibleElementsGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsBuildingExplorerVisibleElements;
     
     let { buildDotNetBuildingExplorerVisibleElements } = await import('./buildingExplorerVisibleElements');
-    let dnInstantiatedObject = await buildDotNetBuildingExplorerVisibleElements(jsBuildingExplorerVisibleElements);
+    let dnInstantiatedObject = await buildDotNetBuildingExplorerVisibleElements(jsBuildingExplorerVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsBuildingExplorerVisibleElementsGenerated(dotNetObje
 }
 
 
-export async function buildDotNetBuildingExplorerVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingExplorerVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBuildingExplorerVisibleElements } = await import('./buildingExplorerVisibleElements');
+        jsComponentRef = await buildJsBuildingExplorerVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetBuildingExplorerVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.disciplines)) {
         dotNetBuildingExplorerVisibleElements.disciplines = jsObject.disciplines;
@@ -65,7 +75,7 @@ export async function buildDotNetBuildingExplorerVisibleElementsGenerated(jsObje
         dotNetBuildingExplorerVisibleElements.phases = jsObject.phases;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBuildingExplorerVisibleElements.id = geoBlazorId;
     }

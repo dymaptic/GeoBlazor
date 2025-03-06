@@ -17,7 +17,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
     
     let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-    let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions);
+    let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+        jsComponentRef = await buildJsVisualVariableLegendOptions(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisualVariableLegendOptions: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.showLegend)) {
         dotNetVisualVariableLegendOptions.showLegend = jsObject.showLegend;
@@ -59,7 +69,7 @@ export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: 
         dotNetVisualVariableLegendOptions.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisualVariableLegendOptions.id = geoBlazorId;
     }

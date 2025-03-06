@@ -4,7 +4,7 @@ export async function buildJsMeshGeoreferencedVertexSpace(dotNetObject: any, lay
     return await buildJsMeshGeoreferencedVertexSpaceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMeshGeoreferencedVertexSpace(jsObject: any): Promise<any> {
+export async function buildDotNetMeshGeoreferencedVertexSpace(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetMeshGeoreferencedVertexSpaceGenerated } = await import('./meshGeoreferencedVertexSpace.gb');
-    return await buildDotNetMeshGeoreferencedVertexSpaceGenerated(jsObject);
+    return await buildDotNetMeshGeoreferencedVertexSpaceGenerated(jsObject, layerId, viewId);
 }

@@ -24,7 +24,7 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfo;
     
     let { buildDotNetStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
+        jsComponentRef = await buildJsStreamLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetStreamLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
-        dotNetStreamLayerElevationInfo.featureExpressionInfo = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+        dotNetStreamLayerElevationInfo.featureExpressionInfo = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
     if (hasValue(jsObject.mode)) {
         dotNetStreamLayerElevationInfo.mode = jsObject.mode;
@@ -73,7 +83,7 @@ export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any
         dotNetStreamLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetStreamLayerElevationInfo.id = geoBlazorId;
     }

@@ -46,7 +46,7 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsCapabilities;
     
     let { buildDotNetCapabilities } = await import('./capabilities');
-    let dnInstantiatedObject = await buildDotNetCapabilities(jsCapabilities);
+    let dnInstantiatedObject = await buildDotNetCapabilities(jsCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -73,51 +73,61 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilities } = await import('./capabilities');
+        jsComponentRef = await buildJsCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.analytics)) {
         let { buildDotNetCapabilitiesAnalytics } = await import('./capabilitiesAnalytics');
-        dotNetCapabilities.analytics = await buildDotNetCapabilitiesAnalytics(jsObject.analytics);
+        dotNetCapabilities.analytics = await buildDotNetCapabilitiesAnalytics(jsObject.analytics, layerId, viewId);
     }
     if (hasValue(jsObject.attachment)) {
         let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-        dotNetCapabilities.attachment = await buildDotNetCapabilitiesAttachment(jsObject.attachment);
+        dotNetCapabilities.attachment = await buildDotNetCapabilitiesAttachment(jsObject.attachment, layerId, viewId);
     }
     if (hasValue(jsObject.data)) {
         let { buildDotNetCapabilitiesData } = await import('./capabilitiesData');
-        dotNetCapabilities.data = await buildDotNetCapabilitiesData(jsObject.data);
+        dotNetCapabilities.data = await buildDotNetCapabilitiesData(jsObject.data, layerId, viewId);
     }
     if (hasValue(jsObject.editing)) {
         let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
-        dotNetCapabilities.editing = await buildDotNetCapabilitiesEditing(jsObject.editing);
+        dotNetCapabilities.editing = await buildDotNetCapabilitiesEditing(jsObject.editing, layerId, viewId);
     }
     if (hasValue(jsObject.metadata)) {
         let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-        dotNetCapabilities.metadata = await buildDotNetCapabilitiesMetadata(jsObject.metadata);
+        dotNetCapabilities.metadata = await buildDotNetCapabilitiesMetadata(jsObject.metadata, layerId, viewId);
     }
     if (hasValue(jsObject.operations)) {
         let { buildDotNetCapabilitiesOperations } = await import('./capabilitiesOperations');
-        dotNetCapabilities.operations = await buildDotNetCapabilitiesOperations(jsObject.operations);
+        dotNetCapabilities.operations = await buildDotNetCapabilitiesOperations(jsObject.operations, layerId, viewId);
     }
     if (hasValue(jsObject.queryRelated)) {
         let { buildDotNetCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
-        dotNetCapabilities.queryRelated = await buildDotNetCapabilitiesQueryRelated(jsObject.queryRelated);
+        dotNetCapabilities.queryRelated = await buildDotNetCapabilitiesQueryRelated(jsObject.queryRelated, layerId, viewId);
     }
     if (hasValue(jsObject.queryTopFeatures)) {
         let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-        dotNetCapabilities.queryTopFeatures = await buildDotNetCapabilitiesQueryTopFeatures(jsObject.queryTopFeatures);
+        dotNetCapabilities.queryTopFeatures = await buildDotNetCapabilitiesQueryTopFeatures(jsObject.queryTopFeatures, layerId, viewId);
     }
     if (hasValue(jsObject.query)) {
         dotNetCapabilities.query = jsObject.query;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilities.id = geoBlazorId;
     }

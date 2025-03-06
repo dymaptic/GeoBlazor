@@ -4,7 +4,7 @@ export async function buildJsCapabilitiesEditing(dotNetObject: any, layerId: str
     return await buildJsCapabilitiesEditingGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCapabilitiesEditing(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesEditing(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetCapabilitiesEditingGenerated } = await import('./capabilitiesEditing.gb');
-    return await buildDotNetCapabilitiesEditingGenerated(jsObject);
+    return await buildDotNetCapabilitiesEditingGenerated(jsObject, layerId, viewId);
 }

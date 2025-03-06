@@ -4,7 +4,7 @@ export async function buildJsHandleOwner(dotNetObject: any, layerId: string | nu
     return await buildJsHandleOwnerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHandleOwner(jsObject: any): Promise<any> {
+export async function buildDotNetHandleOwner(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHandleOwnerGenerated } = await import('./handleOwner.gb');
-    return await buildDotNetHandleOwnerGenerated(jsObject);
+    return await buildDotNetHandleOwnerGenerated(jsObject, layerId, viewId);
 }

@@ -18,7 +18,7 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampElement;
     
     let { buildDotNetHeatmapRampElement } = await import('./heatmapRampElement');
-    let dnInstantiatedObject = await buildDotNetHeatmapRampElement(jsHeatmapRampElement);
+    let dnInstantiatedObject = await buildDotNetHeatmapRampElement(jsHeatmapRampElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,17 +45,27 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetHeatmapRampElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHeatmapRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHeatmapRampElement } = await import('./heatmapRampElement');
+        jsComponentRef = await buildJsHeatmapRampElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetHeatmapRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
-        dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i)));
+        dotNetHeatmapRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetHeatmapRampStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.title)) {
         dotNetHeatmapRampElement.title = jsObject.title;
@@ -64,7 +74,7 @@ export async function buildDotNetHeatmapRampElementGenerated(jsObject: any): Pro
         dotNetHeatmapRampElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHeatmapRampElement.id = geoBlazorId;
     }

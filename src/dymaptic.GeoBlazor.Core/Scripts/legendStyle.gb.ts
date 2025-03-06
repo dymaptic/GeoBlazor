@@ -14,7 +14,7 @@ export async function buildJsLegendStyleGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsLegendStyle;
     
     let { buildDotNetLegendStyle } = await import('./legendStyle');
-    let dnInstantiatedObject = await buildDotNetLegendStyle(jsLegendStyle);
+    let dnInstantiatedObject = await buildDotNetLegendStyle(jsLegendStyle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,13 +41,23 @@ export async function buildJsLegendStyleGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetLegendStyleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLegendStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLegendStyle } = await import('./legendStyle');
+        jsComponentRef = await buildJsLegendStyle(jsObject, layerId, viewId);
+    }
+    
     let dotNetLegendStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.layout)) {
         dotNetLegendStyle.layout = jsObject.layout;
@@ -56,7 +66,7 @@ export async function buildDotNetLegendStyleGenerated(jsObject: any): Promise<an
         dotNetLegendStyle.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLegendStyle.id = geoBlazorId;
     }

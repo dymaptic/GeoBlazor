@@ -5,7 +5,7 @@ export async function buildJsImageSampleParameters(dotNetObject: any, layerId: s
     return await buildJsImageSampleParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageSampleParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageSampleParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageSampleParametersGenerated} = await import('./imageSampleParameters.gb');
-    return await buildDotNetImageSampleParametersGenerated(jsObject);
+    return await buildDotNetImageSampleParametersGenerated(jsObject, layerId, viewId);
 }

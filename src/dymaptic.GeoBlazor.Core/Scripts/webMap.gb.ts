@@ -85,8 +85,18 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWebMap } = await import('./webMap');
+        jsComponentRef = await buildJsWebMap(jsObject, layerId, viewId);
+    }
+    
     let dotNetWebMap: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.bookmarks)) {
         let { buildDotNetBookmark } = await import('./bookmark');
@@ -94,11 +104,11 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     }
     if (hasValue(jsObject.geotriggersInfo)) {
         let { buildDotNetGeotriggersInfo } = await import('./geotriggersInfo');
-        dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo);
+        dotNetWebMap.geotriggersInfo = await buildDotNetGeotriggersInfo(jsObject.geotriggersInfo, layerId, viewId);
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.utilityNetworks)) {
         let { buildDotNetUtilityNetwork } = await import('./utilityNetwork');
@@ -141,7 +151,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
         dotNetWebMap.widgets = jsObject.widgets;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWebMap.id = geoBlazorId;
     }

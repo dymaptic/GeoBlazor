@@ -4,7 +4,7 @@ export async function buildJsLOD(dotNetObject: any, layerId: string | null, view
     return await buildJsLODGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLOD(jsObject: any): Promise<any> {
+export async function buildDotNetLOD(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLODGenerated } = await import('./lOD.gb');
-    return await buildDotNetLODGenerated(jsObject);
+    return await buildDotNetLODGenerated(jsObject, layerId, viewId);
 }

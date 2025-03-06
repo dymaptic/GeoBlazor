@@ -28,7 +28,7 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
     
     let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-    let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer);
+    let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKMLSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKMLSublayer } = await import('./kMLSublayer');
+        jsComponentRef = await buildJsKMLSublayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetKMLSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.description)) {
         dotNetKMLSublayer.description = jsObject.description;
@@ -79,7 +89,7 @@ export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<an
         dotNetKMLSublayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKMLSublayer.id = geoBlazorId;
     }

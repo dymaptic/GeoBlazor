@@ -12,9 +12,10 @@ export default class FeaturesViewModelWrapper extends FeaturesViewModelGenerated
     }
 }
 
+// CodeGenerationIgnore
 export async function buildJsFeaturesViewModel(dotNetObject: any, viewId: string | null): Promise<any> {
     let { buildJsFeaturesViewModelGenerated } = await import('./featuresViewModel.gb');
-    let jsViewModel = buildJsFeaturesViewModelGenerated(dotNetObject);
+    let jsViewModel = await buildJsFeaturesViewModelGenerated(dotNetObject);
     if (hasValue(dotNetObject.widgetContent)) {
         const widgetContent = await buildJsWidget(dotNetObject.widgetContent, dotNetObject.widgetContent.layerId, viewId);
         if (hasValue(widgetContent)) {

@@ -17,7 +17,7 @@ export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsColorAndIntensity;
     
     let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
-    let dnInstantiatedObject = await buildDotNetColorAndIntensity(jsColorAndIntensity);
+    let dnInstantiatedObject = await buildDotNetColorAndIntensity(jsColorAndIntensity, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetColorAndIntensityGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetColorAndIntensityGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorAndIntensity } = await import('./colorAndIntensity');
+        jsComponentRef = await buildJsColorAndIntensity(jsObject, layerId, viewId);
+    }
+    
     let dotNetColorAndIntensity: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         dotNetColorAndIntensity.color = jsObject.color;
@@ -59,7 +69,7 @@ export async function buildDotNetColorAndIntensityGenerated(jsObject: any): Prom
         dotNetColorAndIntensity.intensity = jsObject.intensity;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorAndIntensity.id = geoBlazorId;
     }

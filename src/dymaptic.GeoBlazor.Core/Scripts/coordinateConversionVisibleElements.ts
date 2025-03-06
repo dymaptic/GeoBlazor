@@ -4,7 +4,7 @@ export async function buildJsCoordinateConversionVisibleElements(dotNetObject: a
     return await buildJsCoordinateConversionVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCoordinateConversionVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetCoordinateConversionVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetCoordinateConversionVisibleElementsGenerated } = await import('./coordinateConversionVisibleElements.gb');
-    return await buildDotNetCoordinateConversionVisibleElementsGenerated(jsObject);
+    return await buildDotNetCoordinateConversionVisibleElementsGenerated(jsObject, layerId, viewId);
 }

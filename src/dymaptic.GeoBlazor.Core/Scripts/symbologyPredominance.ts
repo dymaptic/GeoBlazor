@@ -15,7 +15,7 @@ export async function buildJsSymbologyPredominance(dotNetObject: any, layerId: s
     return await buildJsSymbologyPredominanceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSymbologyPredominance(jsObject: any): Promise<any> {
+export async function buildDotNetSymbologyPredominance(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSymbologyPredominanceGenerated } = await import('./symbologyPredominance.gb');
-    return await buildDotNetSymbologyPredominanceGenerated(jsObject);
+    return await buildDotNetSymbologyPredominanceGenerated(jsObject, layerId, viewId);
 }

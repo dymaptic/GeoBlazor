@@ -26,7 +26,7 @@ export async function buildJsGamepadGamepadSettingsGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsgamepadGamepadSettings;
     
     let { buildDotNetGamepadGamepadSettings } = await import('./gamepadGamepadSettings');
-    let dnInstantiatedObject = await buildDotNetGamepadGamepadSettings(jsgamepadGamepadSettings);
+    let dnInstantiatedObject = await buildDotNetGamepadGamepadSettings(jsgamepadGamepadSettings, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,17 +53,27 @@ export async function buildJsGamepadGamepadSettingsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetGamepadGamepadSettingsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGamepadGamepadSettingsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGamepadGamepadSettings } = await import('./gamepadGamepadSettings');
+        jsComponentRef = await buildJsGamepadGamepadSettings(jsObject, layerId, viewId);
+    }
+    
     let dotNetGamepadGamepadSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.device)) {
         let { buildDotNetGamepadInputDevice } = await import('./gamepadInputDevice');
-        dotNetGamepadGamepadSettings.device = await buildDotNetGamepadInputDevice(jsObject.device);
+        dotNetGamepadGamepadSettings.device = await buildDotNetGamepadInputDevice(jsObject.device, layerId, viewId);
     }
     if (hasValue(jsObject.enabled)) {
         dotNetGamepadGamepadSettings.enabled = jsObject.enabled;
@@ -75,7 +85,7 @@ export async function buildDotNetGamepadGamepadSettingsGenerated(jsObject: any):
         dotNetGamepadGamepadSettings.tiltDirection = jsObject.tiltDirection;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGamepadGamepadSettings.id = geoBlazorId;
     }

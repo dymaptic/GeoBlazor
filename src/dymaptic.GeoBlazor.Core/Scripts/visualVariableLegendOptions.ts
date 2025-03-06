@@ -4,7 +4,7 @@ export async function buildJsVisualVariableLegendOptions(dotNetObject: any, laye
     return await buildJsVisualVariableLegendOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVisualVariableLegendOptions(jsObject: any): Promise<any> {
+export async function buildDotNetVisualVariableLegendOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVisualVariableLegendOptionsGenerated } = await import('./visualVariableLegendOptions.gb');
-    return await buildDotNetVisualVariableLegendOptionsGenerated(jsObject);
+    return await buildDotNetVisualVariableLegendOptionsGenerated(jsObject, layerId, viewId);
 }

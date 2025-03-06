@@ -22,7 +22,7 @@ export async function buildJsSnowyWeatherGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSnowyWeather;
     
     let { buildDotNetSnowyWeather } = await import('./snowyWeather');
-    let dnInstantiatedObject = await buildDotNetSnowyWeather(jsSnowyWeather);
+    let dnInstantiatedObject = await buildDotNetSnowyWeather(jsSnowyWeather, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,13 +49,23 @@ export async function buildJsSnowyWeatherGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSnowyWeatherGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSnowyWeatherGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSnowyWeather } = await import('./snowyWeather');
+        jsComponentRef = await buildJsSnowyWeather(jsObject, layerId, viewId);
+    }
+    
     let dotNetSnowyWeather: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.cloudCover)) {
         dotNetSnowyWeather.cloudCover = jsObject.cloudCover;
@@ -70,7 +80,7 @@ export async function buildDotNetSnowyWeatherGenerated(jsObject: any): Promise<a
         dotNetSnowyWeather.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSnowyWeather.id = geoBlazorId;
     }

@@ -35,7 +35,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLOD } = await import('./lOD');
-        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i)));
+        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i, this.layerId, this.viewId)));
     }
     
     async setLods(value: any): Promise<void> {
@@ -103,7 +103,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
     
     let { buildDotNetTileInfo } = await import('./tileInfo');
-    let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
+    let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -130,17 +130,27 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTileInfo } = await import('./tileInfo');
+        jsComponentRef = await buildJsTileInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetTileInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
+        dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
     if (hasValue(jsObject.origin)) {
         let { buildDotNetPoint } = await import('./point');
@@ -162,7 +172,7 @@ export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> 
         dotNetTileInfo.spatialReference = jsObject.spatialReference;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTileInfo.id = geoBlazorId;
     }

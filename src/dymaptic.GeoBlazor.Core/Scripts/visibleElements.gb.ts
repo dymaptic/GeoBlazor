@@ -50,7 +50,7 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElements;
     
     let { buildDotNetVisibleElements } = await import('./visibleElements');
-    let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements);
+    let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -77,13 +77,23 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElements } = await import('./visibleElements');
+        jsComponentRef = await buildJsVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.area)) {
         dotNetVisibleElements.area = jsObject.area;
@@ -125,7 +135,7 @@ export async function buildDotNetVisibleElementsGenerated(jsObject: any): Promis
         dotNetVisibleElements.totalLength = jsObject.totalLength;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElements.id = geoBlazorId;
     }

@@ -17,7 +17,7 @@ export async function buildJsViewDragEventOriginGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsViewDragEventOrigin;
     
     let { buildDotNetViewDragEventOrigin } = await import('./viewDragEventOrigin');
-    let dnInstantiatedObject = await buildDotNetViewDragEventOrigin(jsViewDragEventOrigin);
+    let dnInstantiatedObject = await buildDotNetViewDragEventOrigin(jsViewDragEventOrigin, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsViewDragEventOriginGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetViewDragEventOriginGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetViewDragEventOriginGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsViewDragEventOrigin } = await import('./viewDragEventOrigin');
+        jsComponentRef = await buildJsViewDragEventOrigin(jsObject, layerId, viewId);
+    }
+    
     let dotNetViewDragEventOrigin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.x)) {
         dotNetViewDragEventOrigin.x = jsObject.x;
@@ -59,7 +69,7 @@ export async function buildDotNetViewDragEventOriginGenerated(jsObject: any): Pr
         dotNetViewDragEventOrigin.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetViewDragEventOrigin.id = geoBlazorId;
     }

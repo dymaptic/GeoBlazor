@@ -20,7 +20,7 @@ export async function buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsBuildingSceneLayerElevationInfo;
     
     let { buildDotNetBuildingSceneLayerElevationInfo } = await import('./buildingSceneLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetBuildingSceneLayerElevationInfo(jsBuildingSceneLayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetBuildingSceneLayerElevationInfo(jsBuildingSceneLayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObje
 }
 
 
-export async function buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBuildingSceneLayerElevationInfo } = await import('./buildingSceneLayerElevationInfo');
+        jsComponentRef = await buildJsBuildingSceneLayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetBuildingSceneLayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mode)) {
         dotNetBuildingSceneLayerElevationInfo.mode = jsObject.mode;
@@ -65,7 +75,7 @@ export async function buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObje
         dotNetBuildingSceneLayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBuildingSceneLayerElevationInfo.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsExternalReferenceEnvelope(dotNetObject: any, layerI
     return await buildJsExternalReferenceEnvelopeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetExternalReferenceEnvelope(jsObject: any): Promise<any> {
+export async function buildDotNetExternalReferenceEnvelope(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetExternalReferenceEnvelopeGenerated } = await import('./externalReferenceEnvelope.gb');
-    return await buildDotNetExternalReferenceEnvelopeGenerated(jsObject);
+    return await buildDotNetExternalReferenceEnvelopeGenerated(jsObject, layerId, viewId);
 }

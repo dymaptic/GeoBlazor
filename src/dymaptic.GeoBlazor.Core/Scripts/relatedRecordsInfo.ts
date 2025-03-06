@@ -4,7 +4,7 @@ export async function buildJsRelatedRecordsInfo(dotNetObject: any, layerId: stri
     return await buildJsRelatedRecordsInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRelatedRecordsInfo(jsObject: any): Promise<any> {
+export async function buildDotNetRelatedRecordsInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRelatedRecordsInfoGenerated } = await import('./relatedRecordsInfo.gb');
-    return await buildDotNetRelatedRecordsInfoGenerated(jsObject);
+    return await buildDotNetRelatedRecordsInfoGenerated(jsObject, layerId, viewId);
 }

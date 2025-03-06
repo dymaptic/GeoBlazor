@@ -4,7 +4,7 @@ export async function buildJsGamepadInputDevice(dotNetObject: any, layerId: stri
     return await buildJsGamepadInputDeviceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGamepadInputDevice(jsObject: any): Promise<any> {
+export async function buildDotNetGamepadInputDevice(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGamepadInputDeviceGenerated } = await import('./gamepadInputDevice.gb');
-    return await buildDotNetGamepadInputDeviceGenerated(jsObject);
+    return await buildDotNetGamepadInputDeviceGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsTelemetryDisplay(dotNetObject: any, layerId: string
     return await buildJsTelemetryDisplayGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTelemetryDisplay(jsObject: any): Promise<any> {
+export async function buildDotNetTelemetryDisplay(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTelemetryDisplayGenerated } = await import('./telemetryDisplay.gb');
-    return await buildDotNetTelemetryDisplayGenerated(jsObject);
+    return await buildDotNetTelemetryDisplayGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfo(d
     return await buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./oGCFeatureLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
+    return await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
 }

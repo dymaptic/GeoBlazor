@@ -5,7 +5,7 @@ export async function buildJsPortalQueryParams(dotNetObject: any, layerId: strin
     return await buildJsPortalQueryParamsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalQueryParams(jsObject: any): Promise<any> {
+export async function buildDotNetPortalQueryParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalQueryParamsGenerated} = await import('./portalQueryParams.gb');
-    return await buildDotNetPortalQueryParamsGenerated(jsObject);
+    return await buildDotNetPortalQueryParamsGenerated(jsObject, layerId, viewId);
 }

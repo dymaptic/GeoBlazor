@@ -11,7 +11,7 @@ export async function buildJsISceneViewHitTestResultScreenPointGenerated(dotNetO
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewHitTestResultScreenPoint;
     
     let { buildDotNetISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
-    let dnInstantiatedObject = await buildDotNetISceneViewHitTestResultScreenPoint(jsSceneViewHitTestResultScreenPoint);
+    let dnInstantiatedObject = await buildDotNetISceneViewHitTestResultScreenPoint(jsSceneViewHitTestResultScreenPoint, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsISceneViewHitTestResultScreenPointGenerated(dotNetO
 }
 
 
-export async function buildDotNetISceneViewHitTestResultScreenPointGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetISceneViewHitTestResultScreenPointGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
+        jsComponentRef = await buildJsISceneViewHitTestResultScreenPoint(jsObject, layerId, viewId);
+    }
+    
     let dotNetISceneViewHitTestResultScreenPoint: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetISceneViewHitTestResultScreenPoint.id = geoBlazorId;
     }

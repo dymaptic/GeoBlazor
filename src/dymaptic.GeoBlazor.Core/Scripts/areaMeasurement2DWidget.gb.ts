@@ -98,7 +98,7 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         }
         
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        return await buildDotNetAreaMeasurement2DViewModel(this.widget.viewModel);
+        return await buildDotNetAreaMeasurement2DViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -157,7 +157,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
     
     let { buildDotNetAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -184,17 +184,27 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
+        jsComponentRef = await buildJsAreaMeasurement2DWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetAreaMeasurement2DWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
+        dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.icon)) {
         dotNetAreaMeasurement2DWidget.icon = jsObject.icon;
@@ -218,7 +228,7 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any)
         dotNetAreaMeasurement2DWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DWidget.id = geoBlazorId;
     }

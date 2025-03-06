@@ -30,7 +30,7 @@ export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsEnvironment;
     
     let { buildDotNetEnvironment } = await import('./environment');
-    let dnInstantiatedObject = await buildDotNetEnvironment(jsEnvironment);
+    let dnInstantiatedObject = await buildDotNetEnvironment(jsEnvironment, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -57,13 +57,23 @@ export async function buildJsEnvironmentGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetEnvironmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsEnvironment } = await import('./environment');
+        jsComponentRef = await buildJsEnvironment(jsObject, layerId, viewId);
+    }
+    
     let dotNetEnvironment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.background)) {
         let { buildDotNetBackground } = await import('./background');
@@ -83,7 +93,7 @@ export async function buildDotNetEnvironmentGenerated(jsObject: any): Promise<an
         dotNetEnvironment.starsEnabled = jsObject.starsEnabled;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetEnvironment.id = geoBlazorId;
     }

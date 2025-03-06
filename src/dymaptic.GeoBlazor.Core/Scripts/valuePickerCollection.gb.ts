@@ -16,7 +16,7 @@ export async function buildJsValuePickerCollectionGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerCollection;
     
     let { buildDotNetValuePickerCollection } = await import('./valuePickerCollection');
-    let dnInstantiatedObject = await buildDotNetValuePickerCollection(jsValuePickerCollection);
+    let dnInstantiatedObject = await buildDotNetValuePickerCollection(jsValuePickerCollection, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,13 +43,23 @@ export async function buildJsValuePickerCollectionGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetValuePickerCollectionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerCollectionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsValuePickerCollection } = await import('./valuePickerCollection');
+        jsComponentRef = await buildJsValuePickerCollection(jsObject, layerId, viewId);
+    }
+    
     let dotNetValuePickerCollection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.collection)) {
         dotNetValuePickerCollection.collection = jsObject.collection;
@@ -58,7 +68,7 @@ export async function buildDotNetValuePickerCollectionGenerated(jsObject: any): 
         dotNetValuePickerCollection.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerCollection.id = geoBlazorId;
     }

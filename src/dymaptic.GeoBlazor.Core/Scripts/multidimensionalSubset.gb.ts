@@ -21,7 +21,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
     
     let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-    let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
+    let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,13 +48,23 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMultidimensionalSubset } = await import('./multidimensionalSubset');
+        jsComponentRef = await buildJsMultidimensionalSubset(jsObject, layerId, viewId);
+    }
+    
     let dotNetMultidimensionalSubset: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.areaOfInterest)) {
         let { buildDotNetGeometry } = await import('./geometry');
@@ -62,7 +72,7 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
     }
     if (hasValue(jsObject.subsetDefinitions)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i)));
+        dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i, layerId, viewId)));
     }
     if (hasValue(jsObject.dimensions)) {
         dotNetMultidimensionalSubset.dimensions = jsObject.dimensions;
@@ -71,7 +81,7 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any):
         dotNetMultidimensionalSubset.variables = jsObject.variables;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMultidimensionalSubset.id = geoBlazorId;
     }

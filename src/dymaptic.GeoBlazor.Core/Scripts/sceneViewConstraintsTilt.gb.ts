@@ -17,7 +17,7 @@ export async function buildJsSceneViewConstraintsTiltGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraintsTilt;
     
     let { buildDotNetSceneViewConstraintsTilt } = await import('./sceneViewConstraintsTilt');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsTilt(jsSceneViewConstraintsTilt);
+    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsTilt(jsSceneViewConstraintsTilt, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsSceneViewConstraintsTiltGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetSceneViewConstraintsTiltGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewConstraintsTiltGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewConstraintsTilt } = await import('./sceneViewConstraintsTilt');
+        jsComponentRef = await buildJsSceneViewConstraintsTilt(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewConstraintsTilt: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetSceneViewConstraintsTilt.max = jsObject.max;
@@ -59,7 +69,7 @@ export async function buildDotNetSceneViewConstraintsTiltGenerated(jsObject: any
         dotNetSceneViewConstraintsTilt.mode = jsObject.mode;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsTilt.id = geoBlazorId;
     }

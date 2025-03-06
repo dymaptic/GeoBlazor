@@ -19,7 +19,7 @@ export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsRadioButtonsInput;
     
     let { buildDotNetRadioButtonsInput } = await import('./radioButtonsInput');
-    let dnInstantiatedObject = await buildDotNetRadioButtonsInput(jsRadioButtonsInput);
+    let dnInstantiatedObject = await buildDotNetRadioButtonsInput(jsRadioButtonsInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetRadioButtonsInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRadioButtonsInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRadioButtonsInput } = await import('./radioButtonsInput');
+        jsComponentRef = await buildJsRadioButtonsInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetRadioButtonsInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.noValueOptionLabel)) {
         dotNetRadioButtonsInput.noValueOptionLabel = jsObject.noValueOptionLabel;
@@ -64,7 +74,7 @@ export async function buildDotNetRadioButtonsInputGenerated(jsObject: any): Prom
         dotNetRadioButtonsInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRadioButtonsInput.id = geoBlazorId;
     }

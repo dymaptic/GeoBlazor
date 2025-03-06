@@ -15,7 +15,7 @@ export async function buildJsPortalItemResource(dotNetObject: any, layerId: stri
     return await buildJsPortalItemResourceGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalItemResource(jsObject: any): Promise<any> {
+export async function buildDotNetPortalItemResource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalItemResourceGenerated} = await import('./portalItemResource.gb');
-    return await buildDotNetPortalItemResourceGenerated(jsObject);
+    return await buildDotNetPortalItemResourceGenerated(jsObject, layerId, viewId);
 }

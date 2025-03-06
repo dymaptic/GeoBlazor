@@ -4,7 +4,7 @@ export async function buildJsTimePickerInput(dotNetObject: any, layerId: string 
     return await buildJsTimePickerInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTimePickerInput(jsObject: any): Promise<any> {
+export async function buildDotNetTimePickerInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTimePickerInputGenerated } = await import('./timePickerInput.gb');
-    return await buildDotNetTimePickerInputGenerated(jsObject);
+    return await buildDotNetTimePickerInputGenerated(jsObject, layerId, viewId);
 }

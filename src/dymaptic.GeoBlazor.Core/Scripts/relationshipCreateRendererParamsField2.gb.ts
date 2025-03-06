@@ -26,7 +26,7 @@ export async function buildJsRelationshipCreateRendererParamsField2Generated(dot
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipCreateRendererParamsField2;
     
     let { buildDotNetRelationshipCreateRendererParamsField2 } = await import('./relationshipCreateRendererParamsField2');
-    let dnInstantiatedObject = await buildDotNetRelationshipCreateRendererParamsField2(jsrelationshipCreateRendererParamsField2);
+    let dnInstantiatedObject = await buildDotNetRelationshipCreateRendererParamsField2(jsrelationshipCreateRendererParamsField2, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsRelationshipCreateRendererParamsField2Generated(dot
 }
 
 
-export async function buildDotNetRelationshipCreateRendererParamsField2Generated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipCreateRendererParamsField2Generated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRelationshipCreateRendererParamsField2 } = await import('./relationshipCreateRendererParamsField2');
+        jsComponentRef = await buildJsRelationshipCreateRendererParamsField2(jsObject, layerId, viewId);
+    }
+    
     let dotNetRelationshipCreateRendererParamsField2: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetRelationshipCreateRendererParamsField2.field = jsObject.field;
@@ -77,7 +87,7 @@ export async function buildDotNetRelationshipCreateRendererParamsField2Generated
         dotNetRelationshipCreateRendererParamsField2.normalizationField = jsObject.normalizationField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipCreateRendererParamsField2.id = geoBlazorId;
     }

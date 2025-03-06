@@ -18,7 +18,7 @@ export async function buildJsWebsceneSunLightingGenerated(dotNetObject: any, lay
     }
 }     
 
-export async function buildDotNetWebsceneSunLightingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWebsceneSunLightingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -26,10 +26,10 @@ export async function buildDotNetWebsceneSunLightingGenerated(jsObject: any): Pr
     switch (jsObject.type) {
         case 'sun': 
             let { buildDotNetWebsceneSunLighting } = await import('./websceneSunLighting');
-            return await buildDotNetWebsceneSunLighting(jsObject);
+            return await buildDotNetWebsceneSunLighting(jsObject, layerId, viewId);
         case '': 
             let { buildDotNetSunLighting } = await import('./sunLighting');
-            return await buildDotNetSunLighting(jsObject);
+            return await buildDotNetSunLighting(jsObject, layerId, viewId);
         default: 
             return jsObject;
     }

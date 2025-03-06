@@ -4,7 +4,7 @@ export async function buildJsPredominantCategoriesResultPredominantCategoryInfos
     return await buildJsPredominantCategoriesResultPredominantCategoryInfosGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsObject: any): Promise<any> {
+export async function buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPredominantCategoriesResultPredominantCategoryInfosGenerated } = await import('./predominantCategoriesResultPredominantCategoryInfos.gb');
-    return await buildDotNetPredominantCategoriesResultPredominantCategoryInfosGenerated(jsObject);
+    return await buildDotNetPredominantCategoriesResultPredominantCategoryInfosGenerated(jsObject, layerId, viewId);
 }

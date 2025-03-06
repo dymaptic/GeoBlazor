@@ -17,7 +17,7 @@ export async function buildJsVisibleElementsColumnMenuItemsGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsColumnMenuItems;
     
     let { buildDotNetVisibleElementsColumnMenuItems } = await import('./visibleElementsColumnMenuItems');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsColumnMenuItems(jsVisibleElementsColumnMenuItems);
+    let dnInstantiatedObject = await buildDotNetVisibleElementsColumnMenuItems(jsVisibleElementsColumnMenuItems, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVisibleElementsColumnMenuItemsGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetVisibleElementsColumnMenuItemsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsColumnMenuItemsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElementsColumnMenuItems } = await import('./visibleElementsColumnMenuItems');
+        jsComponentRef = await buildJsVisibleElementsColumnMenuItems(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElementsColumnMenuItems: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.sortAscending)) {
         dotNetVisibleElementsColumnMenuItems.sortAscending = jsObject.sortAscending;
@@ -59,7 +69,7 @@ export async function buildDotNetVisibleElementsColumnMenuItemsGenerated(jsObjec
         dotNetVisibleElementsColumnMenuItems.sortDescending = jsObject.sortDescending;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsColumnMenuItems.id = geoBlazorId;
     }

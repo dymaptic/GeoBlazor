@@ -16,7 +16,7 @@ export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsLocalMediaElementSource;
     
     let { buildDotNetLocalMediaElementSource } = await import('./localMediaElementSource');
-    let dnInstantiatedObject = await buildDotNetLocalMediaElementSource(jsLocalMediaElementSource);
+    let dnInstantiatedObject = await buildDotNetLocalMediaElementSource(jsLocalMediaElementSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,19 +43,29 @@ export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetLocalMediaElementSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLocalMediaElementSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLocalMediaElementSource } = await import('./localMediaElementSource');
+        jsComponentRef = await buildJsLocalMediaElementSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetLocalMediaElementSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.elements)) {
         dotNetLocalMediaElementSource.elements = jsObject.elements;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLocalMediaElementSource.id = geoBlazorId;
     }

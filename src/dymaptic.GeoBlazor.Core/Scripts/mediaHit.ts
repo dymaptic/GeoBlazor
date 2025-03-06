@@ -6,7 +6,7 @@ export async function buildJsMediaHit(dotNetObject: any, layerId: string | null,
     return await buildJsMediaHitGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMediaHit(jsObject: any): Promise<any> {
+export async function buildDotNetMediaHit(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMediaHitGenerated} = await import('./mediaHit.gb');
-    return await buildDotNetMediaHitGenerated(jsObject);
+    return await buildDotNetMediaHitGenerated(jsObject, layerId, viewId);
 }

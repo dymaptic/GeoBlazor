@@ -4,7 +4,7 @@ export async function buildJsRelationshipLabels(dotNetObject: any, layerId: stri
     return await buildJsRelationshipLabelsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRelationshipLabels(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipLabels(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRelationshipLabelsGenerated } = await import('./relationshipLabels.gb');
-    return await buildDotNetRelationshipLabelsGenerated(jsObject);
+    return await buildDotNetRelationshipLabelsGenerated(jsObject, layerId, viewId);
 }

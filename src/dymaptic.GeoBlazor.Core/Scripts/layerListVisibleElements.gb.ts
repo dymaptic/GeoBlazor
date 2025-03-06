@@ -38,7 +38,7 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsLayerListVisibleElements;
     
     let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListVisibleElements(jsLayerListVisibleElements);
+    let dnInstantiatedObject = await buildDotNetLayerListVisibleElements(jsLayerListVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,13 +65,23 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerListVisibleElements } = await import('./layerListVisibleElements');
+        jsComponentRef = await buildJsLayerListVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerListVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListVisibleElements.catalogLayerList = jsObject.catalogLayerList;
@@ -101,7 +111,7 @@ export async function buildDotNetLayerListVisibleElementsGenerated(jsObject: any
         dotNetLayerListVisibleElements.temporaryLayerIndicators = jsObject.temporaryLayerIndicators;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerListVisibleElements.id = geoBlazorId;
     }

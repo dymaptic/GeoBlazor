@@ -38,7 +38,7 @@ export async function buildJsRelationshipElementGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipElement;
     
     let { buildDotNetRelationshipElement } = await import('./relationshipElement');
-    let dnInstantiatedObject = await buildDotNetRelationshipElement(jsRelationshipElement);
+    let dnInstantiatedObject = await buildDotNetRelationshipElement(jsRelationshipElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,13 +65,23 @@ export async function buildJsRelationshipElementGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetRelationshipElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRelationshipElement } = await import('./relationshipElement');
+        jsComponentRef = await buildJsRelationshipElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetRelationshipElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.orderByFields)) {
         let { buildDotNetRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
@@ -102,7 +112,7 @@ export async function buildDotNetRelationshipElementGenerated(jsObject: any): Pr
         dotNetRelationshipElement.visibilityExpression = jsObject.visibilityExpression;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipElement.id = geoBlazorId;
     }

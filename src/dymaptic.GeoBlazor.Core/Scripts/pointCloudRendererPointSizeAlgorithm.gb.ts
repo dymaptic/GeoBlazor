@@ -20,7 +20,7 @@ export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNe
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererPointSizeAlgorithm;
     
     let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm);
+    let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNe
 }
 
 
-export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
+        jsComponentRef = await buildJsPointCloudRendererPointSizeAlgorithm(jsObject, layerId, viewId);
+    }
+    
     let dotNetPointCloudRendererPointSizeAlgorithm: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.scaleFactor)) {
         dotNetPointCloudRendererPointSizeAlgorithm.scaleFactor = jsObject.scaleFactor;
@@ -68,7 +78,7 @@ export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(j
         dotNetPointCloudRendererPointSizeAlgorithm.useRealWorldSymbolSizes = jsObject.useRealWorldSymbolSizes;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRendererPointSizeAlgorithm.id = geoBlazorId;
     }

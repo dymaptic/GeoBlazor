@@ -4,7 +4,7 @@ export async function buildJsRendererResultClassBreaks(dotNetObject: any, layerI
     return await buildJsRendererResultClassBreaksGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRendererResultClassBreaks(jsObject: any): Promise<any> {
+export async function buildDotNetRendererResultClassBreaks(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRendererResultClassBreaksGenerated } = await import('./rendererResultClassBreaks.gb');
-    return await buildDotNetRendererResultClassBreaksGenerated(jsObject);
+    return await buildDotNetRendererResultClassBreaksGenerated(jsObject, layerId, viewId);
 }

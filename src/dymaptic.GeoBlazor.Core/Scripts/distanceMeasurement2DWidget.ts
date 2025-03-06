@@ -14,7 +14,7 @@ export async function buildJsDistanceMeasurement2DWidget(dotNetObject: any, laye
     return await buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetDistanceMeasurement2DWidget(jsObject: any): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetDistanceMeasurement2DWidgetGenerated} = await import('./distanceMeasurement2DWidget.gb');
-    return await buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject);
+    return await buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject, layerId, viewId);
 }

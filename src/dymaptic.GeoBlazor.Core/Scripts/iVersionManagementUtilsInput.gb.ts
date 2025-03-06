@@ -11,7 +11,7 @@ export async function buildJsIVersionManagementUtilsInputGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementUtilsInput;
     
     let { buildDotNetIVersionManagementUtilsInput } = await import('./iVersionManagementUtilsInput');
-    let dnInstantiatedObject = await buildDotNetIVersionManagementUtilsInput(jsVersionManagementUtilsInput);
+    let dnInstantiatedObject = await buildDotNetIVersionManagementUtilsInput(jsVersionManagementUtilsInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsIVersionManagementUtilsInputGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetIVersionManagementUtilsInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIVersionManagementUtilsInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIVersionManagementUtilsInput } = await import('./iVersionManagementUtilsInput');
+        jsComponentRef = await buildJsIVersionManagementUtilsInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetIVersionManagementUtilsInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIVersionManagementUtilsInput.id = geoBlazorId;
     }

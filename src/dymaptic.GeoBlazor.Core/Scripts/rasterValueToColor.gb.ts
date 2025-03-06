@@ -23,7 +23,7 @@ export async function buildJsRasterValueToColorGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsRasterValueToColor;
     
     let { buildDotNetRasterValueToColor } = await import('./rasterValueToColor');
-    let dnInstantiatedObject = await buildDotNetRasterValueToColor(jsRasterValueToColor);
+    let dnInstantiatedObject = await buildDotNetRasterValueToColor(jsRasterValueToColor, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsRasterValueToColorGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetRasterValueToColorGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterValueToColorGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRasterValueToColor } = await import('./rasterValueToColor');
+        jsComponentRef = await buildJsRasterValueToColor(jsObject, layerId, viewId);
+    }
+    
     let dotNetRasterValueToColor: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         dotNetRasterValueToColor.color = jsObject.color;
@@ -71,7 +81,7 @@ export async function buildDotNetRasterValueToColorGenerated(jsObject: any): Pro
         dotNetRasterValueToColor.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRasterValueToColor.id = geoBlazorId;
     }

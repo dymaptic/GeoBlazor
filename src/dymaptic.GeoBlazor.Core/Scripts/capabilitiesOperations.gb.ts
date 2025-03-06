@@ -41,7 +41,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
     
     let { buildDotNetCapabilitiesOperations } = await import('./capabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesOperations(jsCapabilitiesOperations);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesOperations(jsCapabilitiesOperations, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -68,13 +68,23 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesOperations } = await import('./capabilitiesOperations');
+        jsComponentRef = await buildJsCapabilitiesOperations(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesOperations: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsAdd)) {
         dotNetCapabilitiesOperations.supportsAdd = jsObject.supportsAdd;
@@ -104,7 +114,7 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
         dotNetCapabilitiesOperations.supportsValidateSql = jsObject.supportsValidateSql;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesOperations.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsWFSOperations(dotNetObject: any, layerId: string | 
     return await buildJsWFSOperationsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWFSOperations(jsObject: any): Promise<any> {
+export async function buildDotNetWFSOperations(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSOperationsGenerated } = await import('./wFSOperations.gb');
-    return await buildDotNetWFSOperationsGenerated(jsObject);
+    return await buildDotNetWFSOperationsGenerated(jsObject, layerId, viewId);
 }

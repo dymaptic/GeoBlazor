@@ -110,7 +110,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.component.fieldsIndex);
+        return await buildDotNetFieldsIndex(this.component.fieldsIndex, this.layerId, this.viewId);
     }
     
     async getFloorInfo(): Promise<any> {
@@ -119,7 +119,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        return await buildDotNetLayerFloorInfo(this.component.floorInfo);
+        return await buildDotNetLayerFloorInfo(this.component.floorInfo, this.layerId, this.viewId);
     }
     
     async setFloorInfo(value: any): Promise<void> {
@@ -165,7 +165,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate, this.layerId, this.viewId);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -323,8 +323,18 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSublayer } = await import('./sublayer');
+        jsComponentRef = await buildJsSublayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetSublayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
@@ -332,11 +342,11 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     }
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
+        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
     }
     if (hasValue(jsObject.floorInfo)) {
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
+        dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo, layerId, viewId);
     }
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -348,7 +358,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetSublayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.renderer)) {
         let { buildDotNetRenderer } = await import('./renderer');
@@ -416,7 +426,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
         dotNetSublayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSublayer.id = geoBlazorId;
     }

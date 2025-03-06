@@ -11,7 +11,7 @@ export async function buildJsIRouteSymbolsPolylineBarriersGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsPolylineBarriers;
     
     let { buildDotNetIRouteSymbolsPolylineBarriers } = await import('./iRouteSymbolsPolylineBarriers');
-    let dnInstantiatedObject = await buildDotNetIRouteSymbolsPolylineBarriers(jsRouteSymbolsPolylineBarriers);
+    let dnInstantiatedObject = await buildDotNetIRouteSymbolsPolylineBarriers(jsRouteSymbolsPolylineBarriers, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsIRouteSymbolsPolylineBarriersGenerated(dotNetObject
 }
 
 
-export async function buildDotNetIRouteSymbolsPolylineBarriersGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIRouteSymbolsPolylineBarriersGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIRouteSymbolsPolylineBarriers } = await import('./iRouteSymbolsPolylineBarriers');
+        jsComponentRef = await buildJsIRouteSymbolsPolylineBarriers(jsObject, layerId, viewId);
+    }
+    
     let dotNetIRouteSymbolsPolylineBarriers: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIRouteSymbolsPolylineBarriers.id = geoBlazorId;
     }

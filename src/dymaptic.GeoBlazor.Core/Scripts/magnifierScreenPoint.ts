@@ -4,7 +4,7 @@ export async function buildJsMagnifierScreenPoint(dotNetObject: any, layerId: st
     return await buildJsMagnifierScreenPointGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMagnifierScreenPoint(jsObject: any): Promise<any> {
+export async function buildDotNetMagnifierScreenPoint(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetMagnifierScreenPointGenerated } = await import('./magnifierScreenPoint.gb');
-    return await buildDotNetMagnifierScreenPointGenerated(jsObject);
+    return await buildDotNetMagnifierScreenPointGenerated(jsObject, layerId, viewId);
 }

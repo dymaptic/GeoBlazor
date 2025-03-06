@@ -23,7 +23,7 @@ export async function buildJsSolidEdges3DGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSolidEdges3D;
     
     let { buildDotNetSolidEdges3D } = await import('./solidEdges3D');
-    let dnInstantiatedObject = await buildDotNetSolidEdges3D(jsSolidEdges3D);
+    let dnInstantiatedObject = await buildDotNetSolidEdges3D(jsSolidEdges3D, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsSolidEdges3DGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSolidEdges3DGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSolidEdges3DGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSolidEdges3D } = await import('./solidEdges3D');
+        jsComponentRef = await buildJsSolidEdges3D(jsObject, layerId, viewId);
+    }
+    
     let dotNetSolidEdges3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -72,7 +82,7 @@ export async function buildDotNetSolidEdges3DGenerated(jsObject: any): Promise<a
         dotNetSolidEdges3D.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSolidEdges3D.id = geoBlazorId;
     }

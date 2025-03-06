@@ -4,7 +4,7 @@ export async function buildJsOpacityVariable(dotNetObject: any, layerId: string 
     return await buildJsOpacityVariableGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetOpacityVariable(jsObject: any): Promise<any> {
+export async function buildDotNetOpacityVariable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetOpacityVariableGenerated } = await import('./opacityVariable.gb');
-    return await buildDotNetOpacityVariableGenerated(jsObject);
+    return await buildDotNetOpacityVariableGenerated(jsObject, layerId, viewId);
 }

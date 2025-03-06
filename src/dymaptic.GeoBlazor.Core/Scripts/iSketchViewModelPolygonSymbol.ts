@@ -4,7 +4,7 @@ export async function buildJsISketchViewModelPolygonSymbol(dotNetObject: any, la
     return await buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetISketchViewModelPolygonSymbol(jsObject: any): Promise<any> {
+export async function buildDotNetISketchViewModelPolygonSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetISketchViewModelPolygonSymbolGenerated } = await import('./iSketchViewModelPolygonSymbol.gb');
-    return await buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject);
+    return await buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject, layerId, viewId);
 }

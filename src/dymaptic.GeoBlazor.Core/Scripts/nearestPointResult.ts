@@ -3,7 +3,7 @@ export async function buildJsNearestPointResult(dotNetObject: any, layerId: stri
     return await buildJsNearestPointResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetNearestPointResult(jsObject: any): Promise<any> {
+export async function buildDotNetNearestPointResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetNearestPointResultGenerated} = await import('./nearestPointResult.gb');
-    return await buildDotNetNearestPointResultGenerated(jsObject);
+    return await buildDotNetNearestPointResultGenerated(jsObject, layerId, viewId);
 }

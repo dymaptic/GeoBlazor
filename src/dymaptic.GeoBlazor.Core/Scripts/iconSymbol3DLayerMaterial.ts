@@ -3,7 +3,7 @@ export async function buildJsIconSymbol3DLayerMaterial(dotNetObject: any, layerI
     return await buildJsIconSymbol3DLayerMaterialGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetIconSymbol3DLayerMaterial(jsObject: any): Promise<any> {
+export async function buildDotNetIconSymbol3DLayerMaterial(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetIconSymbol3DLayerMaterialGenerated} = await import('./iconSymbol3DLayerMaterial.gb');
-    return await buildDotNetIconSymbol3DLayerMaterialGenerated(jsObject);
+    return await buildDotNetIconSymbol3DLayerMaterialGenerated(jsObject, layerId, viewId);
 }

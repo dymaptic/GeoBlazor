@@ -52,7 +52,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
     
     let { buildDotNetWebScene } = await import('./webScene');
-    let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene);
+    let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -79,13 +79,23 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWebScene } = await import('./webScene');
+        jsComponentRef = await buildJsWebScene(jsObject, layerId, viewId);
+    }
+    
     let dotNetWebScene: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.clippingArea)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -93,11 +103,11 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.presentation)) {
         let { buildDotNetPresentation } = await import('./presentation');
-        dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation);
+        dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation, layerId, viewId);
     }
     if (hasValue(jsObject.applicationProperties)) {
         dotNetWebScene.applicationProperties = jsObject.applicationProperties;
@@ -139,7 +149,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any): Promise<any> 
         dotNetWebScene.widgets = jsObject.widgets;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWebScene.id = geoBlazorId;
     }

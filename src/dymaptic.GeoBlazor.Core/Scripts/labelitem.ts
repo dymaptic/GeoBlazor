@@ -4,7 +4,7 @@ export async function buildJsLabelitem(dotNetObject: any, layerId: string | null
     return await buildJsLabelitemGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLabelitem(jsObject: any): Promise<any> {
+export async function buildDotNetLabelitem(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLabelitemGenerated } = await import('./labelitem.gb');
-    return await buildDotNetLabelitemGenerated(jsObject);
+    return await buildDotNetLabelitemGenerated(jsObject, layerId, viewId);
 }

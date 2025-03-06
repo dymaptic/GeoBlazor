@@ -4,7 +4,7 @@ export async function buildJsViewDragEvent(dotNetObject: any, layerId: string | 
     return await buildJsViewDragEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetViewDragEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewDragEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetViewDragEventGenerated } = await import('./viewDragEvent.gb');
-    return await buildDotNetViewDragEventGenerated(jsObject);
+    return await buildDotNetViewDragEventGenerated(jsObject, layerId, viewId);
 }

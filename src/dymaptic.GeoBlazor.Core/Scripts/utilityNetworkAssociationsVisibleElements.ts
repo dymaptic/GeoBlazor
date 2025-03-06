@@ -4,7 +4,7 @@ export async function buildJsUtilityNetworkAssociationsVisibleElements(dotNetObj
     return await buildJsUtilityNetworkAssociationsVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUtilityNetworkAssociationsVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetUtilityNetworkAssociationsVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUtilityNetworkAssociationsVisibleElementsGenerated } = await import('./utilityNetworkAssociationsVisibleElements.gb');
-    return await buildDotNetUtilityNetworkAssociationsVisibleElementsGenerated(jsObject);
+    return await buildDotNetUtilityNetworkAssociationsVisibleElementsGenerated(jsObject, layerId, viewId);
 }

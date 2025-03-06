@@ -23,7 +23,7 @@ export async function buildJsFeatureServiceCapabilitiesEditingGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceCapabilitiesEditing;
     
     let { buildDotNetFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
-    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesEditing(jsFeatureServiceCapabilitiesEditing);
+    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesEditing(jsFeatureServiceCapabilitiesEditing, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsFeatureServiceCapabilitiesEditingGenerated(dotNetOb
 }
 
 
-export async function buildDotNetFeatureServiceCapabilitiesEditingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureServiceCapabilitiesEditingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
+        jsComponentRef = await buildJsFeatureServiceCapabilitiesEditing(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeatureServiceCapabilitiesEditing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsAsyncApplyEdits)) {
         dotNetFeatureServiceCapabilitiesEditing.supportsAsyncApplyEdits = jsObject.supportsAsyncApplyEdits;
@@ -71,7 +81,7 @@ export async function buildDotNetFeatureServiceCapabilitiesEditingGenerated(jsOb
         dotNetFeatureServiceCapabilitiesEditing.supportsSplit = jsObject.supportsSplit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilitiesEditing.id = geoBlazorId;
     }

@@ -19,7 +19,7 @@ export async function buildJsTextBoxInputGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsTextBoxInput;
     
     let { buildDotNetTextBoxInput } = await import('./textBoxInput');
-    let dnInstantiatedObject = await buildDotNetTextBoxInput(jsTextBoxInput);
+    let dnInstantiatedObject = await buildDotNetTextBoxInput(jsTextBoxInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsTextBoxInputGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetTextBoxInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTextBoxInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTextBoxInput } = await import('./textBoxInput');
+        jsComponentRef = await buildJsTextBoxInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetTextBoxInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxLength)) {
         dotNetTextBoxInput.maxLength = jsObject.maxLength;
@@ -64,7 +74,7 @@ export async function buildDotNetTextBoxInputGenerated(jsObject: any): Promise<a
         dotNetTextBoxInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTextBoxInput.id = geoBlazorId;
     }

@@ -162,7 +162,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        return await buildDotNetSliderViewModel(this.widget.viewModel);
+        return await buildDotNetSliderViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -176,7 +176,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-        return await buildDotNetSliderVisibleElements(this.widget.visibleElements);
+        return await buildDotNetSliderVisibleElements(this.widget.visibleElements, this.layerId, this.viewId);
     }
     
     async setVisibleElements(value: any): Promise<void> {
@@ -387,7 +387,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
     let { buildDotNetSliderWidget } = await import('./sliderWidget');
-    let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
+    let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -414,13 +414,23 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSliderWidget } = await import('./sliderWidget');
+        jsComponentRef = await buildJsSliderWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetSliderWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.tickConfigs)) {
         let { buildDotNetTickConfig } = await import('./tickConfig');
@@ -428,11 +438,11 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
+        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-        dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements);
+        dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
     if (hasValue(jsObject.disabled)) {
         dotNetSliderWidget.disabled = jsObject.disabled;
@@ -540,7 +550,7 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<a
         dotNetSliderWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSliderWidget.id = geoBlazorId;
     }

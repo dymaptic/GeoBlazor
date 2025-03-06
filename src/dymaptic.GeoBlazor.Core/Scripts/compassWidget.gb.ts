@@ -114,7 +114,7 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        return await buildDotNetCompassViewModel(this.widget.viewModel);
+        return await buildDotNetCompassViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -171,7 +171,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
     let { buildDotNetCompassWidget } = await import('./compassWidget');
-    let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
+    let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -198,13 +198,23 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCompassWidget } = await import('./compassWidget');
+        jsComponentRef = await buildJsCompassWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetCompassWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.goToOverride)) {
         let { buildDotNetGoToOverride } = await import('./goToOverride');
@@ -212,7 +222,7 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
+        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.icon)) {
         dotNetCompassWidget.icon = jsObject.icon;
@@ -230,7 +240,7 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<
         dotNetCompassWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCompassWidget.id = geoBlazorId;
     }

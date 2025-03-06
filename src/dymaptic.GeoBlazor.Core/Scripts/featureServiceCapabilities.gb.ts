@@ -30,7 +30,7 @@ export async function buildJsFeatureServiceCapabilitiesGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceCapabilities;
     
     let { buildDotNetFeatureServiceCapabilities } = await import('./featureServiceCapabilities');
-    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilities(jsFeatureServiceCapabilities);
+    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilities(jsFeatureServiceCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -57,35 +57,45 @@ export async function buildJsFeatureServiceCapabilitiesGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetFeatureServiceCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureServiceCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFeatureServiceCapabilities } = await import('./featureServiceCapabilities');
+        jsComponentRef = await buildJsFeatureServiceCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetFeatureServiceCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.data)) {
         let { buildDotNetFeatureServiceCapabilitiesData } = await import('./featureServiceCapabilitiesData');
-        dotNetFeatureServiceCapabilities.data = await buildDotNetFeatureServiceCapabilitiesData(jsObject.data);
+        dotNetFeatureServiceCapabilities.data = await buildDotNetFeatureServiceCapabilitiesData(jsObject.data, layerId, viewId);
     }
     if (hasValue(jsObject.editing)) {
         let { buildDotNetFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
-        dotNetFeatureServiceCapabilities.editing = await buildDotNetFeatureServiceCapabilitiesEditing(jsObject.editing);
+        dotNetFeatureServiceCapabilities.editing = await buildDotNetFeatureServiceCapabilitiesEditing(jsObject.editing, layerId, viewId);
     }
     if (hasValue(jsObject.operations)) {
         let { buildDotNetFeatureServiceCapabilitiesOperations } = await import('./featureServiceCapabilitiesOperations');
-        dotNetFeatureServiceCapabilities.operations = await buildDotNetFeatureServiceCapabilitiesOperations(jsObject.operations);
+        dotNetFeatureServiceCapabilities.operations = await buildDotNetFeatureServiceCapabilitiesOperations(jsObject.operations, layerId, viewId);
     }
     if (hasValue(jsObject.sync)) {
         let { buildDotNetCapabilitiesSync } = await import('./capabilitiesSync');
-        dotNetFeatureServiceCapabilities.sync = await buildDotNetCapabilitiesSync(jsObject.sync);
+        dotNetFeatureServiceCapabilities.sync = await buildDotNetCapabilitiesSync(jsObject.sync, layerId, viewId);
     }
     if (hasValue(jsObject.query)) {
         dotNetFeatureServiceCapabilities.query = jsObject.query;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFeatureServiceCapabilities.id = geoBlazorId;
     }

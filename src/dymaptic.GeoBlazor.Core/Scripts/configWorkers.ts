@@ -4,7 +4,7 @@ export async function buildJsConfigWorkers(dotNetObject: any, layerId: string | 
     return await buildJsConfigWorkersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetConfigWorkers(jsObject: any): Promise<any> {
+export async function buildDotNetConfigWorkers(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetConfigWorkersGenerated } = await import('./configWorkers.gb');
-    return await buildDotNetConfigWorkersGenerated(jsObject);
+    return await buildDotNetConfigWorkersGenerated(jsObject, layerId, viewId);
 }

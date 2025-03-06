@@ -17,7 +17,7 @@ export async function buildJsSceneViewConstraintsAltitudeGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraintsAltitude;
     
     let { buildDotNetSceneViewConstraintsAltitude } = await import('./sceneViewConstraintsAltitude');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsAltitude(jsSceneViewConstraintsAltitude);
+    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsAltitude(jsSceneViewConstraintsAltitude, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsSceneViewConstraintsAltitudeGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetSceneViewConstraintsAltitudeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewConstraintsAltitudeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewConstraintsAltitude } = await import('./sceneViewConstraintsAltitude');
+        jsComponentRef = await buildJsSceneViewConstraintsAltitude(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewConstraintsAltitude: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetSceneViewConstraintsAltitude.max = jsObject.max;
@@ -59,7 +69,7 @@ export async function buildDotNetSceneViewConstraintsAltitudeGenerated(jsObject:
         dotNetSceneViewConstraintsAltitude.min = jsObject.min;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsAltitude.id = geoBlazorId;
     }

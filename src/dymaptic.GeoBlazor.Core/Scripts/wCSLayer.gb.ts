@@ -180,7 +180,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        return await buildDotNetCoverageInfo(this.layer.coverageInfo);
+        return await buildDotNetCoverageInfo(this.layer.coverageInfo, this.layerId, this.viewId);
     }
     
     async setCoverageInfo(value: any): Promise<void> {
@@ -222,7 +222,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i, this.layerId, this.viewId)));
     }
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
@@ -236,7 +236,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-        return await buildDotNetMultidimensionalSubset(this.layer.multidimensionalSubset);
+        return await buildDotNetMultidimensionalSubset(this.layer.multidimensionalSubset, this.layerId, this.viewId);
     }
     
     async setMultidimensionalSubset(value: any): Promise<void> {
@@ -250,7 +250,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
+        return await buildDotNetPopupTemplate(this.layer.popupTemplate, this.layerId, this.viewId);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -264,7 +264,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -292,7 +292,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.rasterInfo);
+        return await buildDotNetRasterInfo(this.layer.rasterInfo, this.layerId, this.viewId);
     }
     
     async getServiceRasterInfo(): Promise<any> {
@@ -301,7 +301,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo);
+        return await buildDotNetRasterInfo(this.layer.serviceRasterInfo, this.layerId, this.viewId);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -324,7 +324,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo);
+        return await buildDotNetTimeInfo(this.layer.timeInfo, this.layerId, this.viewId);
     }
     
     async setTimeInfo(value: any): Promise<void> {
@@ -338,7 +338,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset);
+        return await buildDotNetTimeInterval(this.layer.timeOffset, this.layerId, this.viewId);
     }
     
     async setTimeOffset(value: any): Promise<void> {
@@ -484,19 +484,19 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWCSLayer = new WCSLayer(properties);
     jsWCSLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsWCSLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsWCSLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -512,7 +512,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     
     let { buildDotNetWCSLayer } = await import('./wCSLayer');
-    let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer);
+    let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -539,17 +539,27 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWCSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWCSLayer } = await import('./wCSLayer');
+        jsComponentRef = await buildJsWCSLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetWCSLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.coverageInfo)) {
         let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo);
+        dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo, layerId, viewId);
     }
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -561,19 +571,19 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.multidimensionalDefinition)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        dotNetWCSLayer.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        dotNetWCSLayer.multidimensionalDefinition = await Promise.all(jsObject.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i, layerId, viewId)));
     }
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-        dotNetWCSLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
+        dotNetWCSLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset, layerId, viewId);
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetWCSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetWCSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+        dotNetWCSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
     }
     if (hasValue(jsObject.rasterFields)) {
         let { buildDotNetField } = await import('./field');
@@ -581,7 +591,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.serviceRasterInfo)) {
         let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo);
+        dotNetWCSLayer.serviceRasterInfo = await buildDotNetRasterInfo(jsObject.serviceRasterInfo, layerId, viewId);
     }
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -589,11 +599,11 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetWCSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        dotNetWCSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetWCSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+        dotNetWCSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -666,7 +676,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
         dotNetWCSLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWCSLayer.id = geoBlazorId;
     }

@@ -25,7 +25,7 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
     let { buildDotNetLOD } = await import('./lOD');
-    let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
+    let dnInstantiatedObject = await buildDotNetLOD(jsLOD, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,13 +52,23 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLODGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLOD } = await import('./lOD');
+        jsComponentRef = await buildJsLOD(jsObject, layerId, viewId);
+    }
+    
     let dotNetLOD: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.level)) {
         dotNetLOD.level = jsObject.level;
@@ -73,7 +83,7 @@ export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
         dotNetLOD.scale = jsObject.scale;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLOD.id = geoBlazorId;
     }

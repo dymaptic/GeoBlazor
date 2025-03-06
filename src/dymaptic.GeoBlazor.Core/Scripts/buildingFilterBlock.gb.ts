@@ -21,7 +21,7 @@ export async function buildJsBuildingFilterBlockGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFilterBlock;
     
     let { buildDotNetBuildingFilterBlock } = await import('./buildingFilterBlock');
-    let dnInstantiatedObject = await buildDotNetBuildingFilterBlock(jsBuildingFilterBlock);
+    let dnInstantiatedObject = await buildDotNetBuildingFilterBlock(jsBuildingFilterBlock, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,17 +48,27 @@ export async function buildJsBuildingFilterBlockGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetBuildingFilterBlockGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingFilterBlockGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBuildingFilterBlock } = await import('./buildingFilterBlock');
+        jsComponentRef = await buildJsBuildingFilterBlock(jsObject, layerId, viewId);
+    }
+    
     let dotNetBuildingFilterBlock: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.filterMode)) {
         let { buildDotNetBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
-        dotNetBuildingFilterBlock.filterMode = await buildDotNetBuildingFilterBlockFilterMode(jsObject.filterMode);
+        dotNetBuildingFilterBlock.filterMode = await buildDotNetBuildingFilterBlockFilterMode(jsObject.filterMode, layerId, viewId);
     }
     if (hasValue(jsObject.filterExpression)) {
         dotNetBuildingFilterBlock.filterExpression = jsObject.filterExpression;
@@ -67,7 +77,7 @@ export async function buildDotNetBuildingFilterBlockGenerated(jsObject: any): Pr
         dotNetBuildingFilterBlock.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBuildingFilterBlock.id = geoBlazorId;
     }

@@ -24,7 +24,7 @@ export async function buildJsConfigLogGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsconfigLog;
     
     let { buildDotNetConfigLog } = await import('./configLog');
-    let dnInstantiatedObject = await buildDotNetConfigLog(jsconfigLog);
+    let dnInstantiatedObject = await buildDotNetConfigLog(jsconfigLog, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsConfigLogGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetConfigLogGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetConfigLogGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsConfigLog } = await import('./configLog');
+        jsComponentRef = await buildJsConfigLog(jsObject, layerId, viewId);
+    }
+    
     let dotNetConfigLog: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.interceptors)) {
         dotNetConfigLog.interceptors = jsObject.interceptors;
@@ -66,7 +76,7 @@ export async function buildDotNetConfigLogGenerated(jsObject: any): Promise<any>
         dotNetConfigLog.level = jsObject.level;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetConfigLog.id = geoBlazorId;
     }

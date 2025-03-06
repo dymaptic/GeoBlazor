@@ -14,7 +14,7 @@ export async function buildJsLayerInclusionMemberDefinitionGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsLayerInclusionMemberDefinition;
     
     let { buildDotNetLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
-    let dnInstantiatedObject = await buildDotNetLayerInclusionMemberDefinition(jsLayerInclusionMemberDefinition);
+    let dnInstantiatedObject = await buildDotNetLayerInclusionMemberDefinition(jsLayerInclusionMemberDefinition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsLayerInclusionMemberDefinitionGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetLayerInclusionMemberDefinitionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerInclusionMemberDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
+        jsComponentRef = await buildJsLayerInclusionMemberDefinition(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerInclusionMemberDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.id)) {
         dotNetLayerInclusionMemberDefinition.layerInclusionMemberDefinitionId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerInclusionMemberDefinition.id = geoBlazorId;
     }

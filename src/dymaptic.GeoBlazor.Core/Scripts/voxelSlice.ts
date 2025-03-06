@@ -4,7 +4,7 @@ export async function buildJsVoxelSlice(dotNetObject: any, layerId: string | nul
     return await buildJsVoxelSliceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVoxelSlice(jsObject: any): Promise<any> {
+export async function buildDotNetVoxelSlice(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVoxelSliceGenerated } = await import('./voxelSlice.gb');
-    return await buildDotNetVoxelSliceGenerated(jsObject);
+    return await buildDotNetVoxelSliceGenerated(jsObject, layerId, viewId);
 }

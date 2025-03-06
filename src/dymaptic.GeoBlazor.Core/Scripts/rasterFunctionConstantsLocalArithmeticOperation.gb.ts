@@ -71,7 +71,7 @@ export async function buildJsRasterFunctionConstantsLocalArithmeticOperationGene
     arcGisObjectRefs[dotNetObject.id] = jsrasterFunctionConstantsLocalArithmeticOperation;
     
     let { buildDotNetRasterFunctionConstantsLocalArithmeticOperation } = await import('./rasterFunctionConstantsLocalArithmeticOperation');
-    let dnInstantiatedObject = await buildDotNetRasterFunctionConstantsLocalArithmeticOperation(jsrasterFunctionConstantsLocalArithmeticOperation);
+    let dnInstantiatedObject = await buildDotNetRasterFunctionConstantsLocalArithmeticOperation(jsrasterFunctionConstantsLocalArithmeticOperation, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -98,13 +98,23 @@ export async function buildJsRasterFunctionConstantsLocalArithmeticOperationGene
 }
 
 
-export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRasterFunctionConstantsLocalArithmeticOperation } = await import('./rasterFunctionConstantsLocalArithmeticOperation');
+        jsComponentRef = await buildJsRasterFunctionConstantsLocalArithmeticOperation(jsObject, layerId, viewId);
+    }
+    
     let dotNetRasterFunctionConstantsLocalArithmeticOperation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.abs)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.abs = jsObject.abs;
@@ -167,7 +177,7 @@ export async function buildDotNetRasterFunctionConstantsLocalArithmeticOperation
         dotNetRasterFunctionConstantsLocalArithmeticOperation.times = jsObject.times;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRasterFunctionConstantsLocalArithmeticOperation.id = geoBlazorId;
     }

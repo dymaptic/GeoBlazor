@@ -23,7 +23,7 @@ export async function buildJsSceneViewConstraintsGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraints;
     
     let { buildDotNetSceneViewConstraints } = await import('./sceneViewConstraints');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraints(jsSceneViewConstraints);
+    let dnInstantiatedObject = await buildDotNetSceneViewConstraints(jsSceneViewConstraints, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,28 +50,38 @@ export async function buildJsSceneViewConstraintsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetSceneViewConstraintsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewConstraintsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewConstraints } = await import('./sceneViewConstraints');
+        jsComponentRef = await buildJsSceneViewConstraints(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewConstraints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.altitude)) {
         let { buildDotNetSceneViewConstraintsAltitude } = await import('./sceneViewConstraintsAltitude');
-        dotNetSceneViewConstraints.altitude = await buildDotNetSceneViewConstraintsAltitude(jsObject.altitude);
+        dotNetSceneViewConstraints.altitude = await buildDotNetSceneViewConstraintsAltitude(jsObject.altitude, layerId, viewId);
     }
     if (hasValue(jsObject.clipDistance)) {
         let { buildDotNetSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
-        dotNetSceneViewConstraints.clipDistance = await buildDotNetSceneViewConstraintsClipDistance(jsObject.clipDistance);
+        dotNetSceneViewConstraints.clipDistance = await buildDotNetSceneViewConstraintsClipDistance(jsObject.clipDistance, layerId, viewId);
     }
     if (hasValue(jsObject.tilt)) {
         let { buildDotNetSceneViewConstraintsTilt } = await import('./sceneViewConstraintsTilt');
-        dotNetSceneViewConstraints.tilt = await buildDotNetSceneViewConstraintsTilt(jsObject.tilt);
+        dotNetSceneViewConstraints.tilt = await buildDotNetSceneViewConstraintsTilt(jsObject.tilt, layerId, viewId);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraints.id = geoBlazorId;
     }

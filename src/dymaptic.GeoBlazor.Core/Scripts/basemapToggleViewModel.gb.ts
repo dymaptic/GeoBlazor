@@ -37,7 +37,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.activeBasemap);
+        return await buildDotNetBasemap(this.component.activeBasemap, this.layerId, this.viewId);
     }
     
     async getNextBasemap(): Promise<any> {
@@ -46,7 +46,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.nextBasemap);
+        return await buildDotNetBasemap(this.component.nextBasemap, this.layerId, this.viewId);
     }
     
     async setNextBasemap(value: any): Promise<void> {
@@ -87,7 +87,7 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
     
     let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
+    let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -114,19 +114,29 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapToggleViewModel } = await import('./basemapToggleViewModel');
+        jsComponentRef = await buildJsBasemapToggleViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapToggleViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.state)) {
         dotNetBasemapToggleViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapToggleViewModel.id = geoBlazorId;
     }

@@ -20,7 +20,7 @@ export async function buildJsLineSymbolGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbol;
     
     let { buildDotNetLineSymbol } = await import('./lineSymbol');
-    let dnInstantiatedObject = await buildDotNetLineSymbol(jsLineSymbol);
+    let dnInstantiatedObject = await buildDotNetLineSymbol(jsLineSymbol, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsLineSymbolGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetLineSymbolGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLineSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLineSymbol } = await import('./lineSymbol');
+        jsComponentRef = await buildJsLineSymbol(jsObject, layerId, viewId);
+    }
+    
     let dotNetLineSymbol: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -66,7 +76,7 @@ export async function buildDotNetLineSymbolGenerated(jsObject: any): Promise<any
         dotNetLineSymbol.width = jsObject.width;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLineSymbol.id = geoBlazorId;
     }

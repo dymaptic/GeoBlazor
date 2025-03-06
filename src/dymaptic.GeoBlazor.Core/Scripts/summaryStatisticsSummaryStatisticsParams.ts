@@ -4,7 +4,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParams(dotNetObje
     return await buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSummaryStatisticsSummaryStatisticsParams(jsObject: any): Promise<any> {
+export async function buildDotNetSummaryStatisticsSummaryStatisticsParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerated } = await import('./summaryStatisticsSummaryStatisticsParams.gb');
-    return await buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerated(jsObject);
+    return await buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerated(jsObject, layerId, viewId);
 }

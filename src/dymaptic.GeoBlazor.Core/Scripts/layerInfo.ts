@@ -4,7 +4,7 @@ export async function buildJsLayerInfo(dotNetObject: any, layerId: string | null
     return await buildJsLayerInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerInfo(jsObject: any): Promise<any> {
+export async function buildDotNetLayerInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLayerInfoGenerated } = await import('./layerInfo.gb');
-    return await buildDotNetLayerInfoGenerated(jsObject);
+    return await buildDotNetLayerInfoGenerated(jsObject, layerId, viewId);
 }

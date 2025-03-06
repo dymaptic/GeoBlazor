@@ -4,7 +4,7 @@ export async function buildJsGeoJSONLayerElevationInfo(dotNetObject: any, layerI
     return await buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeoJSONLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetGeoJSONLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGeoJSONLayerElevationInfoGenerated } = await import('./geoJSONLayerElevationInfo.gb');
-    return await buildDotNetGeoJSONLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetGeoJSONLayerElevationInfoGenerated(jsObject, layerId, viewId);
 }

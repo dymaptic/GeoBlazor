@@ -39,7 +39,7 @@ export async function buildJsHistogramViewModelGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsHistogramViewModel;
     
     let { buildDotNetHistogramViewModel } = await import('./histogramViewModel');
-    let dnInstantiatedObject = await buildDotNetHistogramViewModel(jsHistogramViewModel);
+    let dnInstantiatedObject = await buildDotNetHistogramViewModel(jsHistogramViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -66,17 +66,27 @@ export async function buildJsHistogramViewModelGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetHistogramViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHistogramViewModel } = await import('./histogramViewModel');
+        jsComponentRef = await buildJsHistogramViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetHistogramViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.bins)) {
         let { buildDotNetBin } = await import('./bin');
-        dotNetHistogramViewModel.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i)));
+        dotNetHistogramViewModel.bins = await Promise.all(jsObject.bins.map(async i => await buildDotNetBin(i, layerId, viewId)));
     }
     if (hasValue(jsObject.average)) {
         dotNetHistogramViewModel.average = jsObject.average;
@@ -100,7 +110,7 @@ export async function buildDotNetHistogramViewModelGenerated(jsObject: any): Pro
         dotNetHistogramViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHistogramViewModel.id = geoBlazorId;
     }

@@ -28,7 +28,7 @@ export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsVoxelSlice;
     
     let { buildDotNetVoxelSlice } = await import('./voxelSlice');
-    let dnInstantiatedObject = await buildDotNetVoxelSlice(jsVoxelSlice);
+    let dnInstantiatedObject = await buildDotNetVoxelSlice(jsVoxelSlice, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetVoxelSliceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVoxelSliceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVoxelSlice } = await import('./voxelSlice');
+        jsComponentRef = await buildJsVoxelSlice(jsObject, layerId, viewId);
+    }
+    
     let dotNetVoxelSlice: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.enabled)) {
         dotNetVoxelSlice.enabled = jsObject.enabled;
@@ -79,7 +89,7 @@ export async function buildDotNetVoxelSliceGenerated(jsObject: any): Promise<any
         dotNetVoxelSlice.tilt = jsObject.tilt;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVoxelSlice.id = geoBlazorId;
     }

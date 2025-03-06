@@ -4,7 +4,7 @@ export async function buildJsNamedObjectEditResults(dotNetObject: any, layerId: 
     return await buildJsNamedObjectEditResultsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNamedObjectEditResults(jsObject: any): Promise<any> {
+export async function buildDotNetNamedObjectEditResults(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetNamedObjectEditResultsGenerated } = await import('./namedObjectEditResults.gb');
-    return await buildDotNetNamedObjectEditResultsGenerated(jsObject);
+    return await buildDotNetNamedObjectEditResultsGenerated(jsObject, layerId, viewId);
 }

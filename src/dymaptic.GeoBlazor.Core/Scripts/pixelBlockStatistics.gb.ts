@@ -20,7 +20,7 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     
     let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-    let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics);
+    let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        jsComponentRef = await buildJsPixelBlockStatistics(jsObject, layerId, viewId);
+    }
+    
     let dotNetPixelBlockStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxValue)) {
         dotNetPixelBlockStatistics.maxValue = jsObject.maxValue;
@@ -65,7 +75,7 @@ export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): P
         dotNetPixelBlockStatistics.noDataValue = jsObject.noDataValue;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPixelBlockStatistics.id = geoBlazorId;
     }

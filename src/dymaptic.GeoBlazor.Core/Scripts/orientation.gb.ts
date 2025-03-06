@@ -14,7 +14,7 @@ export async function buildJsOrientationGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsOrientation;
     
     let { buildDotNetOrientation } = await import('./orientation');
-    let dnInstantiatedObject = await buildDotNetOrientation(jsOrientation);
+    let dnInstantiatedObject = await buildDotNetOrientation(jsOrientation, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsOrientationGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetOrientationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOrientationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOrientation } = await import('./orientation');
+        jsComponentRef = await buildJsOrientation(jsObject, layerId, viewId);
+    }
+    
     let dotNetOrientation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.z)) {
         dotNetOrientation.z = jsObject.z;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOrientation.id = geoBlazorId;
     }

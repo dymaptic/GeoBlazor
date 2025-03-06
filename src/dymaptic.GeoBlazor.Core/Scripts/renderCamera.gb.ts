@@ -13,7 +13,7 @@ export async function buildJsRenderCameraGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsRenderCamera;
     
     let { buildDotNetRenderCamera } = await import('./renderCamera');
-    let dnInstantiatedObject = await buildDotNetRenderCamera(jsRenderCamera);
+    let dnInstantiatedObject = await buildDotNetRenderCamera(jsRenderCamera, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -40,13 +40,23 @@ export async function buildJsRenderCameraGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetRenderCameraGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRenderCameraGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRenderCamera } = await import('./renderCamera');
+        jsComponentRef = await buildJsRenderCamera(jsObject, layerId, viewId);
+    }
+    
     let dotNetRenderCamera: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.center)) {
         dotNetRenderCamera.center = jsObject.center;
@@ -85,7 +95,7 @@ export async function buildDotNetRenderCameraGenerated(jsObject: any): Promise<a
         dotNetRenderCamera.viewport = jsObject.viewport;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRenderCamera.id = geoBlazorId;
     }

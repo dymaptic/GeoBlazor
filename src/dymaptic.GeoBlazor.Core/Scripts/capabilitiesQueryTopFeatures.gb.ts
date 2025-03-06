@@ -14,7 +14,7 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
     
     let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryTopFeatures(jsCapabilitiesQueryTopFeatures);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryTopFeatures(jsCapabilitiesQueryTopFeatures, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
+        jsComponentRef = await buildJsCapabilitiesQueryTopFeatures(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesQueryTopFeatures: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsCacheHint)) {
         dotNetCapabilitiesQueryTopFeatures.supportsCacheHint = jsObject.supportsCacheHint;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesQueryTopFeatures.id = geoBlazorId;
     }

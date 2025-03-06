@@ -17,7 +17,7 @@ export async function buildJsCategoryGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsCategory;
     
     let { buildDotNetCategory } = await import('./category');
-    let dnInstantiatedObject = await buildDotNetCategory(jsCategory);
+    let dnInstantiatedObject = await buildDotNetCategory(jsCategory, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsCategoryGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetCategoryGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCategoryGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCategory } = await import('./category');
+        jsComponentRef = await buildJsCategory(jsObject, layerId, viewId);
+    }
+    
     let dotNetCategory: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.categoryId)) {
         dotNetCategory.categoryId = jsObject.categoryId;
@@ -59,7 +69,7 @@ export async function buildDotNetCategoryGenerated(jsObject: any): Promise<any> 
         dotNetCategory.label = jsObject.label;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCategory.id = geoBlazorId;
     }

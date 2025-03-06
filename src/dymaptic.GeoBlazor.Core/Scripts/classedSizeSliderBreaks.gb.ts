@@ -20,7 +20,7 @@ export async function buildJsClassedSizeSliderBreaksGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsClassedSizeSliderBreaks;
     
     let { buildDotNetClassedSizeSliderBreaks } = await import('./classedSizeSliderBreaks');
-    let dnInstantiatedObject = await buildDotNetClassedSizeSliderBreaks(jsClassedSizeSliderBreaks);
+    let dnInstantiatedObject = await buildDotNetClassedSizeSliderBreaks(jsClassedSizeSliderBreaks, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsClassedSizeSliderBreaksGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetClassedSizeSliderBreaksGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetClassedSizeSliderBreaksGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsClassedSizeSliderBreaks } = await import('./classedSizeSliderBreaks');
+        jsComponentRef = await buildJsClassedSizeSliderBreaks(jsObject, layerId, viewId);
+    }
+    
     let dotNetClassedSizeSliderBreaks: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetClassedSizeSliderBreaks.max = jsObject.max;
@@ -65,7 +75,7 @@ export async function buildDotNetClassedSizeSliderBreaksGenerated(jsObject: any)
         dotNetClassedSizeSliderBreaks.size = jsObject.size;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetClassedSizeSliderBreaks.id = geoBlazorId;
     }

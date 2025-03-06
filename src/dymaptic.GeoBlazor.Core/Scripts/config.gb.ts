@@ -27,7 +27,7 @@ export async function buildJsConfigGenerated(dotNetObject: any, layerId: string 
     arcGisObjectRefs[dotNetObject.id] = jsConfig;
     
     let { buildDotNetConfig } = await import('./config');
-    let dnInstantiatedObject = await buildDotNetConfig(jsConfig);
+    let dnInstantiatedObject = await buildDotNetConfig(jsConfig, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -54,13 +54,23 @@ export async function buildJsConfigGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetConfigGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetConfigGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsConfig } = await import('./config');
+        jsComponentRef = await buildJsConfig(jsObject, layerId, viewId);
+    }
+    
     let dotNetConfig: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
@@ -79,7 +89,7 @@ export async function buildDotNetConfigGenerated(jsObject: any): Promise<any> {
         dotNetConfig.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetConfig.id = geoBlazorId;
     }

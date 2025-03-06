@@ -15,7 +15,7 @@ export async function buildJsPrintCompleteEventResultsGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsPrintCompleteEventResults;
     
     let { buildDotNetPrintCompleteEventResults } = await import('./printCompleteEventResults');
-    let dnInstantiatedObject = await buildDotNetPrintCompleteEventResults(jsPrintCompleteEventResults);
+    let dnInstantiatedObject = await buildDotNetPrintCompleteEventResults(jsPrintCompleteEventResults, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,20 +42,30 @@ export async function buildJsPrintCompleteEventResultsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetPrintCompleteEventResultsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPrintCompleteEventResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPrintCompleteEventResults } = await import('./printCompleteEventResults');
+        jsComponentRef = await buildJsPrintCompleteEventResults(jsObject, layerId, viewId);
+    }
+    
     let dotNetPrintCompleteEventResults: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.link)) {
         let { buildDotNetFileLink } = await import('./fileLink');
-        dotNetPrintCompleteEventResults.link = await Promise.all(jsObject.link.map(async i => await buildDotNetFileLink(i)));
+        dotNetPrintCompleteEventResults.link = await Promise.all(jsObject.link.map(async i => await buildDotNetFileLink(i, layerId, viewId)));
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPrintCompleteEventResults.id = geoBlazorId;
     }

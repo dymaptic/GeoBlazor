@@ -4,7 +4,7 @@ export async function buildJsMapNotesLayerCapabilities(dotNetObject: any, layerI
     return await buildJsMapNotesLayerCapabilitiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetMapNotesLayerCapabilities(jsObject: any): Promise<any> {
+export async function buildDotNetMapNotesLayerCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetMapNotesLayerCapabilitiesGenerated } = await import('./mapNotesLayerCapabilities.gb');
-    return await buildDotNetMapNotesLayerCapabilitiesGenerated(jsObject);
+    return await buildDotNetMapNotesLayerCapabilitiesGenerated(jsObject, layerId, viewId);
 }

@@ -18,7 +18,7 @@ export async function buildJsOpacityRampElementGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampElement;
     
     let { buildDotNetOpacityRampElement } = await import('./opacityRampElement');
-    let dnInstantiatedObject = await buildDotNetOpacityRampElement(jsOpacityRampElement);
+    let dnInstantiatedObject = await buildDotNetOpacityRampElement(jsOpacityRampElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,17 +45,27 @@ export async function buildJsOpacityRampElementGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetOpacityRampElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOpacityRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOpacityRampElement } = await import('./opacityRampElement');
+        jsComponentRef = await buildJsOpacityRampElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetOpacityRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
-        dotNetOpacityRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetOpacityRampStop(i)));
+        dotNetOpacityRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetOpacityRampStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.title)) {
         dotNetOpacityRampElement.title = jsObject.title;
@@ -64,7 +74,7 @@ export async function buildDotNetOpacityRampElementGenerated(jsObject: any): Pro
         dotNetOpacityRampElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOpacityRampElement.id = geoBlazorId;
     }

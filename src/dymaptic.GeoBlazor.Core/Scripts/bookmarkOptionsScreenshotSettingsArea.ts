@@ -4,7 +4,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject:
     return await buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated } = await import('./bookmarkOptionsScreenshotSettingsArea.gb');
-    return await buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject);
+    return await buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject, layerId, viewId);
 }

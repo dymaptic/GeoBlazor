@@ -3,7 +3,7 @@ export async function buildJsSearchCompleteEvent(dotNetObject: any, layerId: str
     return await buildJsSearchCompleteEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSearchCompleteEvent(jsObject: any): Promise<any> {
+export async function buildDotNetSearchCompleteEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSearchCompleteEventGenerated} = await import('./searchCompleteEvent.gb');
-    return await buildDotNetSearchCompleteEventGenerated(jsObject);
+    return await buildDotNetSearchCompleteEventGenerated(jsObject, layerId, viewId);
 }

@@ -11,7 +11,7 @@ export async function buildJsIContentContentGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jscontentContent;
     
     let { buildDotNetIContentContent } = await import('./iContentContent');
-    let dnInstantiatedObject = await buildDotNetIContentContent(jscontentContent);
+    let dnInstantiatedObject = await buildDotNetIContentContent(jscontentContent, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsIContentContentGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetIContentContentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIContentContentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIContentContent } = await import('./iContentContent');
+        jsComponentRef = await buildJsIContentContent(jsObject, layerId, viewId);
+    }
+    
     let dotNetIContentContent: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIContentContent.id = geoBlazorId;
     }

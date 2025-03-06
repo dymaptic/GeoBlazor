@@ -20,7 +20,7 @@ export async function buildJsBinGenerated(dotNetObject: any, layerId: string | n
     arcGisObjectRefs[dotNetObject.id] = jsBin;
     
     let { buildDotNetBin } = await import('./bin');
-    let dnInstantiatedObject = await buildDotNetBin(jsBin);
+    let dnInstantiatedObject = await buildDotNetBin(jsBin, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsBinGenerated(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetBinGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBinGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBin } = await import('./bin');
+        jsComponentRef = await buildJsBin(jsObject, layerId, viewId);
+    }
+    
     let dotNetBin: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.count)) {
         dotNetBin.count = jsObject.count;
@@ -65,7 +75,7 @@ export async function buildDotNetBinGenerated(jsObject: any): Promise<any> {
         dotNetBin.minValue = jsObject.minValue;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBin.id = geoBlazorId;
     }

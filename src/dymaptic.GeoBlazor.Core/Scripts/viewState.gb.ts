@@ -24,7 +24,7 @@ export default class ViewStateGenerated implements IPropertyWrapper {
         let jsState = await buildJsViewState(state, this.layerId, this.viewId) as any;
         let result = this.component.copy(jsState);
         let { buildDotNetViewState } = await import('./viewState');
-        return await buildDotNetViewState(result);
+        return await buildDotNetViewState(result, this.layerId, this.viewId);
     }
 
     async toMap(out: any,
@@ -88,7 +88,7 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsViewState;
     
     let { buildDotNetViewState } = await import('./viewState');
-    let dnInstantiatedObject = await buildDotNetViewState(jsViewState);
+    let dnInstantiatedObject = await buildDotNetViewState(jsViewState, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -115,13 +115,23 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetViewStateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsViewState } = await import('./viewState');
+        jsComponentRef = await buildJsViewState(jsObject, layerId, viewId);
+    }
+    
     let dotNetViewState: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -143,7 +153,7 @@ export async function buildDotNetViewStateGenerated(jsObject: any): Promise<any>
         dotNetViewState.size = jsObject.size;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetViewState.id = geoBlazorId;
     }

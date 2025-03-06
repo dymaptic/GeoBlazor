@@ -4,7 +4,7 @@ export async function buildJsExternalReferenceSpatialReference(dotNetObject: any
     return await buildJsExternalReferenceSpatialReferenceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetExternalReferenceSpatialReference(jsObject: any): Promise<any> {
+export async function buildDotNetExternalReferenceSpatialReference(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetExternalReferenceSpatialReferenceGenerated } = await import('./externalReferenceSpatialReference.gb');
-    return await buildDotNetExternalReferenceSpatialReferenceGenerated(jsObject);
+    return await buildDotNetExternalReferenceSpatialReferenceGenerated(jsObject, layerId, viewId);
 }

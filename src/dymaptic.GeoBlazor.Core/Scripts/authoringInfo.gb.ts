@@ -72,7 +72,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     
     let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo);
+    let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -99,13 +99,23 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAuthoringInfo } = await import('./authoringInfo');
+        jsComponentRef = await buildJsAuthoringInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetAuthoringInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.colorRamp)) {
         let { buildDotNetColorRamp } = await import('./colorRamp');
@@ -113,19 +123,19 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.field1)) {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
+        dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1, layerId, viewId);
     }
     if (hasValue(jsObject.field2)) {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2);
+        dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2, layerId, viewId);
     }
     if (hasValue(jsObject.statistics)) {
         let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics);
+        dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics, layerId, viewId);
     }
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
+        dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i, layerId, viewId)));
     }
     if (hasValue(jsObject.classificationMethod)) {
         dotNetAuthoringInfo.classificationMethod = jsObject.classificationMethod;
@@ -170,7 +180,7 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<
         dotNetAuthoringInfo.univariateTheme = jsObject.univariateTheme;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfo.id = geoBlazorId;
     }

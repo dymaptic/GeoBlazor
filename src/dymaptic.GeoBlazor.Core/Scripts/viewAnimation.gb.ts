@@ -73,7 +73,7 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsViewAnimation;
     
     let { buildDotNetViewAnimation } = await import('./viewAnimation');
-    let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation);
+    let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -100,13 +100,23 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetViewAnimationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsViewAnimation } = await import('./viewAnimation');
+        jsComponentRef = await buildJsViewAnimation(jsObject, layerId, viewId);
+    }
+    
     let dotNetViewAnimation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.target)) {
         let { buildDotNetViewpoint } = await import('./viewpoint');
@@ -116,7 +126,7 @@ export async function buildDotNetViewAnimationGenerated(jsObject: any): Promise<
         dotNetViewAnimation.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetViewAnimation.id = geoBlazorId;
     }

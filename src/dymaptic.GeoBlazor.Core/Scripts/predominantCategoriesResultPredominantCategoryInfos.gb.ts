@@ -20,7 +20,7 @@ export async function buildJsPredominantCategoriesResultPredominantCategoryInfos
     arcGisObjectRefs[dotNetObject.id] = jsPredominantCategoriesResultPredominantCategoryInfos;
     
     let { buildDotNetPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
-    let dnInstantiatedObject = await buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsPredominantCategoriesResultPredominantCategoryInfos);
+    let dnInstantiatedObject = await buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsPredominantCategoriesResultPredominantCategoryInfos, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsPredominantCategoriesResultPredominantCategoryInfos
 }
 
 
-export async function buildDotNetPredominantCategoriesResultPredominantCategoryInfosGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPredominantCategoriesResultPredominantCategoryInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
+        jsComponentRef = await buildJsPredominantCategoriesResultPredominantCategoryInfos(jsObject, layerId, viewId);
+    }
+    
     let dotNetPredominantCategoriesResultPredominantCategoryInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.count)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.count = jsObject.count;
@@ -65,7 +75,7 @@ export async function buildDotNetPredominantCategoriesResultPredominantCategoryI
         dotNetPredominantCategoriesResultPredominantCategoryInfos.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPredominantCategoriesResultPredominantCategoryInfos.id = geoBlazorId;
     }

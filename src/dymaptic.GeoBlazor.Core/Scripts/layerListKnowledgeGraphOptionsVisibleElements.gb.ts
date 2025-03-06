@@ -20,7 +20,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
     
     let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements);
+    let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
 }
 
 
-export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
+        jsComponentRef = await buildJsLayerListKnowledgeGraphOptionsVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerListKnowledgeGraphOptionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.errors)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.errors = jsObject.errors;
@@ -65,7 +75,7 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGe
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.statusIndicators = jsObject.statusIndicators;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerListKnowledgeGraphOptionsVisibleElements.id = geoBlazorId;
     }

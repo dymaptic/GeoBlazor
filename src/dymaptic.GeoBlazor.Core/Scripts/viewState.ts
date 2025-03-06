@@ -15,7 +15,7 @@ export async function buildJsViewState(dotNetObject: any, layerId: string | null
     return await buildJsViewStateGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetViewState(jsObject: any): Promise<any> {
+export async function buildDotNetViewState(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetViewStateGenerated} = await import('./viewState.gb');
-    return await buildDotNetViewStateGenerated(jsObject);
+    return await buildDotNetViewStateGenerated(jsObject, layerId, viewId);
 }

@@ -11,7 +11,7 @@ export async function buildJsSupportJsonUtilsGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jssupportJsonUtils;
     
     let { buildDotNetSupportJsonUtils } = await import('./supportJsonUtils');
-    let dnInstantiatedObject = await buildDotNetSupportJsonUtils(jssupportJsonUtils);
+    let dnInstantiatedObject = await buildDotNetSupportJsonUtils(jssupportJsonUtils, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsSupportJsonUtilsGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetSupportJsonUtilsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSupportJsonUtilsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSupportJsonUtils } = await import('./supportJsonUtils');
+        jsComponentRef = await buildJsSupportJsonUtils(jsObject, layerId, viewId);
+    }
+    
     let dotNetSupportJsonUtils: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSupportJsonUtils.id = geoBlazorId;
     }

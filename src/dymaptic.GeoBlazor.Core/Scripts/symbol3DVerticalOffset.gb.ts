@@ -22,7 +22,7 @@ export async function buildJsSymbol3DVerticalOffsetGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsSymbol3DVerticalOffset;
     
     let { buildDotNetSymbol3DVerticalOffset } = await import('./symbol3DVerticalOffset');
-    let dnInstantiatedObject = await buildDotNetSymbol3DVerticalOffset(jsSymbol3DVerticalOffset);
+    let dnInstantiatedObject = await buildDotNetSymbol3DVerticalOffset(jsSymbol3DVerticalOffset, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,13 +49,23 @@ export async function buildJsSymbol3DVerticalOffsetGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetSymbol3DVerticalOffsetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSymbol3DVerticalOffsetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSymbol3DVerticalOffset } = await import('./symbol3DVerticalOffset');
+        jsComponentRef = await buildJsSymbol3DVerticalOffset(jsObject, layerId, viewId);
+    }
+    
     let dotNetSymbol3DVerticalOffset: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxWorldLength)) {
         dotNetSymbol3DVerticalOffset.maxWorldLength = jsObject.maxWorldLength;
@@ -67,7 +77,7 @@ export async function buildDotNetSymbol3DVerticalOffsetGenerated(jsObject: any):
         dotNetSymbol3DVerticalOffset.screenLength = jsObject.screenLength;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSymbol3DVerticalOffset.id = geoBlazorId;
     }

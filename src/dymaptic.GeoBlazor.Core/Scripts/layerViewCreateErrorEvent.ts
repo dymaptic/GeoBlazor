@@ -4,7 +4,7 @@ export async function buildJsLayerViewCreateErrorEvent(dotNetObject: any, layerI
     return await buildJsLayerViewCreateErrorEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerViewCreateErrorEvent(jsObject: any): Promise<any> {
+export async function buildDotNetLayerViewCreateErrorEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLayerViewCreateErrorEventGenerated } = await import('./layerViewCreateErrorEvent.gb');
-    return await buildDotNetLayerViewCreateErrorEventGenerated(jsObject);
+    return await buildDotNetLayerViewCreateErrorEventGenerated(jsObject, layerId, viewId);
 }

@@ -23,7 +23,7 @@ export async function buildJsSceneViewTakeScreenshotOptionsAreaGenerated(dotNetO
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewTakeScreenshotOptionsArea;
     
     let { buildDotNetSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
-    let dnInstantiatedObject = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsSceneViewTakeScreenshotOptionsArea);
+    let dnInstantiatedObject = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsSceneViewTakeScreenshotOptionsArea, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsSceneViewTakeScreenshotOptionsAreaGenerated(dotNetO
 }
 
 
-export async function buildDotNetSceneViewTakeScreenshotOptionsAreaGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewTakeScreenshotOptionsAreaGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
+        jsComponentRef = await buildJsSceneViewTakeScreenshotOptionsArea(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewTakeScreenshotOptionsArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.height)) {
         dotNetSceneViewTakeScreenshotOptionsArea.height = jsObject.height;
@@ -71,7 +81,7 @@ export async function buildDotNetSceneViewTakeScreenshotOptionsAreaGenerated(jsO
         dotNetSceneViewTakeScreenshotOptionsArea.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewTakeScreenshotOptionsArea.id = geoBlazorId;
     }

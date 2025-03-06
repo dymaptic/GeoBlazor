@@ -5,7 +5,7 @@ export async function buildJsImageGPSInfoParameters(dotNetObject: any, layerId: 
     return await buildJsImageGPSInfoParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageGPSInfoParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageGPSInfoParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageGPSInfoParametersGenerated} = await import('./imageGPSInfoParameters.gb');
-    return await buildDotNetImageGPSInfoParametersGenerated(jsObject);
+    return await buildDotNetImageGPSInfoParametersGenerated(jsObject, layerId, viewId);
 }

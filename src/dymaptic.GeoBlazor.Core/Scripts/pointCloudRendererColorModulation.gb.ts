@@ -20,7 +20,7 @@ export async function buildJsPointCloudRendererColorModulationGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererColorModulation;
     
     let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation);
+    let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsPointCloudRendererColorModulationGenerated(dotNetOb
 }
 
 
-export async function buildDotNetPointCloudRendererColorModulationGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPointCloudRendererColorModulationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
+        jsComponentRef = await buildJsPointCloudRendererColorModulation(jsObject, layerId, viewId);
+    }
+    
     let dotNetPointCloudRendererColorModulation: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetPointCloudRendererColorModulation.field = jsObject.field;
@@ -65,7 +75,7 @@ export async function buildDotNetPointCloudRendererColorModulationGenerated(jsOb
         dotNetPointCloudRendererColorModulation.minValue = jsObject.minValue;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPointCloudRendererColorModulation.id = geoBlazorId;
     }

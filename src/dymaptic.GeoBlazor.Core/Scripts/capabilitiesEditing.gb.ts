@@ -38,7 +38,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     
     let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,13 +65,23 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesEditing } = await import('./capabilitiesEditing');
+        jsComponentRef = await buildJsCapabilitiesEditing(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesEditing: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportsDeleteByAnonymous)) {
         dotNetCapabilitiesEditing.supportsDeleteByAnonymous = jsObject.supportsDeleteByAnonymous;
@@ -101,7 +111,7 @@ export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Pr
         dotNetCapabilitiesEditing.supportsUploadWithItemId = jsObject.supportsUploadWithItemId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesEditing.id = geoBlazorId;
     }

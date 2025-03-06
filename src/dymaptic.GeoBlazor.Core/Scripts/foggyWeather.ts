@@ -4,7 +4,7 @@ export async function buildJsFoggyWeather(dotNetObject: any, layerId: string | n
     return await buildJsFoggyWeatherGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFoggyWeather(jsObject: any): Promise<any> {
+export async function buildDotNetFoggyWeather(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFoggyWeatherGenerated } = await import('./foggyWeather.gb');
-    return await buildDotNetFoggyWeatherGenerated(jsObject);
+    return await buildDotNetFoggyWeatherGenerated(jsObject, layerId, viewId);
 }

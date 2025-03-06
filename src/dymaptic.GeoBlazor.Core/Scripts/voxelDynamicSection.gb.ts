@@ -28,7 +28,7 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsVoxelDynamicSection;
     
     let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-    let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection);
+    let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
+        jsComponentRef = await buildJsVoxelDynamicSection(jsObject, layerId, viewId);
+    }
+    
     let dotNetVoxelDynamicSection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.enabled)) {
         dotNetVoxelDynamicSection.enabled = jsObject.enabled;
@@ -79,7 +89,7 @@ export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any): Pr
         dotNetVoxelDynamicSection.tilt = jsObject.tilt;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVoxelDynamicSection.id = geoBlazorId;
     }

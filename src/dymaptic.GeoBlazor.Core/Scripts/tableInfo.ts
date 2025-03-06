@@ -4,7 +4,7 @@ export async function buildJsTableInfo(dotNetObject: any, layerId: string | null
     return await buildJsTableInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTableInfo(jsObject: any): Promise<any> {
+export async function buildDotNetTableInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTableInfoGenerated } = await import('./tableInfo.gb');
-    return await buildDotNetTableInfoGenerated(jsObject);
+    return await buildDotNetTableInfoGenerated(jsObject, layerId, viewId);
 }

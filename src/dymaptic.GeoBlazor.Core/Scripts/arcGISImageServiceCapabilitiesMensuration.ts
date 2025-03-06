@@ -4,7 +4,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensuration(dotNetObj
     return await buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetArcGISImageServiceCapabilitiesMensuration(jsObject: any): Promise<any> {
+export async function buildDotNetArcGISImageServiceCapabilitiesMensuration(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated } = await import('./arcGISImageServiceCapabilitiesMensuration.gb');
-    return await buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject);
+    return await buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject, layerId, viewId);
 }

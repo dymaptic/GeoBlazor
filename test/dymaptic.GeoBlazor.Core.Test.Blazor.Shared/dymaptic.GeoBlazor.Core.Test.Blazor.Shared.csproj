@@ -76,6 +76,9 @@
       <UpToDateCheckInput Remove="GeneratedTestSamples\WMSLayerGeneratedTests.razor" />
       <UpToDateCheckInput Remove="GeneratedTestSamples\WMTSLayerGeneratedTests.razor" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="GeneratedTestSamples\" />
+    </ItemGroup>
     
     
     

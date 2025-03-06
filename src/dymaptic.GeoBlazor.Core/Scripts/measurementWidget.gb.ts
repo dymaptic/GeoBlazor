@@ -109,7 +109,7 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        return await buildDotNetMeasurementViewModel(this.widget.viewModel);
+        return await buildDotNetMeasurementViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -171,7 +171,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
     let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
-    let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
+    let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -198,17 +198,27 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMeasurementWidget } = await import('./measurementWidget');
+        jsComponentRef = await buildJsMeasurementWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetMeasurementWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
+        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementWidget.activeTool = jsObject.activeTool;
@@ -238,7 +248,7 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Prom
         dotNetMeasurementWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMeasurementWidget.id = geoBlazorId;
     }

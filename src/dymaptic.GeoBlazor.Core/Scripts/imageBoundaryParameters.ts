@@ -5,7 +5,7 @@ export async function buildJsImageBoundaryParameters(dotNetObject: any, layerId:
     return await buildJsImageBoundaryParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageBoundaryParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageBoundaryParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageBoundaryParametersGenerated} = await import('./imageBoundaryParameters.gb');
-    return await buildDotNetImageBoundaryParametersGenerated(jsObject);
+    return await buildDotNetImageBoundaryParametersGenerated(jsObject, layerId, viewId);
 }

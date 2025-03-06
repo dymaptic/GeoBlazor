@@ -4,7 +4,7 @@ export async function buildJsBuildingSceneLayerElevationInfo(dotNetObject: any, 
     return await buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBuildingSceneLayerElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingSceneLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBuildingSceneLayerElevationInfoGenerated } = await import('./buildingSceneLayerElevationInfo.gb');
-    return await buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject);
+    return await buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject, layerId, viewId);
 }

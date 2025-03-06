@@ -55,8 +55,18 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsColorStop } = await import('./colorStop');
+        jsComponentRef = await buildJsColorStop(jsObject);
+    }
+    
     let dotNetColorStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -69,7 +79,7 @@ export async function buildDotNetColorStopGenerated(jsObject: any): Promise<any>
         dotNetColorStop.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetColorStop.id = geoBlazorId;
     }

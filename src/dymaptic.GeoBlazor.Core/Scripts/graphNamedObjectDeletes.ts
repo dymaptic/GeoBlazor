@@ -4,7 +4,7 @@ export async function buildJsGraphNamedObjectDeletes(dotNetObject: any, layerId:
     return await buildJsGraphNamedObjectDeletesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGraphNamedObjectDeletes(jsObject: any): Promise<any> {
+export async function buildDotNetGraphNamedObjectDeletes(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetGraphNamedObjectDeletesGenerated } = await import('./graphNamedObjectDeletes.gb');
-    return await buildDotNetGraphNamedObjectDeletesGenerated(jsObject);
+    return await buildDotNetGraphNamedObjectDeletesGenerated(jsObject, layerId, viewId);
 }

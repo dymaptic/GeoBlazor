@@ -3,7 +3,7 @@ export async function buildJsBasemapView(dotNetObject: any, layerId: string | nu
     return await buildJsBasemapViewGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBasemapView(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetBasemapViewGenerated} = await import('./basemapView.gb');
-    return await buildDotNetBasemapViewGenerated(jsObject);
+    return await buildDotNetBasemapViewGenerated(jsObject, layerId, viewId);
 }

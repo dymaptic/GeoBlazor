@@ -15,7 +15,7 @@ export async function buildJsWebgl(dotNetObject: any, layerId: string | null, vi
     return await buildJsWebglGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWebgl(jsObject: any): Promise<any> {
+export async function buildDotNetWebgl(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWebglGenerated} = await import('./webgl.gb');
-    return await buildDotNetWebglGenerated(jsObject);
+    return await buildDotNetWebglGenerated(jsObject, layerId, viewId);
 }

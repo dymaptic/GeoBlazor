@@ -4,7 +4,7 @@ export async function buildJsCapabilitiesQueryRelated(dotNetObject: any, layerId
     return await buildJsCapabilitiesQueryRelatedGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetCapabilitiesQueryRelated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesQueryRelated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetCapabilitiesQueryRelatedGenerated } = await import('./capabilitiesQueryRelated.gb');
-    return await buildDotNetCapabilitiesQueryRelatedGenerated(jsObject);
+    return await buildDotNetCapabilitiesQueryRelatedGenerated(jsObject, layerId, viewId);
 }

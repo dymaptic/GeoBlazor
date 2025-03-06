@@ -37,7 +37,7 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
     let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
-    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
+    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -64,13 +64,23 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRasterSensorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRasterSensorInfo } = await import('./rasterSensorInfo');
+        jsComponentRef = await buildJsRasterSensorInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetRasterSensorInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.acquisitionDate)) {
         dotNetRasterSensorInfo.acquisitionDate = jsObject.acquisitionDate;
@@ -97,7 +107,7 @@ export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promi
         dotNetRasterSensorInfo.sunElevation = jsObject.sunElevation;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRasterSensorInfo.id = geoBlazorId;
     }

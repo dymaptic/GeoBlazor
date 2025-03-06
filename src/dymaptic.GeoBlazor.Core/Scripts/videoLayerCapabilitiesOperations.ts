@@ -4,7 +4,7 @@ export async function buildJsVideoLayerCapabilitiesOperations(dotNetObject: any,
     return await buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVideoLayerCapabilitiesOperations(jsObject: any): Promise<any> {
+export async function buildDotNetVideoLayerCapabilitiesOperations(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVideoLayerCapabilitiesOperationsGenerated } = await import('./videoLayerCapabilitiesOperations.gb');
-    return await buildDotNetVideoLayerCapabilitiesOperationsGenerated(jsObject);
+    return await buildDotNetVideoLayerCapabilitiesOperationsGenerated(jsObject, layerId, viewId);
 }

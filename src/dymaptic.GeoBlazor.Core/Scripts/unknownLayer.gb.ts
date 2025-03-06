@@ -136,19 +136,19 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     let jsUnknownLayer = new UnknownLayer(properties);
     jsUnknownLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsUnknownLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsUnknownLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -164,7 +164,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
     
     let { buildDotNetUnknownLayer } = await import('./unknownLayer');
-    let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer);
+    let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -191,13 +191,23 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetUnknownLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsUnknownLayer } = await import('./unknownLayer');
+        jsComponentRef = await buildJsUnknownLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetUnknownLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -232,7 +242,7 @@ export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<a
         dotNetUnknownLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetUnknownLayer.id = geoBlazorId;
     }

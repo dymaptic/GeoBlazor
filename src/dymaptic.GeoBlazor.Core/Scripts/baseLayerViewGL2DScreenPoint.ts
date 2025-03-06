@@ -4,7 +4,7 @@ export async function buildJsBaseLayerViewGL2DScreenPoint(dotNetObject: any, lay
     return await buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBaseLayerViewGL2DScreenPoint(jsObject: any): Promise<any> {
+export async function buildDotNetBaseLayerViewGL2DScreenPoint(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBaseLayerViewGL2DScreenPointGenerated } = await import('./baseLayerViewGL2DScreenPoint.gb');
-    return await buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject);
+    return await buildDotNetBaseLayerViewGL2DScreenPointGenerated(jsObject, layerId, viewId);
 }

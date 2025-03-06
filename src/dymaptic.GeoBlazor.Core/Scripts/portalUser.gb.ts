@@ -24,7 +24,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsparameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result);
+        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
     }
 
     async deleteItem(item: any,
@@ -50,7 +50,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     async fetchGroups(): Promise<any> {
         let result = await this.component.fetchGroups();
         let { buildDotNetPortalGroup } = await import('./portalGroup');
-        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i)));
+        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
     async fetchItems(parameters: any): Promise<any> {
@@ -91,7 +91,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -170,7 +170,7 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
     
     let { buildDotNetPortalUser } = await import('./portalUser');
-    let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser);
+    let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -197,13 +197,23 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalUserGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortalUser } = await import('./portalUser');
+        jsComponentRef = await buildJsPortalUser(jsObject, layerId, viewId);
+    }
+    
     let dotNetPortalUser: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.access)) {
         dotNetPortalUser.access = jsObject.access;
@@ -257,7 +267,7 @@ export async function buildDotNetPortalUserGenerated(jsObject: any): Promise<any
         dotNetPortalUser.username = jsObject.username;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortalUser.id = geoBlazorId;
     }

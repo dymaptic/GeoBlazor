@@ -30,7 +30,7 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampStop;
     
     let { buildDotNetSizeRampStop } = await import('./sizeRampStop');
-    let dnInstantiatedObject = await buildDotNetSizeRampStop(jsSizeRampStop);
+    let dnInstantiatedObject = await buildDotNetSizeRampStop(jsSizeRampStop, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -57,13 +57,23 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSizeRampStopGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSizeRampStop } = await import('./sizeRampStop');
+        jsComponentRef = await buildJsSizeRampStop(jsObject, layerId, viewId);
+    }
+    
     let dotNetSizeRampStop: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -85,7 +95,7 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any): Promise<a
         dotNetSizeRampStop.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSizeRampStop.id = geoBlazorId;
     }

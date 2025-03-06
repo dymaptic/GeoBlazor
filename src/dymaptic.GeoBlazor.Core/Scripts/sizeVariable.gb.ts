@@ -31,7 +31,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
+        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions, this.layerId, this.viewId);
     }
     
     async setLegendOptions(value: any): Promise<void> {
@@ -45,7 +45,7 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i)));
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i, this.layerId, this.viewId)));
     }
     
     async setStops(value: any): Promise<void> {
@@ -126,7 +126,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
     
     let { buildDotNetSizeVariable } = await import('./sizeVariable');
-    let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable);
+    let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -153,21 +153,31 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSizeVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSizeVariable } = await import('./sizeVariable');
+        jsComponentRef = await buildJsSizeVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetSizeVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
+        dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
     }
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
+        dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.axis)) {
         dotNetSizeVariable.axis = jsObject.axis;
@@ -212,7 +222,7 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<a
         dotNetSizeVariable.valueUnit = jsObject.valueUnit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSizeVariable.id = geoBlazorId;
     }

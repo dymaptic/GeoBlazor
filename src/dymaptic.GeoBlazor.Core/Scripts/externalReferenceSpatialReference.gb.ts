@@ -23,7 +23,7 @@ export async function buildJsExternalReferenceSpatialReferenceGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsExternalReferenceSpatialReference;
     
     let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
-    let dnInstantiatedObject = await buildDotNetExternalReferenceSpatialReference(jsExternalReferenceSpatialReference);
+    let dnInstantiatedObject = await buildDotNetExternalReferenceSpatialReference(jsExternalReferenceSpatialReference, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsExternalReferenceSpatialReferenceGenerated(dotNetOb
 }
 
 
-export async function buildDotNetExternalReferenceSpatialReferenceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetExternalReferenceSpatialReferenceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
+        jsComponentRef = await buildJsExternalReferenceSpatialReference(jsObject, layerId, viewId);
+    }
+    
     let dotNetExternalReferenceSpatialReference: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.latestVcsWkid)) {
         dotNetExternalReferenceSpatialReference.latestVcsWkid = jsObject.latestVcsWkid;
@@ -71,7 +81,7 @@ export async function buildDotNetExternalReferenceSpatialReferenceGenerated(jsOb
         dotNetExternalReferenceSpatialReference.wkid = jsObject.wkid;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetExternalReferenceSpatialReference.id = geoBlazorId;
     }

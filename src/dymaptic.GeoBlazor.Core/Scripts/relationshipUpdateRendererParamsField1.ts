@@ -4,7 +4,7 @@ export async function buildJsRelationshipUpdateRendererParamsField1(dotNetObject
     return await buildJsRelationshipUpdateRendererParamsField1Generated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRelationshipUpdateRendererParamsField1(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipUpdateRendererParamsField1(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRelationshipUpdateRendererParamsField1Generated } = await import('./relationshipUpdateRendererParamsField1.gb');
-    return await buildDotNetRelationshipUpdateRendererParamsField1Generated(jsObject);
+    return await buildDotNetRelationshipUpdateRendererParamsField1Generated(jsObject, layerId, viewId);
 }

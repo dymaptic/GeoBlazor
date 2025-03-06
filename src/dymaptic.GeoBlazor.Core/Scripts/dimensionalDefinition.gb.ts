@@ -25,7 +25,7 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
     let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
+    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,13 +52,23 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
+        jsComponentRef = await buildJsDimensionalDefinition(jsObject, layerId, viewId);
+    }
+    
     let dotNetDimensionalDefinition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.dimensionName)) {
         dotNetDimensionalDefinition.dimensionName = jsObject.dimensionName;
@@ -73,7 +83,7 @@ export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): 
         dotNetDimensionalDefinition.variableName = jsObject.variableName;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDimensionalDefinition.id = geoBlazorId;
     }

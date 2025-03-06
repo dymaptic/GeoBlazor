@@ -17,7 +17,7 @@ export async function buildJsCapabilitiesSyncGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesSync;
     
     let { buildDotNetCapabilitiesSync } = await import('./capabilitiesSync');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesSync(jsCapabilitiesSync);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesSync(jsCapabilitiesSync, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsCapabilitiesSyncGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetCapabilitiesSyncGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCapabilitiesSyncGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCapabilitiesSync } = await import('./capabilitiesSync');
+        jsComponentRef = await buildJsCapabilitiesSync(jsObject, layerId, viewId);
+    }
+    
     let dotNetCapabilitiesSync: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.supportedSyncDataOptions)) {
         dotNetCapabilitiesSync.supportedSyncDataOptions = jsObject.supportedSyncDataOptions;
@@ -59,7 +69,7 @@ export async function buildDotNetCapabilitiesSyncGenerated(jsObject: any): Promi
         dotNetCapabilitiesSync.supportsAsync = jsObject.supportsAsync;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCapabilitiesSync.id = geoBlazorId;
     }

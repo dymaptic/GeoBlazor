@@ -4,7 +4,7 @@ export async function buildJsISketchViewModelPolylineSymbol(dotNetObject: any, l
     return await buildJsISketchViewModelPolylineSymbolGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetISketchViewModelPolylineSymbol(jsObject: any): Promise<any> {
+export async function buildDotNetISketchViewModelPolylineSymbol(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetISketchViewModelPolylineSymbolGenerated } = await import('./iSketchViewModelPolylineSymbol.gb');
-    return await buildDotNetISketchViewModelPolylineSymbolGenerated(jsObject);
+    return await buildDotNetISketchViewModelPolylineSymbolGenerated(jsObject, layerId, viewId);
 }

@@ -25,7 +25,7 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsWMTSStyle;
     
     let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-    let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle);
+    let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,13 +52,23 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetWMTSStyleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWMTSStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsWMTSStyle } = await import('./wMTSStyle');
+        jsComponentRef = await buildJsWMTSStyle(jsObject, layerId, viewId);
+    }
+    
     let dotNetWMTSStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.description)) {
         dotNetWMTSStyle.description = jsObject.description;
@@ -73,7 +83,7 @@ export async function buildDotNetWMTSStyleGenerated(jsObject: any): Promise<any>
         dotNetWMTSStyle.wMTSStyleId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetWMTSStyle.id = geoBlazorId;
     }

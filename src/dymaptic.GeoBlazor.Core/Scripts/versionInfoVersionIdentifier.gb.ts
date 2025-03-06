@@ -17,7 +17,7 @@ export async function buildJsVersionInfoVersionIdentifierGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsVersionInfoVersionIdentifier;
     
     let { buildDotNetVersionInfoVersionIdentifier } = await import('./versionInfoVersionIdentifier');
-    let dnInstantiatedObject = await buildDotNetVersionInfoVersionIdentifier(jsVersionInfoVersionIdentifier);
+    let dnInstantiatedObject = await buildDotNetVersionInfoVersionIdentifier(jsVersionInfoVersionIdentifier, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVersionInfoVersionIdentifierGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetVersionInfoVersionIdentifierGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionInfoVersionIdentifierGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionInfoVersionIdentifier } = await import('./versionInfoVersionIdentifier');
+        jsComponentRef = await buildJsVersionInfoVersionIdentifier(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionInfoVersionIdentifier: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.guid)) {
         dotNetVersionInfoVersionIdentifier.guid = jsObject.guid;
@@ -59,7 +69,7 @@ export async function buildDotNetVersionInfoVersionIdentifierGenerated(jsObject:
         dotNetVersionInfoVersionIdentifier.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionInfoVersionIdentifier.id = geoBlazorId;
     }

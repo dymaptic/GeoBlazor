@@ -21,7 +21,7 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentStops;
     
     let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
-    let dnInstantiatedObject = await buildDotNetScaleDependentStops(jsScaleDependentStops);
+    let dnInstantiatedObject = await buildDotNetScaleDependentStops(jsScaleDependentStops, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,17 +48,27 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetScaleDependentStopsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsScaleDependentStops } = await import('./scaleDependentStops');
+        jsComponentRef = await buildJsScaleDependentStops(jsObject, layerId, viewId);
+    }
+    
     let dotNetScaleDependentStops: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetScaleDependentStops.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
+        dotNetScaleDependentStops.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.target)) {
         dotNetScaleDependentStops.target = jsObject.target;
@@ -70,7 +80,7 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any): Pr
         dotNetScaleDependentStops.valueExpression = jsObject.valueExpression;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetScaleDependentStops.id = geoBlazorId;
     }

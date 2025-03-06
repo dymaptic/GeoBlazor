@@ -4,7 +4,7 @@ export async function buildJsRasterDataSource(dotNetObject: any, layerId: string
     return await buildJsRasterDataSourceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterDataSource(jsObject: any): Promise<any> {
+export async function buildDotNetRasterDataSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterDataSourceGenerated } = await import('./rasterDataSource.gb');
-    return await buildDotNetRasterDataSourceGenerated(jsObject);
+    return await buildDotNetRasterDataSourceGenerated(jsObject, layerId, viewId);
 }

@@ -100,7 +100,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsLayerSearchSource;
     
     let { buildDotNetLayerSearchSource } = await import('./layerSearchSource');
-    let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource);
+    let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -127,13 +127,23 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerSearchSource } = await import('./layerSearchSource');
+        jsComponentRef = await buildJsLayerSearchSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerSearchSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.filter)) {
         let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
@@ -141,7 +151,7 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -214,7 +224,7 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Prom
         dotNetLayerSearchSource.zoomScale = jsObject.zoomScale;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerSearchSource.id = geoBlazorId;
     }

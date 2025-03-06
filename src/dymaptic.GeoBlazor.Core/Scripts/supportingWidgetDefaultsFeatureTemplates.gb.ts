@@ -21,7 +21,7 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureTemplates;
     
     let { buildDotNetSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
-    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplates(jsSupportingWidgetDefaultsFeatureTemplates);
+    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplates(jsSupportingWidgetDefaultsFeatureTemplates, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,17 +48,27 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesGenerated(d
 }
 
 
-export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
+        jsComponentRef = await buildJsSupportingWidgetDefaultsFeatureTemplates(jsObject, layerId, viewId);
+    }
+    
     let dotNetSupportingWidgetDefaultsFeatureTemplates: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements');
-        dotNetSupportingWidgetDefaultsFeatureTemplates.visibleElements = await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsObject.visibleElements);
+        dotNetSupportingWidgetDefaultsFeatureTemplates.visibleElements = await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
     if (hasValue(jsObject.enableListScroll)) {
         dotNetSupportingWidgetDefaultsFeatureTemplates.enableListScroll = jsObject.enableListScroll;
@@ -67,7 +77,7 @@ export async function buildDotNetSupportingWidgetDefaultsFeatureTemplatesGenerat
         dotNetSupportingWidgetDefaultsFeatureTemplates.groupBy = jsObject.groupBy;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSupportingWidgetDefaultsFeatureTemplates.id = geoBlazorId;
     }

@@ -29,7 +29,7 @@ export async function buildJsFileLinkGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsFileLink;
     
     let { buildDotNetFileLink } = await import('./fileLink');
-    let dnInstantiatedObject = await buildDotNetFileLink(jsFileLink);
+    let dnInstantiatedObject = await buildDotNetFileLink(jsFileLink, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsFileLinkGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetFileLinkGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFileLinkGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFileLink } = await import('./fileLink');
+        jsComponentRef = await buildJsFileLink(jsObject, layerId, viewId);
+    }
+    
     let dotNetFileLink: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.count)) {
         dotNetFileLink.count = jsObject.count;
@@ -83,7 +93,7 @@ export async function buildDotNetFileLinkGenerated(jsObject: any): Promise<any> 
         dotNetFileLink.url = jsObject.url;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFileLink.id = geoBlazorId;
     }

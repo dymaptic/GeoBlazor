@@ -29,7 +29,7 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsAbilities;
     
     let { buildDotNetAbilities } = await import('./abilities');
-    let dnInstantiatedObject = await buildDotNetAbilities(jsAbilities);
+    let dnInstantiatedObject = await buildDotNetAbilities(jsAbilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetAbilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAbilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAbilities } = await import('./abilities');
+        jsComponentRef = await buildJsAbilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetAbilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.attachmentsContent)) {
         dotNetAbilities.attachmentsContent = jsObject.attachmentsContent;
@@ -83,7 +93,7 @@ export async function buildDotNetAbilitiesGenerated(jsObject: any): Promise<any>
         dotNetAbilities.textContent = jsObject.textContent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAbilities.id = geoBlazorId;
     }

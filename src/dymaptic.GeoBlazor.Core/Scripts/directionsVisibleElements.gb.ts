@@ -20,7 +20,7 @@ export async function buildJsDirectionsVisibleElementsGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsVisibleElements;
     
     let { buildDotNetDirectionsVisibleElements } = await import('./directionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDirectionsVisibleElements(jsDirectionsVisibleElements);
+    let dnInstantiatedObject = await buildDotNetDirectionsVisibleElements(jsDirectionsVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsDirectionsVisibleElementsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetDirectionsVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDirectionsVisibleElements } = await import('./directionsVisibleElements');
+        jsComponentRef = await buildJsDirectionsVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetDirectionsVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.layerDetails)) {
         dotNetDirectionsVisibleElements.layerDetails = jsObject.layerDetails;
@@ -65,7 +75,7 @@ export async function buildDotNetDirectionsVisibleElementsGenerated(jsObject: an
         dotNetDirectionsVisibleElements.saveButton = jsObject.saveButton;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDirectionsVisibleElements.id = geoBlazorId;
     }

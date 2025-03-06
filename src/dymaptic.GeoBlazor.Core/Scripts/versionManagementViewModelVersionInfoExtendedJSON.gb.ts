@@ -63,7 +63,7 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSONGe
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementViewModelVersionInfoExtendedJSON;
     
     let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSON } = await import('./versionManagementViewModelVersionInfoExtendedJSON');
-    let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsVersionManagementViewModelVersionInfoExtendedJSON);
+    let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsVersionManagementViewModelVersionInfoExtendedJSON, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -90,17 +90,27 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSONGe
 }
 
 
-export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSONGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJSONGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionManagementViewModelVersionInfoExtendedJSON } = await import('./versionManagementViewModelVersionInfoExtendedJSON');
+        jsComponentRef = await buildJsVersionManagementViewModelVersionInfoExtendedJSON(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionManagementViewModelVersionInfoExtendedJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.versionIdentifier)) {
         let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementViewModelVersionInfoExtendedJSONVersionIdentifier');
-        dotNetVersionManagementViewModelVersionInfoExtendedJSON.versionIdentifier = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsObject.versionIdentifier);
+        dotNetVersionManagementViewModelVersionInfoExtendedJSON.versionIdentifier = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSONVersionIdentifier(jsObject.versionIdentifier, layerId, viewId);
     }
     if (hasValue(jsObject.access)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.access = jsObject.access;
@@ -151,7 +161,7 @@ export async function buildDotNetVersionManagementViewModelVersionInfoExtendedJS
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.versionId = jsObject.versionId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementViewModelVersionInfoExtendedJSON.id = geoBlazorId;
     }

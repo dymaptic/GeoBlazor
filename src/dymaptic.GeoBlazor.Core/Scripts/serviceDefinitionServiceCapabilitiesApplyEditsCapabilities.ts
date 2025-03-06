@@ -4,7 +4,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
     return await buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject: any): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities.gb');
-    return await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject);
+    return await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject, layerId, viewId);
 }

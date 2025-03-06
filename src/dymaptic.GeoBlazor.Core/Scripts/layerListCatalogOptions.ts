@@ -4,7 +4,7 @@ export async function buildJsLayerListCatalogOptions(dotNetObject: any, layerId:
     return await buildJsLayerListCatalogOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerListCatalogOptions(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListCatalogOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLayerListCatalogOptionsGenerated } = await import('./layerListCatalogOptions.gb');
-    return await buildDotNetLayerListCatalogOptionsGenerated(jsObject);
+    return await buildDotNetLayerListCatalogOptionsGenerated(jsObject, layerId, viewId);
 }

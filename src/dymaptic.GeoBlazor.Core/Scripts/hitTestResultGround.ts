@@ -3,7 +3,7 @@ export async function buildJsHitTestResultGround(dotNetObject: any, layerId: str
     return await buildJsHitTestResultGroundGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetHitTestResultGround(jsObject: any): Promise<any> {
+export async function buildDotNetHitTestResultGround(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetHitTestResultGroundGenerated} = await import('./hitTestResultGround.gb');
-    return await buildDotNetHitTestResultGroundGenerated(jsObject);
+    return await buildDotNetHitTestResultGroundGenerated(jsObject, layerId, viewId);
 }

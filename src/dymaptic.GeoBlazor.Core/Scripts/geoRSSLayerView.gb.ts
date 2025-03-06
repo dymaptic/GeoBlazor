@@ -58,7 +58,7 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayerView;
     
     let { buildDotNetGeoRSSLayerView } = await import('./geoRSSLayerView');
-    let dnInstantiatedObject = await buildDotNetGeoRSSLayerView(jsGeoRSSLayerView);
+    let dnInstantiatedObject = await buildDotNetGeoRSSLayerView(jsGeoRSSLayerView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -85,13 +85,23 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGeoRSSLayerView } = await import('./geoRSSLayerView');
+        jsComponentRef = await buildJsGeoRSSLayerView(jsObject, layerId, viewId);
+    }
+    
     let dotNetGeoRSSLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.spatialReferenceSupported)) {
         dotNetGeoRSSLayerView.spatialReferenceSupported = jsObject.spatialReferenceSupported;
@@ -112,7 +122,7 @@ export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any): Promis
         dotNetGeoRSSLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGeoRSSLayerView.id = geoBlazorId;
     }

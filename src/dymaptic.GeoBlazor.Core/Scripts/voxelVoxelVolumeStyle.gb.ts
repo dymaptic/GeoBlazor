@@ -27,7 +27,7 @@ export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsvoxelVoxelVolumeStyle;
     
     let { buildDotNetVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
-    let dnInstantiatedObject = await buildDotNetVoxelVoxelVolumeStyle(jsvoxelVoxelVolumeStyle);
+    let dnInstantiatedObject = await buildDotNetVoxelVoxelVolumeStyle(jsvoxelVoxelVolumeStyle, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -54,21 +54,31 @@ export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetVoxelVoxelVolumeStyleGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVoxelVoxelVolumeStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
+        jsComponentRef = await buildJsVoxelVoxelVolumeStyle(jsObject, layerId, viewId);
+    }
+    
     let dotNetVoxelVoxelVolumeStyle: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.dynamicSections)) {
         let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-        dotNetVoxelVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i)));
+        dotNetVoxelVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i, layerId, viewId)));
     }
     if (hasValue(jsObject.slices)) {
         let { buildDotNetVoxelSlice } = await import('./voxelSlice');
-        dotNetVoxelVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i)));
+        dotNetVoxelVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i, layerId, viewId)));
     }
     if (hasValue(jsObject.verticalExaggeration)) {
         dotNetVoxelVoxelVolumeStyle.verticalExaggeration = jsObject.verticalExaggeration;
@@ -80,7 +90,7 @@ export async function buildDotNetVoxelVoxelVolumeStyleGenerated(jsObject: any): 
         dotNetVoxelVoxelVolumeStyle.volumeId = jsObject.volumeId;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVoxelVoxelVolumeStyle.id = geoBlazorId;
     }

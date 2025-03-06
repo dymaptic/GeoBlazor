@@ -4,7 +4,7 @@ export async function buildJsNavigation(dotNetObject: any, layerId: string | nul
     return await buildJsNavigationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetNavigation(jsObject: any): Promise<any> {
+export async function buildDotNetNavigation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetNavigationGenerated } = await import('./navigation.gb');
-    return await buildDotNetNavigationGenerated(jsObject);
+    return await buildDotNetNavigationGenerated(jsObject, layerId, viewId);
 }

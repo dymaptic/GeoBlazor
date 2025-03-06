@@ -3,7 +3,7 @@ export async function buildJsLegendViewModelLayerInfos(dotNetObject: any, layerI
     return await buildJsLegendViewModelLayerInfosGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLegendViewModelLayerInfos(jsObject: any): Promise<any> {
+export async function buildDotNetLegendViewModelLayerInfos(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLegendViewModelLayerInfosGenerated} = await import('./legendViewModelLayerInfos.gb');
-    return await buildDotNetLegendViewModelLayerInfosGenerated(jsObject);
+    return await buildDotNetLegendViewModelLayerInfosGenerated(jsObject, layerId, viewId);
 }

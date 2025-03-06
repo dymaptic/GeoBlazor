@@ -4,7 +4,7 @@ export async function buildJsIRouteSymbolsPolylineBarriers(dotNetObject: any, la
     return await buildJsIRouteSymbolsPolylineBarriersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIRouteSymbolsPolylineBarriers(jsObject: any): Promise<any> {
+export async function buildDotNetIRouteSymbolsPolylineBarriers(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIRouteSymbolsPolylineBarriersGenerated } = await import('./iRouteSymbolsPolylineBarriers.gb');
-    return await buildDotNetIRouteSymbolsPolylineBarriersGenerated(jsObject);
+    return await buildDotNetIRouteSymbolsPolylineBarriersGenerated(jsObject, layerId, viewId);
 }

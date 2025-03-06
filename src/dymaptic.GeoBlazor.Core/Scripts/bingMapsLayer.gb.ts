@@ -261,19 +261,19 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     let jsBingMapsLayer = new BingMapsLayer(properties);
     jsBingMapsLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsBingMapsLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsBingMapsLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -293,7 +293,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
     let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
+    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -320,13 +320,23 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBingMapsLayer } = await import('./bingMapsLayer');
+        jsComponentRef = await buildJsBingMapsLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetBingMapsLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -338,7 +348,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
+        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
     }
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -405,7 +415,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<
         dotNetBingMapsLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBingMapsLayer.id = geoBlazorId;
     }

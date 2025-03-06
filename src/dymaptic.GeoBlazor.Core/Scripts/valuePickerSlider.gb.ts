@@ -51,7 +51,7 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerSlider;
     
     let { buildDotNetValuePickerSlider } = await import('./valuePickerSlider');
-    let dnInstantiatedObject = await buildDotNetValuePickerSlider(jsValuePickerSlider);
+    let dnInstantiatedObject = await buildDotNetValuePickerSlider(jsValuePickerSlider, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -78,17 +78,27 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetValuePickerSliderGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerSliderGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsValuePickerSlider } = await import('./valuePickerSlider');
+        jsComponentRef = await buildJsValuePickerSlider(jsObject, layerId, viewId);
+    }
+    
     let dotNetValuePickerSlider: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
-        dotNetValuePickerSlider.visibleElements = await buildDotNetValuePickerSliderVisibleElements(jsObject.visibleElements);
+        dotNetValuePickerSlider.visibleElements = await buildDotNetValuePickerSliderVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
     if (hasValue(jsObject.labelFormatFunction)) {
         dotNetValuePickerSlider.labelFormatFunction = jsObject.labelFormatFunction;
@@ -118,7 +128,7 @@ export async function buildDotNetValuePickerSliderGenerated(jsObject: any): Prom
         dotNetValuePickerSlider.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerSlider.id = geoBlazorId;
     }

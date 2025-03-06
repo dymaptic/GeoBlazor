@@ -15,7 +15,7 @@ export async function buildJsViewAnimation(dotNetObject: any, layerId: string | 
     return await buildJsViewAnimationGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetViewAnimation(jsObject: any): Promise<any> {
+export async function buildDotNetViewAnimation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetViewAnimationGenerated} = await import('./viewAnimation.gb');
-    return await buildDotNetViewAnimationGenerated(jsObject);
+    return await buildDotNetViewAnimationGenerated(jsObject, layerId, viewId);
 }

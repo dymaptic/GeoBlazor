@@ -4,7 +4,7 @@ export async function buildJsRasterFunctionConstants(dotNetObject: any, layerId:
     return await buildJsRasterFunctionConstantsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRasterFunctionConstants(jsObject: any): Promise<any> {
+export async function buildDotNetRasterFunctionConstants(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRasterFunctionConstantsGenerated } = await import('./rasterFunctionConstants.gb');
-    return await buildDotNetRasterFunctionConstantsGenerated(jsObject);
+    return await buildDotNetRasterFunctionConstantsGenerated(jsObject, layerId, viewId);
 }

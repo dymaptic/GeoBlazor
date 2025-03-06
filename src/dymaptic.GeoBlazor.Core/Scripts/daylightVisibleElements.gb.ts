@@ -29,7 +29,7 @@ export async function buildJsDaylightVisibleElementsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsDaylightVisibleElements;
     
     let { buildDotNetDaylightVisibleElements } = await import('./daylightVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDaylightVisibleElements(jsDaylightVisibleElements);
+    let dnInstantiatedObject = await buildDotNetDaylightVisibleElements(jsDaylightVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsDaylightVisibleElementsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetDaylightVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDaylightVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDaylightVisibleElements } = await import('./daylightVisibleElements');
+        jsComponentRef = await buildJsDaylightVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetDaylightVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.datePicker)) {
         dotNetDaylightVisibleElements.datePicker = jsObject.datePicker;
@@ -83,7 +93,7 @@ export async function buildDotNetDaylightVisibleElementsGenerated(jsObject: any)
         dotNetDaylightVisibleElements.timezone = jsObject.timezone;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDaylightVisibleElements.id = geoBlazorId;
     }

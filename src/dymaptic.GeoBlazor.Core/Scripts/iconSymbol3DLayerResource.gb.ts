@@ -17,7 +17,7 @@ export async function buildJsIconSymbol3DLayerResourceGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayerResource;
     
     let { buildDotNetIconSymbol3DLayerResource } = await import('./iconSymbol3DLayerResource');
-    let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerResource(jsIconSymbol3DLayerResource);
+    let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerResource(jsIconSymbol3DLayerResource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsIconSymbol3DLayerResourceGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetIconSymbol3DLayerResourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIconSymbol3DLayerResourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIconSymbol3DLayerResource } = await import('./iconSymbol3DLayerResource');
+        jsComponentRef = await buildJsIconSymbol3DLayerResource(jsObject, layerId, viewId);
+    }
+    
     let dotNetIconSymbol3DLayerResource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.href)) {
         dotNetIconSymbol3DLayerResource.href = jsObject.href;
@@ -59,7 +69,7 @@ export async function buildDotNetIconSymbol3DLayerResourceGenerated(jsObject: an
         dotNetIconSymbol3DLayerResource.primitive = jsObject.primitive;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIconSymbol3DLayerResource.id = geoBlazorId;
     }

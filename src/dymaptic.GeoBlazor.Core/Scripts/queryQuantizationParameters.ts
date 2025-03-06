@@ -3,7 +3,7 @@ export async function buildJsQueryQuantizationParameters(dotNetObject: any, laye
     return await buildJsQueryQuantizationParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetQueryQuantizationParameters(jsObject: any): Promise<any> {
+export async function buildDotNetQueryQuantizationParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetQueryQuantizationParametersGenerated} = await import('./queryQuantizationParameters.gb');
-    return await buildDotNetQueryQuantizationParametersGenerated(jsObject);
+    return await buildDotNetQueryQuantizationParametersGenerated(jsObject, layerId, viewId);
 }

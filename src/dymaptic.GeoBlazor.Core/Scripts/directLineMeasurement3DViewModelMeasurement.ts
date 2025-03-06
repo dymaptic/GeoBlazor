@@ -4,7 +4,7 @@ export async function buildJsDirectLineMeasurement3DViewModelMeasurement(dotNetO
     return await buildJsDirectLineMeasurement3DViewModelMeasurementGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDirectLineMeasurement3DViewModelMeasurement(jsObject: any): Promise<any> {
+export async function buildDotNetDirectLineMeasurement3DViewModelMeasurement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDirectLineMeasurement3DViewModelMeasurementGenerated } = await import('./directLineMeasurement3DViewModelMeasurement.gb');
-    return await buildDotNetDirectLineMeasurement3DViewModelMeasurementGenerated(jsObject);
+    return await buildDotNetDirectLineMeasurement3DViewModelMeasurementGenerated(jsObject, layerId, viewId);
 }

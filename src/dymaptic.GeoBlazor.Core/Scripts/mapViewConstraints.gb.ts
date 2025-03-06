@@ -53,7 +53,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsMapViewConstraints;
     
     let { buildDotNetMapViewConstraints } = await import('./mapViewConstraints');
-    let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints);
+    let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -80,17 +80,27 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMapViewConstraintsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMapViewConstraints } = await import('./mapViewConstraints');
+        jsComponentRef = await buildJsMapViewConstraints(jsObject, layerId, viewId);
+    }
+    
     let dotNetMapViewConstraints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effectiveLODs)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i)));
+        dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetGeometry } = await import('./geometry');
@@ -98,7 +108,7 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
     }
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
+        dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
     }
     if (hasValue(jsObject.effectiveMaxScale)) {
         dotNetMapViewConstraints.effectiveMaxScale = jsObject.effectiveMaxScale;
@@ -131,7 +141,7 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Pro
         dotNetMapViewConstraints.snapToZoom = jsObject.snapToZoom;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMapViewConstraints.id = geoBlazorId;
     }

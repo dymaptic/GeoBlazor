@@ -20,7 +20,7 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryItem;
     
     let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-    let dnInstantiatedObject = await buildDotNetBasemapGalleryItem(jsBasemapGalleryItem);
+    let dnInstantiatedObject = await buildDotNetBasemapGalleryItem(jsBasemapGalleryItem, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,17 +47,27 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
+        jsComponentRef = await buildJsBasemapGalleryItem(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapGalleryItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.basemap)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap);
+        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap, layerId, viewId);
     }
     if (hasValue(jsObject.error)) {
         dotNetBasemapGalleryItem.error = jsObject.error;
@@ -66,7 +76,7 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Pro
         dotNetBasemapGalleryItem.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapGalleryItem.id = geoBlazorId;
     }

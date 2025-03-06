@@ -32,7 +32,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         let jsTarget = buildJsGraphic(target) as any;
         let result = this.component.highlight(jsTarget);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
-        return await buildDotNetHighlightHandle(result);
+        return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
     }
 
     async queryAggregates(query: any,
@@ -83,7 +83,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect);
+        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -97,7 +97,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter);
+        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
     }
     
     async setFilter(value: any): Promise<void> {
@@ -111,7 +111,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
@@ -174,7 +174,7 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerView;
     
     let { buildDotNetCSVLayerView } = await import('./cSVLayerView');
-    let dnInstantiatedObject = await buildDotNetCSVLayerView(jsCSVLayerView);
+    let dnInstantiatedObject = await buildDotNetCSVLayerView(jsCSVLayerView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -201,25 +201,35 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetCSVLayerViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCSVLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCSVLayerView } = await import('./cSVLayerView');
+        jsComponentRef = await buildJsCSVLayerView(jsObject, layerId, viewId);
+    }
+    
     let dotNetCSVLayerView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetCSVLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
+        dotNetCSVLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetCSVLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
+        dotNetCSVLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
     }
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetCSVLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
+        dotNetCSVLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
     }
     if (hasValue(jsObject.availableFields)) {
         dotNetCSVLayerView.availableFields = jsObject.availableFields;
@@ -261,7 +271,7 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any): Promise<a
         dotNetCSVLayerView.visibleAtCurrentTimeExtent = jsObject.visibleAtCurrentTimeExtent;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCSVLayerView.id = geoBlazorId;
     }

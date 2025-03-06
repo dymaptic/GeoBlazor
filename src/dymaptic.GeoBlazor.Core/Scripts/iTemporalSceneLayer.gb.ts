@@ -23,7 +23,7 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsTemporalSceneLayer;
     
     let { buildDotNetITemporalSceneLayer } = await import('./iTemporalSceneLayer');
-    let dnInstantiatedObject = await buildDotNetITemporalSceneLayer(jsTemporalSceneLayer);
+    let dnInstantiatedObject = await buildDotNetITemporalSceneLayer(jsTemporalSceneLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsITemporalSceneLayer } = await import('./iTemporalSceneLayer');
+        jsComponentRef = await buildJsITemporalSceneLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetITemporalSceneLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
@@ -64,14 +74,14 @@ export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
+        dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
     }
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetITemporalSceneLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
+        dotNetITemporalSceneLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetITemporalSceneLayer.id = geoBlazorId;
     }

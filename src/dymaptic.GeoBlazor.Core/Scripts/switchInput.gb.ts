@@ -19,7 +19,7 @@ export async function buildJsSwitchInputGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsSwitchInput;
     
     let { buildDotNetSwitchInput } = await import('./switchInput');
-    let dnInstantiatedObject = await buildDotNetSwitchInput(jsSwitchInput);
+    let dnInstantiatedObject = await buildDotNetSwitchInput(jsSwitchInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsSwitchInputGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetSwitchInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSwitchInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSwitchInput } = await import('./switchInput');
+        jsComponentRef = await buildJsSwitchInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetSwitchInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.offValue)) {
         dotNetSwitchInput.offValue = jsObject.offValue;
@@ -64,7 +74,7 @@ export async function buildDotNetSwitchInputGenerated(jsObject: any): Promise<an
         dotNetSwitchInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSwitchInput.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsVisibleElementsStructuralAttachmentAssociationsSett
     return await buildJsVisibleElementsStructuralAttachmentAssociationsSettingsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVisibleElementsStructuralAttachmentAssociationsSettingsGenerated } = await import('./visibleElementsStructuralAttachmentAssociationsSettings.gb');
-    return await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettingsGenerated(jsObject);
+    return await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettingsGenerated(jsObject, layerId, viewId);
 }

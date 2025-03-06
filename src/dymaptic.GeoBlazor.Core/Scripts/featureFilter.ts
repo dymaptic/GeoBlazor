@@ -15,7 +15,7 @@ export async function buildJsFeatureFilter(dotNetObject: any, layerId: string | 
     return await buildJsFeatureFilterGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureFilter(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureFilter(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFeatureFilterGenerated} = await import('./featureFilter.gb');
-    return await buildDotNetFeatureFilterGenerated(jsObject);
+    return await buildDotNetFeatureFilterGenerated(jsObject, layerId, viewId);
 }

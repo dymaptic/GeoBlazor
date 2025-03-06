@@ -4,7 +4,7 @@ export async function buildJsWFSOperationsGetCapabilities(dotNetObject: any, lay
     return await buildJsWFSOperationsGetCapabilitiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWFSOperationsGetCapabilities(jsObject: any): Promise<any> {
+export async function buildDotNetWFSOperationsGetCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWFSOperationsGetCapabilitiesGenerated } = await import('./wFSOperationsGetCapabilities.gb');
-    return await buildDotNetWFSOperationsGetCapabilitiesGenerated(jsObject);
+    return await buildDotNetWFSOperationsGetCapabilitiesGenerated(jsObject, layerId, viewId);
 }

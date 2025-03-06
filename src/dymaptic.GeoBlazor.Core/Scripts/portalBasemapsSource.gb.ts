@@ -31,7 +31,7 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i)));
+        return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
     }
     
     async setBasemaps(value: any): Promise<void> {
@@ -45,7 +45,7 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal);
+        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -74,8 +74,8 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         index,
         array) => {
             let { buildDotNetBasemap } = await import('./basemap');
-            let dnItem = await buildDotNetBasemap(item);
-            let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i)));
+            let dnItem = await buildDotNetBasemap(item, layerId, viewId);
+            let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
 
             return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', dnItem,
             index,
@@ -89,7 +89,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.hasUpdateBasemapsCallback) && dotNetObject.hasUpdateBasemapsCallback) {
         properties.updateBasemapsCallback = async (items) => {
             let { buildDotNetBasemap } = await import('./basemap');
-            let dnItems = await Promise.all(items.map(async i => await buildDotNetBasemap(i)));
+            let dnItems = await Promise.all(items.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
 
             let result = await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', dnItems);
             let { buildJsBasemap } = await import('./basemap');
@@ -113,7 +113,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
     
     let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
-    let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource);
+    let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -140,21 +140,31 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortalBasemapsSource } = await import('./portalBasemapsSource');
+        jsComponentRef = await buildJsPortalBasemapsSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetPortalBasemapsSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.basemaps)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
+        dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
     }
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal);
+        dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
     }
     if (hasValue(jsObject.filterFunction)) {
         dotNetPortalBasemapsSource.filterFunction = jsObject.filterFunction;
@@ -169,7 +179,7 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any): P
         dotNetPortalBasemapsSource.updateBasemapsCallback = jsObject.updateBasemapsCallback;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortalBasemapsSource.id = geoBlazorId;
     }

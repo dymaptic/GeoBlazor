@@ -4,7 +4,7 @@ export async function buildJsTextElement(dotNetObject: any, layerId: string | nu
     return await buildJsTextElementGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTextElement(jsObject: any): Promise<any> {
+export async function buildDotNetTextElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTextElementGenerated } = await import('./textElement.gb');
-    return await buildDotNetTextElementGenerated(jsObject);
+    return await buildDotNetTextElementGenerated(jsObject, layerId, viewId);
 }

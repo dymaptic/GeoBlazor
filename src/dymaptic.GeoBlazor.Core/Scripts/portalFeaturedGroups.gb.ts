@@ -17,7 +17,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
     let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
+    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        jsComponentRef = await buildJsPortalFeaturedGroups(jsObject, layerId, viewId);
+    }
+    
     let dotNetPortalFeaturedGroups: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.owner)) {
         dotNetPortalFeaturedGroups.owner = jsObject.owner;
@@ -59,7 +69,7 @@ export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): P
         dotNetPortalFeaturedGroups.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPortalFeaturedGroups.id = geoBlazorId;
     }

@@ -111,7 +111,7 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
         }
         
         let { buildDotNetHistogramConfig } = await import('./histogramConfig');
-        return await buildDotNetHistogramConfig(this.widget.histogramConfig);
+        return await buildDotNetHistogramConfig(this.widget.histogramConfig, this.layerId, this.viewId);
     }
     
     async setHistogramConfig(value: any): Promise<void> {
@@ -125,7 +125,7 @@ export default class ISmartMappingSliderBaseWidgetGenerated implements IProperty
         }
         
         let { buildDotNetSmartMappingSliderBaseVisibleElements } = await import('./smartMappingSliderBaseVisibleElements');
-        return await buildDotNetSmartMappingSliderBaseVisibleElements(this.widget.visibleElements);
+        return await buildDotNetSmartMappingSliderBaseVisibleElements(this.widget.visibleElements, this.layerId, this.viewId);
     }
     
     async setVisibleElements(value: any): Promise<void> {
@@ -252,7 +252,7 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderBase;
     
     let { buildDotNetISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
-    let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase);
+    let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -279,21 +279,31 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
 }
 
 
-export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
+        jsComponentRef = await buildJsISmartMappingSliderBaseWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetISmartMappingSliderBaseWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.histogramConfig)) {
         let { buildDotNetHistogramConfig } = await import('./histogramConfig');
-        dotNetISmartMappingSliderBaseWidget.histogramConfig = await buildDotNetHistogramConfig(jsObject.histogramConfig);
+        dotNetISmartMappingSliderBaseWidget.histogramConfig = await buildDotNetHistogramConfig(jsObject.histogramConfig, layerId, viewId);
     }
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSmartMappingSliderBaseVisibleElements } = await import('./smartMappingSliderBaseVisibleElements');
-        dotNetISmartMappingSliderBaseWidget.visibleElements = await buildDotNetSmartMappingSliderBaseVisibleElements(jsObject.visibleElements);
+        dotNetISmartMappingSliderBaseWidget.visibleElements = await buildDotNetSmartMappingSliderBaseVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
     if (hasValue(jsObject.icon)) {
         dotNetISmartMappingSliderBaseWidget.icon = jsObject.icon;
@@ -338,7 +348,7 @@ export async function buildDotNetISmartMappingSliderBaseWidgetGenerated(jsObject
         dotNetISmartMappingSliderBaseWidget.zoomOptions = jsObject.zoomOptions;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetISmartMappingSliderBaseWidget.id = geoBlazorId;
     }

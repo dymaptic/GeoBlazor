@@ -17,7 +17,7 @@ export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsGraphNamedObjectDeletes;
     
     let { buildDotNetGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
-    let dnInstantiatedObject = await buildDotNetGraphNamedObjectDeletes(jsGraphNamedObjectDeletes);
+    let dnInstantiatedObject = await buildDotNetGraphNamedObjectDeletes(jsGraphNamedObjectDeletes, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetGraphNamedObjectDeletesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGraphNamedObjectDeletesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
+        jsComponentRef = await buildJsGraphNamedObjectDeletes(jsObject, layerId, viewId);
+    }
+    
     let dotNetGraphNamedObjectDeletes: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.ids)) {
         dotNetGraphNamedObjectDeletes.ids = jsObject.ids;
@@ -59,7 +69,7 @@ export async function buildDotNetGraphNamedObjectDeletesGenerated(jsObject: any)
         dotNetGraphNamedObjectDeletes.typeName = jsObject.typeName;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGraphNamedObjectDeletes.id = geoBlazorId;
     }

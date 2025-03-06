@@ -37,7 +37,7 @@ export async function buildJsButtonMenuItemGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsButtonMenuItem;
     
     let { buildDotNetButtonMenuItem } = await import('./buttonMenuItem');
-    let dnInstantiatedObject = await buildDotNetButtonMenuItem(jsButtonMenuItem);
+    let dnInstantiatedObject = await buildDotNetButtonMenuItem(jsButtonMenuItem, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -64,13 +64,23 @@ export async function buildJsButtonMenuItemGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetButtonMenuItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetButtonMenuItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsButtonMenuItem } = await import('./buttonMenuItem');
+        jsComponentRef = await buildJsButtonMenuItem(jsObject, layerId, viewId);
+    }
+    
     let dotNetButtonMenuItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.autoCloseMenu)) {
         dotNetButtonMenuItem.autoCloseMenu = jsObject.autoCloseMenu;
@@ -91,7 +101,7 @@ export async function buildDotNetButtonMenuItemGenerated(jsObject: any): Promise
         dotNetButtonMenuItem.selectionEnabled = jsObject.selectionEnabled;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetButtonMenuItem.id = geoBlazorId;
     }

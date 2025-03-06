@@ -19,7 +19,7 @@ export async function buildJsTextAreaInputGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsTextAreaInput;
     
     let { buildDotNetTextAreaInput } = await import('./textAreaInput');
-    let dnInstantiatedObject = await buildDotNetTextAreaInput(jsTextAreaInput);
+    let dnInstantiatedObject = await buildDotNetTextAreaInput(jsTextAreaInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsTextAreaInputGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetTextAreaInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTextAreaInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTextAreaInput } = await import('./textAreaInput');
+        jsComponentRef = await buildJsTextAreaInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetTextAreaInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxLength)) {
         dotNetTextAreaInput.maxLength = jsObject.maxLength;
@@ -64,7 +74,7 @@ export async function buildDotNetTextAreaInputGenerated(jsObject: any): Promise<
         dotNetTextAreaInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTextAreaInput.id = geoBlazorId;
     }

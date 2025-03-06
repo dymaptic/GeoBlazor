@@ -16,7 +16,7 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
     
     let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
+    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,19 +43,29 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetLayerFloorInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
+        jsComponentRef = await buildJsLayerFloorInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerFloorInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.floorField)) {
         dotNetLayerFloorInfo.floorField = jsObject.floorField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerFloorInfo.id = geoBlazorId;
     }

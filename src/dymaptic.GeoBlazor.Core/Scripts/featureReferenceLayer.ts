@@ -4,7 +4,7 @@ export async function buildJsFeatureReferenceLayer(dotNetObject: any, layerId: s
     return await buildJsFeatureReferenceLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetFeatureReferenceLayer(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureReferenceLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetFeatureReferenceLayerGenerated } = await import('./featureReferenceLayer.gb');
-    return await buildDotNetFeatureReferenceLayerGenerated(jsObject);
+    return await buildDotNetFeatureReferenceLayerGenerated(jsObject, layerId, viewId);
 }

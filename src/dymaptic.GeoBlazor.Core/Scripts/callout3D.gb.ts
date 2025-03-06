@@ -13,7 +13,7 @@ export async function buildJsCallout3DGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsCallout3D;
     
     let { buildDotNetCallout3D } = await import('./callout3D');
-    let dnInstantiatedObject = await buildDotNetCallout3D(jsCallout3D);
+    let dnInstantiatedObject = await buildDotNetCallout3D(jsCallout3D, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -40,16 +40,26 @@ export async function buildJsCallout3DGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetCallout3DGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCallout3DGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCallout3D } = await import('./callout3D');
+        jsComponentRef = await buildJsCallout3D(jsObject, layerId, viewId);
+    }
+    
     let dotNetCallout3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCallout3D.id = geoBlazorId;
     }

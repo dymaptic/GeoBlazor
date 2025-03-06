@@ -4,7 +4,7 @@ export async function buildJsTextBoxInput(dotNetObject: any, layerId: string | n
     return await buildJsTextBoxInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetTextBoxInput(jsObject: any): Promise<any> {
+export async function buildDotNetTextBoxInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetTextBoxInputGenerated } = await import('./textBoxInput.gb');
-    return await buildDotNetTextBoxInputGenerated(jsObject);
+    return await buildDotNetTextBoxInputGenerated(jsObject, layerId, viewId);
 }

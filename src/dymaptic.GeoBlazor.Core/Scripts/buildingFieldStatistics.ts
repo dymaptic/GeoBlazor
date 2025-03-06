@@ -4,7 +4,7 @@ export async function buildJsBuildingFieldStatistics(dotNetObject: any, layerId:
     return await buildJsBuildingFieldStatisticsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBuildingFieldStatistics(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingFieldStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBuildingFieldStatisticsGenerated } = await import('./buildingFieldStatistics.gb');
-    return await buildDotNetBuildingFieldStatisticsGenerated(jsObject);
+    return await buildDotNetBuildingFieldStatisticsGenerated(jsObject, layerId, viewId);
 }

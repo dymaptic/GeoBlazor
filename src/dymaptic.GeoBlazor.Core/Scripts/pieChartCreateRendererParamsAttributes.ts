@@ -4,7 +4,7 @@ export async function buildJsPieChartCreateRendererParamsAttributes(dotNetObject
     return await buildJsPieChartCreateRendererParamsAttributesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPieChartCreateRendererParamsAttributes(jsObject: any): Promise<any> {
+export async function buildDotNetPieChartCreateRendererParamsAttributes(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPieChartCreateRendererParamsAttributesGenerated } = await import('./pieChartCreateRendererParamsAttributes.gb');
-    return await buildDotNetPieChartCreateRendererParamsAttributesGenerated(jsObject);
+    return await buildDotNetPieChartCreateRendererParamsAttributesGenerated(jsObject, layerId, viewId);
 }

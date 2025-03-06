@@ -14,7 +14,7 @@ export async function buildJsSceneViewEnvironmentAtmosphereGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewEnvironmentAtmosphere;
     
     let { buildDotNetSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
-    let dnInstantiatedObject = await buildDotNetSceneViewEnvironmentAtmosphere(jsSceneViewEnvironmentAtmosphere);
+    let dnInstantiatedObject = await buildDotNetSceneViewEnvironmentAtmosphere(jsSceneViewEnvironmentAtmosphere, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsSceneViewEnvironmentAtmosphereGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetSceneViewEnvironmentAtmosphereGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewEnvironmentAtmosphereGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
+        jsComponentRef = await buildJsSceneViewEnvironmentAtmosphere(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewEnvironmentAtmosphere: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.quality)) {
         dotNetSceneViewEnvironmentAtmosphere.quality = jsObject.quality;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewEnvironmentAtmosphere.id = geoBlazorId;
     }

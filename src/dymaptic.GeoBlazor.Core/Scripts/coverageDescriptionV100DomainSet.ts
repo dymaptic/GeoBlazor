@@ -3,7 +3,7 @@ export async function buildJsCoverageDescriptionV100DomainSet(dotNetObject: any,
     return await buildJsCoverageDescriptionV100DomainSetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCoverageDescriptionV100DomainSet(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageDescriptionV100DomainSet(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCoverageDescriptionV100DomainSetGenerated} = await import('./coverageDescriptionV100DomainSet.gb');
-    return await buildDotNetCoverageDescriptionV100DomainSetGenerated(jsObject);
+    return await buildDotNetCoverageDescriptionV100DomainSetGenerated(jsObject, layerId, viewId);
 }

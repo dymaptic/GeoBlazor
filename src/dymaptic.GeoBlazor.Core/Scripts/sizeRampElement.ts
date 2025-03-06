@@ -3,7 +3,7 @@ export async function buildJsSizeRampElement(dotNetObject: any, layerId: string 
     return await buildJsSizeRampElementGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSizeRampElement(jsObject: any): Promise<any> {
+export async function buildDotNetSizeRampElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSizeRampElementGenerated} = await import('./sizeRampElement.gb');
-    return await buildDotNetSizeRampElementGenerated(jsObject);
+    return await buildDotNetSizeRampElementGenerated(jsObject, layerId, viewId);
 }

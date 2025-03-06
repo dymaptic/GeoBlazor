@@ -15,7 +15,7 @@ export async function buildJsPortalUser(dotNetObject: any, layerId: string | nul
     return await buildJsPortalUserGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPortalUser(jsObject: any): Promise<any> {
+export async function buildDotNetPortalUser(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetPortalUserGenerated} = await import('./portalUser.gb');
-    return await buildDotNetPortalUserGenerated(jsObject);
+    return await buildDotNetPortalUserGenerated(jsObject, layerId, viewId);
 }

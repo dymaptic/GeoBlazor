@@ -21,7 +21,7 @@ export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsLegendLayerInfos;
     
     let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
-    let dnInstantiatedObject = await buildDotNetLegendLayerInfos(jsLegendLayerInfos);
+    let dnInstantiatedObject = await buildDotNetLegendLayerInfos(jsLegendLayerInfos, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,13 +48,23 @@ export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLegendLayerInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
+        jsComponentRef = await buildJsLegendLayerInfos(jsObject, layerId, viewId);
+    }
+    
     let dotNetLegendLayerInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.sublayerIds)) {
         dotNetLegendLayerInfos.sublayerIds = jsObject.sublayerIds;
@@ -63,7 +73,7 @@ export async function buildDotNetLegendLayerInfosGenerated(jsObject: any): Promi
         dotNetLegendLayerInfos.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLegendLayerInfos.id = geoBlazorId;
     }

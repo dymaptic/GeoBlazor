@@ -38,7 +38,7 @@ export async function buildJsBaseLayerViewGL2DTileGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2DTile;
     
     let { buildDotNetBaseLayerViewGL2DTile } = await import('./baseLayerViewGL2DTile');
-    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DTile(jsBaseLayerViewGL2DTile);
+    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DTile(jsBaseLayerViewGL2DTile, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,13 +65,23 @@ export async function buildJsBaseLayerViewGL2DTileGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetBaseLayerViewGL2DTileGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBaseLayerViewGL2DTileGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBaseLayerViewGL2DTile } = await import('./baseLayerViewGL2DTile');
+        jsComponentRef = await buildJsBaseLayerViewGL2DTile(jsObject, layerId, viewId);
+    }
+    
     let dotNetBaseLayerViewGL2DTile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.id)) {
         dotNetBaseLayerViewGL2DTile.baseLayerViewGL2DTileId = jsObject.id;
@@ -101,7 +111,7 @@ export async function buildDotNetBaseLayerViewGL2DTileGenerated(jsObject: any): 
         dotNetBaseLayerViewGL2DTile.world = jsObject.world;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBaseLayerViewGL2DTile.id = geoBlazorId;
     }

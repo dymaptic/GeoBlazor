@@ -40,7 +40,7 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="htmlContent">
+    /// <param name="elementReferenceContent">
     ///     The information to display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -114,7 +114,7 @@ public partial class PopupViewModel : FeaturesViewModel
         bool? autoCloseEnabled = null,
         bool? browseClusterEnabled = null,
         bool? defaultPopupTemplateEnabled = null,
-        ElementReference? htmlContent = null,
+        ElementReference? elementReferenceContent = null,
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
@@ -137,7 +137,7 @@ public partial class PopupViewModel : FeaturesViewModel
         AutoCloseEnabled = autoCloseEnabled;
         BrowseClusterEnabled = browseClusterEnabled;
         DefaultPopupTemplateEnabled = defaultPopupTemplateEnabled;
-        HtmlContent = htmlContent;
+        ElementReferenceContent = elementReferenceContent;
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;

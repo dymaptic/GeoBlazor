@@ -24,7 +24,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfo;
     
     let { buildDotNetKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
+        jsComponentRef = await buildJsKnowledgeGraphSublayerElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetKnowledgeGraphSublayerElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-        dotNetKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
+        dotNetKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
     }
     if (hasValue(jsObject.mode)) {
         dotNetKnowledgeGraphSublayerElevationInfo.mode = jsObject.mode;
@@ -73,7 +83,7 @@ export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(js
         dotNetKnowledgeGraphSublayerElevationInfo.unit = jsObject.unit;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKnowledgeGraphSublayerElevationInfo.id = geoBlazorId;
     }

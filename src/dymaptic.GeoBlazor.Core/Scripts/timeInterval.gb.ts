@@ -19,7 +19,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
     
     let { buildDotNetTimeInterval } = await import('./timeInterval');
-    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
+    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTimeInterval } = await import('./timeInterval');
+        jsComponentRef = await buildJsTimeInterval(jsObject, layerId, viewId);
+    }
+    
     let dotNetTimeInterval: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.unit)) {
         dotNetTimeInterval.unit = jsObject.unit;
@@ -61,7 +71,7 @@ export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<a
         dotNetTimeInterval.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTimeInterval.id = geoBlazorId;
     }

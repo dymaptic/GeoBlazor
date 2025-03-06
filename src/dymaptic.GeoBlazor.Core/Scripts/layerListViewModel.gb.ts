@@ -51,7 +51,7 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     getProperty(prop: string): any {
@@ -85,7 +85,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     let jsLayerListViewModel = new LayerListViewModel(properties);
     jsLayerListViewModel.on('trigger-action', async (evt: any) => {
         let { buildDotNetLayerListViewModelTriggerActionEvent } = await import('./layerListViewModelTriggerActionEvent');
-        let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt);
+        let dnEvent = await buildDotNetLayerListViewModelTriggerActionEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
@@ -101,7 +101,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
     
     let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-    let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel);
+    let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -128,17 +128,27 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerListViewModel } = await import('./layerListViewModel');
+        jsComponentRef = await buildJsLayerListViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerListViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
+        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.checkPublishStatusEnabled)) {
         dotNetLayerListViewModel.checkPublishStatusEnabled = jsObject.checkPublishStatusEnabled;
@@ -153,7 +163,7 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Pro
         dotNetLayerListViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerListViewModel.id = geoBlazorId;
     }

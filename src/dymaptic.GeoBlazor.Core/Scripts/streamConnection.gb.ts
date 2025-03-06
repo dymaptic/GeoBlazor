@@ -13,7 +13,7 @@ export async function buildJsStreamConnectionGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsStreamConnection;
     
     let { buildDotNetStreamConnection } = await import('./streamConnection');
-    let dnInstantiatedObject = await buildDotNetStreamConnection(jsStreamConnection);
+    let dnInstantiatedObject = await buildDotNetStreamConnection(jsStreamConnection, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -40,13 +40,23 @@ export async function buildJsStreamConnectionGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetStreamConnectionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetStreamConnectionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsStreamConnection } = await import('./streamConnection');
+        jsComponentRef = await buildJsStreamConnection(jsObject, layerId, viewId);
+    }
+    
     let dotNetStreamConnection: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.connectionError)) {
         dotNetStreamConnection.connectionError = jsObject.connectionError;
@@ -55,7 +65,7 @@ export async function buildDotNetStreamConnectionGenerated(jsObject: any): Promi
         dotNetStreamConnection.connectionStatus = jsObject.connectionStatus;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetStreamConnection.id = geoBlazorId;
     }

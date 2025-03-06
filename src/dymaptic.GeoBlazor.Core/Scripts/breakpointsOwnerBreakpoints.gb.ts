@@ -26,7 +26,7 @@ export async function buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsBreakpointsOwnerBreakpoints;
     
     let { buildDotNetBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
-    let dnInstantiatedObject = await buildDotNetBreakpointsOwnerBreakpoints(jsBreakpointsOwnerBreakpoints);
+    let dnInstantiatedObject = await buildDotNetBreakpointsOwnerBreakpoints(jsBreakpointsOwnerBreakpoints, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
+        jsComponentRef = await buildJsBreakpointsOwnerBreakpoints(jsObject, layerId, viewId);
+    }
+    
     let dotNetBreakpointsOwnerBreakpoints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.large)) {
         dotNetBreakpointsOwnerBreakpoints.large = jsObject.large;
@@ -77,7 +87,7 @@ export async function buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject: 
         dotNetBreakpointsOwnerBreakpoints.xsmall = jsObject.xsmall;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBreakpointsOwnerBreakpoints.id = geoBlazorId;
     }

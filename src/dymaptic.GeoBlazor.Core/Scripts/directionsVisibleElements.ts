@@ -4,7 +4,7 @@ export async function buildJsDirectionsVisibleElements(dotNetObject: any, layerI
     return await buildJsDirectionsVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDirectionsVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionsVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDirectionsVisibleElementsGenerated } = await import('./directionsVisibleElements.gb');
-    return await buildDotNetDirectionsVisibleElementsGenerated(jsObject);
+    return await buildDotNetDirectionsVisibleElementsGenerated(jsObject, layerId, viewId);
 }

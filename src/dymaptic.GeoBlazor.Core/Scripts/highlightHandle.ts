@@ -15,7 +15,7 @@ export async function buildJsHighlightHandle(dotNetObject: any, layerId: string 
     return await buildJsHighlightHandleGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetHighlightHandle(jsObject: any): Promise<any> {
+export async function buildDotNetHighlightHandle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetHighlightHandleGenerated} = await import('./highlightHandle.gb');
-    return await buildDotNetHighlightHandleGenerated(jsObject);
+    return await buildDotNetHighlightHandleGenerated(jsObject, layerId, viewId);
 }

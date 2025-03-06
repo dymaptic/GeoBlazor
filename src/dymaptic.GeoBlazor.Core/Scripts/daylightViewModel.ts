@@ -4,7 +4,7 @@ export async function buildJsDaylightViewModel(dotNetObject: any, layerId: strin
     return await buildJsDaylightViewModelGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDaylightViewModel(jsObject: any): Promise<any> {
+export async function buildDotNetDaylightViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDaylightViewModelGenerated } = await import('./daylightViewModel.gb');
-    return await buildDotNetDaylightViewModelGenerated(jsObject);
+    return await buildDotNetDaylightViewModelGenerated(jsObject, layerId, viewId);
 }

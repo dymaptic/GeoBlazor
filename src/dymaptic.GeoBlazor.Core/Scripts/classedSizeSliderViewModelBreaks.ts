@@ -4,7 +4,7 @@ export async function buildJsClassedSizeSliderViewModelBreaks(dotNetObject: any,
     return await buildJsClassedSizeSliderViewModelBreaksGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetClassedSizeSliderViewModelBreaks(jsObject: any): Promise<any> {
+export async function buildDotNetClassedSizeSliderViewModelBreaks(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetClassedSizeSliderViewModelBreaksGenerated } = await import('./classedSizeSliderViewModelBreaks.gb');
-    return await buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObject);
+    return await buildDotNetClassedSizeSliderViewModelBreaksGenerated(jsObject, layerId, viewId);
 }

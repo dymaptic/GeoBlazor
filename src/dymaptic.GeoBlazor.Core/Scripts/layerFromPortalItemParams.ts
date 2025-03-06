@@ -6,7 +6,7 @@ export async function buildJsLayerFromPortalItemParams(dotNetObject: any, layerI
     return await buildJsLayerFromPortalItemParamsGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLayerFromPortalItemParams(jsObject: any): Promise<any> {
+export async function buildDotNetLayerFromPortalItemParams(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLayerFromPortalItemParamsGenerated} = await import('./layerFromPortalItemParams.gb');
-    return await buildDotNetLayerFromPortalItemParamsGenerated(jsObject);
+    return await buildDotNetLayerFromPortalItemParamsGenerated(jsObject, layerId, viewId);
 }

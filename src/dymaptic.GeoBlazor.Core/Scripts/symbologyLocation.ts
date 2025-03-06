@@ -15,7 +15,7 @@ export async function buildJsSymbologyLocation(dotNetObject: any, layerId: strin
     return await buildJsSymbologyLocationGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSymbologyLocation(jsObject: any): Promise<any> {
+export async function buildDotNetSymbologyLocation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSymbologyLocationGenerated } = await import('./symbologyLocation.gb');
-    return await buildDotNetSymbologyLocationGenerated(jsObject);
+    return await buildDotNetSymbologyLocationGenerated(jsObject, layerId, viewId);
 }

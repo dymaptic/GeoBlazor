@@ -5,7 +5,7 @@ export async function buildJsImageDistanceParameters(dotNetObject: any, layerId:
     return await buildJsImageDistanceParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageDistanceParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageDistanceParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageDistanceParametersGenerated} = await import('./imageDistanceParameters.gb');
-    return await buildDotNetImageDistanceParametersGenerated(jsObject);
+    return await buildDotNetImageDistanceParametersGenerated(jsObject, layerId, viewId);
 }

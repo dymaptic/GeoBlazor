@@ -145,7 +145,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsSliderViewModel;
     
     let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-    let dnInstantiatedObject = await buildDotNetSliderViewModel(jsSliderViewModel);
+    let dnInstantiatedObject = await buildDotNetSliderViewModel(jsSliderViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -172,13 +172,23 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSliderViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSliderViewModel } = await import('./sliderViewModel');
+        jsComponentRef = await buildJsSliderViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetSliderViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effectiveMax)) {
         dotNetSliderViewModel.effectiveMax = jsObject.effectiveMax;
@@ -217,7 +227,7 @@ export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promis
         dotNetSliderViewModel.values = jsObject.values;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSliderViewModel.id = geoBlazorId;
     }

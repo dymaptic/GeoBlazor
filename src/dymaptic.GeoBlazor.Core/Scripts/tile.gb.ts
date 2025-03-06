@@ -38,7 +38,7 @@ export async function buildJsTileGenerated(dotNetObject: any, layerId: string | 
     arcGisObjectRefs[dotNetObject.id] = jsTile;
     
     let { buildDotNetTile } = await import('./tile');
-    let dnInstantiatedObject = await buildDotNetTile(jsTile);
+    let dnInstantiatedObject = await buildDotNetTile(jsTile, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,13 +65,23 @@ export async function buildJsTileGenerated(dotNetObject: any, layerId: string | 
 }
 
 
-export async function buildDotNetTileGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTileGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTile } = await import('./tile');
+        jsComponentRef = await buildJsTile(jsObject, layerId, viewId);
+    }
+    
     let dotNetTile: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.bounds)) {
         dotNetTile.bounds = jsObject.bounds;
@@ -101,7 +111,7 @@ export async function buildDotNetTileGenerated(jsObject: any): Promise<any> {
         dotNetTile.world = jsObject.world;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTile.id = geoBlazorId;
     }

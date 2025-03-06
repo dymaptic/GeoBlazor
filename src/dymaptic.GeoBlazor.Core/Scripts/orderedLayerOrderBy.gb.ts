@@ -20,7 +20,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     
     let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
+    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        jsComponentRef = await buildJsOrderedLayerOrderBy(jsObject, layerId, viewId);
+    }
+    
     let dotNetOrderedLayerOrderBy: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         dotNetOrderedLayerOrderBy.field = jsObject.field;
@@ -65,7 +75,7 @@ export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Pr
         dotNetOrderedLayerOrderBy.valueExpression = jsObject.valueExpression;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetOrderedLayerOrderBy.id = geoBlazorId;
     }

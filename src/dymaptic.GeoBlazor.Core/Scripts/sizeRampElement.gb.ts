@@ -18,7 +18,7 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampElement;
     
     let { buildDotNetSizeRampElement } = await import('./sizeRampElement');
-    let dnInstantiatedObject = await buildDotNetSizeRampElement(jsSizeRampElement);
+    let dnInstantiatedObject = await buildDotNetSizeRampElement(jsSizeRampElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,17 +45,27 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetSizeRampElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSizeRampElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSizeRampElement } = await import('./sizeRampElement');
+        jsComponentRef = await buildJsSizeRampElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetSizeRampElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.infos)) {
         let { buildDotNetSizeRampStop } = await import('./sizeRampStop');
-        dotNetSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetSizeRampStop(i)));
+        dotNetSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetSizeRampStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.title)) {
         dotNetSizeRampElement.title = jsObject.title;
@@ -64,7 +74,7 @@ export async function buildDotNetSizeRampElementGenerated(jsObject: any): Promis
         dotNetSizeRampElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSizeRampElement.id = geoBlazorId;
     }

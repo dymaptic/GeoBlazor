@@ -3,7 +3,7 @@ export async function buildJsImageBoundaryResult(dotNetObject: any, layerId: str
     return await buildJsImageBoundaryResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageBoundaryResult(jsObject: any): Promise<any> {
+export async function buildDotNetImageBoundaryResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageBoundaryResultGenerated} = await import('./imageBoundaryResult.gb');
-    return await buildDotNetImageBoundaryResultGenerated(jsObject);
+    return await buildDotNetImageBoundaryResultGenerated(jsObject, layerId, viewId);
 }

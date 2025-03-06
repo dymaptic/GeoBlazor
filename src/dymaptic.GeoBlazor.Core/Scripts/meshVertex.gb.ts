@@ -32,7 +32,7 @@ export async function buildJsMeshVertexGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsMeshVertex;
     
     let { buildDotNetMeshVertex } = await import('./meshVertex');
-    let dnInstantiatedObject = await buildDotNetMeshVertex(jsMeshVertex);
+    let dnInstantiatedObject = await buildDotNetMeshVertex(jsMeshVertex, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsMeshVertexGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetMeshVertexGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMeshVertexGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMeshVertex } = await import('./meshVertex');
+        jsComponentRef = await buildJsMeshVertex(jsObject, layerId, viewId);
+    }
+    
     let dotNetMeshVertex: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.distance)) {
         dotNetMeshVertex.distance = jsObject.distance;
@@ -89,7 +99,7 @@ export async function buildDotNetMeshVertexGenerated(jsObject: any): Promise<any
         dotNetMeshVertex.yOffset = jsObject.yOffset;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMeshVertex.id = geoBlazorId;
     }

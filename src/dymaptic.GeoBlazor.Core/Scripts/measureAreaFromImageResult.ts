@@ -3,7 +3,7 @@ export async function buildJsMeasureAreaFromImageResult(dotNetObject: any, layer
     return await buildJsMeasureAreaFromImageResultGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMeasureAreaFromImageResult(jsObject: any): Promise<any> {
+export async function buildDotNetMeasureAreaFromImageResult(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMeasureAreaFromImageResultGenerated} = await import('./measureAreaFromImageResult.gb');
-    return await buildDotNetMeasureAreaFromImageResultGenerated(jsObject);
+    return await buildDotNetMeasureAreaFromImageResultGenerated(jsObject, layerId, viewId);
 }

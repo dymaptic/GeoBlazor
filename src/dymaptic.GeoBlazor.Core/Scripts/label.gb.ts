@@ -85,8 +85,18 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLabel } = await import('./label');
+        jsComponentRef = await buildJsLabel(jsObject);
+    }
+    
     let dotNetLabel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -129,7 +139,7 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         dotNetLabel.where = jsObject.where;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLabel.id = geoBlazorId;
     }

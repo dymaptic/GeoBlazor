@@ -14,7 +14,7 @@ export async function buildJsSupportingWidgetDefaultsFeatureFormGenerated(dotNet
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureForm;
     
     let { buildDotNetSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
-    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureForm(jsSupportingWidgetDefaultsFeatureForm);
+    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureForm(jsSupportingWidgetDefaultsFeatureForm, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsSupportingWidgetDefaultsFeatureFormGenerated(dotNet
 }
 
 
-export async function buildDotNetSupportingWidgetDefaultsFeatureFormGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSupportingWidgetDefaultsFeatureFormGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
+        jsComponentRef = await buildJsSupportingWidgetDefaultsFeatureForm(jsObject, layerId, viewId);
+    }
+    
     let dotNetSupportingWidgetDefaultsFeatureForm: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.groupDisplay)) {
         dotNetSupportingWidgetDefaultsFeatureForm.groupDisplay = jsObject.groupDisplay;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSupportingWidgetDefaultsFeatureForm.id = geoBlazorId;
     }

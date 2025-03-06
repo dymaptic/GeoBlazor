@@ -4,7 +4,7 @@ export async function buildJsHeatmapRampElement(dotNetObject: any, layerId: stri
     return await buildJsHeatmapRampElementGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetHeatmapRampElement(jsObject: any): Promise<any> {
+export async function buildDotNetHeatmapRampElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetHeatmapRampElementGenerated } = await import('./heatmapRampElement.gb');
-    return await buildDotNetHeatmapRampElementGenerated(jsObject);
+    return await buildDotNetHeatmapRampElementGenerated(jsObject, layerId, viewId);
 }

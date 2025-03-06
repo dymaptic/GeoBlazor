@@ -15,7 +15,7 @@ export async function buildJsIntl(dotNetObject: any, layerId: string | null, vie
     return await buildJsIntlGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetIntl(jsObject: any): Promise<any> {
+export async function buildDotNetIntl(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetIntlGenerated} = await import('./intl.gb');
-    return await buildDotNetIntlGenerated(jsObject);
+    return await buildDotNetIntlGenerated(jsObject, layerId, viewId);
 }

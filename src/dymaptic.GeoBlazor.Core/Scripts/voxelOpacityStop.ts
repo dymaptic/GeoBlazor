@@ -4,7 +4,7 @@ export async function buildJsVoxelOpacityStop(dotNetObject: any, layerId: string
     return await buildJsVoxelOpacityStopGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVoxelOpacityStop(jsObject: any): Promise<any> {
+export async function buildDotNetVoxelOpacityStop(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVoxelOpacityStopGenerated } = await import('./voxelOpacityStop.gb');
-    return await buildDotNetVoxelOpacityStopGenerated(jsObject);
+    return await buildDotNetVoxelOpacityStopGenerated(jsObject, layerId, viewId);
 }

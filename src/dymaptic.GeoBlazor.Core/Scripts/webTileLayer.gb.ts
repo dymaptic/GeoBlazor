@@ -155,7 +155,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem);
+        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -169,7 +169,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo);
+        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -217,7 +217,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
     }
 }     
 
-export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetWebTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -225,10 +225,10 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
     switch (jsObject.type) {
         case 'web-tile': 
             let { buildDotNetWebTileLayer } = await import('./webTileLayer');
-            return await buildDotNetWebTileLayer(jsObject);
+            return await buildDotNetWebTileLayer(jsObject, layerId, viewId);
         case 'open-street-map': 
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-            return await buildDotNetOpenStreetMapLayer(jsObject);
+            return await buildDotNetOpenStreetMapLayer(jsObject, layerId, viewId);
         default: 
             return jsObject;
     }

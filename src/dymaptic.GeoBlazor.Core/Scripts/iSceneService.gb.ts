@@ -23,7 +23,7 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsSceneService;
     
     let { buildDotNetISceneService } = await import('./iSceneService');
-    let dnInstantiatedObject = await buildDotNetISceneService(jsSceneService);
+    let dnInstantiatedObject = await buildDotNetISceneService(jsSceneService, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetISceneServiceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetISceneServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsISceneService } = await import('./iSceneService');
+        jsComponentRef = await buildJsISceneService(jsObject, layerId, viewId);
+    }
+    
     let dotNetISceneService: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.copyright)) {
         dotNetISceneService.copyright = jsObject.copyright;
@@ -74,7 +84,7 @@ export async function buildDotNetISceneServiceGenerated(jsObject: any): Promise<
         dotNetISceneService.version = jsObject.version;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetISceneService.id = geoBlazorId;
     }

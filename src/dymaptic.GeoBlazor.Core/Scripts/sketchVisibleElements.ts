@@ -4,7 +4,7 @@ export async function buildJsSketchVisibleElements(dotNetObject: any, layerId: s
     return await buildJsSketchVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSketchVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetSketchVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSketchVisibleElementsGenerated } = await import('./sketchVisibleElements.gb');
-    return await buildDotNetSketchVisibleElementsGenerated(jsObject);
+    return await buildDotNetSketchVisibleElementsGenerated(jsObject, layerId, viewId);
 }

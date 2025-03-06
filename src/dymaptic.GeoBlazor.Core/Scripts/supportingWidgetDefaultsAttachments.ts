@@ -4,7 +4,7 @@ export async function buildJsSupportingWidgetDefaultsAttachments(dotNetObject: a
     return await buildJsSupportingWidgetDefaultsAttachmentsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSupportingWidgetDefaultsAttachments(jsObject: any): Promise<any> {
+export async function buildDotNetSupportingWidgetDefaultsAttachments(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSupportingWidgetDefaultsAttachmentsGenerated } = await import('./supportingWidgetDefaultsAttachments.gb');
-    return await buildDotNetSupportingWidgetDefaultsAttachmentsGenerated(jsObject);
+    return await buildDotNetSupportingWidgetDefaultsAttachmentsGenerated(jsObject, layerId, viewId);
 }

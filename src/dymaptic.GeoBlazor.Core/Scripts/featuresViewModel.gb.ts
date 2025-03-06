@@ -105,7 +105,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetAbilities } = await import('./abilities');
-        return await buildDotNetAbilities(this.component.featureViewModelAbilities);
+        return await buildDotNetAbilities(this.component.featureViewModelAbilities, this.layerId, this.viewId);
     }
     
     async setFeatureViewModelAbilities(value: any): Promise<void> {

@@ -17,7 +17,7 @@ export async function buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayerAnchorPosition;
     
     let { buildDotNetIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
-    let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerAnchorPosition(jsIconSymbol3DLayerAnchorPosition);
+    let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerAnchorPosition(jsIconSymbol3DLayerAnchorPosition, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObje
 }
 
 
-export async function buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
+        jsComponentRef = await buildJsIconSymbol3DLayerAnchorPosition(jsObject, layerId, viewId);
+    }
+    
     let dotNetIconSymbol3DLayerAnchorPosition: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.x)) {
         dotNetIconSymbol3DLayerAnchorPosition.x = jsObject.x;
@@ -59,7 +69,7 @@ export async function buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObje
         dotNetIconSymbol3DLayerAnchorPosition.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetIconSymbol3DLayerAnchorPosition.id = geoBlazorId;
     }

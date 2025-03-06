@@ -4,7 +4,7 @@ export async function buildJsVersionInfoExtendedJSONVersionIdentifier(dotNetObje
     return await buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsObject: any): Promise<any> {
+export async function buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerated } = await import('./versionInfoExtendedJSONVersionIdentifier.gb');
-    return await buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject);
+    return await buildDotNetVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject, layerId, viewId);
 }

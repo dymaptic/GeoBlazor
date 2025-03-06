@@ -17,7 +17,7 @@ export async function buildJsVersionManagementServiceVersionInfoExtendedJSONVers
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier;
     
     let { buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementServiceVersionInfoExtendedJSONVersionIdentifier');
-    let dnInstantiatedObject = await buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier(jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier);
+    let dnInstantiatedObject = await buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier(jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsVersionManagementServiceVersionInfoExtendedJSONVers
 }
 
 
-export async function buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifierGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementServiceVersionInfoExtendedJSONVersionIdentifier');
+        jsComponentRef = await buildJsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier(jsObject, layerId, viewId);
+    }
+    
     let dotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.guid)) {
         dotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier.guid = jsObject.guid;
@@ -59,7 +69,7 @@ export async function buildDotNetVersionManagementServiceVersionInfoExtendedJSON
         dotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier.id = geoBlazorId;
     }

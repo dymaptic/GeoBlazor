@@ -4,7 +4,7 @@ export async function buildJsLineOfSightAnalysisTargetElevationInfo(dotNetObject
     return await buildJsLineOfSightAnalysisTargetElevationInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLineOfSightAnalysisTargetElevationInfo(jsObject: any): Promise<any> {
+export async function buildDotNetLineOfSightAnalysisTargetElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLineOfSightAnalysisTargetElevationInfoGenerated } = await import('./lineOfSightAnalysisTargetElevationInfo.gb');
-    return await buildDotNetLineOfSightAnalysisTargetElevationInfoGenerated(jsObject);
+    return await buildDotNetLineOfSightAnalysisTargetElevationInfoGenerated(jsObject, layerId, viewId);
 }

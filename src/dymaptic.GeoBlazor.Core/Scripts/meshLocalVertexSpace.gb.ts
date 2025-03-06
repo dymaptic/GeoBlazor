@@ -16,7 +16,7 @@ export async function buildJsMeshLocalVertexSpaceGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsMeshLocalVertexSpace;
     
     let { buildDotNetMeshLocalVertexSpace } = await import('./meshLocalVertexSpace');
-    let dnInstantiatedObject = await buildDotNetMeshLocalVertexSpace(jsMeshLocalVertexSpace);
+    let dnInstantiatedObject = await buildDotNetMeshLocalVertexSpace(jsMeshLocalVertexSpace, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,13 +43,23 @@ export async function buildJsMeshLocalVertexSpaceGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetMeshLocalVertexSpaceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMeshLocalVertexSpaceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMeshLocalVertexSpace } = await import('./meshLocalVertexSpace');
+        jsComponentRef = await buildJsMeshLocalVertexSpace(jsObject, layerId, viewId);
+    }
+    
     let dotNetMeshLocalVertexSpace: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.origin)) {
         dotNetMeshLocalVertexSpace.origin = jsObject.origin;
@@ -58,7 +68,7 @@ export async function buildDotNetMeshLocalVertexSpaceGenerated(jsObject: any): P
         dotNetMeshLocalVertexSpace.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMeshLocalVertexSpace.id = geoBlazorId;
     }

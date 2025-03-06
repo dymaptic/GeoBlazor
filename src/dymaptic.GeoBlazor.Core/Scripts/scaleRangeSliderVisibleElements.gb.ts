@@ -17,7 +17,7 @@ export async function buildJsScaleRangeSliderVisibleElementsGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsScaleRangeSliderVisibleElements;
     
     let { buildDotNetScaleRangeSliderVisibleElements } = await import('./scaleRangeSliderVisibleElements');
-    let dnInstantiatedObject = await buildDotNetScaleRangeSliderVisibleElements(jsScaleRangeSliderVisibleElements);
+    let dnInstantiatedObject = await buildDotNetScaleRangeSliderVisibleElements(jsScaleRangeSliderVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsScaleRangeSliderVisibleElementsGenerated(dotNetObje
 }
 
 
-export async function buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsScaleRangeSliderVisibleElements } = await import('./scaleRangeSliderVisibleElements');
+        jsComponentRef = await buildJsScaleRangeSliderVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetScaleRangeSliderVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.preview)) {
         dotNetScaleRangeSliderVisibleElements.preview = jsObject.preview;
@@ -59,7 +69,7 @@ export async function buildDotNetScaleRangeSliderVisibleElementsGenerated(jsObje
         dotNetScaleRangeSliderVisibleElements.scaleMenus = jsObject.scaleMenus;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetScaleRangeSliderVisibleElements.id = geoBlazorId;
     }

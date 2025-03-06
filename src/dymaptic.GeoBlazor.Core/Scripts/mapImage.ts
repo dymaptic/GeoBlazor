@@ -3,7 +3,7 @@ export async function buildJsMapImage(dotNetObject: any, layerId: string | null,
     return await buildJsMapImageGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMapImage(jsObject: any): Promise<any> {
+export async function buildDotNetMapImage(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMapImageGenerated} = await import('./mapImage.gb');
-    return await buildDotNetMapImageGenerated(jsObject);
+    return await buildDotNetMapImageGenerated(jsObject, layerId, viewId);
 }

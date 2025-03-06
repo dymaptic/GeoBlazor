@@ -5,7 +5,7 @@ export async function buildJsMapToImageParameters(dotNetObject: any, layerId: st
     return await buildJsMapToImageParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMapToImageParameters(jsObject: any): Promise<any> {
+export async function buildDotNetMapToImageParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMapToImageParametersGenerated} = await import('./mapToImageParameters.gb');
-    return await buildDotNetMapToImageParametersGenerated(jsObject);
+    return await buildDotNetMapToImageParametersGenerated(jsObject, layerId, viewId);
 }

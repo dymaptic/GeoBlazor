@@ -4,7 +4,7 @@ export async function buildJsLayerListKnowledgeGraphOptions(dotNetObject: any, l
     return await buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerListKnowledgeGraphOptions(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListKnowledgeGraphOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLayerListKnowledgeGraphOptionsGenerated } = await import('./layerListKnowledgeGraphOptions.gb');
-    return await buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObject);
+    return await buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObject, layerId, viewId);
 }

@@ -151,7 +151,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.baseItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.widget.baseItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getReferenceItems(): Promise<any> {
@@ -160,7 +160,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.referenceItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.widget.referenceItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getSelectedItems(): Promise<any> {
@@ -169,7 +169,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async setSelectedItems(value: any): Promise<void> {
@@ -183,7 +183,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel);
+        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -287,7 +287,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     let jsBasemapLayerList = new BasemapLayerList(properties);
     jsBasemapLayerList.on('trigger-action', async (evt: any) => {
         let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
-        let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt);
+        let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
@@ -303,7 +303,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
     
     let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
-    let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList);
+    let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -330,29 +330,39 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBasemapLayerListWidget } = await import('./basemapLayerListWidget');
+        jsComponentRef = await buildJsBasemapLayerListWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetBasemapLayerListWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
+        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
+        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
+        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel);
+        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.baseFilterText)) {
         dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
@@ -418,7 +428,7 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any):
         dotNetBasemapLayerListWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBasemapLayerListWidget.id = geoBlazorId;
     }

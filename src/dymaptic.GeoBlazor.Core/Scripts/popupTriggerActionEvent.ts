@@ -4,7 +4,7 @@ export async function buildJsPopupTriggerActionEvent(dotNetObject: any, layerId:
     return await buildJsPopupTriggerActionEventGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPopupTriggerActionEvent(jsObject: any): Promise<any> {
+export async function buildDotNetPopupTriggerActionEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPopupTriggerActionEventGenerated } = await import('./popupTriggerActionEvent.gb');
-    return await buildDotNetPopupTriggerActionEventGenerated(jsObject);
+    return await buildDotNetPopupTriggerActionEventGenerated(jsObject, layerId, viewId);
 }

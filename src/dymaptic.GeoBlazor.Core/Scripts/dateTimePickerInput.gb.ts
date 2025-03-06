@@ -22,7 +22,7 @@ export async function buildJsDateTimePickerInputGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsDateTimePickerInput;
     
     let { buildDotNetDateTimePickerInput } = await import('./dateTimePickerInput');
-    let dnInstantiatedObject = await buildDotNetDateTimePickerInput(jsDateTimePickerInput);
+    let dnInstantiatedObject = await buildDotNetDateTimePickerInput(jsDateTimePickerInput, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,13 +49,23 @@ export async function buildJsDateTimePickerInputGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetDateTimePickerInputGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDateTimePickerInputGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDateTimePickerInput } = await import('./dateTimePickerInput');
+        jsComponentRef = await buildJsDateTimePickerInput(jsObject, layerId, viewId);
+    }
+    
     let dotNetDateTimePickerInput: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.includeTime)) {
         dotNetDateTimePickerInput.includeTime = jsObject.includeTime;
@@ -70,7 +80,7 @@ export async function buildDotNetDateTimePickerInputGenerated(jsObject: any): Pr
         dotNetDateTimePickerInput.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDateTimePickerInput.id = geoBlazorId;
     }

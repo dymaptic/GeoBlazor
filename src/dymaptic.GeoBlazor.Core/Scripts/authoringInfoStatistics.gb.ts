@@ -17,7 +17,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
     
     let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics);
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
+        jsComponentRef = await buildJsAuthoringInfoStatistics(jsObject, layerId, viewId);
+    }
+    
     let dotNetAuthoringInfoStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.max)) {
         dotNetAuthoringInfoStatistics.max = jsObject.max;
@@ -59,7 +69,7 @@ export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any)
         dotNetAuthoringInfoStatistics.min = jsObject.min;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoStatistics.id = geoBlazorId;
     }

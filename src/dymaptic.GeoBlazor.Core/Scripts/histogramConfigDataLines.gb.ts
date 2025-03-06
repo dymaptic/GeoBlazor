@@ -17,7 +17,7 @@ export async function buildJsHistogramConfigDataLinesGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsHistogramConfigDataLines;
     
     let { buildDotNetHistogramConfigDataLines } = await import('./histogramConfigDataLines');
-    let dnInstantiatedObject = await buildDotNetHistogramConfigDataLines(jsHistogramConfigDataLines);
+    let dnInstantiatedObject = await buildDotNetHistogramConfigDataLines(jsHistogramConfigDataLines, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsHistogramConfigDataLinesGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetHistogramConfigDataLinesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramConfigDataLinesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHistogramConfigDataLines } = await import('./histogramConfigDataLines');
+        jsComponentRef = await buildJsHistogramConfigDataLines(jsObject, layerId, viewId);
+    }
+    
     let dotNetHistogramConfigDataLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.label)) {
         dotNetHistogramConfigDataLines.label = jsObject.label;
@@ -59,7 +69,7 @@ export async function buildDotNetHistogramConfigDataLinesGenerated(jsObject: any
         dotNetHistogramConfigDataLines.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHistogramConfigDataLines.id = geoBlazorId;
     }

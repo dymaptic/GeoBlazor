@@ -23,7 +23,7 @@ export async function buildJsElevationProfileLineQuerySourceGenerated(dotNetObje
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineQuerySource;
     
     let { buildDotNetElevationProfileLineQuerySource } = await import('./elevationProfileLineQuerySource');
-    let dnInstantiatedObject = await buildDotNetElevationProfileLineQuerySource(jsElevationProfileLineQuerySource);
+    let dnInstantiatedObject = await buildDotNetElevationProfileLineQuerySource(jsElevationProfileLineQuerySource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,19 +50,29 @@ export async function buildJsElevationProfileLineQuerySourceGenerated(dotNetObje
 }
 
 
-export async function buildDotNetElevationProfileLineQuerySourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetElevationProfileLineQuerySourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsElevationProfileLineQuerySource } = await import('./elevationProfileLineQuerySource');
+        jsComponentRef = await buildJsElevationProfileLineQuerySource(jsObject, layerId, viewId);
+    }
+    
     let dotNetElevationProfileLineQuerySource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.queryElevation)) {
         dotNetElevationProfileLineQuerySource.queryElevation = jsObject.queryElevation;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetElevationProfileLineQuerySource.id = geoBlazorId;
     }

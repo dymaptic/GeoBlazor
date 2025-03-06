@@ -4,7 +4,7 @@ export async function buildJsAssetGroupJSON(dotNetObject: any, layerId: string |
     return await buildJsAssetGroupJSONGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetAssetGroupJSON(jsObject: any): Promise<any> {
+export async function buildDotNetAssetGroupJSON(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetAssetGroupJSONGenerated } = await import('./assetGroupJSON.gb');
-    return await buildDotNetAssetGroupJSONGenerated(jsObject);
+    return await buildDotNetAssetGroupJSONGenerated(jsObject, layerId, viewId);
 }

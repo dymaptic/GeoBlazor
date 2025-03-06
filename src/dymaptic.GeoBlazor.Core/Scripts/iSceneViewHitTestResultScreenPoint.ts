@@ -4,7 +4,7 @@ export async function buildJsISceneViewHitTestResultScreenPoint(dotNetObject: an
     return await buildJsISceneViewHitTestResultScreenPointGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetISceneViewHitTestResultScreenPoint(jsObject: any): Promise<any> {
+export async function buildDotNetISceneViewHitTestResultScreenPoint(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetISceneViewHitTestResultScreenPointGenerated } = await import('./iSceneViewHitTestResultScreenPoint.gb');
-    return await buildDotNetISceneViewHitTestResultScreenPointGenerated(jsObject);
+    return await buildDotNetISceneViewHitTestResultScreenPointGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsRadioButtonsInput(dotNetObject: any, layerId: strin
     return await buildJsRadioButtonsInputGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetRadioButtonsInput(jsObject: any): Promise<any> {
+export async function buildDotNetRadioButtonsInput(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetRadioButtonsInputGenerated } = await import('./radioButtonsInput.gb');
-    return await buildDotNetRadioButtonsInputGenerated(jsObject);
+    return await buildDotNetRadioButtonsInputGenerated(jsObject, layerId, viewId);
 }

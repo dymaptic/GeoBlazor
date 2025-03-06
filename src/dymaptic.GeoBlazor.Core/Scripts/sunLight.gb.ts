@@ -22,7 +22,7 @@ export async function buildJsSunLightGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsSunLight;
     
     let { buildDotNetSunLight } = await import('./sunLight');
-    let dnInstantiatedObject = await buildDotNetSunLight(jsSunLight);
+    let dnInstantiatedObject = await buildDotNetSunLight(jsSunLight, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,27 +49,37 @@ export async function buildJsSunLightGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetSunLightGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSunLightGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSunLight } = await import('./sunLight');
+        jsComponentRef = await buildJsSunLight(jsObject, layerId, viewId);
+    }
+    
     let dotNetSunLight: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.ambient)) {
         let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
-        dotNetSunLight.ambient = await buildDotNetColorAndIntensity(jsObject.ambient);
+        dotNetSunLight.ambient = await buildDotNetColorAndIntensity(jsObject.ambient, layerId, viewId);
     }
     if (hasValue(jsObject.diffuse)) {
         let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
-        dotNetSunLight.diffuse = await buildDotNetColorAndIntensity(jsObject.diffuse);
+        dotNetSunLight.diffuse = await buildDotNetColorAndIntensity(jsObject.diffuse, layerId, viewId);
     }
     if (hasValue(jsObject.direction)) {
         dotNetSunLight.direction = jsObject.direction;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSunLight.id = geoBlazorId;
     }

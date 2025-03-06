@@ -1,3 +1,4 @@
+import ListItemGenerated from './listItem.gb';
 import {arcGisObjectRefs, copyValuesIfExists, hasValue, lookupGeoBlazorId} from "./arcGisJsInterop";
 import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
 import {DotNetListItem} from "./definitions";
@@ -5,14 +6,27 @@ import Layer from "@arcgis/core/layers/Layer";
 import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import Widget from "@arcgis/core/widgets/Widget";
 
+export default class ListItemWrapper extends ListItemGenerated {
+    
+    constructor(component: any) {
+        super(component);
+    }
+    
+    async setPanel(panel: any): Promise<void> {
+        let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
+        let jsPanel = await buildJsListItemPanelWidget(panel, this.layerId, this.viewId);
+        this.component.panel = jsPanel;
+    }
+}
+
 export async function buildJsListItem(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsListItemGenerated} = await import('./listItem.gb');
     return await buildJsListItemGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetListItem(jsObject: any): Promise<any> {
+export async function buildDotNetListItem(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetListItemGenerated} = await import('./listItem.gb');
-    let listItem = await buildDotNetListItemGenerated(jsObject);
+    let listItem = await buildDotNetListItemGenerated(jsObject, layerId, viewId);
     listItem.layerId = lookupGeoBlazorId(jsObject.layer);
     return listItem;
 }

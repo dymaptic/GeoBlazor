@@ -23,7 +23,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettingsArea;
     
     let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea);
+    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
 }
 
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
+        jsComponentRef = await buildJsBookmarkOptionsScreenshotSettingsArea(jsObject, layerId, viewId);
+    }
+    
     let dotNetBookmarkOptionsScreenshotSettingsArea: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.height)) {
         dotNetBookmarkOptionsScreenshotSettingsArea.height = jsObject.height;
@@ -71,7 +81,7 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(
         dotNetBookmarkOptionsScreenshotSettingsArea.y = jsObject.y;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBookmarkOptionsScreenshotSettingsArea.id = geoBlazorId;
     }

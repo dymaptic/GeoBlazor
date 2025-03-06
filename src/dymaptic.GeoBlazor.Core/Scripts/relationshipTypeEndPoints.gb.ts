@@ -17,7 +17,7 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipTypeEndPoints;
     
     let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-    let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints);
+    let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
+        jsComponentRef = await buildJsRelationshipTypeEndPoints(jsObject, layerId, viewId);
+    }
+    
     let dotNetRelationshipTypeEndPoints: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.destinationEntityType)) {
         dotNetRelationshipTypeEndPoints.destinationEntityType = jsObject.destinationEntityType;
@@ -59,7 +69,7 @@ export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: an
         dotNetRelationshipTypeEndPoints.originEntityType = jsObject.originEntityType;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipTypeEndPoints.id = geoBlazorId;
     }

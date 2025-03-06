@@ -23,7 +23,7 @@ export async function buildJsViewPaddingGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsViewPadding;
     
     let { buildDotNetViewPadding } = await import('./viewPadding');
-    let dnInstantiatedObject = await buildDotNetViewPadding(jsViewPadding);
+    let dnInstantiatedObject = await buildDotNetViewPadding(jsViewPadding, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsViewPaddingGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetViewPaddingGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetViewPaddingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsViewPadding } = await import('./viewPadding');
+        jsComponentRef = await buildJsViewPadding(jsObject, layerId, viewId);
+    }
+    
     let dotNetViewPadding: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.bottom)) {
         dotNetViewPadding.bottom = jsObject.bottom;
@@ -71,7 +81,7 @@ export async function buildDotNetViewPaddingGenerated(jsObject: any): Promise<an
         dotNetViewPadding.top = jsObject.top;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetViewPadding.id = geoBlazorId;
     }

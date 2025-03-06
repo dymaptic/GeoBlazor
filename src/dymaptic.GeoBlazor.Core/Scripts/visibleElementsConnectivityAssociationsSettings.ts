@@ -4,7 +4,7 @@ export async function buildJsVisibleElementsConnectivityAssociationsSettings(dot
     return await buildJsVisibleElementsConnectivityAssociationsSettingsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetVisibleElementsConnectivityAssociationsSettings(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsConnectivityAssociationsSettings(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetVisibleElementsConnectivityAssociationsSettingsGenerated } = await import('./visibleElementsConnectivityAssociationsSettings.gb');
-    return await buildDotNetVisibleElementsConnectivityAssociationsSettingsGenerated(jsObject);
+    return await buildDotNetVisibleElementsConnectivityAssociationsSettingsGenerated(jsObject, layerId, viewId);
 }

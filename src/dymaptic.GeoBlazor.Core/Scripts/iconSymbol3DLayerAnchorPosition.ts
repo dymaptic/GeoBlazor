@@ -4,7 +4,7 @@ export async function buildJsIconSymbol3DLayerAnchorPosition(dotNetObject: any, 
     return await buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetIconSymbol3DLayerAnchorPosition(jsObject: any): Promise<any> {
+export async function buildDotNetIconSymbol3DLayerAnchorPosition(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetIconSymbol3DLayerAnchorPositionGenerated } = await import('./iconSymbol3DLayerAnchorPosition.gb');
-    return await buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObject);
+    return await buildDotNetIconSymbol3DLayerAnchorPositionGenerated(jsObject, layerId, viewId);
 }

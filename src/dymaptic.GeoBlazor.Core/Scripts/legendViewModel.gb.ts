@@ -33,7 +33,7 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModel;
     
     let { buildDotNetLegendViewModel } = await import('./legendViewModel');
-    let dnInstantiatedObject = await buildDotNetLegendViewModel(jsLegendViewModel);
+    let dnInstantiatedObject = await buildDotNetLegendViewModel(jsLegendViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -60,21 +60,31 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLegendViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLegendViewModel } = await import('./legendViewModel');
+        jsComponentRef = await buildJsLegendViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetLegendViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
+        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
     }
     if (hasValue(jsObject.layerInfos)) {
         let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i)));
+        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i, layerId, viewId)));
     }
     if (hasValue(jsObject.basemapLegendVisible)) {
         dotNetLegendViewModel.basemapLegendVisible = jsObject.basemapLegendVisible;
@@ -89,7 +99,7 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promis
         dotNetLegendViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLegendViewModel.id = geoBlazorId;
     }

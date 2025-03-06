@@ -5,7 +5,7 @@ export async function buildJsSimpleRenderer(dotNetObject: any, layerId: string |
     return await buildJsSimpleRendererGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSimpleRenderer(jsObject: any): Promise<any> {
+export async function buildDotNetSimpleRenderer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetSimpleRendererGenerated} = await import('./simpleRenderer.gb');
-    return await buildDotNetSimpleRendererGenerated(jsObject);
+    return await buildDotNetSimpleRendererGenerated(jsObject, layerId, viewId);
 }

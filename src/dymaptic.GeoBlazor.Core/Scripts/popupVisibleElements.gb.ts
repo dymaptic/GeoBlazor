@@ -32,7 +32,7 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
     
     let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
-    let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements);
+    let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
+        jsComponentRef = await buildJsPopupVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetPopupVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.actionBar)) {
         dotNetPopupVisibleElements.actionBar = jsObject.actionBar;
@@ -89,7 +99,7 @@ export async function buildDotNetPopupVisibleElementsGenerated(jsObject: any): P
         dotNetPopupVisibleElements.spinner = jsObject.spinner;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPopupVisibleElements.id = geoBlazorId;
     }

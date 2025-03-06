@@ -41,7 +41,7 @@ export async function buildJsSketchVisibleElementsGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsSketchVisibleElements;
     
     let { buildDotNetSketchVisibleElements } = await import('./sketchVisibleElements');
-    let dnInstantiatedObject = await buildDotNetSketchVisibleElements(jsSketchVisibleElements);
+    let dnInstantiatedObject = await buildDotNetSketchVisibleElements(jsSketchVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -68,25 +68,35 @@ export async function buildJsSketchVisibleElementsGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSketchVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSketchVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSketchVisibleElements } = await import('./sketchVisibleElements');
+        jsComponentRef = await buildJsSketchVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetSketchVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.createTools)) {
         let { buildDotNetVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
-        dotNetSketchVisibleElements.createTools = await buildDotNetVisibleElementsCreateTools(jsObject.createTools);
+        dotNetSketchVisibleElements.createTools = await buildDotNetVisibleElementsCreateTools(jsObject.createTools, layerId, viewId);
     }
     if (hasValue(jsObject.selectionTools)) {
         let { buildDotNetVisibleElementsSelectionTools } = await import('./visibleElementsSelectionTools');
-        dotNetSketchVisibleElements.selectionTools = await buildDotNetVisibleElementsSelectionTools(jsObject.selectionTools);
+        dotNetSketchVisibleElements.selectionTools = await buildDotNetVisibleElementsSelectionTools(jsObject.selectionTools, layerId, viewId);
     }
     if (hasValue(jsObject.snappingControlsElements)) {
         let { buildDotNetSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
-        dotNetSketchVisibleElements.snappingControlsElements = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsObject.snappingControlsElements);
+        dotNetSketchVisibleElements.snappingControlsElements = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsObject.snappingControlsElements, layerId, viewId);
     }
     if (hasValue(jsObject.duplicateButton)) {
         dotNetSketchVisibleElements.duplicateButton = jsObject.duplicateButton;
@@ -107,7 +117,7 @@ export async function buildDotNetSketchVisibleElementsGenerated(jsObject: any): 
         dotNetSketchVisibleElements.undoRedoMenu = jsObject.undoRedoMenu;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSketchVisibleElements.id = geoBlazorId;
     }

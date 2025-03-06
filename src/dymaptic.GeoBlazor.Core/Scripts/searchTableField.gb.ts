@@ -19,7 +19,7 @@ export async function buildJsSearchTableFieldGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsSearchTableField;
     
     let { buildDotNetSearchTableField } = await import('./searchTableField');
-    let dnInstantiatedObject = await buildDotNetSearchTableField(jsSearchTableField);
+    let dnInstantiatedObject = await buildDotNetSearchTableField(jsSearchTableField, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,13 +46,23 @@ export async function buildJsSearchTableFieldGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetSearchTableFieldGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchTableFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchTableField } = await import('./searchTableField');
+        jsComponentRef = await buildJsSearchTableField(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchTableField: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.exactMatch)) {
         dotNetSearchTableField.exactMatch = jsObject.exactMatch;
@@ -64,7 +74,7 @@ export async function buildDotNetSearchTableFieldGenerated(jsObject: any): Promi
         dotNetSearchTableField.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchTableField.id = geoBlazorId;
     }

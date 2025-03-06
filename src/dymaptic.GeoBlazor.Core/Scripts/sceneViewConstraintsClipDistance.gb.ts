@@ -20,7 +20,7 @@ export async function buildJsSceneViewConstraintsClipDistanceGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraintsClipDistance;
     
     let { buildDotNetSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsClipDistance(jsSceneViewConstraintsClipDistance);
+    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsClipDistance(jsSceneViewConstraintsClipDistance, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsSceneViewConstraintsClipDistanceGenerated(dotNetObj
 }
 
 
-export async function buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
+        jsComponentRef = await buildJsSceneViewConstraintsClipDistance(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewConstraintsClipDistance: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.far)) {
         dotNetSceneViewConstraintsClipDistance.far = jsObject.far;
@@ -65,7 +75,7 @@ export async function buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObj
         dotNetSceneViewConstraintsClipDistance.near = jsObject.near;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewConstraintsClipDistance.id = geoBlazorId;
     }

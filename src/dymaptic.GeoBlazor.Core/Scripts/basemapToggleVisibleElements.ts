@@ -4,7 +4,7 @@ export async function buildJsBasemapToggleVisibleElements(dotNetObject: any, lay
     return await buildJsBasemapToggleVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBasemapToggleVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetBasemapToggleVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBasemapToggleVisibleElementsGenerated } = await import('./basemapToggleVisibleElements.gb');
-    return await buildDotNetBasemapToggleVisibleElementsGenerated(jsObject);
+    return await buildDotNetBasemapToggleVisibleElementsGenerated(jsObject, layerId, viewId);
 }

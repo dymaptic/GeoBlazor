@@ -50,7 +50,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
     
     let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable);
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -77,17 +77,27 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
+        jsComponentRef = await buildJsAuthoringInfoVisualVariable(jsObject, layerId, viewId);
+    }
+    
     let dotNetAuthoringInfoVisualVariable: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.sizeStops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i)));
+        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
     }
     if (hasValue(jsObject.endTime)) {
         dotNetAuthoringInfoVisualVariable.endTime = jsObject.endTime;
@@ -126,7 +136,7 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
         dotNetAuthoringInfoVisualVariable.units = jsObject.units;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoVisualVariable.id = geoBlazorId;
     }

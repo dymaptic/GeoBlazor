@@ -3,7 +3,7 @@ export async function buildJsFieldInfosConfig(dotNetObject: any, layerId: string
     return await buildJsFieldInfosConfigGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFieldInfosConfig(jsObject: any): Promise<any> {
+export async function buildDotNetFieldInfosConfig(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetFieldInfosConfigGenerated} = await import('./fieldInfosConfig.gb');
-    return await buildDotNetFieldInfosConfigGenerated(jsObject);
+    return await buildDotNetFieldInfosConfigGenerated(jsObject, layerId, viewId);
 }

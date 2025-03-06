@@ -3,7 +3,7 @@ export async function buildJsRelationshipRampElement(dotNetObject: any, layerId:
     return await buildJsRelationshipRampElementGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetRelationshipRampElement(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipRampElement(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetRelationshipRampElementGenerated} = await import('./relationshipRampElement.gb');
-    return await buildDotNetRelationshipRampElementGenerated(jsObject);
+    return await buildDotNetRelationshipRampElementGenerated(jsObject, layerId, viewId);
 }

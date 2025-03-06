@@ -15,7 +15,7 @@ export async function buildJsUnknownLayer(dotNetObject: any, layerId: string | n
     return await buildJsUnknownLayerGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUnknownLayer(jsObject: any): Promise<any> {
+export async function buildDotNetUnknownLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUnknownLayerGenerated } = await import('./unknownLayer.gb');
-    return await buildDotNetUnknownLayerGenerated(jsObject);
+    return await buildDotNetUnknownLayerGenerated(jsObject, layerId, viewId);
 }

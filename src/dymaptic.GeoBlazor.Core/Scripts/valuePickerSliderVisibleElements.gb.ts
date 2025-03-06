@@ -14,7 +14,7 @@ export async function buildJsValuePickerSliderVisibleElementsGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerSliderVisibleElements;
     
     let { buildDotNetValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
-    let dnInstantiatedObject = await buildDotNetValuePickerSliderVisibleElements(jsValuePickerSliderVisibleElements);
+    let dnInstantiatedObject = await buildDotNetValuePickerSliderVisibleElements(jsValuePickerSliderVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,19 +41,29 @@ export async function buildJsValuePickerSliderVisibleElementsGenerated(dotNetObj
 }
 
 
-export async function buildDotNetValuePickerSliderVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerSliderVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
+        jsComponentRef = await buildJsValuePickerSliderVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetValuePickerSliderVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.thumbTooltip)) {
         dotNetValuePickerSliderVisibleElements.thumbTooltip = jsObject.thumbTooltip;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetValuePickerSliderVisibleElements.id = geoBlazorId;
     }

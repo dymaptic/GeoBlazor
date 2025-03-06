@@ -41,7 +41,7 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksVisibleElements;
     
     let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
-    let dnInstantiatedObject = await buildDotNetBookmarksVisibleElements(jsBookmarksVisibleElements);
+    let dnInstantiatedObject = await buildDotNetBookmarksVisibleElements(jsBookmarksVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -68,13 +68,23 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
+        jsComponentRef = await buildJsBookmarksVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetBookmarksVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.addBookmarkButton)) {
         dotNetBookmarksVisibleElements.addBookmarkButton = jsObject.addBookmarkButton;
@@ -104,7 +114,7 @@ export async function buildDotNetBookmarksVisibleElementsGenerated(jsObject: any
         dotNetBookmarksVisibleElements.time = jsObject.time;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBookmarksVisibleElements.id = geoBlazorId;
     }

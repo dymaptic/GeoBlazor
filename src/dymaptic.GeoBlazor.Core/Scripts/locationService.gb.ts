@@ -46,7 +46,7 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jslocator;
     
     let { buildDotNetLocationService } = await import('./locationService');
-    let dnInstantiatedObject = await buildDotNetLocationService(jslocator);
+    let dnInstantiatedObject = await buildDotNetLocationService(jslocator, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -73,16 +73,26 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLocationServiceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLocationServiceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLocationService } = await import('./locationService');
+        jsComponentRef = await buildJsLocationService(jsObject, layerId, viewId);
+    }
+    
     let dotNetLocationService: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLocationService.id = geoBlazorId;
     }

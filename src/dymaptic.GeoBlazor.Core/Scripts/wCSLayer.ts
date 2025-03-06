@@ -15,7 +15,7 @@ export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null,
     return await buildJsWCSLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWCSLayer(jsObject: any): Promise<any> {
+export async function buildDotNetWCSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWCSLayerGenerated} = await import('./wCSLayer.gb');
-    return await buildDotNetWCSLayerGenerated(jsObject);
+    return await buildDotNetWCSLayerGenerated(jsObject, layerId, viewId);
 }

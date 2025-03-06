@@ -20,7 +20,7 @@ export async function buildJsServiceAreaParametersAttributeParameterValueGenerat
     arcGisObjectRefs[dotNetObject.id] = jsServiceAreaParametersAttributeParameterValue;
     
     let { buildDotNetServiceAreaParametersAttributeParameterValue } = await import('./serviceAreaParametersAttributeParameterValue');
-    let dnInstantiatedObject = await buildDotNetServiceAreaParametersAttributeParameterValue(jsServiceAreaParametersAttributeParameterValue);
+    let dnInstantiatedObject = await buildDotNetServiceAreaParametersAttributeParameterValue(jsServiceAreaParametersAttributeParameterValue, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsServiceAreaParametersAttributeParameterValueGenerat
 }
 
 
-export async function buildDotNetServiceAreaParametersAttributeParameterValueGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetServiceAreaParametersAttributeParameterValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsServiceAreaParametersAttributeParameterValue } = await import('./serviceAreaParametersAttributeParameterValue');
+        jsComponentRef = await buildJsServiceAreaParametersAttributeParameterValue(jsObject, layerId, viewId);
+    }
+    
     let dotNetServiceAreaParametersAttributeParameterValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.attributeName)) {
         dotNetServiceAreaParametersAttributeParameterValue.attributeName = jsObject.attributeName;
@@ -65,7 +75,7 @@ export async function buildDotNetServiceAreaParametersAttributeParameterValueGen
         dotNetServiceAreaParametersAttributeParameterValue.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetServiceAreaParametersAttributeParameterValue.id = geoBlazorId;
     }

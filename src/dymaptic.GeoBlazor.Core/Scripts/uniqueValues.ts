@@ -15,7 +15,7 @@ export async function buildJsUniqueValues(dotNetObject: any, layerId: string | n
     return await buildJsUniqueValuesGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetUniqueValues(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValues(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetUniqueValuesGenerated} = await import('./uniqueValues.gb');
-    return await buildDotNetUniqueValuesGenerated(jsObject);
+    return await buildDotNetUniqueValuesGenerated(jsObject, layerId, viewId);
 }

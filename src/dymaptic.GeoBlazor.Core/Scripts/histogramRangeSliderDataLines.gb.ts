@@ -17,7 +17,7 @@ export async function buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsHistogramRangeSliderDataLines;
     
     let { buildDotNetHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
-    let dnInstantiatedObject = await buildDotNetHistogramRangeSliderDataLines(jsHistogramRangeSliderDataLines);
+    let dnInstantiatedObject = await buildDotNetHistogramRangeSliderDataLines(jsHistogramRangeSliderDataLines, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject
 }
 
 
-export async function buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
+        jsComponentRef = await buildJsHistogramRangeSliderDataLines(jsObject, layerId, viewId);
+    }
+    
     let dotNetHistogramRangeSliderDataLines: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.label)) {
         dotNetHistogramRangeSliderDataLines.label = jsObject.label;
@@ -59,7 +69,7 @@ export async function buildDotNetHistogramRangeSliderDataLinesGenerated(jsObject
         dotNetHistogramRangeSliderDataLines.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetHistogramRangeSliderDataLines.id = geoBlazorId;
     }

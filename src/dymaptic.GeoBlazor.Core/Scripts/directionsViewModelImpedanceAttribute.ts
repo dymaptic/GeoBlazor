@@ -4,7 +4,7 @@ export async function buildJsDirectionsViewModelImpedanceAttribute(dotNetObject:
     return await buildJsDirectionsViewModelImpedanceAttributeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDirectionsViewModelImpedanceAttribute(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionsViewModelImpedanceAttribute(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDirectionsViewModelImpedanceAttributeGenerated } = await import('./directionsViewModelImpedanceAttribute.gb');
-    return await buildDotNetDirectionsViewModelImpedanceAttributeGenerated(jsObject);
+    return await buildDotNetDirectionsViewModelImpedanceAttributeGenerated(jsObject, layerId, viewId);
 }

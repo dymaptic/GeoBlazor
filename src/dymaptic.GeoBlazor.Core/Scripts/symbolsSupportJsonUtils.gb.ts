@@ -11,7 +11,7 @@ export async function buildJsSymbolsSupportJsonUtilsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jssymbolsSupportJsonUtils;
     
     let { buildDotNetSymbolsSupportJsonUtils } = await import('./symbolsSupportJsonUtils');
-    let dnInstantiatedObject = await buildDotNetSymbolsSupportJsonUtils(jssymbolsSupportJsonUtils);
+    let dnInstantiatedObject = await buildDotNetSymbolsSupportJsonUtils(jssymbolsSupportJsonUtils, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,16 +38,26 @@ export async function buildJsSymbolsSupportJsonUtilsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetSymbolsSupportJsonUtilsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSymbolsSupportJsonUtilsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSymbolsSupportJsonUtils } = await import('./symbolsSupportJsonUtils');
+        jsComponentRef = await buildJsSymbolsSupportJsonUtils(jsObject, layerId, viewId);
+    }
+    
     let dotNetSymbolsSupportJsonUtils: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSymbolsSupportJsonUtils.id = geoBlazorId;
     }

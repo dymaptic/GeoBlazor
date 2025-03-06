@@ -138,7 +138,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo);
+        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo, this.layerId, this.viewId);
     }
     
     async setElevationInfo(value: any): Promise<void> {
@@ -254,19 +254,19 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     let jsGraphicsLayer = new GraphicsLayer(properties);
     jsGraphicsLayer.on('layerview-create', async (evt: any) => {
         let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', dnEvent);
     });
     
     jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
         let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt);
+        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', dnEvent);
     });
     
     jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
         let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt);
+        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', dnEvent);
     });
     
@@ -282,7 +282,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
     let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
+    let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -309,13 +309,23 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGraphicsLayer } = await import('./graphicsLayer');
+        jsComponentRef = await buildJsGraphicsLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetGraphicsLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
@@ -323,7 +333,7 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
     }
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo);
+        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
     }
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -370,7 +380,7 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<
         dotNetGraphicsLayer.visible = jsObject.visible;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGraphicsLayer.id = geoBlazorId;
     }

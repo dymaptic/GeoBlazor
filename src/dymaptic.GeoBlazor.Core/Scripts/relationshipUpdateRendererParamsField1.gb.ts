@@ -24,7 +24,7 @@ export async function buildJsRelationshipUpdateRendererParamsField1Generated(dot
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipUpdateRendererParamsField1;
     
     let { buildDotNetRelationshipUpdateRendererParamsField1 } = await import('./relationshipUpdateRendererParamsField1');
-    let dnInstantiatedObject = await buildDotNetRelationshipUpdateRendererParamsField1(jsrelationshipUpdateRendererParamsField1);
+    let dnInstantiatedObject = await buildDotNetRelationshipUpdateRendererParamsField1(jsrelationshipUpdateRendererParamsField1, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,17 +51,27 @@ export async function buildJsRelationshipUpdateRendererParamsField1Generated(dot
 }
 
 
-export async function buildDotNetRelationshipUpdateRendererParamsField1Generated(jsObject: any): Promise<any> {
+export async function buildDotNetRelationshipUpdateRendererParamsField1Generated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsRelationshipUpdateRendererParamsField1 } = await import('./relationshipUpdateRendererParamsField1');
+        jsComponentRef = await buildJsRelationshipUpdateRendererParamsField1(jsObject, layerId, viewId);
+    }
+    
     let dotNetRelationshipUpdateRendererParamsField1: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetClassBreak } = await import('./classBreak');
-        dotNetRelationshipUpdateRendererParamsField1.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetClassBreak(i)));
+        dotNetRelationshipUpdateRendererParamsField1.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetClassBreak(i, layerId, viewId)));
     }
     if (hasValue(jsObject.field)) {
         dotNetRelationshipUpdateRendererParamsField1.field = jsObject.field;
@@ -73,7 +83,7 @@ export async function buildDotNetRelationshipUpdateRendererParamsField1Generated
         dotNetRelationshipUpdateRendererParamsField1.normalizationField = jsObject.normalizationField;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetRelationshipUpdateRendererParamsField1.id = geoBlazorId;
     }

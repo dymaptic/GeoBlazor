@@ -17,7 +17,7 @@ export async function buildJsComboboxItemGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsComboboxItem;
     
     let { buildDotNetComboboxItem } = await import('./comboboxItem');
-    let dnInstantiatedObject = await buildDotNetComboboxItem(jsComboboxItem);
+    let dnInstantiatedObject = await buildDotNetComboboxItem(jsComboboxItem, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsComboboxItemGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetComboboxItemGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetComboboxItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsComboboxItem } = await import('./comboboxItem');
+        jsComponentRef = await buildJsComboboxItem(jsObject, layerId, viewId);
+    }
+    
     let dotNetComboboxItem: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.label)) {
         dotNetComboboxItem.label = jsObject.label;
@@ -59,7 +69,7 @@ export async function buildDotNetComboboxItemGenerated(jsObject: any): Promise<a
         dotNetComboboxItem.value = jsObject.value;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetComboboxItem.id = geoBlazorId;
     }

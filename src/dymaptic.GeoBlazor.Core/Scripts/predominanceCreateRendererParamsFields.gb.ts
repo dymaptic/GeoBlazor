@@ -17,7 +17,7 @@ export async function buildJsPredominanceCreateRendererParamsFieldsGenerated(dot
     arcGisObjectRefs[dotNetObject.id] = jspredominanceCreateRendererParamsFields;
     
     let { buildDotNetPredominanceCreateRendererParamsFields } = await import('./predominanceCreateRendererParamsFields');
-    let dnInstantiatedObject = await buildDotNetPredominanceCreateRendererParamsFields(jspredominanceCreateRendererParamsFields);
+    let dnInstantiatedObject = await buildDotNetPredominanceCreateRendererParamsFields(jspredominanceCreateRendererParamsFields, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsPredominanceCreateRendererParamsFieldsGenerated(dot
 }
 
 
-export async function buildDotNetPredominanceCreateRendererParamsFieldsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPredominanceCreateRendererParamsFieldsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPredominanceCreateRendererParamsFields } = await import('./predominanceCreateRendererParamsFields');
+        jsComponentRef = await buildJsPredominanceCreateRendererParamsFields(jsObject, layerId, viewId);
+    }
+    
     let dotNetPredominanceCreateRendererParamsFields: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.label)) {
         dotNetPredominanceCreateRendererParamsFields.label = jsObject.label;
@@ -59,7 +69,7 @@ export async function buildDotNetPredominanceCreateRendererParamsFieldsGenerated
         dotNetPredominanceCreateRendererParamsFields.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPredominanceCreateRendererParamsFields.id = geoBlazorId;
     }

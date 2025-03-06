@@ -5,7 +5,7 @@ export async function buildJsMosaicRule(dotNetObject: any, layerId: string | nul
     return await buildJsMosaicRuleGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMosaicRule(jsObject: any): Promise<any> {
+export async function buildDotNetMosaicRule(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMosaicRuleGenerated} = await import('./mosaicRule.gb');
-    return await buildDotNetMosaicRuleGenerated(jsObject);
+    return await buildDotNetMosaicRuleGenerated(jsObject, layerId, viewId);
 }

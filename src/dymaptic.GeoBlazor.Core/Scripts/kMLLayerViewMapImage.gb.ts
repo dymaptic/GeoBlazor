@@ -24,7 +24,7 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;
     
     let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-    let dnInstantiatedObject = await buildDotNetKMLLayerViewMapImage(jsKMLLayerViewMapImage);
+    let dnInstantiatedObject = await buildDotNetKMLLayerViewMapImage(jsKMLLayerViewMapImage, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,13 +51,23 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
+        jsComponentRef = await buildJsKMLLayerViewMapImage(jsObject, layerId, viewId);
+    }
+    
     let dotNetKMLLayerViewMapImage: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.Extent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -73,7 +83,7 @@ export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): P
         dotNetKMLLayerViewMapImage.rotation = jsObject.rotation;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetKMLLayerViewMapImage.id = geoBlazorId;
     }

@@ -4,7 +4,7 @@ export async function buildJsUniqueValueClass(dotNetObject: any, layerId: string
     return await buildJsUniqueValueClassGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetUniqueValueClass(jsObject: any): Promise<any> {
+export async function buildDotNetUniqueValueClass(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetUniqueValueClassGenerated } = await import('./uniqueValueClass.gb');
-    return await buildDotNetUniqueValueClassGenerated(jsObject);
+    return await buildDotNetUniqueValueClassGenerated(jsObject, layerId, viewId);
 }

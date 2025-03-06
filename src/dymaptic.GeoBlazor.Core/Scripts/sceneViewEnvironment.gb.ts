@@ -32,7 +32,7 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewEnvironment;
     
     let { buildDotNetSceneViewEnvironment } = await import('./sceneViewEnvironment');
-    let dnInstantiatedObject = await buildDotNetSceneViewEnvironment(jsSceneViewEnvironment);
+    let dnInstantiatedObject = await buildDotNetSceneViewEnvironment(jsSceneViewEnvironment, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,17 +59,27 @@ export async function buildJsSceneViewEnvironmentGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSceneViewEnvironment } = await import('./sceneViewEnvironment');
+        jsComponentRef = await buildJsSceneViewEnvironment(jsObject, layerId, viewId);
+    }
+    
     let dotNetSceneViewEnvironment: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.atmosphere)) {
         let { buildDotNetSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
-        dotNetSceneViewEnvironment.atmosphere = await buildDotNetSceneViewEnvironmentAtmosphere(jsObject.atmosphere);
+        dotNetSceneViewEnvironment.atmosphere = await buildDotNetSceneViewEnvironmentAtmosphere(jsObject.atmosphere, layerId, viewId);
     }
     if (hasValue(jsObject.background)) {
         let { buildDotNetBackground } = await import('./background');
@@ -89,7 +99,7 @@ export async function buildDotNetSceneViewEnvironmentGenerated(jsObject: any): P
         dotNetSceneViewEnvironment.starsEnabled = jsObject.starsEnabled;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSceneViewEnvironment.id = geoBlazorId;
     }

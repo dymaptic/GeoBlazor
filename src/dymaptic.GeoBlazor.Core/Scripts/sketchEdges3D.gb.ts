@@ -23,7 +23,7 @@ export async function buildJsSketchEdges3DGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsSketchEdges3D;
     
     let { buildDotNetSketchEdges3D } = await import('./sketchEdges3D');
-    let dnInstantiatedObject = await buildDotNetSketchEdges3D(jsSketchEdges3D);
+    let dnInstantiatedObject = await buildDotNetSketchEdges3D(jsSketchEdges3D, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,13 +50,23 @@ export async function buildJsSketchEdges3DGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetSketchEdges3DGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSketchEdges3DGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSketchEdges3D } = await import('./sketchEdges3D');
+        jsComponentRef = await buildJsSketchEdges3D(jsObject, layerId, viewId);
+    }
+    
     let dotNetSketchEdges3D: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.color)) {
         let { buildDotNetMapColor } = await import('./mapColor');
@@ -72,7 +82,7 @@ export async function buildDotNetSketchEdges3DGenerated(jsObject: any): Promise<
         dotNetSketchEdges3D.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSketchEdges3D.id = geoBlazorId;
     }

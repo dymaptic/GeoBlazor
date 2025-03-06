@@ -4,7 +4,7 @@ export async function buildJsBaseLayerViewGL2DRenderRenderParameters(dotNetObjec
     return await buildJsBaseLayerViewGL2DRenderRenderParametersGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBaseLayerViewGL2DRenderRenderParameters(jsObject: any): Promise<any> {
+export async function buildDotNetBaseLayerViewGL2DRenderRenderParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBaseLayerViewGL2DRenderRenderParametersGenerated } = await import('./baseLayerViewGL2DRenderRenderParameters.gb');
-    return await buildDotNetBaseLayerViewGL2DRenderRenderParametersGenerated(jsObject);
+    return await buildDotNetBaseLayerViewGL2DRenderRenderParametersGenerated(jsObject, layerId, viewId);
 }

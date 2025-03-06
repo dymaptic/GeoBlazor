@@ -32,7 +32,7 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFieldStatistics;
     
     let { buildDotNetBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-    let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics);
+    let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,13 +59,23 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsBuildingFieldStatistics } = await import('./buildingFieldStatistics');
+        jsComponentRef = await buildJsBuildingFieldStatistics(jsObject, layerId, viewId);
+    }
+    
     let dotNetBuildingFieldStatistics: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fieldName)) {
         dotNetBuildingFieldStatistics.fieldName = jsObject.fieldName;
@@ -89,7 +99,7 @@ export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any)
         dotNetBuildingFieldStatistics.subLayerIds = jsObject.subLayerIds;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetBuildingFieldStatistics.id = geoBlazorId;
     }

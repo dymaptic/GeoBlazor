@@ -17,7 +17,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurementLabel;
     
     let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsAreaMeasurement2DViewModelMeasurementLabel);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsAreaMeasurement2DViewModelMeasurementLabel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated
 }
 
 
-export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
+        jsComponentRef = await buildJsAreaMeasurement2DViewModelMeasurementLabel(jsObject, layerId, viewId);
+    }
+    
     let dotNetAreaMeasurement2DViewModelMeasurementLabel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.area)) {
         dotNetAreaMeasurement2DViewModelMeasurementLabel.area = jsObject.area;
@@ -59,7 +69,7 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGener
         dotNetAreaMeasurement2DViewModelMeasurementLabel.perimeter = jsObject.perimeter;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAreaMeasurement2DViewModelMeasurementLabel.id = geoBlazorId;
     }

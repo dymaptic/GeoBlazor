@@ -4,7 +4,7 @@ export async function buildJsValuePickerSlider(dotNetObject: any, layerId: strin
     return await buildJsValuePickerSliderGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetValuePickerSlider(jsObject: any): Promise<any> {
+export async function buildDotNetValuePickerSlider(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetValuePickerSliderGenerated } = await import('./valuePickerSlider.gb');
-    return await buildDotNetValuePickerSliderGenerated(jsObject);
+    return await buildDotNetValuePickerSliderGenerated(jsObject, layerId, viewId);
 }

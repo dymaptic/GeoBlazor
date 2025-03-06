@@ -17,7 +17,7 @@ export async function buildJsDynamicDataLayerFieldsGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayerFields;
     
     let { buildDotNetDynamicDataLayerFields } = await import('./dynamicDataLayerFields');
-    let dnInstantiatedObject = await buildDotNetDynamicDataLayerFields(jsDynamicDataLayerFields);
+    let dnInstantiatedObject = await buildDotNetDynamicDataLayerFields(jsDynamicDataLayerFields, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDynamicDataLayerFieldsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetDynamicDataLayerFieldsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDynamicDataLayerFieldsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDynamicDataLayerFields } = await import('./dynamicDataLayerFields');
+        jsComponentRef = await buildJsDynamicDataLayerFields(jsObject, layerId, viewId);
+    }
+    
     let dotNetDynamicDataLayerFields: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.alias)) {
         dotNetDynamicDataLayerFields.alias = jsObject.alias;
@@ -59,7 +69,7 @@ export async function buildDotNetDynamicDataLayerFieldsGenerated(jsObject: any):
         dotNetDynamicDataLayerFields.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDynamicDataLayerFields.id = geoBlazorId;
     }

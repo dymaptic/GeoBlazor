@@ -4,7 +4,7 @@ export async function buildJsBreakpointsOwnerBreakpoints(dotNetObject: any, laye
     return await buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetBreakpointsOwnerBreakpoints(jsObject: any): Promise<any> {
+export async function buildDotNetBreakpointsOwnerBreakpoints(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetBreakpointsOwnerBreakpointsGenerated } = await import('./breakpointsOwnerBreakpoints.gb');
-    return await buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject);
+    return await buildDotNetBreakpointsOwnerBreakpointsGenerated(jsObject, layerId, viewId);
 }

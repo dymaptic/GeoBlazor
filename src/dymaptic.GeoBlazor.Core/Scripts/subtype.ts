@@ -4,7 +4,7 @@ export async function buildJsSubtype(dotNetObject: any, layerId: string | null, 
     return await buildJsSubtypeGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSubtype(jsObject: any): Promise<any> {
+export async function buildDotNetSubtype(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSubtypeGenerated } = await import('./subtype.gb');
-    return await buildDotNetSubtypeGenerated(jsObject);
+    return await buildDotNetSubtypeGenerated(jsObject, layerId, viewId);
 }

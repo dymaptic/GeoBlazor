@@ -3,7 +3,7 @@ export async function buildJsCoverageDescriptionV201BoundedBy(dotNetObject: any,
     return await buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetCoverageDescriptionV201BoundedBy(jsObject: any): Promise<any> {
+export async function buildDotNetCoverageDescriptionV201BoundedBy(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetCoverageDescriptionV201BoundedByGenerated} = await import('./coverageDescriptionV201BoundedBy.gb');
-    return await buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObject);
+    return await buildDotNetCoverageDescriptionV201BoundedByGenerated(jsObject, layerId, viewId);
 }

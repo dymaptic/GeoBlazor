@@ -17,7 +17,7 @@ export async function buildJsCodedValueGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsCodedValue;
     
     let { buildDotNetCodedValue } = await import('./codedValue');
-    let dnInstantiatedObject = await buildDotNetCodedValue(jsCodedValue);
+    let dnInstantiatedObject = await buildDotNetCodedValue(jsCodedValue, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsCodedValueGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetCodedValueGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCodedValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsCodedValue } = await import('./codedValue');
+        jsComponentRef = await buildJsCodedValue(jsObject, layerId, viewId);
+    }
+    
     let dotNetCodedValue: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.code)) {
         dotNetCodedValue.code = jsObject.code;
@@ -59,7 +69,7 @@ export async function buildDotNetCodedValueGenerated(jsObject: any): Promise<any
         dotNetCodedValue.name = jsObject.name;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetCodedValue.id = geoBlazorId;
     }

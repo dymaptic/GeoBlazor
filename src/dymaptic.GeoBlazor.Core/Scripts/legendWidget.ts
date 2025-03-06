@@ -15,7 +15,7 @@ export async function buildJsLegendWidget(dotNetObject: any, layerId: string | n
     return await buildJsLegendWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetLegendWidget(jsObject: any): Promise<any> {
+export async function buildDotNetLegendWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetLegendWidgetGenerated} = await import('./legendWidget.gb');
-    return await buildDotNetLegendWidgetGenerated(jsObject);
+    return await buildDotNetLegendWidgetGenerated(jsObject, layerId, viewId);
 }

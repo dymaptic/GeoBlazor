@@ -17,7 +17,7 @@ export async function buildJsLabelClassLabelExpressionInfoGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsLabelClassLabelExpressionInfo;
     
     let { buildDotNetLabelClassLabelExpressionInfo } = await import('./labelClassLabelExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetLabelClassLabelExpressionInfo(jsLabelClassLabelExpressionInfo);
+    let dnInstantiatedObject = await buildDotNetLabelClassLabelExpressionInfo(jsLabelClassLabelExpressionInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsLabelClassLabelExpressionInfoGenerated(dotNetObject
 }
 
 
-export async function buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLabelClassLabelExpressionInfo } = await import('./labelClassLabelExpressionInfo');
+        jsComponentRef = await buildJsLabelClassLabelExpressionInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetLabelClassLabelExpressionInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.expression)) {
         dotNetLabelClassLabelExpressionInfo.expression = jsObject.expression;
@@ -59,7 +69,7 @@ export async function buildDotNetLabelClassLabelExpressionInfoGenerated(jsObject
         dotNetLabelClassLabelExpressionInfo.title = jsObject.title;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLabelClassLabelExpressionInfo.id = geoBlazorId;
     }

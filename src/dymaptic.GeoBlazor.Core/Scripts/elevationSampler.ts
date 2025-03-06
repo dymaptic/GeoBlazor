@@ -15,7 +15,7 @@ export async function buildJsElevationSampler(dotNetObject: any, layerId: string
     return await buildJsElevationSamplerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetElevationSampler(jsObject: any): Promise<any> {
+export async function buildDotNetElevationSampler(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetElevationSamplerGenerated} = await import('./elevationSampler.gb');
-    return await buildDotNetElevationSamplerGenerated(jsObject);
+    return await buildDotNetElevationSamplerGenerated(jsObject, layerId, viewId);
 }

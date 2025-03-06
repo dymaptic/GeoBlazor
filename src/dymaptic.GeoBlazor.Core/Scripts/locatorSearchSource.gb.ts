@@ -105,7 +105,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     
     let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
-    let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource);
+    let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -132,13 +132,23 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLocatorSearchSource } = await import('./locatorSearchSource');
+        jsComponentRef = await buildJsLocatorSearchSource(jsObject, layerId, viewId);
+    }
+    
     let dotNetLocatorSearchSource: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.filter)) {
         let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
@@ -146,7 +156,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     }
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
     }
     if (hasValue(jsObject.resultSymbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
@@ -228,7 +238,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
         dotNetLocatorSearchSource.zoomScale = jsObject.zoomScale;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLocatorSearchSource.id = geoBlazorId;
     }

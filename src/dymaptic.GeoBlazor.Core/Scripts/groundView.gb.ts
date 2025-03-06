@@ -13,7 +13,7 @@ export async function buildJsGroundViewGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsGroundView;
     
     let { buildDotNetGroundView } = await import('./groundView');
-    let dnInstantiatedObject = await buildDotNetGroundView(jsGroundView);
+    let dnInstantiatedObject = await buildDotNetGroundView(jsGroundView, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -40,17 +40,27 @@ export async function buildJsGroundViewGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGroundViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGroundView } = await import('./groundView');
+        jsComponentRef = await buildJsGroundView(jsObject, layerId, viewId);
+    }
+    
     let dotNetGroundView: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.elevationSampler)) {
         let { buildDotNetElevationSampler } = await import('./elevationSampler');
-        dotNetGroundView.elevationSampler = await buildDotNetElevationSampler(jsObject.elevationSampler);
+        dotNetGroundView.elevationSampler = await buildDotNetElevationSampler(jsObject.elevationSampler, layerId, viewId);
     }
     if (hasValue(jsObject.extent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -64,7 +74,7 @@ export async function buildDotNetGroundViewGenerated(jsObject: any): Promise<any
         dotNetGroundView.updating = jsObject.updating;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGroundView.id = geoBlazorId;
     }

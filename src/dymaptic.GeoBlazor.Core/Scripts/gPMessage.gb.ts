@@ -16,7 +16,7 @@ export async function buildJsGPMessageGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsGPMessage;
     
     let { buildDotNetGPMessage } = await import('./gPMessage');
-    let dnInstantiatedObject = await buildDotNetGPMessage(jsGPMessage);
+    let dnInstantiatedObject = await buildDotNetGPMessage(jsGPMessage, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,13 +43,23 @@ export async function buildJsGPMessageGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetGPMessageGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGPMessageGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGPMessage } = await import('./gPMessage');
+        jsComponentRef = await buildJsGPMessage(jsObject, layerId, viewId);
+    }
+    
     let dotNetGPMessage: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.description)) {
         dotNetGPMessage.description = jsObject.description;
@@ -58,7 +68,7 @@ export async function buildDotNetGPMessageGenerated(jsObject: any): Promise<any>
         dotNetGPMessage.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGPMessage.id = geoBlazorId;
     }

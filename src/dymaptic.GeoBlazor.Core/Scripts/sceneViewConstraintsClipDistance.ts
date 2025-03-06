@@ -4,7 +4,7 @@ export async function buildJsSceneViewConstraintsClipDistance(dotNetObject: any,
     return await buildJsSceneViewConstraintsClipDistanceGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSceneViewConstraintsClipDistance(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewConstraintsClipDistance(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSceneViewConstraintsClipDistanceGenerated } = await import('./sceneViewConstraintsClipDistance.gb');
-    return await buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObject);
+    return await buildDotNetSceneViewConstraintsClipDistanceGenerated(jsObject, layerId, viewId);
 }

@@ -29,7 +29,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     
     let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-    let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel);
+    let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsMeasurementViewModel } = await import('./measurementViewModel');
+        jsComponentRef = await buildJsMeasurementViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetMeasurementViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.activeViewModel)) {
         let { buildDotNetIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
@@ -81,7 +91,7 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
         dotNetMeasurementViewModel.state = jsObject.state;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetMeasurementViewModel.id = geoBlazorId;
     }

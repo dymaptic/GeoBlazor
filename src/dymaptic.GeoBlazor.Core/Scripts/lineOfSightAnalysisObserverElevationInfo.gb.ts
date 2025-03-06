@@ -17,7 +17,7 @@ export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisObserverElevationInfo;
     
     let { buildDotNetLineOfSightAnalysisObserverElevationInfo } = await import('./lineOfSightAnalysisObserverElevationInfo');
-    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo);
+    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(d
 }
 
 
-export async function buildDotNetLineOfSightAnalysisObserverElevationInfoGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLineOfSightAnalysisObserverElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLineOfSightAnalysisObserverElevationInfo } = await import('./lineOfSightAnalysisObserverElevationInfo');
+        jsComponentRef = await buildJsLineOfSightAnalysisObserverElevationInfo(jsObject, layerId, viewId);
+    }
+    
     let dotNetLineOfSightAnalysisObserverElevationInfo: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.mode)) {
         dotNetLineOfSightAnalysisObserverElevationInfo.mode = jsObject.mode;
@@ -59,7 +69,7 @@ export async function buildDotNetLineOfSightAnalysisObserverElevationInfoGenerat
         dotNetLineOfSightAnalysisObserverElevationInfo.offset = jsObject.offset;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLineOfSightAnalysisObserverElevationInfo.id = geoBlazorId;
     }

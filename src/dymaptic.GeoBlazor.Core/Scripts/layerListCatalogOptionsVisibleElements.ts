@@ -4,7 +4,7 @@ export async function buildJsLayerListCatalogOptionsVisibleElements(dotNetObject
     return await buildJsLayerListCatalogOptionsVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetLayerListCatalogOptionsVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListCatalogOptionsVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetLayerListCatalogOptionsVisibleElementsGenerated } = await import('./layerListCatalogOptionsVisibleElements.gb');
-    return await buildDotNetLayerListCatalogOptionsVisibleElementsGenerated(jsObject);
+    return await buildDotNetLayerListCatalogOptionsVisibleElementsGenerated(jsObject, layerId, viewId);
 }

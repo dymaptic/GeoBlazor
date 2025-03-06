@@ -15,7 +15,7 @@ export async function buildJsWatchHandle(dotNetObject: any, layerId: string | nu
     return await buildJsWatchHandleGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWatchHandle(jsObject: any): Promise<any> {
+export async function buildDotNetWatchHandle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetWatchHandleGenerated} = await import('./watchHandle.gb');
-    return await buildDotNetWatchHandleGenerated(jsObject);
+    return await buildDotNetWatchHandleGenerated(jsObject, layerId, viewId);
 }

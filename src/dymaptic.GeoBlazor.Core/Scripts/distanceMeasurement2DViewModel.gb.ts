@@ -35,7 +35,7 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
         }
         
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-        return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement);
+        return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement, this.layerId, this.viewId);
     }
     
     getProperty(prop: string): any {
@@ -76,7 +76,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModel;
     
     let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModel(jsDistanceMeasurement2DViewModel);
+    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModel(jsDistanceMeasurement2DViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -103,17 +103,27 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
+        jsComponentRef = await buildJsDistanceMeasurement2DViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetDistanceMeasurement2DViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-        dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement);
+        dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement, layerId, viewId);
     }
     if (hasValue(jsObject.measurementLabel)) {
         dotNetDistanceMeasurement2DViewModel.measurementLabel = jsObject.measurementLabel;
@@ -128,7 +138,7 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
         dotNetDistanceMeasurement2DViewModel.unitOptions = jsObject.unitOptions;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDistanceMeasurement2DViewModel.id = geoBlazorId;
     }

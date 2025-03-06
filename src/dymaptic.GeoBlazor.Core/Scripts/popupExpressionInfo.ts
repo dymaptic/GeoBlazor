@@ -4,7 +4,7 @@ export async function buildJsPopupExpressionInfo(dotNetObject: any, layerId: str
     return await buildJsPopupExpressionInfoGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetPopupExpressionInfo(jsObject: any): Promise<any> {
+export async function buildDotNetPopupExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetPopupExpressionInfoGenerated } = await import('./popupExpressionInfo.gb');
-    return await buildDotNetPopupExpressionInfoGenerated(jsObject);
+    return await buildDotNetPopupExpressionInfoGenerated(jsObject, layerId, viewId);
 }

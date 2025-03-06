@@ -4,7 +4,7 @@ export async function buildJsDirectionalPadVisibleElements(dotNetObject: any, la
     return await buildJsDirectionalPadVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetDirectionalPadVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionalPadVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetDirectionalPadVisibleElementsGenerated } = await import('./directionalPadVisibleElements.gb');
-    return await buildDotNetDirectionalPadVisibleElementsGenerated(jsObject);
+    return await buildDotNetDirectionalPadVisibleElementsGenerated(jsObject, layerId, viewId);
 }

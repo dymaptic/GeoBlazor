@@ -751,7 +751,7 @@ export async function buildJsGeometryEngineAsyncGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsgeometryEngineAsync;
     
     let { buildDotNetGeometryEngineAsync } = await import('./geometryEngineAsync');
-    let dnInstantiatedObject = await buildDotNetGeometryEngineAsync(jsgeometryEngineAsync);
+    let dnInstantiatedObject = await buildDotNetGeometryEngineAsync(jsgeometryEngineAsync, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -778,16 +778,26 @@ export async function buildJsGeometryEngineAsyncGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetGeometryEngineAsyncGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetGeometryEngineAsyncGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsGeometryEngineAsync } = await import('./geometryEngineAsync');
+        jsComponentRef = await buildJsGeometryEngineAsync(jsObject, layerId, viewId);
+    }
+    
     let dotNetGeometryEngineAsync: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetGeometryEngineAsync.id = geoBlazorId;
     }

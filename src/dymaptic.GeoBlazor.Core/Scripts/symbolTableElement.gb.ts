@@ -20,7 +20,7 @@ export async function buildJsSymbolTableElementGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsSymbolTableElement;
     
     let { buildDotNetSymbolTableElement } = await import('./symbolTableElement');
-    let dnInstantiatedObject = await buildDotNetSymbolTableElement(jsSymbolTableElement);
+    let dnInstantiatedObject = await buildDotNetSymbolTableElement(jsSymbolTableElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsSymbolTableElementGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetSymbolTableElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSymbolTableElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSymbolTableElement } = await import('./symbolTableElement');
+        jsComponentRef = await buildJsSymbolTableElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetSymbolTableElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.infos)) {
         dotNetSymbolTableElement.infos = jsObject.infos;
@@ -68,7 +78,7 @@ export async function buildDotNetSymbolTableElementGenerated(jsObject: any): Pro
         dotNetSymbolTableElement.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSymbolTableElement.id = geoBlazorId;
     }

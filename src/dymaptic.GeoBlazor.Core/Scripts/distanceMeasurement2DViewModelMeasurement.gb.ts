@@ -18,7 +18,7 @@ export async function buildJsDistanceMeasurement2DViewModelMeasurementGenerated(
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModelMeasurement;
     
     let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsDistanceMeasurement2DViewModelMeasurement);
+    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsDistanceMeasurement2DViewModelMeasurement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,13 +45,23 @@ export async function buildJsDistanceMeasurement2DViewModelMeasurementGenerated(
 }
 
 
-export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
+        jsComponentRef = await buildJsDistanceMeasurement2DViewModelMeasurement(jsObject, layerId, viewId);
+    }
+    
     let dotNetDistanceMeasurement2DViewModelMeasurement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.geometry)) {
         let { buildDotNetPolyline } = await import('./polyline');
@@ -61,7 +71,7 @@ export async function buildDotNetDistanceMeasurement2DViewModelMeasurementGenera
         dotNetDistanceMeasurement2DViewModelMeasurement.length = jsObject.length;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDistanceMeasurement2DViewModelMeasurement.id = geoBlazorId;
     }

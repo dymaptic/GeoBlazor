@@ -151,7 +151,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerListCatalogOptions } = await import('./layerListCatalogOptions');
-        return await buildDotNetLayerListCatalogOptions(this.widget.catalogOptions);
+        return await buildDotNetLayerListCatalogOptions(this.widget.catalogOptions, this.layerId, this.viewId);
     }
     
     async setCatalogOptions(value: any): Promise<void> {
@@ -165,7 +165,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
-        return await buildDotNetLayerListKnowledgeGraphOptions(this.widget.knowledgeGraphOptions);
+        return await buildDotNetLayerListKnowledgeGraphOptions(this.widget.knowledgeGraphOptions, this.layerId, this.viewId);
     }
     
     async setKnowledgeGraphOptions(value: any): Promise<void> {
@@ -179,7 +179,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.operationalItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.widget.operationalItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async getSelectedItems(): Promise<any> {
@@ -188,7 +188,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
     }
     
     async setSelectedItems(value: any): Promise<void> {
@@ -202,7 +202,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-        return await buildDotNetLayerListViewModel(this.widget.viewModel);
+        return await buildDotNetLayerListViewModel(this.widget.viewModel, this.layerId, this.viewId);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -216,7 +216,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
-        return await buildDotNetLayerListVisibleElements(this.widget.visibleElements);
+        return await buildDotNetLayerListVisibleElements(this.widget.visibleElements, this.layerId, this.viewId);
     }
     
     async setVisibleElements(value: any): Promise<void> {
@@ -314,7 +314,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     let jsLayerList = new LayerList(properties);
     jsLayerList.on('trigger-action', async (evt: any) => {
         let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
-        let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt);
+        let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     
@@ -330,7 +330,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
     
     let { buildDotNetLayerListWidget } = await import('./layerListWidget');
-    let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList);
+    let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -357,37 +357,47 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetLayerListWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsLayerListWidget } = await import('./layerListWidget');
+        jsComponentRef = await buildJsLayerListWidget(jsObject, layerId, viewId);
+    }
+    
     let dotNetLayerListWidget: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.catalogOptions)) {
         let { buildDotNetLayerListCatalogOptions } = await import('./layerListCatalogOptions');
-        dotNetLayerListWidget.catalogOptions = await buildDotNetLayerListCatalogOptions(jsObject.catalogOptions);
+        dotNetLayerListWidget.catalogOptions = await buildDotNetLayerListCatalogOptions(jsObject.catalogOptions, layerId, viewId);
     }
     if (hasValue(jsObject.knowledgeGraphOptions)) {
         let { buildDotNetLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
-        dotNetLayerListWidget.knowledgeGraphOptions = await buildDotNetLayerListKnowledgeGraphOptions(jsObject.knowledgeGraphOptions);
+        dotNetLayerListWidget.knowledgeGraphOptions = await buildDotNetLayerListKnowledgeGraphOptions(jsObject.knowledgeGraphOptions, layerId, viewId);
     }
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
+        dotNetLayerListWidget.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
+        dotNetLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
     }
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-        dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel);
+        dotNetLayerListWidget.viewModel = await buildDotNetLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
-        dotNetLayerListWidget.visibleElements = await buildDotNetLayerListVisibleElements(jsObject.visibleElements);
+        dotNetLayerListWidget.visibleElements = await buildDotNetLayerListVisibleElements(jsObject.visibleElements, layerId, viewId);
     }
     if (hasValue(jsObject.catalogLayerList)) {
         dotNetLayerListWidget.catalogLayerList = jsObject.catalogLayerList;
@@ -441,7 +451,7 @@ export async function buildDotNetLayerListWidgetGenerated(jsObject: any): Promis
         dotNetLayerListWidget.widgetId = jsObject.id;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetLayerListWidget.id = geoBlazorId;
     }

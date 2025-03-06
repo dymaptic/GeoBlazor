@@ -15,7 +15,7 @@ export async function buildJsPrintSubmitEventResultsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsPrintSubmitEventResults;
     
     let { buildDotNetPrintSubmitEventResults } = await import('./printSubmitEventResults');
-    let dnInstantiatedObject = await buildDotNetPrintSubmitEventResults(jsPrintSubmitEventResults);
+    let dnInstantiatedObject = await buildDotNetPrintSubmitEventResults(jsPrintSubmitEventResults, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -42,20 +42,30 @@ export async function buildJsPrintSubmitEventResultsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetPrintSubmitEventResultsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetPrintSubmitEventResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsPrintSubmitEventResults } = await import('./printSubmitEventResults');
+        jsComponentRef = await buildJsPrintSubmitEventResults(jsObject, layerId, viewId);
+    }
+    
     let dotNetPrintSubmitEventResults: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.link)) {
         let { buildDotNetFileLink } = await import('./fileLink');
-        dotNetPrintSubmitEventResults.link = await Promise.all(jsObject.link.map(async i => await buildDotNetFileLink(i)));
+        dotNetPrintSubmitEventResults.link = await Promise.all(jsObject.link.map(async i => await buildDotNetFileLink(i, layerId, viewId)));
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetPrintSubmitEventResults.id = geoBlazorId;
     }

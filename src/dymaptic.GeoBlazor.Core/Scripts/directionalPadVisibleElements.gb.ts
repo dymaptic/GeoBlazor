@@ -20,7 +20,7 @@ export async function buildJsDirectionalPadVisibleElementsGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsDirectionalPadVisibleElements;
     
     let { buildDotNetDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDirectionalPadVisibleElements(jsDirectionalPadVisibleElements);
+    let dnInstantiatedObject = await buildDotNetDirectionalPadVisibleElements(jsDirectionalPadVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,13 +47,23 @@ export async function buildJsDirectionalPadVisibleElementsGenerated(dotNetObject
 }
 
 
-export async function buildDotNetDirectionalPadVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionalPadVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
+        jsComponentRef = await buildJsDirectionalPadVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetDirectionalPadVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.directionalButtons)) {
         dotNetDirectionalPadVisibleElements.directionalButtons = jsObject.directionalButtons;
@@ -65,7 +75,7 @@ export async function buildDotNetDirectionalPadVisibleElementsGenerated(jsObject
         dotNetDirectionalPadVisibleElements.rotationSlider = jsObject.rotationSlider;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDirectionalPadVisibleElements.id = geoBlazorId;
     }

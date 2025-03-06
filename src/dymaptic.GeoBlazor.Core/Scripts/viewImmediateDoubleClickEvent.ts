@@ -3,7 +3,7 @@ export async function buildJsViewImmediateDoubleClickEvent(dotNetObject: any, la
     return await buildJsViewImmediateDoubleClickEventGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetViewImmediateDoubleClickEvent(jsObject: any): Promise<any> {
+export async function buildDotNetViewImmediateDoubleClickEvent(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetViewImmediateDoubleClickEventGenerated} = await import('./viewImmediateDoubleClickEvent.gb');
-    return await buildDotNetViewImmediateDoubleClickEventGenerated(jsObject);
+    return await buildDotNetViewImmediateDoubleClickEventGenerated(jsObject, layerId, viewId);
 }

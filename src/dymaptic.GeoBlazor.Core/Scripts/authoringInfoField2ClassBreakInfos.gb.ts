@@ -17,7 +17,7 @@ export async function buildJsAuthoringInfoField2ClassBreakInfosGenerated(dotNetO
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField2ClassBreakInfos;
     
     let { buildDotNetAuthoringInfoField2ClassBreakInfos } = await import('./authoringInfoField2ClassBreakInfos');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfoField2ClassBreakInfos(jsAuthoringInfoField2ClassBreakInfos);
+    let dnInstantiatedObject = await buildDotNetAuthoringInfoField2ClassBreakInfos(jsAuthoringInfoField2ClassBreakInfos, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsAuthoringInfoField2ClassBreakInfosGenerated(dotNetO
 }
 
 
-export async function buildDotNetAuthoringInfoField2ClassBreakInfosGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAuthoringInfoField2ClassBreakInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAuthoringInfoField2ClassBreakInfos } = await import('./authoringInfoField2ClassBreakInfos');
+        jsComponentRef = await buildJsAuthoringInfoField2ClassBreakInfos(jsObject, layerId, viewId);
+    }
+    
     let dotNetAuthoringInfoField2ClassBreakInfos: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.maxValue)) {
         dotNetAuthoringInfoField2ClassBreakInfos.maxValue = jsObject.maxValue;
@@ -59,7 +69,7 @@ export async function buildDotNetAuthoringInfoField2ClassBreakInfosGenerated(jsO
         dotNetAuthoringInfoField2ClassBreakInfos.minValue = jsObject.minValue;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAuthoringInfoField2ClassBreakInfos.id = geoBlazorId;
     }

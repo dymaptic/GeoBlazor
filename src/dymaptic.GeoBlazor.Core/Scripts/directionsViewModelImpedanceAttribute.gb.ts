@@ -17,7 +17,7 @@ export async function buildJsDirectionsViewModelImpedanceAttributeGenerated(dotN
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsViewModelImpedanceAttribute;
     
     let { buildDotNetDirectionsViewModelImpedanceAttribute } = await import('./directionsViewModelImpedanceAttribute');
-    let dnInstantiatedObject = await buildDotNetDirectionsViewModelImpedanceAttribute(jsDirectionsViewModelImpedanceAttribute);
+    let dnInstantiatedObject = await buildDotNetDirectionsViewModelImpedanceAttribute(jsDirectionsViewModelImpedanceAttribute, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,13 +44,23 @@ export async function buildJsDirectionsViewModelImpedanceAttributeGenerated(dotN
 }
 
 
-export async function buildDotNetDirectionsViewModelImpedanceAttributeGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetDirectionsViewModelImpedanceAttributeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsDirectionsViewModelImpedanceAttribute } = await import('./directionsViewModelImpedanceAttribute');
+        jsComponentRef = await buildJsDirectionsViewModelImpedanceAttribute(jsObject, layerId, viewId);
+    }
+    
     let dotNetDirectionsViewModelImpedanceAttribute: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.name)) {
         dotNetDirectionsViewModelImpedanceAttribute.name = jsObject.name;
@@ -59,7 +69,7 @@ export async function buildDotNetDirectionsViewModelImpedanceAttributeGenerated(
         dotNetDirectionsViewModelImpedanceAttribute.units = jsObject.units;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetDirectionsViewModelImpedanceAttribute.id = geoBlazorId;
     }

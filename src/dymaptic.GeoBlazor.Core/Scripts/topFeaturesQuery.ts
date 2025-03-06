@@ -5,7 +5,7 @@ export async function buildJsTopFeaturesQuery(dotNetObject: any, layerId: string
     return await buildJsTopFeaturesQueryGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetTopFeaturesQuery(jsObject: any): Promise<any> {
+export async function buildDotNetTopFeaturesQuery(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetTopFeaturesQueryGenerated} = await import('./topFeaturesQuery.gb');
-    return await buildDotNetTopFeaturesQueryGenerated(jsObject);
+    return await buildDotNetTopFeaturesQueryGenerated(jsObject, layerId, viewId);
 }

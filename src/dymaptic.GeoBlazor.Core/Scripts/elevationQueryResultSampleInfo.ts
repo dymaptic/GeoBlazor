@@ -3,7 +3,7 @@ export async function buildJsElevationQueryResultSampleInfo(dotNetObject: any, l
     return await buildJsElevationQueryResultSampleInfoGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetElevationQueryResultSampleInfo(jsObject: any): Promise<any> {
+export async function buildDotNetElevationQueryResultSampleInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetElevationQueryResultSampleInfoGenerated} = await import('./elevationQueryResultSampleInfo.gb');
-    return await buildDotNetElevationQueryResultSampleInfoGenerated(jsObject);
+    return await buildDotNetElevationQueryResultSampleInfoGenerated(jsObject, layerId, viewId);
 }

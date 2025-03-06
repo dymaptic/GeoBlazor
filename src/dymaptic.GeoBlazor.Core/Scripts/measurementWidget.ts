@@ -14,7 +14,7 @@ export async function buildJsMeasurementWidget(dotNetObject: any, layerId: strin
     return await buildJsMeasurementWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetMeasurementWidget(jsObject: any): Promise<any> {
+export async function buildDotNetMeasurementWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetMeasurementWidgetGenerated} = await import('./measurementWidget.gb');
-    return await buildDotNetMeasurementWidgetGenerated(jsObject);
+    return await buildDotNetMeasurementWidgetGenerated(jsObject, layerId, viewId);
 }

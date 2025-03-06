@@ -28,7 +28,7 @@ export async function buildJsTextElementGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsTextElement;
     
     let { buildDotNetTextElement } = await import('./textElement');
-    let dnInstantiatedObject = await buildDotNetTextElement(jsTextElement);
+    let dnInstantiatedObject = await buildDotNetTextElement(jsTextElement, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsTextElementGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetTextElementGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTextElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTextElement } = await import('./textElement');
+        jsComponentRef = await buildJsTextElement(jsObject, layerId, viewId);
+    }
+    
     let dotNetTextElement: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.description)) {
         dotNetTextElement.description = jsObject.description;
@@ -82,7 +92,7 @@ export async function buildDotNetTextElementGenerated(jsObject: any): Promise<an
         dotNetTextElement.visibilityExpression = jsObject.visibilityExpression;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTextElement.id = geoBlazorId;
     }

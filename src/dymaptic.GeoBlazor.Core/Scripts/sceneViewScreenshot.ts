@@ -4,7 +4,7 @@ export async function buildJsSceneViewScreenshot(dotNetObject: any, layerId: str
     return await buildJsSceneViewScreenshotGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetSceneViewScreenshot(jsObject: any): Promise<any> {
+export async function buildDotNetSceneViewScreenshot(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetSceneViewScreenshotGenerated } = await import('./sceneViewScreenshot.gb');
-    return await buildDotNetSceneViewScreenshotGenerated(jsObject);
+    return await buildDotNetSceneViewScreenshotGenerated(jsObject, layerId, viewId);
 }

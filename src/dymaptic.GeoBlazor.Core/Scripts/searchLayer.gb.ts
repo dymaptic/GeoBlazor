@@ -23,7 +23,7 @@ export async function buildJsSearchLayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsSearchLayer;
     
     let { buildDotNetSearchLayer } = await import('./searchLayer');
-    let dnInstantiatedObject = await buildDotNetSearchLayer(jsSearchLayer);
+    let dnInstantiatedObject = await buildDotNetSearchLayer(jsSearchLayer, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,17 +50,27 @@ export async function buildJsSearchLayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetSearchLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSearchLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsSearchLayer } = await import('./searchLayer');
+        jsComponentRef = await buildJsSearchLayer(jsObject, layerId, viewId);
+    }
+    
     let dotNetSearchLayer: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.field)) {
         let { buildDotNetSearchLayerField } = await import('./searchLayerField');
-        dotNetSearchLayer.field = await buildDotNetSearchLayerField(jsObject.field);
+        dotNetSearchLayer.field = await buildDotNetSearchLayerField(jsObject.field, layerId, viewId);
     }
     if (hasValue(jsObject.id)) {
         dotNetSearchLayer.searchLayerId = jsObject.id;
@@ -69,7 +79,7 @@ export async function buildDotNetSearchLayerGenerated(jsObject: any): Promise<an
         dotNetSearchLayer.subLayer = jsObject.subLayer;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetSearchLayer.id = geoBlazorId;
     }

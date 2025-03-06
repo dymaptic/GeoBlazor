@@ -16,7 +16,7 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsScaleBarViewModel;
     
     let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
-    let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel);
+    let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,16 +43,26 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetScaleBarViewModelGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsScaleBarViewModel } = await import('./scaleBarViewModel');
+        jsComponentRef = await buildJsScaleBarViewModel(jsObject, layerId, viewId);
+    }
+    
     let dotNetScaleBarViewModel: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetScaleBarViewModel.id = geoBlazorId;
     }

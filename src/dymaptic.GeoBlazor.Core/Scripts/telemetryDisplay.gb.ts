@@ -28,7 +28,7 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsTelemetryDisplay;
     
     let { buildDotNetTelemetryDisplay } = await import('./telemetryDisplay');
-    let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay);
+    let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,13 +55,23 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetTelemetryDisplayGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetTelemetryDisplayGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsTelemetryDisplay } = await import('./telemetryDisplay');
+        jsComponentRef = await buildJsTelemetryDisplay(jsObject, layerId, viewId);
+    }
+    
     let dotNetTelemetryDisplay: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.frameCenter)) {
         dotNetTelemetryDisplay.frameCenter = jsObject.frameCenter;
@@ -79,7 +89,7 @@ export async function buildDotNetTelemetryDisplayGenerated(jsObject: any): Promi
         dotNetTelemetryDisplay.sensorTrail = jsObject.sensorTrail;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetTelemetryDisplay.id = geoBlazorId;
     }

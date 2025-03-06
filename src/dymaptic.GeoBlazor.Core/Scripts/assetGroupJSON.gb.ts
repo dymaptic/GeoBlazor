@@ -21,7 +21,7 @@ export async function buildJsAssetGroupJSONGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsAssetGroupJSON;
     
     let { buildDotNetAssetGroupJSON } = await import('./assetGroupJSON');
-    let dnInstantiatedObject = await buildDotNetAssetGroupJSON(jsAssetGroupJSON);
+    let dnInstantiatedObject = await buildDotNetAssetGroupJSON(jsAssetGroupJSON, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,17 +48,27 @@ export async function buildJsAssetGroupJSONGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetAssetGroupJSONGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetAssetGroupJSONGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsAssetGroupJSON } = await import('./assetGroupJSON');
+        jsComponentRef = await buildJsAssetGroupJSON(jsObject, layerId, viewId);
+    }
+    
     let dotNetAssetGroupJSON: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.assetTypes)) {
         let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
-        dotNetAssetGroupJSON.assetTypes = await Promise.all(jsObject.assetTypes.map(async i => await buildDotNetAssetTypeJSON(i)));
+        dotNetAssetGroupJSON.assetTypes = await Promise.all(jsObject.assetTypes.map(async i => await buildDotNetAssetTypeJSON(i, layerId, viewId)));
     }
     if (hasValue(jsObject.assetGroupCode)) {
         dotNetAssetGroupJSON.assetGroupCode = jsObject.assetGroupCode;
@@ -67,7 +77,7 @@ export async function buildDotNetAssetGroupJSONGenerated(jsObject: any): Promise
         dotNetAssetGroupJSON.assetGroupName = jsObject.assetGroupName;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetAssetGroupJSON.id = geoBlazorId;
     }

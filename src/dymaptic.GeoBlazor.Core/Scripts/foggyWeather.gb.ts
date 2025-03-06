@@ -16,7 +16,7 @@ export async function buildJsFoggyWeatherGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsFoggyWeather;
     
     let { buildDotNetFoggyWeather } = await import('./foggyWeather');
-    let dnInstantiatedObject = await buildDotNetFoggyWeather(jsFoggyWeather);
+    let dnInstantiatedObject = await buildDotNetFoggyWeather(jsFoggyWeather, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,13 +43,23 @@ export async function buildJsFoggyWeatherGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetFoggyWeatherGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFoggyWeatherGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsFoggyWeather } = await import('./foggyWeather');
+        jsComponentRef = await buildJsFoggyWeather(jsObject, layerId, viewId);
+    }
+    
     let dotNetFoggyWeather: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.fogStrength)) {
         dotNetFoggyWeather.fogStrength = jsObject.fogStrength;
@@ -58,7 +68,7 @@ export async function buildDotNetFoggyWeatherGenerated(jsObject: any): Promise<a
         dotNetFoggyWeather.type = jsObject.type;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetFoggyWeather.id = geoBlazorId;
     }

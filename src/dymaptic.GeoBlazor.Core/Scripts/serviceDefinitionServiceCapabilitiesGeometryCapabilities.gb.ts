@@ -26,7 +26,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesGeometryCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
+        jsComponentRef = await buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsObject, layerId, viewId);
+    }
+    
     let dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.geometryMaxBoundingRectangleSizeX)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.geometryMaxBoundingRectangleSizeX = jsObject.geometryMaxBoundingRectangleSizeX;
@@ -77,7 +87,7 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCap
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.supportsZValues = jsObject.supportsZValues;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities.id = geoBlazorId;
     }

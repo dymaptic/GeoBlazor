@@ -26,7 +26,7 @@ export async function buildJsVisibleElementsStructuralAttachmentAssociationsSett
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsStructuralAttachmentAssociationsSettings;
     
     let { buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings } = await import('./visibleElementsStructuralAttachmentAssociationsSettings');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsVisibleElementsStructuralAttachmentAssociationsSettings);
+    let dnInstantiatedObject = await buildDotNetVisibleElementsStructuralAttachmentAssociationsSettings(jsVisibleElementsStructuralAttachmentAssociationsSettings, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,13 +53,23 @@ export async function buildJsVisibleElementsStructuralAttachmentAssociationsSett
 }
 
 
-export async function buildDotNetVisibleElementsStructuralAttachmentAssociationsSettingsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetVisibleElementsStructuralAttachmentAssociationsSettingsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsVisibleElementsStructuralAttachmentAssociationsSettings } = await import('./visibleElementsStructuralAttachmentAssociationsSettings');
+        jsComponentRef = await buildJsVisibleElementsStructuralAttachmentAssociationsSettings(jsObject, layerId, viewId);
+    }
+    
     let dotNetVisibleElementsStructuralAttachmentAssociationsSettings: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.arrowsToggle)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.arrowsToggle = jsObject.arrowsToggle;
@@ -77,7 +87,7 @@ export async function buildDotNetVisibleElementsStructuralAttachmentAssociations
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.widthInput = jsObject.widthInput;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetVisibleElementsStructuralAttachmentAssociationsSettings.id = geoBlazorId;
     }

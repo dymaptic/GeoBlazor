@@ -29,7 +29,7 @@ export async function buildJsShadowCastVisibleElementsGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsShadowCastVisibleElements;
     
     let { buildDotNetShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
-    let dnInstantiatedObject = await buildDotNetShadowCastVisibleElements(jsShadowCastVisibleElements);
+    let dnInstantiatedObject = await buildDotNetShadowCastVisibleElements(jsShadowCastVisibleElements, layerId, viewId);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,13 +56,23 @@ export async function buildJsShadowCastVisibleElementsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetShadowCastVisibleElementsGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetShadowCastVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
     
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    
+    let jsComponentRef: any;
+    if (hasValue(geoBlazorId)) {
+        jsComponentRef = jsObjectRefs[geoBlazorId!];
+    } else {
+        let { buildJsShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
+        jsComponentRef = await buildJsShadowCastVisibleElements(jsObject, layerId, viewId);
+    }
+    
     let dotNetShadowCastVisibleElements: any = {
-        jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsComponentRef)
     };
     if (hasValue(jsObject.colorPicker)) {
         dotNetShadowCastVisibleElements.colorPicker = jsObject.colorPicker;
@@ -83,7 +93,7 @@ export async function buildDotNetShadowCastVisibleElementsGenerated(jsObject: an
         dotNetShadowCastVisibleElements.visualizationOptions = jsObject.visualizationOptions;
     }
 
-    let geoBlazorId = lookupGeoBlazorId(jsObject);
+
     if (hasValue(geoBlazorId)) {
         dotNetShadowCastVisibleElements.id = geoBlazorId;
     }

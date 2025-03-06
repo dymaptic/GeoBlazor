@@ -4,7 +4,7 @@ export async function buildJsShadowCastVisibleElements(dotNetObject: any, layerI
     return await buildJsShadowCastVisibleElementsGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetShadowCastVisibleElements(jsObject: any): Promise<any> {
+export async function buildDotNetShadowCastVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetShadowCastVisibleElementsGenerated } = await import('./shadowCastVisibleElements.gb');
-    return await buildDotNetShadowCastVisibleElementsGenerated(jsObject);
+    return await buildDotNetShadowCastVisibleElementsGenerated(jsObject, layerId, viewId);
 }

@@ -4,7 +4,7 @@ export async function buildJsProfile(dotNetObject: any, layerId: string | null, 
     return await buildJsProfileGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetProfile(jsObject: any): Promise<any> {
+export async function buildDotNetProfile(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetProfileGenerated } = await import('./profile.gb');
-    return await buildDotNetProfileGenerated(jsObject);
+    return await buildDotNetProfileGenerated(jsObject, layerId, viewId);
 }

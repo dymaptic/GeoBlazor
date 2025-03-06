@@ -3,7 +3,7 @@ export async function buildJsImageParameters(dotNetObject: any, layerId: string 
     return await buildJsImageParametersGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageParameters(jsObject: any): Promise<any> {
+export async function buildDotNetImageParameters(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildDotNetImageParametersGenerated} = await import('./imageParameters.gb');
-    return await buildDotNetImageParametersGenerated(jsObject);
+    return await buildDotNetImageParametersGenerated(jsObject, layerId, viewId);
 }
