@@ -8,7 +8,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         let { buildJsArcGISImageServiceCapabilities } = await import('./arcGISImageServiceCapabilities');
         jsArcGISImageService.capabilities = await buildJsArcGISImageServiceCapabilities(dotNetObject.capabilities, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         jsArcGISImageService.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
@@ -33,14 +33,14 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        jsArcGISImageService.renderer = dotNetObject.iImageryRenderer;
+        jsArcGISImageService.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
         jsArcGISImageService.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.bandIds)) {
+    if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
         jsArcGISImageService.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.compressionQuality)) {

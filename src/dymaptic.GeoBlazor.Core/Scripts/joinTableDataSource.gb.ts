@@ -5,10 +5,12 @@ import { buildDotNetJoinTableDataSource } from './joinTableDataSource';
 export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsJoinTableDataSource: any = {};
     if (hasValue(dotNetObject.leftTableSource)) {
-        jsJoinTableDataSource.leftTableSource = dotNetObject.dynamicLayer;
+        let { buildJsDynamicLayer } = await import('./dynamicLayer');
+        jsJoinTableDataSource.leftTableSource = await buildJsDynamicLayer(dotNetObject.leftTableSource, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.rightTableSource)) {
-        jsJoinTableDataSource.rightTableSource = dotNetObject.dynamicLayer;
+        let { buildJsDynamicLayer } = await import('./dynamicLayer');
+        jsJoinTableDataSource.rightTableSource = await buildJsDynamicLayer(dotNetObject.rightTableSource, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.joinType)) {
@@ -60,6 +62,16 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, lay
     
     let dotNetJoinTableDataSource: any = {};
     
+    if (hasValue(jsObject.leftTableSource)) {
+        let { buildDotNetDynamicLayer } = await import('./dynamicLayer');
+        dotNetJoinTableDataSource.leftTableSource = await buildDotNetDynamicLayer(jsObject.leftTableSource);
+    }
+    
+    if (hasValue(jsObject.rightTableSource)) {
+        let { buildDotNetDynamicLayer } = await import('./dynamicLayer');
+        dotNetJoinTableDataSource.rightTableSource = await buildDotNetDynamicLayer(jsObject.rightTableSource);
+    }
+    
     if (hasValue(jsObject.joinType)) {
         dotNetJoinTableDataSource.joinType = jsObject.joinType;
     }
@@ -68,16 +80,8 @@ export async function buildDotNetJoinTableDataSourceGenerated(jsObject: any, lay
         dotNetJoinTableDataSource.leftTableKey = jsObject.leftTableKey;
     }
     
-    if (hasValue(jsObject.leftTableSource)) {
-        dotNetJoinTableDataSource.leftTableSource = jsObject.leftTableSource;
-    }
-    
     if (hasValue(jsObject.rightTableKey)) {
         dotNetJoinTableDataSource.rightTableKey = jsObject.rightTableKey;
-    }
-    
-    if (hasValue(jsObject.rightTableSource)) {
-        dotNetJoinTableDataSource.rightTableSource = jsObject.rightTableSource;
     }
     
     if (hasValue(jsObject.type)) {

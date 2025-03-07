@@ -5,7 +5,7 @@ public partial class TableDataSource : DynamicDataSource
 
 
     /// <inheritdoc/>
-    public override string Type => "table";
+    public override DynamicDataSourceType Type => DynamicDataSourceType.Table;
 
     /// <summary>
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.

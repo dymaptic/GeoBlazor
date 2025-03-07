@@ -19,6 +19,17 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.components) && dotNetObject.components.length > 0) {
+            this.component.components = dotNetObject.components;
+        }
+        if (hasValue(dotNetObject.padding)) {
+            this.component.padding = dotNetObject.padding;
+        }
+    }
+    
     async add(component: any,
         position: any): Promise<void> {
         let jsComponent: any; 
@@ -94,7 +105,7 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
 export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
 
-    if (hasValue(dotNetObject.components)) {
+    if (hasValue(dotNetObject.components) && dotNetObject.components.length > 0) {
         properties.components = dotNetObject.components;
     }
     if (hasValue(dotNetObject.padding)) {

@@ -4,12 +4,12 @@ import { buildDotNetSearchViewModelSearchCompleteEventResults } from './searchVi
 
 export async function buildJsSearchViewModelSearchCompleteEventResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSearchCompleteEventResults: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResult } = await import('./searchResult');
         jsSearchViewModelSearchCompleteEventResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i))) as any;
     }
 
-    if (hasValue(dotNetObject.source)) {
+    if (hasValue(dotNetObject.source) && dotNetObject.source.length > 0) {
         jsSearchViewModelSearchCompleteEventResults.source = dotNetObject.source;
     }
     if (hasValue(dotNetObject.sourceIndex)) {

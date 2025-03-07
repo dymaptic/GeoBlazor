@@ -4,15 +4,15 @@ import { buildDotNetEditedFeatureResultEditedFeatures } from './editedFeatureRes
 
 export async function buildJsEditedFeatureResultEditedFeaturesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditedFeatureResultEditedFeatures: any = {};
-    if (hasValue(dotNetObject.adds)) {
+    if (hasValue(dotNetObject.adds) && dotNetObject.adds.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsEditedFeatureResultEditedFeatures.adds = dotNetObject.adds.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.deletes)) {
+    if (hasValue(dotNetObject.deletes) && dotNetObject.deletes.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsEditedFeatureResultEditedFeatures.deletes = dotNetObject.deletes.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.updates)) {
+    if (hasValue(dotNetObject.updates) && dotNetObject.updates.length > 0) {
         let { buildJsEditedFeatureResultEditedFeaturesUpdates } = await import('./editedFeatureResultEditedFeaturesUpdates');
         jsEditedFeatureResultEditedFeatures.updates = await Promise.all(dotNetObject.updates.map(async i => await buildJsEditedFeatureResultEditedFeaturesUpdates(i, layerId, viewId))) as any;
     }

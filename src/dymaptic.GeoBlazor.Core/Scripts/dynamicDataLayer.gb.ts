@@ -5,10 +5,11 @@ import { buildDotNetDynamicDataLayer } from './dynamicDataLayer';
 export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDynamicDataLayer: any = {};
     if (hasValue(dotNetObject.dataSource)) {
-        jsDynamicDataLayer.dataSource = dotNetObject.dynamicDataSource;
+        let { buildJsDynamicDataSource } = await import('./dynamicDataSource');
+        jsDynamicDataLayer.dataSource = await buildJsDynamicDataSource(dotNetObject.dataSource, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         jsDynamicDataLayer.fields = dotNetObject.fields;
     }
     
@@ -17,7 +18,7 @@ export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayer;
     
     let { buildDotNetDynamicDataLayer } = await import('./dynamicDataLayer');
-    let dnInstantiatedObject = await buildDotNetDynamicDataLayer(jsDynamicDataLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetDynamicDataLayer(jsDynamicDataLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +45,7 @@ export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetDynamicDataLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetDynamicDataLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -52,7 +53,8 @@ export async function buildDotNetDynamicDataLayerGenerated(jsObject: any, layerI
     let dotNetDynamicDataLayer: any = {};
     
     if (hasValue(jsObject.dataSource)) {
-        dotNetDynamicDataLayer.dataSource = jsObject.dataSource;
+        let { buildDotNetDynamicDataSource } = await import('./dynamicDataSource');
+        dotNetDynamicDataLayer.dataSource = await buildDotNetDynamicDataSource(jsObject.dataSource);
     }
     
     if (hasValue(jsObject.fields)) {

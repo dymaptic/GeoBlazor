@@ -3,8 +3,12 @@ import LabelClass from '@arcgis/core/layers/support/LabelClass';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLabel } from './label';
 
-export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
+    if (hasValue(dotNetObject.labelExpressionInfo)) {
+        let { buildJsLabelExpressionInfo } = await import('./labelExpressionInfo');
+        properties.labelExpressionInfo = await buildJsLabelExpressionInfo(dotNetObject.labelExpressionInfo, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
         properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
@@ -18,9 +22,6 @@ export async function buildJsLabelGenerated(dotNetObject: any): Promise<any> {
     }
     if (hasValue(dotNetObject.labelExpression)) {
         properties.labelExpression = dotNetObject.labelExpression;
-    }
-    if (hasValue(dotNetObject.labelExpressionInfo)) {
-        properties.labelExpressionInfo = dotNetObject.labelExpressionInfo;
     }
     if (hasValue(dotNetObject.labelPlacement)) {
         properties.labelPlacement = dotNetObject.labelPlacement;
@@ -87,6 +88,11 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     
     let dotNetLabel: any = {};
     
+    if (hasValue(jsObject.labelExpressionInfo)) {
+        let { buildDotNetLabelExpressionInfo } = await import('./labelExpressionInfo');
+        dotNetLabel.labelExpressionInfo = await buildDotNetLabelExpressionInfo(jsObject.labelExpressionInfo);
+    }
+    
     if (hasValue(jsObject.symbol)) {
         let { buildDotNetSymbol } = await import('./symbol');
         dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
@@ -102,10 +108,6 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     
     if (hasValue(jsObject.labelExpression)) {
         dotNetLabel.labelExpression = jsObject.labelExpression;
-    }
-    
-    if (hasValue(jsObject.labelExpressionInfo)) {
-        dotNetLabel.labelExpressionInfo = jsObject.labelExpressionInfo;
     }
     
     if (hasValue(jsObject.labelPlacement)) {

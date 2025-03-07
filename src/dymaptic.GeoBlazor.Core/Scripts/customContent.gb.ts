@@ -25,7 +25,7 @@ export async function buildJsCustomContentGenerated(dotNetObject: any, layerId: 
         };
     }
 
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     let jsCustomContent = new CustomContent(properties);

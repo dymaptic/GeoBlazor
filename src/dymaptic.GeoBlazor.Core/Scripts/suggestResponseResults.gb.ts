@@ -9,7 +9,7 @@ export async function buildJsSuggestResponseResultsGenerated(dotNetObject: any, 
         jsSuggestResponseResults.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         jsSuggestResponseResults.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.sourceIndex)) {

@@ -5,13 +5,13 @@ import { buildDotNetTile } from './tile';
 export async function buildJsTileGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTile: any = {};
 
-    if (hasValue(dotNetObject.bounds)) {
+    if (hasValue(dotNetObject.bounds) && dotNetObject.bounds.length > 0) {
         jsTile.bounds = dotNetObject.bounds;
     }
     if (hasValue(dotNetObject.col)) {
         jsTile.col = dotNetObject.col;
     }
-    if (hasValue(dotNetObject.coords)) {
+    if (hasValue(dotNetObject.coords) && dotNetObject.coords.length > 0) {
         jsTile.coords = dotNetObject.coords;
     }
     if (hasValue(dotNetObject.level)) {

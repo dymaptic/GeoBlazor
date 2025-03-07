@@ -5,7 +5,7 @@ import { buildDotNetBuildingSummaryStatistics } from './buildingSummaryStatistic
 
 export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsBuildingFieldStatistics } = await import('./buildingFieldStatistics');
         properties.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsBuildingFieldStatistics(i, layerId, viewId))) as any;
     }

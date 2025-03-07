@@ -4,7 +4,7 @@ import { buildDotNetITablesMixin } from './iTablesMixin';
 
 export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTablesMixin: any = {};
-    if (hasValue(dotNetObject.tables)) {
+    if (hasValue(dotNetObject.tables) && dotNetObject.tables.length > 0) {
         let { buildJsLayer } = await import('./layer');
         jsTablesMixin.tables = await Promise.all(dotNetObject.tables.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

@@ -397,14 +397,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
         await setPopupHandler(null, id);
     }
 
-    if (hasValue(mapObject.layers)) {
-        // add layers in reverse order to match the expected order in the map
-        for (let i = mapObject.layers.length - 1; i >= 0; i--) {
-            const layerObject = mapObject.layers[i];
-            await addLayer(layerObject, id);
-        }
-    }
-
     for (let i = basemapBaseLayers.length - 1; i >= 0; i--) {
         const layerObject = basemapBaseLayers[i];
         await addLayer(layerObject, id, true);
@@ -413,6 +405,14 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     for (let i = basemapReferenceLayers.length - 1; i >= 0; i--) {
         const layerObject = basemapReferenceLayers[i];
         await addLayer(layerObject, id, false, true);
+    }
+
+    if (hasValue(mapObject.layers)) {
+        // add layers in reverse order to match the expected order in the map
+        for (let i = mapObject.layers.length - 1; i >= 0; i--) {
+            const layerObject = mapObject.layers[i];
+            await addLayer(layerObject, id);
+        }
     }
 
     for (const widget of widgets.filter(w => w.type !== 'popup')) {

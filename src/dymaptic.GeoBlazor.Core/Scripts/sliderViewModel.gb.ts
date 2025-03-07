@@ -19,6 +19,32 @@ export default class SliderViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.effectiveMax)) {
+            this.component.effectiveMax = dotNetObject.effectiveMax;
+        }
+        if (hasValue(dotNetObject.effectiveMin)) {
+            this.component.effectiveMin = dotNetObject.effectiveMin;
+        }
+        if (hasValue(dotNetObject.max)) {
+            this.component.max = dotNetObject.max;
+        }
+        if (hasValue(dotNetObject.min)) {
+            this.component.min = dotNetObject.min;
+        }
+        if (hasValue(dotNetObject.precision)) {
+            this.component.precision = dotNetObject.precision;
+        }
+        if (hasValue(dotNetObject.thumbsConstrained)) {
+            this.component.thumbsConstrained = dotNetObject.thumbsConstrained;
+        }
+        if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
+            this.component.values = dotNetObject.values;
+        }
+    }
+    
     async defaultInputFormatFunction(value: any): Promise<any> {
         return this.component.defaultInputFormatFunction(value);
     }
@@ -129,7 +155,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.thumbsConstrained)) {
         properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
-    if (hasValue(dotNetObject.values)) {
+    if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         properties.values = dotNetObject.values;
     }
     let jsSliderViewModel = new SliderViewModel(properties);

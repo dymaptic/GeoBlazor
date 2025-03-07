@@ -162,58 +162,6 @@ public abstract partial class Layer : MapComponent
 
 #endregion
 
-#region Public Events
-
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsLayerViewCreate(LayerViewCreateEvent layerViewCreateEvent)
-    {
-        await OnLayerViewCreate.InvokeAsync(layerViewCreateEvent);
-    }
-        
-    /// <summary>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [Parameter]
-    public EventCallback<LayerViewCreateEvent> OnLayerViewCreate { get; set; }
-       
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsLayerViewCreateError(LayerViewCreateErrorEvent layerViewCreateErrorEvent)
-    {
-        await OnLayerViewCreateError.InvokeAsync(layerViewCreateErrorEvent);
-    }
-        
-    /// <summary>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [Parameter]
-    public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
-
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsLayerViewDestroy(LayerViewDestroyEvent layerViewDestroyEvent)
-    {
-        await OnLayerViewDestroy.InvokeAsync(layerViewDestroyEvent);
-    }
-
-    /// <summary>
-    ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [Parameter]
-    public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
-    
-#endregion
-
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

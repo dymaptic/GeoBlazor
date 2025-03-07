@@ -5,7 +5,7 @@ import { buildDotNetFeatureEffect } from './featureEffect';
 
 export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.excludedEffect)) {
+    if (hasValue(dotNetObject.excludedEffect) && dotNetObject.excludedEffect.length > 0) {
         let { buildJsEffect } = await import('./effect');
         properties.excludedEffect = dotNetObject.excludedEffect.map(i => buildJsEffect(i)) as any;
     }
@@ -13,7 +13,7 @@ export async function buildJsFeatureEffectGenerated(dotNetObject: any, layerId: 
         let { buildJsFeatureFilter } = await import('./featureFilter');
         properties.filter = await buildJsFeatureFilter(dotNetObject.filter, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.includedEffect)) {
+    if (hasValue(dotNetObject.includedEffect) && dotNetObject.includedEffect.length > 0) {
         let { buildJsEffect } = await import('./effect');
         properties.includedEffect = dotNetObject.includedEffect.map(i => buildJsEffect(i)) as any;
     }

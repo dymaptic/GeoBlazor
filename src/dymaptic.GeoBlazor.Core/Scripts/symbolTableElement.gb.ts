@@ -4,8 +4,8 @@ import { buildDotNetSymbolTableElement } from './symbolTableElement';
 
 export async function buildJsSymbolTableElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSymbolTableElement: any = {};
-    if (hasValue(dotNetObject.infos)) {
-        jsSymbolTableElement.infos = dotNetObject.iSymbolTableElementType;
+    if (hasValue(dotNetObject.infos) && dotNetObject.infos.length > 0) {
+        jsSymbolTableElement.infos = dotNetObject.infos;
     }
 
     if (hasValue(dotNetObject.legendType)) {

@@ -4,7 +4,7 @@ import { buildDotNetColorRampElement } from './colorRampElement';
 
 export async function buildJsColorRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorRampElement: any = {};
-    if (hasValue(dotNetObject.infos)) {
+    if (hasValue(dotNetObject.infos) && dotNetObject.infos.length > 0) {
         let { buildJsColorRampStop } = await import('./colorRampStop');
         jsColorRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsColorRampStop(i, layerId, viewId))) as any;
     }

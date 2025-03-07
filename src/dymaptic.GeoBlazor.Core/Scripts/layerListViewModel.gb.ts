@@ -19,6 +19,17 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.checkPublishStatusEnabled)) {
+            this.component.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
+        }
+        if (hasValue(dotNetObject.listModeDisabled)) {
+            this.component.listModeDisabled = dotNetObject.listModeDisabled;
+        }
+    }
+    
     async moveListItem(targetItem: any,
         fromParentItem: any,
         toParentItem: any,

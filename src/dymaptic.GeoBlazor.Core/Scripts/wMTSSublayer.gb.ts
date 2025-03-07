@@ -9,7 +9,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.styles)) {
+    if (hasValue(dotNetObject.styles) && dotNetObject.styles.length > 0) {
         let { buildJsWMTSStyle } = await import('./wMTSStyle');
         properties.styles = await Promise.all(dotNetObject.styles.map(async i => await buildJsWMTSStyle(i, layerId, viewId))) as any;
     }
@@ -17,7 +17,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
         properties.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.tileMatrixSets)) {
+    if (hasValue(dotNetObject.tileMatrixSets) && dotNetObject.tileMatrixSets.length > 0) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
         properties.tileMatrixSets = await Promise.all(dotNetObject.tileMatrixSets.map(async i => await buildJsTileMatrixSet(i, layerId, viewId))) as any;
     }
@@ -28,7 +28,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.imageFormat)) {
         properties.imageFormat = dotNetObject.imageFormat;
     }
-    if (hasValue(dotNetObject.imageFormats)) {
+    if (hasValue(dotNetObject.imageFormats) && dotNetObject.imageFormats.length > 0) {
         properties.imageFormats = dotNetObject.imageFormats;
     }
     if (hasValue(dotNetObject.styleId)) {

@@ -5,7 +5,7 @@ import { buildDotNetColorAndIntensity } from './colorAndIntensity';
 export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsColorAndIntensity: any = {};
 
-    if (hasValue(dotNetObject.color)) {
+    if (hasValue(dotNetObject.color) && dotNetObject.color.length > 0) {
         jsColorAndIntensity.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.intensity)) {

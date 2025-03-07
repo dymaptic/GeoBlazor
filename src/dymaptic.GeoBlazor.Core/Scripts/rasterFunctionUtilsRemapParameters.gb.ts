@@ -4,7 +4,7 @@ import { buildDotNetRasterFunctionUtilsRemapParameters } from './rasterFunctionU
 
 export async function buildJsRasterFunctionUtilsRemapParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsrasterFunctionUtilsRemapParameters: any = {};
-    if (hasValue(dotNetObject.rangeMaps)) {
+    if (hasValue(dotNetObject.rangeMaps) && dotNetObject.rangeMaps.length > 0) {
         let { buildJsPixelValueRangeMap } = await import('./pixelValueRangeMap');
         jsrasterFunctionUtilsRemapParameters.rangeMaps = await Promise.all(dotNetObject.rangeMaps.map(async i => await buildJsPixelValueRangeMap(i, layerId, viewId))) as any;
     }

@@ -4,7 +4,7 @@ import { buildDotNetProfile } from './profile';
 
 export async function buildJsProfileGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsProfile: any = {};
-    if (hasValue(dotNetObject.variables)) {
+    if (hasValue(dotNetObject.variables) && dotNetObject.variables.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
         jsProfile.variables = dotNetObject.variables.map(i => buildJsIProfileVariable(i)) as any;
     }

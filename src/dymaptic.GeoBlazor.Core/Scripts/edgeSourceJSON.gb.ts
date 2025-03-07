@@ -4,7 +4,7 @@ import { buildDotNetEdgeSourceJSON } from './edgeSourceJSON';
 
 export async function buildJsEdgeSourceJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEdgeSourceJSON: any = {};
-    if (hasValue(dotNetObject.assetGroups)) {
+    if (hasValue(dotNetObject.assetGroups) && dotNetObject.assetGroups.length > 0) {
         let { buildJsAssetGroupJSON } = await import('./assetGroupJSON');
         jsEdgeSourceJSON.assetGroups = await Promise.all(dotNetObject.assetGroups.map(async i => await buildJsAssetGroupJSON(i, layerId, viewId))) as any;
     }

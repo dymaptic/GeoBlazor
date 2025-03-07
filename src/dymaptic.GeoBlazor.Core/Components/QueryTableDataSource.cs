@@ -5,7 +5,7 @@ public partial class QueryTableDataSource : DynamicDataSource
 
 
     /// <inheritdoc/>
-    public override string Type => "query-table";
+    public override DynamicDataSourceType Type => DynamicDataSourceType.QueryTable;
 
     /// <summary>
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.

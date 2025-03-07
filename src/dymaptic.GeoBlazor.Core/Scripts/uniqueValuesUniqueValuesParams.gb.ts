@@ -7,7 +7,7 @@ export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObjec
     if (hasValue(viewId)) {
         jsuniqueValuesUniqueValuesParams.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsuniqueValuesUniqueValuesParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

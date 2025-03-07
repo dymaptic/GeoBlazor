@@ -5,7 +5,7 @@ import { buildDotNetGraphNamedObjectDeletes } from './graphNamedObjectDeletes';
 export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphNamedObjectDeletes: any = {};
 
-    if (hasValue(dotNetObject.ids)) {
+    if (hasValue(dotNetObject.ids) && dotNetObject.ids.length > 0) {
         jsGraphNamedObjectDeletes.ids = dotNetObject.ids;
     }
     if (hasValue(dotNetObject.typeName)) {

@@ -4,7 +4,7 @@ import { buildDotNetMapViewConstraints } from './mapViewConstraints';
 
 export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMapViewConstraints: any = {};
-    if (hasValue(dotNetObject.effectiveLODs)) {
+    if (hasValue(dotNetObject.effectiveLODs) && dotNetObject.effectiveLODs.length > 0) {
         let { buildJsLOD } = await import('./lOD');
         jsMapViewConstraints.effectiveLODs = await Promise.all(dotNetObject.effectiveLODs.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
         let { buildJsGeometry } = await import('./geometry');
         jsMapViewConstraints.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.lods)) {
+    if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
         jsMapViewConstraints.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
     }

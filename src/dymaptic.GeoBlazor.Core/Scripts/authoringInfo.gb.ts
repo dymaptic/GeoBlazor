@@ -21,7 +21,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
         let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
         properties.statistics = await buildJsAuthoringInfoStatistics(dotNetObject.statistics, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.visualVariables)) {
+    if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
         properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId))) as any;
     }
@@ -32,7 +32,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.fadeRatio)) {
         properties.fadeRatio = dotNetObject.fadeRatio;
     }
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         properties.fields = dotNetObject.fields;
     }
     if (hasValue(dotNetObject.flowTheme)) {

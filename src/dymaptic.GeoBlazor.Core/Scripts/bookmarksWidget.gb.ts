@@ -21,7 +21,7 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.bookmarks)) {
+        if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
             let { buildJsBookmark } = await import('./bookmark');
             this.widget.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
         }
@@ -229,7 +229,7 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.bookmarks)) {
+    if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
         let { buildJsBookmark } = await import('./bookmark');
         properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }

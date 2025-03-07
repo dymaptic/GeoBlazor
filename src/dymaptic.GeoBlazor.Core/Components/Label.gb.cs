@@ -1076,6 +1076,15 @@ public partial class Label
     {
         switch (child)
         {
+            case LabelExpressionInfo labelExpressionInfo:
+                if (labelExpressionInfo != LabelExpressionInfo)
+                {
+                    LabelExpressionInfo = labelExpressionInfo;
+                    
+                    ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+                }
+                
+                return true;
             case Symbol symbol:
                 if (symbol != Symbol)
                 {
@@ -1094,6 +1103,11 @@ public partial class Label
     {
         switch (child)
         {
+            case LabelExpressionInfo _:
+                LabelExpressionInfo = null;
+                
+                ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+                return true;
             case Symbol _:
                 Symbol = null;
                 
@@ -1108,6 +1122,7 @@ public partial class Label
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        LabelExpressionInfo?.ValidateRequiredGeneratedChildren();
         Symbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

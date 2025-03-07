@@ -15,7 +15,7 @@ export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.orientation)) {
         properties.orientation = dotNetObject.orientation;
     }
-    if (hasValue(dotNetObject.point)) {
+    if (hasValue(dotNetObject.point) && dotNetObject.point.length > 0) {
         properties.point = dotNetObject.point;
     }
     if (hasValue(dotNetObject.tilt)) {

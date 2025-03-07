@@ -5,7 +5,7 @@ public partial class JoinTableDataSource : DynamicDataSource
 
 
     /// <inheritdoc/>
-    public override string Type => "join-table";
+    public override DynamicDataSourceType Type => DynamicDataSourceType.JoinTable;
 
     /// <summary>
     ///     The field name used for joining or matching records in the left table to records in the right table.

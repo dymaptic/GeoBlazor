@@ -8,13 +8,13 @@ export async function buildJsBaseLayerViewGL2DTileGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.baseLayerViewGL2DTileId)) {
         jsBaseLayerViewGL2DTile.id = dotNetObject.baseLayerViewGL2DTileId;
     }
-    if (hasValue(dotNetObject.bounds)) {
+    if (hasValue(dotNetObject.bounds) && dotNetObject.bounds.length > 0) {
         jsBaseLayerViewGL2DTile.bounds = dotNetObject.bounds;
     }
     if (hasValue(dotNetObject.col)) {
         jsBaseLayerViewGL2DTile.col = dotNetObject.col;
     }
-    if (hasValue(dotNetObject.coords)) {
+    if (hasValue(dotNetObject.coords) && dotNetObject.coords.length > 0) {
         jsBaseLayerViewGL2DTile.coords = dotNetObject.coords;
     }
     if (hasValue(dotNetObject.level)) {

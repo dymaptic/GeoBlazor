@@ -5,11 +5,11 @@ import { buildDotNetSearch } from './search';
 
 export async function buildJsSearchGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.layers)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsSearchLayer } = await import('./searchLayer');
         properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsSearchLayer(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.tables)) {
+    if (hasValue(dotNetObject.tables) && dotNetObject.tables.length > 0) {
         let { buildJsSearchTable } = await import('./searchTable');
         properties.tables = await Promise.all(dotNetObject.tables.map(async i => await buildJsSearchTable(i, layerId, viewId))) as any;
     }

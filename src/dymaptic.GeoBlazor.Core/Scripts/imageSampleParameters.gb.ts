@@ -9,7 +9,7 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
         let { buildJsGeometry } = await import('./geometry');
         properties.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.locations)) {
+    if (hasValue(dotNetObject.locations) && dotNetObject.locations.length > 0) {
         let { buildJsPoint } = await import('./point');
         properties.locations = dotNetObject.locations.map(i => buildJsPoint(i)) as any;
     }
@@ -25,7 +25,7 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.interpolation)) {
         properties.interpolation = dotNetObject.interpolation;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.pixelSize)) {

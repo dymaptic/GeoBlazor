@@ -360,7 +360,7 @@ public partial class SliderWidget
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<string>? Labels { get; protected set; }
+    public LabelInfos? Labels { get; protected set; }
     
     /// <summary>
     ///     The HTML Element node representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a> value label.

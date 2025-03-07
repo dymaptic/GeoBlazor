@@ -4,7 +4,7 @@ import { buildDotNetFeaturesViewModelOpenOptions } from './featuresViewModelOpen
 
 export async function buildJsFeaturesViewModelOpenOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeaturesViewModelOpenOptions: any = {};
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeaturesViewModelOpenOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

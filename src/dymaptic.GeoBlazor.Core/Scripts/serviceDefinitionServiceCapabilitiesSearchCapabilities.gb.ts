@@ -8,7 +8,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilit
     if (hasValue(dotNetObject.allowLeadingWildcardQueries)) {
         jsServiceDefinitionServiceCapabilitiesSearchCapabilities.allowLeadingWildcardQueries = dotNetObject.allowLeadingWildcardQueries;
     }
-    if (hasValue(dotNetObject.searchTypeFilterCapabilities)) {
+    if (hasValue(dotNetObject.searchTypeFilterCapabilities) && dotNetObject.searchTypeFilterCapabilities.length > 0) {
         jsServiceDefinitionServiceCapabilitiesSearchCapabilities.searchTypeFilterCapabilities = dotNetObject.searchTypeFilterCapabilities;
     }
     

@@ -19,6 +19,34 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.graphic)) {
+            let { buildJsGraphic } = await import('./graphic');
+            this.component.graphic = buildJsGraphic(dotNetObject.graphic) as any;
+        }
+
+        if (hasValue(dotNetObject.error)) {
+            this.component.error = dotNetObject.error;
+        }
+        if (hasValue(dotNetObject.geolocationOptions)) {
+            this.component.geolocationOptions = dotNetObject.geolocationOptions;
+        }
+        if (hasValue(dotNetObject.goToLocationEnabled)) {
+            this.component.goToLocationEnabled = dotNetObject.goToLocationEnabled;
+        }
+        if (hasValue(dotNetObject.popupEnabled)) {
+            this.component.popupEnabled = dotNetObject.popupEnabled;
+        }
+        if (hasValue(dotNetObject.scale)) {
+            this.component.scale = dotNetObject.scale;
+        }
+    }
+    
     async cancelLocate(): Promise<void> {
         this.component.cancelLocate();
     }

@@ -19,6 +19,23 @@ export default class SunLightingGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.cameraTrackingEnabled)) {
+            this.component.cameraTrackingEnabled = dotNetObject.cameraTrackingEnabled;
+        }
+        if (hasValue(dotNetObject.date)) {
+            this.component.date = dotNetObject.date;
+        }
+        if (hasValue(dotNetObject.directShadowsEnabled)) {
+            this.component.directShadowsEnabled = dotNetObject.directShadowsEnabled;
+        }
+        if (hasValue(dotNetObject.displayUTCOffset)) {
+            this.component.displayUTCOffset = dotNetObject.displayUTCOffset;
+        }
+    }
+    
     async cloneWithWebsceneLighting(): Promise<void> {
         this.component.cloneWithWebsceneLighting();
     }

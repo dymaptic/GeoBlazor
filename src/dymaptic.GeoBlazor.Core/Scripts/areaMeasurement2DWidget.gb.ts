@@ -35,7 +35,7 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         if (hasValue(dotNetObject.unit)) {
             this.widget.unit = dotNetObject.unit;
         }
-        if (hasValue(dotNetObject.unitOptions)) {
+        if (hasValue(dotNetObject.unitOptions) && dotNetObject.unitOptions.length > 0) {
             this.widget.unitOptions = dotNetObject.unitOptions;
         }
         if (hasValue(dotNetObject.visible)) {
@@ -135,7 +135,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     if (hasValue(dotNetObject.unit)) {
         properties.unit = dotNetObject.unit;
     }
-    if (hasValue(dotNetObject.unitOptions)) {
+    if (hasValue(dotNetObject.unitOptions) && dotNetObject.unitOptions.length > 0) {
         properties.unitOptions = dotNetObject.unitOptions;
     }
     if (hasValue(dotNetObject.visible)) {

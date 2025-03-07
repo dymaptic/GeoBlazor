@@ -5,11 +5,11 @@ import { buildDotNetVoxelVoxelVolumeStyle } from './voxelVoxelVolumeStyle';
 
 export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.dynamicSections)) {
+    if (hasValue(dotNetObject.dynamicSections) && dotNetObject.dynamicSections.length > 0) {
         let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
         properties.dynamicSections = await Promise.all(dotNetObject.dynamicSections.map(async i => await buildJsVoxelDynamicSection(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.slices)) {
+    if (hasValue(dotNetObject.slices) && dotNetObject.slices.length > 0) {
         let { buildJsVoxelSlice } = await import('./voxelSlice');
         properties.slices = await Promise.all(dotNetObject.slices.map(async i => await buildJsVoxelSlice(i, layerId, viewId))) as any;
     }

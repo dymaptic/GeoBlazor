@@ -14,7 +14,7 @@ export async function buildJsPortalQueryResultGenerated(dotNetObject: any, layer
         properties.queryParams = await buildJsPortalQueryParams(dotNetObject.queryParams, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         properties.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.total)) {

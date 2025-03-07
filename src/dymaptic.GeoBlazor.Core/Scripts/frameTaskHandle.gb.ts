@@ -19,6 +19,11 @@ export default class FrameTaskHandleGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async pause(): Promise<void> {
         this.component.pause();
     }

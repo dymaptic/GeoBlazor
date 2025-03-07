@@ -73,7 +73,7 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.refreshInterval)) {
             this.layer.refreshInterval = dotNetObject.refreshInterval;
         }
-        if (hasValue(dotNetObject.subDomains)) {
+        if (hasValue(dotNetObject.subDomains) && dotNetObject.subDomains.length > 0) {
             this.layer.subDomains = dotNetObject.subDomains;
         }
         if (hasValue(dotNetObject.title)) {
@@ -251,7 +251,7 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.refreshInterval)) {
         properties.refreshInterval = dotNetObject.refreshInterval;
     }
-    if (hasValue(dotNetObject.subDomains)) {
+    if (hasValue(dotNetObject.subDomains) && dotNetObject.subDomains.length > 0) {
         properties.subDomains = dotNetObject.subDomains;
     }
     if (hasValue(dotNetObject.title)) {

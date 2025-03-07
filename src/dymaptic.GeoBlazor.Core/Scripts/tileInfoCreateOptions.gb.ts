@@ -8,7 +8,7 @@ export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.numLODs)) {
         jsTileInfoCreateOptions.numLODs = dotNetObject.numLODs;
     }
-    if (hasValue(dotNetObject.scales)) {
+    if (hasValue(dotNetObject.scales) && dotNetObject.scales.length > 0) {
         jsTileInfoCreateOptions.scales = dotNetObject.scales;
     }
     if (hasValue(dotNetObject.size)) {

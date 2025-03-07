@@ -19,6 +19,11 @@ export default class WebglGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async fromRenderCoordinates(__0: any,
         srcCoordinates: any,
         srcStart: any,

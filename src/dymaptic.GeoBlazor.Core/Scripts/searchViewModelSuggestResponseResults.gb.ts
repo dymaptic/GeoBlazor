@@ -9,7 +9,7 @@ export async function buildJsSearchViewModelSuggestResponseResultsGenerated(dotN
         jsSearchViewModelSuggestResponseResults.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         jsSearchViewModelSuggestResponseResults.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.sourceIndex)) {

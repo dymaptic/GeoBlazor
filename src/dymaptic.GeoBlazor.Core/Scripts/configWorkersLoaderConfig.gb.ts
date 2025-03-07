@@ -11,7 +11,7 @@ export async function buildJsConfigWorkersLoaderConfigGenerated(dotNetObject: an
     if (hasValue(dotNetObject.has)) {
         jsconfigWorkersLoaderConfig.has = dotNetObject.has;
     }
-    if (hasValue(dotNetObject.packages)) {
+    if (hasValue(dotNetObject.packages) && dotNetObject.packages.length > 0) {
         jsconfigWorkersLoaderConfig.packages = dotNetObject.packages;
     }
     if (hasValue(dotNetObject.paths)) {

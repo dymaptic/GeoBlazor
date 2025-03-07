@@ -4,7 +4,7 @@ import { buildDotNetSearchViewModelSearchResponse } from './searchViewModelSearc
 
 export async function buildJsSearchViewModelSearchResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSearchResponse: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchViewModelSearchResponseResults } = await import('./searchViewModelSearchResponseResults');
         jsSearchViewModelSearchResponse.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchViewModelSearchResponseResults(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsSearchViewModelSearchResponseGenerated(dotNetObject
     if (hasValue(dotNetObject.activeSourceIndex)) {
         jsSearchViewModelSearchResponse.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
-    if (hasValue(dotNetObject.errors)) {
+    if (hasValue(dotNetObject.errors) && dotNetObject.errors.length > 0) {
         jsSearchViewModelSearchResponse.errors = dotNetObject.errors;
     }
     if (hasValue(dotNetObject.numResults)) {

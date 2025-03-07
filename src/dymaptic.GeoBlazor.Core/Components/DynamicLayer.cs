@@ -22,53 +22,9 @@ public abstract class DynamicDataSource : MapComponent
     /// <summary>
     ///     The name of the data source type.
     /// </summary>
-    public abstract string Type { get; }
+    public abstract DynamicDataSourceType Type { get; }
 }
 
-
-/// <summary>
-///     Defines fields that should be visible in the <see cref="DynamicDataLayer"/>
-/// </summary>
-public class DynamicLayerField : MapComponent
-{
-    /// <summary>
-    ///     Parameterless constructor for use as a Razor component.
-    /// </summary>
-    public DynamicLayerField()
-    {
-    }
-    
-    /// <summary>
-    ///     Creates a new DynamicLayerField in code with parameters.
-    /// </summary>
-    /// <param name="name">
-    ///     The name of the field.
-    /// </param>
-    /// <param name="alias">
-    ///     The alias of the field.
-    /// </param>
-    public DynamicLayerField(string name, string? alias = null)
-    {
-#pragma warning disable BL0005 // Set parameter or member default value.
-        Name = name;
-        Alias = alias;
-#pragma warning restore BL0005 // Set parameter or member default value.
-    }
-    
-    /// <summary>
-    ///     The name of the field.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Name { get; set; }
-    
-    /// <summary>
-    ///     The alias of the field.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Alias { get; set; }
-}
 
 internal class DynamicLayerConverter : JsonConverter<DynamicLayer>
 {

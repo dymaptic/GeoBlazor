@@ -11,7 +11,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
     if (hasValue(dotNetObject.geometryMaxBoundingRectangleSizeY)) {
         jsServiceDefinitionServiceCapabilitiesGeometryCapabilities.geometryMaxBoundingRectangleSizeY = dotNetObject.geometryMaxBoundingRectangleSizeY;
     }
-    if (hasValue(dotNetObject.supportedGeometryTypes)) {
+    if (hasValue(dotNetObject.supportedGeometryTypes) && dotNetObject.supportedGeometryTypes.length > 0) {
         jsServiceDefinitionServiceCapabilitiesGeometryCapabilities.supportedGeometryTypes = dotNetObject.supportedGeometryTypes;
     }
     if (hasValue(dotNetObject.supportsMValues)) {

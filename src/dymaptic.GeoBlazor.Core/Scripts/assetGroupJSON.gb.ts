@@ -4,7 +4,7 @@ import { buildDotNetAssetGroupJSON } from './assetGroupJSON';
 
 export async function buildJsAssetGroupJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAssetGroupJSON: any = {};
-    if (hasValue(dotNetObject.assetTypes)) {
+    if (hasValue(dotNetObject.assetTypes) && dotNetObject.assetTypes.length > 0) {
         let { buildJsAssetTypeJSON } = await import('./assetTypeJSON');
         jsAssetGroupJSON.assetTypes = await Promise.all(dotNetObject.assetTypes.map(async i => await buildJsAssetTypeJSON(i, layerId, viewId))) as any;
     }

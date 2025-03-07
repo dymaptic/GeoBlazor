@@ -19,6 +19,11 @@ export default class HighlightHandleGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async remove(): Promise<void> {
         this.component.remove();
     }

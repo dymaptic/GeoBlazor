@@ -13,7 +13,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: str
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.itemRenderingRule = await buildJsRasterFunction(dotNetObject.itemRenderingRule, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+    if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
@@ -25,13 +25,13 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.ascending)) {
         properties.ascending = dotNetObject.ascending;
     }
-    if (hasValue(dotNetObject.lockRasterIds)) {
+    if (hasValue(dotNetObject.lockRasterIds) && dotNetObject.lockRasterIds.length > 0) {
         properties.lockRasterIds = dotNetObject.lockRasterIds;
     }
     if (hasValue(dotNetObject.method)) {
         properties.method = dotNetObject.method;
     }
-    if (hasValue(dotNetObject.objectIds)) {
+    if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
         properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.operation)) {

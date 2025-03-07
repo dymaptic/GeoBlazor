@@ -19,6 +19,15 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.steps) && dotNetObject.steps.length > 0) {
+            let { buildJsGeographicTransformationStep } = await import('./geographicTransformationStep');
+            this.component.steps = await Promise.all(dotNetObject.steps.map(async i => await buildJsGeographicTransformationStep(i, this.layerId, this.viewId))) as any;
+        }
+
+    }
+    
     async getInverse(): Promise<any> {
         let result = this.component.getInverse();
         let { buildDotNetGeographicTransformation } = await import('./geographicTransformation');
@@ -53,7 +62,7 @@ export default class GeographicTransformationGenerated implements IPropertyWrapp
 
 export async function buildJsGeographicTransformationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.steps)) {
+    if (hasValue(dotNetObject.steps) && dotNetObject.steps.length > 0) {
         let { buildJsGeographicTransformationStep } = await import('./geographicTransformationStep');
         properties.steps = await Promise.all(dotNetObject.steps.map(async i => await buildJsGeographicTransformationStep(i, layerId, viewId))) as any;
     }

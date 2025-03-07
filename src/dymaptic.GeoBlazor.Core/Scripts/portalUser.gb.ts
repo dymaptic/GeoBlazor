@@ -19,6 +19,56 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.access)) {
+            this.component.access = dotNetObject.access;
+        }
+        if (hasValue(dotNetObject.created)) {
+            this.component.created = dotNetObject.created;
+        }
+        if (hasValue(dotNetObject.culture)) {
+            this.component.culture = dotNetObject.culture;
+        }
+        if (hasValue(dotNetObject.description)) {
+            this.component.description = dotNetObject.description;
+        }
+        if (hasValue(dotNetObject.email)) {
+            this.component.email = dotNetObject.email;
+        }
+        if (hasValue(dotNetObject.fullName)) {
+            this.component.fullName = dotNetObject.fullName;
+        }
+        if (hasValue(dotNetObject.modified)) {
+            this.component.modified = dotNetObject.modified;
+        }
+        if (hasValue(dotNetObject.orgId)) {
+            this.component.orgId = dotNetObject.orgId;
+        }
+        if (hasValue(dotNetObject.preferredView)) {
+            this.component.preferredView = dotNetObject.preferredView;
+        }
+        if (hasValue(dotNetObject.privileges) && dotNetObject.privileges.length > 0) {
+            this.component.privileges = dotNetObject.privileges;
+        }
+        if (hasValue(dotNetObject.region)) {
+            this.component.region = dotNetObject.region;
+        }
+        if (hasValue(dotNetObject.role)) {
+            this.component.role = dotNetObject.role;
+        }
+        if (hasValue(dotNetObject.roleId)) {
+            this.component.roleId = dotNetObject.roleId;
+        }
+        if (hasValue(dotNetObject.units)) {
+            this.component.units = dotNetObject.units;
+        }
+        if (hasValue(dotNetObject.username)) {
+            this.component.username = dotNetObject.username;
+        }
+    }
+    
     async addItem(parameters: any): Promise<any> {
         let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
@@ -139,7 +189,7 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.preferredView)) {
         properties.preferredView = dotNetObject.preferredView;
     }
-    if (hasValue(dotNetObject.privileges)) {
+    if (hasValue(dotNetObject.privileges) && dotNetObject.privileges.length > 0) {
         properties.privileges = dotNetObject.privileges;
     }
     if (hasValue(dotNetObject.region)) {

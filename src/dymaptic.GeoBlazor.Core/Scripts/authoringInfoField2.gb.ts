@@ -4,7 +4,7 @@ import { buildDotNetAuthoringInfoField2 } from './authoringInfoField2';
 
 export async function buildJsAuthoringInfoField2Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsAuthoringInfoField2: any = {};
-    if (hasValue(dotNetObject.classBreakInfos)) {
+    if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsAuthoringInfoField2ClassBreakInfos } = await import('./authoringInfoField2ClassBreakInfos');
         jsAuthoringInfoField2.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField2ClassBreakInfos(i, layerId, viewId))) as any;
     }

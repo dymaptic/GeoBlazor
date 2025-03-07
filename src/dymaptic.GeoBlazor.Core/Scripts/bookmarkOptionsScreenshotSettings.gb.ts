@@ -8,7 +8,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
         let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
         jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.layers)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         jsBookmarkOptionsScreenshotSettings.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

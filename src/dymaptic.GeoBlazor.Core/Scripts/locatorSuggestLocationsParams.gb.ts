@@ -9,7 +9,7 @@ export async function buildJsLocatorSuggestLocationsParamsGenerated(dotNetObject
         jslocatorSuggestLocationsParams.location = buildJsPoint(dotNetObject.location) as any;
     }
 
-    if (hasValue(dotNetObject.categories)) {
+    if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
         jslocatorSuggestLocationsParams.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.text)) {

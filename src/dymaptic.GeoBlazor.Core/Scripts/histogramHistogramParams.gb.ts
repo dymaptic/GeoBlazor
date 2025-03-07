@@ -7,7 +7,7 @@ export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any
     if (hasValue(viewId)) {
         jshistogramHistogramParams.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jshistogramHistogramParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

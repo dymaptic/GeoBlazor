@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(LabelPlacementStringConverter))]
+[CodeGenerationIgnore]
 public enum LabelPlacement
 {
 #pragma warning disable CS1591

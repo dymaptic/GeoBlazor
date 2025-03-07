@@ -19,6 +19,11 @@ export default class ElevationSamplerGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async elevationAt(x: any,
         y: any): Promise<any> {
         return this.component.elevationAt(x,

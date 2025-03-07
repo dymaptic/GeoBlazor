@@ -13,7 +13,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
         let { buildJsSymbol } = await import('./symbol');
         properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
-    if (hasValue(dotNetObject.visualVariables)) {
+    if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
         let { buildJsVisualVariable } = await import('./visualVariable');
         properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }

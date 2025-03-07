@@ -5,12 +5,12 @@ import { buildDotNetImageGPSInfoResult } from './imageGPSInfoResult';
 
 export async function buildJsImageGPSInfoResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.images)) {
+    if (hasValue(dotNetObject.images) && dotNetObject.images.length > 0) {
         let { buildJsImageGPSInfo } = await import('./imageGPSInfo');
         properties.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageGPSInfo(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.cameras)) {
+    if (hasValue(dotNetObject.cameras) && dotNetObject.cameras.length > 0) {
         properties.cameras = dotNetObject.cameras;
     }
     let jsImageGPSInfoResult = new ImageGPSInfoResult(properties);

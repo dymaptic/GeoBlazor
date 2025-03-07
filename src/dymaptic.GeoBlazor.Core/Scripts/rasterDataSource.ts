@@ -1,7 +1,9 @@
 
 export async function buildJsRasterDataSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsRasterDataSourceGenerated } = await import('./rasterDataSource.gb');
-    return await buildJsRasterDataSourceGenerated(dotNetObject, layerId, viewId);
+    let jsSource = await buildJsRasterDataSourceGenerated(dotNetObject, layerId, viewId);
+    jsSource.type = 'raster';
+    return jsSource;
 }     
 
 export async function buildDotNetRasterDataSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

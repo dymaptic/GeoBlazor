@@ -5,10 +5,10 @@ import { buildDotNetConsumedNodes } from './consumedNodes';
 export async function buildJsConsumedNodesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsConsumedNodes: any = {};
 
-    if (hasValue(dotNetObject.optional)) {
+    if (hasValue(dotNetObject.optional) && dotNetObject.optional.length > 0) {
         jsConsumedNodes.optional = dotNetObject.optional;
     }
-    if (hasValue(dotNetObject.required)) {
+    if (hasValue(dotNetObject.required) && dotNetObject.required.length > 0) {
         jsConsumedNodes.required = dotNetObject.required;
     }
     

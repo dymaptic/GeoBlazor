@@ -24,13 +24,13 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
     if (hasValue(dotNetObject.num)) {
         properties.num = dotNetObject.num;
     }
-    if (hasValue(dotNetObject.objectIds)) {
+    if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
         properties.objectIds = dotNetObject.objectIds;
     }
-    if (hasValue(dotNetObject.orderByFields)) {
+    if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         properties.orderByFields = dotNetObject.orderByFields;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {

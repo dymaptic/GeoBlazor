@@ -5,7 +5,7 @@ public partial class RasterDataSource : DynamicDataSource
 
 
     /// <inheritdoc/>
-    public override string Type => "raster";
+    public override DynamicDataSourceType Type => DynamicDataSourceType.Raster;
 
     /// <summary>
     ///     The workspace where the table resides as defined in the ArcGIS Server Manager.

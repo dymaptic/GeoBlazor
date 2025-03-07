@@ -5,7 +5,7 @@ import { buildDotNetCoverageInfo } from './coverageInfo';
 export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsCoverageInfo: any = {};
     if (hasValue(dotNetObject.coverageDescription)) {
-        jsCoverageInfo.coverageDescription = dotNetObject.iCoverageInfoCoverageDescription;
+        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
     }
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
@@ -16,7 +16,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
         jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.bandNames)) {
+    if (hasValue(dotNetObject.bandNames) && dotNetObject.bandNames.length > 0) {
         jsCoverageInfo.bandNames = dotNetObject.bandNames;
     }
     if (hasValue(dotNetObject.coverageId)) {
@@ -25,10 +25,10 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.description)) {
         jsCoverageInfo.description = dotNetObject.description;
     }
-    if (hasValue(dotNetObject.supportedFormats)) {
+    if (hasValue(dotNetObject.supportedFormats) && dotNetObject.supportedFormats.length > 0) {
         jsCoverageInfo.supportedFormats = dotNetObject.supportedFormats;
     }
-    if (hasValue(dotNetObject.supportedInterpolations)) {
+    if (hasValue(dotNetObject.supportedInterpolations) && dotNetObject.supportedInterpolations.length > 0) {
         jsCoverageInfo.supportedInterpolations = dotNetObject.supportedInterpolations;
     }
     if (hasValue(dotNetObject.title)) {

@@ -5,7 +5,7 @@ import { buildDotNetFindImagesResult } from './findImagesResult';
 
 export async function buildJsFindImagesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.images)) {
+    if (hasValue(dotNetObject.images) && dotNetObject.images.length > 0) {
         let { buildJsImageInspectionInfo } = await import('./imageInspectionInfo');
         properties.images = await Promise.all(dotNetObject.images.map(async i => await buildJsImageInspectionInfo(i, layerId, viewId))) as any;
     }

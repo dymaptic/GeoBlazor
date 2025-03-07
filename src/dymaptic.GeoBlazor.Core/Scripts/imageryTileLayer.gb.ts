@@ -33,7 +33,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.multidimensionalDefinition)) {
+        if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
             let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
             this.layer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, this.layerId, this.viewId))) as any;
         }
@@ -52,6 +52,9 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.rasterFunction)) {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.renderer)) {
+            this.layer.renderer = dotNetObject.iImageryRenderer;
         }
         if (hasValue(dotNetObject.tileInfo)) {
             let { buildJsTileInfo } = await import('./tileInfo');
@@ -77,7 +80,7 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.arcGISLayerId)) {
             this.layer.id = dotNetObject.arcGISLayerId;
         }
-        if (hasValue(dotNetObject.bandIds)) {
+        if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
             this.layer.bandIds = dotNetObject.bandIds;
         }
         if (hasValue(dotNetObject.blendMode)) {
@@ -112,9 +115,6 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.popupEnabled)) {
             this.layer.popupEnabled = dotNetObject.popupEnabled;
-        }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.renderer;
         }
         if (hasValue(dotNetObject.source)) {
             this.layer.source = dotNetObject.source;
@@ -413,7 +413,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+    if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
@@ -434,7 +434,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.iImageryRenderer;
+        properties.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
@@ -460,7 +460,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.arcGISLayerId)) {
         properties.id = dotNetObject.arcGISLayerId;
     }
-    if (hasValue(dotNetObject.bandIds)) {
+    if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
         properties.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.blendMode)) {

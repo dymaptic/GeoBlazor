@@ -5,7 +5,7 @@ import { buildDotNetGraphicColor } from './graphicColor';
 export async function buildJsGraphicColorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsGraphicColor: any = {};
 
-    if (hasValue(dotNetObject.color)) {
+    if (hasValue(dotNetObject.color) && dotNetObject.color.length > 0) {
         jsGraphicColor.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.haloOpacity)) {

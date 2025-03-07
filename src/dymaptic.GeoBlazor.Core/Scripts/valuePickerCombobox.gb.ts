@@ -5,7 +5,7 @@ import { buildDotNetValuePickerCombobox } from './valuePickerCombobox';
 
 export async function buildJsValuePickerComboboxGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.items)) {
+    if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsComboboxItem } = await import('./comboboxItem');
         properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsComboboxItem(i, layerId, viewId))) as any;
     }

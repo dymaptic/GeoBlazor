@@ -9,7 +9,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
         let { buildJsSymbol } = await import('./symbol');
         properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
-    if (hasValue(dotNetObject.values)) {
+    if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
         properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId))) as any;
     }

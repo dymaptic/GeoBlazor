@@ -5,7 +5,7 @@ import { buildDotNetHistogramViewModel } from './histogramViewModel';
 
 export async function buildJsHistogramViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.bins)) {
+    if (hasValue(dotNetObject.bins) && dotNetObject.bins.length > 0) {
         let { buildJsBin } = await import('./bin');
         properties.bins = await Promise.all(dotNetObject.bins.map(async i => await buildJsBin(i, layerId, viewId))) as any;
     }

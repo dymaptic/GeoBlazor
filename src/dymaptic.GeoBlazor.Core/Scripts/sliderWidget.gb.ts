@@ -21,7 +21,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.tickConfigs)) {
+        if (hasValue(dotNetObject.tickConfigs) && dotNetObject.tickConfigs.length > 0) {
             let { buildJsTickConfig } = await import('./tickConfig');
             this.widget.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
         }
@@ -85,7 +85,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.trackElement)) {
             this.widget.trackElement = dotNetObject.trackElement;
         }
-        if (hasValue(dotNetObject.values)) {
+        if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
             this.widget.values = dotNetObject.values;
         }
         if (hasValue(dotNetObject.visible)) {
@@ -257,7 +257,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
             labelElement);
         };
     }
-    if (hasValue(dotNetObject.tickConfigs)) {
+    if (hasValue(dotNetObject.tickConfigs) && dotNetObject.tickConfigs.length > 0) {
         let { buildJsTickConfig } = await import('./tickConfig');
         properties.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
     }
@@ -321,7 +321,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.trackElement)) {
         properties.trackElement = dotNetObject.trackElement;
     }
-    if (hasValue(dotNetObject.values)) {
+    if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         properties.values = dotNetObject.values;
     }
     if (hasValue(dotNetObject.visible)) {

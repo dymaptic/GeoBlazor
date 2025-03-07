@@ -9,7 +9,7 @@ export async function buildJsLegendLayerInfosGenerated(dotNetObject: any, layerI
         jsLegendLayerInfos.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.sublayerIds)) {
+    if (hasValue(dotNetObject.sublayerIds) && dotNetObject.sublayerIds.length > 0) {
         jsLegendLayerInfos.sublayerIds = dotNetObject.sublayerIds;
     }
     if (hasValue(dotNetObject.title)) {

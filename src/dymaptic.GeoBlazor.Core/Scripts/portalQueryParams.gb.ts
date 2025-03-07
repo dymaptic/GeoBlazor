@@ -10,7 +10,7 @@ export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layer
         properties.extent = buildJsExtent(dotNetObject.extent) as any;
     }
 
-    if (hasValue(dotNetObject.categories)) {
+    if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
         properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.filter)) {

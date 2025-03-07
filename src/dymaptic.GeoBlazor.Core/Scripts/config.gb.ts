@@ -4,7 +4,7 @@ import { buildDotNetConfig } from './config';
 
 export async function buildJsConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsConfig: any = {};
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         jsConfig.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }

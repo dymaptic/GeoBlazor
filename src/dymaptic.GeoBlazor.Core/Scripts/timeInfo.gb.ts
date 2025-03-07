@@ -20,7 +20,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.startField)) {
         properties.startField = dotNetObject.startField;
     }
-    if (hasValue(dotNetObject.stops)) {
+    if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         properties.stops = dotNetObject.stops;
     }
     if (hasValue(dotNetObject.timeZone)) {

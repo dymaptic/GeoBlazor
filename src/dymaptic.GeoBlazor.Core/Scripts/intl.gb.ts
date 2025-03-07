@@ -19,6 +19,11 @@ export default class IntlGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async convertNumberFormatToIntlOptions(format: any): Promise<any> {
         return this.component.convertNumberFormatToIntlOptions(format);
     }

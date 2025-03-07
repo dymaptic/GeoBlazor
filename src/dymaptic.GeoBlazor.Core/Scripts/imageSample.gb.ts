@@ -16,7 +16,7 @@ export async function buildJsImageSampleGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.locationId)) {
         properties.locationId = dotNetObject.locationId;
     }
-    if (hasValue(dotNetObject.pixelValue)) {
+    if (hasValue(dotNetObject.pixelValue) && dotNetObject.pixelValue.length > 0) {
         properties.pixelValue = dotNetObject.pixelValue;
     }
     if (hasValue(dotNetObject.rasterId)) {

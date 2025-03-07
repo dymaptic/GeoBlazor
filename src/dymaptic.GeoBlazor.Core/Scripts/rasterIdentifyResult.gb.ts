@@ -4,7 +4,7 @@ import { buildDotNetRasterIdentifyResult } from './rasterIdentifyResult';
 
 export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterIdentifyResult: any = {};
-    if (hasValue(dotNetObject.dataSeries)) {
+    if (hasValue(dotNetObject.dataSeries) && dotNetObject.dataSeries.length > 0) {
         let { buildJsRasterSliceValue } = await import('./rasterSliceValue');
         jsRasterIdentifyResult.dataSeries = await Promise.all(dotNetObject.dataSeries.map(async i => await buildJsRasterSliceValue(i, layerId, viewId))) as any;
     }
@@ -13,10 +13,10 @@ export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, la
         jsRasterIdentifyResult.location = buildJsPoint(dotNetObject.location) as any;
     }
 
-    if (hasValue(dotNetObject.processedValue)) {
+    if (hasValue(dotNetObject.processedValue) && dotNetObject.processedValue.length > 0) {
         jsRasterIdentifyResult.processedValue = dotNetObject.processedValue;
     }
-    if (hasValue(dotNetObject.value)) {
+    if (hasValue(dotNetObject.value) && dotNetObject.value.length > 0) {
         jsRasterIdentifyResult.value = dotNetObject.value;
     }
     

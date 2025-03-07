@@ -5,7 +5,7 @@ import { buildDotNetUniqueValueGroup } from './uniqueValueGroup';
 
 export async function buildJsUniqueValueGroupGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.classes)) {
+    if (hasValue(dotNetObject.classes) && dotNetObject.classes.length > 0) {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
         properties.classes = await Promise.all(dotNetObject.classes.map(async i => await buildJsUniqueValueClass(i, layerId, viewId))) as any;
     }

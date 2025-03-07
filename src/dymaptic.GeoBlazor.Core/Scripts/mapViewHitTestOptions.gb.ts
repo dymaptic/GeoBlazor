@@ -4,11 +4,11 @@ import { buildDotNetMapViewHitTestOptions } from './mapViewHitTestOptions';
 
 export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsMapViewHitTestOptions: any = {};
-    if (hasValue(dotNetObject.exclude)) {
+    if (hasValue(dotNetObject.exclude) && dotNetObject.exclude.length > 0) {
         let { buildJsIHitTestItem } = await import('./iHitTestItem');
         jsMapViewHitTestOptions.exclude = dotNetObject.exclude.map(i => buildJsIHitTestItem(i)) as any;
     }
-    if (hasValue(dotNetObject.include)) {
+    if (hasValue(dotNetObject.include) && dotNetObject.include.length > 0) {
         let { buildJsIHitTestItem } = await import('./iHitTestItem');
         jsMapViewHitTestOptions.include = dotNetObject.include.map(i => buildJsIHitTestItem(i)) as any;
     }

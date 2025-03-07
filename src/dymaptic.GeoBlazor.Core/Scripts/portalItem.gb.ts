@@ -19,6 +19,94 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.extent)) {
+            let { buildJsExtent } = await import('./extent');
+            this.component.extent = buildJsExtent(dotNetObject.extent) as any;
+        }
+        if (hasValue(dotNetObject.portal)) {
+            let { buildJsPortal } = await import('./portal');
+            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.access)) {
+            this.component.access = dotNetObject.access;
+        }
+        if (hasValue(dotNetObject.accessInformation)) {
+            this.component.accessInformation = dotNetObject.accessInformation;
+        }
+        if (hasValue(dotNetObject.apiKey)) {
+            this.component.apiKey = dotNetObject.apiKey;
+        }
+        if (hasValue(dotNetObject.avgRating)) {
+            this.component.avgRating = dotNetObject.avgRating;
+        }
+        if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
+            this.component.categories = dotNetObject.categories;
+        }
+        if (hasValue(dotNetObject.created)) {
+            this.component.created = dotNetObject.created;
+        }
+        if (hasValue(dotNetObject.culture)) {
+            this.component.culture = dotNetObject.culture;
+        }
+        if (hasValue(dotNetObject.description)) {
+            this.component.description = dotNetObject.description;
+        }
+        if (hasValue(dotNetObject.groupCategories) && dotNetObject.groupCategories.length > 0) {
+            this.component.groupCategories = dotNetObject.groupCategories;
+        }
+        if (hasValue(dotNetObject.licenseInfo)) {
+            this.component.licenseInfo = dotNetObject.licenseInfo;
+        }
+        if (hasValue(dotNetObject.modified)) {
+            this.component.modified = dotNetObject.modified;
+        }
+        if (hasValue(dotNetObject.name)) {
+            this.component.name = dotNetObject.name;
+        }
+        if (hasValue(dotNetObject.numComments)) {
+            this.component.numComments = dotNetObject.numComments;
+        }
+        if (hasValue(dotNetObject.numRatings)) {
+            this.component.numRatings = dotNetObject.numRatings;
+        }
+        if (hasValue(dotNetObject.numViews)) {
+            this.component.numViews = dotNetObject.numViews;
+        }
+        if (hasValue(dotNetObject.owner)) {
+            this.component.owner = dotNetObject.owner;
+        }
+        if (hasValue(dotNetObject.ownerFolder)) {
+            this.component.ownerFolder = dotNetObject.ownerFolder;
+        }
+        if (hasValue(dotNetObject.portalItemId)) {
+            this.component.id = dotNetObject.portalItemId;
+        }
+        if (hasValue(dotNetObject.screenshots) && dotNetObject.screenshots.length > 0) {
+            this.component.screenshots = dotNetObject.screenshots;
+        }
+        if (hasValue(dotNetObject.size)) {
+            this.component.size = dotNetObject.size;
+        }
+        if (hasValue(dotNetObject.snippet)) {
+            this.component.snippet = dotNetObject.snippet;
+        }
+        if (hasValue(dotNetObject.tags) && dotNetObject.tags.length > 0) {
+            this.component.tags = dotNetObject.tags;
+        }
+        if (hasValue(dotNetObject.title)) {
+            this.component.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.typeKeywords) && dotNetObject.typeKeywords.length > 0) {
+            this.component.typeKeywords = dotNetObject.typeKeywords;
+        }
+        if (hasValue(dotNetObject.url)) {
+            this.component.url = dotNetObject.url;
+        }
+    }
+    
     async addRating(rating: any): Promise<any> {
         return await this.component.addRating(rating);
     }
@@ -158,7 +246,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.avgRating)) {
         properties.avgRating = dotNetObject.avgRating;
     }
-    if (hasValue(dotNetObject.categories)) {
+    if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
         properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.created)) {
@@ -170,7 +258,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
     }
-    if (hasValue(dotNetObject.groupCategories)) {
+    if (hasValue(dotNetObject.groupCategories) && dotNetObject.groupCategories.length > 0) {
         properties.groupCategories = dotNetObject.groupCategories;
     }
     if (hasValue(dotNetObject.licenseInfo)) {
@@ -200,7 +288,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.portalItemId)) {
         properties.id = dotNetObject.portalItemId;
     }
-    if (hasValue(dotNetObject.screenshots)) {
+    if (hasValue(dotNetObject.screenshots) && dotNetObject.screenshots.length > 0) {
         properties.screenshots = dotNetObject.screenshots;
     }
     if (hasValue(dotNetObject.size)) {
@@ -209,13 +297,13 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.snippet)) {
         properties.snippet = dotNetObject.snippet;
     }
-    if (hasValue(dotNetObject.tags)) {
+    if (hasValue(dotNetObject.tags) && dotNetObject.tags.length > 0) {
         properties.tags = dotNetObject.tags;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.typeKeywords)) {
+    if (hasValue(dotNetObject.typeKeywords) && dotNetObject.typeKeywords.length > 0) {
         properties.typeKeywords = dotNetObject.typeKeywords;
     }
     if (hasValue(dotNetObject.url)) {

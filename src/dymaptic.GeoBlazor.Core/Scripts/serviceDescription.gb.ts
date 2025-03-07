@@ -8,7 +8,7 @@ export async function buildJsServiceDescriptionGenerated(dotNetObject: any, laye
         let { buildJsTravelMode } = await import('./travelMode');
         jsServiceDescription.defaultTravelMode = await buildJsTravelMode(dotNetObject.defaultTravelMode, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.supportedTravelModes)) {
+    if (hasValue(dotNetObject.supportedTravelModes) && dotNetObject.supportedTravelModes.length > 0) {
         let { buildJsTravelMode } = await import('./travelMode');
         jsServiceDescription.supportedTravelModes = await Promise.all(dotNetObject.supportedTravelModes.map(async i => await buildJsTravelMode(i, layerId, viewId))) as any;
     }

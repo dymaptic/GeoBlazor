@@ -12,7 +12,7 @@ export async function buildJsMapViewTakeScreenshotOptionsGenerated(dotNetObject:
         let { buildJsFormat } = await import('./format');
         jsMapViewTakeScreenshotOptions.format = await buildJsFormat(dotNetObject.format, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.layers)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         jsMapViewTakeScreenshotOptions.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

@@ -4,7 +4,7 @@ import { buildDotNetSearchResponse } from './searchResponse';
 
 export async function buildJsSearchResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchResponse: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResponseResults } = await import('./searchResponseResults');
         jsSearchResponse.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResponseResults(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsSearchResponseGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.activeSourceIndex)) {
         jsSearchResponse.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
-    if (hasValue(dotNetObject.errors)) {
+    if (hasValue(dotNetObject.errors) && dotNetObject.errors.length > 0) {
         jsSearchResponse.errors = dotNetObject.errors;
     }
     if (hasValue(dotNetObject.numResults)) {

@@ -5,7 +5,7 @@ import { buildDotNetRelationshipType } from './relationshipType';
 
 export async function buildJsRelationshipTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.endPoints)) {
+    if (hasValue(dotNetObject.endPoints) && dotNetObject.endPoints.length > 0) {
         let { buildJsRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
         properties.endPoints = await Promise.all(dotNetObject.endPoints.map(async i => await buildJsRelationshipTypeEndPoints(i, layerId, viewId))) as any;
     }
@@ -13,13 +13,13 @@ export async function buildJsRelationshipTypeGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.alias)) {
         properties.alias = dotNetObject.alias;
     }
-    if (hasValue(dotNetObject.fieldIndexes)) {
+    if (hasValue(dotNetObject.fieldIndexes) && dotNetObject.fieldIndexes.length > 0) {
         properties.fieldIndexes = dotNetObject.fieldIndexes;
     }
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
     }
-    if (hasValue(dotNetObject.properties)) {
+    if (hasValue(dotNetObject.properties) && dotNetObject.properties.length > 0) {
         properties.properties = dotNetObject.properties;
     }
     if (hasValue(dotNetObject.role)) {

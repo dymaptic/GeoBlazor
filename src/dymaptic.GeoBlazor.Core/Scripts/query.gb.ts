@@ -18,7 +18,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.aggregateIds)) {
+    if (hasValue(dotNetObject.aggregateIds) && dotNetObject.aggregateIds.length > 0) {
         properties.aggregateIds = dotNetObject.aggregateIds;
     }
     if (hasValue(dotNetObject.cacheHint)) {
@@ -36,7 +36,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.geometryPrecision)) {
         properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
-    if (hasValue(dotNetObject.groupByFieldsForStatistics)) {
+    if (hasValue(dotNetObject.groupByFieldsForStatistics) && dotNetObject.groupByFieldsForStatistics.length > 0) {
         properties.groupByFieldsForStatistics = dotNetObject.groupByFieldsForStatistics;
     }
     if (hasValue(dotNetObject.having)) {
@@ -57,28 +57,28 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.num)) {
         properties.num = dotNetObject.num;
     }
-    if (hasValue(dotNetObject.objectIds)) {
+    if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
         properties.objectIds = dotNetObject.objectIds;
     }
-    if (hasValue(dotNetObject.orderByFields)) {
+    if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         properties.orderByFields = dotNetObject.orderByFields;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.outSpatialReference)) {
         properties.outSpatialReference = sanitize(dotNetObject.outSpatialReference);
     }
-    if (hasValue(dotNetObject.outStatistics)) {
+    if (hasValue(dotNetObject.outStatistics) && dotNetObject.outStatistics.length > 0) {
         properties.outStatistics = dotNetObject.outStatistics;
     }
-    if (hasValue(dotNetObject.parameterValues)) {
+    if (hasValue(dotNetObject.parameterValues) && dotNetObject.parameterValues.length > 0) {
         properties.parameterValues = dotNetObject.parameterValues;
     }
     if (hasValue(dotNetObject.quantizationParameters)) {
         properties.quantizationParameters = dotNetObject.quantizationParameters;
     }
-    if (hasValue(dotNetObject.rangeValues)) {
+    if (hasValue(dotNetObject.rangeValues) && dotNetObject.rangeValues.length > 0) {
         properties.rangeValues = dotNetObject.rangeValues;
     }
     if (hasValue(dotNetObject.relationParameter)) {

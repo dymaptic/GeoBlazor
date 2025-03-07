@@ -19,6 +19,45 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.portal)) {
+            let { buildJsPortal } = await import('./portal');
+            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.access)) {
+            this.component.access = dotNetObject.access;
+        }
+        if (hasValue(dotNetObject.created)) {
+            this.component.created = dotNetObject.created;
+        }
+        if (hasValue(dotNetObject.description)) {
+            this.component.description = dotNetObject.description;
+        }
+        if (hasValue(dotNetObject.isInvitationOnly)) {
+            this.component.isInvitationOnly = dotNetObject.isInvitationOnly;
+        }
+        if (hasValue(dotNetObject.modified)) {
+            this.component.modified = dotNetObject.modified;
+        }
+        if (hasValue(dotNetObject.owner)) {
+            this.component.owner = dotNetObject.owner;
+        }
+        if (hasValue(dotNetObject.portalGroupId)) {
+            this.component.id = dotNetObject.portalGroupId;
+        }
+        if (hasValue(dotNetObject.snippet)) {
+            this.component.snippet = dotNetObject.snippet;
+        }
+        if (hasValue(dotNetObject.tags) && dotNetObject.tags.length > 0) {
+            this.component.tags = dotNetObject.tags;
+        }
+        if (hasValue(dotNetObject.title)) {
+            this.component.title = dotNetObject.title;
+        }
+    }
+    
     async fetchCategorySchema(options: any): Promise<any> {
         return await this.component.fetchCategorySchema(options);
     }
@@ -96,7 +135,7 @@ export async function buildJsPortalGroupGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.snippet)) {
         properties.snippet = dotNetObject.snippet;
     }
-    if (hasValue(dotNetObject.tags)) {
+    if (hasValue(dotNetObject.tags) && dotNetObject.tags.length > 0) {
         properties.tags = dotNetObject.tags;
     }
     if (hasValue(dotNetObject.title)) {

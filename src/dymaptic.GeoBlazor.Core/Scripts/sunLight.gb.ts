@@ -13,7 +13,7 @@ export async function buildJsSunLightGenerated(dotNetObject: any, layerId: strin
         jsSunLight.diffuse = await buildJsColorAndIntensity(dotNetObject.diffuse, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.direction)) {
+    if (hasValue(dotNetObject.direction) && dotNetObject.direction.length > 0) {
         jsSunLight.direction = dotNetObject.direction;
     }
     

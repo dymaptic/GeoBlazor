@@ -24,7 +24,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.namespaceUri)) {
         jsWFSFeatureType.namespaceUri = dotNetObject.namespaceUri;
     }
-    if (hasValue(dotNetObject.supportedSpatialReferences)) {
+    if (hasValue(dotNetObject.supportedSpatialReferences) && dotNetObject.supportedSpatialReferences.length > 0) {
         jsWFSFeatureType.supportedSpatialReferences = dotNetObject.supportedSpatialReferences;
     }
     if (hasValue(dotNetObject.title)) {

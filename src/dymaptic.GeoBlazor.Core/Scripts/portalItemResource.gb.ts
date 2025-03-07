@@ -19,6 +19,18 @@ export default class PortalItemResourceGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.portalItem)) {
+            let { buildJsPortalItem } = await import('./portalItem');
+            this.component.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.path)) {
+            this.component.path = dotNetObject.path;
+        }
+    }
+    
     async fetch(responseType: any,
         options: any): Promise<any> {
         return await this.component.fetch(responseType,

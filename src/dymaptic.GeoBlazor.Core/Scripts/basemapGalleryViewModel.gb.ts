@@ -19,6 +19,19 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.activeBasemap)) {
+            let { buildJsBasemap } = await import('./basemap');
+            this.component.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.source)) {
+            let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+            this.component.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, this.layerId, this.viewId) as any;
+        }
+
+    }
+    
     async basemapEquals(basemap1: any,
         basemap2: any): Promise<any> {
         let { buildJsBasemap } = await import('./basemap');

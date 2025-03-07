@@ -19,6 +19,17 @@ export default class ZoomViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.canZoomIn)) {
+            this.component.canZoomIn = dotNetObject.canZoomIn;
+        }
+        if (hasValue(dotNetObject.canZoomOut)) {
+            this.component.canZoomOut = dotNetObject.canZoomOut;
+        }
+    }
+    
     async zoomIn(): Promise<void> {
         this.component.zoomIn();
     }

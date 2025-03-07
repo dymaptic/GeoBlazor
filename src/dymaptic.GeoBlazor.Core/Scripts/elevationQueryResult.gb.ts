@@ -8,7 +8,7 @@ export async function buildJsElevationQueryResultGenerated(dotNetObject: any, la
         let { buildJsGeometry } = await import('./geometry');
         jsElevationQueryResult.geometry = buildJsGeometry(dotNetObject.geometry) as any;
     }
-    if (hasValue(dotNetObject.sampleInfo)) {
+    if (hasValue(dotNetObject.sampleInfo) && dotNetObject.sampleInfo.length > 0) {
         let { buildJsElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
         jsElevationQueryResult.sampleInfo = await Promise.all(dotNetObject.sampleInfo.map(async i => await buildJsElevationQueryResultSampleInfo(i, layerId, viewId))) as any;
     }

@@ -54,10 +54,10 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
     }
-    if (hasValue(dotNetObject.orderByFields)) {
+    if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         properties.orderByFields = dotNetObject.orderByFields;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.placeholder)) {
@@ -72,7 +72,7 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.resultGraphicEnabled)) {
         properties.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
     }
-    if (hasValue(dotNetObject.searchFields)) {
+    if (hasValue(dotNetObject.searchFields) && dotNetObject.searchFields.length > 0) {
         properties.searchFields = dotNetObject.searchFields;
     }
     if (hasValue(dotNetObject.searchTemplate)) {

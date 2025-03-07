@@ -5,7 +5,7 @@ import { buildDotNetAreasAndLengthsParameters } from './areasAndLengthsParameter
 
 export async function buildJsAreasAndLengthsParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.polygons)) {
+    if (hasValue(dotNetObject.polygons) && dotNetObject.polygons.length > 0) {
         let { buildJsPolygon } = await import('./polygon');
         properties.polygons = dotNetObject.polygons.map(i => buildJsPolygon(i)) as any;
     }

@@ -4,12 +4,12 @@ import { buildDotNetTessellatedMesh } from './tessellatedMesh';
 
 export async function buildJsTessellatedMeshGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsTessellatedMesh: any = {};
-    if (hasValue(dotNetObject.vertices)) {
+    if (hasValue(dotNetObject.vertices) && dotNetObject.vertices.length > 0) {
         let { buildJsMeshVertex } = await import('./meshVertex');
         jsTessellatedMesh.vertices = await Promise.all(dotNetObject.vertices.map(async i => await buildJsMeshVertex(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.indices)) {
+    if (hasValue(dotNetObject.indices) && dotNetObject.indices.length > 0) {
         jsTessellatedMesh.indices = dotNetObject.indices;
     }
     

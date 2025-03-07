@@ -19,6 +19,32 @@ export default class CredentialGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.expires)) {
+            this.component.expires = dotNetObject.expires;
+        }
+        if (hasValue(dotNetObject.isAdmin)) {
+            this.component.isAdmin = dotNetObject.isAdmin;
+        }
+        if (hasValue(dotNetObject.oAuthState)) {
+            this.component.oAuthState = dotNetObject.oAuthState;
+        }
+        if (hasValue(dotNetObject.server)) {
+            this.component.server = dotNetObject.server;
+        }
+        if (hasValue(dotNetObject.ssl)) {
+            this.component.ssl = dotNetObject.ssl;
+        }
+        if (hasValue(dotNetObject.token)) {
+            this.component.token = dotNetObject.token;
+        }
+        if (hasValue(dotNetObject.userId)) {
+            this.component.userId = dotNetObject.userId;
+        }
+    }
+    
     async refreshToken(): Promise<void> {
         this.component.refreshToken();
     }

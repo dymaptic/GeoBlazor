@@ -25,7 +25,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.allSublayers)) {
+        if (hasValue(dotNetObject.allSublayers) && dotNetObject.allSublayers.length > 0) {
             let { buildJsWMSSublayer } = await import('./wMSSublayer');
             this.layer.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -37,7 +37,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.fullExtents)) {
+        if (hasValue(dotNetObject.fullExtents) && dotNetObject.fullExtents.length > 0) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
         }
@@ -45,7 +45,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.sublayers)) {
+        if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsWMSSublayer } = await import('./wMSSublayer');
             this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -126,7 +126,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.spatialReference)) {
             this.layer.spatialReference = sanitize(dotNetObject.spatialReference);
         }
-        if (hasValue(dotNetObject.spatialReferences)) {
+        if (hasValue(dotNetObject.spatialReferences) && dotNetObject.spatialReferences.length > 0) {
             this.layer.spatialReferences = dotNetObject.spatialReferences;
         }
         if (hasValue(dotNetObject.title)) {
@@ -334,7 +334,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 
 export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.allSublayers)) {
+    if (hasValue(dotNetObject.allSublayers) && dotNetObject.allSublayers.length > 0) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
         properties.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
@@ -354,7 +354,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.fullExtents)) {
+    if (hasValue(dotNetObject.fullExtents) && dotNetObject.fullExtents.length > 0) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtents = dotNetObject.fullExtents.map(i => buildJsExtent(i)) as any;
     }
@@ -362,7 +362,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.sublayers)) {
+    if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
         properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
     }
@@ -443,7 +443,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = sanitize(dotNetObject.spatialReference);
     }
-    if (hasValue(dotNetObject.spatialReferences)) {
+    if (hasValue(dotNetObject.spatialReferences) && dotNetObject.spatialReferences.length > 0) {
         properties.spatialReferences = dotNetObject.spatialReferences;
     }
     if (hasValue(dotNetObject.title)) {

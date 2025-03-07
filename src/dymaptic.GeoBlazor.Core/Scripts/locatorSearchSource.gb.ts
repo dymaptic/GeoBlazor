@@ -32,7 +32,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.autoNavigate)) {
         properties.autoNavigate = dotNetObject.autoNavigate;
     }
-    if (hasValue(dotNetObject.categories)) {
+    if (hasValue(dotNetObject.categories) && dotNetObject.categories.length > 0) {
         properties.categories = dotNetObject.categories;
     }
     if (hasValue(dotNetObject.countryCode)) {
@@ -62,7 +62,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.name)) {
         properties.name = dotNetObject.name;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.placeholder)) {

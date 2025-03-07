@@ -8,11 +8,11 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.activeLayerInfos)) {
+    if (hasValue(dotNetObject.activeLayerInfos) && dotNetObject.activeLayerInfos.length > 0) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
         properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.layerInfos)) {
+    if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
         let { buildJsLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
         properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendViewModelLayerInfos(i, layerId, viewId))) as any;
     }

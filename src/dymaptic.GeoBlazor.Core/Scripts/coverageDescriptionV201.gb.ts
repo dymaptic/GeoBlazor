@@ -25,7 +25,7 @@ export async function buildJsCoverageDescriptionV201Generated(dotNetObject: any,
     if (hasValue(dotNetObject.extension)) {
         jsCoverageDescriptionV201.extension = dotNetObject.extension;
     }
-    if (hasValue(dotNetObject.rangeType)) {
+    if (hasValue(dotNetObject.rangeType) && dotNetObject.rangeType.length > 0) {
         jsCoverageDescriptionV201.rangeType = dotNetObject.rangeType;
     }
     if (hasValue(dotNetObject.resolution)) {

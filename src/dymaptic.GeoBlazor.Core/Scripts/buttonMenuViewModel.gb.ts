@@ -5,7 +5,7 @@ import { buildDotNetButtonMenuViewModel } from './buttonMenuViewModel';
 
 export async function buildJsButtonMenuViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.items)) {
+    if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsButtonMenuItem } = await import('./buttonMenuItem');
         properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsButtonMenuItem(i, layerId, viewId))) as any;
     }

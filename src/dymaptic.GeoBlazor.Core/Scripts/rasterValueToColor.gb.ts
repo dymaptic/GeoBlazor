@@ -5,7 +5,7 @@ import { buildDotNetRasterValueToColor } from './rasterValueToColor';
 export async function buildJsRasterValueToColorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterValueToColor: any = {};
 
-    if (hasValue(dotNetObject.color)) {
+    if (hasValue(dotNetObject.color) && dotNetObject.color.length > 0) {
         jsRasterValueToColor.color = dotNetObject.color;
     }
     if (hasValue(dotNetObject.outputPixelType)) {

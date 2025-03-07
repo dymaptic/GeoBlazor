@@ -21,7 +21,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.selectedItems)) {
+        if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
             let { buildJsListItem } = await import('./listItem');
             this.widget.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
         }
@@ -218,7 +218,7 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceListItemCreatedFunction', event);
         };
     }
-    if (hasValue(dotNetObject.selectedItems)) {
+    if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
         let { buildJsListItem } = await import('./listItem');
         properties.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
     }

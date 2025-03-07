@@ -21,11 +21,11 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.activeLayerInfos)) {
+        if (hasValue(dotNetObject.activeLayerInfos) && dotNetObject.activeLayerInfos.length > 0) {
             let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
             this.widget.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.layerInfos)) {
+        if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
             let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
             this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, this.layerId, this.viewId))) as any;
         }
@@ -169,11 +169,11 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.activeLayerInfos)) {
+    if (hasValue(dotNetObject.activeLayerInfos) && dotNetObject.activeLayerInfos.length > 0) {
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
         properties.activeLayerInfos = await Promise.all(dotNetObject.activeLayerInfos.map(async i => await buildJsActiveLayerInfo(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.layerInfos)) {
+    if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
         properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, layerId, viewId))) as any;
     }

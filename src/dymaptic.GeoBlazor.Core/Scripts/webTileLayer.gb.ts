@@ -73,7 +73,7 @@ export default class WebTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.refreshInterval)) {
             this.layer.refreshInterval = dotNetObject.refreshInterval;
         }
-        if (hasValue(dotNetObject.subDomains)) {
+        if (hasValue(dotNetObject.subDomains) && dotNetObject.subDomains.length > 0) {
             this.layer.subDomains = dotNetObject.subDomains;
         }
         if (hasValue(dotNetObject.title)) {

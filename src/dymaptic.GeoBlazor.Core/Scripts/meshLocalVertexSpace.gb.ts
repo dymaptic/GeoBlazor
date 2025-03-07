@@ -6,7 +6,7 @@ import { buildDotNetMeshLocalVertexSpace } from './meshLocalVertexSpace';
 export async function buildJsMeshLocalVertexSpaceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
 
-    if (hasValue(dotNetObject.origin)) {
+    if (hasValue(dotNetObject.origin) && dotNetObject.origin.length > 0) {
         properties.origin = dotNetObject.origin;
     }
     let jsMeshLocalVertexSpace = new MeshLocalVertexSpace(properties);

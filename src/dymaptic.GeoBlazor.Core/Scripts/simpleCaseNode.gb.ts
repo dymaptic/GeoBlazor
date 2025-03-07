@@ -4,7 +4,7 @@ import { buildDotNetSimpleCaseNode } from './simpleCaseNode';
 
 export async function buildJsSimpleCaseNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSimpleCaseNode: any = {};
-    if (hasValue(dotNetObject.clauses)) {
+    if (hasValue(dotNetObject.clauses) && dotNetObject.clauses.length > 0) {
         let { buildJsWhenNode } = await import('./whenNode');
         jsSimpleCaseNode.clauses = await Promise.all(dotNetObject.clauses.map(async i => await buildJsWhenNode(i, layerId, viewId))) as any;
     }

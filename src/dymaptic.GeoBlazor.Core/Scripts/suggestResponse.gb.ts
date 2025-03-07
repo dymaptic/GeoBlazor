@@ -4,7 +4,7 @@ import { buildDotNetSuggestResponse } from './suggestResponse';
 
 export async function buildJsSuggestResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSuggestResponse: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSuggestResponseResults } = await import('./suggestResponseResults');
         jsSuggestResponse.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSuggestResponseResults(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsSuggestResponseGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.activeSourceIndex)) {
         jsSuggestResponse.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
-    if (hasValue(dotNetObject.errors)) {
+    if (hasValue(dotNetObject.errors) && dotNetObject.errors.length > 0) {
         jsSuggestResponse.errors = dotNetObject.errors;
     }
     if (hasValue(dotNetObject.numResults)) {

@@ -14,7 +14,7 @@ export async function buildJsImageIdentifyResultGenerated(dotNetObject: any, lay
         properties.location = buildJsPoint(dotNetObject.location) as any;
     }
 
-    if (hasValue(dotNetObject.catalogItemVisibilities)) {
+    if (hasValue(dotNetObject.catalogItemVisibilities) && dotNetObject.catalogItemVisibilities.length > 0) {
         properties.catalogItemVisibilities = dotNetObject.catalogItemVisibilities;
     }
     if (hasValue(dotNetObject.name)) {

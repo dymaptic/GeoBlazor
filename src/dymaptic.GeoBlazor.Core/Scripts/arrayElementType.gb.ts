@@ -4,7 +4,7 @@ import { buildDotNetArrayElementType } from './arrayElementType';
 
 export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsArrayElementType: any = {};
-    if (hasValue(dotNetObject.properties)) {
+    if (hasValue(dotNetObject.properties) && dotNetObject.properties.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
         jsArrayElementType.properties = dotNetObject.properties.map(i => buildJsIProfileVariable(i)) as any;
     }

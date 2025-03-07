@@ -42,3 +42,6 @@ export function buildDotNetEditsResult(jsResult: any, layerId: string): any {
     }
     return dnResult;
 }
+export async function buildJsEditsResult(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    // N/A
+}

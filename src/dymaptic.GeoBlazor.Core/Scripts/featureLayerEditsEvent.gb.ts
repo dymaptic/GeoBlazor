@@ -9,25 +9,25 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
         jsFeatureLayerEditsEvent.editedFeatures = await buildJsEditedFeatureResult(dotNetObject.editedFeatures, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.addedAttachments)) {
+    if (hasValue(dotNetObject.addedAttachments) && dotNetObject.addedAttachments.length > 0) {
         jsFeatureLayerEditsEvent.addedAttachments = dotNetObject.addedAttachments;
     }
-    if (hasValue(dotNetObject.addedFeatures)) {
+    if (hasValue(dotNetObject.addedFeatures) && dotNetObject.addedFeatures.length > 0) {
         jsFeatureLayerEditsEvent.addedFeatures = dotNetObject.addedFeatures;
     }
-    if (hasValue(dotNetObject.deletedAttachments)) {
+    if (hasValue(dotNetObject.deletedAttachments) && dotNetObject.deletedAttachments.length > 0) {
         jsFeatureLayerEditsEvent.deletedAttachments = dotNetObject.deletedAttachments;
     }
-    if (hasValue(dotNetObject.deletedFeatures)) {
+    if (hasValue(dotNetObject.deletedFeatures) && dotNetObject.deletedFeatures.length > 0) {
         jsFeatureLayerEditsEvent.deletedFeatures = dotNetObject.deletedFeatures;
     }
     if (hasValue(dotNetObject.exceededTransferLimit)) {
         jsFeatureLayerEditsEvent.exceededTransferLimit = dotNetObject.exceededTransferLimit;
     }
-    if (hasValue(dotNetObject.updatedAttachments)) {
+    if (hasValue(dotNetObject.updatedAttachments) && dotNetObject.updatedAttachments.length > 0) {
         jsFeatureLayerEditsEvent.updatedAttachments = dotNetObject.updatedAttachments;
     }
-    if (hasValue(dotNetObject.updatedFeatures)) {
+    if (hasValue(dotNetObject.updatedFeatures) && dotNetObject.updatedFeatures.length > 0) {
         jsFeatureLayerEditsEvent.updatedFeatures = dotNetObject.updatedFeatures;
     }
     

@@ -19,6 +19,63 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.authoringInfo)) {
+            let { buildJsAuthoringInfo } = await import('./authoringInfo');
+            this.component.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.backgroundFillSymbol)) {
+            let { buildJsFillSymbol } = await import('./fillSymbol');
+            this.component.backgroundFillSymbol = await buildJsFillSymbol(dotNetObject.backgroundFillSymbol) as any;
+        }
+        if (hasValue(dotNetObject.defaultSymbol)) {
+            let { buildJsSymbol } = await import('./symbol');
+            this.component.defaultSymbol = buildJsSymbol(dotNetObject.defaultSymbol) as any;
+        }
+        if (hasValue(dotNetObject.legendOptions)) {
+            let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
+            this.component.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.uniqueValueGroups) && dotNetObject.uniqueValueGroups.length > 0) {
+            let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
+            this.component.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.uniqueValueInfos) && dotNetObject.uniqueValueInfos.length > 0) {
+            let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
+            this.component.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
+            let { buildJsVisualVariable } = await import('./visualVariable');
+            this.component.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, this.layerId, this.viewId))) as any;
+        }
+
+        if (hasValue(dotNetObject.defaultLabel)) {
+            this.component.defaultLabel = dotNetObject.defaultLabel;
+        }
+        if (hasValue(dotNetObject.field)) {
+            this.component.field = dotNetObject.field;
+        }
+        if (hasValue(dotNetObject.field2)) {
+            this.component.field2 = dotNetObject.field2;
+        }
+        if (hasValue(dotNetObject.field3)) {
+            this.component.field3 = dotNetObject.field3;
+        }
+        if (hasValue(dotNetObject.fieldDelimiter)) {
+            this.component.fieldDelimiter = dotNetObject.fieldDelimiter;
+        }
+        if (hasValue(dotNetObject.orderByClassesEnabled)) {
+            this.component.orderByClassesEnabled = dotNetObject.orderByClassesEnabled;
+        }
+        if (hasValue(dotNetObject.valueExpression)) {
+            this.component.valueExpression = dotNetObject.valueExpression;
+        }
+        if (hasValue(dotNetObject.valueExpressionTitle)) {
+            this.component.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        }
+    }
+    
     async addUniqueValueInfo(valueOrInfo: any,
         symbol: any): Promise<void> {
         let jsSymbol: any; 
@@ -173,15 +230,15 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
         let { buildJsUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
         properties.legendOptions = await buildJsUniqueValueRendererLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.uniqueValueGroups)) {
+    if (hasValue(dotNetObject.uniqueValueGroups) && dotNetObject.uniqueValueGroups.length > 0) {
         let { buildJsUniqueValueGroup } = await import('./uniqueValueGroup');
         properties.uniqueValueGroups = await Promise.all(dotNetObject.uniqueValueGroups.map(async i => await buildJsUniqueValueGroup(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.uniqueValueInfos)) {
+    if (hasValue(dotNetObject.uniqueValueInfos) && dotNetObject.uniqueValueInfos.length > 0) {
         let { buildJsUniqueValueInfo } = await import('./uniqueValueInfo');
         properties.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValueInfo(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.visualVariables)) {
+    if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
         let { buildJsVisualVariable } = await import('./visualVariable');
         properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }

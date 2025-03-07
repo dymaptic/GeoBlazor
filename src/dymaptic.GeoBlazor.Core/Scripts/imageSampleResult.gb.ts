@@ -5,7 +5,7 @@ import { buildDotNetImageSampleResult } from './imageSampleResult';
 
 export async function buildJsImageSampleResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.samples)) {
+    if (hasValue(dotNetObject.samples) && dotNetObject.samples.length > 0) {
         let { buildJsImageSample } = await import('./imageSample');
         properties.samples = await Promise.all(dotNetObject.samples.map(async i => await buildJsImageSample(i, layerId, viewId))) as any;
     }

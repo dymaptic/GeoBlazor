@@ -9,7 +9,7 @@ export async function buildJsExternalReferencePolylineGenerated(dotNetObject: an
         jsExternalReferencePolyline.spatialReference = await buildJsExternalReferenceSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.curvePath)) {
+    if (hasValue(dotNetObject.curvePath) && dotNetObject.curvePath.length > 0) {
         jsExternalReferencePolyline.curvePath = dotNetObject.curvePath;
     }
     if (hasValue(dotNetObject.hasM)) {
@@ -18,7 +18,7 @@ export async function buildJsExternalReferencePolylineGenerated(dotNetObject: an
     if (hasValue(dotNetObject.hasZ)) {
         jsExternalReferencePolyline.hasZ = dotNetObject.hasZ;
     }
-    if (hasValue(dotNetObject.paths)) {
+    if (hasValue(dotNetObject.paths) && dotNetObject.paths.length > 0) {
         jsExternalReferencePolyline.paths = dotNetObject.paths;
     }
     

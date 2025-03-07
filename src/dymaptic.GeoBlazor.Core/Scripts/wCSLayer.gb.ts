@@ -37,7 +37,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.multidimensionalDefinition)) {
+        if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
             let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
             this.layer.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, this.layerId, this.viewId))) as any;
         }
@@ -53,9 +53,12 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.rasterFields)) {
+        if (hasValue(dotNetObject.rasterFields) && dotNetObject.rasterFields.length > 0) {
             let { buildJsField } = await import('./field');
             this.layer.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
+        }
+        if (hasValue(dotNetObject.renderer)) {
+            this.layer.renderer = dotNetObject.iImageryRenderer;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -77,7 +80,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.arcGISLayerId)) {
             this.layer.id = dotNetObject.arcGISLayerId;
         }
-        if (hasValue(dotNetObject.bandIds)) {
+        if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
             this.layer.bandIds = dotNetObject.bandIds;
         }
         if (hasValue(dotNetObject.blendMode)) {
@@ -115,9 +118,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.popupEnabled)) {
             this.layer.popupEnabled = dotNetObject.popupEnabled;
-        }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.renderer;
         }
         if (hasValue(dotNetObject.title)) {
             this.layer.title = dotNetObject.title;
@@ -384,7 +384,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+    if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
@@ -400,12 +400,12 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.rasterFields)) {
+    if (hasValue(dotNetObject.rasterFields) && dotNetObject.rasterFields.length > 0) {
         let { buildJsField } = await import('./field');
         properties.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.iImageryRenderer;
+        properties.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -427,7 +427,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.arcGISLayerId)) {
         properties.id = dotNetObject.arcGISLayerId;
     }
-    if (hasValue(dotNetObject.bandIds)) {
+    if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
         properties.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.blendMode)) {

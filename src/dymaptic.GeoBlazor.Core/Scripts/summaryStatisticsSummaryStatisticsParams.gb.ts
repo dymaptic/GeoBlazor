@@ -7,7 +7,7 @@ export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(d
     if (hasValue(viewId)) {
         jssummaryStatisticsSummaryStatisticsParams.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jssummaryStatisticsSummaryStatisticsParams.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

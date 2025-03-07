@@ -4,7 +4,7 @@ import { buildDotNetRelationshipUpdateRendererParamsField2 } from './relationshi
 
 export async function buildJsRelationshipUpdateRendererParamsField2Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsrelationshipUpdateRendererParamsField2: any = {};
-    if (hasValue(dotNetObject.classBreakInfos)) {
+    if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsClassBreak } = await import('./classBreak');
         jsrelationshipUpdateRendererParamsField2.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsClassBreak(i, layerId, viewId))) as any;
     }

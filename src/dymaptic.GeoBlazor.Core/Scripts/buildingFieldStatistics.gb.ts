@@ -20,10 +20,10 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any,
     if (hasValue(dotNetObject.modelName)) {
         jsBuildingFieldStatistics.modelName = dotNetObject.modelName;
     }
-    if (hasValue(dotNetObject.mostFrequentValues)) {
+    if (hasValue(dotNetObject.mostFrequentValues) && dotNetObject.mostFrequentValues.length > 0) {
         jsBuildingFieldStatistics.mostFrequentValues = dotNetObject.mostFrequentValues;
     }
-    if (hasValue(dotNetObject.subLayerIds)) {
+    if (hasValue(dotNetObject.subLayerIds) && dotNetObject.subLayerIds.length > 0) {
         jsBuildingFieldStatistics.subLayerIds = dotNetObject.subLayerIds;
     }
     

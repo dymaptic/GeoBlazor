@@ -19,6 +19,11 @@ export default class ProjectionGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async isLoaded(): Promise<any> {
         return this.component.isLoaded();
     }

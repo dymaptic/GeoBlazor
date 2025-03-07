@@ -4,7 +4,7 @@ import { buildDotNetFetchItemsResult } from './fetchItemsResult';
 
 export async function buildJsFetchItemsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFetchItemsResult: any = {};
-    if (hasValue(dotNetObject.items)) {
+    if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsPortalItem } = await import('./portalItem');
         jsFetchItemsResult.items = await Promise.all(dotNetObject.items.map(async i => await buildJsPortalItem(i, layerId, viewId))) as any;
     }

@@ -19,6 +19,11 @@ export default class SymbologyLocationGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async cloneScheme(scheme: any): Promise<any> {
         let jsScheme: any; 
         try {

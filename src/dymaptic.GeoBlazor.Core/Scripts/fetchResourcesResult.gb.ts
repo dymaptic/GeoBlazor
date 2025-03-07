@@ -4,7 +4,7 @@ import { buildDotNetFetchResourcesResult } from './fetchResourcesResult';
 
 export async function buildJsFetchResourcesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFetchResourcesResult: any = {};
-    if (hasValue(dotNetObject.resources)) {
+    if (hasValue(dotNetObject.resources) && dotNetObject.resources.length > 0) {
         let { buildJsFetchResource } = await import('./fetchResource');
         jsFetchResourcesResult.resources = await Promise.all(dotNetObject.resources.map(async i => await buildJsFetchResource(i, layerId, viewId))) as any;
     }

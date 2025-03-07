@@ -41,7 +41,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.sublayers)) {
+        if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
             this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMTSSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -242,7 +242,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.sublayers)) {
+    if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMTSSublayer(i, layerId, viewId))) as any;
     }

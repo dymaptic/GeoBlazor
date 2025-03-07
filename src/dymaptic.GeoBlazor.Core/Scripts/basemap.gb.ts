@@ -19,6 +19,39 @@ export default class BasemapGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.baseLayers) && dotNetObject.baseLayers.length > 0) {
+            let { buildJsLayer } = await import('./layer');
+            this.component.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.portalItem)) {
+            let { buildJsPortalItem } = await import('./portalItem');
+            this.component.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.referenceLayers) && dotNetObject.referenceLayers.length > 0) {
+            let { buildJsLayer } = await import('./layer');
+            this.component.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.style)) {
+            let { buildJsBasemapStyle } = await import('./basemapStyle');
+            this.component.style = await buildJsBasemapStyle(dotNetObject.style, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.basemapId)) {
+            this.component.id = dotNetObject.basemapId;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            this.component.spatialReference = sanitize(dotNetObject.spatialReference);
+        }
+        if (hasValue(dotNetObject.thumbnailUrl)) {
+            this.component.thumbnailUrl = dotNetObject.thumbnailUrl;
+        }
+        if (hasValue(dotNetObject.title)) {
+            this.component.title = dotNetObject.title;
+        }
+    }
+    
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetBasemap } = await import('./basemap');
@@ -95,7 +128,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
 export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.baseLayers)) {
+    if (hasValue(dotNetObject.baseLayers) && dotNetObject.baseLayers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         properties.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
@@ -103,7 +136,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.referenceLayers)) {
+    if (hasValue(dotNetObject.referenceLayers) && dotNetObject.referenceLayers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

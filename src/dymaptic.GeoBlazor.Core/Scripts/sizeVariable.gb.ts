@@ -19,6 +19,58 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.legendOptions)) {
+            let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
+            this.component.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
+            let { buildJsSizeStop } = await import('./sizeStop');
+            this.component.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
+        }
+
+        if (hasValue(dotNetObject.axis)) {
+            this.component.axis = dotNetObject.axis;
+        }
+        if (hasValue(dotNetObject.field)) {
+            this.component.field = dotNetObject.field;
+        }
+        if (hasValue(dotNetObject.maxDataValue)) {
+            this.component.maxDataValue = dotNetObject.maxDataValue;
+        }
+        if (hasValue(dotNetObject.maxSize)) {
+            this.component.maxSize = dotNetObject.maxSize;
+        }
+        if (hasValue(dotNetObject.minDataValue)) {
+            this.component.minDataValue = dotNetObject.minDataValue;
+        }
+        if (hasValue(dotNetObject.minSize)) {
+            this.component.minSize = dotNetObject.minSize;
+        }
+        if (hasValue(dotNetObject.normalizationField)) {
+            this.component.normalizationField = dotNetObject.normalizationField;
+        }
+        if (hasValue(dotNetObject.target)) {
+            this.component.target = dotNetObject.target;
+        }
+        if (hasValue(dotNetObject.useSymbolValue)) {
+            this.component.useSymbolValue = dotNetObject.useSymbolValue;
+        }
+        if (hasValue(dotNetObject.valueExpression)) {
+            this.component.valueExpression = dotNetObject.valueExpression;
+        }
+        if (hasValue(dotNetObject.valueExpressionTitle)) {
+            this.component.valueExpressionTitle = dotNetObject.valueExpressionTitle;
+        }
+        if (hasValue(dotNetObject.valueRepresentation)) {
+            this.component.valueRepresentation = dotNetObject.valueRepresentation;
+        }
+        if (hasValue(dotNetObject.valueUnit)) {
+            this.component.valueUnit = dotNetObject.valueUnit;
+        }
+    }
+    
     async flipSizes(): Promise<void> {
         this.component.flipSizes();
     }
@@ -69,7 +121,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.stops)) {
+    if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
         properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
     }

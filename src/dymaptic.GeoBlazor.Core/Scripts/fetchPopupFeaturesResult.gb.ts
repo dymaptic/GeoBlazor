@@ -4,7 +4,7 @@ import { buildDotNetFetchPopupFeaturesResult } from './fetchPopupFeaturesResult'
 
 export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFetchPopupFeaturesResult: any = {};
-    if (hasValue(dotNetObject.allGraphicsPromise)) {
+    if (hasValue(dotNetObject.allGraphicsPromise) && dotNetObject.allGraphicsPromise.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsFetchPopupFeaturesResult.allGraphicsPromise = dotNetObject.allGraphicsPromise.map(i => buildJsGraphic(i)) as any;
     }

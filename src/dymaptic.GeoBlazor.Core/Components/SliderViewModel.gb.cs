@@ -157,7 +157,7 @@ public partial class SliderViewModel
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<string>? Labels { get; protected set; }
+    public LabelInfos? Labels { get; protected set; }
     
     /// <summary>
     ///     The maximum possible data/thumb value of the slider.
@@ -300,7 +300,7 @@ public partial class SliderViewModel
     /// <summary>
     ///     Asynchronously retrieve the current value of the Labels property.
     /// </summary>
-    public async Task<IReadOnlyList<string>?> GetLabels()
+    public async Task<LabelInfos?> GetLabels()
     {
         if (CoreJsModule is null)
         {
@@ -323,7 +323,7 @@ public partial class SliderViewModel
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
             CancellationTokenSource.Token, "labels");
         if (result is not null)
         {

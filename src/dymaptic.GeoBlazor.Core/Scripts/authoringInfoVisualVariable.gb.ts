@@ -5,7 +5,7 @@ import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVar
 
 export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.sizeStops)) {
+    if (hasValue(dotNetObject.sizeStops) && dotNetObject.sizeStops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
         properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
     }

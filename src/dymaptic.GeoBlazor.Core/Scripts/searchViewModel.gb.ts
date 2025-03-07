@@ -19,6 +19,76 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.defaultSymbols)) {
+            let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
+            this.component.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.popupTemplate)) {
+            let { buildJsPopupTemplate } = await import('./popupTemplate');
+            this.component.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.portal)) {
+            let { buildJsPortal } = await import('./portal');
+            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
+            let { buildJsSearchSource } = await import('./searchSource');
+            this.component.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
+        }
+
+        if (hasValue(dotNetObject.activeSourceIndex)) {
+            this.component.activeSourceIndex = dotNetObject.activeSourceIndex;
+        }
+        if (hasValue(dotNetObject.allPlaceholder)) {
+            this.component.allPlaceholder = dotNetObject.allPlaceholder;
+        }
+        if (hasValue(dotNetObject.autoSelect)) {
+            this.component.autoSelect = dotNetObject.autoSelect;
+        }
+        if (hasValue(dotNetObject.includeDefaultSources)) {
+            this.component.includeDefaultSources = dotNetObject.includeDefaultSources;
+        }
+        if (hasValue(dotNetObject.locationEnabled)) {
+            this.component.locationEnabled = dotNetObject.locationEnabled;
+        }
+        if (hasValue(dotNetObject.maxInputLength)) {
+            this.component.maxInputLength = dotNetObject.maxInputLength;
+        }
+        if (hasValue(dotNetObject.maxResults)) {
+            this.component.maxResults = dotNetObject.maxResults;
+        }
+        if (hasValue(dotNetObject.maxSuggestions)) {
+            this.component.maxSuggestions = dotNetObject.maxSuggestions;
+        }
+        if (hasValue(dotNetObject.minSuggestCharacters)) {
+            this.component.minSuggestCharacters = dotNetObject.minSuggestCharacters;
+        }
+        if (hasValue(dotNetObject.popupEnabled)) {
+            this.component.popupEnabled = dotNetObject.popupEnabled;
+        }
+        if (hasValue(dotNetObject.resultGraphicEnabled)) {
+            this.component.resultGraphicEnabled = dotNetObject.resultGraphicEnabled;
+        }
+        if (hasValue(dotNetObject.searchAllEnabled)) {
+            this.component.searchAllEnabled = dotNetObject.searchAllEnabled;
+        }
+        if (hasValue(dotNetObject.searchTerm)) {
+            this.component.searchTerm = dotNetObject.searchTerm;
+        }
+        if (hasValue(dotNetObject.suggestionDelay)) {
+            this.component.suggestionDelay = dotNetObject.suggestionDelay;
+        }
+        if (hasValue(dotNetObject.suggestionsEnabled)) {
+            this.component.suggestionsEnabled = dotNetObject.suggestionsEnabled;
+        }
+    }
+    
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -174,7 +244,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         let { buildJsPortal } = await import('./portal');
         properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.sources)) {
+    if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
         let { buildJsSearchSource } = await import('./searchSource');
         properties.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
     }

@@ -29,7 +29,7 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.className)) {
             this.widget.className = dotNetObject.className;
         }
-        if (hasValue(dotNetObject.content)) {
+        if (hasValue(dotNetObject.content) && dotNetObject.content.length > 0) {
             this.widget.content = dotNetObject.content;
         }
         if (hasValue(dotNetObject.disabled)) {
@@ -141,7 +141,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.className)) {
         properties.className = dotNetObject.className;
     }
-    if (hasValue(dotNetObject.content)) {
+    if (hasValue(dotNetObject.content) && dotNetObject.content.length > 0) {
         properties.content = dotNetObject.content;
     }
     if (hasValue(dotNetObject.disabled)) {

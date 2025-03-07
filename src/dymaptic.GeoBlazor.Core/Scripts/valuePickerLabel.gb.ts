@@ -5,7 +5,7 @@ import { buildDotNetValuePickerLabel } from './valuePickerLabel';
 
 export async function buildJsValuePickerLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.items)) {
+    if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsLabelitem } = await import('./labelitem');
         properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsLabelitem(i, layerId, viewId))) as any;
     }

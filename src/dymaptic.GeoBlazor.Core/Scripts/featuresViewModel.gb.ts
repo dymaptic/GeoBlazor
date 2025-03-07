@@ -19,6 +19,67 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
+            let { buildJsActionBase } = await import('./actionBase');
+            this.component.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
+            let { buildJsGraphic } = await import('./graphic');
+            this.component.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
+        }
+        if (hasValue(dotNetObject.featureViewModelAbilities)) {
+            let { buildJsAbilities } = await import('./abilities');
+            this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.location)) {
+            let { buildJsPoint } = await import('./point');
+            this.component.location = buildJsPoint(dotNetObject.location) as any;
+        }
+
+        if (hasValue(dotNetObject.autoCloseEnabled)) {
+            this.component.autoCloseEnabled = dotNetObject.autoCloseEnabled;
+        }
+        if (hasValue(dotNetObject.browseClusterEnabled)) {
+            this.component.browseClusterEnabled = dotNetObject.browseClusterEnabled;
+        }
+        if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
+            this.component.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
+        }
+        if (hasValue(dotNetObject.featuresPerPage)) {
+            this.component.featuresPerPage = dotNetObject.featuresPerPage;
+        }
+        if (hasValue(dotNetObject.highlightEnabled)) {
+            this.component.highlightEnabled = dotNetObject.highlightEnabled;
+        }
+        if (hasValue(dotNetObject.includeDefaultActions)) {
+            this.component.includeDefaultActions = dotNetObject.includeDefaultActions;
+        }
+        if (hasValue(dotNetObject.promises)) {
+            this.component.promises = dotNetObject.promises;
+        }
+        if (hasValue(dotNetObject.selectedFeatureIndex)) {
+            this.component.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            this.component.spatialReference = sanitize(dotNetObject.spatialReference);
+        }
+        if (hasValue(dotNetObject.timeZone)) {
+            this.component.timeZone = dotNetObject.timeZone;
+        }
+        if (hasValue(dotNetObject.title)) {
+            this.component.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.component.visible = dotNetObject.visible;
+        }
+    }
+    
     async clear(): Promise<void> {
         this.component.clear();
     }

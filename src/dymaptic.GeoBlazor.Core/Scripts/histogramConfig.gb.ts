@@ -12,7 +12,7 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
             element);
         };
     }
-    if (hasValue(dotNetObject.bins)) {
+    if (hasValue(dotNetObject.bins) && dotNetObject.bins.length > 0) {
         let { buildJsBin } = await import('./bin');
         jsHistogramConfig.bins = await Promise.all(dotNetObject.bins.map(async i => await buildJsBin(i, layerId, viewId))) as any;
     }
@@ -26,7 +26,7 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
             index);
         };
     }
-    if (hasValue(dotNetObject.dataLines)) {
+    if (hasValue(dotNetObject.dataLines) && dotNetObject.dataLines.length > 0) {
         let { buildJsHistogramConfigDataLines } = await import('./histogramConfigDataLines');
         jsHistogramConfig.dataLines = await Promise.all(dotNetObject.dataLines.map(async i => await buildJsHistogramConfigDataLines(i, layerId, viewId))) as any;
     }

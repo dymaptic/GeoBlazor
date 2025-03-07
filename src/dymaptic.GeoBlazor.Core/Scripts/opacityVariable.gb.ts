@@ -9,7 +9,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.stops)) {
+    if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsOpacityStop } = await import('./opacityStop');
         properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId))) as any;
     }

@@ -8,6 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(DrawingToolStringConverter))]
+[CodeGenerationIgnore]
 public enum DrawingTool
 {
 #pragma warning disable CS1591

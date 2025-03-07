@@ -4,7 +4,7 @@ import { buildDotNetSearchCompleteEvent } from './searchCompleteEvent';
 
 export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchSearchCompleteEvent: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchCompleteEventResults } = await import('./searchCompleteEventResults');
         jsSearchSearchCompleteEvent.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchCompleteEventResults(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.activeSourceIndex)) {
         jsSearchSearchCompleteEvent.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
-    if (hasValue(dotNetObject.errors)) {
+    if (hasValue(dotNetObject.errors) && dotNetObject.errors.length > 0) {
         jsSearchSearchCompleteEvent.errors = dotNetObject.errors;
     }
     if (hasValue(dotNetObject.numResults)) {

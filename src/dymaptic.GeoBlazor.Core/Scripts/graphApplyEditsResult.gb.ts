@@ -5,7 +5,7 @@ import { buildDotNetGraphApplyEditsResult } from './graphApplyEditsResult';
 
 export async function buildJsGraphApplyEditsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.editResults)) {
+    if (hasValue(dotNetObject.editResults) && dotNetObject.editResults.length > 0) {
         let { buildJsEditResultsObject } = await import('./editResultsObject');
         properties.editResults = await Promise.all(dotNetObject.editResults.map(async i => await buildJsEditResultsObject(i, layerId, viewId))) as any;
     }

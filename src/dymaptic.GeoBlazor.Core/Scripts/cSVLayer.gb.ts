@@ -37,7 +37,11 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
             let { buildJsFeatureEffect } = await import('./featureEffect');
             this.layer.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.fields)) {
+        if (hasValue(dotNetObject.featureReduction)) {
+            let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
+            this.layer.featureReduction = await buildJsIFeatureReduction(dotNetObject.featureReduction, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
             let { buildJsField } = await import('./field');
             this.layer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
         }
@@ -45,11 +49,11 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.labelingInfo)) {
+        if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
             let { buildJsLabel } = await import('./label');
-            this.layer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+            this.layer.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.orderBy)) {
+        if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
             let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
             this.layer.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
         }
@@ -103,9 +107,6 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.displayField)) {
             this.layer.displayField = dotNetObject.displayField;
         }
-        if (hasValue(dotNetObject.featureReduction)) {
-            this.layer.featureReduction = dotNetObject.featureReduction;
-        }
         if (hasValue(dotNetObject.geometryType)) {
             this.layer.geometryType = dotNetObject.geometryType;
         }
@@ -136,7 +137,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.opacity)) {
             this.layer.opacity = dotNetObject.opacity;
         }
-        if (hasValue(dotNetObject.outFields)) {
+        if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
             this.layer.outFields = dotNetObject.outFields;
         }
         if (hasValue(dotNetObject.persistenceEnabled)) {
@@ -326,7 +327,7 @@ export default class CSVLayerGenerated implements IPropertyWrapper {
     
     async setLabelingInfo(value: any): Promise<void> {
         let { buildJsLabel } = await import('./label');
-        this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i))) as any;
+        this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
     }
     
     async getOrderBy(): Promise<any> {
@@ -466,9 +467,10 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         properties.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.featureReduction)) {
-        properties.featureReduction = dotNetObject.iFeatureReduction;
+        let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
+        properties.featureReduction = await buildJsIFeatureReduction(dotNetObject.featureReduction, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
@@ -476,11 +478,11 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.labelingInfo)) {
+    if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
         let { buildJsLabel } = await import('./label');
-        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i))) as any;
+        properties.labelingInfo = await Promise.all(dotNetObject.labelingInfo.map(async i => await buildJsLabel(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.orderBy)) {
+    if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
         properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId))) as any;
     }
@@ -564,7 +566,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }
-    if (hasValue(dotNetObject.outFields)) {
+    if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
     }
     if (hasValue(dotNetObject.persistenceEnabled)) {
@@ -678,6 +680,11 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: strin
         dotNetCSVLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
     }
     
+    if (hasValue(jsObject.featureReduction)) {
+        let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
+        dotNetCSVLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+    }
+    
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetCSVLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
@@ -772,10 +779,6 @@ export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.displayField)) {
         dotNetCSVLayer.displayField = jsObject.displayField;
-    }
-    
-    if (hasValue(jsObject.featureReduction)) {
-        dotNetCSVLayer.featureReduction = jsObject.featureReduction;
     }
     
     if (hasValue(jsObject.geometryType)) {

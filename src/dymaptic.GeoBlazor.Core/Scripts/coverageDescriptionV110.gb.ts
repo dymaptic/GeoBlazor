@@ -18,16 +18,16 @@ export async function buildJsCoverageDescriptionV110Generated(dotNetObject: any,
     if (hasValue(dotNetObject.metadata)) {
         jsCoverageDescriptionV110.metadata = dotNetObject.metadata;
     }
-    if (hasValue(dotNetObject.range)) {
+    if (hasValue(dotNetObject.range) && dotNetObject.range.length > 0) {
         jsCoverageDescriptionV110.range = dotNetObject.range;
     }
     if (hasValue(dotNetObject.resolution)) {
         jsCoverageDescriptionV110.resolution = dotNetObject.resolution;
     }
-    if (hasValue(dotNetObject.supportedCRSs)) {
+    if (hasValue(dotNetObject.supportedCRSs) && dotNetObject.supportedCRSs.length > 0) {
         jsCoverageDescriptionV110.supportedCRSs = dotNetObject.supportedCRSs;
     }
-    if (hasValue(dotNetObject.supportedFormats)) {
+    if (hasValue(dotNetObject.supportedFormats) && dotNetObject.supportedFormats.length > 0) {
         jsCoverageDescriptionV110.supportedFormats = dotNetObject.supportedFormats;
     }
     if (hasValue(dotNetObject.title)) {

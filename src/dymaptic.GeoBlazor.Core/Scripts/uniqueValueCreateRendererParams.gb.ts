@@ -24,7 +24,7 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
     if (hasValue(dotNetObject.classFieldName)) {
         jsuniqueValueCreateRendererParams.classFieldName = dotNetObject.classFieldName;
     }
-    if (hasValue(dotNetObject.colors)) {
+    if (hasValue(dotNetObject.colors) && dotNetObject.colors.length > 0) {
         jsuniqueValueCreateRendererParams.colors = dotNetObject.colors;
     }
     if (hasValue(dotNetObject.signal)) {

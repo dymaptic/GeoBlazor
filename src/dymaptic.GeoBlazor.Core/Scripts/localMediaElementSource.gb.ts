@@ -6,7 +6,7 @@ import { buildDotNetLocalMediaElementSource } from './localMediaElementSource';
 export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
 
-    if (hasValue(dotNetObject.elements)) {
+    if (hasValue(dotNetObject.elements) && dotNetObject.elements.length > 0) {
         properties.elements = dotNetObject.elements;
     }
     let jsLocalMediaElementSource = new LocalMediaElementSource(properties);

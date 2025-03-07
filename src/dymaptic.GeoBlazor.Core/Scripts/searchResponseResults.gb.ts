@@ -4,7 +4,7 @@ import { buildDotNetSearchResponseResults } from './searchResponseResults';
 
 export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchResponseResults: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResult } = await import('./searchResult');
         jsSearchResponseResults.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResult(i))) as any;
     }

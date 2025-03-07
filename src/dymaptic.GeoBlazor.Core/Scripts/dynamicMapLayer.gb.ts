@@ -17,7 +17,7 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsDynamicMapLayer;
     
     let { buildDotNetDynamicMapLayer } = await import('./dynamicMapLayer');
-    let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetDynamicMapLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetDynamicMapLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

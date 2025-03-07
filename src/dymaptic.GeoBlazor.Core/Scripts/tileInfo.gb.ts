@@ -19,6 +19,31 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
+            let { buildJsLOD } = await import('./lOD');
+            this.component.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.origin)) {
+            let { buildJsPoint } = await import('./point');
+            this.component.origin = buildJsPoint(dotNetObject.origin) as any;
+        }
+
+        if (hasValue(dotNetObject.dpi)) {
+            this.component.dpi = dotNetObject.dpi;
+        }
+        if (hasValue(dotNetObject.format)) {
+            this.component.format = dotNetObject.format;
+        }
+        if (hasValue(dotNetObject.size) && dotNetObject.size.length > 0) {
+            this.component.size = dotNetObject.size;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            this.component.spatialReference = sanitize(dotNetObject.spatialReference);
+        }
+    }
+    
     async scaleToZoom(scale: any): Promise<any> {
         return this.component.scaleToZoom(scale);
     }
@@ -69,7 +94,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.lods)) {
+    if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
         properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
     }
@@ -84,7 +109,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.format)) {
         properties.format = dotNetObject.format;
     }
-    if (hasValue(dotNetObject.size)) {
+    if (hasValue(dotNetObject.size) && dotNetObject.size.length > 0) {
         properties.size = dotNetObject.size;
     }
     if (hasValue(dotNetObject.spatialReference)) {

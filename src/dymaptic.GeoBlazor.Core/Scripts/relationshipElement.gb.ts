@@ -5,7 +5,7 @@ import { buildDotNetRelationshipElement } from './relationshipElement';
 
 export async function buildJsRelationshipElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.orderByFields)) {
+    if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');
         properties.orderByFields = dotNetObject.orderByFields.map(i => buildJsRelatedRecordsInfoFieldOrder(i)) as any;
     }

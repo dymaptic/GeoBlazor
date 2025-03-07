@@ -19,6 +19,20 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
+            this.component.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+        }
+        if (hasValue(dotNetObject.unit)) {
+            this.component.unit = dotNetObject.unit;
+        }
+        if (hasValue(dotNetObject.unitOptions) && dotNetObject.unitOptions.length > 0) {
+            this.component.unitOptions = dotNetObject.unitOptions;
+        }
+    }
+    
     async clear(): Promise<void> {
         this.component.clear();
     }
@@ -69,7 +83,7 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
     if (hasValue(dotNetObject.unit)) {
         properties.unit = dotNetObject.unit;
     }
-    if (hasValue(dotNetObject.unitOptions)) {
+    if (hasValue(dotNetObject.unitOptions) && dotNetObject.unitOptions.length > 0) {
         properties.unitOptions = dotNetObject.unitOptions;
     }
     let jsAreaMeasurement2DViewModel = new AreaMeasurement2DViewModel(properties);

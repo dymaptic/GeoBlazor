@@ -19,6 +19,18 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.dialog)) {
+            let { buildJsWidget } = await import('./widget');
+            this.component.dialog = await buildJsWidget(dotNetObject.dialog, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.tokenValidity)) {
+            this.component.tokenValidity = dotNetObject.tokenValidity;
+        }
+    }
+    
     async checkAppAccess(resUrl: any,
         appId: any): Promise<any> {
         return await this.component.checkAppAccess(resUrl,

@@ -5,7 +5,7 @@ import { buildDotNetWebMap } from './webMap';
 
 export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.bookmarks)) {
+    if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
         let { buildJsBookmark } = await import('./bookmark');
         properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }
@@ -17,7 +17,7 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.utilityNetworks)) {
+    if (hasValue(dotNetObject.utilityNetworks) && dotNetObject.utilityNetworks.length > 0) {
         let { buildJsUtilityNetwork } = await import('./utilityNetwork');
         properties.utilityNetworks = await Promise.all(dotNetObject.utilityNetworks.map(async i => await buildJsUtilityNetwork(i, layerId, viewId))) as any;
     }

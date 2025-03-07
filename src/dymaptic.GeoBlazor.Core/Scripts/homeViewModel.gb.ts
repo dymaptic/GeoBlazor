@@ -19,6 +19,19 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.viewpoint)) {
+            let { buildJsViewpoint } = await import('./viewpoint');
+            this.component.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
+        }
+
+    }
+    
     async cancelGo(): Promise<void> {
         this.component.cancelGo();
     }

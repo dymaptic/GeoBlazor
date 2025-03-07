@@ -8,7 +8,7 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
         let { buildJsExtent } = await import('./extent');
         jsWFSLayerInfo.extent = buildJsExtent(dotNetObject.extent) as any;
     }
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         jsWFSLayerInfo.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }

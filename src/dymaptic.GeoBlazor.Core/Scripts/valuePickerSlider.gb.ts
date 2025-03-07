@@ -23,10 +23,10 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
         properties.visibleElements = await buildJsValuePickerSliderVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.labels)) {
+    if (hasValue(dotNetObject.labels) && dotNetObject.labels.length > 0) {
         properties.labels = dotNetObject.labels;
     }
-    if (hasValue(dotNetObject.majorTicks)) {
+    if (hasValue(dotNetObject.majorTicks) && dotNetObject.majorTicks.length > 0) {
         properties.majorTicks = dotNetObject.majorTicks;
     }
     if (hasValue(dotNetObject.max)) {
@@ -35,13 +35,13 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
     if (hasValue(dotNetObject.min)) {
         properties.min = dotNetObject.min;
     }
-    if (hasValue(dotNetObject.minorTicks)) {
+    if (hasValue(dotNetObject.minorTicks) && dotNetObject.minorTicks.length > 0) {
         properties.minorTicks = dotNetObject.minorTicks;
     }
     if (hasValue(dotNetObject.reversed)) {
         properties.reversed = dotNetObject.reversed;
     }
-    if (hasValue(dotNetObject.steps)) {
+    if (hasValue(dotNetObject.steps) && dotNetObject.steps.length > 0) {
         properties.steps = dotNetObject.steps;
     }
     let jsValuePickerSlider = new ValuePickerSlider(properties);

@@ -9,7 +9,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
         let { buildJsGeometry } = await import('./geometry');
         properties.areaOfInterest = buildJsGeometry(dotNetObject.areaOfInterest) as any;
     }
-    if (hasValue(dotNetObject.subsetDefinitions)) {
+    if (hasValue(dotNetObject.subsetDefinitions) && dotNetObject.subsetDefinitions.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }

@@ -19,6 +19,34 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.geometry)) {
+            let { buildJsGeometry } = await import('./geometry');
+            this.component.geometry = buildJsGeometry(dotNetObject.geometry) as any;
+        }
+        if (hasValue(dotNetObject.timeExtent)) {
+            let { buildJsTimeExtent } = await import('./timeExtent');
+            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.distance)) {
+            this.component.distance = dotNetObject.distance;
+        }
+        if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
+            this.component.objectIds = dotNetObject.objectIds;
+        }
+        if (hasValue(dotNetObject.spatialRelationship)) {
+            this.component.spatialRelationship = dotNetObject.spatialRelationship;
+        }
+        if (hasValue(dotNetObject.units)) {
+            this.component.units = dotNetObject.units;
+        }
+        if (hasValue(dotNetObject.where)) {
+            this.component.where = dotNetObject.where;
+        }
+    }
+    
     async createQuery(): Promise<any> {
         return this.component.createQuery();
     }
@@ -77,7 +105,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.distance)) {
         properties.distance = dotNetObject.distance;
     }
-    if (hasValue(dotNetObject.objectIds)) {
+    if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
         properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.spatialRelationship)) {

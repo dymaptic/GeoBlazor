@@ -23,10 +23,10 @@ export async function buildJsImageParametersGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.imageSpatialReference)) {
         properties.imageSpatialReference = sanitize(dotNetObject.imageSpatialReference);
     }
-    if (hasValue(dotNetObject.layerDefinitions)) {
+    if (hasValue(dotNetObject.layerDefinitions) && dotNetObject.layerDefinitions.length > 0) {
         properties.layerDefinitions = dotNetObject.layerDefinitions;
     }
-    if (hasValue(dotNetObject.layerIds)) {
+    if (hasValue(dotNetObject.layerIds) && dotNetObject.layerIds.length > 0) {
         properties.layerIds = dotNetObject.layerIds;
     }
     if (hasValue(dotNetObject.layerOption)) {

@@ -4,16 +4,16 @@ import { buildDotNetConfigRequest } from './configRequest';
 
 export async function buildJsConfigRequestGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsconfigRequest: any = {};
-    if (hasValue(dotNetObject.interceptors)) {
+    if (hasValue(dotNetObject.interceptors) && dotNetObject.interceptors.length > 0) {
         let { buildJsRequestInterceptor } = await import('./requestInterceptor');
         jsconfigRequest.interceptors = await Promise.all(dotNetObject.interceptors.map(async i => await buildJsRequestInterceptor(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.proxyRules)) {
+    if (hasValue(dotNetObject.proxyRules) && dotNetObject.proxyRules.length > 0) {
         let { buildJsConfigRequestProxyRules } = await import('./configRequestProxyRules');
         jsconfigRequest.proxyRules = await Promise.all(dotNetObject.proxyRules.map(async i => await buildJsConfigRequestProxyRules(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.httpsDomains)) {
+    if (hasValue(dotNetObject.httpsDomains) && dotNetObject.httpsDomains.length > 0) {
         jsconfigRequest.httpsDomains = dotNetObject.httpsDomains;
     }
     if (hasValue(dotNetObject.maxUrlLength)) {
@@ -28,7 +28,7 @@ export async function buildJsConfigRequestGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.timeout)) {
         jsconfigRequest.timeout = dotNetObject.timeout;
     }
-    if (hasValue(dotNetObject.trustedServers)) {
+    if (hasValue(dotNetObject.trustedServers) && dotNetObject.trustedServers.length > 0) {
         jsconfigRequest.trustedServers = dotNetObject.trustedServers;
     }
     if (hasValue(dotNetObject.useIdentity)) {

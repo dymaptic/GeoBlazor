@@ -10,7 +10,7 @@ export async function buildJsGeotriggerNotificationOptionsGenerated(dotNetObject
         properties.expressionInfo = await buildJsGeotriggersInfoExpressionInfo(dotNetObject.expressionInfo, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.requestedActions)) {
+    if (hasValue(dotNetObject.requestedActions) && dotNetObject.requestedActions.length > 0) {
         properties.requestedActions = dotNetObject.requestedActions;
     }
     let jsGeotriggerNotificationOptions = new GeotriggerNotificationOptions(properties);

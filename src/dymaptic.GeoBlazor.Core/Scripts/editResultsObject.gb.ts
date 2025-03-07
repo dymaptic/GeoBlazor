@@ -4,15 +4,15 @@ import { buildDotNetEditResultsObject } from './editResultsObject';
 
 export async function buildJsEditResultsObjectGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditResultsObject: any = {};
-    if (hasValue(dotNetObject.adds)) {
+    if (hasValue(dotNetObject.adds) && dotNetObject.adds.length > 0) {
         let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
         jsEditResultsObject.adds = await Promise.all(dotNetObject.adds.map(async i => await buildJsNamedObjectEditResults(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.deletes)) {
+    if (hasValue(dotNetObject.deletes) && dotNetObject.deletes.length > 0) {
         let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
         jsEditResultsObject.deletes = await Promise.all(dotNetObject.deletes.map(async i => await buildJsNamedObjectEditResults(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.updates)) {
+    if (hasValue(dotNetObject.updates) && dotNetObject.updates.length > 0) {
         let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
         jsEditResultsObject.updates = await Promise.all(dotNetObject.updates.map(async i => await buildJsNamedObjectEditResults(i, layerId, viewId))) as any;
     }

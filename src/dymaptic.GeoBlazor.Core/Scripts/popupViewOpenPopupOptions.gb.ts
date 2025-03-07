@@ -4,7 +4,7 @@ import { buildDotNetPopupViewOpenPopupOptions } from './popupViewOpenPopupOption
 
 export async function buildJsPopupViewOpenPopupOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPopupViewOpenPopupOptions: any = {};
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsPopupViewOpenPopupOptions.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

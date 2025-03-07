@@ -9,7 +9,7 @@ export async function buildJsUIMoveComponentGenerated(dotNetObject: any, layerId
         jsUIMoveComponent.component = await buildJsWidget(dotNetObject.widgetComponent, layerId, viewId) as any;
     }
     else if (hasValue(dotNetObject.elementReferenceComponent)) {
-        jsUIMoveComponent.component = dotNetObject.widget;
+        jsUIMoveComponent.component = dotNetObject.elementReferenceComponent;
     }
     if (hasValue(dotNetObject.position)) {
         let { buildJsPosition } = await import('./position');

@@ -21,7 +21,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.actions)) {
+        if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
             this.widget.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
         }
@@ -29,7 +29,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
             let { buildJsPopupDockOptions } = await import('./popupDockOptions');
             this.widget.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.features)) {
+        if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
             this.widget.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
         }
@@ -284,7 +284,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.actions)) {
+    if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
         let { buildJsActionBase } = await import('./actionBase');
         properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
     }
@@ -292,7 +292,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
         properties.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.features)) {
+    if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         properties.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
     }

@@ -30,7 +30,7 @@ export async function buildDotNetSupportingWidgetDefaultsAttachmentsGenerated(js
     
     if (hasValue(jsObject.capabilities)) {
         let { buildDotNetAttachmentsCapabilities } = await import('./attachmentsCapabilities');
-        dotNetSupportingWidgetDefaultsAttachments.capabilities = await buildDotNetAttachmentsCapabilities(jsObject.capabilities, layerId, viewId);
+        dotNetSupportingWidgetDefaultsAttachments.capabilities = await buildDotNetAttachmentsCapabilities(jsObject.capabilities);
     }
     
     if (hasValue(jsObject.displayType)) {

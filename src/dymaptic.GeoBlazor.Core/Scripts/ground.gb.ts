@@ -19,6 +19,26 @@ export default class GroundGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
+            let { buildJsLayer } = await import('./layer');
+            this.component.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.navigationConstraint)) {
+            let { buildJsGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+            this.component.navigationConstraint = await buildJsGroundNavigationConstraint(dotNetObject.navigationConstraint, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.surfaceColor)) {
+            let { buildJsMapColor } = await import('./mapColor');
+            this.component.surfaceColor = buildJsMapColor(dotNetObject.surfaceColor) as any;
+        }
+
+        if (hasValue(dotNetObject.opacity)) {
+            this.component.opacity = dotNetObject.opacity;
+        }
+    }
+    
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
         let { buildJsExtent } = await import('./extent');
@@ -107,7 +127,7 @@ export default class GroundGenerated implements IPropertyWrapper {
 
 export async function buildJsGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.layers)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         properties.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

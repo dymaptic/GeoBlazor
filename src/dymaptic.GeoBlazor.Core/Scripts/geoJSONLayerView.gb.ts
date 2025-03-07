@@ -19,6 +19,32 @@ export default class GeoJSONLayerViewGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.featureEffect)) {
+            let { buildJsFeatureEffect } = await import('./featureEffect');
+            this.component.featureEffect = await buildJsFeatureEffect(dotNetObject.featureEffect, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.filter)) {
+            let { buildJsFeatureFilter } = await import('./featureFilter');
+            this.component.filter = await buildJsFeatureFilter(dotNetObject.filter, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.highlightOptions)) {
+            let { buildJsHighlightOptions } = await import('./highlightOptions');
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
+            this.component.maximumNumberOfFeatures = dotNetObject.maximumNumberOfFeatures;
+        }
+        if (hasValue(dotNetObject.maximumNumberOfFeaturesExceeded)) {
+            this.component.maximumNumberOfFeaturesExceeded = dotNetObject.maximumNumberOfFeaturesExceeded;
+        }
+        if (hasValue(dotNetObject.visible)) {
+            this.component.visible = dotNetObject.visible;
+        }
+    }
+    
     async createAggregateQuery(): Promise<any> {
         return this.component.createAggregateQuery();
     }

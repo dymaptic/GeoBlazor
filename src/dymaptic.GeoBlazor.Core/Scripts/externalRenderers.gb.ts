@@ -19,6 +19,11 @@ export default class ExternalRenderersGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async add(view: any,
         renderer: any): Promise<void> {
         this.component.add(view,

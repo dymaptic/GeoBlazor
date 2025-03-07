@@ -19,6 +19,17 @@ export default class TimeExtentGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.end)) {
+            this.component.end = dotNetObject.end;
+        }
+        if (hasValue(dotNetObject.start)) {
+            this.component.start = dotNetObject.start;
+        }
+    }
+    
     async intersection(timeExtent: any): Promise<any> {
         let { buildJsTimeExtent } = await import('./timeExtent');
         let jsTimeExtent = await buildJsTimeExtent(timeExtent, this.layerId, this.viewId) as any;

@@ -4,7 +4,7 @@ import { buildDotNetSearchViewModelSuggestCompleteEvent } from './searchViewMode
 
 export async function buildJsSearchViewModelSuggestCompleteEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsSearchViewModelSuggestCompleteEvent: any = {};
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchViewModelSuggestCompleteEventResults } = await import('./searchViewModelSuggestCompleteEventResults');
         jsSearchViewModelSuggestCompleteEvent.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchViewModelSuggestCompleteEventResults(i, layerId, viewId))) as any;
     }
@@ -12,7 +12,7 @@ export async function buildJsSearchViewModelSuggestCompleteEventGenerated(dotNet
     if (hasValue(dotNetObject.activeSourceIndex)) {
         jsSearchViewModelSuggestCompleteEvent.activeSourceIndex = dotNetObject.activeSourceIndex;
     }
-    if (hasValue(dotNetObject.errors)) {
+    if (hasValue(dotNetObject.errors) && dotNetObject.errors.length > 0) {
         jsSearchViewModelSuggestCompleteEvent.errors = dotNetObject.errors;
     }
     if (hasValue(dotNetObject.numResults)) {

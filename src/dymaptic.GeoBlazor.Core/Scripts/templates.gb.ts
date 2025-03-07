@@ -8,7 +8,7 @@ export async function buildJsTemplatesGenerated(dotNetObject: any, layerId: stri
         let { buildJsTemplate } = await import('./template');
         jsTemplates.primaryTemplate = await buildJsTemplate(dotNetObject.primaryTemplate, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.secondaryTemplates)) {
+    if (hasValue(dotNetObject.secondaryTemplates) && dotNetObject.secondaryTemplates.length > 0) {
         let { buildJsTemplate } = await import('./template');
         jsTemplates.secondaryTemplates = await Promise.all(dotNetObject.secondaryTemplates.map(async i => await buildJsTemplate(i, layerId, viewId))) as any;
     }

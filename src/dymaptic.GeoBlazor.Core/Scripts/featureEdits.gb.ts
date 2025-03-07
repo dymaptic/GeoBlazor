@@ -4,28 +4,28 @@ import { buildDotNetFeatureEdits } from './featureEdits';
 
 export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsFeatureLayerBaseApplyEditsEdits: any = {};
-    if (hasValue(dotNetObject.addAttachments)) {
+    if (hasValue(dotNetObject.addAttachments) && dotNetObject.addAttachments.length > 0) {
         let { buildJsAttachmentEdit } = await import('./attachmentEdit');
         jsFeatureLayerBaseApplyEditsEdits.addAttachments = await Promise.all(dotNetObject.addAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.addFeatures)) {
+    if (hasValue(dotNetObject.addFeatures) && dotNetObject.addFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.addFeatures = dotNetObject.addFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.deleteFeatures)) {
+    if (hasValue(dotNetObject.deleteFeatures) && dotNetObject.deleteFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.deleteFeatures = dotNetObject.deleteFeatures.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.updateAttachments)) {
+    if (hasValue(dotNetObject.updateAttachments) && dotNetObject.updateAttachments.length > 0) {
         let { buildJsAttachmentEdit } = await import('./attachmentEdit');
         jsFeatureLayerBaseApplyEditsEdits.updateAttachments = await Promise.all(dotNetObject.updateAttachments.map(async i => await buildJsAttachmentEdit(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.updateFeatures)) {
+    if (hasValue(dotNetObject.updateFeatures) && dotNetObject.updateFeatures.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayerBaseApplyEditsEdits.updateFeatures = dotNetObject.updateFeatures.map(i => buildJsGraphic(i)) as any;
     }
 
-    if (hasValue(dotNetObject.deleteAttachments)) {
+    if (hasValue(dotNetObject.deleteAttachments) && dotNetObject.deleteAttachments.length > 0) {
         jsFeatureLayerBaseApplyEditsEdits.deleteAttachments = dotNetObject.deleteAttachments;
     }
     

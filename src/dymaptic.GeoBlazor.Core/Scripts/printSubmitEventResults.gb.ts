@@ -4,7 +4,7 @@ import { buildDotNetPrintSubmitEventResults } from './printSubmitEventResults';
 
 export async function buildJsPrintSubmitEventResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPrintSubmitEventResults: any = {};
-    if (hasValue(dotNetObject.link)) {
+    if (hasValue(dotNetObject.link) && dotNetObject.link.length > 0) {
         let { buildJsFileLink } = await import('./fileLink');
         jsPrintSubmitEventResults.link = await Promise.all(dotNetObject.link.map(async i => await buildJsFileLink(i, layerId, viewId))) as any;
     }

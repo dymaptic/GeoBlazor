@@ -19,6 +19,15 @@ export default class CompassViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+
+    }
+    
     async reset(): Promise<void> {
         this.component.reset();
     }

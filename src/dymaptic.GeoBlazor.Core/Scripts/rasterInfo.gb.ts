@@ -21,10 +21,10 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.bandCount)) {
         properties.bandCount = dotNetObject.bandCount;
     }
-    if (hasValue(dotNetObject.bandInfos)) {
+    if (hasValue(dotNetObject.bandInfos) && dotNetObject.bandInfos.length > 0) {
         properties.bandInfos = dotNetObject.bandInfos;
     }
-    if (hasValue(dotNetObject.colormap)) {
+    if (hasValue(dotNetObject.colormap) && dotNetObject.colormap.length > 0) {
         properties.colormap = dotNetObject.colormap;
     }
     if (hasValue(dotNetObject.dataType)) {
@@ -36,7 +36,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.height)) {
         properties.height = dotNetObject.height;
     }
-    if (hasValue(dotNetObject.histograms)) {
+    if (hasValue(dotNetObject.histograms) && dotNetObject.histograms.length > 0) {
         properties.histograms = dotNetObject.histograms;
     }
     if (hasValue(dotNetObject.keyProperties)) {
@@ -57,7 +57,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     if (hasValue(dotNetObject.spatialReference)) {
         properties.spatialReference = sanitize(dotNetObject.spatialReference);
     }
-    if (hasValue(dotNetObject.statistics)) {
+    if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
         properties.statistics = dotNetObject.statistics;
     }
     if (hasValue(dotNetObject.width)) {

@@ -37,11 +37,11 @@ export default class MapImageLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.sublayers)) {
+        if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsSublayer } = await import('./sublayer');
             this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.subtables)) {
+        if (hasValue(dotNetObject.subtables) && dotNetObject.subtables.length > 0) {
             let { buildJsSublayer } = await import('./sublayer');
             this.layer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -344,11 +344,11 @@ export async function buildJsMapImageLayerGenerated(dotNetObject: any, layerId: 
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.sublayers)) {
+    if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsSublayer } = await import('./sublayer');
         properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.subtables)) {
+    if (hasValue(dotNetObject.subtables) && dotNetObject.subtables.length > 0) {
         let { buildJsSublayer } = await import('./sublayer');
         properties.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }

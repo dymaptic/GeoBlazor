@@ -19,6 +19,20 @@ export default class GeographicTransformationStepGenerated implements IPropertyW
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.isInverse)) {
+            this.component.isInverse = dotNetObject.isInverse;
+        }
+        if (hasValue(dotNetObject.wkid)) {
+            this.component.wkid = dotNetObject.wkid;
+        }
+        if (hasValue(dotNetObject.wkt)) {
+            this.component.wkt = dotNetObject.wkt;
+        }
+    }
+    
     async getInverse(): Promise<any> {
         let result = this.component.getInverse();
         let { buildDotNetGeographicTransformationStep } = await import('./geographicTransformationStep');

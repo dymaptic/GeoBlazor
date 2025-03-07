@@ -4,15 +4,15 @@ import { buildDotNetRasterSliceValue } from './rasterSliceValue';
 
 export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterSliceValue: any = {};
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+    if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         jsRasterSliceValue.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.magdirValue)) {
+    if (hasValue(dotNetObject.magdirValue) && dotNetObject.magdirValue.length > 0) {
         jsRasterSliceValue.magdirValue = dotNetObject.magdirValue;
     }
-    if (hasValue(dotNetObject.value)) {
+    if (hasValue(dotNetObject.value) && dotNetObject.value.length > 0) {
         jsRasterSliceValue.value = dotNetObject.value;
     }
     

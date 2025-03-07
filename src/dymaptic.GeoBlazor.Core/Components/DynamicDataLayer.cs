@@ -23,8 +23,9 @@ public class DynamicDataLayer : DynamicLayer
     /// <param name="fields">
     ///     Controls field visibility in the layer. Only specified fields will be visible. If null, all fields are visible in the dynamic layer. The specification for a field object is provided below.
     /// </param>
-    public DynamicDataLayer(DynamicDataSource dataSource, IReadOnlyList<DynamicLayerField>? fields = null)
+    public DynamicDataLayer(DynamicDataSource dataSource, IReadOnlyList<DynamicDataLayerFields>? fields = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005 // Set parameter or member default value.
 
         DataSource = dataSource;
@@ -46,7 +47,7 @@ public class DynamicDataLayer : DynamicLayer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<DynamicLayerField>? Fields { get; set; }
+    public IReadOnlyList<DynamicDataLayerFields>? Fields { get; set; }
 
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
@@ -56,7 +57,7 @@ public class DynamicDataLayer : DynamicLayer
             case DynamicDataSource dataSource:
                 DataSource = dataSource;
                 break;
-            case DynamicLayerField field:
+            case DynamicDataLayerFields field:
                 Fields ??= [];
                 Fields = [..Fields, field];
                 break;
@@ -74,7 +75,7 @@ public class DynamicDataLayer : DynamicLayer
             case DynamicDataSource:
                 DataSource = null;
                 break;
-            case DynamicLayerField field:
+            case DynamicDataLayerFields field:
                 Fields = Fields?.Except([field]).ToList();
                 break;
             default:
@@ -90,7 +91,7 @@ public class DynamicDataLayer : DynamicLayer
 
         if (Fields is not null)
         {
-            foreach (DynamicLayerField field in Fields)
+            foreach (DynamicDataLayerFields field in Fields)
             {
                 field.ValidateRequiredChildren();
             }

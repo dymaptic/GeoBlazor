@@ -16,7 +16,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
         let { buildJsLayerView } = await import('./layerView');
         properties.layerView = await buildJsLayerView(dotNetObject.layerView, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.legendElements)) {
+    if (hasValue(dotNetObject.legendElements) && dotNetObject.legendElements.length > 0) {
         let { buildJsILegendElement } = await import('./iLegendElement');
         properties.legendElements = dotNetObject.legendElements.map(i => buildJsILegendElement(i)) as any;
     }
@@ -36,7 +36,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.scale)) {
         properties.scale = dotNetObject.scale;
     }
-    if (hasValue(dotNetObject.sublayerIds)) {
+    if (hasValue(dotNetObject.sublayerIds) && dotNetObject.sublayerIds.length > 0) {
         properties.sublayerIds = dotNetObject.sublayerIds;
     }
     if (hasValue(dotNetObject.title)) {

@@ -19,6 +19,190 @@ export default class PortalGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.defaultExtent)) {
+            let { buildJsExtent } = await import('./extent');
+            this.component.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
+        }
+        if (hasValue(dotNetObject.featuredGroups) && dotNetObject.featuredGroups.length > 0) {
+            let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+            this.component.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, this.layerId, this.viewId))) as any;
+        }
+
+        if (hasValue(dotNetObject.access)) {
+            this.component.access = dotNetObject.access;
+        }
+        if (hasValue(dotNetObject.allSSL)) {
+            this.component.allSSL = dotNetObject.allSSL;
+        }
+        if (hasValue(dotNetObject.authMode)) {
+            this.component.authMode = dotNetObject.authMode;
+        }
+        if (hasValue(dotNetObject.authorizedCrossOriginDomains) && dotNetObject.authorizedCrossOriginDomains.length > 0) {
+            this.component.authorizedCrossOriginDomains = dotNetObject.authorizedCrossOriginDomains;
+        }
+        if (hasValue(dotNetObject.basemapGalleryGroupQuery)) {
+            this.component.basemapGalleryGroupQuery = dotNetObject.basemapGalleryGroupQuery;
+        }
+        if (hasValue(dotNetObject.basemapGalleryGroupQuery3D)) {
+            this.component.basemapGalleryGroupQuery3D = dotNetObject.basemapGalleryGroupQuery3D;
+        }
+        if (hasValue(dotNetObject.bingKey)) {
+            this.component.bingKey = dotNetObject.bingKey;
+        }
+        if (hasValue(dotNetObject.canListApps)) {
+            this.component.canListApps = dotNetObject.canListApps;
+        }
+        if (hasValue(dotNetObject.canListData)) {
+            this.component.canListData = dotNetObject.canListData;
+        }
+        if (hasValue(dotNetObject.canListPreProvisionedItems)) {
+            this.component.canListPreProvisionedItems = dotNetObject.canListPreProvisionedItems;
+        }
+        if (hasValue(dotNetObject.canProvisionDirectPurchase)) {
+            this.component.canProvisionDirectPurchase = dotNetObject.canProvisionDirectPurchase;
+        }
+        if (hasValue(dotNetObject.canSearchPublic)) {
+            this.component.canSearchPublic = dotNetObject.canSearchPublic;
+        }
+        if (hasValue(dotNetObject.canShareBingPublic)) {
+            this.component.canShareBingPublic = dotNetObject.canShareBingPublic;
+        }
+        if (hasValue(dotNetObject.canSharePublic)) {
+            this.component.canSharePublic = dotNetObject.canSharePublic;
+        }
+        if (hasValue(dotNetObject.canSignInArcGIS)) {
+            this.component.canSignInArcGIS = dotNetObject.canSignInArcGIS;
+        }
+        if (hasValue(dotNetObject.canSignInIDP)) {
+            this.component.canSignInIDP = dotNetObject.canSignInIDP;
+        }
+        if (hasValue(dotNetObject.colorSetsGroupQuery)) {
+            this.component.colorSetsGroupQuery = dotNetObject.colorSetsGroupQuery;
+        }
+        if (hasValue(dotNetObject.commentsEnabled)) {
+            this.component.commentsEnabled = dotNetObject.commentsEnabled;
+        }
+        if (hasValue(dotNetObject.created)) {
+            this.component.created = dotNetObject.created;
+        }
+        if (hasValue(dotNetObject.culture)) {
+            this.component.culture = dotNetObject.culture;
+        }
+        if (hasValue(dotNetObject.customBaseUrl)) {
+            this.component.customBaseUrl = dotNetObject.customBaseUrl;
+        }
+        if (hasValue(dotNetObject.description)) {
+            this.component.description = dotNetObject.description;
+        }
+        if (hasValue(dotNetObject.devBasemapGalleryGroupQuery)) {
+            this.component.devBasemapGalleryGroupQuery = dotNetObject.devBasemapGalleryGroupQuery;
+        }
+        if (hasValue(dotNetObject.eueiEnabled)) {
+            this.component.eueiEnabled = dotNetObject.eueiEnabled;
+        }
+        if (hasValue(dotNetObject.featuredItemsGroupQuery)) {
+            this.component.featuredItemsGroupQuery = dotNetObject.featuredItemsGroupQuery;
+        }
+        if (hasValue(dotNetObject.galleryTemplatesGroupQuery)) {
+            this.component.galleryTemplatesGroupQuery = dotNetObject.galleryTemplatesGroupQuery;
+        }
+        if (hasValue(dotNetObject.hasCategorySchema)) {
+            this.component.hasCategorySchema = dotNetObject.hasCategorySchema;
+        }
+        if (hasValue(dotNetObject.helperServices)) {
+            this.component.helperServices = dotNetObject.helperServices;
+        }
+        if (hasValue(dotNetObject.homePageFeaturedContent)) {
+            this.component.homePageFeaturedContent = dotNetObject.homePageFeaturedContent;
+        }
+        if (hasValue(dotNetObject.homePageFeaturedContentCount)) {
+            this.component.homePageFeaturedContentCount = dotNetObject.homePageFeaturedContentCount;
+        }
+        if (hasValue(dotNetObject.httpPort)) {
+            this.component.httpPort = dotNetObject.httpPort;
+        }
+        if (hasValue(dotNetObject.httpsPort)) {
+            this.component.httpsPort = dotNetObject.httpsPort;
+        }
+        if (hasValue(dotNetObject.ipCntryCode)) {
+            this.component.ipCntryCode = dotNetObject.ipCntryCode;
+        }
+        if (hasValue(dotNetObject.isPortal)) {
+            this.component.isPortal = dotNetObject.isPortal;
+        }
+        if (hasValue(dotNetObject.isReadOnly)) {
+            this.component.isReadOnly = dotNetObject.isReadOnly;
+        }
+        if (hasValue(dotNetObject.layerTemplatesGroupQuery)) {
+            this.component.layerTemplatesGroupQuery = dotNetObject.layerTemplatesGroupQuery;
+        }
+        if (hasValue(dotNetObject.maxTokenExpirationMinutes)) {
+            this.component.maxTokenExpirationMinutes = dotNetObject.maxTokenExpirationMinutes;
+        }
+        if (hasValue(dotNetObject.modified)) {
+            this.component.modified = dotNetObject.modified;
+        }
+        if (hasValue(dotNetObject.name)) {
+            this.component.name = dotNetObject.name;
+        }
+        if (hasValue(dotNetObject.portalHostname)) {
+            this.component.portalHostname = dotNetObject.portalHostname;
+        }
+        if (hasValue(dotNetObject.portalId)) {
+            this.component.id = dotNetObject.portalId;
+        }
+        if (hasValue(dotNetObject.portalMode)) {
+            this.component.portalMode = dotNetObject.portalMode;
+        }
+        if (hasValue(dotNetObject.portalProperties)) {
+            this.component.portalProperties = dotNetObject.portalProperties;
+        }
+        if (hasValue(dotNetObject.recycleBinEnabled)) {
+            this.component.recycleBinEnabled = dotNetObject.recycleBinEnabled;
+        }
+        if (hasValue(dotNetObject.region)) {
+            this.component.region = dotNetObject.region;
+        }
+        if (hasValue(dotNetObject.rotatorPanels) && dotNetObject.rotatorPanels.length > 0) {
+            this.component.rotatorPanels = dotNetObject.rotatorPanels;
+        }
+        if (hasValue(dotNetObject.showHomePageDescription)) {
+            this.component.showHomePageDescription = dotNetObject.showHomePageDescription;
+        }
+        if (hasValue(dotNetObject.supportsHostedServices)) {
+            this.component.supportsHostedServices = dotNetObject.supportsHostedServices;
+        }
+        if (hasValue(dotNetObject.symbolSetsGroupQuery)) {
+            this.component.symbolSetsGroupQuery = dotNetObject.symbolSetsGroupQuery;
+        }
+        if (hasValue(dotNetObject.templatesGroupQuery)) {
+            this.component.templatesGroupQuery = dotNetObject.templatesGroupQuery;
+        }
+        if (hasValue(dotNetObject.units)) {
+            this.component.units = dotNetObject.units;
+        }
+        if (hasValue(dotNetObject.url)) {
+            this.component.url = dotNetObject.url;
+        }
+        if (hasValue(dotNetObject.urlKey)) {
+            this.component.urlKey = dotNetObject.urlKey;
+        }
+        if (hasValue(dotNetObject.use3dBasemaps)) {
+            this.component.use3dBasemaps = dotNetObject.use3dBasemaps;
+        }
+        if (hasValue(dotNetObject.useStandardizedQuery)) {
+            this.component.useStandardizedQuery = dotNetObject.useStandardizedQuery;
+        }
+        if (hasValue(dotNetObject.useVectorBasemaps)) {
+            this.component.useVectorBasemaps = dotNetObject.useVectorBasemaps;
+        }
+        if (hasValue(dotNetObject.vectorBasemapGalleryGroupQuery)) {
+            this.component.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
+        }
+    }
+    
     async createElevationLayers(): Promise<any> {
         return await this.component.createElevationLayers();
     }
@@ -175,7 +359,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
         let { buildJsExtent } = await import('./extent');
         properties.defaultExtent = buildJsExtent(dotNetObject.defaultExtent) as any;
     }
-    if (hasValue(dotNetObject.featuredGroups)) {
+    if (hasValue(dotNetObject.featuredGroups) && dotNetObject.featuredGroups.length > 0) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         properties.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i, layerId, viewId))) as any;
     }
@@ -189,7 +373,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.authMode)) {
         properties.authMode = dotNetObject.authMode;
     }
-    if (hasValue(dotNetObject.authorizedCrossOriginDomains)) {
+    if (hasValue(dotNetObject.authorizedCrossOriginDomains) && dotNetObject.authorizedCrossOriginDomains.length > 0) {
         properties.authorizedCrossOriginDomains = dotNetObject.authorizedCrossOriginDomains;
     }
     if (hasValue(dotNetObject.basemapGalleryGroupQuery)) {
@@ -315,7 +499,7 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.region)) {
         properties.region = dotNetObject.region;
     }
-    if (hasValue(dotNetObject.rotatorPanels)) {
+    if (hasValue(dotNetObject.rotatorPanels) && dotNetObject.rotatorPanels.length > 0) {
         properties.rotatorPanels = dotNetObject.rotatorPanels;
     }
     if (hasValue(dotNetObject.showHomePageDescription)) {

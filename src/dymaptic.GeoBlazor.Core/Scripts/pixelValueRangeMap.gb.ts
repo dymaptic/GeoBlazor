@@ -8,7 +8,7 @@ export async function buildJsPixelValueRangeMapGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.output)) {
         jsPixelValueRangeMap.output = dotNetObject.output;
     }
-    if (hasValue(dotNetObject.range)) {
+    if (hasValue(dotNetObject.range) && dotNetObject.range.length > 0) {
         jsPixelValueRangeMap.range = dotNetObject.range;
     }
     

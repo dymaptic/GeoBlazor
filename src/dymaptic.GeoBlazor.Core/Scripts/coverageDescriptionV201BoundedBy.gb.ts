@@ -9,7 +9,7 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
         jsCoverageDescriptionV201BoundedBy.envelope = buildJsExtent(dotNetObject.envelope) as any;
     }
 
-    if (hasValue(dotNetObject.axisLabels)) {
+    if (hasValue(dotNetObject.axisLabels) && dotNetObject.axisLabels.length > 0) {
         jsCoverageDescriptionV201BoundedBy.axisLabels = dotNetObject.axisLabels;
     }
     if (hasValue(dotNetObject.beginPosition)) {
@@ -24,7 +24,7 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
     if (hasValue(dotNetObject.isEastFirst)) {
         jsCoverageDescriptionV201BoundedBy.isEastFirst = dotNetObject.isEastFirst;
     }
-    if (hasValue(dotNetObject.uomLabels)) {
+    if (hasValue(dotNetObject.uomLabels) && dotNetObject.uomLabels.length > 0) {
         jsCoverageDescriptionV201BoundedBy.uomLabels = dotNetObject.uomLabels;
     }
     

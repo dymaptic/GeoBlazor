@@ -4,7 +4,7 @@ import { buildDotNetILayersMixin } from './iLayersMixin';
 
 export async function buildJsILayersMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsLayersMixin: any = {};
-    if (hasValue(dotNetObject.layers)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
         jsLayersMixin.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }

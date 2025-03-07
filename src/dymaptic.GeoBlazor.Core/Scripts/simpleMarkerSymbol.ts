@@ -2,6 +2,7 @@
 import SimpleMarkerSymbol from '@arcgis/core/symbols/SimpleMarkerSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
+import {buildDotNetSimpleLineSymbol, buildJsOutline} from "./simpleLineSymbol";
 
 
 export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {
@@ -14,7 +15,7 @@ export function buildJsSimpleMarkerSymbol(dotNetObject: any): any {
         properties.angle = dotNetObject.angle;
     }
     if (hasValue(dotNetObject.outline)) {
-        properties.outline = dotNetObject.outline;
+        properties.outline = buildJsOutline(dotNetObject.outline);
     }
     if (hasValue(dotNetObject.path)) {
         properties.path = dotNetObject.path;
@@ -55,7 +56,7 @@ export function buildDotNetSimpleMarkerSymbol(jsObject: any): any {
         dotNetSimpleMarkerSymbol.angle = jsObject.angle;
     }
     if (hasValue(jsObject.outline)) {
-        dotNetSimpleMarkerSymbol.outline = jsObject.outline;
+        dotNetSimpleMarkerSymbol.outline = buildDotNetSimpleLineSymbol(jsObject.outline);
     }
     if (hasValue(jsObject.path)) {
         dotNetSimpleMarkerSymbol.path = jsObject.path;

@@ -5,7 +5,7 @@ import { buildDotNetImageToMapMultirayParameters } from './imageToMapMultirayPar
 
 export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.geometries)) {
+    if (hasValue(dotNetObject.geometries) && dotNetObject.geometries.length > 0) {
         let { buildJsGeometry } = await import('./geometry');
         properties.geometries = dotNetObject.geometries.map(i => buildJsGeometry(i)) as any;
     }
@@ -13,7 +13,7 @@ export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject:
     if (hasValue(dotNetObject.outSpatialReference)) {
         properties.outSpatialReference = sanitize(dotNetObject.outSpatialReference);
     }
-    if (hasValue(dotNetObject.rasterIds)) {
+    if (hasValue(dotNetObject.rasterIds) && dotNetObject.rasterIds.length > 0) {
         properties.rasterIds = dotNetObject.rasterIds;
     }
     let jsImageToMapMultirayParameters = new ImageToMapMultirayParameters(properties);

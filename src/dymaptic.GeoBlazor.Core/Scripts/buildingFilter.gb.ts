@@ -5,7 +5,7 @@ import { buildDotNetBuildingFilter } from './buildingFilter';
 
 export async function buildJsBuildingFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.filterBlocks)) {
+    if (hasValue(dotNetObject.filterBlocks) && dotNetObject.filterBlocks.length > 0) {
         let { buildJsBuildingFilterBlock } = await import('./buildingFilterBlock');
         properties.filterBlocks = await Promise.all(dotNetObject.filterBlocks.map(async i => await buildJsBuildingFilterBlock(i, layerId, viewId))) as any;
     }

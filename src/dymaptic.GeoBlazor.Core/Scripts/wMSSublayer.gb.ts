@@ -34,7 +34,7 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.queryable)) {
         properties.queryable = dotNetObject.queryable;
     }
-    if (hasValue(dotNetObject.spatialReferences)) {
+    if (hasValue(dotNetObject.spatialReferences) && dotNetObject.spatialReferences.length > 0) {
         properties.spatialReferences = dotNetObject.spatialReferences;
     }
     if (hasValue(dotNetObject.title)) {

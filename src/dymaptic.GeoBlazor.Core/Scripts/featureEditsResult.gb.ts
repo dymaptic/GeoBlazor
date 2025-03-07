@@ -4,30 +4,30 @@ import { buildDotNetFeatureEditsResult } from './featureEditsResult';
 
 export async function buildJsFeatureEditsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditsResult: any = {};
-    if (hasValue(dotNetObject.editedFeatureResults)) {
+    if (hasValue(dotNetObject.editedFeatureResults) && dotNetObject.editedFeatureResults.length > 0) {
         let { buildJsEditedFeatureResult } = await import('./editedFeatureResult');
         jsEditsResult.editedFeatureResults = await Promise.all(dotNetObject.editedFeatureResults.map(async i => await buildJsEditedFeatureResult(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.addAttachmentResults)) {
+    if (hasValue(dotNetObject.addAttachmentResults) && dotNetObject.addAttachmentResults.length > 0) {
         jsEditsResult.addAttachmentResults = dotNetObject.addAttachmentResults;
     }
-    if (hasValue(dotNetObject.addFeatureResults)) {
+    if (hasValue(dotNetObject.addFeatureResults) && dotNetObject.addFeatureResults.length > 0) {
         jsEditsResult.addFeatureResults = dotNetObject.addFeatureResults;
     }
-    if (hasValue(dotNetObject.deleteAttachmentResults)) {
+    if (hasValue(dotNetObject.deleteAttachmentResults) && dotNetObject.deleteAttachmentResults.length > 0) {
         jsEditsResult.deleteAttachmentResults = dotNetObject.deleteAttachmentResults;
     }
-    if (hasValue(dotNetObject.deleteFeatureResults)) {
+    if (hasValue(dotNetObject.deleteFeatureResults) && dotNetObject.deleteFeatureResults.length > 0) {
         jsEditsResult.deleteFeatureResults = dotNetObject.deleteFeatureResults;
     }
     if (hasValue(dotNetObject.editMoment)) {
         jsEditsResult.editMoment = dotNetObject.editMoment;
     }
-    if (hasValue(dotNetObject.updateAttachmentResults)) {
+    if (hasValue(dotNetObject.updateAttachmentResults) && dotNetObject.updateAttachmentResults.length > 0) {
         jsEditsResult.updateAttachmentResults = dotNetObject.updateAttachmentResults;
     }
-    if (hasValue(dotNetObject.updateFeatureResults)) {
+    if (hasValue(dotNetObject.updateFeatureResults) && dotNetObject.updateFeatureResults.length > 0) {
         jsEditsResult.updateFeatureResults = dotNetObject.updateFeatureResults;
     }
     

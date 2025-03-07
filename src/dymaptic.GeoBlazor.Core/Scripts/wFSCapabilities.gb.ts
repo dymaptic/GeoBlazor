@@ -4,7 +4,7 @@ import { buildDotNetWFSCapabilities } from './wFSCapabilities';
 
 export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsWFSCapabilities: any = {};
-    if (hasValue(dotNetObject.featureTypes)) {
+    if (hasValue(dotNetObject.featureTypes) && dotNetObject.featureTypes.length > 0) {
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
         jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i, layerId, viewId))) as any;
     }

@@ -4,7 +4,7 @@ import { buildDotNetUniqueValuesResult } from './uniqueValuesResult';
 
 export async function buildJsUniqueValuesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsUniqueValuesResult: any = {};
-    if (hasValue(dotNetObject.uniqueValueInfos)) {
+    if (hasValue(dotNetObject.uniqueValueInfos) && dotNetObject.uniqueValueInfos.length > 0) {
         let { buildJsUniqueValuesResultUniqueValueInfos } = await import('./uniqueValuesResultUniqueValueInfos');
         jsUniqueValuesResult.uniqueValueInfos = await Promise.all(dotNetObject.uniqueValueInfos.map(async i => await buildJsUniqueValuesResultUniqueValueInfos(i, layerId, viewId))) as any;
     }

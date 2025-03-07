@@ -19,6 +19,11 @@ export default class GeometryEngineAsyncGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async buffer(geometry: any,
         distance: any,
         unit: any,

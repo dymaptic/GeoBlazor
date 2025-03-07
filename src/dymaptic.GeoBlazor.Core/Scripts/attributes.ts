@@ -33,3 +33,7 @@ export function buildJsAttributes(attributes: any): any {
     
     return null;
 }
+export async function buildDotNetAttributes(jsObject: any): Promise<any> {
+    let { buildDotNetAttributesGenerated } = await import('./attributes.gb');
+    return await buildDotNetAttributesGenerated(jsObject);
+}

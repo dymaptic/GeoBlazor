@@ -5,28 +5,28 @@ import { buildDotNetGraphApplyEdits } from './graphApplyEdits';
 
 export async function buildJsGraphApplyEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.entityDeletes)) {
+    if (hasValue(dotNetObject.entityDeletes) && dotNetObject.entityDeletes.length > 0) {
         let { buildJsGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
         properties.entityDeletes = await Promise.all(dotNetObject.entityDeletes.map(async i => await buildJsGraphNamedObjectDeletes(i, layerId, viewId))) as any;
     }
-    if (hasValue(dotNetObject.relationshipDeletes)) {
+    if (hasValue(dotNetObject.relationshipDeletes) && dotNetObject.relationshipDeletes.length > 0) {
         let { buildJsGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
         properties.relationshipDeletes = await Promise.all(dotNetObject.relationshipDeletes.map(async i => await buildJsGraphNamedObjectDeletes(i, layerId, viewId))) as any;
     }
 
-    if (hasValue(dotNetObject.entityAdds)) {
+    if (hasValue(dotNetObject.entityAdds) && dotNetObject.entityAdds.length > 0) {
         properties.entityAdds = dotNetObject.entityAdds;
     }
-    if (hasValue(dotNetObject.entityUpdates)) {
+    if (hasValue(dotNetObject.entityUpdates) && dotNetObject.entityUpdates.length > 0) {
         properties.entityUpdates = dotNetObject.entityUpdates;
     }
     if (hasValue(dotNetObject.options)) {
         properties.options = dotNetObject.options;
     }
-    if (hasValue(dotNetObject.relationshipAdds)) {
+    if (hasValue(dotNetObject.relationshipAdds) && dotNetObject.relationshipAdds.length > 0) {
         properties.relationshipAdds = dotNetObject.relationshipAdds;
     }
-    if (hasValue(dotNetObject.relationshipUpdates)) {
+    if (hasValue(dotNetObject.relationshipUpdates) && dotNetObject.relationshipUpdates.length > 0) {
         properties.relationshipUpdates = dotNetObject.relationshipUpdates;
     }
     let jsGraphApplyEdits = new GraphApplyEdits(properties);

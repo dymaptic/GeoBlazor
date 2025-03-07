@@ -4,7 +4,7 @@ import { buildDotNetScaleDependentStops } from './scaleDependentStops';
 
 export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsScaleDependentStops: any = {};
-    if (hasValue(dotNetObject.stops)) {
+    if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
         jsScaleDependentStops.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
     }

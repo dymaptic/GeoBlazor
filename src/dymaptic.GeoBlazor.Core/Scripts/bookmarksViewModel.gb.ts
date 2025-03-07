@@ -19,6 +19,31 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
+            let { buildJsBookmark } = await import('./bookmark');
+            this.component.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
+        }
+        if (hasValue(dotNetObject.capabilities)) {
+            let { buildJsBookmarksCapabilities } = await import('./bookmarksCapabilities');
+            this.component.capabilities = await buildJsBookmarksCapabilities(dotNetObject.capabilities, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.defaultCreateOptions)) {
+            let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+            this.component.defaultCreateOptions = await buildJsBookmarkOptions(dotNetObject.defaultCreateOptions, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.defaultEditOptions)) {
+            let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
+            this.component.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
+
+    }
+    
     async createBookmark(options: any): Promise<any> {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         let jsOptions = await buildJsBookmarkOptions(options, this.layerId, this.viewId) as any;
@@ -137,7 +162,7 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.bookmarks)) {
+    if (hasValue(dotNetObject.bookmarks) && dotNetObject.bookmarks.length > 0) {
         let { buildJsBookmark } = await import('./bookmark');
         properties.bookmarks = await Promise.all(dotNetObject.bookmarks.map(async i => await buildJsBookmark(i))) as any;
     }

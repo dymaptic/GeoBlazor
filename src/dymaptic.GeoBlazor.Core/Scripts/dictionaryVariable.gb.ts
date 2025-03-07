@@ -4,7 +4,7 @@ import { buildDotNetDictionaryVariable } from './dictionaryVariable';
 
 export async function buildJsDictionaryVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsDictionaryVariable: any = {};
-    if (hasValue(dotNetObject.properties)) {
+    if (hasValue(dotNetObject.properties) && dotNetObject.properties.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
         jsDictionaryVariable.properties = dotNetObject.properties.map(i => buildJsIProfileVariable(i)) as any;
     }

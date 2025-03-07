@@ -4,7 +4,7 @@ import { buildDotNetRasterIdentifyOptions } from './rasterIdentifyOptions';
 
 export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterIdentifyOptions: any = {};
-    if (hasValue(dotNetObject.multidimensionalDefinition)) {
+    if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         jsRasterIdentifyOptions.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
     }

@@ -37,7 +37,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.subtables)) {
+        if (hasValue(dotNetObject.subtables) && dotNetObject.subtables.length > 0) {
             let { buildJsSublayer } = await import('./sublayer');
             this.layer.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -89,7 +89,7 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.resampling)) {
             this.layer.resampling = dotNetObject.resampling;
         }
-        if (hasValue(dotNetObject.tileServers)) {
+        if (hasValue(dotNetObject.tileServers) && dotNetObject.tileServers.length > 0) {
             this.layer.tileServers = dotNetObject.tileServers;
         }
         if (hasValue(dotNetObject.title)) {
@@ -281,7 +281,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.subtables)) {
+    if (hasValue(dotNetObject.subtables) && dotNetObject.subtables.length > 0) {
         let { buildJsSublayer } = await import('./sublayer');
         properties.subtables = await Promise.all(dotNetObject.subtables.map(async i => await buildJsSublayer(i, layerId, viewId))) as any;
     }
@@ -333,7 +333,7 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     if (hasValue(dotNetObject.resampling)) {
         properties.resampling = dotNetObject.resampling;
     }
-    if (hasValue(dotNetObject.tileServers)) {
+    if (hasValue(dotNetObject.tileServers) && dotNetObject.tileServers.length > 0) {
         properties.tileServers = dotNetObject.tileServers;
     }
     if (hasValue(dotNetObject.title)) {

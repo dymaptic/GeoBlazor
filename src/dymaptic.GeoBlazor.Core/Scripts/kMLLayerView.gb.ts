@@ -19,6 +19,14 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.visible)) {
+            this.component.visible = dotNetObject.visible;
+        }
+    }
+    
     // region properties
     
     async getAllVisibleMapImages(): Promise<any> {

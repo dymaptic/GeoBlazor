@@ -19,6 +19,36 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
+            let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
+            this.component.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId))) as any;
+        }
+
+        if (hasValue(dotNetObject.height)) {
+            this.component.height = dotNetObject.height;
+        }
+        if (hasValue(dotNetObject.mask)) {
+            this.component.mask = dotNetObject.mask;
+        }
+        if (hasValue(dotNetObject.maskIsAlpha)) {
+            this.component.maskIsAlpha = dotNetObject.maskIsAlpha;
+        }
+        if (hasValue(dotNetObject.pixels)) {
+            this.component.pixels = dotNetObject.pixels;
+        }
+        if (hasValue(dotNetObject.pixelType)) {
+            this.component.pixelType = dotNetObject.pixelType;
+        }
+        if (hasValue(dotNetObject.validPixelCount)) {
+            this.component.validPixelCount = dotNetObject.validPixelCount;
+        }
+        if (hasValue(dotNetObject.width)) {
+            this.component.width = dotNetObject.width;
+        }
+    }
+    
     async addData(planeData: any): Promise<void> {
         this.component.addData(planeData);
     }
@@ -63,7 +93,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
 export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.statistics)) {
+    if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
         properties.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId))) as any;
     }

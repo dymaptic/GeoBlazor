@@ -19,6 +19,11 @@ export default class GeometryEngineGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     // region properties
     
     getProperty(prop: string): any {

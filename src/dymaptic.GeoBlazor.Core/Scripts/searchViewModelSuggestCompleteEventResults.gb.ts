@@ -9,7 +9,7 @@ export async function buildJsSearchViewModelSuggestCompleteEventResultsGenerated
         jsSearchViewModelSuggestCompleteEventResults.source = await buildJsSearchSource(dotNetObject.source, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         jsSearchViewModelSuggestCompleteEventResults.results = dotNetObject.results;
     }
     if (hasValue(dotNetObject.sourceIndex)) {

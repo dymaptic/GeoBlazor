@@ -37,7 +37,7 @@ export default class KMLLayerGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.sublayers)) {
+        if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsKMLSublayer } = await import('./kMLSublayer');
             this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, this.layerId, this.viewId))) as any;
         }
@@ -184,7 +184,7 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.sublayers)) {
+    if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsKMLSublayer } = await import('./kMLSublayer');
         properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsKMLSublayer(i, layerId, viewId))) as any;
     }

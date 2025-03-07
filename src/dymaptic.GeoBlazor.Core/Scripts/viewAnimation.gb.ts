@@ -19,6 +19,15 @@ export default class ViewAnimationGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.target)) {
+            let { buildJsViewpoint } = await import('./viewpoint');
+            this.component.target = buildJsViewpoint(dotNetObject.target) as any;
+        }
+
+    }
+    
     async finish(): Promise<void> {
         this.component.finish();
     }

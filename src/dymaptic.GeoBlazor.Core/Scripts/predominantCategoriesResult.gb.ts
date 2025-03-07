@@ -4,7 +4,7 @@ import { buildDotNetPredominantCategoriesResult } from './predominantCategoriesR
 
 export async function buildJsPredominantCategoriesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsPredominantCategoriesResult: any = {};
-    if (hasValue(dotNetObject.predominantCategoryInfos)) {
+    if (hasValue(dotNetObject.predominantCategoryInfos) && dotNetObject.predominantCategoryInfos.length > 0) {
         let { buildJsPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
         jsPredominantCategoriesResult.predominantCategoryInfos = await Promise.all(dotNetObject.predominantCategoryInfos.map(async i => await buildJsPredominantCategoriesResultPredominantCategoryInfos(i, layerId, viewId))) as any;
     }

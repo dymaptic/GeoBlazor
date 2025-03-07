@@ -17,7 +17,7 @@ export async function buildJsFindImagesParametersGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.maxCount)) {
         properties.maxCount = dotNetObject.maxCount;
     }
-    if (hasValue(dotNetObject.objectIds)) {
+    if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {
         properties.objectIds = dotNetObject.objectIds;
     }
     if (hasValue(dotNetObject.where)) {

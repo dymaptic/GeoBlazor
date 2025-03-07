@@ -33,7 +33,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
             let { buildJsEffect } = await import('./effect');
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
-        if (hasValue(dotNetObject.fields)) {
+        if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
             let { buildJsField } = await import('./field');
             this.layer.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
         }
@@ -61,6 +61,9 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.renderer)) {
+            this.layer.renderer = dotNetObject.iImageryRenderer;
+        }
         if (hasValue(dotNetObject.renderingRule)) {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, this.layerId, this.viewId) as any;
@@ -85,7 +88,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.arcGISLayerId)) {
             this.layer.id = dotNetObject.arcGISLayerId;
         }
-        if (hasValue(dotNetObject.bandIds)) {
+        if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
             this.layer.bandIds = dotNetObject.bandIds;
         }
         if (hasValue(dotNetObject.blendMode)) {
@@ -153,9 +156,6 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.refreshInterval)) {
             this.layer.refreshInterval = dotNetObject.refreshInterval;
-        }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.renderer;
         }
         if (hasValue(dotNetObject.sourceJSON)) {
             this.layer.sourceJSON = dotNetObject.sourceJSON;
@@ -674,7 +674,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsEffect } = await import('./effect');
         properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsField } = await import('./field');
         properties.fields = dotNetObject.fields.map(i => buildJsField(i)) as any;
     }
@@ -711,7 +711,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.iImageryRenderer;
+        properties.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
@@ -737,7 +737,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.arcGISLayerId)) {
         properties.id = dotNetObject.arcGISLayerId;
     }
-    if (hasValue(dotNetObject.bandIds)) {
+    if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
         properties.bandIds = dotNetObject.bandIds;
     }
     if (hasValue(dotNetObject.blendMode)) {

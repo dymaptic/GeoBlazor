@@ -4,7 +4,7 @@ import { buildDotNetJunctionSourceJSON } from './junctionSourceJSON';
 
 export async function buildJsJunctionSourceJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsJunctionSourceJSON: any = {};
-    if (hasValue(dotNetObject.assetGroups)) {
+    if (hasValue(dotNetObject.assetGroups) && dotNetObject.assetGroups.length > 0) {
         let { buildJsAssetGroupJSON } = await import('./assetGroupJSON');
         jsJunctionSourceJSON.assetGroups = await Promise.all(dotNetObject.assetGroups.map(async i => await buildJsAssetGroupJSON(i, layerId, viewId))) as any;
     }

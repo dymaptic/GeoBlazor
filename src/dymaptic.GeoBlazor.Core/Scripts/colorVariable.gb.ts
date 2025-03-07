@@ -9,7 +9,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
         properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.stops)) {
+    if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsColorStop } = await import('./colorStop');
         properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsColorStop(i))) as any;
     }

@@ -19,6 +19,22 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.basemaps) && dotNetObject.basemaps.length > 0) {
+            let { buildJsBasemap } = await import('./basemap');
+            this.component.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, this.layerId, this.viewId))) as any;
+        }
+        if (hasValue(dotNetObject.portal)) {
+            let { buildJsPortal } = await import('./portal');
+            this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.query)) {
+            this.component.query = dotNetObject.query;
+        }
+    }
+    
     async refresh(): Promise<any> {
         return await this.component.refresh();
     }
@@ -65,7 +81,7 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
 
 export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.basemaps)) {
+    if (hasValue(dotNetObject.basemaps) && dotNetObject.basemaps.length > 0) {
         let { buildJsBasemap } = await import('./basemap');
         properties.basemaps = await Promise.all(dotNetObject.basemaps.map(async i => await buildJsBasemap(i, layerId, viewId))) as any;
     }

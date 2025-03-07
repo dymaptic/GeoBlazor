@@ -9,7 +9,7 @@ export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: 
         jsHitTestResult.screenPoint = await buildJsMapViewScreenPoint(dotNetObject.screenPoint, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.results)) {
+    if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         jsHitTestResult.results = dotNetObject.results;
     }
     

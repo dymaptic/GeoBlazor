@@ -19,6 +19,46 @@ export default class CircleGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.center)) {
+            let { buildJsPoint } = await import('./point');
+            this.component.center = buildJsPoint(dotNetObject.center) as any;
+        }
+        if (hasValue(dotNetObject.centroid)) {
+            let { buildJsPoint } = await import('./point');
+            this.component.centroid = buildJsPoint(dotNetObject.centroid) as any;
+        }
+
+        if (hasValue(dotNetObject.geodesic)) {
+            this.component.geodesic = dotNetObject.geodesic;
+        }
+        if (hasValue(dotNetObject.hasM)) {
+            this.component.hasM = dotNetObject.hasM;
+        }
+        if (hasValue(dotNetObject.hasZ)) {
+            this.component.hasZ = dotNetObject.hasZ;
+        }
+        if (hasValue(dotNetObject.isSelfIntersecting)) {
+            this.component.isSelfIntersecting = dotNetObject.isSelfIntersecting;
+        }
+        if (hasValue(dotNetObject.numberOfPoints)) {
+            this.component.numberOfPoints = dotNetObject.numberOfPoints;
+        }
+        if (hasValue(dotNetObject.radius)) {
+            this.component.radius = dotNetObject.radius;
+        }
+        if (hasValue(dotNetObject.radiusUnit)) {
+            this.component.radiusUnit = dotNetObject.radiusUnit;
+        }
+        if (hasValue(dotNetObject.rings) && dotNetObject.rings.length > 0) {
+            this.component.rings = dotNetObject.rings;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            this.component.spatialReference = sanitize(dotNetObject.spatialReference);
+        }
+    }
+    
     async addRing(points: any): Promise<any> {
         let { buildJsPoint } = await import('./point');
         let jsPoints = points.map(i => buildJsPoint(i)) as any;
@@ -154,7 +194,7 @@ export async function buildJsCircleGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.radiusUnit)) {
         properties.radiusUnit = dotNetObject.radiusUnit;
     }
-    if (hasValue(dotNetObject.rings)) {
+    if (hasValue(dotNetObject.rings) && dotNetObject.rings.length > 0) {
         properties.rings = dotNetObject.rings;
     }
     if (hasValue(dotNetObject.spatialReference)) {

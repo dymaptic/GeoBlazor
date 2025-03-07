@@ -29,7 +29,7 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
             let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
             this.widget.knowledgeGraphOptions = await buildJsLayerListKnowledgeGraphOptions(dotNetObject.knowledgeGraphOptions, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.selectedItems)) {
+        if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
             let { buildJsListItem } = await import('./listItem');
             this.widget.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
         }
@@ -253,7 +253,7 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsListItemCreatedFunction', event);
         };
     }
-    if (hasValue(dotNetObject.selectedItems)) {
+    if (hasValue(dotNetObject.selectedItems) && dotNetObject.selectedItems.length > 0) {
         let { buildJsListItem } = await import('./listItem');
         properties.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, layerId, viewId))) as any;
     }

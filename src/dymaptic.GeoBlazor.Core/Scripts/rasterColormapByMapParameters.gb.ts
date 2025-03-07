@@ -4,12 +4,12 @@ import { buildDotNetRasterColormapByMapParameters } from './rasterColormapByMapP
 
 export async function buildJsRasterColormapByMapParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsRasterColormapByMapParameters: any = {};
-    if (hasValue(dotNetObject.rasterValueToColorCollectionColormap)) {
+    if (hasValue(dotNetObject.rasterValueToColorCollectionColormap) && dotNetObject.rasterValueToColorCollectionColormap.length > 0) {
         let { buildJsRasterValueToColor } = await import('./rasterValueToColor');
         jsRasterColormapByMapParameters.colormap = await Promise.all(dotNetObject.rasterValueToColorCollectionColormap.map(async i => await buildJsRasterValueToColor(i, layerId, viewId))) as any;
     }
-    else if (hasValue(dotNetObject.doubleCollectionColormap)) {
-        jsRasterColormapByMapParameters.colormap = dotNetObject.rasterValueToColor;
+    else if (hasValue(dotNetObject.doubleCollectionColormap) && dotNetObject.doubleCollectionColormap.length > 0) {
+        jsRasterColormapByMapParameters.colormap = dotNetObject.doubleCollectionColormap;
     }
 
     if (hasValue(dotNetObject.outputPixelType)) {

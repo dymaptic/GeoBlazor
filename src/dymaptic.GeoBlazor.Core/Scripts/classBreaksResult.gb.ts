@@ -4,7 +4,7 @@ import { buildDotNetClassBreaksResult } from './classBreaksResult';
 
 export async function buildJsClassBreaksResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsClassBreaksResult: any = {};
-    if (hasValue(dotNetObject.classBreakInfos)) {
+    if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsClassBreak } = await import('./classBreak');
         jsClassBreaksResult.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsClassBreak(i, layerId, viewId))) as any;
     }

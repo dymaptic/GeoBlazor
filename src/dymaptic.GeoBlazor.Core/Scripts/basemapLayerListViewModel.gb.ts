@@ -19,6 +19,20 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.basemapTitle)) {
+            this.component.basemapTitle = dotNetObject.basemapTitle;
+        }
+        if (hasValue(dotNetObject.checkPublishStatusEnabled)) {
+            this.component.checkPublishStatusEnabled = dotNetObject.checkPublishStatusEnabled;
+        }
+        if (hasValue(dotNetObject.listModeDisabled)) {
+            this.component.listModeDisabled = dotNetObject.listModeDisabled;
+        }
+    }
+    
     async triggerAction(action: any,
         item: any): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');

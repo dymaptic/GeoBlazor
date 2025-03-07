@@ -9,7 +9,7 @@ export async function buildJsExternalReferencePolygonGenerated(dotNetObject: any
         jsExternalReferencePolygon.spatialReference = await buildJsExternalReferenceSpatialReference(dotNetObject.spatialReference, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.curveRings)) {
+    if (hasValue(dotNetObject.curveRings) && dotNetObject.curveRings.length > 0) {
         jsExternalReferencePolygon.curveRings = dotNetObject.curveRings;
     }
     if (hasValue(dotNetObject.hasM)) {
@@ -18,7 +18,7 @@ export async function buildJsExternalReferencePolygonGenerated(dotNetObject: any
     if (hasValue(dotNetObject.hasZ)) {
         jsExternalReferencePolygon.hasZ = dotNetObject.hasZ;
     }
-    if (hasValue(dotNetObject.rings)) {
+    if (hasValue(dotNetObject.rings) && dotNetObject.rings.length > 0) {
         jsExternalReferencePolygon.rings = dotNetObject.rings;
     }
     

@@ -10,7 +10,7 @@ export async function buildJsImageAngleParametersGenerated(dotNetObject: any, la
         properties.point = buildJsPoint(dotNetObject.point) as any;
     }
 
-    if (hasValue(dotNetObject.angleNames)) {
+    if (hasValue(dotNetObject.angleNames) && dotNetObject.angleNames.length > 0) {
         properties.angleNames = dotNetObject.angleNames;
     }
     if (hasValue(dotNetObject.rasterId)) {

@@ -12,7 +12,7 @@ export async function buildJsPredominantCategoriesPredominantCategoriesParamsGen
         jspredominantCategoriesPredominantCategoriesParams.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
     }
 
-    if (hasValue(dotNetObject.fields)) {
+    if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         jspredominantCategoriesPredominantCategoriesParams.fields = dotNetObject.fields;
     }
     if (hasValue(dotNetObject.forBinning)) {

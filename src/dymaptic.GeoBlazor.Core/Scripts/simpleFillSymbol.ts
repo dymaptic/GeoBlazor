@@ -2,6 +2,7 @@
 import SimpleFillSymbol from '@arcgis/core/symbols/SimpleFillSymbol';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 import {buildDotNetMapColor, buildJsMapColor} from './mapColor';
+import {buildDotNetSimpleLineSymbol, buildJsOutline} from "./simpleLineSymbol";
 
 export function buildJsSimpleFillSymbol(dotNetObject: any): any {
     let properties: any = {};
@@ -10,7 +11,7 @@ export function buildJsSimpleFillSymbol(dotNetObject: any): any {
     }
 
     if (hasValue(dotNetObject.outline)) {
-        properties.outline = dotNetObject.outline;
+        properties.outline = buildJsOutline(dotNetObject.outline);
     }
     if (hasValue(dotNetObject.style)) {
         properties.style = dotNetObject.style;
@@ -30,13 +31,13 @@ export function buildDotNetSimpleFillSymbol(jsObject: any): any {
     }
 
     let dotNetSimpleFillSymbol: any = {
-                jsComponentReference: DotNet.createJSObjectReference(jsObject)
+        jsComponentReference: DotNet.createJSObjectReference(jsObject)
     };
     if (hasValue(jsObject.color)) {
         dotNetSimpleFillSymbol.color = buildDotNetMapColor(jsObject.color);
     }
     if (hasValue(jsObject.outline)) {
-        dotNetSimpleFillSymbol.outline = jsObject.outline;
+        dotNetSimpleFillSymbol.outline = buildDotNetSimpleLineSymbol(jsObject.outline);
     }
     if (hasValue(jsObject.style)) {
         dotNetSimpleFillSymbol.style = jsObject.style;

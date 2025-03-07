@@ -5,7 +5,7 @@ import { buildDotNetImagePixelLocationParameters } from './imagePixelLocationPar
 
 export async function buildJsImagePixelLocationParametersGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
-    if (hasValue(dotNetObject.point)) {
+    if (hasValue(dotNetObject.point) && dotNetObject.point.length > 0) {
         let { buildJsPoint } = await import('./point');
         properties.point = dotNetObject.point.map(i => buildJsPoint(i)) as any;
     }

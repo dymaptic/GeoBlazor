@@ -4,11 +4,11 @@ import { buildDotNetEditedFeatureResultEditedFeaturesUpdates } from './editedFea
 
 export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
-    if (hasValue(dotNetObject.current)) {
+    if (hasValue(dotNetObject.current) && dotNetObject.current.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsEditedFeatureResultEditedFeaturesUpdates.current = dotNetObject.current.map(i => buildJsGraphic(i)) as any;
     }
-    if (hasValue(dotNetObject.original)) {
+    if (hasValue(dotNetObject.original) && dotNetObject.original.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         jsEditedFeatureResultEditedFeaturesUpdates.original = dotNetObject.original.map(i => buildJsGraphic(i)) as any;
     }

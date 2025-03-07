@@ -19,6 +19,18 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.highlightOptions)) {
+            let { buildJsHighlightOptions } = await import('./highlightOptions');
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+        }
+
+        if (hasValue(dotNetObject.visible)) {
+            this.component.visible = dotNetObject.visible;
+        }
+    }
+    
     async highlight(target: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;

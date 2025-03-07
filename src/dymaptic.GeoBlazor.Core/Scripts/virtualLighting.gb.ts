@@ -19,6 +19,14 @@ export default class VirtualLightingGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+        if (hasValue(dotNetObject.directShadowsEnabled)) {
+            this.component.directShadowsEnabled = dotNetObject.directShadowsEnabled;
+        }
+    }
+    
     async cloneWithWebsceneLighting(): Promise<void> {
         this.component.cloneWithWebsceneLighting();
     }

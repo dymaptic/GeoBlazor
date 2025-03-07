@@ -37,7 +37,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.graphics)) {
+        if (hasValue(dotNetObject.graphics) && dotNetObject.graphics.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
             this.layer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
         }
@@ -212,7 +212,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.graphics)) {
+    if (hasValue(dotNetObject.graphics) && dotNetObject.graphics.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
         properties.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
     }

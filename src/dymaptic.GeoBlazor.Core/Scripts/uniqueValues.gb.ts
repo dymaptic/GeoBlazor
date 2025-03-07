@@ -19,6 +19,11 @@ export default class UniqueValuesGenerated implements IPropertyWrapper {
         return this.component;
     }
     
+
+    async updateComponent(dotNetObject: any): Promise<void> {
+
+    }
+    
     async uniqueValues(parameters: any): Promise<any> {
         let { buildJsUniqueValuesUniqueValuesParams } = await import('./uniqueValuesUniqueValuesParams');
         let jsparameters = await buildJsUniqueValuesUniqueValuesParams(parameters, this.layerId, this.viewId) as any;

@@ -4,7 +4,7 @@ import { buildDotNetHeatmapRampElement } from './heatmapRampElement';
 
 export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let jsHeatmapRampElement: any = {};
-    if (hasValue(dotNetObject.infos)) {
+    if (hasValue(dotNetObject.infos) && dotNetObject.infos.length > 0) {
         let { buildJsHeatmapRampStop } = await import('./heatmapRampStop');
         jsHeatmapRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsHeatmapRampStop(i, layerId, viewId))) as any;
     }

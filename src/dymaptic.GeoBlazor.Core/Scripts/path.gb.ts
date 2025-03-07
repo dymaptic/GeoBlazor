@@ -6,7 +6,7 @@ import { buildDotNetPath } from './path';
 export async function buildJsPathGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let properties: any = {};
 
-    if (hasValue(dotNetObject.path)) {
+    if (hasValue(dotNetObject.path) && dotNetObject.path.length > 0) {
         properties.path = dotNetObject.path;
     }
     let jsPath = new Path(properties);
