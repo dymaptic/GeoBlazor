@@ -1441,8 +1441,8 @@ public partial class BasemapLayerListWidget
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "visibleElements", value);
+        await JsComponentReference.InvokeVoidAsync("setVisibleElements", 
+            CancellationTokenSource.Token, value);
     }
     
 #endregion
@@ -1554,6 +1554,15 @@ public partial class BasemapLayerListWidget
                 }
                 
                 return true;
+            case BasemapLayerListWidgetVisibleElements visibleElements:
+                if (visibleElements != VisibleElements)
+                {
+                    VisibleElements = visibleElements;
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -1573,6 +1582,11 @@ public partial class BasemapLayerListWidget
                 WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
+            case BasemapLayerListWidgetVisibleElements _:
+                VisibleElements = null;
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -1590,6 +1604,7 @@ public partial class BasemapLayerListWidget
             }
         }
         ViewModel?.ValidateRequiredGeneratedChildren();
+        VisibleElements?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

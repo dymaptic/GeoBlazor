@@ -24,6 +24,7 @@ public enum TileInfoFormat
     Lerc,
     Lerc2d,
     Pbf,
-    Raw
+    Raw,
+    IndexedVector
 #pragma warning restore CS1591
 }

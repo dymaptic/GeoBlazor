@@ -11,7 +11,7 @@ export async function buildJsImageGPSInfoParametersGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
     if (hasValue(dotNetObject.objectIds) && dotNetObject.objectIds.length > 0) {

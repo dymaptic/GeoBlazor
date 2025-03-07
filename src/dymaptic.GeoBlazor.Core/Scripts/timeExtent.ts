@@ -1,7 +1,7 @@
 // override generated code in this file
 import TimeExtentGenerated from './timeExtent.gb';
 import TimeExtent from '@arcgis/core/TimeExtent';
-import {hasValue} from "./arcGisJsInterop";
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export default class TimeExtentWrapper extends TimeExtentGenerated {
 
@@ -11,9 +11,25 @@ export default class TimeExtentWrapper extends TimeExtentGenerated {
 
 }
 
-export async function buildJsTimeExtent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsTimeExtentGenerated} = await import('./timeExtent.gb');
-    return await buildJsTimeExtentGenerated(dotNetObject, layerId, viewId);
+export async function buildJsTimeExtent(dotNetObject: any): Promise<any> {
+    let properties: any = {};
+
+    if (hasValue(dotNetObject.end)) {
+        properties.end = dotNetObject.end;
+    }
+    if (hasValue(dotNetObject.start)) {
+        properties.start = dotNetObject.start;
+    }
+    
+    let jsTimeExtent = new TimeExtent(properties);
+
+    let timeExtentWrapper = new TimeExtentWrapper(jsTimeExtent);
+    timeExtentWrapper.geoBlazorId = dotNetObject.geoBlazorId;
+    
+    jsObjectRefs[dotNetObject.id] = timeExtentWrapper;
+    arcGisObjectRefs[dotNetObject.id] = jsTimeExtent;
+    
+    return jsTimeExtent;
 }
 
 export function buildDotNetTimeExtent(jsObject: any): any {

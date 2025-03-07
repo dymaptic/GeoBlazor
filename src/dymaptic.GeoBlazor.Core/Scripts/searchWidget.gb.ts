@@ -37,10 +37,6 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
             let { buildJsSearchSource } = await import('./searchSource');
             this.widget.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsSearchViewModel } = await import('./searchViewModel');
-            this.widget.viewModel = await buildJsSearchViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.activeMenu)) {
             this.widget.activeMenu = dotNetObject.activeMenu;

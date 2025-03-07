@@ -21,10 +21,6 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-            this.widget.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;

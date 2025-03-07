@@ -41,10 +41,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
             let { buildJsPoint } = await import('./point');
             this.widget.location = buildJsPoint(dotNetObject.location) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsPopupViewModel } = await import('./popupViewModel');
-            this.widget.viewModel = await buildJsPopupViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsPopupVisibleElements } = await import('./popupVisibleElements');
             this.widget.visibleElements = await buildJsPopupVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;

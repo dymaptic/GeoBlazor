@@ -33,10 +33,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
             let { buildJsListItem } = await import('./listItem');
             this.widget.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsLayerListViewModel } = await import('./layerListViewModel');
-            this.widget.viewModel = await buildJsLayerListViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsLayerListVisibleElements } = await import('./layerListVisibleElements');
             this.widget.visibleElements = await buildJsLayerListVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;

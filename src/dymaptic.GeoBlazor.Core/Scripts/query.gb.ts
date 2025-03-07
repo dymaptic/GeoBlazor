@@ -15,7 +15,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
     if (hasValue(dotNetObject.aggregateIds) && dotNetObject.aggregateIds.length > 0) {

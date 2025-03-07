@@ -25,10 +25,6 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
             let { buildJsBasemap } = await import('./basemap');
             this.widget.nextBasemap = await buildJsBasemap(dotNetObject.nextBasemap, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-            this.widget.viewModel = await buildJsBasemapToggleViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
             this.widget.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;

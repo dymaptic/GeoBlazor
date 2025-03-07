@@ -25,9 +25,9 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
             let { buildJsListItem } = await import('./listItem');
             this.widget.selectedItems = await Promise.all(dotNetObject.selectedItems.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-            this.widget.viewModel = await buildJsBasemapLayerListViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
+        if (hasValue(dotNetObject.visibleElements)) {
+            let { buildJsBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
+            this.widget.visibleElements = await buildJsBasemapLayerListWidgetVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
         }
 
         if (hasValue(dotNetObject.baseFilterText)) {
@@ -80,9 +80,6 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         if (hasValue(dotNetObject.visible)) {
             this.widget.visible = dotNetObject.visible;
-        }
-        if (hasValue(dotNetObject.visibleElements)) {
-            this.widget.visibleElements = dotNetObject.visibleElements;
         }
         if (hasValue(dotNetObject.widgetId)) {
             this.widget.id = dotNetObject.widgetId;
@@ -191,6 +188,20 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         this.widget.viewModel = await  buildJsBasemapLayerListViewModel(value, this.layerId, this.viewId);
     }
     
+    async getVisibleElements(): Promise<any> {
+        if (!hasValue(this.widget.visibleElements)) {
+            return null;
+        }
+        
+        let { buildDotNetBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
+        return await buildDotNetBasemapLayerListWidgetVisibleElements(this.widget.visibleElements);
+    }
+    
+    async setVisibleElements(value: any): Promise<void> {
+        let { buildJsBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
+        this.widget.visibleElements = await  buildJsBasemapLayerListWidgetVisibleElements(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.widget[prop];
     }
@@ -225,6 +236,10 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
         properties.viewModel = await buildJsBasemapLayerListViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.visibleElements)) {
+        let { buildJsBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
+        properties.visibleElements = await buildJsBasemapLayerListWidgetVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.baseFilterText)) {
@@ -277,9 +292,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.visible)) {
         properties.visible = dotNetObject.visible;
-    }
-    if (hasValue(dotNetObject.visibleElements)) {
-        properties.visibleElements = dotNetObject.visibleElements;
     }
     if (hasValue(dotNetObject.widgetId)) {
         properties.id = dotNetObject.widgetId;
@@ -357,6 +369,11 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
         dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, layerId, viewId);
     }
     
+    if (hasValue(jsObject.visibleElements)) {
+        let { buildDotNetBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
+        dotNetBasemapLayerListWidget.visibleElements = await buildDotNetBasemapLayerListWidgetVisibleElements(jsObject.visibleElements);
+    }
+    
     if (hasValue(jsObject.baseFilterText)) {
         dotNetBasemapLayerListWidget.baseFilterText = jsObject.baseFilterText;
     }
@@ -431,10 +448,6 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
     
     if (hasValue(jsObject.visible)) {
         dotNetBasemapLayerListWidget.visible = jsObject.visible;
-    }
-    
-    if (hasValue(jsObject.visibleElements)) {
-        dotNetBasemapLayerListWidget.visibleElements = jsObject.visibleElements;
     }
     
     if (hasValue(jsObject.id)) {

@@ -29,10 +29,6 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
             let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
             this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, this.layerId, this.viewId))) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsLegendViewModel } = await import('./legendViewModel');
-            this.widget.viewModel = await buildJsLegendViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.basemapLegendVisible)) {
             this.widget.basemapLegendVisible = dotNetObject.basemapLegendVisible;

@@ -21,10 +21,6 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsScaleBarViewModel } = await import('./scaleBarViewModel');
-            this.widget.viewModel = await buildJsScaleBarViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;

@@ -162,6 +162,7 @@ public partial class LayerListWidget : Widget
     [JSInvokable]
     public async Task<object?> OnListItemCreated(ListItem item)
     {
+        item.Parent = this;
         if (OnListItemCreatedHandler is not null)
         {
             ListItem result = await OnListItemCreatedHandler!.Invoke(item);

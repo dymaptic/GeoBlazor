@@ -19,13 +19,13 @@
     <div class="form-group">
         <label>
             Toggle Reference Layers Visibility in Widget
-            <input type="checkbox" @bind="_showReferenceLayers" />
+            <input type="checkbox" @onchange="ToggleReferenceLayersVisibility" />
         </label>
     </div>
     <div class="form-group">
         <label>
             Toggle Base Layers Visibility in Widget
-            <input type="checkbox" @bind="_showBaseLayers" />
+            <input type="checkbox" @onchange="ToggleBaseLayersVisibility" />
         </label>
     </div>
 </div>
@@ -39,8 +39,7 @@
                 <PortalItem PortalItemId="bfefe7a603c94fc29edca0f4a6662b44" />
             </WebScene>
             <BasemapLayerListWidget Position="OverlayPosition.TopRight">
-                <BasemapLayerListWidgetVisibleElements BaseLayers="_showBaseLayers"
-                                                       ReferenceLayers="_showReferenceLayers" />
+                <BasemapLayerListWidgetVisibleElements @ref="_visibleElements" />
             </BasemapLayerListWidget>
         </SceneView>
     }
@@ -52,8 +51,7 @@
                 <PortalItem PortalItemId="bfefe7a603c94fc29edca0f4a6662b44" />
             </WebScene>
             <BasemapLayerListWidget ContainerId="widget-holder">
-                <BasemapLayerListWidgetVisibleElements BaseLayers="_showBaseLayers"
-                                                       ReferenceLayers="_showReferenceLayers" />
+                <BasemapLayerListWidgetVisibleElements  @ref="_visibleElements" />
             </BasemapLayerListWidget>
         </SceneView>
     }
@@ -70,9 +68,25 @@
             StateHasChanged();
         }
     }
+    
+    private async Task ToggleReferenceLayersVisibility()
+    {
+        if (_visibleElements != null)
+        {
+            bool referenceLayersVisible = await _visibleElements.GetReferenceLayers() ?? false;
+            await _visibleElements.SetReferenceLayers(!referenceLayersVisible);
+        }
+    }
+    
+    private async Task ToggleBaseLayersVisibility()
+    {
+        if (_visibleElements != null)
+        {
+            bool baseLayersVisible = await _visibleElements.GetBaseLayers() ?? false;
+            await _visibleElements.SetBaseLayers(!baseLayersVisible);
+        }
+    }
 
     private int? _windowWidth;
-    private bool _showReferenceLayers = true;
-    private bool _showBaseLayers = true;
-
+    private BasemapLayerListWidgetVisibleElements? _visibleElements;
 }

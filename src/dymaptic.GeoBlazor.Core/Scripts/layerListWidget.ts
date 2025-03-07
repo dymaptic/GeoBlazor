@@ -18,7 +18,7 @@ export async function buildJsLayerListWidget(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.hasCustomHandler) && dotNetObject.hasCustomHandler) {
         let {buildDotNetListItem} = await import('./listItem');
         widget.listItemCreatedFunction = async (evt) => {
-            const dotNetListItem = await buildDotNetListItem(evt.item);
+            const dotNetListItem = await buildDotNetListItem(evt.item, layerId, viewId);
             const returnItem = await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnListItemCreated', dotNetListItem) as DotNetListItem;
             if (hasValue(returnItem) && hasValue(evt.item)) {
                 let {updateListItem} = await import('./listItem');

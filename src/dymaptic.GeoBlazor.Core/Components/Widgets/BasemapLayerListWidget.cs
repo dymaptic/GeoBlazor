@@ -224,6 +224,7 @@ public partial class BasemapLayerListWidget : Widget
     [JSInvokable]
     public async Task<object> OnBaseListItemCreated(ListItem item)
     {
+        item.Parent = this;
         ListItem result = await OnBaseListItemCreatedHandler!.Invoke(item);
 
         return (object)result;
@@ -242,6 +243,7 @@ public partial class BasemapLayerListWidget : Widget
     [JSInvokable]
     public async Task<object> OnReferenceListItemCreated(ListItem item)
     {
+        item.Parent = this;
         ListItem result = await OnReferenceListItemCreatedHandler!.Invoke(item);
         
         return (object)result;

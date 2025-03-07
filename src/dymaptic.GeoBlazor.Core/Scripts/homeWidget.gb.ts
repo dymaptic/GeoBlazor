@@ -25,10 +25,6 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
             let { buildJsGoToOverride } = await import('./goToOverride');
             this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsHomeViewModel } = await import('./homeViewModel');
-            this.widget.viewModel = await buildJsHomeViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.viewpoint)) {
             let { buildJsViewpoint } = await import('./viewpoint');
             this.widget.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;

@@ -29,10 +29,6 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
             let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
             this.widget.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-            this.widget.viewModel = await buildJsBasemapGalleryViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.disabled)) {
             this.widget.disabled = dotNetObject.disabled;

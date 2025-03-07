@@ -27,7 +27,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
-            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, this.layerId, this.viewId) as any;
+            this.component.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
         }
 
         if (hasValue(dotNetObject.distance)) {
@@ -78,7 +78,7 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
     
     async setTimeExtent(value: any): Promise<void> {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        this.component.timeExtent = await  buildJsTimeExtent(value, this.layerId, this.viewId);
+        this.component.timeExtent = await  buildJsTimeExtent(value);
     }
     
     getProperty(prop: string): any {
@@ -99,7 +99,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
     if (hasValue(dotNetObject.distance)) {

@@ -27,31 +27,21 @@ import Accessor from "@arcgis/core/core/Accessor";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import AuthenticationManager from "./authenticationManager";
 import Basemap from "@arcgis/core/Basemap";
-import BasemapLayerList from "@arcgis/core/widgets/BasemapLayerList";
 import BasemapStyle from "@arcgis/core/support/BasemapStyle";
-import Bookmarks from "@arcgis/core/widgets/Bookmarks";
 import Camera from "@arcgis/core/Camera";
 import Color from "@arcgis/core/Color";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import FeatureSet from "@arcgis/core/rest/support/FeatureSet";
-import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import GeometryEngineWrapper from "./geometryEngine";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
-import ImageryLayer from "@arcgis/core/layers/ImageryLayer.js";
-import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer.js";
 import Layer from "@arcgis/core/layers/Layer";
-import ListItem from "@arcgis/core/widgets/LayerList/ListItem";
-import ListItemPanel from "@arcgis/core/widgets/LayerList/ListItemPanel";
 import LocatorWrapper from "./locationService";
-import LOD from "@arcgis/core/layers/support/LOD";
 import Map from "@arcgis/core/Map";
-import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import MapView from "@arcgis/core/views/MapView";
 // @ts-ignore
 import normalizeUtils from "@arcgis/core/geometry/support/normalizeUtils";
-import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer";
 import Point from "@arcgis/core/geometry/Point";
 import Polygon from "@arcgis/core/geometry/Polygon";
 import Polyline from "@arcgis/core/geometry/Polyline";
@@ -63,12 +53,9 @@ import Query from "@arcgis/core/rest/support/Query";
 import RasterStretchRenderer from "@arcgis/core/renderers/RasterStretchRenderer";
 import RouteParameters from "@arcgis/core/rest/support/RouteParameters";
 import SceneView from "@arcgis/core/views/SceneView";
-import Search from "@arcgis/core/widgets/Search";
-import SearchSource from "@arcgis/core/widgets/Search/SearchSource";
 import ServiceAreaParameters from "@arcgis/core/rest/support/ServiceAreaParameters";
 import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 import SpatialReference from "@arcgis/core/geometry/SpatialReference";
-import TileInfo from "@arcgis/core/layers/support/TileInfo";
 import TileLayer from "@arcgis/core/layers/TileLayer";
 import View from "@arcgis/core/views/View";
 import WebMap from "@arcgis/core/WebMap";
@@ -86,8 +73,6 @@ import {buildDotNetGeometry, buildJsGeometry} from './geometry';
 import {buildDotNetSymbol, buildJsSymbol} from './symbol';
 import {buildDotNetPopupTemplate} from './popupTemplate';
 import {buildDotNetHitTestResult, buildViewExtentUpdate} from './mapView';
-import {buildJsRenderer} from './renderer';
-import {buildJsLabel} from './label';
 import {buildJsAttributes} from './attributes';
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
@@ -559,7 +544,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
     view.on('layerview-create', async (evt) => {
         try {
             // find objectRef id by layer
-            const layerGeoBlazorId = Object.keys(arcGisObjectRefs).find(key => arcGisObjectRefs[key] === evt.layer);
+            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
 
             let isBasemapLayer = false;
             let isReferenceLayer = false;
@@ -680,16 +665,18 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
 
     if (activeEventHandlers.includes('OnLayerViewCreateError')) {
         view.on('layerview-create-error', async (evt) => {
+            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
             let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
-            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt);
+            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewCreateError', dnEvent);
         });
     }
 
     if (activeEventHandlers.includes('OnLayerViewDestroy')) {
         view.on('layerview-destroy', async (evt) => {
+            const layerGeoBlazorId = lookupGeoBlazorId(evt.layer);
             let { buildDotNetViewLayerviewCreateErrorEvent } = await import('./viewLayerviewCreateErrorEvent');
-            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt);
+            const dnEvent = await buildDotNetViewLayerviewCreateErrorEvent(evt, layerGeoBlazorId, viewId);
             await dotNetRef.invokeMethodAsync('OnJavascriptLayerViewDestroy', dnEvent);
         });
     }
@@ -1276,7 +1263,7 @@ export function removeGraphicPopupTemplate(graphicId: string): void {
 export async function getGraphicPopupTemplate(id: string, layerId: string | null, viewId: string): Promise<DotNetPopupTemplate | null> {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic === null) return null;
-    return await buildDotNetPopupTemplate(graphic.popupTemplate);
+    return await buildDotNetPopupTemplate(graphic.popupTemplate, layerId, viewId);
 }
 
 export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
@@ -1307,7 +1294,7 @@ export function getObjectIdForGraphic(id: string, layerId: string | null, viewId
 export async function getEffectivePopupTemplate(graphic: any, defaultPopupTemplateEnabled: any): Promise<any> {
     let jsGraphic = buildJsGraphic(graphic);
     let result = jsGraphic?.getEffectivePopupTemplate(defaultPopupTemplateEnabled);
-    return await buildDotNetPopupTemplate(result);
+    return await buildDotNetPopupTemplate(result, graphic.layerId, graphic.viewId);
 }
 
 export function lookupJsGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {

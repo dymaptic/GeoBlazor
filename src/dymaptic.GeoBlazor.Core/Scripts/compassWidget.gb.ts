@@ -25,10 +25,6 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
             let { buildJsGoToOverride } = await import('./goToOverride');
             this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsCompassViewModel } = await import('./compassViewModel');
-            this.widget.viewModel = await buildJsCompassViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;

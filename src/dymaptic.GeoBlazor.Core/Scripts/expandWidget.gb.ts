@@ -21,10 +21,6 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsExpandViewModel } = await import('./expandViewModel');
-            this.widget.viewModel = await buildJsExpandViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.autoCollapse)) {
             this.widget.autoCollapse = dotNetObject.autoCollapse;

@@ -29,10 +29,6 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
             let { buildJsGraphic } = await import('./graphic');
             this.widget.graphic = buildJsGraphic(dotNetObject.graphic) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsLocateViewModel } = await import('./locateViewModel');
-            this.widget.viewModel = await buildJsLocateViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.geolocationOptions)) {
             this.widget.geolocationOptions = dotNetObject.geolocationOptions;

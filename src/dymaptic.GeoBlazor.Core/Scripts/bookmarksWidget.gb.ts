@@ -37,10 +37,6 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
             let { buildJsGoToOverride } = await import('./goToOverride');
             this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsBookmarksViewModel } = await import('./bookmarksViewModel');
-            this.widget.viewModel = await buildJsBookmarksViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
             this.widget.visibleElements = await buildJsBookmarksVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
@@ -292,7 +288,9 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     });
     
     jsBookmarks.on('bookmark-select', async (evt: any) => {
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', evt);
+        let { buildDotNetBookmarkSelectEvent } = await import('./bookmarkSelectEvent');
+        let dnEvent = await buildDotNetBookmarkSelectEvent(evt);
+        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', dnEvent);
     });
     
 

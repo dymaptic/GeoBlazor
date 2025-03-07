@@ -6,7 +6,7 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     let jsTemporalSceneLayer: any = {};
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
-        jsTemporalSceneLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent, layerId, viewId) as any;
+        jsTemporalSceneLayer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');

@@ -368,15 +368,6 @@ public partial class SliderWidget: Widget
         return await JsComponentReference.InvokeAsync<IReadOnlyList<ElementReference>>("getLabelElements");
     }
 
-    /// <summary>
-    ///     Retrieves an array of strings associated with 'values' generated using an internal label formatter or the values returned from labelFormatFunction.
-    /// </summary>
-    public async Task<IReadOnlyList<string>?> GetLabels()
-    {
-        if (JsComponentReference is null) return null;
-        
-        return await JsComponentReference.InvokeAsync<IReadOnlyList<string>>("getLabels");
-    }
     
     /// <summary>
     ///     Retrieves the HTML Element node representing the max value label. You can use this property to customize the style and attach event handlers.

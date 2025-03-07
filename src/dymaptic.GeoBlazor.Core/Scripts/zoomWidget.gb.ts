@@ -21,10 +21,6 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsZoomViewModel } = await import('./zoomViewModel');
-            this.widget.viewModel = await buildJsZoomViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;

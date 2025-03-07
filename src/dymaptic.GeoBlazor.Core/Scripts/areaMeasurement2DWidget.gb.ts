@@ -21,10 +21,6 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-            this.widget.viewModel = await buildJsAreaMeasurement2DViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;

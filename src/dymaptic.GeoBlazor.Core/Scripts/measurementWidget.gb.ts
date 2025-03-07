@@ -21,10 +21,6 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsMeasurementViewModel } = await import('./measurementViewModel');
-            this.widget.viewModel = await buildJsMeasurementViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
 
         if (hasValue(dotNetObject.activeTool)) {
             this.widget.activeTool = dotNetObject.activeTool;

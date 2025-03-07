@@ -25,10 +25,6 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
             let { buildJsTickConfig } = await import('./tickConfig');
             this.widget.tickConfigs = dotNetObject.tickConfigs.map(i => buildJsTickConfig(i)) as any;
         }
-        if (hasValue(dotNetObject.viewModel)) {
-            let { buildJsSliderViewModel } = await import('./sliderViewModel');
-            this.widget.viewModel = await buildJsSliderViewModel(dotNetObject.viewModel, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
             this.widget.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
