@@ -25,7 +25,7 @@
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled>false</CompressionEnabled>
+        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
         <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
     </PropertyGroup>
 
@@ -77,10 +77,6 @@
         <Folder Include="wwwroot/assets/" />
         <Folder Include="wwwroot/js/" />
         <Folder Include="Documentation/" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Model\TimeSliderAction.cs" />
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">

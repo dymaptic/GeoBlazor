@@ -36,6 +36,7 @@ public enum LabelPlacement
     CenterBefore,
     CenterStart,
     CenterEnd,
-    AlwaysHorizontal
+    AlwaysHorizontal,
+    Dynamic
 #pragma warning restore CS1591
 }
