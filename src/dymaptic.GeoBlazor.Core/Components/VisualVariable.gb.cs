@@ -346,6 +346,7 @@ public abstract partial class VisualVariable
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -364,6 +365,7 @@ public abstract partial class VisualVariable
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

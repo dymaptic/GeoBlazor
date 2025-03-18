@@ -38,10 +38,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Response format.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> allows for cancelable requests.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="StringBody">
 ///     If uploading a file, specify the form data or element used to submit the file here.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>

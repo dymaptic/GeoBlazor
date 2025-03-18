@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 [CodeGenerationIgnore]
 public enum LayerType
 {
+#pragma warning disable CS1591
     BaseDynamic,
     BaseElevation,
     BaseTile,
@@ -53,6 +54,7 @@ public enum LayerType
     WFS,
     WMS,
     WMTS
+#pragma warning restore CS1591
 }
 
 internal class LayerTypeConverter : JsonConverter<LayerType>

@@ -58,6 +58,7 @@ public partial class LayerSearchSource : SearchSource
         }
     }
 
+    /// <inheritdoc />
     public override void ValidateRequiredChildren()
     {
         Layer?.ValidateRequiredChildren();

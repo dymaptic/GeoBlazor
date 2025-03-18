@@ -171,6 +171,7 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -190,6 +191,7 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

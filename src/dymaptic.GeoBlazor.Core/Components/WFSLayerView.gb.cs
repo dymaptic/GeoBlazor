@@ -918,6 +918,7 @@ public partial class WFSLayerView : LayerView,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -954,6 +955,7 @@ public partial class WFSLayerView : LayerView,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -276,6 +276,7 @@ public partial class BasemapToggleViewModel : MapComponent
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -294,6 +295,7 @@ public partial class BasemapToggleViewModel : MapComponent
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

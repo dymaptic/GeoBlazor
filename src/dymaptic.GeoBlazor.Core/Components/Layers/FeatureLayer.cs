@@ -880,7 +880,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     }
 
     /// <summary>
-    ///     Executes a TopFeaturesQuery against a feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned. To query for ObjectIDs of features/graphics available to or visible in the View on the client rather than making a server-side query, you must use the <see cref="FeatureLayerView.QueryTopObjectIds" /> method.
+    ///     Executes a TopFeaturesQuery against a feature service and returns an array of Object IDs for features that satisfy the input query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
     /// </summary>
     /// <param name="query">
     ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.

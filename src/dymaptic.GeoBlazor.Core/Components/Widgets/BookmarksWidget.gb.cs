@@ -1069,6 +1069,7 @@ public partial class BookmarksWidget : IGoTo
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1106,6 +1107,7 @@ public partial class BookmarksWidget : IGoTo
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -1,8 +1,15 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
+/// <summary>
+///     The RelatedRecordsInfoFieldOrder class indicates the field display order for the related records in a layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-RelatedRecordsInfoFieldOrder.html">ArcGIS Maps SDK for JavaScript</a>
+/// </summary>
 [CodeGenerationIgnore]
 public class RelatedRecordsInfoFieldOrder : MapComponent
 {
+    /// <summary>
+    ///     Parameterless constructor for use as a Razor Component.
+    /// </summary>
     [ActivatorUtilitiesConstructor]
     public RelatedRecordsInfoFieldOrder()
     {

@@ -151,6 +151,7 @@ public partial class PieChartMediaInfo : IChartMediaInfo
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -169,6 +170,7 @@ public partial class PieChartMediaInfo : IChartMediaInfo
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

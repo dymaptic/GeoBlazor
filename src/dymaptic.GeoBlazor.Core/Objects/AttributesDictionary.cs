@@ -63,7 +63,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
                         typedValue = dateValue;
                     }
                 }
-                _backingDictionary[kvp.Key] = (typedValue ?? default(object?))!;
+                _backingDictionary[kvp.Key] = (typedValue ?? null)!;
             }
             else
             {
@@ -366,6 +366,7 @@ public class AttributesDictionary : IEquatable<AttributesDictionary>, IEnumerabl
         return _backingDictionary.ContainsValue(value);
     }
 
+    /// <inheritdoc />
     public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
     {
         return _backingDictionary.GetEnumerator();

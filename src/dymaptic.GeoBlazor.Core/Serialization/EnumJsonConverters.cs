@@ -133,7 +133,8 @@ public class DrawingToolStringConverter : EnumToKebabCaseStringConverter<Drawing
     }
 }
 
-public class EnumToTypeScriptEnumConverter<T>: EnumToKebabCaseStringConverter<T> where T : notnull
+
+internal class EnumToTypeScriptEnumConverter<T>: EnumToKebabCaseStringConverter<T> where T : notnull
 {
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
@@ -142,6 +143,7 @@ public class EnumToTypeScriptEnumConverter<T>: EnumToKebabCaseStringConverter<T>
         writer.WriteStringValue($"{enumName}.{Enum.GetName(enumType, value)}");
     }
 }
+
 
 internal class EnumRelationshipConverter<T> : EnumToKebabCaseStringConverter<T> where T : notnull
 {

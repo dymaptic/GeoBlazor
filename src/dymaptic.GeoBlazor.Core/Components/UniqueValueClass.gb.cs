@@ -353,6 +353,7 @@ public partial class UniqueValueClass : MapComponent
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -381,6 +382,7 @@ public partial class UniqueValueClass : MapComponent
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

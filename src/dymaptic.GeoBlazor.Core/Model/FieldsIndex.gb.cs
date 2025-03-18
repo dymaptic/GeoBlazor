@@ -22,7 +22,10 @@ public partial record FieldsIndex(
     
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    protected readonly CancellationTokenSource _cancellationTokenSource = new();
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>
@@ -39,7 +42,7 @@ public partial record FieldsIndex(
         
         return await JsComponentReference!.InvokeAsync<Field?>(
             "get", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             fieldName);
     }
     
@@ -57,7 +60,7 @@ public partial record FieldsIndex(
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "getTimeZone", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             fieldOrFieldName);
     }
     
@@ -75,7 +78,7 @@ public partial record FieldsIndex(
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "has", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             fieldName);
     }
     
@@ -93,7 +96,7 @@ public partial record FieldsIndex(
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isDateField", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             fieldName);
     }
     

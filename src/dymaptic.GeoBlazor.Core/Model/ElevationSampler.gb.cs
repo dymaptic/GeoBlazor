@@ -36,7 +36,10 @@ public partial record ElevationSampler(
 {
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    protected readonly CancellationTokenSource _cancellationTokenSource = new();
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>
@@ -57,7 +60,7 @@ public partial record ElevationSampler(
         
         return await JsComponentReference!.InvokeAsync<double?>(
             "elevationAt", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             x,
             y);
     }
@@ -76,7 +79,7 @@ public partial record ElevationSampler(
         
         return await JsComponentReference!.InvokeAsync<Geometry?>(
             "queryElevation", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             geometry);
     }
     

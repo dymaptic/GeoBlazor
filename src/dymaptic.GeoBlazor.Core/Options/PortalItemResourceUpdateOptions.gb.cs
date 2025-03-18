@@ -10,10 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     default "inherit"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#update">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     Signal object that can be used to abort the asynchronous task.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#update">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record PortalItemResourceUpdateOptions(
     PortalItemResourceUpdateOptionsAccess? Access = null)
 {

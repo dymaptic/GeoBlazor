@@ -1512,6 +1512,7 @@ public partial class WMTSLayer : Layer,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1530,6 +1531,7 @@ public partial class WMTSLayer : Layer,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

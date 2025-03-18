@@ -292,6 +292,7 @@ public abstract partial class Layer : MapComponent
         base.ValidateRequiredChildren();
     }
 
+    /// <inheritdoc />
     [JSInvokable]
     public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
         string? instantiatedComponentJson)
@@ -354,6 +355,9 @@ public abstract partial class Layer : MapComponent
         }
     }
 
+    /// <summary>
+    ///     Updates the layer internally. Not intended for public use.
+    /// </summary>
     public async Task UpdateLayer()
     {
         LayerChanged = false;

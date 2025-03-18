@@ -275,6 +275,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -303,6 +304,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -6,6 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<WidgetType>))]
 public enum WidgetType
 {
+#pragma warning disable CS1591
     AreaMeasurement2D,
     AreaMeasurement3D,
     Attachments,
@@ -78,4 +79,5 @@ public enum WidgetType
     VideoPlayer,
     Weather,
     Zoom
+#pragma warning restore CS1591
 }

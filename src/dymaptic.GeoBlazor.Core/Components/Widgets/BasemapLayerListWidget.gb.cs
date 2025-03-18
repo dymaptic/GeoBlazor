@@ -1531,6 +1531,7 @@ public partial class BasemapLayerListWidget
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1568,6 +1569,7 @@ public partial class BasemapLayerListWidget
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

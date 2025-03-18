@@ -1,5 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
+/// <summary>
+///   Interface for components that can be used to override the goTo() method.
+/// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IGoTo>))]
 [CodeGenerationIgnore]
 public interface IGoTo

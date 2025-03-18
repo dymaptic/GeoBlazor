@@ -2556,6 +2556,7 @@ public partial class WCSLayer : IBlendLayer,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -2639,6 +2640,7 @@ public partial class WCSLayer : IBlendLayer,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

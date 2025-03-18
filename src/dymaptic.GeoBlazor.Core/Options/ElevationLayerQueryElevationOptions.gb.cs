@@ -18,10 +18,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     Indicates whether to return additional sample information for each coordinate.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record ElevationLayerQueryElevationOptions(
     string? DemResolution = null,
     double? NoDataValue = null,

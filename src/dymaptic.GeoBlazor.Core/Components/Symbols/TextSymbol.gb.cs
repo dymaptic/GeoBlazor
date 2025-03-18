@@ -1380,6 +1380,7 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1398,6 +1399,7 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

@@ -2,7 +2,7 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 
 /// <summary>
 ///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="Event">
+/// </summary>/// <param name="event">
 ///    
 /// </param>
 public delegate Task LayerListListItemCreatedHandler(string @event);

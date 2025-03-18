@@ -2,13 +2,13 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 
 /// <summary>
 ///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="Value">
+/// </summary>/// <param name="value">
 ///    
 /// </param>
-/// <param name="TickElement">
+/// <param name="tickElement">
 ///    
 /// </param>
-/// <param name="LabelElement">
+/// <param name="labelElement">
 ///    
 /// </param>
 public delegate Task TickCreatedFunction(double value,

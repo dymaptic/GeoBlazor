@@ -14,10 +14,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     The value to use when there is no data available.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record ElevationLayerCreateElevationSamplerOptions(
     string? DemResolution = null,
     double? NoDataValue = null)

@@ -381,6 +381,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -399,6 +400,7 @@ public partial class QueryTableDataSource : IDynamicDataLayerDataSource
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

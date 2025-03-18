@@ -63,6 +63,7 @@ public abstract partial class Widget : MapComponent
     [Parameter]
     public EventCallback OnWidgetCreated { get; set; }
 
+    /// <inheritdoc />
     [JSInvokable]
     public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference, 
         string? instantiatedComponentJson)
@@ -180,6 +181,9 @@ public abstract partial class Widget : MapComponent
         return Position;
     }
     
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the WidgetId property.
+    /// </summary>
     public async Task<string?> GetWidgetId()
     {
         if (CoreJsModule is null) return WidgetId;

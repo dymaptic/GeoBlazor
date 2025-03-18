@@ -1146,6 +1146,7 @@ public partial class WMTSSublayer : MapComponent
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1174,6 +1175,7 @@ public partial class WMTSSublayer : MapComponent
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

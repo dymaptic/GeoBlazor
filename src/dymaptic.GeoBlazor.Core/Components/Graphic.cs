@@ -192,6 +192,9 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         return PopupTemplate;
     }
     
+    /// <summary>
+    ///     Retrieves the <see cref = "Layer"/> from the rendered graphic.
+    /// </summary>
     [CodeGenerationIgnore]
     public Task<Layer?> GetLayer()
     {
@@ -682,6 +685,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     private bool _updatePopupTemplate;
     private bool _updateAttributes;
 
+    /// <inheritdoc />
     public bool Equals(Graphic? other)
     {
         if (other is null)
@@ -699,6 +703,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         return Equals(Id, other.Id);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (obj is null)
@@ -710,16 +715,23 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         return Equals((Graphic)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return Id.GetHashCode();
     }
 
+    /// <summary>
+    ///     Override the equality operator to compare two <see cref = "Graphic"/> objects.
+    /// </summary>
     public static bool operator ==(Graphic? left, Graphic? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///     Override the inequality operator to compare two <see cref = "Graphic"/> objects.
+    /// </summary>
     public static bool operator !=(Graphic? left, Graphic? right)
     {
         return !Equals(left, right);

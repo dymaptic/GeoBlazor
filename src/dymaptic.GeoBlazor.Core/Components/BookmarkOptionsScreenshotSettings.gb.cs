@@ -444,6 +444,7 @@ public partial class BookmarkOptionsScreenshotSettings
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -472,6 +473,7 @@ public partial class BookmarkOptionsScreenshotSettings
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

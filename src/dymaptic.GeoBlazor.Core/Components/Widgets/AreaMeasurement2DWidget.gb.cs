@@ -399,6 +399,7 @@ public partial class AreaMeasurement2DWidget
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -417,6 +418,7 @@ public partial class AreaMeasurement2DWidget
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

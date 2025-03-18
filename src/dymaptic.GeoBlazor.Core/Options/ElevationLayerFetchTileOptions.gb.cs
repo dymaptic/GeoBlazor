@@ -9,10 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     The value representing pixels in the tile that don't contain an elevation value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record ElevationLayerFetchTileOptions(
     double? NoDataValue = null)
 {

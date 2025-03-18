@@ -14,6 +14,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JsonIgnore]
     public IJSRuntime? JsRuntime { get; set; }
     
+    /// <summary>
+    ///     Manages references to JavaScript modules.
+    /// </summary>
     [Inject]
     [JsonIgnore]
     public JsModuleManager? JsModuleManager { get; set; }
@@ -87,6 +90,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JsonIgnore]
     public MapView? View { get; set; }
 
+    /// <summary>
+    ///     The ID of the parent <see cref="MapView" /> of the current component.
+    /// </summary>
     public Guid? ViewId
     {
         get => _viewId ??= View?.Id;
@@ -99,6 +105,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     [JsonIgnore]
     public Layer? Layer { get; set; }
     
+    /// <summary>
+    ///     The Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
+    /// </summary>
     public Guid? LayerId
     {
         get => _layerId ??= Layer?.Id;
@@ -478,7 +487,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Called from <see cref="MapComponent.OnInitializedAsync" /> to "Register" the current component with it's parent.
+    ///     Called from <see cref="MapComponent.OnInitializedAsync" /> to "Register" the current component with its parent.
     /// </summary>
     /// <param name="child">
     ///     The calling, child component to register
@@ -601,6 +610,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         return SetVisibility(visible);
     }
     
+    /// <summary>
+    ///     Retrieves the current value of the <see cref="Visible" /> property.
+    /// </summary>
     public async Task<bool?> GetVisible()
     {
         if (CoreJsModule is null) return Visible;
@@ -802,6 +814,9 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     protected PropertyInfo[]? Props;
 
+    /// <summary>
+    ///     Identifies whether this component has been checked for valid and required properties/children.
+    /// </summary>
     protected bool IsValidated;
 
     /// <inheritdoc />

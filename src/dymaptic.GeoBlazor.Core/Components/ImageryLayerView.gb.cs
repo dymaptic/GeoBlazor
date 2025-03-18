@@ -231,6 +231,7 @@ public partial class ImageryLayerView : LayerView
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -258,6 +259,7 @@ public partial class ImageryLayerView : LayerView
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

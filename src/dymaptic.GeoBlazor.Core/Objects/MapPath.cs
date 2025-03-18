@@ -8,8 +8,21 @@
 [JsonConverter(typeof(MapPathConverter))]
 public class MapPath : List<MapPoint>, IEquatable<MapPath>
 {
+    /// <summary>
+    ///     Implicitly converts a <see cref="MapPath" /> to a <see cref="MapPoint" />.
+    /// </summary>
     public static implicit operator MapPath(MapPoint[] p) => new(p);
+    
+    /// <summary>
+    ///     Implicitly converts a <see cref="MapPath" /> to a <see cref="MapPoint" />.
+    /// </summary>
     public static implicit operator MapPath(List<List<double>> p) => new(p.Select(x => new MapPoint(x)));
+    
+    /// <summary>
+    ///     Implicitly converts a <see cref="MapPath" /> to a <see cref="MapPoint" />.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns></returns>
     public static implicit operator MapPath(double[][] p) => new(p.Select(x => new MapPoint(x)));
     
     /// <summary>
@@ -101,6 +114,9 @@ internal class MapPathEqualityComparer : EqualityComparer<MapPath>
 [JsonConverter(typeof(MapPointConverter))]
 public class MapPoint : List<double>, IEquatable<MapPoint>
 {
+    /// <summary>
+    ///     Implicitly converts a <see cref="MapPoint" /> to a <see cref="MapPath" />.
+    /// </summary>
     public static implicit operator MapPoint(double[] p) => new(p);
     
     /// <summary>
@@ -175,7 +191,7 @@ internal record MapPathSerializationRecord
     }
 
     [ProtoMember(1)]
-    public MapPointSerializationRecord[] Points { get; init; } = Array.Empty<MapPointSerializationRecord>(); 
+    public MapPointSerializationRecord[] Points { get; init; } = []; 
 }
 
 [ProtoContract(Name = "MapPoint")]
@@ -196,7 +212,7 @@ internal record MapPointSerializationRecord
     }
 
     [ProtoMember(1)]
-    public double[] Coordinates { get; init; } = Array.Empty<double>();
+    public double[] Coordinates { get; init; } = [];
 }
 
 internal class MapPointEqualityComparer : EqualityComparer<MapPoint>

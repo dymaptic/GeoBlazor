@@ -13,10 +13,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     The rotation in degrees of the exported image.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="TimeExent">
 ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">TimeExtent</a> of the exported image.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>

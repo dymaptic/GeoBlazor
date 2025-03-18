@@ -3805,6 +3805,7 @@ public partial class GeoJSONLayer : IBlendLayer,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -3925,6 +3926,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

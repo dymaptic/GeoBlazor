@@ -10,10 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     The `click` event for either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#FetchFeaturesOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     The signal object that can be used to abort the asynchronous task.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#FetchFeaturesOptions">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record PopupFetchFeaturesOptions(
     object? Event = null)
 {

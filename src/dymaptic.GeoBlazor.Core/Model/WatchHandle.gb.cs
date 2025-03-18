@@ -11,7 +11,10 @@ public partial record WatchHandle(
 {
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    protected readonly CancellationTokenSource _cancellationTokenSource = new();
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>
@@ -25,7 +28,7 @@ public partial record WatchHandle(
         
         await JsComponentReference!.InvokeVoidAsync(
             "remove", 
-            _cancellationTokenSource.Token);
+            CancellationTokenSource.Token);
     }
     
 #endregion

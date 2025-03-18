@@ -25,7 +25,7 @@
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
+        <CompressionEnabled>false</CompressionEnabled>
         <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
     </PropertyGroup>
 
@@ -50,11 +50,12 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     </ItemGroup>
-    <PropertyGroup Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <PropertyGroup Condition="$(Configuration) == 'RELEASE'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
         <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
+        <DefaultDocumentationConfigurationFile>DefaultDocumentation.json</DefaultDocumentationConfigurationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -79,29 +80,29 @@
         <Folder Include="Documentation/" />
     </ItemGroup>
 
-    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="$(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
 
-    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Copying Asset files" />
         <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
     </Target>
 
-    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework)))">
+    <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Copying Asset files" />
         <Exec Command="pwsh ./assetCopy.ps1" ContinueOnError="false" />
     </Target>
 
-    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
         <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
     </Target>
 
-    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND $(TargetFrameworks.StartsWith($(TargetFramework))) AND '$(OptOutFromCoreEsBuild)' != 'true'">
+    <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>

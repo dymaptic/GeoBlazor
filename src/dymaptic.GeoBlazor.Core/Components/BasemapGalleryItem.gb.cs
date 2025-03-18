@@ -235,6 +235,7 @@ public partial class BasemapGalleryItem : MapComponent
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -253,6 +254,7 @@ public partial class BasemapGalleryItem : MapComponent
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

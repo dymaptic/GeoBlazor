@@ -10,10 +10,6 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     A dimensional definition used for the `identify` operation.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Signal">
-///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> allows for cancelable requests.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="TransposedVariableName">
 ///     Name of the transposed variable.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>

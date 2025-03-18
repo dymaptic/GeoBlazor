@@ -402,6 +402,7 @@ public partial class DistanceMeasurement2DWidget : Widget
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -420,6 +421,7 @@ public partial class DistanceMeasurement2DWidget : Widget
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

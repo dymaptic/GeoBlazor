@@ -1470,6 +1470,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -1536,6 +1537,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)

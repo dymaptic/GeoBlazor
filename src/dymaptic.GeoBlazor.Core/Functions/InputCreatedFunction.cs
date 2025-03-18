@@ -2,13 +2,13 @@ namespace dymaptic.GeoBlazor.Core.Functions;
 
 /// <summary>
 ///     Passes a JavaScript function to an ArcGIS property.
-/// </summary>/// <param name="InputElement">
+/// </summary>/// <param name="inputElement">
 ///    
 /// </param>
-/// <param name="Type">
+/// <param name="type">
 ///    
 /// </param>
-/// <param name="ThumbIndex">
+/// <param name="thumbIndex">
 ///    
 /// </param>
 public delegate Task InputCreatedFunction(ElementReference inputElement,

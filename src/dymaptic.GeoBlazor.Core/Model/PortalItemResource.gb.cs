@@ -32,7 +32,10 @@ public partial record PortalItemResource(
     
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    protected readonly CancellationTokenSource _cancellationTokenSource = new();
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>
@@ -54,7 +57,7 @@ public partial record PortalItemResource(
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetch", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             responseType,
             new { signal = abortSignal });
                 
@@ -86,7 +89,7 @@ public partial record PortalItemResource(
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
             "update", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             content,
             new { access = options.Access, signal = abortSignal });
                 

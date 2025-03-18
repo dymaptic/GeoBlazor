@@ -66,7 +66,10 @@ public partial record PortalGroup(
 {
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
-    protected readonly CancellationTokenSource _cancellationTokenSource = new();
+    /// <summary>
+    ///     Cancellation Token for async methods.
+    /// </summary>
+    protected readonly CancellationTokenSource CancellationTokenSource = new();
 #region Public Methods
 
     /// <summary>
@@ -84,7 +87,7 @@ public partial record PortalGroup(
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
             "fetchCategorySchema", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -107,7 +110,7 @@ public partial record PortalGroup(
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
             "fetchMembers", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -129,7 +132,7 @@ public partial record PortalGroup(
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "getThumbnailUrl", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             width);
     }
     
@@ -153,7 +156,7 @@ public partial record PortalGroup(
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
             "queryItems", 
-            _cancellationTokenSource.Token,
+            CancellationTokenSource.Token,
             queryParams,
             new { signal = abortSignal });
                 

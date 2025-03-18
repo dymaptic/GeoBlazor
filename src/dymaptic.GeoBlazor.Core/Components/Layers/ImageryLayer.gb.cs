@@ -4419,6 +4419,7 @@ public partial class ImageryLayer : IArcGISImageService,
 #endregion
 
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
@@ -4483,6 +4484,7 @@ public partial class ImageryLayer : IArcGISImageService,
         }
     }
 
+    /// <inheritdoc />
     protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
     {
         switch (child)
