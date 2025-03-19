@@ -86,7 +86,7 @@ public abstract partial class Layer : MapComponent
     /// <summary>
     ///    Asynchronously set the value of the FullExtent property after render.
     /// </summary>
-    public async Task SetFullExtent(Extent? value)
+    public virtual async Task SetFullExtent(Extent? value)
     {
         FullExtent = value;
         ModifiedParameters["FullExtent"] = value;
@@ -96,10 +96,8 @@ public abstract partial class Layer : MapComponent
             return;
         }
             
-        await JsComponentReference!.InvokeVoidAsync("setProperty", 
+        await JsComponentReference!.InvokeVoidAsync("setFullExtent", 
             CancellationTokenSource.Token,
-            JsComponentReference,
-            "fullExtent", 
             value);
     }
     
@@ -118,7 +116,6 @@ public abstract partial class Layer : MapComponent
         
         await JsComponentReference!.InvokeVoidAsync("setProperty", 
             CancellationTokenSource.Token,
-            JsComponentReference,
             "opacity", 
             value);
     }
@@ -137,10 +134,8 @@ public abstract partial class Layer : MapComponent
             return null;
         }
             
-        return await JsComponentReference!.InvokeAsync<Extent>("getProperty", 
-            CancellationTokenSource.Token,
-            JsComponentReference, 
-            "fullExtent");
+        return await JsComponentReference!.InvokeAsync<Extent>("getFullExtent", 
+            CancellationTokenSource.Token);
     }
     
     /// <summary>
@@ -155,7 +150,6 @@ public abstract partial class Layer : MapComponent
         
         return await JsComponentReference!.InvokeAsync<double>("getProperty", 
             CancellationTokenSource.Token,
-            JsComponentReference, 
             "opacity");
     }
 
@@ -249,27 +243,59 @@ public abstract partial class Layer : MapComponent
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
     /// </summary>
+    /// <param name="jsRuntime">
+    ///     The dependency-injected Blazor IJSRuntime instance to connect to JavaScript.
+    /// </param>
+    /// <param name="jsModuleManager">
+    ///     The dependency-injected GeoBlazor JsModuleManager instance to load JavaScript modules.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     A cancellation token to cancel the operation.
+    /// </param>
+    public async Task Load(IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
+        CancellationToken cancellationToken = default)
+    {
+        JsRuntime ??= jsRuntime;
+        JsModuleManager ??= jsModuleManager;
+
+        await Load(cancellationToken);
+    }
+
+    /// <summary>
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
+    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
+    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
+    ///     return the same promise.
+    /// </summary>
     /// <remarks>
     ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is
     ///     aborted, the instance does not stop its loading process, only cancelLoad can abort it.
     /// </remarks>
     public async Task Load(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is not null)
+        if (CoreJsModule is null)
         {
-            // this layer has already been loaded
-            return;
+            if (JsModuleManager is not null && JsRuntime is not null)
+            {
+                // rendered object, but not ready yet
+                CoreJsModule = await JsModuleManager.GetArcGisJsCore(JsRuntime, null, cancellationToken);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    "Layers not defined in a Map or in Blazor Markup must be loaded with a JsModuleManager and IJSRuntime. Use the Load overload which takes these parameters.");
+            }
         }
+        
         AbortManager = new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        JsComponentReference = await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildJsLayer",
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildJsLayer",
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, Id, View?.Id);
-
-        Layer loadedLayer = await JsComponentReference.InvokeAsync<Layer>("load", cancellationToken, abortSignal);
-
-        await UpdateFromJavaScript(loadedLayer);
+        
+        await JsComponentReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 

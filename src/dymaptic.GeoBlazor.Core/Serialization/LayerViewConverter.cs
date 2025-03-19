@@ -42,7 +42,7 @@ internal class LayerViewConverter : JsonConverter<LayerView>
                     // look for the type in GeoBlazor Pro
                     string typeName = 
                         $"dymaptic.GeoBlazor.Pro.Components.{typeValue.ToString()!.KebabToPascalCase()}LayerView";
-                    Type? type = Type.GetType(typeName, false, true);
+                    Type? type = Assembly.Load("dymaptic.GeoBlazor.Pro").GetType(typeName, false, true);
                     if (type is not null)
                     {
                         return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as LayerView;

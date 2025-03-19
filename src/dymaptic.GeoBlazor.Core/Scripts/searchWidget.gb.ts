@@ -175,7 +175,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.widget.popupTemplate, this.layerId, this.viewId);
+        return await buildDotNetPopupTemplate(this.widget.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -425,7 +425,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetSearchWidget.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.portal)) {

@@ -93,7 +93,8 @@ export {
     Polygon,
     normalizeUtils,
     Portal,
-    SimpleRenderer
+    SimpleRenderer,
+    buildJsLayer
 };
 
 export const arcGisObjectRefs: Record<string, any> = {};
@@ -1263,7 +1264,7 @@ export function removeGraphicPopupTemplate(graphicId: string): void {
 export async function getGraphicPopupTemplate(id: string, layerId: string | null, viewId: string): Promise<DotNetPopupTemplate | null> {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     if (graphic === null) return null;
-    return await buildDotNetPopupTemplate(graphic.popupTemplate, layerId, viewId);
+    return await buildDotNetPopupTemplate(graphic.popupTemplate);
 }
 
 export function setGraphicAttributes(id: string, attributes: any, layerId: string | null, viewId: string | null): void {
@@ -1294,7 +1295,7 @@ export function getObjectIdForGraphic(id: string, layerId: string | null, viewId
 export async function getEffectivePopupTemplate(graphic: any, defaultPopupTemplateEnabled: any): Promise<any> {
     let jsGraphic = buildJsGraphic(graphic);
     let result = jsGraphic?.getEffectivePopupTemplate(defaultPopupTemplateEnabled);
-    return await buildDotNetPopupTemplate(result, graphic.layerId, graphic.viewId);
+    return await buildDotNetPopupTemplate(result);
 }
 
 export function lookupJsGraphicById(graphicId: string, layerId: string | null, viewId: string | null): Graphic | null {

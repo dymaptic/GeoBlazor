@@ -7,10 +7,6 @@ public partial class Circle
    /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
-    /// <param name="rings">
-    ///     An array of rings.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#rings">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="center">
     ///     The center point of the circle.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">ArcGIS Maps SDK for JavaScript</a>
@@ -51,6 +47,10 @@ public partial class Circle
     ///     default meters
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radiusUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="rings">
+    ///     An array of rings.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#rings">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the geometry.
     ///     default WGS84 (wkid: 4326)
@@ -58,21 +58,20 @@ public partial class Circle
     /// </param>
    [CodeGenerationIgnore] 
    public Circle(
-        IReadOnlyList<MapPath> rings,
-        Point? center = null,
+        Point center,
+        double radius,
         Point? centroid = null,
         bool? geodesic = null,
         bool? hasM = null,
         bool? hasZ = null,
         bool? isSelfIntersecting = null,
-        double? numberOfPoints = null,
-        double? radius = null,
+        int? numberOfPoints = null,
         RadiusUnit? radiusUnit = null,
+        IReadOnlyList<MapPath>? rings = null,
         SpatialReference? spatialReference = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
-        Rings = rings;
         Center = center;
         Centroid = centroid;
         Geodesic = geodesic;
@@ -82,7 +81,64 @@ public partial class Circle
         NumberOfPoints = numberOfPoints;
         Radius = radius;
         RadiusUnit = radiusUnit;
+        if (rings is not null)
+        {
+            Rings = rings;
+        }
         SpatialReference = spatialReference;
 #pragma warning restore BL0005    
+    }
+   
+    /// <summary>
+    ///     The center point of the circle.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    [RequiredProperty]
+    public Point? Center { get; set; }
+    
+    /// <summary>
+    ///     The radius of the circle.
+    ///     default 1000
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radius">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    [RequiredProperty]
+    public double? Radius { get; set; }
+    
+    /// <summary>
+    ///     This value defines the number of points along the curve of the circle.
+    ///     default 60
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#numberOfPoints">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
+    public int? NumberOfPoints { get; set; }
+    
+    internal override GeometrySerializationRecord ToSerializationRecord()
+    {
+        return new GeometrySerializationRecord(Type.ToString().ToKebabCase(), 
+            Extent?.ToSerializationRecord(),
+            SpatialReference?.ToSerializationRecord())
+        {
+            Rings = Rings.Select(p => p.ToSerializationRecord()).ToArray(),
+            HasM = HasM,
+            HasZ = HasZ,
+            Centroid = Centroid?.ToSerializationRecord(),
+            IsSelfIntersecting = IsSelfIntersecting,
+            Center = Center?.ToSerializationRecord(),
+            Geodesic = Geodesic,
+            NumberOfPoints = NumberOfPoints,
+            Radius = Radius,
+            RadiusUnit = RadiusUnit?.ToString().ToKebabCase()
+        };
     }
 }

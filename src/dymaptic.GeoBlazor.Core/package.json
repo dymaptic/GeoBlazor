@@ -14,6 +14,7 @@
   "dependencies": {
     "@arcgis/core": "4.30.9",
     "esbuild": "0.25.0",
+    "esbuild-clean-plugin": "^2.0.0",
     "protobufjs": "7.4.0"
   },
   "devDependencies": {

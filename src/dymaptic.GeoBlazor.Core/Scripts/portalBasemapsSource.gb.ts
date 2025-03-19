@@ -61,7 +61,7 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -170,7 +170,7 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, la
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
+        dotNetPortalBasemapsSource.portal = await buildDotNetPortal(jsObject.portal);
     }
     
     if (hasValue(jsObject.filterFunction)) {

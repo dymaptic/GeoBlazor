@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPortalFeaturedGroups } from './portalFeaturedGroups';
 
-export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): Promise<any> {
     let jsPortalFeaturedGroups: any = {};
 
     if (hasValue(dotNetObject.owner)) {
@@ -17,7 +17,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
     let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalFeaturedGroupsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -282,7 +282,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
     let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
-    let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -309,7 +309,7 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetGeoRSSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -191,7 +191,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetUnsupportedLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUnsupportedLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

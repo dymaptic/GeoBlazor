@@ -2,7 +2,7 @@
 import PopupTemplate from '@arcgis/core/PopupTemplate';
 import { hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 
-export async function buildDotNetPopupTemplateGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

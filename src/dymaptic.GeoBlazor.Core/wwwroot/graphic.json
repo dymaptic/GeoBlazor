@@ -182,6 +182,46 @@
                         "mmin": {
                           "type": "double",
                           "id": 18
+                        },
+                        "hasM": {
+                          "type": "bool",
+                          "id": 19
+                        },
+                        "hasZ": {
+                          "type": "bool",
+                          "id": 20
+                        },
+                        "m": {
+                          "type": "double",
+                          "id": 21
+                        },
+                        "centroid": {
+                          "type": "Geometry",
+                          "id": 22
+                        },
+                        "isSelfIntersecting": {
+                          "type": "bool",
+                          "id": 23
+                        },
+                        "center": {
+                          "type": "Geometry",
+                          "id": 24
+                        },
+                        "geodesic": {
+                          "type": "bool",
+                          "id": 25
+                        },
+                        "numberOfPoints": {
+                          "type": "int32",
+                          "id": 26
+                        },
+                        "radius": {
+                          "type": "double",
+                          "id": 27
+                        },
+                        "radiusUnit": {
+                          "type": "string",
+                          "id": 28
                         }
                       }
                     },

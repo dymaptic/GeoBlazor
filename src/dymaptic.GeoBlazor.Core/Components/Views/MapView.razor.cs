@@ -836,8 +836,12 @@ public partial class MapView : MapComponent
         if (createdLayer is not null) // layer already exists in GeoBlazor
         {
             createdLayer.LayerView = layerView;
-            createdLayer.CopyProperties(layerViewCreateEvent.Layer!);
-            await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
+
+            if (layerViewCreateEvent.Layer is not null)
+            {
+                createdLayer.CopyProperties(layerViewCreateEvent.Layer!);
+                await createdLayer.UpdateFromJavaScript(layerViewCreateEvent.Layer!);
+            }
 
             if (layerView is not null)
             {
@@ -855,6 +859,7 @@ public partial class MapView : MapComponent
                 layer.JsComponentReference = layerViewCreateEvent.LayerObjectRef;
                 layer.CoreJsModule = CoreJsModule;
                 layer.ProJsModule = ProJsModule;
+                layer.AbortManager = new AbortManager(CoreJsModule!);
                 layer.Imported = true;
 
                 if (layerView is not null)

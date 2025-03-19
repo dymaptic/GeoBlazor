@@ -19,15 +19,6 @@ public partial class Circle : Polygon
     }
 
 #region Public Properties / Blazor Parameters
-
-    /// <summary>
-    ///     The center point of the circle.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#center">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Point? Center { get; set; }
     
     /// <summary>
     ///     Applicable when the spatial reference of the center point is either set to Web Mercator (wkid: 3857) or geographic/geodesic (wkid: 4326).
@@ -38,26 +29,6 @@ public partial class Circle : Polygon
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Geodesic { get; set; }
-    
-    /// <summary>
-    ///     This value defines the number of points along the curve of the circle.
-    ///     default 60
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#numberOfPoints">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? NumberOfPoints { get; set; }
-    
-    /// <summary>
-    ///     The radius of the circle.
-    ///     default 1000
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Circle.html#radius">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? Radius { get; set; }
     
     /// <summary>
     ///     Unit of the radius.
@@ -159,7 +130,7 @@ public partial class Circle : Polygon
     /// <summary>
     ///     Asynchronously retrieve the current value of the NumberOfPoints property.
     /// </summary>
-    public async Task<double?> GetNumberOfPoints()
+    public async Task<int?> GetNumberOfPoints()
     {
         if (CoreJsModule is null)
         {
@@ -182,7 +153,7 @@ public partial class Circle : Polygon
         }
 
         // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "numberOfPoints");
         if (result is { Value: not null })
         {
@@ -357,7 +328,7 @@ public partial class Circle : Polygon
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetNumberOfPoints(double? value)
+    public async Task SetNumberOfPoints(int? value)
     {
 #pragma warning disable BL0005
         NumberOfPoints = value;

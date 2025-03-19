@@ -216,6 +216,21 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(23)]
     public bool? IsSelfIntersecting { get; set; }
+    
+    [ProtoMember(24)]
+    public GeometrySerializationRecord? Center { get; set; }
+    
+    [ProtoMember(25)]
+    public bool? Geodesic { get; set; }
+    
+    [ProtoMember(26)]
+    public int? NumberOfPoints { get; set; }
+    
+    [ProtoMember(27)]
+    public double? Radius { get; set; }
+    
+    [ProtoMember(28)]
+    public string? RadiusUnit { get; set; }
 
     public Geometry FromSerializationRecord()
     {
@@ -223,7 +238,17 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
         {
             "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M),
             "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(), SpatialReference?.FromSerializationRecord(), HasM, HasZ),
-            "polygon" => new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), SpatialReference?.FromSerializationRecord(), Centroid?.FromSerializationRecord() as Point, HasM, HasZ, IsSelfIntersecting),
+            "polygon" => Center is not null && Radius is not null
+            ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
+                Centroid?.FromSerializationRecord() as Point, 
+                Geodesic, HasM, HasZ, IsSelfIntersecting, NumberOfPoints, 
+                RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
+                Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
+                SpatialReference?.FromSerializationRecord())
+            : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), 
+                SpatialReference?.FromSerializationRecord(), 
+                Centroid?.FromSerializationRecord() as Point, 
+                HasM, HasZ, IsSelfIntersecting),
             "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ),
             _ => throw new ArgumentOutOfRangeException()
         };

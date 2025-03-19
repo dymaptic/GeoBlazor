@@ -191,7 +191,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetUnknownLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUnknownLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

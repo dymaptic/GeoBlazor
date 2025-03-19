@@ -17,9 +17,22 @@ export function buildDotNetGeometry(geometry): any {
             return buildDotNetPolygon(geometry);
         case "extent":
             return buildDotNetExtent(geometry);
-        default:
-            let { id, dotNetComponentReference, ...sanitizedGeometry } = geometry;
-            return sanitizedGeometry;
+        case "multipoint":
+            try {
+                // @ts-ignore
+                let {buildDotNetMultipoint} = import("./multipoint");
+                return buildDotNetMultipoint(geometry);
+            } catch {
+                throw new Error("Multipoint requires GeoBlazor Pro");
+            }
+        case "mesh":
+            try {
+                // @ts-ignore
+                let {buildDotNetMesh} = import("./mesh");
+                return buildDotNetMesh(geometry);
+            } catch {
+                throw new Error("Mesh requires GeoBlazor Pro");
+            }
     }
 }
 
@@ -36,6 +49,22 @@ export function buildJsGeometry(geometry): any {
             return buildJsPolygon(geometry);
         case "extent":
             return buildJsExtent(geometry);
+        case "multipoint":
+            try {
+                // @ts-ignore
+                let { buildJsMultipoint } = import("./multipoint");
+                return buildJsMultipoint(geometry);
+            } catch {
+                throw new Error("Multipoint requires GeoBlazor Pro");
+            }
+        case "mesh":
+            try {
+                // @ts-ignore
+                let { buildJsMesh } = import("./mesh");
+                return buildJsMesh(geometry);
+            } catch {
+                throw new Error("Mesh requires GeoBlazor Pro");
+            }
     }
 
     return geometry as any;

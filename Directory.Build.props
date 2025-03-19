@@ -1,7 +1,7 @@
 <Project>
-    <PropertyGroup>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <CoreVersion>4.0.0-beta-1</CoreVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CoreVersion>4.0.0-beta-1.5</CoreVersion>
+  </PropertyGroup>
 </Project>

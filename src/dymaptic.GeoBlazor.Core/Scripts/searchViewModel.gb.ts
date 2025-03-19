@@ -168,7 +168,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.component.popupTemplate, this.layerId, this.viewId);
+        return await buildDotNetPopupTemplate(this.component.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -398,7 +398,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetSearchViewModel.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.portal)) {

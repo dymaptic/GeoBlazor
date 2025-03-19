@@ -25,7 +25,7 @@
 	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <CompressionEnabled>false</CompressionEnabled>
+        <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
         <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
     </PropertyGroup>
 

@@ -342,7 +342,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate, this.layerId, this.viewId);
+        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -668,7 +668,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetWFSLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.portalItem)) {

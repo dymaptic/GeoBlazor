@@ -1,5 +1,6 @@
 import esbuild from 'esbuild';
 import eslint from 'esbuild-plugin-eslint';
+import { cleanPlugin } from 'esbuild-clean-plugin';
 
 const args = process.argv.slice(2);
 const isDebug = args.includes('--debug');
@@ -13,10 +14,12 @@ let options = {
     format: 'esm',
     outdir: 'wwwroot/js',
     splitting: true,
+    metafile: true,
     minify: isRelease,
     plugins: [eslint({
         throwOnError: true
-    })]
+    }),
+        cleanPlugin()]
 }
 
 if (isWatch) {

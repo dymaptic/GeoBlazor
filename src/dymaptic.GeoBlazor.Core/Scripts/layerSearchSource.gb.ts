@@ -141,7 +141,7 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetLayerSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.resultSymbol)) {

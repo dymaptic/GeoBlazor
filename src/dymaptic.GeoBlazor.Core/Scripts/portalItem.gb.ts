@@ -140,7 +140,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         let result = await this.component.fetchRelatedItems(parameters,
             options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i, this.layerId, this.viewId)));
+        return await Promise.all(result.map(async i => await buildDotNetPortalItem(i)));
     }
 
     async fetchResources(parameters: any,
@@ -156,7 +156,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async reload(): Promise<any> {
         let result = await this.component.reload();
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async removeAllResources(options: any): Promise<any> {
@@ -174,13 +174,13 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async update(parameters: any): Promise<any> {
         let result = await this.component.update(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async updateThumbnail(parameters: any): Promise<any> {
         let result = await this.component.updateThumbnail(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     // region properties
@@ -205,7 +205,7 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -322,7 +322,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
     
     let { buildDotNetPortalItem } = await import('./portalItem');
-    let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem);
 
     try {
         let seenObjects = new WeakMap();
@@ -349,7 +349,7 @@ export async function buildJsPortalItemGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -363,7 +363,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
+        dotNetPortalItem.portal = await buildDotNetPortal(jsObject.portal);
     }
     
     if (hasValue(jsObject.access)) {

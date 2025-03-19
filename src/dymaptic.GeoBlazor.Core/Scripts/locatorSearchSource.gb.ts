@@ -146,7 +146,7 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.resultSymbol)) {

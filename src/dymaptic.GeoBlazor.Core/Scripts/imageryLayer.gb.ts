@@ -530,7 +530,7 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        return await buildDotNetPopupTemplate(this.layer.popupTemplate, this.layerId, this.viewId);
+        return await buildDotNetPopupTemplate(this.layer.popupTemplate);
     }
     
     async setPopupTemplate(value: any): Promise<void> {
@@ -932,7 +932,7 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
-        dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate, layerId, viewId);
+        dotNetImageryLayer.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
     }
     
     if (hasValue(jsObject.portalItem)) {

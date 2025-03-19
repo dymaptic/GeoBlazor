@@ -29,8 +29,8 @@ internal class ImageryRendererConverter : JsonConverter<IImageryRenderer>
                 default:
                     // look for the type in GeoBlazor Pro
                     string typeName = 
-                        $"dymaptic.GeoBlazor.Core.Components.Renderers.{typeValue.ToString()!.KebabToPascalCase()}Renderer";
-                    Type? type = Type.GetType(typeName, false, true);
+                        $"dymaptic.GeoBlazor.Pro.Components.Renderers.{typeValue.ToString()!.KebabToPascalCase()}Renderer";
+                    Type? type = Assembly.Load("dymaptic.GeoBlazor.Pro").GetType(typeName, false, true);
                     if (type is not null)
                     {
                         return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as IImageryRenderer;
