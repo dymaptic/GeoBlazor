@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } from './streamLayerElevationInfoFeatureExpressionInfo';
 
-export async function buildJsStreamLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsStreamLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     let jsStreamLayerElevationInfoFeatureExpressionInfo: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -17,7 +17,7 @@ export async function buildJsStreamLayerElevationInfoFeatureExpressionInfoGenera
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsStreamLayerElevationInfoFeatureExpressionInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsStreamLayerElevationInfoFeatureExpressionInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsStreamLayerElevationInfoFeatureExpressionInfoGenera
 }
 
 
-export async function buildDotNetStreamLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetStreamLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

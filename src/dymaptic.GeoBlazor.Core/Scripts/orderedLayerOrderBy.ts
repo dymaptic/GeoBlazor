@@ -1,10 +1,10 @@
 
-export async function buildJsOrderedLayerOrderBy(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOrderedLayerOrderBy(dotNetObject: any): Promise<any> {
     let { buildJsOrderedLayerOrderByGenerated } = await import('./orderedLayerOrderBy.gb');
-    return await buildJsOrderedLayerOrderByGenerated(dotNetObject, layerId, viewId);
+    return await buildJsOrderedLayerOrderByGenerated(dotNetObject);
 }     
 
-export async function buildDotNetOrderedLayerOrderBy(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOrderedLayerOrderBy(jsObject: any): Promise<any> {
     let { buildDotNetOrderedLayerOrderByGenerated } = await import('./orderedLayerOrderBy.gb');
-    return await buildDotNetOrderedLayerOrderByGenerated(jsObject, layerId, viewId);
+    return await buildDotNetOrderedLayerOrderByGenerated(jsObject);
 }

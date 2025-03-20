@@ -3,7 +3,7 @@ import RasterFunction from '@arcgis/core/layers/support/RasterFunction';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetRasterFunction } from './rasterFunction';
 
-export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterFunctionGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.functionArguments)) {
@@ -28,7 +28,7 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
     
     let { buildDotNetRasterFunction } = await import('./rasterFunction');
-    let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetRasterFunctionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRasterFunctionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

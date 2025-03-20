@@ -99,7 +99,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetWebMap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.utilityNetworks)) {

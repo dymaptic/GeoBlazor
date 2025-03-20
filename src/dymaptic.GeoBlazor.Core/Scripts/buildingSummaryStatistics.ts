@@ -1,10 +1,10 @@
 
-export async function buildJsBuildingSummaryStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBuildingSummaryStatistics(dotNetObject: any): Promise<any> {
     let { buildJsBuildingSummaryStatisticsGenerated } = await import('./buildingSummaryStatistics.gb');
-    return await buildJsBuildingSummaryStatisticsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsBuildingSummaryStatisticsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetBuildingSummaryStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBuildingSummaryStatistics(jsObject: any): Promise<any> {
     let { buildDotNetBuildingSummaryStatisticsGenerated } = await import('./buildingSummaryStatistics.gb');
-    return await buildDotNetBuildingSummaryStatisticsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBuildingSummaryStatisticsGenerated(jsObject);
 }

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetISketchViewModelPolygonSymbol } from './iSketchViewModelPolygonSymbol';
 
-export async function buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject: any): Promise<any> {
     let jsSketchViewModelPolygonSymbol: any = {};
 
     
@@ -11,7 +11,7 @@ export async function buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsSketchViewModelPolygonSymbol;
     
     let { buildDotNetISketchViewModelPolygonSymbol } = await import('./iSketchViewModelPolygonSymbol');
-    let dnInstantiatedObject = await buildDotNetISketchViewModelPolygonSymbol(jsSketchViewModelPolygonSymbol, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetISketchViewModelPolygonSymbol(jsSketchViewModelPolygonSymbol);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,7 +38,7 @@ export async function buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject
 }
 
 
-export async function buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

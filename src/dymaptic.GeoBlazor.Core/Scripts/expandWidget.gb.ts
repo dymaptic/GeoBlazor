@@ -133,7 +133,7 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetExpandViewModel } = await import('./expandViewModel');
-        return await buildDotNetExpandViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetExpandViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -219,7 +219,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
     
     let { buildDotNetExpandWidget } = await import('./expandWidget');
-    let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
 
     try {
         let seenObjects = new WeakMap();
@@ -246,7 +246,7 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -255,7 +255,7 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetExpandViewModel } = await import('./expandViewModel');
-        dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetExpandWidget.viewModel = await buildDotNetExpandViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.autoCollapse)) {

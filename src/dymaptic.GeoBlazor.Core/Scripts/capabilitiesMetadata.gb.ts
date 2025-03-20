@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCapabilitiesMetadata } from './capabilitiesMetadata';
 
-export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): Promise<any> {
     let jsCapabilitiesMetadata: any = {};
 
     if (hasValue(dotNetObject.supportsAdvancedFieldProperties)) {
@@ -14,7 +14,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
     let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,7 +41,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesMetadataGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

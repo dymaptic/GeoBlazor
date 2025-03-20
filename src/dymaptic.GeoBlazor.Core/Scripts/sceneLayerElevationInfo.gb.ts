@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetSceneLayerElevationInfo } from './sceneLayerElevationInfo';
 
-export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsSceneLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -20,7 +20,7 @@ export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsSceneLayerElevationInfo;
     
     let { buildDotNetSceneLayerElevationInfo } = await import('./sceneLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetSceneLayerElevationInfo(jsSceneLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSceneLayerElevationInfo(jsSceneLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsSceneLayerElevationInfoGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSceneLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

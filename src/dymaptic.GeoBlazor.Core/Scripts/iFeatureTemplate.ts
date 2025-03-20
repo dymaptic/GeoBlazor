@@ -8,11 +8,11 @@ export async function buildJsIFeatureTemplate(dnFeatureTemplate: any, layerId: s
     }
 }
 
-export async function buildDotNetIFeatureTemplate(jsObject: any, layerId: string | null, viewId: string | null) : Promise<any> {
+export async function buildDotNetIFeatureTemplate(jsObject: any) : Promise<any> {
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureTemplate } = await import('./featureTemplate');
-        return await buildDotNetFeatureTemplate(jsObject, layerId, viewId);
+        return await buildDotNetFeatureTemplate(jsObject);
     } catch (e) {
         throw e;
     }

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCapabilitiesQueryRelated } from './capabilitiesQueryRelated';
 
-export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any): Promise<any> {
     let jsCapabilitiesQueryRelated: any = {};
 
     if (hasValue(dotNetObject.supportsCacheHint)) {
@@ -23,7 +23,7 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
     
     let { buildDotNetCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryRelated(jsCapabilitiesQueryRelated, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryRelated(jsCapabilitiesQueryRelated);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,7 +50,7 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesQueryRelatedGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

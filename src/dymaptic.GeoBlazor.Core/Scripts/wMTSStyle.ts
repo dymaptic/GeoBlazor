@@ -1,10 +1,10 @@
 
-export async function buildJsWMTSStyle(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWMTSStyle(dotNetObject: any): Promise<any> {
     let { buildJsWMTSStyleGenerated } = await import('./wMTSStyle.gb');
-    return await buildJsWMTSStyleGenerated(dotNetObject, layerId, viewId);
+    return await buildJsWMTSStyleGenerated(dotNetObject);
 }     
 
-export async function buildDotNetWMTSStyle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMTSStyle(jsObject: any): Promise<any> {
     let { buildDotNetWMTSStyleGenerated } = await import('./wMTSStyle.gb');
-    return await buildDotNetWMTSStyleGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWMTSStyleGenerated(jsObject);
 }

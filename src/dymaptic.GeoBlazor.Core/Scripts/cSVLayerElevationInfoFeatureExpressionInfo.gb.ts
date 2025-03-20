@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } from './cSVLayerElevationInfoFeatureExpressionInfo';
 
-export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     let jsCSVLayerElevationInfoFeatureExpressionInfo: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -17,7 +17,7 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsCSVLayerElevationInfoFeatureExpressionInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsCSVLayerElevationInfoFeatureExpressionInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated
 }
 
 
-export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

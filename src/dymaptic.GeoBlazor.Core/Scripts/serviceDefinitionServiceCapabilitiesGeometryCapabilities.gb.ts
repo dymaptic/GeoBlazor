@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } from './serviceDefinitionServiceCapabilitiesGeometryCapabilities';
 
-export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsServiceDefinitionServiceCapabilitiesGeometryCapabilities: any = {};
 
     if (hasValue(dotNetObject.geometryMaxBoundingRectangleSizeX)) {
@@ -26,7 +26,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesGeometryCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,7 +53,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

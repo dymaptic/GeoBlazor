@@ -1,10 +1,10 @@
 
-export async function buildJsRasterFunction(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterFunction(dotNetObject: any): Promise<any> {
     let { buildJsRasterFunctionGenerated } = await import('./rasterFunction.gb');
-    return await buildJsRasterFunctionGenerated(dotNetObject, layerId, viewId);
+    return await buildJsRasterFunctionGenerated(dotNetObject);
 }     
 
-export async function buildDotNetRasterFunction(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRasterFunction(jsObject: any): Promise<any> {
     let { buildDotNetRasterFunctionGenerated } = await import('./rasterFunction.gb');
-    return await buildDotNetRasterFunctionGenerated(jsObject, layerId, viewId);
+    return await buildDotNetRasterFunctionGenerated(jsObject);
 }

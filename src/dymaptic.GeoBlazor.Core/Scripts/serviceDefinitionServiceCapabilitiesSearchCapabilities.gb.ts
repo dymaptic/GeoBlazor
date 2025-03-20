@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities } from './serviceDefinitionServiceCapabilitiesSearchCapabilities';
 
-export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsServiceDefinitionServiceCapabilitiesSearchCapabilities: any = {};
 
     if (hasValue(dotNetObject.allowLeadingWildcardQueries)) {
@@ -17,7 +17,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilit
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesSearchCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsServiceDefinitionServiceCapabilitiesSearchCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsServiceDefinitionServiceCapabilitiesSearchCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesSearchCapabilit
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetRelationshipTypeEndPoints } from './relationshipTypeEndPoints';
 
-export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: any): Promise<any> {
     let jsRelationshipTypeEndPoints: any = {};
 
     if (hasValue(dotNetObject.destinationEntityType)) {
@@ -17,7 +17,7 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipTypeEndPoints;
     
     let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-    let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRelationshipTypeEndPointsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

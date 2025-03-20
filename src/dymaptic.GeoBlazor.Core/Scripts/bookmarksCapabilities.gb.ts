@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBookmarksCapabilities } from './bookmarksCapabilities';
 
-export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsBookmarksCapabilities: any = {};
 
     if (hasValue(dotNetObject.time)) {
@@ -14,7 +14,7 @@ export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksCapabilities;
     
     let { buildDotNetBookmarksCapabilities } = await import('./bookmarksCapabilities');
-    let dnInstantiatedObject = await buildDotNetBookmarksCapabilities(jsBookmarksCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBookmarksCapabilities(jsBookmarksCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,7 +41,7 @@ export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetBookmarksCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarksCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

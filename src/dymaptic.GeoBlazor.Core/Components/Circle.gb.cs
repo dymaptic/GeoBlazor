@@ -19,7 +19,7 @@ public partial class Circle : Polygon
     }
 
 #region Public Properties / Blazor Parameters
-    
+
     /// <summary>
     ///     Applicable when the spatial reference of the center point is either set to Web Mercator (wkid: 3857) or geographic/geodesic (wkid: 4326).
     ///     default false
@@ -44,50 +44,6 @@ public partial class Circle : Polygon
 
 #region Property Getters
 
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Center property.
-    /// </summary>
-    public async Task<Point?> GetCenter()
-    {
-        if (CoreJsModule is null)
-        {
-            return Center;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Center;
-        }
-
-        Point? result = await JsComponentReference.InvokeAsync<Point?>(
-            "getCenter", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (Center is not null)
-            {
-                result.Id = Center.Id;
-            }
-            
-#pragma warning disable BL0005
-            Center = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(Center)] = Center;
-        }
-        
-        return Center;
-    }
-    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geodesic property.
     /// </summary>
@@ -125,84 +81,6 @@ public partial class Circle : Polygon
         }
          
         return Geodesic;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the NumberOfPoints property.
-    /// </summary>
-    public async Task<int?> GetNumberOfPoints()
-    {
-        if (CoreJsModule is null)
-        {
-            return NumberOfPoints;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return NumberOfPoints;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "numberOfPoints");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             NumberOfPoints = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(NumberOfPoints)] = NumberOfPoints;
-        }
-         
-        return NumberOfPoints;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Radius property.
-    /// </summary>
-    public async Task<double?> GetRadius()
-    {
-        if (CoreJsModule is null)
-        {
-            return Radius;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Radius;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "radius");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Radius = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Radius)] = Radius;
-        }
-         
-        return Radius;
     }
     
     /// <summary>
@@ -249,43 +127,6 @@ public partial class Circle : Polygon
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the Center property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCenter(Point? value)
-    {
-#pragma warning disable BL0005
-        Center = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Center)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setCenter", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Geodesic property after render.
     /// </summary>
     /// <param name="value">
@@ -320,80 +161,6 @@ public partial class Circle : Polygon
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "geodesic", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the NumberOfPoints property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetNumberOfPoints(int? value)
-    {
-#pragma warning disable BL0005
-        NumberOfPoints = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(NumberOfPoints)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "numberOfPoints", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Radius property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRadius(double? value)
-    {
-#pragma warning disable BL0005
-        Radius = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Radius)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "radius", value);
     }
     
     /// <summary>
@@ -435,47 +202,4 @@ public partial class Circle : Polygon
     
 #endregion
 
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Point center:
-                if (center != Center)
-                {
-                    Center = center;
-                    
-                    ModifiedParameters[nameof(Center)] = Center;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Point _:
-                Center = null;
-                
-                ModifiedParameters[nameof(Center)] = Center;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
-    }
-    
-    /// <inheritdoc />
-    public override void ValidateRequiredGeneratedChildren()
-    {
-    
-        Center?.ValidateRequiredGeneratedChildren();
-        base.ValidateRequiredGeneratedChildren();
-    }
-      
 }

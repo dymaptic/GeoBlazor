@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } from './knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics';
 
-export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject: any): Promise<any> {
     let jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics: any = {};
 
     if (hasValue(dotNetObject.centroid)) {
@@ -20,7 +20,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics;
     
     let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

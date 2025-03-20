@@ -1,10 +1,10 @@
 
-export async function buildJsBookmarksVisibleElements(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBookmarksVisibleElements(dotNetObject: any): Promise<any> {
     let { buildJsBookmarksVisibleElementsGenerated } = await import('./bookmarksVisibleElements.gb');
-    return await buildJsBookmarksVisibleElementsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsBookmarksVisibleElementsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetBookmarksVisibleElements(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarksVisibleElements(jsObject: any): Promise<any> {
     let { buildDotNetBookmarksVisibleElementsGenerated } = await import('./bookmarksVisibleElements.gb');
-    return await buildDotNetBookmarksVisibleElementsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBookmarksVisibleElementsGenerated(jsObject);
 }

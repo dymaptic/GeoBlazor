@@ -61,7 +61,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
+        return await buildDotNetFeatureEffect(this.component.featureEffect);
     }
     
     async getFilter(): Promise<any> {
@@ -70,7 +70,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter);
     }
     
     async getHighlightOptions(): Promise<any> {
@@ -93,7 +93,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(this.component.layer);
     }
     
     getProperty(prop: string): any {
@@ -179,12 +179,12 @@ export async function buildDotNetFeatureLayerViewGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
+        dotNetFeatureLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
     }
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetFeatureLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.highlightOptions)) {

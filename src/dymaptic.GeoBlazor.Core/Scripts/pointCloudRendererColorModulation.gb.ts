@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPointCloudRendererColorModulation } from './pointCloudRendererColorModulation';
 
-export async function buildJsPointCloudRendererColorModulationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudRendererColorModulationGenerated(dotNetObject: any): Promise<any> {
     let jsPointCloudRendererColorModulation: any = {};
 
     if (hasValue(dotNetObject.field)) {
@@ -20,7 +20,7 @@ export async function buildJsPointCloudRendererColorModulationGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererColorModulation;
     
     let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsPointCloudRendererColorModulationGenerated(dotNetOb
 }
 
 
-export async function buildDotNetPointCloudRendererColorModulationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudRendererColorModulationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

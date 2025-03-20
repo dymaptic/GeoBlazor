@@ -3,7 +3,7 @@ import TimeInterval from '@arcgis/core/TimeInterval';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetTimeInterval } from './timeInterval';
 
-export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.unit)) {
@@ -19,7 +19,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
     
     let { buildDotNetTimeInterval } = await import('./timeInterval');
-    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,7 +46,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetTimeIntervalGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTimeIntervalGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

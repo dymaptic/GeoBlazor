@@ -11,15 +11,15 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+        properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
+        properties.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -53,12 +53,12 @@ export async function buildDotNetImageHistogramParametersGenerated(jsObject: any
     
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
-        dotNetImageHistogramParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule, layerId, viewId);
+        dotNetImageHistogramParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetImageHistogramParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction, layerId, viewId);
+        dotNetImageHistogramParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
     }
     
     if (hasValue(jsObject.timeExtent)) {

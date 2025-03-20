@@ -1,10 +1,10 @@
 
-export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
     let { buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
 }

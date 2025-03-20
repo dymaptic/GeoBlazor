@@ -31,7 +31,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.elevationInfo)) {
             let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-            this.layer.elevationInfo = await buildJsWFSLayerElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
+            this.layer.elevationInfo = await buildJsWFSLayerElevationInfo(dotNetObject.elevationInfo) as any;
         }
         if (hasValue(dotNetObject.featureEffect)) {
             let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -55,7 +55,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
             let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-            this.layer.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
+            this.layer.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -75,7 +75,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.wfsCapabilities)) {
             let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-            this.layer.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities, this.layerId, this.viewId) as any;
+            this.layer.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
         }
 
         if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -249,12 +249,12 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-        return await buildDotNetWFSLayerElevationInfo(this.layer.elevationInfo, this.layerId, this.viewId);
+        return await buildDotNetWFSLayerElevationInfo(this.layer.elevationInfo);
     }
     
     async setElevationInfo(value: any): Promise<void> {
         let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-        this.layer.elevationInfo = await  buildJsWFSLayerElevationInfo(value, this.layerId, this.viewId);
+        this.layer.elevationInfo = await  buildJsWFSLayerElevationInfo(value);
     }
     
     async getFeatureEffect(): Promise<any> {
@@ -263,7 +263,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.layer.featureEffect, this.layerId, this.viewId);
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -291,7 +291,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.layer.fieldsIndex, this.layerId, this.viewId);
+        return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
     }
     
     async getFullExtent(): Promise<any> {
@@ -328,12 +328,12 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
+        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -356,7 +356,7 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -398,12 +398,12 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        return await buildDotNetWFSCapabilities(this.layer.wfsCapabilities, this.layerId, this.viewId);
+        return await buildDotNetWFSCapabilities(this.layer.wfsCapabilities);
     }
     
     async setWfsCapabilities(value: any): Promise<void> {
         let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        this.layer.wfsCapabilities = await  buildJsWFSCapabilities(value, this.layerId, this.viewId);
+        this.layer.wfsCapabilities = await  buildJsWFSCapabilities(value);
     }
     
     getProperty(prop: string): any {
@@ -424,7 +424,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         let { buildJsWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-        properties.elevationInfo = await buildJsWFSLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+        properties.elevationInfo = await buildJsWFSLayerElevationInfo(dotNetObject.elevationInfo) as any;
     }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -448,7 +448,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId))) as any;
+        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -468,7 +468,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.wfsCapabilities)) {
         let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        properties.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities, layerId, viewId) as any;
+        properties.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
     }
 
     if (hasValue(dotNetObject.arcGISLayerId)) {
@@ -587,7 +587,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayer;
     
     let { buildDotNetWFSLayer } = await import('./wFSLayer');
-    let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -614,7 +614,7 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -628,17 +628,17 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-        dotNetWFSLayer.elevationInfo = await buildDotNetWFSLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
+        dotNetWFSLayer.elevationInfo = await buildDotNetWFSLayerElevationInfo(jsObject.elevationInfo);
     }
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
+        dotNetWFSLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
     }
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetWFSLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction);
     }
     
     if (hasValue(jsObject.fields)) {
@@ -648,7 +648,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetWFSLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
+        dotNetWFSLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -663,7 +663,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.orderBy)) {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        dotNetWFSLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId)));
+        dotNetWFSLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     if (hasValue(jsObject.popupTemplate)) {
@@ -673,7 +673,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetWFSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.renderer)) {
@@ -688,7 +688,7 @@ export async function buildDotNetWFSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.wfsCapabilities)) {
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities, layerId, viewId);
+        dotNetWFSLayer.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
     }
     
     if (hasValue(jsObject.id)) {

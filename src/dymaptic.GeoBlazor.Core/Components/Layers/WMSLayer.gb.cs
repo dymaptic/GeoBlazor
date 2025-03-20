@@ -900,17 +900,17 @@ public partial class WMSLayer : Layer,
             return Effect;
         }
 
-        // get the property value
-        Effect? result = await JsComponentReference!.InvokeAsync<Effect?>("getProperty",
-            CancellationTokenSource.Token, "effect");
+        Effect? result = await JsComponentReference.InvokeAsync<Effect?>(
+            "getEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Effect = result;
+            Effect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Effect)] = Effect;
+            ModifiedParameters[nameof(Effect)] = Effect;
         }
-         
+        
         return Effect;
     }
     
@@ -2041,8 +2041,8 @@ public partial class WMSLayer : Layer,
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "effect", value);
+        await JsComponentReference.InvokeVoidAsync("setEffect", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

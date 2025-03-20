@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerCapabilities } from './knowledgeGraphSublayerCapabilities';
 
-export async function buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsKnowledgeGraphSublayerCapabilities: any = {};
     if (hasValue(dotNetObject.query)) {
         let { buildJsKnowledgeGraphSublayerCapabilitiesQuery } = await import('./knowledgeGraphSublayerCapabilitiesQuery');
-        jsKnowledgeGraphSublayerCapabilities.query = await buildJsKnowledgeGraphSublayerCapabilitiesQuery(dotNetObject.query, layerId, viewId) as any;
+        jsKnowledgeGraphSublayerCapabilities.query = await buildJsKnowledgeGraphSublayerCapabilitiesQuery(dotNetObject.query) as any;
     }
 
     if (hasValue(dotNetObject.analytics)) {
@@ -42,7 +42,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetO
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -51,7 +51,7 @@ export async function buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated(jsO
     
     if (hasValue(jsObject.query)) {
         let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuery } = await import('./knowledgeGraphSublayerCapabilitiesQuery');
-        dotNetKnowledgeGraphSublayerCapabilities.query = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuery(jsObject.query, layerId, viewId);
+        dotNetKnowledgeGraphSublayerCapabilities.query = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuery(jsObject.query);
     }
     
     if (hasValue(jsObject.analytics)) {

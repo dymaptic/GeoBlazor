@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetMapViewConstraints } from './mapViewConstraints';
 
-export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMapViewConstraintsGenerated(dotNetObject: any): Promise<any> {
     let jsMapViewConstraints: any = {};
     if (hasValue(dotNetObject.effectiveLODs) && dotNetObject.effectiveLODs.length > 0) {
         let { buildJsLOD } = await import('./lOD');
-        jsMapViewConstraints.effectiveLODs = await Promise.all(dotNetObject.effectiveLODs.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
+        jsMapViewConstraints.effectiveLODs = await Promise.all(dotNetObject.effectiveLODs.map(async i => await buildJsLOD(i))) as any;
     }
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
@@ -14,7 +14,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
-        jsMapViewConstraints.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
+        jsMapViewConstraints.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i))) as any;
     }
 
     if (hasValue(dotNetObject.effectiveMaxScale)) {
@@ -53,7 +53,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsMapViewConstraints;
     
     let { buildDotNetMapViewConstraints } = await import('./mapViewConstraints');
-    let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints);
 
     try {
         let seenObjects = new WeakMap();
@@ -80,7 +80,7 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetMapViewConstraintsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetMapViewConstraintsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -89,7 +89,7 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.effectiveLODs)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i, layerId, viewId)));
+        dotNetMapViewConstraints.effectiveLODs = await Promise.all(jsObject.effectiveLODs.map(async i => await buildDotNetLOD(i)));
     }
     
     if (hasValue(jsObject.geometry)) {
@@ -99,7 +99,7 @@ export async function buildDotNetMapViewConstraintsGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
+        dotNetMapViewConstraints.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
     }
     
     if (hasValue(jsObject.effectiveMaxScale)) {

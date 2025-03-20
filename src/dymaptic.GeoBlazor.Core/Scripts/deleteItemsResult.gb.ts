@@ -33,7 +33,7 @@ export async function buildDotNetDeleteItemsResultGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item, layerId, viewId);
+        dotNetDeleteItemsResult.item = await buildDotNetPortalItem(jsObject.item);
     }
     
     if (hasValue(jsObject.error)) {

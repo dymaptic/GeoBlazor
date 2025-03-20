@@ -5,6 +5,10 @@ import {arcGisObjectRefs, copyValuesIfExists, hasValue, jsObjectRefs} from "./ar
 import {buildDotNetSpatialReference, buildJsSpatialReference} from "./spatialReference";
 
 export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null = null): any {
+    if (!hasValue(dotNetExtent)) {
+        return null;
+    }
+    
     let properties: any = {};
     copyValuesIfExists(dotNetExtent, properties, 'xmax', 'xmin', 'ymax', 'ymin', 'zmax', 'zmin', 'mmax', 'mmin');
 

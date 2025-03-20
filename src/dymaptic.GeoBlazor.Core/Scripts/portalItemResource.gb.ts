@@ -51,7 +51,7 @@ export default class PortalItemResourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -104,7 +104,7 @@ export async function buildDotNetPortalItemResourceGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetPortalItemResource.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.path)) {

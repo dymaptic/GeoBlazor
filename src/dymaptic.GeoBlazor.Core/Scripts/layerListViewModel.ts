@@ -30,7 +30,7 @@ export async function buildJsLayerListViewModel(dotNetObject: any, layerId: stri
     return jsViewModel;
 }
 
-export async function buildDotNetLayerListViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListViewModel(jsObject: any): Promise<any> {
     let {buildDotNetLayerListViewModelGenerated} = await import('./layerListViewModel.gb');
-    return await buildDotNetLayerListViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetLayerListViewModelGenerated(jsObject);
 }

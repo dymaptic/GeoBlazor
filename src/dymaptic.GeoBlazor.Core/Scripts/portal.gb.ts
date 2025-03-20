@@ -212,7 +212,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         let result = await this.component.fetchBasemaps(basemapGalleryGroupQuery,
             options);
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(result.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
+        return await Promise.all(result.map(async i => await buildDotNetBasemap(i)));
     }
 
     async fetchCategorySchema(options: any): Promise<any> {
@@ -265,7 +265,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultBasemap);
     }
     
     async setDefaultBasemap(value: any): Promise<void> {
@@ -279,7 +279,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultDevBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultDevBasemap);
     }
     
     async setDefaultDevBasemap(value: any): Promise<void> {
@@ -307,7 +307,7 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.defaultVectorBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.defaultVectorBasemap);
     }
     
     async setDefaultVectorBasemap(value: any): Promise<void> {

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetIntegratedMeshLayerElevationInfo } from './integratedMeshLayerElevationInfo';
 
-export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsIntegratedMeshLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -20,7 +20,7 @@ export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsIntegratedMeshLayerElevationInfo;
     
     let { buildDotNetIntegratedMeshLayerElevationInfo } = await import('./integratedMeshLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetIntegratedMeshLayerElevationInfo(jsIntegratedMeshLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetIntegratedMeshLayerElevationInfo(jsIntegratedMeshLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObj
 }
 
 
-export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

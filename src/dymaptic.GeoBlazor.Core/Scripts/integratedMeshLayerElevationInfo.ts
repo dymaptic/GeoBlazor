@@ -1,10 +1,10 @@
 
-export async function buildJsIntegratedMeshLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIntegratedMeshLayerElevationInfo(dotNetObject: any): Promise<any> {
     let { buildJsIntegratedMeshLayerElevationInfoGenerated } = await import('./integratedMeshLayerElevationInfo.gb');
-    return await buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetIntegratedMeshLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIntegratedMeshLayerElevationInfo(jsObject: any): Promise<any> {
     let { buildDotNetIntegratedMeshLayerElevationInfoGenerated } = await import('./integratedMeshLayerElevationInfo.gb');
-    return await buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetIntegratedMeshLayerElevationInfoGenerated(jsObject);
 }

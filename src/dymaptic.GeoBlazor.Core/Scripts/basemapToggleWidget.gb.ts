@@ -27,7 +27,7 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-            this.widget.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
+            this.widget.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements) as any;
         }
 
         if (hasValue(dotNetObject.icon)) {
@@ -100,7 +100,7 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.widget.activeBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.widget.activeBasemap);
     }
     
     async getNextBasemap(): Promise<any> {
@@ -109,7 +109,7 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.widget.nextBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.widget.nextBasemap);
     }
     
     async setNextBasemap(value: any): Promise<void> {
@@ -123,7 +123,7 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        return await buildDotNetBasemapToggleViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetBasemapToggleViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -137,12 +137,12 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-        return await buildDotNetBasemapToggleVisibleElements(this.widget.visibleElements, this.layerId, this.viewId);
+        return await buildDotNetBasemapToggleVisibleElements(this.widget.visibleElements);
     }
     
     async setVisibleElements(value: any): Promise<void> {
         let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-        this.widget.visibleElements = await  buildJsBasemapToggleVisibleElements(value, this.layerId, this.viewId);
+        this.widget.visibleElements = await  buildJsBasemapToggleVisibleElements(value);
     }
     
     getProperty(prop: string): any {
@@ -170,7 +170,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-        properties.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+        properties.visibleElements = await buildJsBasemapToggleVisibleElements(dotNetObject.visibleElements) as any;
     }
 
     if (hasValue(dotNetObject.icon)) {
@@ -198,7 +198,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
     
     let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle);
 
     try {
         let seenObjects = new WeakMap();
@@ -225,7 +225,7 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -234,12 +234,12 @@ export async function buildDotNetBasemapToggleWidgetGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetBasemapToggleWidget.viewModel = await buildDotNetBasemapToggleViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-        dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements, layerId, viewId);
+        dotNetBasemapToggleWidget.visibleElements = await buildDotNetBasemapToggleVisibleElements(jsObject.visibleElements);
     }
     
     if (hasValue(jsObject.icon)) {

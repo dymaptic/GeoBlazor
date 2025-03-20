@@ -3,7 +3,7 @@ import LayerFloorInfo from '@arcgis/core/layers/support/LayerFloorInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLayerFloorInfo } from './layerFloorInfo';
 
-export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.floorField)) {
@@ -16,7 +16,7 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
     
     let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,7 +43,7 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetLayerFloorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerFloorInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

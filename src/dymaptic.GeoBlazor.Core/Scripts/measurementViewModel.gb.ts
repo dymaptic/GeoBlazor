@@ -29,7 +29,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     
     let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-    let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -56,7 +56,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetMeasurementViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

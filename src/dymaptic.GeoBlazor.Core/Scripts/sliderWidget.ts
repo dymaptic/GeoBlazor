@@ -54,7 +54,7 @@ export async function buildJsSliderWidget(dotNetObject: any, layerId: string | n
     return await buildJsSliderWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSliderWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderWidget(jsObject: any): Promise<any> {
     let {buildDotNetSliderWidgetGenerated} = await import('./sliderWidget.gb');
-    return await buildDotNetSliderWidgetGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSliderWidgetGenerated(jsObject);
 }

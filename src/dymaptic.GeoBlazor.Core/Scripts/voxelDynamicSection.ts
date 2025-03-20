@@ -1,10 +1,10 @@
 
-export async function buildJsVoxelDynamicSection(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelDynamicSection(dotNetObject: any): Promise<any> {
     let { buildJsVoxelDynamicSectionGenerated } = await import('./voxelDynamicSection.gb');
-    return await buildJsVoxelDynamicSectionGenerated(dotNetObject, layerId, viewId);
+    return await buildJsVoxelDynamicSectionGenerated(dotNetObject);
 }     
 
-export async function buildDotNetVoxelDynamicSection(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelDynamicSection(jsObject: any): Promise<any> {
     let { buildDotNetVoxelDynamicSectionGenerated } = await import('./voxelDynamicSection.gb');
-    return await buildDotNetVoxelDynamicSectionGenerated(jsObject, layerId, viewId);
+    return await buildDotNetVoxelDynamicSectionGenerated(jsObject);
 }

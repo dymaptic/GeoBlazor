@@ -831,7 +831,11 @@ public partial class MapView : MapComponent
             ? Map?.Basemap?.BaseLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
             : layerViewCreateEvent.IsReferenceLayer
                 ? Map?.Basemap?.ReferenceLayers?.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
-                : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId);
+                : Map?.Layers.FirstOrDefault(l => l.Id == layerViewCreateEvent.LayerGeoBlazorId)
+                ?? Map?.Layers.OfType<IGroupLayer>()
+                    .Select(g => 
+                        g.Layers?.FirstOrDefault(sl => sl.Id == layerViewCreateEvent.LayerGeoBlazorId))
+                    .FirstOrDefault(l => l is not null);
 
         if (createdLayer is not null) // layer already exists in GeoBlazor
         {

@@ -49,7 +49,7 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.activeBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.activeBasemap);
     }
     
     async setActiveBasemap(value: any): Promise<void> {
@@ -63,7 +63,7 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         }
         
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-        return await Promise.all(this.component.items.map(async i => await buildDotNetBasemapGalleryItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     
     async setItems(value: any): Promise<void> {
@@ -122,7 +122,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryViewModel;
     
     let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapGalleryViewModel(jsBasemapGalleryViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapGalleryViewModel(jsBasemapGalleryViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -149,7 +149,7 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -158,7 +158,7 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any,
     
     if (hasValue(jsObject.items)) {
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-        dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i, layerId, viewId)));
+        dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     
     if (hasValue(jsObject.state)) {

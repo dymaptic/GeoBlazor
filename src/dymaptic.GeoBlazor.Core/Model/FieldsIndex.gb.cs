@@ -22,6 +22,7 @@ public partial record FieldsIndex(
     
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
+    
     /// <summary>
     ///     Cancellation Token for async methods.
     /// </summary>

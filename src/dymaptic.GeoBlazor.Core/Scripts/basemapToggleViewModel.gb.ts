@@ -46,7 +46,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.activeBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.activeBasemap);
     }
     
     async getNextBasemap(): Promise<any> {
@@ -55,7 +55,7 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.component.nextBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.component.nextBasemap);
     }
     
     async setNextBasemap(value: any): Promise<void> {
@@ -96,7 +96,7 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
     
     let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -123,7 +123,7 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

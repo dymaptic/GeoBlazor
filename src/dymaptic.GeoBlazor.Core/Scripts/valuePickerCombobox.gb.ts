@@ -4,19 +4,18 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetValuePickerCombobox } from './valuePickerCombobox';
 
 export async function buildJsValuePickerComboboxGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsValuePickerCombobox: any = {};
     if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsComboboxItem } = await import('./comboboxItem');
-        properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsComboboxItem(i, layerId, viewId))) as any;
+        jsValuePickerCombobox.items = await Promise.all(dotNetObject.items.map(async i => await buildJsComboboxItem(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
-        properties.label = dotNetObject.label;
+        jsValuePickerCombobox.label = dotNetObject.label;
     }
     if (hasValue(dotNetObject.placeholder)) {
-        properties.placeholder = dotNetObject.placeholder;
+        jsValuePickerCombobox.placeholder = dotNetObject.placeholder;
     }
-    let jsValuePickerCombobox = new ValuePickerCombobox(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsValuePickerCombobox);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

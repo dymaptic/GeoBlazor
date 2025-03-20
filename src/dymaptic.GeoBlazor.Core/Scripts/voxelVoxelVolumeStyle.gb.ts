@@ -7,11 +7,11 @@ export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, l
     let properties: any = {};
     if (hasValue(dotNetObject.dynamicSections) && dotNetObject.dynamicSections.length > 0) {
         let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
-        properties.dynamicSections = await Promise.all(dotNetObject.dynamicSections.map(async i => await buildJsVoxelDynamicSection(i, layerId, viewId))) as any;
+        properties.dynamicSections = await Promise.all(dotNetObject.dynamicSections.map(async i => await buildJsVoxelDynamicSection(i))) as any;
     }
     if (hasValue(dotNetObject.slices) && dotNetObject.slices.length > 0) {
         let { buildJsVoxelSlice } = await import('./voxelSlice');
-        properties.slices = await Promise.all(dotNetObject.slices.map(async i => await buildJsVoxelSlice(i, layerId, viewId))) as any;
+        properties.slices = await Promise.all(dotNetObject.slices.map(async i => await buildJsVoxelSlice(i))) as any;
     }
 
     if (hasValue(dotNetObject.verticalExaggeration)) {
@@ -63,12 +63,12 @@ export async function buildDotNetVoxelVoxelVolumeStyleGenerated(jsObject: any, l
     
     if (hasValue(jsObject.dynamicSections)) {
         let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-        dotNetVoxelVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i, layerId, viewId)));
+        dotNetVoxelVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i)));
     }
     
     if (hasValue(jsObject.slices)) {
         let { buildDotNetVoxelSlice } = await import('./voxelSlice');
-        dotNetVoxelVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i, layerId, viewId)));
+        dotNetVoxelVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i)));
     }
     
     if (hasValue(jsObject.verticalExaggeration)) {

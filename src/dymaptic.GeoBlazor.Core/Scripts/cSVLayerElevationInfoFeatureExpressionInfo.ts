@@ -1,10 +1,10 @@
 
-export async function buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
     let { buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./cSVLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsCSVLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./cSVLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetCSVLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
 }

@@ -1,10 +1,10 @@
 
-export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(dotNetObject: any): Promise<any> {
     let { buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.gb');
-    return await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject: any): Promise<any> {
     let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics.gb');
-    return await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(jsObject);
 }

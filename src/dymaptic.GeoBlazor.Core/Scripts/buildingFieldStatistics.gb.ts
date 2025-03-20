@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBuildingFieldStatistics } from './buildingFieldStatistics';
 
-export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any): Promise<any> {
     let jsBuildingFieldStatistics: any = {};
 
     if (hasValue(dotNetObject.fieldName)) {
@@ -32,7 +32,7 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFieldStatistics;
     
     let { buildDotNetBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-    let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,7 +59,7 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBuildingFieldStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

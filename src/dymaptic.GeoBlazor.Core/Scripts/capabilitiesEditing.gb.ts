@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCapabilitiesEditing } from './capabilitiesEditing';
 
-export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any): Promise<any> {
     let jsCapabilitiesEditing: any = {};
 
     if (hasValue(dotNetObject.supportsDeleteByAnonymous)) {
@@ -38,7 +38,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     
     let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesEditing(jsCapabilitiesEditing);
 
     try {
         let seenObjects = new WeakMap();
@@ -65,7 +65,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesEditingGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

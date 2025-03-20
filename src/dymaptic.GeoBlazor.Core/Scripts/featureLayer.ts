@@ -272,7 +272,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -291,7 +291,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let result = this.layer.getFeatureType(feature as Graphic);
 
         let {buildDotNetFeatureType} = await import('./featureType');
-        return buildDotNetFeatureType(result, this.layerId, this.viewId);
+        return buildDotNetFeatureType(result);
     }
 
     async getTemplates(): Promise<any> {
@@ -300,7 +300,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         }
 
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
 
     async setTemplates(value: any): Promise<void> {
@@ -344,7 +344,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
         let result = this.layer.clone();
 
-        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result);
     }
 
     refresh() {
@@ -371,12 +371,17 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
     if (hasValue(dotNetObject.geometryType) && hasValue(dotNetObject.source)) {
         jsFeatureLayer.geometryType = dotNetObject.geometryType;
     }
+    
+    // bug is erasing the end of some urls from properties
+    if (hasValue(dotNetObject.url)) {
+        jsFeatureLayer.url = dotNetObject.url;
+    }
 
     return jsFeatureLayer;
 }
 
 
-export async function buildDotNetFeatureLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayer(jsObject: any): Promise<any> {
     let {buildDotNetFeatureLayerGenerated} = await import('./featureLayer.gb');
-    return await buildDotNetFeatureLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetFeatureLayerGenerated(jsObject);
 }

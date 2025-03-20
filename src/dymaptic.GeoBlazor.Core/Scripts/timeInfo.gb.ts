@@ -3,7 +3,7 @@ import TimeInfo from '@arcgis/core/layers/support/TimeInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetTimeInfo } from './timeInfo';
 
-export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.fullTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -11,7 +11,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.interval)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.interval = await buildJsTimeInterval(dotNetObject.interval, layerId, viewId) as any;
+        properties.interval = await buildJsTimeInterval(dotNetObject.interval) as any;
     }
 
     if (hasValue(dotNetObject.endField)) {
@@ -36,7 +36,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
     
     let { buildDotNetTimeInfo } = await import('./timeInfo');
-    let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -63,7 +63,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTimeInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -77,7 +77,7 @@ export async function buildDotNetTimeInfoGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.interval)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval, layerId, viewId);
+        dotNetTimeInfo.interval = await buildDotNetTimeInterval(jsObject.interval);
     }
     
     if (hasValue(jsObject.endField)) {

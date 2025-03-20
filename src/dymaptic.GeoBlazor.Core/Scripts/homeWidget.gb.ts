@@ -121,12 +121,12 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        return await buildDotNetHomeViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetHomeViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
         let { buildJsHomeViewModel } = await import('./homeViewModel');
-        this.widget.viewModel = await  buildJsHomeViewModel(value, this.layerId, this.viewId);
+        this.widget.viewModel = await  buildJsHomeViewModel(value, this.viewId);
     }
     
     async getViewpoint(): Promise<any> {
@@ -164,7 +164,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsHomeViewModel } = await import('./homeViewModel');
-        properties.viewModel = await buildJsHomeViewModel(dotNetObject.viewModel, layerId, viewId) as any;
+        properties.viewModel = await buildJsHomeViewModel(dotNetObject.viewModel, viewId) as any;
     }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');
@@ -203,7 +203,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsHome;
     
     let { buildDotNetHomeWidget } = await import('./homeWidget');
-    let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
 
     try {
         let seenObjects = new WeakMap();
@@ -230,7 +230,7 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -244,7 +244,7 @@ export async function buildDotNetHomeWidgetGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetHomeWidget.viewModel = await buildDotNetHomeViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.viewpoint)) {

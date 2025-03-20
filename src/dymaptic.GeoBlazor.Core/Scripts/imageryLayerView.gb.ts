@@ -65,7 +65,7 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetLayer(this.component.layer);
     }
     
     async getPixelData(): Promise<any> {

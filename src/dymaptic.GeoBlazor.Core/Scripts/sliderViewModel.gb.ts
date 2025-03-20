@@ -171,7 +171,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsSliderViewModel;
     
     let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-    let dnInstantiatedObject = await buildDotNetSliderViewModel(jsSliderViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSliderViewModel(jsSliderViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -198,7 +198,7 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetSliderViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

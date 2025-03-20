@@ -3,7 +3,7 @@ import RasterSensorInfo from '@arcgis/core/layers/support/RasterSensorInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetRasterSensorInfo } from './rasterSensorInfo';
 
-export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterSensorInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.acquisitionDate)) {
@@ -37,7 +37,7 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
     let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
-    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -64,7 +64,7 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRasterSensorInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRasterSensorInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

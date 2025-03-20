@@ -27,7 +27,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.allSublayers) && dotNetObject.allSublayers.length > 0) {
             let { buildJsWMSSublayer } = await import('./wMSSublayer');
-            this.layer.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
+            this.layer.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i))) as any;
         }
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
@@ -47,7 +47,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
             let { buildJsWMSSublayer } = await import('./wMSSublayer');
-            this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
+            this.layer.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i))) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -55,11 +55,11 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
-            this.layer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, this.layerId, this.viewId) as any;
+            this.layer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
         }
         if (hasValue(dotNetObject.timeOffset)) {
             let { buildJsTimeInterval } = await import('./timeInterval');
-            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, this.layerId, this.viewId) as any;
+            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -188,12 +188,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
     async setAllSublayers(value: any): Promise<void> {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        this.layer.allSublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
+        this.layer.allSublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i))) as any;
     }
     
     async getEffect(): Promise<any> {
@@ -244,7 +244,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -258,12 +258,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i, this.layerId, this.viewId))) as any;
+        this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i))) as any;
     }
     
     async getTimeExtent(): Promise<any> {
@@ -286,12 +286,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo, this.layerId, this.viewId);
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
     
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+        this.layer.timeInfo = await  buildJsTimeInfo(value);
     }
     
     async getTimeOffset(): Promise<any> {
@@ -300,12 +300,12 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset, this.layerId, this.viewId);
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
     
     async setTimeOffset(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+        this.layer.timeOffset = await  buildJsTimeInterval(value);
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
@@ -336,7 +336,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.allSublayers) && dotNetObject.allSublayers.length > 0) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        properties.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
+        properties.allSublayers = await Promise.all(dotNetObject.allSublayers.map(async i => await buildJsWMSSublayer(i))) as any;
     }
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
@@ -364,7 +364,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.sublayers) && dotNetObject.sublayers.length > 0) {
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
-        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i, layerId, viewId))) as any;
+        properties.sublayers = await Promise.all(dotNetObject.sublayers.map(async i => await buildJsWMSSublayer(i))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -372,11 +372,11 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -496,7 +496,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
     
     let { buildDotNetWMSLayer } = await import('./wMSLayer');
-    let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -523,7 +523,7 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -547,12 +547,12 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetWMSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i, layerId, viewId)));
+        dotNetWMSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
     if (hasValue(jsObject.timeExtent)) {
@@ -562,12 +562,12 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
+        dotNetWMSLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
     }
     
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
+        dotNetWMSLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {

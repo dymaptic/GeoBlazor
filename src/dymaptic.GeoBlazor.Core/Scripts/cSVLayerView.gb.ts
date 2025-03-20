@@ -109,7 +109,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.component.featureEffect, this.layerId, this.viewId);
+        return await buildDotNetFeatureEffect(this.component.featureEffect);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -123,7 +123,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        return await buildDotNetFeatureFilter(this.component.filter, this.layerId, this.viewId);
+        return await buildDotNetFeatureFilter(this.component.filter);
     }
     
     async setFilter(value: any): Promise<void> {
@@ -151,7 +151,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetLayer(this.component.layer);
     }
     
     getProperty(prop: string): any {
@@ -236,12 +236,12 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetCSVLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
+        dotNetCSVLayerView.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
     }
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetCSVLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetCSVLayerView.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.highlightOptions)) {

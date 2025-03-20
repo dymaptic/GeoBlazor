@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCSVLayerElevationInfo } from './cSVLayerElevationInfo';
 
-export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsCSVLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-        jsCSVLayerElevationInfo.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsCSVLayerElevationInfo.featureExpressionInfo = await buildJsCSVLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     
     let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetCSVLayerElevationInfoGenerated(jsObject: any, l
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetCSVLayerElevationInfoFeatureExpressionInfo } = await import('./cSVLayerElevationInfoFeatureExpressionInfo');
-        dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetCSVLayerElevationInfo.featureExpressionInfo = await buildDotNetCSVLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

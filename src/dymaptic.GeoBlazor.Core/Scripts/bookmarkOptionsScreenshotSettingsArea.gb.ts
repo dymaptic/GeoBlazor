@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBookmarkOptionsScreenshotSettingsArea } from './bookmarkOptionsScreenshotSettingsArea';
 
-export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject: any): Promise<any> {
     let jsBookmarkOptionsScreenshotSettingsArea: any = {};
 
     if (hasValue(dotNetObject.height)) {
@@ -23,7 +23,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettingsArea;
     
     let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea);
 
     try {
         let seenObjects = new WeakMap();
@@ -50,7 +50,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
 }
 
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsAreaGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

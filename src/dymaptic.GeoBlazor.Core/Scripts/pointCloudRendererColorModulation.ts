@@ -1,10 +1,10 @@
 
-export async function buildJsPointCloudRendererColorModulation(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudRendererColorModulation(dotNetObject: any): Promise<any> {
     let { buildJsPointCloudRendererColorModulationGenerated } = await import('./pointCloudRendererColorModulation.gb');
-    return await buildJsPointCloudRendererColorModulationGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPointCloudRendererColorModulationGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPointCloudRendererColorModulation(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudRendererColorModulation(jsObject: any): Promise<any> {
     let { buildDotNetPointCloudRendererColorModulationGenerated } = await import('./pointCloudRendererColorModulation.gb');
-    return await buildDotNetPointCloudRendererColorModulationGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPointCloudRendererColorModulationGenerated(jsObject);
 }

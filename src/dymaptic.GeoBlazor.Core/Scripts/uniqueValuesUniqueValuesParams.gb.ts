@@ -67,7 +67,7 @@ export async function buildDotNetUniqueValuesUniqueValuesParamsGenerated(jsObjec
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetUniqueValuesUniqueValuesParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.field)) {

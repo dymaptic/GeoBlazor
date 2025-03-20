@@ -38,7 +38,7 @@ export async function buildDotNetIBreakpointsOwnerGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.orientation)) {
         let { buildDotNetOrientation } = await import('./orientation');
-        dotNetIBreakpointsOwner.orientation = await buildDotNetOrientation(jsObject.orientation, layerId, viewId);
+        dotNetIBreakpointsOwner.orientation = await buildDotNetOrientation(jsObject.orientation);
     }
     
     if (hasValue(jsObject.heightBreakpoint)) {

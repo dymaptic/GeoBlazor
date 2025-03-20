@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPointCloudRendererPointSizeAlgorithm } from './pointCloudRendererPointSizeAlgorithm';
 
-export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNetObject: any): Promise<any> {
     let jsPointCloudRendererPointSizeAlgorithm: any = {};
 
     if (hasValue(dotNetObject.scaleFactor)) {
@@ -20,7 +20,7 @@ export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNe
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererPointSizeAlgorithm;
     
     let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNe
 }
 
 
-export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudRendererPointSizeAlgorithmGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

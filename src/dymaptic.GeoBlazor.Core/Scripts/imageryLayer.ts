@@ -15,7 +15,7 @@ export async function buildJsImageryLayer(dotNetObject: any, layerId: string | n
     return await buildJsImageryLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetImageryLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayer(jsObject: any): Promise<any> {
     let {buildDotNetImageryLayerGenerated} = await import('./imageryLayer.gb');
-    return await buildDotNetImageryLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetImageryLayerGenerated(jsObject);
 }

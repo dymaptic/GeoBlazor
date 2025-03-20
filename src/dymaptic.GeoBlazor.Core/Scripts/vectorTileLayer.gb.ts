@@ -174,7 +174,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
-        return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo, this.layerId, this.viewId);
+        return await buildDotNetVectorTileLayerCurrentStyleInfo(this.layer.currentStyleInfo);
     }
     
     async getEffect(): Promise<any> {
@@ -225,7 +225,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -239,7 +239,7 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        return await buildDotNetTileInfo(this.layer.tileInfo, this.layerId, this.viewId);
+        return await buildDotNetTileInfo(this.layer.tileInfo);
     }
     
     async setTileInfo(value: any): Promise<void> {
@@ -371,7 +371,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
     
     let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
-    let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -398,7 +398,7 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -407,7 +407,7 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.currentStyleInfo)) {
         let { buildDotNetVectorTileLayerCurrentStyleInfo } = await import('./vectorTileLayerCurrentStyleInfo');
-        dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo, layerId, viewId);
+        dotNetVectorTileLayer.currentStyleInfo = await buildDotNetVectorTileLayerCurrentStyleInfo(jsObject.currentStyleInfo);
     }
     
     if (hasValue(jsObject.effect)) {
@@ -427,12 +427,12 @@ export async function buildDotNetVectorTileLayerGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetVectorTileLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
+        dotNetVectorTileLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {

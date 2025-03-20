@@ -6,7 +6,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     let jsBookmarkOptionsScreenshotSettings: any = {};
     if (hasValue(dotNetObject.area)) {
         let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-        jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area, layerId, viewId) as any;
+        jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area) as any;
     }
     if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
@@ -25,7 +25,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
     
     let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,7 +52,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
 }
 
 
-export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -61,7 +61,7 @@ export async function buildDotNetBookmarkOptionsScreenshotSettingsGenerated(jsOb
     
     if (hasValue(jsObject.area)) {
         let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-        dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area, layerId, viewId);
+        dotNetBookmarkOptionsScreenshotSettings.area = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsObject.area);
     }
     
     if (hasValue(jsObject.height)) {

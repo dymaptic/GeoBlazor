@@ -4,9 +4,8 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRenderCamera } from './renderCamera';
 
 export async function buildJsRenderCameraGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsRenderCamera: any = {};
 
-    let jsRenderCamera = new RenderCamera(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsRenderCamera);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

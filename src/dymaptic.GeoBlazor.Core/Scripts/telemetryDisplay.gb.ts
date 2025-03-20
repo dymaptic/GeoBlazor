@@ -3,7 +3,7 @@ import TelemetryDisplay from '@arcgis/core/layers/support/TelemetryDisplay';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetTelemetryDisplay } from './telemetryDisplay';
 
-export async function buildJsTelemetryDisplayGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsTelemetryDisplayGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.frameCenter)) {
@@ -28,7 +28,7 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsTelemetryDisplay;
     
     let { buildDotNetTelemetryDisplay } = await import('./telemetryDisplay');
-    let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetTelemetryDisplayGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTelemetryDisplayGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

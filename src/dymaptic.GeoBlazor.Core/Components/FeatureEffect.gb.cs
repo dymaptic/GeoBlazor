@@ -104,17 +104,17 @@ public partial class FeatureEffect
             return ExcludedEffect;
         }
 
-        // get the property value
-        IReadOnlyList<Effect>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
-            CancellationTokenSource.Token, "excludedEffect");
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
+            "getExcludedEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ExcludedEffect = result;
+            ExcludedEffect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExcludedEffect)] = ExcludedEffect;
+            ModifiedParameters[nameof(ExcludedEffect)] = ExcludedEffect;
         }
-         
+        
         return ExcludedEffect;
     }
     
@@ -226,17 +226,17 @@ public partial class FeatureEffect
             return IncludedEffect;
         }
 
-        // get the property value
-        IReadOnlyList<Effect>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Effect>?>("getProperty",
-            CancellationTokenSource.Token, "includedEffect");
+        IReadOnlyList<Effect>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Effect>?>(
+            "getIncludedEffect", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             IncludedEffect = result;
+            IncludedEffect = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(IncludedEffect)] = IncludedEffect;
+            ModifiedParameters[nameof(IncludedEffect)] = IncludedEffect;
         }
-         
+        
         return IncludedEffect;
     }
     

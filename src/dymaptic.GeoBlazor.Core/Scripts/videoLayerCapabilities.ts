@@ -1,10 +1,10 @@
 
-export async function buildJsVideoLayerCapabilities(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVideoLayerCapabilities(dotNetObject: any): Promise<any> {
     let { buildJsVideoLayerCapabilitiesGenerated } = await import('./videoLayerCapabilities.gb');
-    return await buildJsVideoLayerCapabilitiesGenerated(dotNetObject, layerId, viewId);
+    return await buildJsVideoLayerCapabilitiesGenerated(dotNetObject);
 }     
 
-export async function buildDotNetVideoLayerCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVideoLayerCapabilities(jsObject: any): Promise<any> {
     let { buildDotNetVideoLayerCapabilitiesGenerated } = await import('./videoLayerCapabilities.gb');
-    return await buildDotNetVideoLayerCapabilitiesGenerated(jsObject, layerId, viewId);
+    return await buildDotNetVideoLayerCapabilitiesGenerated(jsObject);
 }

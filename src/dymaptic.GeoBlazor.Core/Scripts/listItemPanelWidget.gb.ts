@@ -113,7 +113,7 @@ export default class ListItemPanelWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await buildDotNetListItem(this.widget.listItem, this.layerId, this.viewId);
+        return await buildDotNetListItem(this.widget.listItem);
     }
     
     async setListItem(value: any): Promise<void> {
@@ -184,7 +184,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsListItemPanel;
     
     let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
-    let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetListItemPanelWidget(jsListItemPanel);
 
     try {
         let seenObjects = new WeakMap();
@@ -211,7 +211,7 @@ export async function buildJsListItemPanelWidgetGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -220,7 +220,7 @@ export async function buildDotNetListItemPanelWidgetGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.listItem)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem, layerId, viewId);
+        dotNetListItemPanelWidget.listItem = await buildDotNetListItem(jsObject.listItem);
     }
     
     if (hasValue(jsObject.content)) {

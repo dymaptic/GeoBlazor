@@ -16,7 +16,7 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsScaleBarViewModel;
     
     let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
-    let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -43,7 +43,7 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetScaleBarViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetScaleBarViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

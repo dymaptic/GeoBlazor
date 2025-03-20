@@ -1,10 +1,10 @@
 
-export async function buildJsVectorTileLayerCurrentStyleInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVectorTileLayerCurrentStyleInfo(dotNetObject: any): Promise<any> {
     let { buildJsVectorTileLayerCurrentStyleInfoGenerated } = await import('./vectorTileLayerCurrentStyleInfo.gb');
-    return await buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetVectorTileLayerCurrentStyleInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerCurrentStyleInfo(jsObject: any): Promise<any> {
     let { buildDotNetVectorTileLayerCurrentStyleInfoGenerated } = await import('./vectorTileLayerCurrentStyleInfo.gb');
-    return await buildDotNetVectorTileLayerCurrentStyleInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetVectorTileLayerCurrentStyleInfoGenerated(jsObject);
 }

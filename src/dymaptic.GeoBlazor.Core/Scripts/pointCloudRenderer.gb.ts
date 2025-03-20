@@ -3,15 +3,15 @@ import PointCloudRenderer from '@arcgis/core/renderers/PointCloudRenderer';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPointCloudRenderer } from './pointCloudRenderer';
 
-export async function buildJsPointCloudRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudRendererGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.colorModulation)) {
         let { buildJsPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-        properties.colorModulation = await buildJsPointCloudRendererColorModulation(dotNetObject.colorModulation, layerId, viewId) as any;
+        properties.colorModulation = await buildJsPointCloudRendererColorModulation(dotNetObject.colorModulation) as any;
     }
     if (hasValue(dotNetObject.pointSizeAlgorithm)) {
         let { buildJsPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-        properties.pointSizeAlgorithm = await buildJsPointCloudRendererPointSizeAlgorithm(dotNetObject.pointSizeAlgorithm, layerId, viewId) as any;
+        properties.pointSizeAlgorithm = await buildJsPointCloudRendererPointSizeAlgorithm(dotNetObject.pointSizeAlgorithm) as any;
     }
 
     if (hasValue(dotNetObject.pointsPerInch)) {
@@ -24,7 +24,7 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRenderer;
     
     let { buildDotNetPointCloudRenderer } = await import('./pointCloudRenderer');
-    let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetPointCloudRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudRendererGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,12 +60,12 @@ export async function buildDotNetPointCloudRendererGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.colorModulation)) {
         let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-        dotNetPointCloudRenderer.colorModulation = await buildDotNetPointCloudRendererColorModulation(jsObject.colorModulation, layerId, viewId);
+        dotNetPointCloudRenderer.colorModulation = await buildDotNetPointCloudRendererColorModulation(jsObject.colorModulation);
     }
     
     if (hasValue(jsObject.pointSizeAlgorithm)) {
         let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-        dotNetPointCloudRenderer.pointSizeAlgorithm = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsObject.pointSizeAlgorithm, layerId, viewId);
+        dotNetPointCloudRenderer.pointSizeAlgorithm = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsObject.pointSizeAlgorithm);
     }
     
     if (hasValue(jsObject.pointsPerInch)) {

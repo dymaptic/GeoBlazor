@@ -102,7 +102,7 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(this.widget.activeBasemap, this.layerId, this.viewId);
+        return await buildDotNetBasemap(this.widget.activeBasemap);
     }
     
     async setActiveBasemap(value: any): Promise<void> {
@@ -130,7 +130,7 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-        return await buildDotNetBasemapGalleryViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetBasemapGalleryViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -197,7 +197,7 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGallery;
     
     let { buildDotNetBasemapGalleryWidget } = await import('./basemapGalleryWidget');
-    let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery);
 
     try {
         let seenObjects = new WeakMap();
@@ -224,7 +224,7 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -233,7 +233,7 @@ export async function buildDotNetBasemapGalleryWidgetGenerated(jsObject: any, la
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-        dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetBasemapGalleryWidget.viewModel = await buildDotNetBasemapGalleryViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.disabled)) {

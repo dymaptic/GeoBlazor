@@ -3,11 +3,11 @@ import RelationshipType from '@arcgis/core/rest/knowledgeGraph/RelationshipType'
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelationshipType } from './relationshipType';
 
-export async function buildJsRelationshipTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRelationshipTypeGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.endPoints) && dotNetObject.endPoints.length > 0) {
         let { buildJsRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-        properties.endPoints = await Promise.all(dotNetObject.endPoints.map(async i => await buildJsRelationshipTypeEndPoints(i, layerId, viewId))) as any;
+        properties.endPoints = await Promise.all(dotNetObject.endPoints.map(async i => await buildJsRelationshipTypeEndPoints(i))) as any;
     }
 
     if (hasValue(dotNetObject.alias)) {
@@ -35,7 +35,7 @@ export async function buildJsRelationshipTypeGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRelationshipTypeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRelationshipTypeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -44,7 +44,7 @@ export async function buildDotNetRelationshipTypeGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.endPoints)) {
         let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-        dotNetRelationshipType.endPoints = await Promise.all(jsObject.endPoints.map(async i => await buildDotNetRelationshipTypeEndPoints(i, layerId, viewId)));
+        dotNetRelationshipType.endPoints = await Promise.all(jsObject.endPoints.map(async i => await buildDotNetRelationshipTypeEndPoints(i)));
     }
     
     if (hasValue(jsObject.alias)) {

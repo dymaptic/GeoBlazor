@@ -71,13 +71,12 @@ export default class FieldsIndexGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsFieldsIndex: any = {};
     if (hasValue(dotNetObject.dateFields) && dotNetObject.dateFields.length > 0) {
         let { buildJsField } = await import('./field');
-        properties.dateFields = dotNetObject.dateFields.map(i => buildJsField(i)) as any;
+        jsFieldsIndex.dateFields = dotNetObject.dateFields.map(i => buildJsField(i)) as any;
     }
 
-    let jsFieldsIndex = new FieldsIndex(properties);
 
     let { default: FieldsIndexWrapper } = await import('./fieldsIndex');
     let fieldsIndexWrapper = new FieldsIndexWrapper(jsFieldsIndex);
@@ -93,7 +92,7 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetFieldsIndexGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFieldsIndexGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

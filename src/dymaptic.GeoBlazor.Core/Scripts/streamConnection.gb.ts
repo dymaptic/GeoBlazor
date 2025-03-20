@@ -4,9 +4,8 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetStreamConnection } from './streamConnection';
 
 export async function buildJsStreamConnectionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsStreamConnection: any = {};
 
-    let jsStreamConnection = new StreamConnection(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsStreamConnection);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

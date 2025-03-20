@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAreaMeasurement2DViewModelMeasurement } from './areaMeasurement2DViewModelMeasurement';
 
-export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotNetObject: any): Promise<any> {
     let jsAreaMeasurement2DViewModelMeasurement: any = {};
 
     if (hasValue(dotNetObject.area)) {
@@ -20,7 +20,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotN
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurement;
     
     let { buildDotNetAreaMeasurement2DViewModelMeasurement } = await import('./areaMeasurement2DViewModelMeasurement');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurement(jsAreaMeasurement2DViewModelMeasurement, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurement(jsAreaMeasurement2DViewModelMeasurement);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotN
 }
 
 
-export async function buildDotNetAreaMeasurement2DViewModelMeasurementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAreaMeasurement2DViewModelMeasurementGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

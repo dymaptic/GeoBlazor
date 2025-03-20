@@ -93,7 +93,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetWebScene.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.presentation)) {

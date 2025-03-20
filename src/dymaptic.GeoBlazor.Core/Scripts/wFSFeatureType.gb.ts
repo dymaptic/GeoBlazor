@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWFSFeatureType } from './wFSFeatureType';
 
-export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise<any> {
     let jsWFSFeatureType: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
@@ -39,7 +39,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, layerId:
     arcGisObjectRefs[dotNetObject.id] = jsWFSFeatureType;
     
     let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
-    let dnInstantiatedObject = await buildDotNetWFSFeatureType(jsWFSFeatureType, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWFSFeatureType(jsWFSFeatureType);
 
     try {
         let seenObjects = new WeakMap();
@@ -66,7 +66,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSFeatureTypeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

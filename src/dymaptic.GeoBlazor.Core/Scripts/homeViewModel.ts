@@ -10,12 +10,12 @@ export default class HomeViewModelWrapper extends HomeViewModelGenerated {
 
 }
 
-export async function buildJsHomeViewModel(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsHomeViewModel(dotNetObject: any, viewId: string | null): Promise<any> {
     let {buildJsHomeViewModelGenerated} = await import('./homeViewModel.gb');
-    return await buildJsHomeViewModelGenerated(dotNetObject, layerId, viewId);
+    return await buildJsHomeViewModelGenerated(dotNetObject, viewId);
 }
 
-export async function buildDotNetHomeViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeViewModel(jsObject: any): Promise<any> {
     let {buildDotNetHomeViewModelGenerated} = await import('./homeViewModel.gb');
-    return await buildDotNetHomeViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetHomeViewModelGenerated(jsObject);
 }

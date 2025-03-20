@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVectorTileLayerCurrentStyleInfo } from './vectorTileLayerCurrentStyleInfo';
 
-export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObject: any): Promise<any> {
     let jsVectorTileLayerCurrentStyleInfo: any = {};
 
     if (hasValue(dotNetObject.glyphsUrl)) {
@@ -32,7 +32,7 @@ export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObje
 }
 
 
-export async function buildDotNetVectorTileLayerCurrentStyleInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVectorTileLayerCurrentStyleInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

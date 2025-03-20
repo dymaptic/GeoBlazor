@@ -1,10 +1,10 @@
 
-export async function buildJsVoxelVolumeStyle(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelVolumeStyle(dotNetObject: any): Promise<any> {
     let { buildJsVoxelVolumeStyleGenerated } = await import('./voxelVolumeStyle.gb');
-    return await buildJsVoxelVolumeStyleGenerated(dotNetObject, layerId, viewId);
+    return await buildJsVoxelVolumeStyleGenerated(dotNetObject);
 }     
 
-export async function buildDotNetVoxelVolumeStyle(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelVolumeStyle(jsObject: any): Promise<any> {
     let { buildDotNetVoxelVolumeStyleGenerated } = await import('./voxelVolumeStyle.gb');
-    return await buildDotNetVoxelVolumeStyleGenerated(jsObject, layerId, viewId);
+    return await buildDotNetVoxelVolumeStyleGenerated(jsObject);
 }

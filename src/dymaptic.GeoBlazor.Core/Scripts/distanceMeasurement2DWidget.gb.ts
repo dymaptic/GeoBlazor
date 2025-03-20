@@ -94,7 +94,7 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
         }
         
         let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        return await buildDotNetDistanceMeasurement2DViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetDistanceMeasurement2DViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -153,7 +153,7 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
     
     let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
-    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D);
 
     try {
         let seenObjects = new WeakMap();
@@ -180,7 +180,7 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -189,7 +189,7 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetDistanceMeasurement2DWidget.viewModel = await buildDotNetDistanceMeasurement2DViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.icon)) {

@@ -3,7 +3,7 @@ import Subtype from '@arcgis/core/layers/support/Subtype';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSubtype } from './subtype';
 
-export async function buildJsSubtypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSubtypeGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.domains)) {
         let { buildJsDomain } = await import('./domain');
@@ -29,7 +29,7 @@ export async function buildJsSubtypeGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetSubtypeGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSubtypeGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -110,7 +110,7 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        return await buildDotNetCompassViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetCompassViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -167,7 +167,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
     let { buildDotNetCompassWidget } = await import('./compassWidget');
-    let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
 
     try {
         let seenObjects = new WeakMap();
@@ -194,7 +194,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCompassWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -208,7 +208,7 @@ export async function buildDotNetCompassWidgetGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetCompassViewModel } = await import('./compassViewModel');
-        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetCompassWidget.viewModel = await buildDotNetCompassViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.icon)) {

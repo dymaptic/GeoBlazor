@@ -1,10 +1,10 @@
 
-export async function buildJsBuildingFieldStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBuildingFieldStatistics(dotNetObject: any): Promise<any> {
     let { buildJsBuildingFieldStatisticsGenerated } = await import('./buildingFieldStatistics.gb');
-    return await buildJsBuildingFieldStatisticsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsBuildingFieldStatisticsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetBuildingFieldStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBuildingFieldStatistics(jsObject: any): Promise<any> {
     let { buildDotNetBuildingFieldStatisticsGenerated } = await import('./buildingFieldStatistics.gb');
-    return await buildDotNetBuildingFieldStatisticsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBuildingFieldStatisticsGenerated(jsObject);
 }

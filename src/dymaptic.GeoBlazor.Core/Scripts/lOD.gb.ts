@@ -3,7 +3,7 @@ import LOD from '@arcgis/core/layers/support/LOD';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLOD } from './lOD';
 
-export async function buildJsLODGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.level)) {
@@ -25,7 +25,7 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
     let { buildDotNetLOD } = await import('./lOD');
-    let dnInstantiatedObject = await buildDotNetLOD(jsLOD, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,7 +52,7 @@ export async function buildJsLODGenerated(dotNetObject: any, layerId: string | n
 }
 
 
-export async function buildDotNetLODGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLODGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

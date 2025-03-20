@@ -35,7 +35,7 @@ export default class GeoRSSLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetLayer(this.component.layer);
     }
     
     getProperty(prop: string): any {

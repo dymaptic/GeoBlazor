@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapNotesLayerCapabilities } from './mapNotesLayerCapabilities';
 
-export async function buildJsMapNotesLayerCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMapNotesLayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsMapNotesLayerCapabilities: any = {};
     if (hasValue(dotNetObject.operations)) {
         let { buildJsMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
-        jsMapNotesLayerCapabilities.operations = await buildJsMapNotesLayerCapabilitiesOperations(dotNetObject.operations, layerId, viewId) as any;
+        jsMapNotesLayerCapabilities.operations = await buildJsMapNotesLayerCapabilitiesOperations(dotNetObject.operations) as any;
     }
 
     
@@ -18,7 +18,7 @@ export async function buildJsMapNotesLayerCapabilitiesGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetMapNotesLayerCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetMapNotesLayerCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -27,7 +27,7 @@ export async function buildDotNetMapNotesLayerCapabilitiesGenerated(jsObject: an
     
     if (hasValue(jsObject.operations)) {
         let { buildDotNetMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
-        dotNetMapNotesLayerCapabilities.operations = await buildDotNetMapNotesLayerCapabilitiesOperations(jsObject.operations, layerId, viewId);
+        dotNetMapNotesLayerCapabilities.operations = await buildDotNetMapNotesLayerCapabilitiesOperations(jsObject.operations);
     }
     
 

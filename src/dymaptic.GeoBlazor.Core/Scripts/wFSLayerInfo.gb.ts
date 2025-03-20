@@ -14,7 +14,7 @@ export async function buildJsWFSLayerInfoGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.wfsCapabilities)) {
         let { buildJsWFSCapabilities } = await import('./wFSCapabilities');
-        jsWFSLayerInfo.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities, layerId, viewId) as any;
+        jsWFSLayerInfo.wfsCapabilities = await buildJsWFSCapabilities(dotNetObject.wfsCapabilities) as any;
     }
 
     if (hasValue(dotNetObject.customParameters)) {
@@ -69,7 +69,7 @@ export async function buildDotNetWFSLayerInfoGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.wfsCapabilities)) {
         let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities, layerId, viewId);
+        dotNetWFSLayerInfo.wfsCapabilities = await buildDotNetWFSCapabilities(jsObject.wfsCapabilities);
     }
     
     if (hasValue(jsObject.customParameters)) {

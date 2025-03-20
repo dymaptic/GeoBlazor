@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLineOfSightAnalysisObserverElevationInfo } from './lineOfSightAnalysisObserverElevationInfo';
 
-export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsLineOfSightAnalysisObserverElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -17,7 +17,7 @@ export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(d
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisObserverElevationInfo;
     
     let { buildDotNetLineOfSightAnalysisObserverElevationInfo } = await import('./lineOfSightAnalysisObserverElevationInfo');
-    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(d
 }
 
 
-export async function buildDotNetLineOfSightAnalysisObserverElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLineOfSightAnalysisObserverElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

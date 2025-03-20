@@ -49,7 +49,7 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
         }
         
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-        return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement, this.layerId, this.viewId);
+        return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement);
     }
     
     getProperty(prop: string): any {
@@ -90,7 +90,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModel;
     
     let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModel(jsDistanceMeasurement2DViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModel(jsDistanceMeasurement2DViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -117,7 +117,7 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -126,7 +126,7 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
     
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-        dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement, layerId, viewId);
+        dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement);
     }
     
     if (hasValue(jsObject.measurementLabel)) {

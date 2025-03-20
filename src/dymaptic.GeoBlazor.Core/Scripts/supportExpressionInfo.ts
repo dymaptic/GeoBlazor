@@ -1,10 +1,10 @@
 
-export async function buildJsSupportExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSupportExpressionInfo(dotNetObject: any): Promise<any> {
     let { buildJsSupportExpressionInfoGenerated } = await import('./supportExpressionInfo.gb');
-    return await buildJsSupportExpressionInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsSupportExpressionInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetSupportExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSupportExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetSupportExpressionInfoGenerated } = await import('./supportExpressionInfo.gb');
-    return await buildDotNetSupportExpressionInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSupportExpressionInfoGenerated(jsObject);
 }

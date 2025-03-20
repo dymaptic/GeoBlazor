@@ -33,7 +33,7 @@ export async function buildDotNetPortalUserAddItemParamsGenerated(jsObject: any,
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetPortalUserAddItemParams.item = await buildDotNetPortalItem(jsObject.item, layerId, viewId);
+        dotNetPortalUserAddItemParams.item = await buildDotNetPortalItem(jsObject.item);
     }
     
     if (hasValue(jsObject.data)) {

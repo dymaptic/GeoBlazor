@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVoxelOpacityStop } from './voxelOpacityStop';
 
-export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any): Promise<any> {
     let jsVoxelOpacityStop: any = {};
 
     if (hasValue(dotNetObject.opacity)) {
@@ -17,7 +17,7 @@ export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsVoxelOpacityStop;
     
     let { buildDotNetVoxelOpacityStop } = await import('./voxelOpacityStop');
-    let dnInstantiatedObject = await buildDotNetVoxelOpacityStop(jsVoxelOpacityStop, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVoxelOpacityStop(jsVoxelOpacityStop);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetVoxelOpacityStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelOpacityStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

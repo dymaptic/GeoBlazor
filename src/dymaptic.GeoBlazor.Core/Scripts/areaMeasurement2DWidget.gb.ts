@@ -94,7 +94,7 @@ export default class AreaMeasurement2DWidgetGenerated implements IPropertyWrappe
         }
         
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        return await buildDotNetAreaMeasurement2DViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetAreaMeasurement2DViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -153,7 +153,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2D;
     
     let { buildDotNetAreaMeasurement2DWidget } = await import('./areaMeasurement2DWidget');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DWidget(jsAreaMeasurement2D);
 
     try {
         let seenObjects = new WeakMap();
@@ -180,7 +180,7 @@ export async function buildJsAreaMeasurement2DWidgetGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -189,7 +189,7 @@ export async function buildDotNetAreaMeasurement2DWidgetGenerated(jsObject: any,
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetAreaMeasurement2DWidget.viewModel = await buildDotNetAreaMeasurement2DViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.icon)) {

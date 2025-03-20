@@ -3,7 +3,7 @@ import WMTSStyle from '@arcgis/core/layers/support/WMTSStyle';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWMTSStyle } from './wMTSStyle';
 
-export async function buildJsWMTSStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
@@ -25,7 +25,7 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsWMTSStyle;
     
     let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-    let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,7 +52,7 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetWMTSStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMTSStyleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

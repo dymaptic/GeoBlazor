@@ -105,7 +105,7 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        return await buildDotNetMeasurementViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetMeasurementViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -167,7 +167,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
     let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
-    let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
 
     try {
         let seenObjects = new WeakMap();
@@ -194,7 +194,7 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetMeasurementWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -203,7 +203,7 @@ export async function buildDotNetMeasurementWidgetGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetMeasurementWidget.viewModel = await buildDotNetMeasurementViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.activeTool)) {

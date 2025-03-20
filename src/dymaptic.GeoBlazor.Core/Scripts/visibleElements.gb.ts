@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVisibleElements } from './visibleElements';
 
-export async function buildJsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     let jsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.area)) {
@@ -50,7 +50,7 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElements;
     
     let { buildDotNetVisibleElements } = await import('./visibleElements');
-    let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements);
 
     try {
         let seenObjects = new WeakMap();
@@ -77,7 +77,7 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVisibleElementsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

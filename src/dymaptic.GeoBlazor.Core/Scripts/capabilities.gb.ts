@@ -2,39 +2,39 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCapabilities } from './capabilities';
 
-export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsCapabilities: any = {};
     if (hasValue(dotNetObject.analytics)) {
         let { buildJsCapabilitiesAnalytics } = await import('./capabilitiesAnalytics');
-        jsCapabilities.analytics = await buildJsCapabilitiesAnalytics(dotNetObject.analytics, layerId, viewId) as any;
+        jsCapabilities.analytics = await buildJsCapabilitiesAnalytics(dotNetObject.analytics) as any;
     }
     if (hasValue(dotNetObject.attachment)) {
         let { buildJsCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-        jsCapabilities.attachment = await buildJsCapabilitiesAttachment(dotNetObject.attachment, layerId, viewId) as any;
+        jsCapabilities.attachment = await buildJsCapabilitiesAttachment(dotNetObject.attachment) as any;
     }
     if (hasValue(dotNetObject.data)) {
         let { buildJsCapabilitiesData } = await import('./capabilitiesData');
-        jsCapabilities.data = await buildJsCapabilitiesData(dotNetObject.data, layerId, viewId) as any;
+        jsCapabilities.data = await buildJsCapabilitiesData(dotNetObject.data) as any;
     }
     if (hasValue(dotNetObject.editing)) {
         let { buildJsCapabilitiesEditing } = await import('./capabilitiesEditing');
-        jsCapabilities.editing = await buildJsCapabilitiesEditing(dotNetObject.editing, layerId, viewId) as any;
+        jsCapabilities.editing = await buildJsCapabilitiesEditing(dotNetObject.editing) as any;
     }
     if (hasValue(dotNetObject.metadata)) {
         let { buildJsCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-        jsCapabilities.metadata = await buildJsCapabilitiesMetadata(dotNetObject.metadata, layerId, viewId) as any;
+        jsCapabilities.metadata = await buildJsCapabilitiesMetadata(dotNetObject.metadata) as any;
     }
     if (hasValue(dotNetObject.operations)) {
         let { buildJsCapabilitiesOperations } = await import('./capabilitiesOperations');
-        jsCapabilities.operations = await buildJsCapabilitiesOperations(dotNetObject.operations, layerId, viewId) as any;
+        jsCapabilities.operations = await buildJsCapabilitiesOperations(dotNetObject.operations) as any;
     }
     if (hasValue(dotNetObject.queryRelated)) {
         let { buildJsCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
-        jsCapabilities.queryRelated = await buildJsCapabilitiesQueryRelated(dotNetObject.queryRelated, layerId, viewId) as any;
+        jsCapabilities.queryRelated = await buildJsCapabilitiesQueryRelated(dotNetObject.queryRelated) as any;
     }
     if (hasValue(dotNetObject.queryTopFeatures)) {
         let { buildJsCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-        jsCapabilities.queryTopFeatures = await buildJsCapabilitiesQueryTopFeatures(dotNetObject.queryTopFeatures, layerId, viewId) as any;
+        jsCapabilities.queryTopFeatures = await buildJsCapabilitiesQueryTopFeatures(dotNetObject.queryTopFeatures) as any;
     }
 
     if (hasValue(dotNetObject.query)) {
@@ -46,7 +46,7 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsCapabilities;
     
     let { buildDotNetCapabilities } = await import('./capabilities');
-    let dnInstantiatedObject = await buildDotNetCapabilities(jsCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCapabilities(jsCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -73,7 +73,7 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -82,42 +82,42 @@ export async function buildDotNetCapabilitiesGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.analytics)) {
         let { buildDotNetCapabilitiesAnalytics } = await import('./capabilitiesAnalytics');
-        dotNetCapabilities.analytics = await buildDotNetCapabilitiesAnalytics(jsObject.analytics, layerId, viewId);
+        dotNetCapabilities.analytics = await buildDotNetCapabilitiesAnalytics(jsObject.analytics);
     }
     
     if (hasValue(jsObject.attachment)) {
         let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-        dotNetCapabilities.attachment = await buildDotNetCapabilitiesAttachment(jsObject.attachment, layerId, viewId);
+        dotNetCapabilities.attachment = await buildDotNetCapabilitiesAttachment(jsObject.attachment);
     }
     
     if (hasValue(jsObject.data)) {
         let { buildDotNetCapabilitiesData } = await import('./capabilitiesData');
-        dotNetCapabilities.data = await buildDotNetCapabilitiesData(jsObject.data, layerId, viewId);
+        dotNetCapabilities.data = await buildDotNetCapabilitiesData(jsObject.data);
     }
     
     if (hasValue(jsObject.editing)) {
         let { buildDotNetCapabilitiesEditing } = await import('./capabilitiesEditing');
-        dotNetCapabilities.editing = await buildDotNetCapabilitiesEditing(jsObject.editing, layerId, viewId);
+        dotNetCapabilities.editing = await buildDotNetCapabilitiesEditing(jsObject.editing);
     }
     
     if (hasValue(jsObject.metadata)) {
         let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-        dotNetCapabilities.metadata = await buildDotNetCapabilitiesMetadata(jsObject.metadata, layerId, viewId);
+        dotNetCapabilities.metadata = await buildDotNetCapabilitiesMetadata(jsObject.metadata);
     }
     
     if (hasValue(jsObject.operations)) {
         let { buildDotNetCapabilitiesOperations } = await import('./capabilitiesOperations');
-        dotNetCapabilities.operations = await buildDotNetCapabilitiesOperations(jsObject.operations, layerId, viewId);
+        dotNetCapabilities.operations = await buildDotNetCapabilitiesOperations(jsObject.operations);
     }
     
     if (hasValue(jsObject.queryRelated)) {
         let { buildDotNetCapabilitiesQueryRelated } = await import('./capabilitiesQueryRelated');
-        dotNetCapabilities.queryRelated = await buildDotNetCapabilitiesQueryRelated(jsObject.queryRelated, layerId, viewId);
+        dotNetCapabilities.queryRelated = await buildDotNetCapabilitiesQueryRelated(jsObject.queryRelated);
     }
     
     if (hasValue(jsObject.queryTopFeatures)) {
         let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-        dotNetCapabilities.queryTopFeatures = await buildDotNetCapabilitiesQueryTopFeatures(jsObject.queryTopFeatures, layerId, viewId);
+        dotNetCapabilities.queryTopFeatures = await buildDotNetCapabilitiesQueryTopFeatures(jsObject.queryTopFeatures);
     }
     
     if (hasValue(jsObject.query)) {

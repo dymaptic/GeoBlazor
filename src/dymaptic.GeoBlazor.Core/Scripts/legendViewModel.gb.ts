@@ -33,7 +33,7 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModel;
     
     let { buildDotNetLegendViewModel } = await import('./legendViewModel');
-    let dnInstantiatedObject = await buildDotNetLegendViewModel(jsLegendViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLegendViewModel(jsLegendViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -60,7 +60,7 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetLegendViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLegendViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -69,12 +69,12 @@ export async function buildDotNetLegendViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.activeLayerInfos)) {
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i, layerId, viewId)));
+        dotNetLegendViewModel.activeLayerInfos = await Promise.all(jsObject.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
     }
     
     if (hasValue(jsObject.layerInfos)) {
         let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i, layerId, viewId)));
+        dotNetLegendViewModel.layerInfos = await Promise.all(jsObject.layerInfos.map(async i => await buildDotNetLegendViewModelLayerInfos(i)));
     }
     
     if (hasValue(jsObject.basemapLegendVisible)) {

@@ -11,19 +11,19 @@ export async function buildJsImageIdentifyParametersGenerated(dotNetObject: any,
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+        properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
     if (hasValue(dotNetObject.rasterFunctions)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.rasterFunctions = await buildJsRasterFunction(dotNetObject.rasterFunctions, layerId, viewId) as any;
+        properties.rasterFunctions = await buildJsRasterFunction(dotNetObject.rasterFunctions) as any;
     }
     if (hasValue(dotNetObject.renderingRules)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.renderingRules = await buildJsRasterFunction(dotNetObject.renderingRules, layerId, viewId) as any;
+        properties.renderingRules = await buildJsRasterFunction(dotNetObject.renderingRules) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -75,17 +75,17 @@ export async function buildDotNetImageIdentifyParametersGenerated(jsObject: any,
     
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
-        dotNetImageIdentifyParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule, layerId, viewId);
+        dotNetImageIdentifyParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetImageIdentifyParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction, layerId, viewId);
+        dotNetImageIdentifyParameters.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
     }
     
     if (hasValue(jsObject.rasterFunctions)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetImageIdentifyParameters.rasterFunctions = await buildDotNetRasterFunction(jsObject.rasterFunctions, layerId, viewId);
+        dotNetImageIdentifyParameters.rasterFunctions = await buildDotNetRasterFunction(jsObject.rasterFunctions);
     }
     
     if (hasValue(jsObject.timeExtent)) {

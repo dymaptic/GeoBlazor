@@ -3,7 +3,7 @@ import KMLSublayer from '@arcgis/core/layers/support/KMLSublayer';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetKMLSublayer } from './kMLSublayer';
 
-export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKMLSublayerGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
@@ -28,7 +28,7 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsKMLSublayer;
     
     let { buildDotNetKMLSublayer } = await import('./kMLSublayer');
-    let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetKMLSublayer(jsKMLSublayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsKMLSublayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetKMLSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

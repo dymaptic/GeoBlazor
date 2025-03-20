@@ -41,7 +41,7 @@ export async function buildJsBasemapLayerListViewModel(dotNetObject: any, layerI
     return jsViewModel;
 }
 
-export async function buildDotNetBasemapLayerListViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapLayerListViewModel(jsObject: any): Promise<any> {
     let {buildDotNetBasemapLayerListViewModelGenerated} = await import('./basemapLayerListViewModel.gb');
-    return await buildDotNetBasemapLayerListViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBasemapLayerListViewModelGenerated(jsObject);
 }

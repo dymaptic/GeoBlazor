@@ -1,9 +1,9 @@
-export async function buildJsWFSCapabilities(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSCapabilities(dotNetObject: any): Promise<any> {
     let {buildJsWFSCapabilitiesGenerated} = await import('./wFSCapabilities.gb');
-    return await buildJsWFSCapabilitiesGenerated(dotNetObject, layerId, viewId);
+    return await buildJsWFSCapabilitiesGenerated(dotNetObject);
 }
 
-export async function buildDotNetWFSCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSCapabilities(jsObject: any): Promise<any> {
     let {buildDotNetWFSCapabilitiesGenerated} = await import('./wFSCapabilities.gb');
-    return await buildDotNetWFSCapabilitiesGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWFSCapabilitiesGenerated(jsObject);
 }

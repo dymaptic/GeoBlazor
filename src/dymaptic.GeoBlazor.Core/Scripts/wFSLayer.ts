@@ -12,7 +12,7 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -30,7 +30,7 @@ export async function buildJsWFSLayer(dotNetObject: any, layerId: string | null,
     return await buildJsWFSLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetWFSLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayer(jsObject: any): Promise<any> {
     let {buildDotNetWFSLayerGenerated} = await import('./wFSLayer.gb');
-    return await buildDotNetWFSLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWFSLayerGenerated(jsObject);
 }

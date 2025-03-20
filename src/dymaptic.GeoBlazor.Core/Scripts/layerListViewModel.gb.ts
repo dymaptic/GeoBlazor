@@ -62,7 +62,7 @@ export default class LayerListViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.operationalItems.map(async i => await buildDotNetListItem(i)));
     }
     
     getProperty(prop: string): any {
@@ -112,7 +112,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
     
     let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-    let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -139,7 +139,7 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetLayerListViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -148,7 +148,7 @@ export async function buildDotNetLayerListViewModelGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.operationalItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
+        dotNetLayerListViewModel.operationalItems = await Promise.all(jsObject.operationalItems.map(async i => await buildDotNetListItem(i)));
     }
     
     if (hasValue(jsObject.checkPublishStatusEnabled)) {

@@ -72,7 +72,7 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canSearchPublic">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="canShareBingPublic">
-    ///     The Bing key can be shared to the public and is returned as part of a portal's description call (`/sharing/rest/portals/{orgid}`).
+    ///     The Bing key can be shared to the public and is returned as part of a portal's description call (`/sharing/rest/portals/orgid`).
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canShareBingPublic">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -506,7 +506,7 @@ public partial class Portal
     public bool? CanSearchPublic { get; set; }
     
     /// <summary>
-    ///     The Bing key can be shared to the public and is returned as part of a portal's description call (`/sharing/rest/portals/{orgid}`).
+    ///     The Bing key can be shared to the public and is returned as part of a portal's description call (`/sharing/rest/portals/orgid`).
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#canShareBingPublic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

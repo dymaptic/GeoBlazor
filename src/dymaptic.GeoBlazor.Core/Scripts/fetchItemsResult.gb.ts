@@ -33,7 +33,7 @@ export async function buildDotNetFetchItemsResultGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.items)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i, layerId, viewId)));
+        dotNetFetchItemsResult.items = await Promise.all(jsObject.items.map(async i => await buildDotNetPortalItem(i)));
     }
     
     if (hasValue(jsObject.nextStart)) {

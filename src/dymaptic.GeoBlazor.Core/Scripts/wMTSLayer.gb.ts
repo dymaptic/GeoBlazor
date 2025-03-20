@@ -136,7 +136,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        return await buildDotNetWMTSSublayer(this.layer.activeLayer, this.layerId, this.viewId);
+        return await buildDotNetWMTSSublayer(this.layer.activeLayer);
     }
     
     async setActiveLayer(value: any): Promise<void> {
@@ -178,7 +178,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -192,7 +192,7 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMTSSublayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -330,7 +330,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
     arcGisObjectRefs[dotNetObject.id] = jsWMTSLayer;
     
     let { buildDotNetWMTSLayer } = await import('./wMTSLayer');
-    let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWMTSLayer(jsWMTSLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -357,7 +357,7 @@ export async function buildJsWMTSLayerGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMTSLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -366,7 +366,7 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: stri
     
     if (hasValue(jsObject.activeLayer)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer, layerId, viewId);
+        dotNetWMTSLayer.activeLayer = await buildDotNetWMTSSublayer(jsObject.activeLayer);
     }
     
     if (hasValue(jsObject.effect)) {
@@ -381,12 +381,12 @@ export async function buildDotNetWMTSLayerGenerated(jsObject: any, layerId: stri
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetWMTSLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.sublayers)) {
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i, layerId, viewId)));
+        dotNetWMTSLayer.sublayers = await Promise.all(jsObject.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {

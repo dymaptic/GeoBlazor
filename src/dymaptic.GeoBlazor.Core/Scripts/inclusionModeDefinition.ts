@@ -1,10 +1,10 @@
 
-export async function buildJsInclusionModeDefinition(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsInclusionModeDefinition(dotNetObject: any): Promise<any> {
     let { buildJsInclusionModeDefinitionGenerated } = await import('./inclusionModeDefinition.gb');
-    return await buildJsInclusionModeDefinitionGenerated(dotNetObject, layerId, viewId);
+    return await buildJsInclusionModeDefinitionGenerated(dotNetObject);
 }     
 
-export async function buildDotNetInclusionModeDefinition(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetInclusionModeDefinition(jsObject: any): Promise<any> {
     let { buildDotNetInclusionModeDefinitionGenerated } = await import('./inclusionModeDefinition.gb');
-    return await buildDotNetInclusionModeDefinitionGenerated(jsObject, layerId, viewId);
+    return await buildDotNetInclusionModeDefinitionGenerated(jsObject);
 }

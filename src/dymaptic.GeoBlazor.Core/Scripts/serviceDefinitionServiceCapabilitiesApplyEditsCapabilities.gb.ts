@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } from './serviceDefinitionServiceCapabilitiesApplyEditsCapabilities';
 
-export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities: any = {};
 
     if (hasValue(dotNetObject.graphDefaultRollbackOnFailure)) {
@@ -14,7 +14,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,7 +41,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetStreamLayerElevationInfo } from './streamLayerElevationInfo';
 
-export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsStreamLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
-        jsStreamLayerElevationInfo.featureExpressionInfo = await buildJsStreamLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsStreamLayerElevationInfo.featureExpressionInfo = await buildJsStreamLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfo;
     
     let { buildDotNetStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
 }
 
 
-export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetStreamLayerElevationInfoGenerated(jsObject: any
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
-        dotNetStreamLayerElevationInfo.featureExpressionInfo = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetStreamLayerElevationInfo.featureExpressionInfo = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

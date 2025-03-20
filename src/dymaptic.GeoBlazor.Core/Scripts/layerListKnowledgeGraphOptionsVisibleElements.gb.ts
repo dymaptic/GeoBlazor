@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } from './layerListKnowledgeGraphOptionsVisibleElements';
 
-export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     let jsLayerListKnowledgeGraphOptionsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.errors)) {
@@ -20,7 +20,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
     
     let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
 }
 
 
-export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListKnowledgeGraphOptionsVisibleElementsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

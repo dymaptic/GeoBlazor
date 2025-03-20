@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetInclusionModeDefinition } from './inclusionModeDefinition';
 
-export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any): Promise<any> {
     let jsInclusionModeDefinition: any = {};
     if (hasValue(dotNetObject.namedTypeDefinitions)) {
         let { buildJsLayerInclusionDefinition } = await import('./layerInclusionDefinition');
-        jsInclusionModeDefinition.namedTypeDefinitions = await buildJsLayerInclusionDefinition(dotNetObject.namedTypeDefinitions, layerId, viewId) as any;
+        jsInclusionModeDefinition.namedTypeDefinitions = await buildJsLayerInclusionDefinition(dotNetObject.namedTypeDefinitions) as any;
     }
 
     if (hasValue(dotNetObject.generateAllSublayers)) {
@@ -18,7 +18,7 @@ export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any,
     arcGisObjectRefs[dotNetObject.id] = jsInclusionModeDefinition;
     
     let { buildDotNetInclusionModeDefinition } = await import('./inclusionModeDefinition');
-    let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,7 +45,7 @@ export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -54,7 +54,7 @@ export async function buildDotNetInclusionModeDefinitionGenerated(jsObject: any,
     
     if (hasValue(jsObject.namedTypeDefinitions)) {
         let { buildDotNetLayerInclusionDefinition } = await import('./layerInclusionDefinition');
-        dotNetInclusionModeDefinition.namedTypeDefinitions = await buildDotNetLayerInclusionDefinition(jsObject.namedTypeDefinitions, layerId, viewId);
+        dotNetInclusionModeDefinition.namedTypeDefinitions = await buildDotNetLayerInclusionDefinition(jsObject.namedTypeDefinitions);
     }
     
     if (hasValue(jsObject.generateAllSublayers)) {

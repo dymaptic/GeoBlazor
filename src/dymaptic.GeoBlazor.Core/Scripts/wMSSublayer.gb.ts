@@ -3,7 +3,7 @@ import WMSSublayer from '@arcgis/core/layers/support/WMSSublayer';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWMSSublayer } from './wMSSublayer';
 
-export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWMSSublayerGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -53,7 +53,7 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsWMSSublayer;
     
     let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-    let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -80,7 +80,7 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetWMSSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMSSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

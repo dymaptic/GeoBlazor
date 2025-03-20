@@ -3,7 +3,7 @@ import supportExpressionInfo from '@arcgis/core/layers/support/ExpressionInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetSupportExpressionInfo } from './supportExpressionInfo';
 
-export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -22,7 +22,7 @@ export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jssupportExpressionInfo;
     
     let { buildDotNetSupportExpressionInfo } = await import('./supportExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetSupportExpressionInfo(jssupportExpressionInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSupportExpressionInfo(jssupportExpressionInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -49,7 +49,7 @@ export async function buildJsSupportExpressionInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSupportExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

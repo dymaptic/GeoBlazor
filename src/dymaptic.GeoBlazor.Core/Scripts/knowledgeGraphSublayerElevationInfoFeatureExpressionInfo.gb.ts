@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } from './knowledgeGraphSublayerElevationInfoFeatureExpressionInfo';
 
-export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     let jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -17,7 +17,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressio
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo;
     
     let { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressio
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -3,15 +3,15 @@ import VoxelVolumeStyle from '@arcgis/core/layers/support/VoxelVolumeStyle';
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelVolumeStyle } from './voxelVolumeStyle';
 
-export async function buildJsVoxelVolumeStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelVolumeStyleGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.dynamicSections) && dotNetObject.dynamicSections.length > 0) {
         let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
-        properties.dynamicSections = await Promise.all(dotNetObject.dynamicSections.map(async i => await buildJsVoxelDynamicSection(i, layerId, viewId))) as any;
+        properties.dynamicSections = await Promise.all(dotNetObject.dynamicSections.map(async i => await buildJsVoxelDynamicSection(i))) as any;
     }
     if (hasValue(dotNetObject.slices) && dotNetObject.slices.length > 0) {
         let { buildJsVoxelSlice } = await import('./voxelSlice');
-        properties.slices = await Promise.all(dotNetObject.slices.map(async i => await buildJsVoxelSlice(i, layerId, viewId))) as any;
+        properties.slices = await Promise.all(dotNetObject.slices.map(async i => await buildJsVoxelSlice(i))) as any;
     }
 
     if (hasValue(dotNetObject.verticalExaggeration)) {
@@ -30,7 +30,7 @@ export async function buildJsVoxelVolumeStyleGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetVoxelVolumeStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelVolumeStyleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,12 +39,12 @@ export async function buildDotNetVoxelVolumeStyleGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.dynamicSections)) {
         let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-        dotNetVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i, layerId, viewId)));
+        dotNetVoxelVolumeStyle.dynamicSections = await Promise.all(jsObject.dynamicSections.map(async i => await buildDotNetVoxelDynamicSection(i)));
     }
     
     if (hasValue(jsObject.slices)) {
         let { buildDotNetVoxelSlice } = await import('./voxelSlice');
-        dotNetVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i, layerId, viewId)));
+        dotNetVoxelVolumeStyle.slices = await Promise.all(jsObject.slices.map(async i => await buildDotNetVoxelSlice(i)));
     }
     
     if (hasValue(jsObject.verticalExaggeration)) {

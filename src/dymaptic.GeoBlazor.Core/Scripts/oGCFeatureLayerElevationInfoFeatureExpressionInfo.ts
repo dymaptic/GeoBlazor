@@ -1,10 +1,10 @@
 
-export async function buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfo(dotNetObject: any): Promise<any> {
     let { buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./oGCFeatureLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsObject: any): Promise<any> {
     let { buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated } = await import('./oGCFeatureLayerElevationInfoFeatureExpressionInfo.gb');
-    return await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(jsObject);
 }

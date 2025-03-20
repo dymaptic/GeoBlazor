@@ -164,7 +164,7 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
     
     let { buildDotNetUnknownLayer } = await import('./unknownLayer');
-    let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer);
 
     try {
         let seenObjects = new WeakMap();

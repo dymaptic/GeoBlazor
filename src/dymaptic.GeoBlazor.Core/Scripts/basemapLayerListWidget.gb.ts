@@ -148,7 +148,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.baseItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.widget.baseItems.map(async i => await buildDotNetListItem(i)));
     }
     
     async getReferenceItems(): Promise<any> {
@@ -157,7 +157,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.referenceItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.widget.referenceItems.map(async i => await buildDotNetListItem(i)));
     }
     
     async getSelectedItems(): Promise<any> {
@@ -166,7 +166,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.widget.selectedItems.map(async i => await buildDotNetListItem(i)));
     }
     
     async setSelectedItems(value: any): Promise<void> {
@@ -180,7 +180,7 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetBasemapLayerListViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -351,22 +351,22 @@ export async function buildDotNetBasemapLayerListWidgetGenerated(jsObject: any, 
     
     if (hasValue(jsObject.baseItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
+        dotNetBasemapLayerListWidget.baseItems = await Promise.all(jsObject.baseItems.map(async i => await buildDotNetListItem(i)));
     }
     
     if (hasValue(jsObject.referenceItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
+        dotNetBasemapLayerListWidget.referenceItems = await Promise.all(jsObject.referenceItems.map(async i => await buildDotNetListItem(i)));
     }
     
     if (hasValue(jsObject.selectedItems)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i, layerId, viewId)));
+        dotNetBasemapLayerListWidget.selectedItems = await Promise.all(jsObject.selectedItems.map(async i => await buildDotNetListItem(i)));
     }
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetBasemapLayerListWidget.viewModel = await buildDotNetBasemapLayerListViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.visibleElements)) {

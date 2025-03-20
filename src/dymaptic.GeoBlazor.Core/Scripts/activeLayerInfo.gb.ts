@@ -52,7 +52,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
     let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-    let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -79,7 +79,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetActiveLayerInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetActiveLayerInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

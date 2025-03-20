@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetSliderVisibleElements } from './sliderVisibleElements';
 
-export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     let jsSliderVisibleElements: any = {};
 
     if (hasValue(dotNetObject.labels)) {
@@ -17,7 +17,7 @@ export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsSliderVisibleElements;
     
     let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-    let dnInstantiatedObject = await buildDotNetSliderVisibleElements(jsSliderVisibleElements, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSliderVisibleElements(jsSliderVisibleElements);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSliderVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderVisibleElementsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

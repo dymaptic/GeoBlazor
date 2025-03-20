@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBasemapToggleVisibleElements } from './basemapToggleVisibleElements';
 
-export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject: any): Promise<any> {
     let jsBasemapToggleVisibleElements: any = {};
 
     if (hasValue(dotNetObject.title)) {
@@ -14,7 +14,7 @@ export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleVisibleElements;
     
     let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleVisibleElements(jsBasemapToggleVisibleElements, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapToggleVisibleElements(jsBasemapToggleVisibleElements);
 
     try {
         let seenObjects = new WeakMap();
@@ -41,7 +41,7 @@ export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetBasemapToggleVisibleElementsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleVisibleElementsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

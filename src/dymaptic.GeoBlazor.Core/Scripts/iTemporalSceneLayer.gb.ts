@@ -10,11 +10,11 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        jsTemporalSceneLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        jsTemporalSceneLayer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        jsTemporalSceneLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
+        jsTemporalSceneLayer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
     }
 
     
@@ -64,12 +64,12 @@ export async function buildDotNetITemporalSceneLayerGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
+        dotNetITemporalSceneLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
     }
     
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetITemporalSceneLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
+        dotNetITemporalSceneLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     
 

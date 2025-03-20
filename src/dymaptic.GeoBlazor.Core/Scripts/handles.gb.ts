@@ -57,9 +57,8 @@ export default class HandlesGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsHandles: any = {};
 
-    let jsHandles = new Handles(properties);
 
     let { default: HandlesWrapper } = await import('./handles');
     let handlesWrapper = new HandlesWrapper(jsHandles);

@@ -11,7 +11,7 @@ export async function buildJsImagePointParametersGenerated(dotNetObject: any, la
     }
     if (hasValue(dotNetObject.mosaicRule)) {
         let { buildJsMosaicRule } = await import('./mosaicRule');
-        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule, layerId, viewId) as any;
+        properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
 
     if (hasValue(dotNetObject.is3D)) {
@@ -44,7 +44,7 @@ export async function buildDotNetImagePointParametersGenerated(jsObject: any, la
     
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
-        dotNetImagePointParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule, layerId, viewId);
+        dotNetImagePointParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
     if (hasValue(jsObject.is3D)) {

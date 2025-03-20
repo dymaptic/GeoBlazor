@@ -79,7 +79,7 @@ export async function buildDotNetSummaryStatisticsSummaryStatisticsParamsGenerat
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetSummaryStatisticsSummaryStatisticsParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.field)) {

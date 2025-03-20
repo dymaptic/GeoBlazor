@@ -1,10 +1,10 @@
 
-export async function buildJsKnowledgeGraphSublayerCapabilities(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerCapabilities(dotNetObject: any): Promise<any> {
     let { buildJsKnowledgeGraphSublayerCapabilitiesGenerated } = await import('./knowledgeGraphSublayerCapabilities.gb');
-    return await buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetObject, layerId, viewId);
+    return await buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetObject);
 }     
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilities(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilities(jsObject: any): Promise<any> {
     let { buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated } = await import('./knowledgeGraphSublayerCapabilities.gb');
-    return await buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated(jsObject, layerId, viewId);
+    return await buildDotNetKnowledgeGraphSublayerCapabilitiesGenerated(jsObject);
 }

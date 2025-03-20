@@ -1,7 +1,11 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue} from './arcGisJsInterop';
+import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+    
     if (hasValue(layerId) && arcGisObjectRefs.hasOwnProperty(layerId!)) {
         return arcGisObjectRefs[layerId!];
     }
@@ -276,65 +280,69 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
     }
 }
 
-export async function buildDotNetLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayer(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
     switch (jsObject.type) {
         case 'base-tile':
             let {buildDotNetBaseTileLayer} = await import('./baseTileLayer');
-            return await buildDotNetBaseTileLayer(jsObject, layerId, viewId);
+            return await buildDotNetBaseTileLayer(jsObject);
         case 'bing-maps':
             let {buildDotNetBingMapsLayer} = await import('./bingMapsLayer');
-            return await buildDotNetBingMapsLayer(jsObject, layerId, viewId);
+            return await buildDotNetBingMapsLayer(jsObject);
         case 'csv':
             let {buildDotNetCSVLayer} = await import('./cSVLayer');
-            return await buildDotNetCSVLayer(jsObject, layerId, viewId);
+            return await buildDotNetCSVLayer(jsObject);
         case 'feature':
             let {buildDotNetFeatureLayer} = await import('./featureLayer');
-            return await buildDotNetFeatureLayer(jsObject, layerId, viewId);
+            return await buildDotNetFeatureLayer(jsObject);
         case 'geojson':
             let {buildDotNetGeoJSONLayer} = await import('./geoJSONLayer');
-            return await buildDotNetGeoJSONLayer(jsObject, layerId, viewId);
+            return await buildDotNetGeoJSONLayer(jsObject);
         case 'geo-rss':
             let {buildDotNetGeoRSSLayer} = await import('./geoRSSLayer');
             return await buildDotNetGeoRSSLayer(jsObject);
         case 'graphics':
             let {buildDotNetGraphicsLayer} = await import('./graphicsLayer');
-            return await buildDotNetGraphicsLayer(jsObject, layerId, viewId);
+            return await buildDotNetGraphicsLayer(jsObject);
         case 'imagery':
             let {buildDotNetImageryLayer} = await import('./imageryLayer');
-            return await buildDotNetImageryLayer(jsObject, layerId, viewId);
+            return await buildDotNetImageryLayer(jsObject);
         case 'imagery-tile':
             let {buildDotNetImageryTileLayer} = await import('./imageryTileLayer');
-            return await buildDotNetImageryTileLayer(jsObject, layerId, viewId);
+            return await buildDotNetImageryTileLayer(jsObject);
         case 'kml':
             let {buildDotNetKMLLayer} = await import('./kMLLayer');
-            return await buildDotNetKMLLayer(jsObject, layerId, viewId);
+            return await buildDotNetKMLLayer(jsObject);
         case 'map-image':
             let {buildDotNetMapImageLayer} = await import('./mapImageLayer');
-            return await buildDotNetMapImageLayer(jsObject, layerId, viewId);
+            return await buildDotNetMapImageLayer(jsObject);
         case 'open-street-map':
             let {buildDotNetOpenStreetMapLayer} = await import('./openStreetMapLayer');
-            return await buildDotNetOpenStreetMapLayer(jsObject, layerId, viewId);
+            return await buildDotNetOpenStreetMapLayer(jsObject);
         case 'tile':
             let {buildDotNetTileLayer} = await import('./tileLayer');
-            return await buildDotNetTileLayer(jsObject, layerId, viewId);
+            return await buildDotNetTileLayer(jsObject);
         case 'vector-tile':
             let {buildDotNetVectorTileLayer} = await import('./vectorTileLayer');
-            return await buildDotNetVectorTileLayer(jsObject, layerId, viewId);
+            return await buildDotNetVectorTileLayer(jsObject);
         case 'wcs':
             let {buildDotNetWCSLayer} = await import('./wCSLayer');
-            return await buildDotNetWCSLayer(jsObject, layerId, viewId);
+            return await buildDotNetWCSLayer(jsObject);
         case 'web-tile':
             let {buildDotNetWebTileLayer} = await import('./webTileLayer');
-            return await buildDotNetWebTileLayer(jsObject, layerId, viewId);
+            return await buildDotNetWebTileLayer(jsObject);
         case 'wfs':
             let {buildDotNetWFSLayer} = await import('./wFSLayer');
-            return await buildDotNetWFSLayer(jsObject, layerId, viewId);
+            return await buildDotNetWFSLayer(jsObject);
         case 'wms':
             let {buildDotNetWMSLayer} = await import('./wMSLayer');
-            return await buildDotNetWMSLayer(jsObject, layerId, viewId);
+            return await buildDotNetWMSLayer(jsObject);
         case 'wmts':
             let {buildDotNetWMTSLayer} = await import('./wMTSLayer');
-            return await buildDotNetWMTSLayer(jsObject, layerId, viewId);
+            return await buildDotNetWMTSLayer(jsObject);
         case 'unknown':
             let {buildDotNetUnknownLayer} = await import('./unknownLayer');
             return await buildDotNetUnknownLayer(jsObject);

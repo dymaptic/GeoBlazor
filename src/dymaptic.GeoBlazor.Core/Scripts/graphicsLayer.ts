@@ -15,7 +15,7 @@ export async function buildJsGraphicsLayer(dotNetObject: any, layerId: string | 
     return await buildJsGraphicsLayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetGraphicsLayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayer(jsObject: any): Promise<any> {
     let {buildDotNetGraphicsLayerGenerated} = await import('./graphicsLayer.gb');
-    return await buildDotNetGraphicsLayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetGraphicsLayerGenerated(jsObject);
 }

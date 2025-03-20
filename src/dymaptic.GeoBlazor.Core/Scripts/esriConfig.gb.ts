@@ -4,54 +4,53 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetEsriConfig } from './esriConfig';
 
 export async function buildJsEsriConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsconfig: any = {};
     if (hasValue(dotNetObject.log)) {
         let { buildJsConfigLog } = await import('./configLog');
-        properties.log = await buildJsConfigLog(dotNetObject.log, layerId, viewId) as any;
+        jsconfig.log = await buildJsConfigLog(dotNetObject.log, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.request)) {
         let { buildJsConfigRequest } = await import('./configRequest');
-        properties.request = await buildJsConfigRequest(dotNetObject.request, layerId, viewId) as any;
+        jsconfig.request = await buildJsConfigRequest(dotNetObject.request, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.workers)) {
         let { buildJsConfigWorkers } = await import('./configWorkers');
-        properties.workers = await buildJsConfigWorkers(dotNetObject.workers, layerId, viewId) as any;
+        jsconfig.workers = await buildJsConfigWorkers(dotNetObject.workers, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
-        properties.apiKey = dotNetObject.apiKey;
+        jsconfig.apiKey = dotNetObject.apiKey;
     }
     if (hasValue(dotNetObject.applicationName)) {
-        properties.applicationName = dotNetObject.applicationName;
+        jsconfig.applicationName = dotNetObject.applicationName;
     }
     if (hasValue(dotNetObject.assetsPath)) {
-        properties.assetsPath = dotNetObject.assetsPath;
+        jsconfig.assetsPath = dotNetObject.assetsPath;
     }
     if (hasValue(dotNetObject.fontsUrl)) {
-        properties.fontsUrl = dotNetObject.fontsUrl;
+        jsconfig.fontsUrl = dotNetObject.fontsUrl;
     }
     if (hasValue(dotNetObject.geometryServiceUrl)) {
-        properties.geometryServiceUrl = dotNetObject.geometryServiceUrl;
+        jsconfig.geometryServiceUrl = dotNetObject.geometryServiceUrl;
     }
     if (hasValue(dotNetObject.geoRSSServiceUrl)) {
-        properties.geoRSSServiceUrl = dotNetObject.geoRSSServiceUrl;
+        jsconfig.geoRSSServiceUrl = dotNetObject.geoRSSServiceUrl;
     }
     if (hasValue(dotNetObject.kmlServiceUrl)) {
-        properties.kmlServiceUrl = dotNetObject.kmlServiceUrl;
+        jsconfig.kmlServiceUrl = dotNetObject.kmlServiceUrl;
     }
     if (hasValue(dotNetObject.portalUrl)) {
-        properties.portalUrl = dotNetObject.portalUrl;
+        jsconfig.portalUrl = dotNetObject.portalUrl;
     }
     if (hasValue(dotNetObject.respectPrefersReducedMotion)) {
-        properties.respectPrefersReducedMotion = dotNetObject.respectPrefersReducedMotion;
+        jsconfig.respectPrefersReducedMotion = dotNetObject.respectPrefersReducedMotion;
     }
     if (hasValue(dotNetObject.routeServiceUrl)) {
-        properties.routeServiceUrl = dotNetObject.routeServiceUrl;
+        jsconfig.routeServiceUrl = dotNetObject.routeServiceUrl;
     }
     if (hasValue(dotNetObject.userPrivilegesApplied)) {
-        properties.userPrivilegesApplied = dotNetObject.userPrivilegesApplied;
+        jsconfig.userPrivilegesApplied = dotNetObject.userPrivilegesApplied;
     }
-    let jsconfig = new config(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsconfig);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

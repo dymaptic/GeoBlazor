@@ -1,10 +1,10 @@
 
-export async function buildJsPointCloudLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudLayerElevationInfo(dotNetObject: any): Promise<any> {
     let { buildJsPointCloudLayerElevationInfoGenerated } = await import('./pointCloudLayerElevationInfo.gb');
-    return await buildJsPointCloudLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPointCloudLayerElevationInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPointCloudLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudLayerElevationInfo(jsObject: any): Promise<any> {
     let { buildDotNetPointCloudLayerElevationInfoGenerated } = await import('./pointCloudLayerElevationInfo.gb');
-    return await buildDotNetPointCloudLayerElevationInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPointCloudLayerElevationInfoGenerated(jsObject);
 }

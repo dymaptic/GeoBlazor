@@ -27,7 +27,7 @@ export async function buildDotNetLayerFromPortalItemParamsGenerated(jsObject: an
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetLayerFromPortalItemParams.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetLayerFromPortalItemParams.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
 

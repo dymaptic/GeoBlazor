@@ -1,10 +1,10 @@
 
-export async function buildJsBuildingSceneLayerElevationInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBuildingSceneLayerElevationInfo(dotNetObject: any): Promise<any> {
     let { buildJsBuildingSceneLayerElevationInfoGenerated } = await import('./buildingSceneLayerElevationInfo.gb');
-    return await buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetBuildingSceneLayerElevationInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBuildingSceneLayerElevationInfo(jsObject: any): Promise<any> {
     let { buildDotNetBuildingSceneLayerElevationInfoGenerated } = await import('./buildingSceneLayerElevationInfo.gb');
-    return await buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBuildingSceneLayerElevationInfoGenerated(jsObject);
 }

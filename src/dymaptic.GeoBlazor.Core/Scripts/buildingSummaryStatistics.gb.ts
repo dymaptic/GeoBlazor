@@ -3,11 +3,11 @@ import BuildingSummaryStatistics from '@arcgis/core/layers/support/BuildingSumma
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBuildingSummaryStatistics } from './buildingSummaryStatistics';
 
-export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-        properties.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsBuildingFieldStatistics(i, layerId, viewId))) as any;
+        properties.fields = await Promise.all(dotNetObject.fields.map(async i => await buildJsBuildingFieldStatistics(i))) as any;
     }
 
     let jsBuildingSummaryStatistics = new BuildingSummaryStatistics(properties);
@@ -20,7 +20,7 @@ export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetBuildingSummaryStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBuildingSummaryStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -29,7 +29,7 @@ export async function buildDotNetBuildingSummaryStatisticsGenerated(jsObject: an
     
     if (hasValue(jsObject.fields)) {
         let { buildDotNetBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-        dotNetBuildingSummaryStatistics.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetBuildingFieldStatistics(i, layerId, viewId)));
+        dotNetBuildingSummaryStatistics.fields = await Promise.all(jsObject.fields.map(async i => await buildDotNetBuildingFieldStatistics(i)));
     }
     
 

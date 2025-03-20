@@ -1,10 +1,10 @@
 
-export async function buildJsIRouteSymbolsDirectionLines(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIRouteSymbolsDirectionLines(dotNetObject: any): Promise<any> {
     let { buildJsIRouteSymbolsDirectionLinesGenerated } = await import('./iRouteSymbolsDirectionLines.gb');
-    return await buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject);
 }     
 
-export async function buildDotNetIRouteSymbolsDirectionLines(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIRouteSymbolsDirectionLines(jsObject: any): Promise<any> {
     let { buildDotNetIRouteSymbolsDirectionLinesGenerated } = await import('./iRouteSymbolsDirectionLines.gb');
-    return await buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject, layerId, viewId);
+    return await buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject);
 }

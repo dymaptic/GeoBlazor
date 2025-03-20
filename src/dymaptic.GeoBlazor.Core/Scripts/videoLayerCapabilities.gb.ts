@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVideoLayerCapabilities } from './videoLayerCapabilities';
 
-export async function buildJsVideoLayerCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVideoLayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsVideoLayerCapabilities: any = {};
     if (hasValue(dotNetObject.operations)) {
         let { buildJsVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
-        jsVideoLayerCapabilities.operations = await buildJsVideoLayerCapabilitiesOperations(dotNetObject.operations, layerId, viewId) as any;
+        jsVideoLayerCapabilities.operations = await buildJsVideoLayerCapabilitiesOperations(dotNetObject.operations) as any;
     }
 
     if (hasValue(dotNetObject.query)) {
@@ -21,7 +21,7 @@ export async function buildJsVideoLayerCapabilitiesGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetVideoLayerCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVideoLayerCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -30,7 +30,7 @@ export async function buildDotNetVideoLayerCapabilitiesGenerated(jsObject: any, 
     
     if (hasValue(jsObject.operations)) {
         let { buildDotNetVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
-        dotNetVideoLayerCapabilities.operations = await buildDotNetVideoLayerCapabilitiesOperations(jsObject.operations, layerId, viewId);
+        dotNetVideoLayerCapabilities.operations = await buildDotNetVideoLayerCapabilitiesOperations(jsObject.operations);
     }
     
     if (hasValue(jsObject.query)) {

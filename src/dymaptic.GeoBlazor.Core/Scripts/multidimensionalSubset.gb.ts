@@ -3,7 +3,7 @@ import MultidimensionalSubset from '@arcgis/core/layers/support/Multidimensional
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetMultidimensionalSubset } from './multidimensionalSubset';
 
-export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.areaOfInterest)) {
         let { buildJsGeometry } = await import('./geometry');
@@ -11,7 +11,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.subsetDefinitions) && dotNetObject.subsetDefinitions.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
-        properties.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i, layerId, viewId))) as any;
+        properties.subsetDefinitions = await Promise.all(dotNetObject.subsetDefinitions.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
 
     let jsMultidimensionalSubset = new MultidimensionalSubset(properties);
@@ -21,7 +21,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
     
     let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-    let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
 
     try {
         let seenObjects = new WeakMap();
@@ -48,7 +48,7 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -62,7 +62,7 @@ export async function buildDotNetMultidimensionalSubsetGenerated(jsObject: any, 
     
     if (hasValue(jsObject.subsetDefinitions)) {
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i, layerId, viewId)));
+        dotNetMultidimensionalSubset.subsetDefinitions = await Promise.all(jsObject.subsetDefinitions.map(async i => await buildDotNetDimensionalDefinition(i)));
     }
     
     if (hasValue(jsObject.dimensions)) {

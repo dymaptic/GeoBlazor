@@ -31,7 +31,7 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.elevationInfo)) {
             let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-            this.layer.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
+            this.layer.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo) as any;
         }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
@@ -138,12 +138,12 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo, this.layerId, this.viewId);
+        return await buildDotNetGraphicsLayerElevationInfo(this.layer.elevationInfo);
     }
     
     async setElevationInfo(value: any): Promise<void> {
         let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        this.layer.elevationInfo = await  buildJsGraphicsLayerElevationInfo(value, this.layerId, this.viewId);
+        this.layer.elevationInfo = await  buildJsGraphicsLayerElevationInfo(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -206,7 +206,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         let { buildJsGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        properties.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+        properties.elevationInfo = await buildJsGraphicsLayerElevationInfo(dotNetObject.elevationInfo) as any;
     }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -282,7 +282,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
     let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -309,7 +309,7 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -323,7 +323,7 @@ export async function buildDotNetGraphicsLayerGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo, layerId, viewId);
+        dotNetGraphicsLayer.elevationInfo = await buildDotNetGraphicsLayerElevationInfo(jsObject.elevationInfo);
     }
     
     if (hasValue(jsObject.fullExtent)) {

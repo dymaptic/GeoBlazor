@@ -23,7 +23,7 @@ export default class TileInfoGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
             let { buildJsLOD } = await import('./lOD');
-            this.component.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, this.layerId, this.viewId))) as any;
+            this.component.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i))) as any;
         }
         if (hasValue(dotNetObject.origin)) {
             let { buildJsPoint } = await import('./point');
@@ -60,12 +60,12 @@ export default class TileInfoGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLOD } = await import('./lOD');
-        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.lods.map(async i => await buildDotNetLOD(i)));
     }
     
     async setLods(value: any): Promise<void> {
         let { buildJsLOD } = await import('./lOD');
-        this.component.lods = await Promise.all(value.map(async i => await buildJsLOD(i, this.layerId, this.viewId))) as any;
+        this.component.lods = await Promise.all(value.map(async i => await buildJsLOD(i))) as any;
     }
     
     async getOrigin(): Promise<any> {
@@ -96,7 +96,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
-        properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i, layerId, viewId))) as any;
+        properties.lods = await Promise.all(dotNetObject.lods.map(async i => await buildJsLOD(i))) as any;
     }
     if (hasValue(dotNetObject.origin)) {
         let { buildJsPoint } = await import('./point');
@@ -128,7 +128,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
     
     let { buildDotNetTileInfo } = await import('./tileInfo');
-    let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -155,7 +155,7 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTileInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -164,7 +164,7 @@ export async function buildDotNetTileInfoGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.lods)) {
         let { buildDotNetLOD } = await import('./lOD');
-        dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i, layerId, viewId)));
+        dotNetTileInfo.lods = await Promise.all(jsObject.lods.map(async i => await buildDotNetLOD(i)));
     }
     
     if (hasValue(jsObject.origin)) {

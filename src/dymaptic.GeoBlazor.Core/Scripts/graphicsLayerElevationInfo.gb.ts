@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetGraphicsLayerElevationInfo } from './graphicsLayerElevationInfo';
 
-export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsGraphicsLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
-        jsGraphicsLayerElevationInfo.featureExpressionInfo = await buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsGraphicsLayerElevationInfo.featureExpressionInfo = await buildJsGraphicsLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: a
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfo;
     
     let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayerElevationInfo(jsGraphicsLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetGraphicsLayerElevationInfo(jsGraphicsLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: a
 }
 
 
-export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetGraphicsLayerElevationInfoGenerated(jsObject: a
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
-        dotNetGraphicsLayerElevationInfo.featureExpressionInfo = await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetGraphicsLayerElevationInfo.featureExpressionInfo = await buildDotNetGraphicsLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

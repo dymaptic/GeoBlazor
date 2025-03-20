@@ -25,7 +25,7 @@ export async function buildJsExpandViewModelGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsExpandViewModel;
     
     let { buildDotNetExpandViewModel } = await import('./expandViewModel');
-    let dnInstantiatedObject = await buildDotNetExpandViewModel(jsExpandViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetExpandViewModel(jsExpandViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,7 +52,7 @@ export async function buildJsExpandViewModelGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetExpandViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetExpandViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

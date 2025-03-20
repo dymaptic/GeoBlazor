@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities } from './serviceDefinitionServiceCapabilitiesIndexCapabilities';
 
-export async function buildJsServiceDefinitionServiceCapabilitiesIndexCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesIndexCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsServiceDefinitionServiceCapabilitiesIndexCapabilities: any = {};
 
     if (hasValue(dotNetObject.supportsDescendingIndex)) {
@@ -20,7 +20,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesIndexCapabiliti
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesIndexCapabilities;
     
     let { buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsServiceDefinitionServiceCapabilitiesIndexCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsServiceDefinitionServiceCapabilitiesIndexCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesIndexCapabiliti
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

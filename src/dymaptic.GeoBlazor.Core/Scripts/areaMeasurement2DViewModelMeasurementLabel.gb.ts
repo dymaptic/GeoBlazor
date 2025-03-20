@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } from './areaMeasurement2DViewModelMeasurementLabel';
 
-export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated(dotNetObject: any): Promise<any> {
     let jsAreaMeasurement2DViewModelMeasurementLabel: any = {};
 
     if (hasValue(dotNetObject.area)) {
@@ -17,7 +17,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurementLabel;
     
     let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsAreaMeasurement2DViewModelMeasurementLabel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsAreaMeasurement2DViewModelMeasurementLabel);
 
     try {
         let seenObjects = new WeakMap();
@@ -44,7 +44,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated
 }
 
 
-export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAreaMeasurement2DViewModelMeasurementLabelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -1,10 +1,10 @@
 
-export async function buildJsLOD(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLOD(dotNetObject: any): Promise<any> {
     let { buildJsLODGenerated } = await import('./lOD.gb');
-    return await buildJsLODGenerated(dotNetObject, layerId, viewId);
+    return await buildJsLODGenerated(dotNetObject);
 }     
 
-export async function buildDotNetLOD(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLOD(jsObject: any): Promise<any> {
     let { buildDotNetLODGenerated } = await import('./lOD.gb');
-    return await buildDotNetLODGenerated(jsObject, layerId, viewId);
+    return await buildDotNetLODGenerated(jsObject);
 }

@@ -182,7 +182,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     
     async setPortal(value: any): Promise<void> {
@@ -403,7 +403,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.portal)) {
         let { buildDotNetPortal } = await import('./portal');
-        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal, layerId, viewId);
+        dotNetSearchViewModel.portal = await buildDotNetPortal(jsObject.portal);
     }
     
     if (hasValue(jsObject.resultGraphic)) {

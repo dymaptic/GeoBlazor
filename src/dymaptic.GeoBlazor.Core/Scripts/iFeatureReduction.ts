@@ -9,12 +9,12 @@ export async function buildJsIFeatureReduction(dotNetObject: any, layerId: strin
     }
 }
 
-export async function buildDotNetIFeatureReduction(featureReduction: any, layerId: string | null, viewId: string | null) {
+export async function buildDotNetIFeatureReduction(featureReduction: any) {
     try {
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureReduction } = await import('./featureReduction');
         // @ts-ignore GeoBlazor Pro only
-        return await buildDotNetFeatureReduction(featureReduction, layerId, viewId);
+        return await buildDotNetFeatureReduction(featureReduction);
     } catch (e) {
         throw e;
     }

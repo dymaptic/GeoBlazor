@@ -35,7 +35,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.elevationInfo)) {
             let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-            this.layer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo, this.layerId, this.viewId) as any;
+            this.layer.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo) as any;
         }
         if (hasValue(dotNetObject.featureEffect)) {
             let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -51,7 +51,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.floorInfo)) {
             let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-            this.layer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, this.layerId, this.viewId) as any;
+            this.layer.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
         }
         if (hasValue(dotNetObject.formTemplate)) {
             this.layer.formTemplate = dotNetObject.iFormTemplate;
@@ -66,7 +66,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
             let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-            this.layer.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
+            this.layer.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
         }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -94,11 +94,11 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.timeInfo)) {
             let { buildJsTimeInfo } = await import('./timeInfo');
-            this.layer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, this.layerId, this.viewId) as any;
+            this.layer.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
         }
         if (hasValue(dotNetObject.timeOffset)) {
             let { buildJsTimeInterval } = await import('./timeInterval');
-            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, this.layerId, this.viewId) as any;
+            this.layer.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
         }
         if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
             let { buildJsFeatureType } = await import('./featureType');
@@ -262,7 +262,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async save(options: any): Promise<any> {
         let result = await this.layer.save(options);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async saveAs(portalItem: any,
@@ -274,7 +274,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         let result = await this.layer.saveAs(jsPortalItem,
             jsOptions);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async updateAttachment(feature: any,
@@ -318,7 +318,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetCapabilities } = await import('./capabilities');
-        return await buildDotNetCapabilities(this.layer.effectiveCapabilities, this.layerId, this.viewId);
+        return await buildDotNetCapabilities(this.layer.effectiveCapabilities);
     }
     
     async getElevationInfo(): Promise<any> {
@@ -327,12 +327,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        return await buildDotNetFeatureLayerBaseElevationInfo(this.layer.elevationInfo, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayerBaseElevationInfo(this.layer.elevationInfo);
     }
     
     async setElevationInfo(value: any): Promise<void> {
         let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        this.layer.elevationInfo = await  buildJsFeatureLayerBaseElevationInfo(value, this.layerId, this.viewId);
+        this.layer.elevationInfo = await  buildJsFeatureLayerBaseElevationInfo(value);
     }
     
     async getFeatureEffect(): Promise<any> {
@@ -341,7 +341,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        return await buildDotNetFeatureEffect(this.layer.featureEffect, this.layerId, this.viewId);
+        return await buildDotNetFeatureEffect(this.layer.featureEffect);
     }
     
     async setFeatureEffect(value: any): Promise<void> {
@@ -369,7 +369,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.layer.fieldsIndex, this.layerId, this.viewId);
+        return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
     }
     
     async getFloorInfo(): Promise<any> {
@@ -378,12 +378,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        return await buildDotNetLayerFloorInfo(this.layer.floorInfo, this.layerId, this.viewId);
+        return await buildDotNetLayerFloorInfo(this.layer.floorInfo);
     }
     
     async setFloorInfo(value: any): Promise<void> {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        this.layer.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
+        this.layer.floorInfo = await  buildJsLayerFloorInfo(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -420,12 +420,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i, this.layerId, this.viewId))) as any;
+        this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -448,7 +448,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.layer.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.layer.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -490,7 +490,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSubtype } = await import('./subtype');
-        return await Promise.all(this.layer.subtypes.map(async i => await buildDotNetSubtype(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.subtypes.map(async i => await buildDotNetSubtype(i)));
     }
     
     async getTimeExtent(): Promise<any> {
@@ -513,12 +513,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        return await buildDotNetTimeInfo(this.layer.timeInfo, this.layerId, this.viewId);
+        return await buildDotNetTimeInfo(this.layer.timeInfo);
     }
     
     async setTimeInfo(value: any): Promise<void> {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        this.layer.timeInfo = await  buildJsTimeInfo(value, this.layerId, this.viewId);
+        this.layer.timeInfo = await  buildJsTimeInfo(value);
     }
     
     async getTimeOffset(): Promise<any> {
@@ -527,12 +527,12 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        return await buildDotNetTimeInterval(this.layer.timeOffset, this.layerId, this.viewId);
+        return await buildDotNetTimeInterval(this.layer.timeOffset);
     }
     
     async setTimeOffset(value: any): Promise<void> {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        this.layer.timeOffset = await  buildJsTimeInterval(value, this.layerId, this.viewId);
+        this.layer.timeOffset = await  buildJsTimeInterval(value);
     }
     
     async getTypes(): Promise<any> {
@@ -541,7 +541,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.layer.types.map(async i => await buildDotNetFeatureType(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.types.map(async i => await buildDotNetFeatureType(i)));
     }
     
     async setTypes(value: any): Promise<void> {
@@ -585,7 +585,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        properties.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo, layerId, viewId) as any;
+        properties.elevationInfo = await buildJsFeatureLayerBaseElevationInfo(dotNetObject.elevationInfo) as any;
     }
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -601,7 +601,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
+        properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
     }
     if (hasValue(dotNetObject.formTemplate)) {
         properties.formTemplate = dotNetObject.formTemplate;
@@ -616,7 +616,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.orderBy) && dotNetObject.orderBy.length > 0) {
         let { buildJsOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i, layerId, viewId))) as any;
+        properties.orderBy = await Promise.all(dotNetObject.orderBy.map(async i => await buildJsOrderedLayerOrderBy(i))) as any;
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -644,11 +644,11 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.timeInfo)) {
         let { buildJsTimeInfo } = await import('./timeInfo');
-        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo, layerId, viewId) as any;
+        properties.timeInfo = await buildJsTimeInfo(dotNetObject.timeInfo) as any;
     }
     if (hasValue(dotNetObject.timeOffset)) {
         let { buildJsTimeInterval } = await import('./timeInterval');
-        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset, layerId, viewId) as any;
+        properties.timeOffset = await buildJsTimeInterval(dotNetObject.timeOffset) as any;
     }
     if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
         let { buildJsFeatureType } = await import('./featureType');
@@ -808,7 +808,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
     
     let { buildDotNetFeatureLayer } = await import('./featureLayer');
-    let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -835,7 +835,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -854,22 +854,22 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.effectiveCapabilities)) {
         let { buildDotNetCapabilities } = await import('./capabilities');
-        dotNetFeatureLayer.effectiveCapabilities = await buildDotNetCapabilities(jsObject.effectiveCapabilities, layerId, viewId);
+        dotNetFeatureLayer.effectiveCapabilities = await buildDotNetCapabilities(jsObject.effectiveCapabilities);
     }
     
     if (hasValue(jsObject.elevationInfo)) {
         let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-        dotNetFeatureLayer.elevationInfo = await buildDotNetFeatureLayerBaseElevationInfo(jsObject.elevationInfo, layerId, viewId);
+        dotNetFeatureLayer.elevationInfo = await buildDotNetFeatureLayerBaseElevationInfo(jsObject.elevationInfo);
     }
     
     if (hasValue(jsObject.featureEffect)) {
         let { buildDotNetFeatureEffect } = await import('./featureEffect');
-        dotNetFeatureLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect, layerId, viewId);
+        dotNetFeatureLayer.featureEffect = await buildDotNetFeatureEffect(jsObject.featureEffect);
     }
     
     if (hasValue(jsObject.featureReduction)) {
         let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-        dotNetFeatureLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction, layerId, viewId);
+        dotNetFeatureLayer.featureReduction = await buildDotNetIFeatureReduction(jsObject.featureReduction);
     }
     
     if (hasValue(jsObject.fields)) {
@@ -879,12 +879,12 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetFeatureLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
+        dotNetFeatureLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
     
     if (hasValue(jsObject.floorInfo)) {
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        dotNetFeatureLayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo, layerId, viewId);
+        dotNetFeatureLayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -899,7 +899,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.orderBy)) {
         let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-        dotNetFeatureLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i, layerId, viewId)));
+        dotNetFeatureLayer.orderBy = await Promise.all(jsObject.orderBy.map(async i => await buildDotNetOrderedLayerOrderBy(i)));
     }
     
     if (hasValue(jsObject.popupTemplate)) {
@@ -909,7 +909,7 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetFeatureLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetFeatureLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.renderer)) {
@@ -919,12 +919,12 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.subtypes)) {
         let { buildDotNetSubtype } = await import('./subtype');
-        dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i, layerId, viewId)));
+        dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i)));
     }
     
     if (hasValue(jsObject.templates)) {
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetIFeatureTemplate(i, layerId, viewId)));
+        dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
     
     if (hasValue(jsObject.timeExtent)) {
@@ -934,17 +934,17 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.timeInfo)) {
         let { buildDotNetTimeInfo } = await import('./timeInfo');
-        dotNetFeatureLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo, layerId, viewId);
+        dotNetFeatureLayer.timeInfo = await buildDotNetTimeInfo(jsObject.timeInfo);
     }
     
     if (hasValue(jsObject.timeOffset)) {
         let { buildDotNetTimeInterval } = await import('./timeInterval');
-        dotNetFeatureLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset, layerId, viewId);
+        dotNetFeatureLayer.timeOffset = await buildDotNetTimeInterval(jsObject.timeOffset);
     }
     
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetFeatureLayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, layerId, viewId)));
+        dotNetFeatureLayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {

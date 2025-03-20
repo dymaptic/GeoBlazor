@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPointCloudLayerElevationInfo } from './pointCloudLayerElevationInfo';
 
-export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsPointCloudLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -20,7 +20,7 @@ export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject:
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudLayerElevationInfo;
     
     let { buildDotNetPointCloudLayerElevationInfo } = await import('./pointCloudLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetPointCloudLayerElevationInfo(jsPointCloudLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPointCloudLayerElevationInfo(jsPointCloudLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject:
 }
 
 
-export async function buildDotNetPointCloudLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

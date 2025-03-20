@@ -3,7 +3,7 @@ import VoxelDynamicSection from '@arcgis/core/layers/voxel/VoxelDynamicSection';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVoxelDynamicSection } from './voxelDynamicSection';
 
-export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.enabled)) {
@@ -28,7 +28,7 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsVoxelDynamicSection;
     
     let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-    let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelDynamicSectionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

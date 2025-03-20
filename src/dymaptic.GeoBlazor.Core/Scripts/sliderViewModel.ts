@@ -15,7 +15,7 @@ export async function buildJsSliderViewModel(dotNetObject: any, layerId: string 
     return await buildJsSliderViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSliderViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderViewModel(jsObject: any): Promise<any> {
     let {buildDotNetSliderViewModelGenerated} = await import('./sliderViewModel.gb');
-    return await buildDotNetSliderViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSliderViewModelGenerated(jsObject);
 }

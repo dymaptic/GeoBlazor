@@ -20,7 +20,7 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryItem;
     
     let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-    let dnInstantiatedObject = await buildDotNetBasemapGalleryItem(jsBasemapGalleryItem, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapGalleryItem(jsBasemapGalleryItem);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -56,7 +56,7 @@ export async function buildDotNetBasemapGalleryItemGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.basemap)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap, layerId, viewId);
+        dotNetBasemapGalleryItem.basemap = await buildDotNetBasemap(jsObject.basemap);
     }
     
     if (hasValue(jsObject.error)) {

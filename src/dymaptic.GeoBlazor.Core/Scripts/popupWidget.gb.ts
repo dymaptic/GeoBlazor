@@ -27,7 +27,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.dockOptions)) {
             let { buildJsPopupDockOptions } = await import('./popupDockOptions');
-            this.widget.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions, this.layerId, this.viewId) as any;
+            this.widget.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions) as any;
         }
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
@@ -187,12 +187,12 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
-        return await buildDotNetPopupDockOptions(this.widget.dockOptions, this.layerId, this.viewId);
+        return await buildDotNetPopupDockOptions(this.widget.dockOptions);
     }
     
     async setDockOptions(value: any): Promise<void> {
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
-        this.widget.dockOptions = await  buildJsPopupDockOptions(value, this.layerId, this.viewId);
+        this.widget.dockOptions = await  buildJsPopupDockOptions(value);
     }
     
     async getFeatures(): Promise<any> {
@@ -286,7 +286,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.dockOptions)) {
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
-        properties.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions, layerId, viewId) as any;
+        properties.dockOptions = await buildJsPopupDockOptions(dotNetObject.dockOptions) as any;
     }
     if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');
@@ -414,7 +414,7 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.dockOptions)) {
         let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
-        dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions, layerId, viewId);
+        dotNetPopupWidget.dockOptions = await buildDotNetPopupDockOptions(jsObject.dockOptions);
     }
     
     if (hasValue(jsObject.features)) {

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVideoLayerCapabilitiesOperations } from './videoLayerCapabilitiesOperations';
 
-export async function buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObject: any): Promise<any> {
     let jsVideoLayerCapabilitiesOperations: any = {};
 
     if (hasValue(dotNetObject.supportsAppend)) {
@@ -26,7 +26,7 @@ export async function buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObj
     arcGisObjectRefs[dotNetObject.id] = jsVideoLayerCapabilitiesOperations;
     
     let { buildDotNetVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetVideoLayerCapabilitiesOperations(jsVideoLayerCapabilitiesOperations, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVideoLayerCapabilitiesOperations(jsVideoLayerCapabilitiesOperations);
 
     try {
         let seenObjects = new WeakMap();
@@ -53,7 +53,7 @@ export async function buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObj
 }
 
 
-export async function buildDotNetVideoLayerCapabilitiesOperationsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVideoLayerCapabilitiesOperationsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

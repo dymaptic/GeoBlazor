@@ -24,9 +24,9 @@ export async function buildJsListItem(dotNetObject: any, layerId: string | null,
     return await buildJsListItemGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetListItem(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetListItem(jsObject: any): Promise<any> {
     let {buildDotNetListItemGenerated} = await import('./listItem.gb');
-    let listItem = await buildDotNetListItemGenerated(jsObject, layerId, viewId);
+    let listItem = await buildDotNetListItemGenerated(jsObject);
     listItem.layerId = lookupGeoBlazorId(jsObject.layer);
     return listItem;
 }

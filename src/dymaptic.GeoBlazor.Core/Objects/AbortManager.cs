@@ -94,9 +94,9 @@ public class AbortManager : IAsyncDisposable
                 _tokensAndControllers.TryRemove(cancellationToken, out _);
             }
         }
-        catch(Exception ex)
+        catch
         {
-            Console.WriteLine(ex);
+            // ignore
         }
     }
 

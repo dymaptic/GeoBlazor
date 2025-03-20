@@ -11,7 +11,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.styles) && dotNetObject.styles.length > 0) {
         let { buildJsWMTSStyle } = await import('./wMTSStyle');
-        properties.styles = await Promise.all(dotNetObject.styles.map(async i => await buildJsWMTSStyle(i, layerId, viewId))) as any;
+        properties.styles = await Promise.all(dotNetObject.styles.map(async i => await buildJsWMTSStyle(i))) as any;
     }
     if (hasValue(dotNetObject.tileMatrixSet)) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
@@ -50,7 +50,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     
     let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-    let dnInstantiatedObject = await buildDotNetWMTSSublayer(jsWMTSSublayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWMTSSublayer(jsWMTSSublayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -77,7 +77,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetWMTSSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWMTSSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -91,17 +91,17 @@ export async function buildDotNetWMTSSublayerGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.styles)) {
         let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-        dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i, layerId, viewId)));
+        dotNetWMTSSublayer.styles = await Promise.all(jsObject.styles.map(async i => await buildDotNetWMTSStyle(i)));
     }
     
     if (hasValue(jsObject.tileMatrixSet)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-        dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet, layerId, viewId);
+        dotNetWMTSSublayer.tileMatrixSet = await buildDotNetTileMatrixSet(jsObject.tileMatrixSet);
     }
     
     if (hasValue(jsObject.tileMatrixSets)) {
         let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-        dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i, layerId, viewId)));
+        dotNetWMTSSublayer.tileMatrixSets = await Promise.all(jsObject.tileMatrixSets.map(async i => await buildDotNetTileMatrixSet(i)));
     }
     
     if (hasValue(jsObject.description)) {

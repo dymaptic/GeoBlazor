@@ -4,12 +4,11 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetValuePickerCollection } from './valuePickerCollection';
 
 export async function buildJsValuePickerCollectionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsValuePickerCollection: any = {};
 
     if (hasValue(dotNetObject.collection)) {
-        properties.collection = dotNetObject.collection;
+        jsValuePickerCollection.collection = dotNetObject.collection;
     }
-    let jsValuePickerCollection = new ValuePickerCollection(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsValuePickerCollection);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

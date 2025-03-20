@@ -35,7 +35,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.style)) {
             let { buildJsBasemapStyle } = await import('./basemapStyle');
-            this.component.style = await buildJsBasemapStyle(dotNetObject.style, this.layerId, this.viewId) as any;
+            this.component.style = await buildJsBasemapStyle(dotNetObject.style) as any;
         }
 
         if (hasValue(dotNetObject.basemapId)) {
@@ -55,7 +55,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetBasemap } = await import('./basemap');
-        return await buildDotNetBasemap(result, this.layerId, this.viewId);
+        return await buildDotNetBasemap(result);
     }
 
     // region properties
@@ -66,7 +66,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.baseLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setBaseLayers(value: any): Promise<void> {
@@ -80,7 +80,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(this.component.portalItem, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(this.component.portalItem);
     }
     
     async setPortalItem(value: any): Promise<void> {
@@ -94,7 +94,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.referenceLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async setReferenceLayers(value: any): Promise<void> {
@@ -108,12 +108,12 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        return await buildDotNetBasemapStyle(this.component.style, this.layerId, this.viewId);
+        return await buildDotNetBasemapStyle(this.component.style);
     }
     
     async setStyle(value: any): Promise<void> {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
-        this.component.style = await  buildJsBasemapStyle(value, this.layerId, this.viewId);
+        this.component.style = await  buildJsBasemapStyle(value);
     }
     
     getProperty(prop: string): any {
@@ -142,7 +142,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
-        properties.style = await buildJsBasemapStyle(dotNetObject.style, layerId, viewId) as any;
+        properties.style = await buildJsBasemapStyle(dotNetObject.style) as any;
     }
 
     if (hasValue(dotNetObject.basemapId)) {
@@ -170,7 +170,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     
     let { buildDotNetBasemap } = await import('./basemap');
-    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
 
     try {
         let seenObjects = new WeakMap();
@@ -197,7 +197,7 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
 }
 
 
-export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -206,12 +206,12 @@ export async function buildDotNetBasemapGenerated(jsObject: any, layerId: string
     
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
-        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem, layerId, viewId);
+        dotNetBasemap.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
     if (hasValue(jsObject.style)) {
         let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-        dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style, layerId, viewId);
+        dotNetBasemap.style = await buildDotNetBasemapStyle(jsObject.style);
     }
     
     if (hasValue(jsObject.id)) {

@@ -1,10 +1,10 @@
 
-export async function buildJsWFSOperationsGetFeature(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSOperationsGetFeature(dotNetObject: any): Promise<any> {
     let { buildJsWFSOperationsGetFeatureGenerated } = await import('./wFSOperationsGetFeature.gb');
-    return await buildJsWFSOperationsGetFeatureGenerated(dotNetObject, layerId, viewId);
+    return await buildJsWFSOperationsGetFeatureGenerated(dotNetObject);
 }     
 
-export async function buildDotNetWFSOperationsGetFeature(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSOperationsGetFeature(jsObject: any): Promise<any> {
     let { buildDotNetWFSOperationsGetFeatureGenerated } = await import('./wFSOperationsGetFeature.gb');
-    return await buildDotNetWFSOperationsGetFeatureGenerated(jsObject, layerId, viewId);
+    return await buildDotNetWFSOperationsGetFeatureGenerated(jsObject);
 }

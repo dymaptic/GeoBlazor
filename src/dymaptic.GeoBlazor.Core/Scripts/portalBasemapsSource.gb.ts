@@ -47,7 +47,7 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i)));
     }
     
     async setBasemaps(value: any): Promise<void> {
@@ -90,8 +90,8 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
         index,
         array) => {
             let { buildDotNetBasemap } = await import('./basemap');
-            let dnItem = await buildDotNetBasemap(item, layerId, viewId);
-            let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
+            let dnItem = await buildDotNetBasemap(item);
+            let dnArray = await Promise.all(array.map(async i => await buildDotNetBasemap(i)));
 
             return await dotNetObject.invokeMethodAsync('OnJsFilterFunction', dnItem,
             index,
@@ -105,7 +105,7 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.hasUpdateBasemapsCallback) && dotNetObject.hasUpdateBasemapsCallback) {
         properties.updateBasemapsCallback = async (items) => {
             let { buildDotNetBasemap } = await import('./basemap');
-            let dnItems = await Promise.all(items.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
+            let dnItems = await Promise.all(items.map(async i => await buildDotNetBasemap(i)));
 
             let result = await dotNetObject.invokeMethodAsync('OnJsUpdateBasemapsCallback', dnItems);
             let { buildJsBasemap } = await import('./basemap');
@@ -165,7 +165,7 @@ export async function buildDotNetPortalBasemapsSourceGenerated(jsObject: any, la
     
     if (hasValue(jsObject.basemaps)) {
         let { buildDotNetBasemap } = await import('./basemap');
-        dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i, layerId, viewId)));
+        dotNetPortalBasemapsSource.basemaps = await Promise.all(jsObject.basemaps.map(async i => await buildDotNetBasemap(i)));
     }
     
     if (hasValue(jsObject.portal)) {

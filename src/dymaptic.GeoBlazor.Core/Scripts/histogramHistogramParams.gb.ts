@@ -88,7 +88,7 @@ export async function buildDotNetHistogramHistogramParamsGenerated(jsObject: any
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetHistogramHistogramParams.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetHistogramHistogramParams.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.classificationMethod)) {

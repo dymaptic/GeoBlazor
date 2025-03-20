@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPopupDockOptions } from './popupDockOptions';
 
-export async function buildJsPopupDockOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPopupDockOptionsGenerated(dotNetObject: any): Promise<any> {
     let jsPopupDockOptions: any = {};
 
     if (hasValue(dotNetObject.breakpoint)) {
@@ -20,7 +20,7 @@ export async function buildJsPopupDockOptionsGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptions;
     
     let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
-    let dnInstantiatedObject = await buildDotNetPopupDockOptions(jsPopupDockOptions, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetPopupDockOptions(jsPopupDockOptions);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsPopupDockOptionsGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetPopupDockOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupDockOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

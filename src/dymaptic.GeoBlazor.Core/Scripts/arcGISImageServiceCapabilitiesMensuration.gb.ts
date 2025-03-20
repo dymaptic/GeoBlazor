@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetArcGISImageServiceCapabilitiesMensuration } from './arcGISImageServiceCapabilitiesMensuration';
 
-export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any): Promise<any> {
     let jsArcGISImageServiceCapabilitiesMensuration: any = {};
 
     if (hasValue(dotNetObject.supports3D)) {
@@ -32,7 +32,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
     
     let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,7 +59,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
 }
 
 
-export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetArcGISImageServiceCapabilitiesMensurationGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -3,7 +3,7 @@ import DimensionalDefinition from '@arcgis/core/layers/support/DimensionalDefini
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetDimensionalDefinition } from './dimensionalDefinition';
 
-export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.dimensionName)) {
@@ -25,7 +25,7 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
     let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
 
     try {
         let seenObjects = new WeakMap();
@@ -52,7 +52,7 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetDimensionalDefinitionGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

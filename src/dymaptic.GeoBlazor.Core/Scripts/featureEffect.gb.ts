@@ -2,7 +2,7 @@
 import FeatureEffect from '@arcgis/core/layers/support/FeatureEffect';
 import { hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 
-export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureEffectGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -16,7 +16,7 @@ export async function buildDotNetFeatureEffectGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.filter)) {
         let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter, layerId, viewId);
+        dotNetFeatureEffect.filter = await buildDotNetFeatureFilter(jsObject.filter);
     }
     
     if (hasValue(jsObject.includedEffect)) {

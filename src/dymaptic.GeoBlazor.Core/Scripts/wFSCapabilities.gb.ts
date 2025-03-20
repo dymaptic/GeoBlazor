@@ -2,15 +2,15 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWFSCapabilities } from './wFSCapabilities';
 
-export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsWFSCapabilities: any = {};
     if (hasValue(dotNetObject.featureTypes) && dotNetObject.featureTypes.length > 0) {
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
-        jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i, layerId, viewId))) as any;
+        jsWFSCapabilities.featureTypes = await Promise.all(dotNetObject.featureTypes.map(async i => await buildJsWFSFeatureType(i))) as any;
     }
     if (hasValue(dotNetObject.operations)) {
         let { buildJsWFSOperations } = await import('./wFSOperations');
-        jsWFSCapabilities.operations = await buildJsWFSOperations(dotNetObject.operations, layerId, viewId) as any;
+        jsWFSCapabilities.operations = await buildJsWFSOperations(dotNetObject.operations) as any;
     }
 
     
@@ -19,7 +19,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId
     arcGisObjectRefs[dotNetObject.id] = jsWFSCapabilities;
     
     let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-    let dnInstantiatedObject = await buildDotNetWFSCapabilities(jsWFSCapabilities, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWFSCapabilities(jsWFSCapabilities);
 
     try {
         let seenObjects = new WeakMap();
@@ -46,7 +46,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -55,12 +55,12 @@ export async function buildDotNetWFSCapabilitiesGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.featureTypes)) {
         let { buildDotNetWFSFeatureType } = await import('./wFSFeatureType');
-        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i, layerId, viewId)));
+        dotNetWFSCapabilities.featureTypes = await Promise.all(jsObject.featureTypes.map(async i => await buildDotNetWFSFeatureType(i)));
     }
     
     if (hasValue(jsObject.operations)) {
         let { buildDotNetWFSOperations } = await import('./wFSOperations');
-        dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations, layerId, viewId);
+        dotNetWFSCapabilities.operations = await buildDotNetWFSOperations(jsObject.operations);
     }
     
 

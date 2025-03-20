@@ -763,6 +763,45 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Labels property.
+    /// </summary>
+    public async Task<LabelInfos?> GetLabels()
+    {
+        if (CoreJsModule is null)
+        {
+            return Labels;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Labels;
+        }
+
+        // get the property value
+        LabelInfos? result = await JsComponentReference!.InvokeAsync<LabelInfos?>("getProperty",
+            CancellationTokenSource.Token, "labels");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Labels = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Labels)] = Labels;
+        }
+         
+        return Labels;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Layout property.
     /// </summary>
     public async Task<SliderLayout?> GetLayout()

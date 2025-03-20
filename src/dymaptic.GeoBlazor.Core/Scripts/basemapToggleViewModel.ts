@@ -14,7 +14,7 @@ export async function buildJsBasemapToggleViewModel(dotNetObject: any, layerId: 
     return await buildJsBasemapToggleViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetBasemapToggleViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapToggleViewModel(jsObject: any): Promise<any> {
     let {buildDotNetBasemapToggleViewModelGenerated} = await import('./basemapToggleViewModel.gb');
-    return await buildDotNetBasemapToggleViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetBasemapToggleViewModelGenerated(jsObject);
 }

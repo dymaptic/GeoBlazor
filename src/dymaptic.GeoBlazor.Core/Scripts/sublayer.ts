@@ -15,7 +15,7 @@ export async function buildJsSublayer(dotNetObject: any, layerId: string | null,
     return await buildJsSublayerGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSublayer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSublayer(jsObject: any): Promise<any> {
     let {buildDotNetSublayerGenerated} = await import('./sublayer.gb');
-    return await buildDotNetSublayerGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSublayerGenerated(jsObject);
 }

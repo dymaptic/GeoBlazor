@@ -1,10 +1,10 @@
 
-export async function buildJsLayerFloorInfo(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLayerFloorInfo(dotNetObject: any): Promise<any> {
     let { buildJsLayerFloorInfoGenerated } = await import('./layerFloorInfo.gb');
-    return await buildJsLayerFloorInfoGenerated(dotNetObject, layerId, viewId);
+    return await buildJsLayerFloorInfoGenerated(dotNetObject);
 }     
 
-export async function buildDotNetLayerFloorInfo(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerFloorInfo(jsObject: any): Promise<any> {
     let { buildDotNetLayerFloorInfoGenerated } = await import('./layerFloorInfo.gb');
-    return await buildDotNetLayerFloorInfoGenerated(jsObject, layerId, viewId);
+    return await buildDotNetLayerFloorInfoGenerated(jsObject);
 }

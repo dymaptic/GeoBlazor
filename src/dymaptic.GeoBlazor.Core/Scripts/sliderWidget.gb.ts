@@ -27,7 +27,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.visibleElements)) {
             let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
-            this.widget.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, this.layerId, this.viewId) as any;
+            this.widget.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements) as any;
         }
 
         if (hasValue(dotNetObject.disabled)) {
@@ -158,7 +158,7 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        return await buildDotNetSliderViewModel(this.widget.viewModel, this.layerId, this.viewId);
+        return await buildDotNetSliderViewModel(this.widget.viewModel);
     }
     
     async setViewModel(value: any): Promise<void> {
@@ -172,12 +172,12 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-        return await buildDotNetSliderVisibleElements(this.widget.visibleElements, this.layerId, this.viewId);
+        return await buildDotNetSliderVisibleElements(this.widget.visibleElements);
     }
     
     async setVisibleElements(value: any): Promise<void> {
         let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
-        this.widget.visibleElements = await  buildJsSliderVisibleElements(value, this.layerId, this.viewId);
+        this.widget.visibleElements = await  buildJsSliderVisibleElements(value);
     }
     
     getProperty(prop: string): any {
@@ -263,7 +263,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsSliderVisibleElements } = await import('./sliderVisibleElements');
-        properties.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+        properties.visibleElements = await buildJsSliderVisibleElements(dotNetObject.visibleElements) as any;
     }
 
     if (hasValue(dotNetObject.disabled)) {
@@ -383,7 +383,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
     let { buildDotNetSliderWidget } = await import('./sliderWidget');
-    let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
 
     try {
         let seenObjects = new WeakMap();
@@ -410,7 +410,7 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSliderWidgetGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -424,12 +424,12 @@ export async function buildDotNetSliderWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetSliderViewModel } = await import('./sliderViewModel');
-        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel, layerId, viewId);
+        dotNetSliderWidget.viewModel = await buildDotNetSliderViewModel(jsObject.viewModel);
     }
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-        dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements, layerId, viewId);
+        dotNetSliderWidget.visibleElements = await buildDotNetSliderVisibleElements(jsObject.visibleElements);
     }
     
     if (hasValue(jsObject.disabled)) {

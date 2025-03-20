@@ -14,11 +14,11 @@ export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObje
     }
     if (hasValue(dotNetObject.rasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        jsuniqueValueCreateRendererParams.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction, layerId, viewId) as any;
+        jsuniqueValueCreateRendererParams.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
-        jsuniqueValueCreateRendererParams.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule, layerId, viewId) as any;
+        jsuniqueValueCreateRendererParams.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule) as any;
     }
 
     if (hasValue(dotNetObject.classFieldName)) {
@@ -53,7 +53,7 @@ export async function buildDotNetUniqueValueCreateRendererParamsGenerated(jsObje
     
     if (hasValue(jsObject.rasterFunction)) {
         let { buildDotNetRasterFunction } = await import('./rasterFunction');
-        dotNetUniqueValueCreateRendererParams.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction, layerId, viewId);
+        dotNetUniqueValueCreateRendererParams.rasterFunction = await buildDotNetRasterFunction(jsObject.rasterFunction);
     }
     
     if (hasValue(jsObject.classFieldName)) {

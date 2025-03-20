@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerCapabilitiesQuery } from './knowledgeGraphSublayerCapabilitiesQuery';
 
-export async function buildJsKnowledgeGraphSublayerCapabilitiesQueryGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerCapabilitiesQueryGenerated(dotNetObject: any): Promise<any> {
     let jsKnowledgeGraphSublayerCapabilitiesQuery: any = {};
     if (hasValue(dotNetObject.supportedSpatialAggregationStatistics)) {
         let { buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-        jsKnowledgeGraphSublayerCapabilitiesQuery.supportedSpatialAggregationStatistics = await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(dotNetObject.supportedSpatialAggregationStatistics, layerId, viewId) as any;
+        jsKnowledgeGraphSublayerCapabilitiesQuery.supportedSpatialAggregationStatistics = await buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(dotNetObject.supportedSpatialAggregationStatistics) as any;
     }
 
     if (hasValue(dotNetObject.maxRecordCount)) {
@@ -81,7 +81,7 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQueryGenerated(do
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQueryGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQueryGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -90,7 +90,7 @@ export async function buildDotNetKnowledgeGraphSublayerCapabilitiesQueryGenerate
     
     if (hasValue(jsObject.supportedSpatialAggregationStatistics)) {
         let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-        dotNetKnowledgeGraphSublayerCapabilitiesQuery.supportedSpatialAggregationStatistics = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject.supportedSpatialAggregationStatistics, layerId, viewId);
+        dotNetKnowledgeGraphSublayerCapabilitiesQuery.supportedSpatialAggregationStatistics = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsObject.supportedSpatialAggregationStatistics);
     }
     
     if (hasValue(jsObject.maxRecordCount)) {

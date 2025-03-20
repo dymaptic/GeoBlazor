@@ -36,7 +36,7 @@ export async function buildDotNetBasemapLayerListTriggerActionEventGenerated(jsO
     
     if (hasValue(jsObject.item)) {
         let { buildDotNetListItem } = await import('./listItem');
-        dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item, layerId, viewId);
+        dotNetBasemapLayerListTriggerActionEvent.item = await buildDotNetListItem(jsObject.item);
     }
     
 

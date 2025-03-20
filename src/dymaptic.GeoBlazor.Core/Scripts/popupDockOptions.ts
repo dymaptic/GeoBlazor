@@ -1,10 +1,10 @@
 
-export async function buildJsPopupDockOptions(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPopupDockOptions(dotNetObject: any): Promise<any> {
     let { buildJsPopupDockOptionsGenerated } = await import('./popupDockOptions.gb');
-    return await buildJsPopupDockOptionsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPopupDockOptionsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPopupDockOptions(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupDockOptions(jsObject: any): Promise<any> {
     let { buildDotNetPopupDockOptionsGenerated } = await import('./popupDockOptions.gb');
-    return await buildDotNetPopupDockOptionsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPopupDockOptionsGenerated(jsObject);
 }

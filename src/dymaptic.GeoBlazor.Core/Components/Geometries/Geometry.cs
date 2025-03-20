@@ -9,7 +9,7 @@ public abstract partial class Geometry : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [CodeGenerationIgnore]
     [JsonInclude]
-    public Extent? Extent { get; protected set; }
+    public Extent? Extent { get; internal set; }
 
     /// <summary>
     ///     Indicates if the geometry has M values.
@@ -234,10 +234,17 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
 
     public Geometry FromSerializationRecord()
     {
+        Extent? extent = Extent?.FromSerializationRecord() as Extent;
         return Type switch
         {
-            "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M),
-            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(), SpatialReference?.FromSerializationRecord(), HasM, HasZ),
+            "point" => new Point(Longitude, Latitude, X, Y, Z, SpatialReference?.FromSerializationRecord(), HasM, HasZ, M)
+            {
+                Extent = extent
+            },
+            "polyline" => new Polyline(Paths!.Select(x => x.FromSerializationRecord()).ToArray(), SpatialReference?.FromSerializationRecord(), HasM, HasZ)
+            {
+                Extent = extent
+            },
             "polygon" => Center is not null && Radius is not null
             ? new Circle((Point)Center.FromSerializationRecord(), Radius.Value, 
                 Centroid?.FromSerializationRecord() as Point, 
@@ -245,10 +252,16 @@ internal record GeometrySerializationRecord : MapComponentSerializationRecord
                 RadiusUnit is null ? null : Enum.Parse<RadiusUnit>(RadiusUnit),
                 Rings!.Select(x => x.FromSerializationRecord()).ToArray(),
                 SpatialReference?.FromSerializationRecord())
+                {
+                    Extent = extent
+                }
             : new Polygon(Rings!.Select(x => x.FromSerializationRecord()).ToArray(), 
                 SpatialReference?.FromSerializationRecord(), 
                 Centroid?.FromSerializationRecord() as Point, 
-                HasM, HasZ, IsSelfIntersecting),
+                HasM, HasZ, IsSelfIntersecting)
+                {
+                    Extent = extent
+                },
             "extent" => new Extent(Xmax!.Value, Xmin!.Value, Ymax!.Value, Ymin!.Value, Zmax, Zmin, Mmax, Mmin, SpatialReference?.FromSerializationRecord(), HasM, HasZ),
             _ => throw new ArgumentOutOfRangeException()
         };

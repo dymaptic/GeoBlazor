@@ -74,7 +74,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
         let result = await this.component.addItem(jsparameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
-        return await buildDotNetPortalItem(result, this.layerId, this.viewId);
+        return await buildDotNetPortalItem(result);
     }
 
     async deleteItem(item: any,
@@ -141,7 +141,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPortal } = await import('./portal');
-        return await buildDotNetPortal(this.component.portal, this.layerId, this.viewId);
+        return await buildDotNetPortal(this.component.portal);
     }
     
     async setPortal(value: any): Promise<void> {

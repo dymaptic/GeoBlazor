@@ -130,7 +130,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
     
     let { buildDotNetFeatureFilter } = await import('./featureFilter');
-    let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
 
     try {
         let seenObjects = new WeakMap();
@@ -157,7 +157,7 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetFeatureFilterGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureFilterGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

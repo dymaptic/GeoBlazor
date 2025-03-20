@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerListCatalogOptions } from './layerListCatalogOptions';
 
-export async function buildJsLayerListCatalogOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLayerListCatalogOptionsGenerated(dotNetObject: any): Promise<any> {
     let jsLayerListCatalogOptions: any = {};
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-        jsLayerListCatalogOptions.visibleElements = await buildJsLayerListCatalogOptionsVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+        jsLayerListCatalogOptions.visibleElements = await buildJsLayerListCatalogOptionsVisibleElements(dotNetObject.visibleElements) as any;
     }
 
     if (hasValue(dotNetObject.filterPlaceholder)) {
@@ -33,7 +33,7 @@ export async function buildJsLayerListCatalogOptionsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetLayerListCatalogOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerListCatalogOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -42,7 +42,7 @@ export async function buildDotNetLayerListCatalogOptionsGenerated(jsObject: any,
     
     if (hasValue(jsObject.visibleElements)) {
         let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-        dotNetLayerListCatalogOptions.visibleElements = await buildDotNetLayerListCatalogOptionsVisibleElements(jsObject.visibleElements, layerId, viewId);
+        dotNetLayerListCatalogOptions.visibleElements = await buildDotNetLayerListCatalogOptionsVisibleElements(jsObject.visibleElements);
     }
     
     if (hasValue(jsObject.filterPlaceholder)) {

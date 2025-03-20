@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetOrderedLayerOrderBy } from './orderedLayerOrderBy';
 
-export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any): Promise<any> {
     let jsOrderedLayerOrderBy: any = {};
 
     if (hasValue(dotNetObject.field)) {
@@ -20,7 +20,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     
     let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
 
     try {
         let seenObjects = new WeakMap();
@@ -47,7 +47,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOrderedLayerOrderByGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

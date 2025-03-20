@@ -4,9 +4,9 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetValuePickerSlider } from './valuePickerSlider';
 
 export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsValuePickerSlider: any = {};
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
-        properties.labelFormatFunction = async (value,
+        jsValuePickerSlider.labelFormatFunction = async (value,
         type,
         index) => {
 
@@ -20,31 +20,30 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsValuePickerSliderVisibleElements } = await import('./valuePickerSliderVisibleElements');
-        properties.visibleElements = await buildJsValuePickerSliderVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
+        jsValuePickerSlider.visibleElements = await buildJsValuePickerSliderVisibleElements(dotNetObject.visibleElements, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.labels) && dotNetObject.labels.length > 0) {
-        properties.labels = dotNetObject.labels;
+        jsValuePickerSlider.labels = dotNetObject.labels;
     }
     if (hasValue(dotNetObject.majorTicks) && dotNetObject.majorTicks.length > 0) {
-        properties.majorTicks = dotNetObject.majorTicks;
+        jsValuePickerSlider.majorTicks = dotNetObject.majorTicks;
     }
     if (hasValue(dotNetObject.max)) {
-        properties.max = dotNetObject.max;
+        jsValuePickerSlider.max = dotNetObject.max;
     }
     if (hasValue(dotNetObject.min)) {
-        properties.min = dotNetObject.min;
+        jsValuePickerSlider.min = dotNetObject.min;
     }
     if (hasValue(dotNetObject.minorTicks) && dotNetObject.minorTicks.length > 0) {
-        properties.minorTicks = dotNetObject.minorTicks;
+        jsValuePickerSlider.minorTicks = dotNetObject.minorTicks;
     }
     if (hasValue(dotNetObject.reversed)) {
-        properties.reversed = dotNetObject.reversed;
+        jsValuePickerSlider.reversed = dotNetObject.reversed;
     }
     if (hasValue(dotNetObject.steps) && dotNetObject.steps.length > 0) {
-        properties.steps = dotNetObject.steps;
+        jsValuePickerSlider.steps = dotNetObject.steps;
     }
-    let jsValuePickerSlider = new ValuePickerSlider(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsValuePickerSlider);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

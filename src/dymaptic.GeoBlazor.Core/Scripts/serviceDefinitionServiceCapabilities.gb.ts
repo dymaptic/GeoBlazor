@@ -2,23 +2,23 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilities } from './serviceDefinitionServiceCapabilities';
 
-export async function buildJsServiceDefinitionServiceCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsServiceDefinitionServiceCapabilitiesGenerated(dotNetObject: any): Promise<any> {
     let jsServiceDefinitionServiceCapabilities: any = {};
     if (hasValue(dotNetObject.applyEditsCapabilities)) {
         let { buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-        jsServiceDefinitionServiceCapabilities.applyEditsCapabilities = await buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(dotNetObject.applyEditsCapabilities, layerId, viewId) as any;
+        jsServiceDefinitionServiceCapabilities.applyEditsCapabilities = await buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(dotNetObject.applyEditsCapabilities) as any;
     }
     if (hasValue(dotNetObject.geometryCapabilities)) {
         let { buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-        jsServiceDefinitionServiceCapabilities.geometryCapabilities = await buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities(dotNetObject.geometryCapabilities, layerId, viewId) as any;
+        jsServiceDefinitionServiceCapabilities.geometryCapabilities = await buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilities(dotNetObject.geometryCapabilities) as any;
     }
     if (hasValue(dotNetObject.indexCapabilities)) {
         let { buildJsServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
-        jsServiceDefinitionServiceCapabilities.indexCapabilities = await buildJsServiceDefinitionServiceCapabilitiesIndexCapabilities(dotNetObject.indexCapabilities, layerId, viewId) as any;
+        jsServiceDefinitionServiceCapabilities.indexCapabilities = await buildJsServiceDefinitionServiceCapabilitiesIndexCapabilities(dotNetObject.indexCapabilities) as any;
     }
     if (hasValue(dotNetObject.searchCapabilities)) {
         let { buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
-        jsServiceDefinitionServiceCapabilities.searchCapabilities = await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(dotNetObject.searchCapabilities, layerId, viewId) as any;
+        jsServiceDefinitionServiceCapabilities.searchCapabilities = await buildJsServiceDefinitionServiceCapabilitiesSearchCapabilities(dotNetObject.searchCapabilities) as any;
     }
 
     
@@ -30,7 +30,7 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGenerated(dotNe
 }
 
 
-export async function buildDotNetServiceDefinitionServiceCapabilitiesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetServiceDefinitionServiceCapabilitiesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,22 +39,22 @@ export async function buildDotNetServiceDefinitionServiceCapabilitiesGenerated(j
     
     if (hasValue(jsObject.applyEditsCapabilities)) {
         let { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-        dotNetServiceDefinitionServiceCapabilities.applyEditsCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject.applyEditsCapabilities, layerId, viewId);
+        dotNetServiceDefinitionServiceCapabilities.applyEditsCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsObject.applyEditsCapabilities);
     }
     
     if (hasValue(jsObject.geometryCapabilities)) {
         let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-        dotNetServiceDefinitionServiceCapabilities.geometryCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsObject.geometryCapabilities, layerId, viewId);
+        dotNetServiceDefinitionServiceCapabilities.geometryCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsObject.geometryCapabilities);
     }
     
     if (hasValue(jsObject.indexCapabilities)) {
         let { buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
-        dotNetServiceDefinitionServiceCapabilities.indexCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsObject.indexCapabilities, layerId, viewId);
+        dotNetServiceDefinitionServiceCapabilities.indexCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsObject.indexCapabilities);
     }
     
     if (hasValue(jsObject.searchCapabilities)) {
         let { buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities } = await import('./serviceDefinitionServiceCapabilitiesSearchCapabilities');
-        dotNetServiceDefinitionServiceCapabilities.searchCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject.searchCapabilities, layerId, viewId);
+        dotNetServiceDefinitionServiceCapabilities.searchCapabilities = await buildDotNetServiceDefinitionServiceCapabilitiesSearchCapabilities(jsObject.searchCapabilities);
     }
     
 

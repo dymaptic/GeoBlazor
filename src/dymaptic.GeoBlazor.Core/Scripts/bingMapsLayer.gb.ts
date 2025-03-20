@@ -293,7 +293,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
     let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -320,7 +320,7 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBingMapsLayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -339,7 +339,7 @@ export async function buildDotNetBingMapsLayerGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.tileInfo)) {
         let { buildDotNetTileInfo } = await import('./tileInfo');
-        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo, layerId, viewId);
+        dotNetBingMapsLayer.tileInfo = await buildDotNetTileInfo(jsObject.tileInfo);
     }
     
     if (hasValue(jsObject.visibilityTimeExtent)) {

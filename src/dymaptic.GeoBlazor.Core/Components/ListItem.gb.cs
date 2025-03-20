@@ -120,6 +120,7 @@ public partial class ListItem
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#panel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [AncestorPropertyReference]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListItemPanelWidget? Panel { get; set; }

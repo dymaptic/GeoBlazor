@@ -111,7 +111,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     arcGisObjectRefs[dotNetObject.id] = jsHomeViewModel;
     
     let { buildDotNetHomeViewModel } = await import('./homeViewModel');
-    let dnInstantiatedObject = await buildDotNetHomeViewModel(jsHomeViewModel, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetHomeViewModel(jsHomeViewModel);
 
     try {
         let seenObjects = new WeakMap();
@@ -138,7 +138,7 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetHomeViewModelGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeViewModelGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

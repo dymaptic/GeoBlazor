@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetWFSLayerElevationInfo } from './wFSLayerElevationInfo';
 
-export async function buildJsWFSLayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsWFSLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsWFSLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsWFSLayerElevationInfoFeatureExpressionInfo } = await import('./wFSLayerElevationInfoFeatureExpressionInfo');
-        jsWFSLayerElevationInfo.featureExpressionInfo = await buildJsWFSLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsWFSLayerElevationInfo.featureExpressionInfo = await buildJsWFSLayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsWFSLayerElevationInfoGenerated(dotNetObject: any, l
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerElevationInfo;
     
     let { buildDotNetWFSLayerElevationInfo } = await import('./wFSLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetWFSLayerElevationInfo(jsWFSLayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetWFSLayerElevationInfo(jsWFSLayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsWFSLayerElevationInfoGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetWFSLayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetWFSLayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetWFSLayerElevationInfoGenerated(jsObject: any, l
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetWFSLayerElevationInfoFeatureExpressionInfo } = await import('./wFSLayerElevationInfoFeatureExpressionInfo');
-        dotNetWFSLayerElevationInfo.featureExpressionInfo = await buildDotNetWFSLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetWFSLayerElevationInfo.featureExpressionInfo = await buildDotNetWFSLayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

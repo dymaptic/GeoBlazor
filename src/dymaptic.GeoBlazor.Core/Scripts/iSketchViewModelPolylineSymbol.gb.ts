@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetISketchViewModelPolylineSymbol } from './iSketchViewModelPolylineSymbol';
 
-export async function buildJsISketchViewModelPolylineSymbolGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsISketchViewModelPolylineSymbolGenerated(dotNetObject: any): Promise<any> {
     let jsSketchViewModelPolylineSymbol: any = {};
 
     
@@ -11,7 +11,7 @@ export async function buildJsISketchViewModelPolylineSymbolGenerated(dotNetObjec
     arcGisObjectRefs[dotNetObject.id] = jsSketchViewModelPolylineSymbol;
     
     let { buildDotNetISketchViewModelPolylineSymbol } = await import('./iSketchViewModelPolylineSymbol');
-    let dnInstantiatedObject = await buildDotNetISketchViewModelPolylineSymbol(jsSketchViewModelPolylineSymbol, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetISketchViewModelPolylineSymbol(jsSketchViewModelPolylineSymbol);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,7 +38,7 @@ export async function buildJsISketchViewModelPolylineSymbolGenerated(dotNetObjec
 }
 
 
-export async function buildDotNetISketchViewModelPolylineSymbolGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetISketchViewModelPolylineSymbolGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

@@ -3,7 +3,7 @@ import TextElement from '@arcgis/core/form/elements/TextElement';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetTextElement } from './textElement';
 
-export async function buildJsTextElementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsTextElementGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
@@ -28,7 +28,7 @@ export async function buildJsTextElementGenerated(dotNetObject: any, layerId: st
     arcGisObjectRefs[dotNetObject.id] = jsTextElement;
     
     let { buildDotNetTextElement } = await import('./textElement');
-    let dnInstantiatedObject = await buildDotNetTextElement(jsTextElement, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetTextElement(jsTextElement);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsTextElementGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetTextElementGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetTextElementGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

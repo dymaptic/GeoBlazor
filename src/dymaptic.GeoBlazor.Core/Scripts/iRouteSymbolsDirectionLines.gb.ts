@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetIRouteSymbolsDirectionLines } from './iRouteSymbolsDirectionLines';
 
-export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: any): Promise<any> {
     let jsRouteSymbolsDirectionLines: any = {};
 
     
@@ -11,7 +11,7 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsDirectionLines;
     
     let { buildDotNetIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
-    let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines);
 
     try {
         let seenObjects = new WeakMap();
@@ -38,7 +38,7 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetIRouteSymbolsDirectionLinesGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

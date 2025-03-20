@@ -3,7 +3,7 @@ import BasemapStyle from '@arcgis/core/support/BasemapStyle';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetBasemapStyle } from './basemapStyle';
 
-export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.language)) {
@@ -28,7 +28,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
     
     let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetBasemapStyleGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetBasemapStyleGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

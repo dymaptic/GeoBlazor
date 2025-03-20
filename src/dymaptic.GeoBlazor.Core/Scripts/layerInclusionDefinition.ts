@@ -1,10 +1,10 @@
 
-export async function buildJsLayerInclusionDefinition(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLayerInclusionDefinition(dotNetObject: any): Promise<any> {
     let { buildJsLayerInclusionDefinitionGenerated } = await import('./layerInclusionDefinition.gb');
-    return await buildJsLayerInclusionDefinitionGenerated(dotNetObject, layerId, viewId);
+    return await buildJsLayerInclusionDefinitionGenerated(dotNetObject);
 }     
 
-export async function buildDotNetLayerInclusionDefinition(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerInclusionDefinition(jsObject: any): Promise<any> {
     let { buildDotNetLayerInclusionDefinitionGenerated } = await import('./layerInclusionDefinition.gb');
-    return await buildDotNetLayerInclusionDefinitionGenerated(jsObject, layerId, viewId);
+    return await buildDotNetLayerInclusionDefinitionGenerated(jsObject);
 }

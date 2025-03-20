@@ -1,10 +1,10 @@
 
-export async function buildJsPointCloudRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPointCloudRenderer(dotNetObject: any): Promise<any> {
     let { buildJsPointCloudRendererGenerated } = await import('./pointCloudRenderer.gb');
-    return await buildJsPointCloudRendererGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPointCloudRendererGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPointCloudRenderer(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPointCloudRenderer(jsObject: any): Promise<any> {
     let { buildDotNetPointCloudRendererGenerated } = await import('./pointCloudRenderer.gb');
-    return await buildDotNetPointCloudRendererGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPointCloudRendererGenerated(jsObject);
 }

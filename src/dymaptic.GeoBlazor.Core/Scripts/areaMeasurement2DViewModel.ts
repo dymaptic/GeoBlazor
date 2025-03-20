@@ -15,7 +15,7 @@ export async function buildJsAreaMeasurement2DViewModel(dotNetObject: any, layer
     return await buildJsAreaMeasurement2DViewModelGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetAreaMeasurement2DViewModel(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAreaMeasurement2DViewModel(jsObject: any): Promise<any> {
     let {buildDotNetAreaMeasurement2DViewModelGenerated} = await import('./areaMeasurement2DViewModel.gb');
-    return await buildDotNetAreaMeasurement2DViewModelGenerated(jsObject, layerId, viewId);
+    return await buildDotNetAreaMeasurement2DViewModelGenerated(jsObject);
 }

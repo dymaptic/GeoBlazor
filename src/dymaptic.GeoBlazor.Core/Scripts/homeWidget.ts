@@ -15,7 +15,7 @@ export async function buildJsHomeWidget(dotNetObject: any, layerId: string | nul
     return await buildJsHomeWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetHomeWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHomeWidget(jsObject: any): Promise<any> {
     let {buildDotNetHomeWidgetGenerated} = await import('./homeWidget.gb');
-    return await buildDotNetHomeWidgetGenerated(jsObject, layerId, viewId);
+    return await buildDotNetHomeWidgetGenerated(jsObject);
 }

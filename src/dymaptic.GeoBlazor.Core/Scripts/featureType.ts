@@ -2,7 +2,7 @@
 import FeatureType from '@arcgis/core/layers/support/FeatureType';
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
-export async function buildDotNetFeatureType(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureType(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -31,7 +31,7 @@ export async function buildDotNetFeatureType(jsObject: any, layerId: string | nu
     
     if (hasValue(jsObject.templates)) {
         let {buildDotNetIFeatureTemplate} = await import('./iFeatureTemplate');
-        dotNetFeatureType.templates = jsObject.templates.map(t => buildDotNetIFeatureTemplate(t, layerId, viewId));
+        dotNetFeatureType.templates = jsObject.templates.map(t => buildDotNetIFeatureTemplate(t));
     }
     
     return dotNetFeatureType;

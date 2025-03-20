@@ -78,7 +78,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.children.map(async i => await buildDotNetListItem(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.children.map(async i => await buildDotNetListItem(i)));
     }
     
     async setChildren(value: any): Promise<void> {
@@ -92,7 +92,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetLayer(this.component.layer);
     }
     
     async setLayer(value: any): Promise<void> {
@@ -115,7 +115,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItemPanelWidget } = await import('./listItemPanelWidget');
-        return await buildDotNetListItemPanelWidget(this.component.panel, this.layerId, this.viewId);
+        return await buildDotNetListItemPanelWidget(this.component.panel);
     }
     
     getProperty(prop: string): any {
@@ -179,7 +179,7 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsListItem;
     
     let { buildDotNetListItem } = await import('./listItem');
-    let dnInstantiatedObject = await buildDotNetListItem(jsListItem, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetListItem(jsListItem);
 
     try {
         let seenObjects = new WeakMap();
@@ -206,7 +206,7 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetListItemGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

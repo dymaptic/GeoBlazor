@@ -3,7 +3,7 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');
@@ -15,7 +15,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
     }
     if (hasValue(dotNetObject.sensorInfo)) {
         let { buildJsRasterSensorInfo } = await import('./rasterSensorInfo');
-        properties.sensorInfo = await buildJsRasterSensorInfo(dotNetObject.sensorInfo, layerId, viewId) as any;
+        properties.sensorInfo = await buildJsRasterSensorInfo(dotNetObject.sensorInfo) as any;
     }
 
     if (hasValue(dotNetObject.bandCount)) {
@@ -73,7 +73,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -87,7 +87,7 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.sensorInfo)) {
         let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
-        dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo, layerId, viewId);
+        dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo);
     }
     
     if (hasValue(jsObject.bandCount)) {

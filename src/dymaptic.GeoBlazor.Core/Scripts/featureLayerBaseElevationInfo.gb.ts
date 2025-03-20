@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetFeatureLayerBaseElevationInfo } from './featureLayerBaseElevationInfo';
 
-export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsFeatureLayerBaseElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-        jsFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfo;
     
     let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
 }
 
 
-export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetFeatureLayerBaseElevationInfoGenerated(jsObject
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo } = await import('./featureLayerBaseElevationInfoFeatureExpressionInfo');
-        dotNetFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetFeatureLayerBaseElevationInfo.featureExpressionInfo = await buildDotNetFeatureLayerBaseElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

@@ -23,7 +23,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.floorInfo)) {
             let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-            this.component.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, this.layerId, this.viewId) as any;
+            this.component.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
         }
         if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
             let { buildJsLabel } = await import('./label');
@@ -83,7 +83,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -171,7 +171,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.component.fieldsIndex, this.layerId, this.viewId);
+        return await buildDotNetFieldsIndex(this.component.fieldsIndex);
     }
     
     async getFloorInfo(): Promise<any> {
@@ -180,12 +180,12 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        return await buildDotNetLayerFloorInfo(this.component.floorInfo, this.layerId, this.viewId);
+        return await buildDotNetLayerFloorInfo(this.component.floorInfo);
     }
     
     async setFloorInfo(value: any): Promise<void> {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        this.component.floorInfo = await  buildJsLayerFloorInfo(value, this.layerId, this.viewId);
+        this.component.floorInfo = await  buildJsLayerFloorInfo(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -217,7 +217,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await buildDotNetLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetLayer(this.component.layer);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -268,7 +268,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
@@ -282,7 +282,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i)));
     }
     
     getProperty(prop: string): any {
@@ -299,7 +299,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
-        properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo, layerId, viewId) as any;
+        properties.floorInfo = await buildJsLayerFloorInfo(dotNetObject.floorInfo) as any;
     }
     if (hasValue(dotNetObject.labelingInfo) && dotNetObject.labelingInfo.length > 0) {
         let { buildJsLabel } = await import('./label');
@@ -367,7 +367,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
     
     let { buildDotNetSublayer } = await import('./sublayer');
-    let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
 
     try {
         let seenObjects = new WeakMap();
@@ -394,7 +394,7 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetSublayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSublayerGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -408,12 +408,12 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.fieldsIndex)) {
         let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex, layerId, viewId);
+        dotNetSublayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
     
     if (hasValue(jsObject.floorInfo)) {
         let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo, layerId, viewId);
+        dotNetSublayer.floorInfo = await buildDotNetLayerFloorInfo(jsObject.floorInfo);
     }
     
     if (hasValue(jsObject.fullExtent)) {
@@ -443,7 +443,7 @@ export async function buildDotNetSublayerGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.types)) {
         let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i, layerId, viewId)));
+        dotNetSublayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
     }
     
     if (hasValue(jsObject.capabilities)) {

@@ -164,7 +164,7 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
     
     let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
-    let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer);
 
     try {
         let seenObjects = new WeakMap();

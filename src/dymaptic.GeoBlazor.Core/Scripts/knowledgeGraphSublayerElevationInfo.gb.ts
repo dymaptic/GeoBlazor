@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerElevationInfo } from './knowledgeGraphSublayerElevationInfo';
 
-export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
     let jsKnowledgeGraphSublayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-        jsKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo, layerId, viewId) as any;
+        jsKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(dotNetObject.featureExpressionInfo) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -24,7 +24,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfo;
     
     let { buildDotNetKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo);
 
     try {
         let seenObjects = new WeakMap();
@@ -51,7 +51,7 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
 }
 
 
-export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetKnowledgeGraphSublayerElevationInfoGenerated(js
     
     if (hasValue(jsObject.featureExpressionInfo)) {
         let { buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
-        dotNetKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo, layerId, viewId);
+        dotNetKnowledgeGraphSublayerElevationInfo.featureExpressionInfo = await buildDotNetKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo(jsObject.featureExpressionInfo);
     }
     
     if (hasValue(jsObject.mode)) {

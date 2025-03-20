@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetCapabilitiesAttachment } from './capabilitiesAttachment';
 
-export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any): Promise<any> {
     let jsCapabilitiesAttachment: any = {};
 
     if (hasValue(dotNetObject.supportsCacheHint)) {
@@ -32,7 +32,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     
     let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment);
 
     try {
         let seenObjects = new WeakMap();
@@ -59,7 +59,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesAttachmentGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

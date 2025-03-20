@@ -4,13 +4,12 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetValuePickerLabel } from './valuePickerLabel';
 
 export async function buildJsValuePickerLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsValuePickerLabel: any = {};
     if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsLabelitem } = await import('./labelitem');
-        properties.items = await Promise.all(dotNetObject.items.map(async i => await buildJsLabelitem(i, layerId, viewId))) as any;
+        jsValuePickerLabel.items = await Promise.all(dotNetObject.items.map(async i => await buildJsLabelitem(i, layerId, viewId))) as any;
     }
 
-    let jsValuePickerLabel = new ValuePickerLabel(properties);
     
     let jsObjectRef = DotNet.createJSObjectReference(jsValuePickerLabel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;

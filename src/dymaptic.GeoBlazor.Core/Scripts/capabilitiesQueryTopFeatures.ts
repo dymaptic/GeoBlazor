@@ -1,10 +1,10 @@
 
-export async function buildJsCapabilitiesQueryTopFeatures(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesQueryTopFeatures(dotNetObject: any): Promise<any> {
     let { buildJsCapabilitiesQueryTopFeaturesGenerated } = await import('./capabilitiesQueryTopFeatures.gb');
-    return await buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject, layerId, viewId);
+    return await buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject);
 }     
 
-export async function buildDotNetCapabilitiesQueryTopFeatures(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesQueryTopFeatures(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesQueryTopFeaturesGenerated } = await import('./capabilitiesQueryTopFeatures.gb');
-    return await buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject, layerId, viewId);
+    return await buildDotNetCapabilitiesQueryTopFeaturesGenerated(jsObject);
 }

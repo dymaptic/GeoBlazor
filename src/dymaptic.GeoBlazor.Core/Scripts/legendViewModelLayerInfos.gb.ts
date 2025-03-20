@@ -18,7 +18,7 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModelLayerInfos;
     
     let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-    let dnInstantiatedObject = await buildDotNetLegendViewModelLayerInfos(jsLegendViewModelLayerInfos, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetLegendViewModelLayerInfos(jsLegendViewModelLayerInfos);
 
     try {
         let seenObjects = new WeakMap();
@@ -45,7 +45,7 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
 }
 
 
-export async function buildDotNetLegendViewModelLayerInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLegendViewModelLayerInfosGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

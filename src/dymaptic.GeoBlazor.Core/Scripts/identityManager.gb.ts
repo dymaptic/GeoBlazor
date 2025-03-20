@@ -146,16 +146,15 @@ export default class IdentityManagerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let properties: any = {};
+    let jsIdentityManager: any = {};
     if (hasValue(dotNetObject.dialog)) {
         let { buildJsWidget } = await import('./widget');
-        properties.dialog = await buildJsWidget(dotNetObject.dialog, layerId, viewId) as any;
+        jsIdentityManager.dialog = await buildJsWidget(dotNetObject.dialog, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.tokenValidity)) {
-        properties.tokenValidity = dotNetObject.tokenValidity;
+        jsIdentityManager.tokenValidity = dotNetObject.tokenValidity;
     }
-    let jsIdentityManager = new IdentityManager(properties);
     jsIdentityManager.on('credential-create', async (evt: any) => {
         let { buildDotNetIdentityManagerCredentialCreateEvent } = await import('./identityManagerCredentialCreateEvent');
         let dnEvent = await buildDotNetIdentityManagerCredentialCreateEvent(evt, layerId, viewId);

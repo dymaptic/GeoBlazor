@@ -1,10 +1,10 @@
 
-export async function buildJsCapabilitiesOperations(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsCapabilitiesOperations(dotNetObject: any): Promise<any> {
     let { buildJsCapabilitiesOperationsGenerated } = await import('./capabilitiesOperations.gb');
-    return await buildJsCapabilitiesOperationsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsCapabilitiesOperationsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetCapabilitiesOperations(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCapabilitiesOperations(jsObject: any): Promise<any> {
     let { buildDotNetCapabilitiesOperationsGenerated } = await import('./capabilitiesOperations.gb');
-    return await buildDotNetCapabilitiesOperationsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetCapabilitiesOperationsGenerated(jsObject);
 }

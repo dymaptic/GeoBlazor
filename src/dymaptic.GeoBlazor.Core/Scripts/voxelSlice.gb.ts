@@ -3,7 +3,7 @@ import VoxelSlice from '@arcgis/core/layers/voxel/VoxelSlice';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVoxelSlice } from './voxelSlice';
 
-export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVoxelSliceGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.enabled)) {
@@ -28,7 +28,7 @@ export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: str
     arcGisObjectRefs[dotNetObject.id] = jsVoxelSlice;
     
     let { buildDotNetVoxelSlice } = await import('./voxelSlice');
-    let dnInstantiatedObject = await buildDotNetVoxelSlice(jsVoxelSlice, layerId, viewId);
+    let dnInstantiatedObject = await buildDotNetVoxelSlice(jsVoxelSlice);
 
     try {
         let seenObjects = new WeakMap();
@@ -55,7 +55,7 @@ export async function buildJsVoxelSliceGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetVoxelSliceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVoxelSliceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
