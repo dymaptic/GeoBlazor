@@ -211,8 +211,15 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         {
             return AggregateGeometries;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null)
         {
             return AggregateGeometries;
@@ -243,8 +250,15 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
             return IsAggregate;
         }
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null)
         {
             return IsAggregate;

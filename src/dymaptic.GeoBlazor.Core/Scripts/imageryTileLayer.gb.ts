@@ -53,9 +53,6 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
         }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.iImageryRenderer;
-        }
         if (hasValue(dotNetObject.tileInfo)) {
             let { buildJsTileInfo } = await import('./tileInfo');
             this.layer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, this.layerId, this.viewId) as any;
@@ -433,9 +430,6 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
-    if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.renderer;
-    }
     if (hasValue(dotNetObject.tileInfo)) {
         let { buildJsTileInfo } = await import('./tileInfo');
         properties.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, layerId, viewId) as any;
@@ -700,10 +694,6 @@ export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.popupEnabled)) {
         dotNetImageryTileLayer.popupEnabled = jsObject.popupEnabled;
-    }
-    
-    if (hasValue(jsObject.renderer)) {
-        dotNetImageryTileLayer.renderer = jsObject.renderer;
     }
     
     if (hasValue(jsObject.source)) {

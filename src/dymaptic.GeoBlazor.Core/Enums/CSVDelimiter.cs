@@ -19,7 +19,22 @@ internal class CSVDelimiterConverter : JsonConverter<CSVDelimiter>
 {
     public override CSVDelimiter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        if (reader.TokenType == JsonTokenType.String)
+        {
+            string? value = reader.GetString();
+
+            return value switch
+            {
+                "," => CSVDelimiter.Comma,
+                " " => CSVDelimiter.Space,
+                ";" => CSVDelimiter.Semicolon,
+                "|" => CSVDelimiter.Pipe,
+                "\t" => CSVDelimiter.TabDelimited,
+                _ => throw new NotSupportedException($"Unsupported delimiter: {value}")
+            };
+        }
+
+        throw new JsonException("Invalid token type for CSVDelimiter.");
     }
 
     public override void Write(Utf8JsonWriter writer, CSVDelimiter value, JsonSerializerOptions options)

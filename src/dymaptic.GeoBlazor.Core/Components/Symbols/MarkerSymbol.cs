@@ -1,5 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
+[JsonConverter(typeof(MarkerSymbolJsonConverter))]
 public abstract partial class MarkerSymbol : Symbol
 {
     /// <summary>

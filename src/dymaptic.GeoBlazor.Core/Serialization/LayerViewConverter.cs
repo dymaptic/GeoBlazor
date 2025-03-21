@@ -48,16 +48,21 @@ internal class LayerViewConverter : JsonConverter<LayerView>
                         return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as LayerView;
                     }
 
-                    temp.TryGetValue("spatialReferenceSupported", out object? spatialReferenceSupported);
-                    temp.TryGetValue("suspended", out object? suspended);
-                    temp.TryGetValue("updating", out object? updating);
-                    temp.TryGetValue("visibleAtCurrentScale", out object? visibleAtCurrentScale);
-                    temp.TryGetValue("visibleAtCurrentTimeExtent", out object? visibleAtCurrentTimeExtent);
-                    return new LayerView(spatialReferenceSupported as bool?,
-                        suspended as bool?,
-                        updating as bool?,
-                        visibleAtCurrentScale as bool?,
-                        visibleAtCurrentTimeExtent as bool?);
+                    temp.TryGetValue("spatialReferenceSupported", out object? spatialReferenceSupportedValue);
+                    bool.TryParse(spatialReferenceSupportedValue?.ToString(), out bool spatialReferenceSupported);
+                    temp.TryGetValue("suspended", out object? suspendedValue);
+                    bool.TryParse(suspendedValue?.ToString(), out bool suspended);
+                    temp.TryGetValue("updating", out object? updatingValue);
+                    bool.TryParse(updatingValue?.ToString(), out bool updating);
+                    temp.TryGetValue("visibleAtCurrentScale", out object? visibleAtCurrentScaleValue);
+                    bool.TryParse(visibleAtCurrentScaleValue?.ToString(), out bool visibleAtCurrentScale);
+                    temp.TryGetValue("visibleAtCurrentTimeExtent", out object? visibleAtCurrentTimeExtentValue);
+                    bool.TryParse(visibleAtCurrentTimeExtentValue?.ToString(), out bool visibleAtCurrentTimeExtent);
+                    return new LayerView(spatialReferenceSupported,
+                        suspended,
+                        updating,
+                        visibleAtCurrentScale,
+                        visibleAtCurrentTimeExtent);
             }
         }
 

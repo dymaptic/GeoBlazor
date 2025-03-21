@@ -61,9 +61,6 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
         }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.iImageryRenderer;
-        }
         if (hasValue(dotNetObject.renderingRule)) {
             let { buildJsRasterFunction } = await import('./rasterFunction');
             this.layer.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule) as any;
@@ -710,9 +707,6 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
-    if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.renderer;
-    }
     if (hasValue(dotNetObject.renderingRule)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.renderingRule = await buildJsRasterFunction(dotNetObject.renderingRule) as any;
@@ -1089,10 +1083,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.refreshInterval)) {
         dotNetImageryLayer.refreshInterval = jsObject.refreshInterval;
-    }
-    
-    if (hasValue(jsObject.renderer)) {
-        dotNetImageryLayer.renderer = jsObject.renderer;
     }
     
     if (hasValue(jsObject.sourceType)) {

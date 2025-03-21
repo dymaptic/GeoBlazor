@@ -7,7 +7,7 @@ export async function buildJsImageryRenderer(dnRenderer: any, layerId: string | 
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsRasterStretchRenderer} = await import('./rasterStretchRenderer');
-                return buildJsRasterStretchRenderer(dnRenderer);
+                return buildJsRasterStretchRenderer(dnRenderer, layerId, viewId);
             } catch (e) {
                 throw e;
             }

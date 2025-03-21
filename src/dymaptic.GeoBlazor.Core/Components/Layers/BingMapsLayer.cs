@@ -23,6 +23,7 @@ public partial class BingMapsLayer : BaseTileLayer
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonConverter(typeof(CultureConverter))]
     public CultureInfo? Culture { get; set; }
     
     /// <summary>

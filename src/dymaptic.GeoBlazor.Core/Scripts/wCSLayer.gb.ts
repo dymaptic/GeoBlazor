@@ -57,9 +57,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
             let { buildJsField } = await import('./field');
             this.layer.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
         }
-        if (hasValue(dotNetObject.renderer)) {
-            this.layer.renderer = dotNetObject.iImageryRenderer;
-        }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
             this.layer.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
@@ -404,9 +401,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsField } = await import('./field');
         properties.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
     }
-    if (hasValue(dotNetObject.renderer)) {
-        properties.renderer = dotNetObject.renderer;
-    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
@@ -669,10 +663,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     
     if (hasValue(jsObject.popupEnabled)) {
         dotNetWCSLayer.popupEnabled = jsObject.popupEnabled;
-    }
-    
-    if (hasValue(jsObject.renderer)) {
-        dotNetWCSLayer.renderer = jsObject.renderer;
     }
     
     if (hasValue(jsObject.title)) {

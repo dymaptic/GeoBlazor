@@ -80,8 +80,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return ContainerId;
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
 
         if (JsComponentReference is null) return ContainerId;
 
@@ -107,8 +114,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Icon;
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
 
         if (JsComponentReference is null) return Icon;
 
@@ -134,8 +148,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Label;
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
 
         if (JsComponentReference is null) return Label;
 
@@ -161,8 +182,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Position;
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
 
         if (JsComponentReference is null) return Position;
 
@@ -188,8 +216,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return WidgetId;
 
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
 
         if (JsComponentReference is null) return WidgetId;
 
@@ -220,8 +255,15 @@ public abstract partial class Widget : MapComponent
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
@@ -240,8 +282,15 @@ public abstract partial class Widget : MapComponent
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
@@ -260,8 +309,15 @@ public abstract partial class Widget : MapComponent
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
@@ -280,8 +336,15 @@ public abstract partial class Widget : MapComponent
         
         if (CoreJsModule is null || View is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, View.Id, Id,
@@ -300,8 +363,15 @@ public abstract partial class Widget : MapComponent
         
         if (CoreJsModule is null) return;
         
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        try 
+                                {
+                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                                        "getJsComponent", CancellationTokenSource.Token, Id);
+                                }
+                                catch (JSException)
+                                {
+                                    // this is expected if the component is not yet built
+                                }
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,

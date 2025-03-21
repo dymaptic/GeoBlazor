@@ -64,9 +64,6 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.opacity)) {
             this.layer.opacity = dotNetObject.opacity;
         }
-        if (hasValue(dotNetObject.persistenceEnabled)) {
-            this.layer.persistenceEnabled = dotNetObject.persistenceEnabled;
-        }
         if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
             this.layer.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
         }

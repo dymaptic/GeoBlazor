@@ -29,10 +29,6 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
             let { buildJsEffect } = await import('./effect');
             this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
-        if (hasValue(dotNetObject.fullExtent)) {
-            let { buildJsExtent } = await import('./extent');
-            this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
-        }
         if (hasValue(dotNetObject.initialExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.initialExtent = buildJsExtent(dotNetObject.initialExtent) as any;
@@ -40,10 +36,6 @@ export default class VectorTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.tileInfo)) {
-            let { buildJsTileInfo } = await import('./tileInfo');
-            this.layer.tileInfo = await buildJsTileInfo(dotNetObject.tileInfo, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');

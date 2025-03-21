@@ -1,6 +1,7 @@
 // override generated code in this file
 import WCSLayerGenerated from './wCSLayer.gb';
 import WCSLayer from '@arcgis/core/layers/WCSLayer';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class WCSLayerWrapper extends WCSLayerGenerated {
 
@@ -12,10 +13,24 @@ export default class WCSLayerWrapper extends WCSLayerGenerated {
 
 export async function buildJsWCSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsWCSLayerGenerated} = await import('./wCSLayer.gb');
-    return await buildJsWCSLayerGenerated(dotNetObject, layerId, viewId);
+    let jsObject = await buildJsWCSLayerGenerated(dotNetObject, layerId, viewId);
+    
+    if (hasValue(dotNetObject.renderer)) {
+        let {buildJsImageryRenderer} = await import('./imageryRenderer');
+        jsObject.renderer = await buildJsImageryRenderer(dotNetObject.renderer, layerId, viewId);
+    }
+    
+    return jsObject;
 }
 
 export async function buildDotNetWCSLayer(jsObject: any): Promise<any> {
     let {buildDotNetWCSLayerGenerated} = await import('./wCSLayer.gb');
-    return await buildDotNetWCSLayerGenerated(jsObject);
+    let dnObject = await buildDotNetWCSLayerGenerated(jsObject);
+    
+    if (hasValue(jsObject.renderer)) {
+        let {buildDotNetImageryRenderer} = await import('./imageryRenderer');
+        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer);
+    }
+    
+    return dnObject;
 }
