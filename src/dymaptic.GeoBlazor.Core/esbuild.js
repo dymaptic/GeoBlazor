@@ -9,6 +9,7 @@ const isRelease = args.includes('--release');
 
 let options = {
     entryPoints: ['./Scripts/arcGisJsInterop.ts'],
+    external: ['./multipoint', './mesh'],
     bundle: true,
     sourcemap: isDebug || isWatch,
     format: 'esm',

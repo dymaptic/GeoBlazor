@@ -18,10 +18,10 @@
     "protobufjs": "7.4.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.20.0",
+    "@eslint/js": "9.22.0",
     "@types/node": "^20.14.11",
     "esbuild-plugin-eslint": "^0.3.12",
-    "eslint": "^9.20.1",
+    "eslint": "9.22.0",
     "globals": "^15.15.0",
     "typescript-eslint": "^8.24.0"
   }
