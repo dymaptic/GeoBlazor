@@ -1,11 +1,115 @@
 // override generated code in this file
 
-export async function buildJsActionButton(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsActionButtonGenerated} = await import('./actionButton.gb');
-    return await buildJsActionButtonGenerated(dotNetObject, layerId, viewId);
+import {arcGisObjectRefs, hasValue, jsObjectRefs, lookupGeoBlazorId} from "./arcGisJsInterop";
+import ActionButton from "@arcgis/core/support/actions/ActionButton";
+
+export function buildJsActionButton(dotNetObject: any): any {
+    let properties: any = {};
+
+    if (hasValue(dotNetObject.actionId)) {
+        properties.id = dotNetObject.actionId;
+    }
+    if (hasValue(dotNetObject.active)) {
+        properties.active = dotNetObject.active;
+    }
+    if (hasValue(dotNetObject.className)) {
+        properties.className = dotNetObject.className;
+    }
+    if (hasValue(dotNetObject.disabled)) {
+        properties.disabled = dotNetObject.disabled;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.image)) {
+        properties.image = dotNetObject.image;
+    }
+    if (hasValue(dotNetObject.title)) {
+        properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
+    let jsActionButton = new ActionButton(properties);
+
+    let jsObjectRef = DotNet.createJSObjectReference(jsActionButton);
+    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    arcGisObjectRefs[dotNetObject.id] = jsActionButton;
+
+    let dnInstantiatedObject = buildDotNetActionButton(jsActionButton);
+
+    try {
+        let seenObjects = new WeakMap();
+        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated',
+            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_') || key === 'jsComponentReference') {
+                    return undefined;
+                }
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
+                    if (seenObjects.has(value)) {
+                        console.debug(`Circular reference in serializing type ActionButton detected at path: ${key}, value: ${value.declaredClass}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                return value;
+            }));
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ActionButton', e);
+    }
+
+    return jsActionButton;
 }
 
-export async function buildDotNetActionButton(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildDotNetActionButtonGenerated} = await import('./actionButton.gb');
-    return await buildDotNetActionButtonGenerated(jsObject, layerId, viewId);
+export function buildDotNetActionButton(jsObject: any): any {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+
+    let dotNetActionButton: any = {};
+
+    if (hasValue(jsObject.id)) {
+        dotNetActionButton.actionId = jsObject.id;
+    }
+
+    if (hasValue(jsObject.active)) {
+        dotNetActionButton.active = jsObject.active;
+    }
+
+    if (hasValue(jsObject.className)) {
+        dotNetActionButton.className = jsObject.className;
+    }
+
+    if (hasValue(jsObject.disabled)) {
+        dotNetActionButton.disabled = jsObject.disabled;
+    }
+
+    if (hasValue(jsObject.icon)) {
+        dotNetActionButton.icon = jsObject.icon;
+    }
+
+    if (hasValue(jsObject.image)) {
+        dotNetActionButton.image = jsObject.image;
+    }
+
+    if (hasValue(jsObject.title)) {
+        dotNetActionButton.title = jsObject.title;
+    }
+
+    if (hasValue(jsObject.type)) {
+        dotNetActionButton.type = jsObject.type;
+    }
+
+    if (hasValue(jsObject.visible)) {
+        dotNetActionButton.visible = jsObject.visible;
+    }
+
+
+    let geoBlazorId = lookupGeoBlazorId(jsObject);
+    if (hasValue(geoBlazorId)) {
+        dotNetActionButton.id = geoBlazorId;
+    }
+
+    return dotNetActionButton;
 }

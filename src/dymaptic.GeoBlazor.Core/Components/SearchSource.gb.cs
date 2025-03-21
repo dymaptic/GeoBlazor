@@ -399,17 +399,17 @@ public abstract partial class SearchSource
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -516,17 +516,17 @@ public abstract partial class SearchSource
             return ResultSymbol;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "resultSymbol");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getResultSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ResultSymbol = result;
+            ResultSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
+            ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
         }
-         
+        
         return ResultSymbol;
     }
     

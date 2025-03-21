@@ -696,17 +696,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return Capabilities;
         }
 
-        // get the property value
-        ArcGISImageServiceCapabilities? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilities?>("getProperty",
-            CancellationTokenSource.Token, "capabilities");
+        ArcGISImageServiceCapabilities? result = await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+        
         return Capabilities;
     }
     
@@ -1710,17 +1710,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -1832,17 +1832,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return RasterFunction;
         }
 
-        // get the property value
-        RasterFunction? result = await JsComponentReference!.InvokeAsync<RasterFunction?>("getProperty",
-            CancellationTokenSource.Token, "rasterFunction");
+        RasterFunction? result = await JsComponentReference.InvokeAsync<RasterFunction?>(
+            "getRasterFunction", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RasterFunction = result;
+            RasterFunction = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+            ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
         }
-         
+        
         return RasterFunction;
     }
     
@@ -2105,17 +2105,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     
@@ -2227,17 +2227,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return TimeOffset;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "timeOffset");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeOffset = result;
+            TimeOffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+            ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-         
+        
         return TimeOffset;
     }
     

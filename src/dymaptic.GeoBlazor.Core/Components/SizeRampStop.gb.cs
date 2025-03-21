@@ -306,17 +306,17 @@ public partial class SizeRampStop : MapComponent
             return Symbol;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "symbol");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Symbol = result;
+            Symbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Symbol)] = Symbol;
+            ModifiedParameters[nameof(Symbol)] = Symbol;
         }
-         
+        
         return Symbol;
     }
     

@@ -120,17 +120,17 @@ public partial class WFSLayerElevationInfo : MapComponent
             return FeatureExpressionInfo;
         }
 
-        // get the property value
-        WFSLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference!.InvokeAsync<WFSLayerElevationInfoFeatureExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "featureExpressionInfo");
+        WFSLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference.InvokeAsync<WFSLayerElevationInfoFeatureExpressionInfo?>(
+            "getFeatureExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureExpressionInfo = result;
+            FeatureExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+            ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
         }
-         
+        
         return FeatureExpressionInfo;
     }
     

@@ -143,11 +143,13 @@ public partial class LayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Func<ListItem, Task<ListItem>>? OnListItemCreatedHandler { get; set; }
 
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnListItemCreatedHandler" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasCustomHandler => OnListItemCreatedHandler is not null;
 
     /// <summary>
@@ -160,6 +162,7 @@ public partial class LayerListWidget : Widget
     ///     Returns the modified <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<object?> OnListItemCreated(ListItem item)
     {
         item.Parent = this;
@@ -172,4 +175,39 @@ public partial class LayerListWidget : Widget
 
         return null;
     }
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(LayerListTriggerActionEvent triggerActionEvent)
+    {
+        if (OperationalItems is not null)
+        {
+            foreach (ListItem listItem in OperationalItems)
+            {
+                if (listItem.ActionsSections is not null)
+                {
+                    foreach (ActionBase action in listItem.ActionsSections.SelectMany(s => s))
+                    {
+                        if (action.ActionId == triggerActionEvent.Action?.ActionId && action.CallbackFunction is not null)
+                        {
+                            await action.CallbackFunction.Invoke();
+                        }
+                    }
+                }
+            }
+        }
+        
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<LayerListTriggerActionEvent> OnTriggerAction { get; set; }
 }

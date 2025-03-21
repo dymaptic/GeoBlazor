@@ -261,17 +261,17 @@ public partial class ListItem
             return ActionsSections;
         }
 
-        // get the property value
-        ActionBase[][]? result = await JsComponentReference!.InvokeAsync<ActionBase[][]?>("getProperty",
-            CancellationTokenSource.Token, "actionsSections");
+        ActionBase[][]? result = await JsComponentReference.InvokeAsync<ActionBase[][]?>(
+            "getActionsSections", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ActionsSections = result;
+            ActionsSections = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+            ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
         }
-         
+        
         return ActionsSections;
     }
     

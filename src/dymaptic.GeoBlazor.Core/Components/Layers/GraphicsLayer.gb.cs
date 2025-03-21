@@ -256,17 +256,17 @@ public partial class GraphicsLayer : IBlendLayer,
             return ElevationInfo;
         }
 
-        // get the property value
-        GraphicsLayerElevationInfo? result = await JsComponentReference!.InvokeAsync<GraphicsLayerElevationInfo?>("getProperty",
-            CancellationTokenSource.Token, "elevationInfo");
+        GraphicsLayerElevationInfo? result = await JsComponentReference.InvokeAsync<GraphicsLayerElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ElevationInfo = result;
+            ElevationInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+            ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-         
+        
         return ElevationInfo;
     }
     

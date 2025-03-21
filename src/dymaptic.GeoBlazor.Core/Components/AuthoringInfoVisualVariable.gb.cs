@@ -513,17 +513,17 @@ public partial class AuthoringInfoVisualVariable
             return SizeStops;
         }
 
-        // get the property value
-        IReadOnlyList<SizeStop>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
-            CancellationTokenSource.Token, "sizeStops");
+        IReadOnlyList<SizeStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SizeStop>?>(
+            "getSizeStops", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SizeStops = result;
+            SizeStops = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SizeStops)] = SizeStops;
+            ModifiedParameters[nameof(SizeStops)] = SizeStops;
         }
-         
+        
         return SizeStops;
     }
     

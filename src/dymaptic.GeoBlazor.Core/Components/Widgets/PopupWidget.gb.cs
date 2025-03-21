@@ -622,17 +622,17 @@ public partial class PopupWidget : IGoTo
             return DockOptions;
         }
 
-        // get the property value
-        PopupDockOptions? result = await JsComponentReference!.InvokeAsync<PopupDockOptions?>("getProperty",
-            CancellationTokenSource.Token, "dockOptions");
+        PopupDockOptions? result = await JsComponentReference.InvokeAsync<PopupDockOptions?>(
+            "getDockOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DockOptions = result;
+            DockOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DockOptions)] = DockOptions;
+            ModifiedParameters[nameof(DockOptions)] = DockOptions;
         }
-         
+        
         return DockOptions;
     }
     
@@ -1061,17 +1061,17 @@ public partial class PopupWidget : IGoTo
             return VisibleElements;
         }
 
-        // get the property value
-        PopupVisibleElements? result = await JsComponentReference!.InvokeAsync<PopupVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        PopupVisibleElements? result = await JsComponentReference.InvokeAsync<PopupVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     

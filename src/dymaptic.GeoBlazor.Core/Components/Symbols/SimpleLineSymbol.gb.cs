@@ -186,17 +186,17 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
             return Marker;
         }
 
-        // get the property value
-        LineSymbolMarker? result = await JsComponentReference!.InvokeAsync<LineSymbolMarker?>("getProperty",
-            CancellationTokenSource.Token, "marker");
+        LineSymbolMarker? result = await JsComponentReference.InvokeAsync<LineSymbolMarker?>(
+            "getMarker", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Marker = result;
+            Marker = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Marker)] = Marker;
+            ModifiedParameters[nameof(Marker)] = Marker;
         }
-         
+        
         return Marker;
     }
     

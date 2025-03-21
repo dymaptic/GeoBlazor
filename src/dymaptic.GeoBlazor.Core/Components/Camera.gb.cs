@@ -219,17 +219,17 @@ public partial class Camera : MapComponent
             return Layout;
         }
 
-        // get the property value
-        CameraLayout? result = await JsComponentReference!.InvokeAsync<CameraLayout?>("getProperty",
-            CancellationTokenSource.Token, "layout");
+        CameraLayout? result = await JsComponentReference.InvokeAsync<CameraLayout?>(
+            "getLayout", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Layout = result;
+            Layout = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Layout)] = Layout;
+            ModifiedParameters[nameof(Layout)] = Layout;
         }
-         
+        
         return Layout;
     }
     

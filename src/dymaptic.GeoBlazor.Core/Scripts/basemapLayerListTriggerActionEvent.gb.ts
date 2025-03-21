@@ -6,7 +6,7 @@ export async function buildJsBasemapLayerListTriggerActionEventGenerated(dotNetO
     let jsBasemapLayerListTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsBasemapLayerListTriggerActionEvent.action = await buildJsActionBase(dotNetObject.action, layerId, viewId) as any;
+        jsBasemapLayerListTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
     }
     if (hasValue(dotNetObject.item)) {
         let { buildJsListItem } = await import('./listItem');

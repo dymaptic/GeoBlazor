@@ -193,17 +193,17 @@ public partial class PopupDockOptions
             return PopupDockOptionsBreakpoint;
         }
 
-        // get the property value
-        PopupDockOptionsBreakpoint? result = await JsComponentReference!.InvokeAsync<PopupDockOptionsBreakpoint?>("getProperty",
-            CancellationTokenSource.Token, "popupDockOptionsBreakpoint");
+        PopupDockOptionsBreakpoint? result = await JsComponentReference.InvokeAsync<PopupDockOptionsBreakpoint?>(
+            "getPopupDockOptionsBreakpoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupDockOptionsBreakpoint = result;
+            PopupDockOptionsBreakpoint = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
+            ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
         }
-         
+        
         return PopupDockOptionsBreakpoint;
     }
     

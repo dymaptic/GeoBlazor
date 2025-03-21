@@ -96,17 +96,17 @@ public partial class WFSOperations : MapComponent
             return DescribeFeatureType;
         }
 
-        // get the property value
-        WFSOperationsDescribeFeatureType? result = await JsComponentReference!.InvokeAsync<WFSOperationsDescribeFeatureType?>("getProperty",
-            CancellationTokenSource.Token, "describeFeatureType");
+        WFSOperationsDescribeFeatureType? result = await JsComponentReference.InvokeAsync<WFSOperationsDescribeFeatureType?>(
+            "getDescribeFeatureType", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DescribeFeatureType = result;
+            DescribeFeatureType = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DescribeFeatureType)] = DescribeFeatureType;
+            ModifiedParameters[nameof(DescribeFeatureType)] = DescribeFeatureType;
         }
-         
+        
         return DescribeFeatureType;
     }
     
@@ -135,17 +135,17 @@ public partial class WFSOperations : MapComponent
             return GetCapabilities;
         }
 
-        // get the property value
-        WFSOperationsGetCapabilities? result = await JsComponentReference!.InvokeAsync<WFSOperationsGetCapabilities?>("getProperty",
-            CancellationTokenSource.Token, "getCapabilities");
+        WFSOperationsGetCapabilities? result = await JsComponentReference.InvokeAsync<WFSOperationsGetCapabilities?>(
+            "getGetCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GetCapabilities = result;
+            GetCapabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GetCapabilities)] = GetCapabilities;
+            ModifiedParameters[nameof(GetCapabilities)] = GetCapabilities;
         }
-         
+        
         return GetCapabilities;
     }
     
@@ -174,17 +174,17 @@ public partial class WFSOperations : MapComponent
             return GetFeature;
         }
 
-        // get the property value
-        WFSOperationsGetFeature? result = await JsComponentReference!.InvokeAsync<WFSOperationsGetFeature?>("getProperty",
-            CancellationTokenSource.Token, "getFeature");
+        WFSOperationsGetFeature? result = await JsComponentReference.InvokeAsync<WFSOperationsGetFeature?>(
+            "getGetFeature", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             GetFeature = result;
+            GetFeature = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(GetFeature)] = GetFeature;
+            ModifiedParameters[nameof(GetFeature)] = GetFeature;
         }
-         
+        
         return GetFeature;
     }
     

@@ -220,17 +220,17 @@ public partial class Viewpoint
             return TargetGeometry;
         }
 
-        // get the property value
-        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>("getProperty",
-            CancellationTokenSource.Token, "targetGeometry");
+        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
+            "getTargetGeometry", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TargetGeometry = result;
+            TargetGeometry = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
+            ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
         }
-         
+        
         return TargetGeometry;
     }
     

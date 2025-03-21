@@ -234,17 +234,17 @@ public partial class ChartMediaInfoValue
             return Series;
         }
 
-        // get the property value
-        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>("getProperty",
-            CancellationTokenSource.Token, "series");
+        IReadOnlyList<ChartMediaInfoValueSeries>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ChartMediaInfoValueSeries>?>(
+            "getSeries", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Series = result;
+            Series = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Series)] = Series;
+            ModifiedParameters[nameof(Series)] = Series;
         }
-         
+        
         return Series;
     }
     

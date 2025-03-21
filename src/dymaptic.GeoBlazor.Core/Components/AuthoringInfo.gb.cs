@@ -371,17 +371,17 @@ public partial class AuthoringInfo
             return ColorRamp;
         }
 
-        // get the property value
-        ColorRamp? result = await JsComponentReference!.InvokeAsync<ColorRamp?>("getProperty",
-            CancellationTokenSource.Token, "colorRamp");
+        ColorRamp? result = await JsComponentReference.InvokeAsync<ColorRamp?>(
+            "getColorRamp", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ColorRamp = result;
+            ColorRamp = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
+            ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
         }
-         
+        
         return ColorRamp;
     }
     
@@ -449,17 +449,17 @@ public partial class AuthoringInfo
             return Field1;
         }
 
-        // get the property value
-        AuthoringInfoField? result = await JsComponentReference!.InvokeAsync<AuthoringInfoField?>("getProperty",
-            CancellationTokenSource.Token, "field1");
+        AuthoringInfoField? result = await JsComponentReference.InvokeAsync<AuthoringInfoField?>(
+            "getField1", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Field1 = result;
+            Field1 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field1)] = Field1;
+            ModifiedParameters[nameof(Field1)] = Field1;
         }
-         
+        
         return Field1;
     }
     
@@ -488,17 +488,17 @@ public partial class AuthoringInfo
             return Field2;
         }
 
-        // get the property value
-        AuthoringInfoField? result = await JsComponentReference!.InvokeAsync<AuthoringInfoField?>("getProperty",
-            CancellationTokenSource.Token, "field2");
+        AuthoringInfoField? result = await JsComponentReference.InvokeAsync<AuthoringInfoField?>(
+            "getField2", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Field2 = result;
+            Field2 = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Field2)] = Field2;
+            ModifiedParameters[nameof(Field2)] = Field2;
         }
-         
+        
         return Field2;
     }
     
@@ -878,17 +878,17 @@ public partial class AuthoringInfo
             return Statistics;
         }
 
-        // get the property value
-        AuthoringInfoStatistics? result = await JsComponentReference!.InvokeAsync<AuthoringInfoStatistics?>("getProperty",
-            CancellationTokenSource.Token, "statistics");
+        AuthoringInfoStatistics? result = await JsComponentReference.InvokeAsync<AuthoringInfoStatistics?>(
+            "getStatistics", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Statistics = result;
+            Statistics = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Statistics)] = Statistics;
+            ModifiedParameters[nameof(Statistics)] = Statistics;
         }
-         
+        
         return Statistics;
     }
     

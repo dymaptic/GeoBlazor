@@ -261,17 +261,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return BackgroundFillSymbol;
         }
 
-        // get the property value
-        FillSymbol? result = await JsComponentReference!.InvokeAsync<FillSymbol?>("getProperty",
-            CancellationTokenSource.Token, "backgroundFillSymbol");
+        FillSymbol? result = await JsComponentReference.InvokeAsync<FillSymbol?>(
+            "getBackgroundFillSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             BackgroundFillSymbol = result;
+            BackgroundFillSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
+            ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
         }
-         
+        
         return BackgroundFillSymbol;
     }
     
@@ -339,17 +339,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return DefaultSymbol;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "defaultSymbol");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getDefaultSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultSymbol = result;
+            DefaultSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
+            ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
         }
-         
+        
         return DefaultSymbol;
     }
     
@@ -534,17 +534,17 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
             return LegendOptions;
         }
 
-        // get the property value
-        UniqueValueRendererLegendOptions? result = await JsComponentReference!.InvokeAsync<UniqueValueRendererLegendOptions?>("getProperty",
-            CancellationTokenSource.Token, "legendOptions");
+        UniqueValueRendererLegendOptions? result = await JsComponentReference.InvokeAsync<UniqueValueRendererLegendOptions?>(
+            "getLegendOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendOptions = result;
+            LegendOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+            ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
         }
-         
+        
         return LegendOptions;
     }
     

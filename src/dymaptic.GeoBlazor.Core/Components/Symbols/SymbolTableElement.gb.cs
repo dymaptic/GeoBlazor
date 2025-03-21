@@ -121,17 +121,17 @@ public partial class SymbolTableElement : MapComponent,
             return Infos;
         }
 
-        IReadOnlyList<ISymbolTableElementType>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ISymbolTableElementType>?>(
-            "getInfos", CancellationTokenSource.Token);
-        
+        // get the property value
+        IReadOnlyList<ISymbolTableElementType>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ISymbolTableElementType>?>("getProperty",
+            CancellationTokenSource.Token, "infos");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Infos = result;
+             Infos = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Infos)] = Infos;
+             ModifiedParameters[nameof(Infos)] = Infos;
         }
-        
+         
         return Infos;
     }
     

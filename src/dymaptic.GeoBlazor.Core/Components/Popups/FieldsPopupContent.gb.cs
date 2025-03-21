@@ -126,17 +126,17 @@ public partial class FieldsPopupContent
             return FieldInfos;
         }
 
-        // get the property value
-        IReadOnlyList<FieldInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
-            CancellationTokenSource.Token, "fieldInfos");
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FieldInfo>?>(
+            "getFieldInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldInfos = result;
+            FieldInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+            ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
         }
-         
+        
         return FieldInfos;
     }
     

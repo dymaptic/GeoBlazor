@@ -137,21 +137,21 @@ public partial class PopupTemplate : MapComponent
     [Parameter]
     public IReadOnlyList<PopupContent>? Content { get; set; }
 
-
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
-    /// <param name="actionId">
-    ///     The action ID.
+    /// <param name="triggerActionEvent">
+    ///     The event that contains the action to be triggered.
     /// </param>
     [JSInvokable]
-    public async Task OnJsTriggerAction(string actionId)
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
     {
-        ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
+        ActionBase? action = Actions?.FirstOrDefault(a => a.ActionId == triggerActionEvent.Action.ActionId);
 
-        if (action is not null)
+        if (action?.CallbackFunction is not null)
         {
-            await action.CallbackFunction!.Invoke();
+            await action.CallbackFunction.Invoke();
         }
     }
     

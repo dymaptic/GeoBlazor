@@ -93,17 +93,17 @@ public partial class ColumnChartMediaInfo : IChartMediaInfo
             return Value;
         }
 
-        // get the property value
-        ChartMediaInfoValue? result = await JsComponentReference!.InvokeAsync<ChartMediaInfoValue?>("getProperty",
-            CancellationTokenSource.Token, "value");
+        ChartMediaInfoValue? result = await JsComponentReference.InvokeAsync<ChartMediaInfoValue?>(
+            "getValue", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+            Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+            ModifiedParameters[nameof(Value)] = Value;
         }
-         
+        
         return Value;
     }
     

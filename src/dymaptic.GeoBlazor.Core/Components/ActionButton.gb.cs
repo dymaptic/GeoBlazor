@@ -29,7 +29,7 @@ public partial class ActionButton
     ///     The URL to an image that will be used to represent the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html#image">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="id">
+    /// <param name="actionId">
     ///     The name of the ID assigned to this action.
     /// </param>
     /// <param name="callbackFunction">
@@ -60,7 +60,7 @@ public partial class ActionButton
     public ActionButton(
         string? title = null,
         string? image = null,
-        string? id = null,
+        string? actionId = null,
         Func<Task>? callbackFunction = null,
         string? className = null,
         bool? active = null,
@@ -72,9 +72,9 @@ public partial class ActionButton
 #pragma warning disable BL0005
         Title = title;
         Image = image;
-        if (id is not null)
+        if (actionId is not null)
         {
-            Id = id;
+            ActionId = actionId;
         }
         if (callbackFunction is not null)
         {

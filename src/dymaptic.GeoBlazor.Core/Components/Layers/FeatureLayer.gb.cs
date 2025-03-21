@@ -1522,17 +1522,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return EffectiveCapabilities;
         }
 
-        // get the property value
-        Capabilities? result = await JsComponentReference!.InvokeAsync<Capabilities?>("getProperty",
-            CancellationTokenSource.Token, "effectiveCapabilities");
+        Capabilities? result = await JsComponentReference.InvokeAsync<Capabilities?>(
+            "getEffectiveCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             EffectiveCapabilities = result;
+            EffectiveCapabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
+            ModifiedParameters[nameof(EffectiveCapabilities)] = EffectiveCapabilities;
         }
-         
+        
         return EffectiveCapabilities;
     }
     
@@ -1600,17 +1600,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return ElevationInfo;
         }
 
-        // get the property value
-        FeatureLayerBaseElevationInfo? result = await JsComponentReference!.InvokeAsync<FeatureLayerBaseElevationInfo?>("getProperty",
-            CancellationTokenSource.Token, "elevationInfo");
+        FeatureLayerBaseElevationInfo? result = await JsComponentReference.InvokeAsync<FeatureLayerBaseElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ElevationInfo = result;
+            ElevationInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+            ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-         
+        
         return ElevationInfo;
     }
     
@@ -1678,17 +1678,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FeatureReduction;
         }
 
-        IFeatureReduction? result = await JsComponentReference.InvokeAsync<IFeatureReduction?>(
-            "getFeatureReduction", CancellationTokenSource.Token);
-        
+        // get the property value
+        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
+            CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            FeatureReduction = result;
+             FeatureReduction = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
-        
+         
         return FeatureReduction;
     }
     
@@ -1795,17 +1795,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return FloorInfo;
         }
 
-        // get the property value
-        LayerFloorInfo? result = await JsComponentReference!.InvokeAsync<LayerFloorInfo?>("getProperty",
-            CancellationTokenSource.Token, "floorInfo");
+        LayerFloorInfo? result = await JsComponentReference.InvokeAsync<LayerFloorInfo?>(
+            "getFloorInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FloorInfo = result;
+            FloorInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+            ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
         }
-         
+        
         return FloorInfo;
     }
     
@@ -2419,17 +2419,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return OrderBy;
         }
 
-        // get the property value
-        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
-            CancellationTokenSource.Token, "orderBy");
+        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>(
+            "getOrderBy", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OrderBy = result;
+            OrderBy = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OrderBy)] = OrderBy;
+            ModifiedParameters[nameof(OrderBy)] = OrderBy;
         }
-         
+        
         return OrderBy;
     }
     
@@ -2536,17 +2536,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -3048,17 +3048,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     
@@ -3287,17 +3287,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return TimeOffset;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "timeOffset");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeOffset = result;
+            TimeOffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+            ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-         
+        
         return TimeOffset;
     }
     

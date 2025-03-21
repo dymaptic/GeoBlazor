@@ -119,17 +119,17 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
             return Measurement;
         }
 
-        // get the property value
-        DistanceMeasurement2DViewModelMeasurement? result = await JsComponentReference!.InvokeAsync<DistanceMeasurement2DViewModelMeasurement?>("getProperty",
-            CancellationTokenSource.Token, "measurement");
+        DistanceMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeAsync<DistanceMeasurement2DViewModelMeasurement?>(
+            "getMeasurement", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Measurement = result;
+            Measurement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Measurement)] = Measurement;
+            ModifiedParameters[nameof(Measurement)] = Measurement;
         }
-         
+        
         return Measurement;
     }
     

@@ -460,17 +460,17 @@ public partial class LegendWidget
             return LegendStyle;
         }
 
-        // get the property value
-        LegendStyle? result = await JsComponentReference!.InvokeAsync<LegendStyle?>("getProperty",
-            CancellationTokenSource.Token, "legendStyle");
+        LegendStyle? result = await JsComponentReference.InvokeAsync<LegendStyle?>(
+            "getLegendStyle", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendStyle = result;
+            LegendStyle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
+            ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
         }
-         
+        
         return LegendStyle;
     }
     

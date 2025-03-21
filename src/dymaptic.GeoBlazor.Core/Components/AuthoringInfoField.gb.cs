@@ -120,17 +120,17 @@ public partial class AuthoringInfoField
             return ClassBreakInfos;
         }
 
-        // get the property value
-        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>("getProperty",
-            CancellationTokenSource.Token, "classBreakInfos");
+        IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AuthoringInfoField1ClassBreakInfos>?>(
+            "getClassBreakInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ClassBreakInfos = result;
+            ClassBreakInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
+            ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
         }
-         
+        
         return ClassBreakInfos;
     }
     

@@ -6,7 +6,7 @@ export async function buildJsFeaturesViewModelTriggerActionEventGenerated(dotNet
     let jsFeaturesViewModelTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsFeaturesViewModelTriggerActionEvent.action = await buildJsActionBase(dotNetObject.action, layerId, viewId) as any;
+        jsFeaturesViewModelTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
     }
 
     

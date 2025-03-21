@@ -150,6 +150,7 @@ public partial class PopupWidget : Widget
     ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate
     ///     assigned to this feature.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<Graphic?> GetSelectedFeature()
     {
         return await JsComponentReference!.InvokeAsync<Graphic?>("getSelectedFeature",
@@ -159,6 +160,7 @@ public partial class PopupWidget : Widget
     /// <summary>
     ///     Sets the string content of the popup.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task SetContent(string stringContent)
     {
         await JsComponentReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
@@ -168,7 +170,8 @@ public partial class PopupWidget : Widget
     ///     Removes promises, features, content, title and location from the Popup.
     /// </summary>
     [ArcGISMethod]
-public async Task Clear()
+    [CodeGenerationIgnore]
+    public async Task Clear()
     {
         await JsComponentReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
@@ -179,7 +182,7 @@ public async Task Clear()
     ///     popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
     /// </summary>
     [CodeGenerationIgnore]
-public async Task<Graphic[]> FetchFeatures()
+    public async Task<Graphic[]> FetchFeatures()
     {
         return await JsComponentReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
@@ -187,6 +190,7 @@ public async Task<Graphic[]> FetchFeatures()
     /// <summary>
     ///     The number of selected features available to the popup.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<int> GetFeatureCount()
     {
         return await JsComponentReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
@@ -195,6 +199,7 @@ public async Task<Graphic[]> FetchFeatures()
     /// <summary>
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<int> GetSelectedFeatureIndex()
     {
         return await JsComponentReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
@@ -203,6 +208,7 @@ public async Task<Graphic[]> FetchFeatures()
     /// <summary>
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
+    [CodeGenerationIgnore]
     public async Task<bool> GetVisibility()
     {
         return await JsComponentReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
@@ -214,7 +220,8 @@ public async Task<Graphic[]> FetchFeatures()
     ///     setting the visible property to false.
     /// </summary>
     [ArcGISMethod]
-public async Task Close()
+    [CodeGenerationIgnore]
+    public async Task Close()
     {
         await JsComponentReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
@@ -222,20 +229,36 @@ public async Task Close()
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
-    /// <param name="actionId">
-    ///     The action ID.
+    /// <param name="triggerActionEvent">
+    ///     The event that is triggered when the action is clicked.
     /// </param>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsTriggerAction(string actionId)
+    public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
     {
-        ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
-
-        if (action is not null)
+        if (Actions is null)
         {
-            await action.CallbackFunction!.Invoke();
+            return;
         }
+        
+        foreach (ActionBase action in Actions)
+        {
+            if (action.ActionId == triggerActionEvent.Action.ActionId && action.CallbackFunction is not null)
+            {
+                await action.CallbackFunction.Invoke();
+            }
+        }
+        
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
     }
+    
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<PopupTriggerActionEvent> OnTriggerAction { get; set; }
     
     /// <summary>
     ///     Override the default symbol of the displayed cluster extent. Only applies when a PopupTemplate is set on a FeatureReductionCluster instance.

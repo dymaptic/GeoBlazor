@@ -1138,17 +1138,17 @@ public partial class SliderWidget
             return TickConfigs;
         }
 
-        // get the property value
-        IReadOnlyList<TickConfig>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<TickConfig>?>("getProperty",
-            CancellationTokenSource.Token, "tickConfigs");
+        IReadOnlyList<TickConfig>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<TickConfig>?>(
+            "getTickConfigs", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TickConfigs = result;
+            TickConfigs = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
+            ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
         }
-         
+        
         return TickConfigs;
     }
     
@@ -1260,17 +1260,17 @@ public partial class SliderWidget
             return VisibleElements;
         }
 
-        // get the property value
-        SliderVisibleElements? result = await JsComponentReference!.InvokeAsync<SliderVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        SliderVisibleElements? result = await JsComponentReference.InvokeAsync<SliderVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     

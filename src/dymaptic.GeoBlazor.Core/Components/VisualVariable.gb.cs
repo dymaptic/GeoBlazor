@@ -99,17 +99,17 @@ public abstract partial class VisualVariable
             return LegendOptions;
         }
 
-        // get the property value
-        VisualVariableLegendOptions? result = await JsComponentReference!.InvokeAsync<VisualVariableLegendOptions?>("getProperty",
-            CancellationTokenSource.Token, "legendOptions");
+        VisualVariableLegendOptions? result = await JsComponentReference.InvokeAsync<VisualVariableLegendOptions?>(
+            "getLegendOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LegendOptions = result;
+            LegendOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
+            ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
         }
-         
+        
         return LegendOptions;
     }
     

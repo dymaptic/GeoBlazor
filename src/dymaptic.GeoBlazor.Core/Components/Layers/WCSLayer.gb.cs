@@ -942,17 +942,17 @@ public partial class WCSLayer : IBlendLayer,
             return MultidimensionalDefinition;
         }
 
-        // get the property value
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalDefinition");
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
+            "getMultidimensionalDefinition", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalDefinition = result;
+            MultidimensionalDefinition = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+            ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
         }
-         
+        
         return MultidimensionalDefinition;
     }
     
@@ -1059,17 +1059,17 @@ public partial class WCSLayer : IBlendLayer,
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -1342,17 +1342,17 @@ public partial class WCSLayer : IBlendLayer,
             return TimeOffset;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "timeOffset");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeOffset = result;
+            TimeOffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+            ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-         
+        
         return TimeOffset;
     }
     

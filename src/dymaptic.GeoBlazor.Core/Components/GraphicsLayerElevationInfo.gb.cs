@@ -120,17 +120,17 @@ public partial class GraphicsLayerElevationInfo : MapComponent
             return FeatureExpressionInfo;
         }
 
-        // get the property value
-        GraphicsLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference!.InvokeAsync<GraphicsLayerElevationInfoFeatureExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "featureExpressionInfo");
+        GraphicsLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference.InvokeAsync<GraphicsLayerElevationInfoFeatureExpressionInfo?>(
+            "getFeatureExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureExpressionInfo = result;
+            FeatureExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+            ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
         }
-         
+        
         return FeatureExpressionInfo;
     }
     

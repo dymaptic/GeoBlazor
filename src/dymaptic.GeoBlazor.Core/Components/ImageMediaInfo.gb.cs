@@ -138,17 +138,17 @@ public partial class ImageMediaInfo
             return Value;
         }
 
-        // get the property value
-        ImageMediaInfoValue? result = await JsComponentReference!.InvokeAsync<ImageMediaInfoValue?>("getProperty",
-            CancellationTokenSource.Token, "value");
+        ImageMediaInfoValue? result = await JsComponentReference.InvokeAsync<ImageMediaInfoValue?>(
+            "getValue", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Value = result;
+            Value = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Value)] = Value;
+            ModifiedParameters[nameof(Value)] = Value;
         }
-         
+        
         return Value;
     }
     

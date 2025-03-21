@@ -234,17 +234,17 @@ public partial class BasemapToggleWidget
             return VisibleElements;
         }
 
-        // get the property value
-        BasemapToggleVisibleElements? result = await JsComponentReference!.InvokeAsync<BasemapToggleVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        BasemapToggleVisibleElements? result = await JsComponentReference.InvokeAsync<BasemapToggleVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     

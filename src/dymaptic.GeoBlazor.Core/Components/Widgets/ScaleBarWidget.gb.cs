@@ -217,17 +217,17 @@ public partial class ScaleBarWidget
             return ViewModel;
         }
 
-        // get the property value
-        ScaleBarViewModel? result = await JsComponentReference!.InvokeAsync<ScaleBarViewModel?>("getProperty",
-            CancellationTokenSource.Token, "viewModel");
+        ScaleBarViewModel? result = await JsComponentReference.InvokeAsync<ScaleBarViewModel?>(
+            "getViewModel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ViewModel = result;
+            ViewModel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ViewModel)] = ViewModel;
+            ModifiedParameters[nameof(ViewModel)] = ViewModel;
         }
-         
+        
         return ViewModel;
     }
     

@@ -12,13 +12,6 @@ public abstract partial class ActionBase : MapComponent
     public string? Title { get; set; }
 
     /// <summary>
-    ///     The name of the ID assigned to this action.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public new string? Id { get; set; }
-
-    /// <summary>
     ///     Set this property to true to display a spinner icon. You should do this if the action executes an async operation,
     ///     such as a query, that requires letting the end user know that a process is ongoing in the background. Set the
     ///     property back to false to communicate to the user that the process has finished.
@@ -27,7 +20,6 @@ public abstract partial class ActionBase : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Active { get; set; }
     
-        
     /// <summary>
     ///     This adds a CSS class to the ActionButton's node.
     /// </summary>
@@ -46,10 +38,26 @@ public abstract partial class ActionBase : MapComponent
     ///     The action function to perform on click.
     /// </summary>
     [Parameter]
-    [EditorRequired]
     [JsonIgnore]
-    [RequiredProperty]
     public Func<Task>? CallbackFunction { get; set; }
+    
+    public bool HasCallbackFunction => CallbackFunction != null;
+    
+    /// <summary>
+    ///     JS-invokable method for triggering actions.
+    /// </summary>
+    /// <param name="triggerActionEvent">
+    ///     The event that contains the action to be triggered.
+    /// </param>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
+    {
+        if (triggerActionEvent.Action.ActionId == ActionId)
+        {
+            await CallbackFunction!.Invoke();
+        }
+    }
 
     /// <summary>
     ///     Specifies the type of action. Choose between "button" or "toggle".
@@ -66,21 +74,23 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
     {
     }
     
-    public ActionBaseSerializationRecord(string Type,
+    public ActionBaseSerializationRecord(Guid Id,
+        string Type,
         string? Title,
         string? ClassName,
         bool? Active,
         bool? Disabled,
         bool? Visible,
-        string? Id)
+        string? ActionId)
     {
+        this.Id = Id.ToString();
         this.Type = Type;
         this.Title = Title;
         this.ClassName = ClassName;
         this.Active = Active;
         this.Disabled = Disabled;
         this.Visible = Visible;
-        this.Id = Id;
+        this.ActionId = ActionId;
     }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -107,7 +117,6 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
     [ProtoMember(6)]
     public bool? Visible { get; init; }
     
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]
     public string? Id { get; init; }
     
@@ -116,13 +125,16 @@ internal record ActionBaseSerializationRecord : MapComponentSerializationRecord
 
     [ProtoMember(9)]
     public bool? Value { get; init; }
+    
+    [ProtoMember(10)]
+    public string? ActionId { get; init; }
 
     public ActionBase FromSerializationRecord()
     {
         return Type switch
         {
-            "button" => new ActionButton(Title, Image, Id, null, ClassName, Active, Disabled, Visible),
-            "toggle" => new ActionToggle(Title, Id, null, Value, Active, Disabled, Visible),
+            "button" => new ActionButton(Title, Image, ActionId, null, ClassName, Active, Disabled, Visible),
+            "toggle" => new ActionToggle(Title, ActionId, null, Value, Active, Disabled, Visible),
             _ => throw new NotSupportedException()
         };
     }

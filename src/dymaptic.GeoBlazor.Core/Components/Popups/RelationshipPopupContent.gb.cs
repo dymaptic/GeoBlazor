@@ -210,17 +210,17 @@ public partial class RelationshipPopupContent
             return OrderByFields;
         }
 
-        // get the property value
-        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>("getProperty",
-            CancellationTokenSource.Token, "orderByFields");
+        IReadOnlyList<RelatedRecordsInfoFieldOrder>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<RelatedRecordsInfoFieldOrder>?>(
+            "getOrderByFields", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OrderByFields = result;
+            OrderByFields = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+            ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
         }
-         
+        
         return OrderByFields;
     }
     

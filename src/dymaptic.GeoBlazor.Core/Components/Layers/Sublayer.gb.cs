@@ -492,17 +492,17 @@ public partial class Sublayer
             return FloorInfo;
         }
 
-        // get the property value
-        LayerFloorInfo? result = await JsComponentReference!.InvokeAsync<LayerFloorInfo?>("getProperty",
-            CancellationTokenSource.Token, "floorInfo");
+        LayerFloorInfo? result = await JsComponentReference.InvokeAsync<LayerFloorInfo?>(
+            "getFloorInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FloorInfo = result;
+            FloorInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+            ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
         }
-         
+        
         return FloorInfo;
     }
     
@@ -965,17 +965,17 @@ public partial class Sublayer
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -1160,17 +1160,17 @@ public partial class Sublayer
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     

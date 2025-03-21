@@ -144,17 +144,17 @@ public partial class UniqueValueClass : MapComponent
             return Symbol;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "symbol");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Symbol = result;
+            Symbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Symbol)] = Symbol;
+            ModifiedParameters[nameof(Symbol)] = Symbol;
         }
-         
+        
         return Symbol;
     }
     
@@ -183,17 +183,17 @@ public partial class UniqueValueClass : MapComponent
             return Values;
         }
 
-        // get the property value
-        IReadOnlyList<UniqueValue>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<UniqueValue>?>("getProperty",
-            CancellationTokenSource.Token, "values");
+        IReadOnlyList<UniqueValue>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<UniqueValue>?>(
+            "getValues", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Values = result;
+            Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Values)] = Values;
+            ModifiedParameters[nameof(Values)] = Values;
         }
-         
+        
         return Values;
     }
     

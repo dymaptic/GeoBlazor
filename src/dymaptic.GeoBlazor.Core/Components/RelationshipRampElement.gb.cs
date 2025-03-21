@@ -283,17 +283,17 @@ public partial class RelationshipRampElement : MapComponent,
             return Labels;
         }
 
-        // get the property value
-        RelationshipLabels? result = await JsComponentReference!.InvokeAsync<RelationshipLabels?>("getProperty",
-            CancellationTokenSource.Token, "labels");
+        RelationshipLabels? result = await JsComponentReference.InvokeAsync<RelationshipLabels?>(
+            "getLabels", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Labels = result;
+            Labels = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Labels)] = Labels;
+            ModifiedParameters[nameof(Labels)] = Labels;
         }
-         
+        
         return Labels;
     }
     

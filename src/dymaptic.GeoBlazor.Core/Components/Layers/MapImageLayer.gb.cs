@@ -1237,17 +1237,17 @@ public partial class MapImageLayer : IArcGISMapService,
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     
@@ -1437,17 +1437,17 @@ public partial class MapImageLayer : IArcGISMapService,
             return TimeOffset;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "timeOffset");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeOffset = result;
+            TimeOffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+            ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-         
+        
         return TimeOffset;
     }
     

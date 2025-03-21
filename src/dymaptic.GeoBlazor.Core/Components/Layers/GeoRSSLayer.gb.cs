@@ -390,17 +390,17 @@ public partial class GeoRSSLayer : IBlendLayer,
             return LineSymbol;
         }
 
-        // get the property value
-        SimpleLineSymbol? result = await JsComponentReference!.InvokeAsync<SimpleLineSymbol?>("getProperty",
-            CancellationTokenSource.Token, "lineSymbol");
+        SimpleLineSymbol? result = await JsComponentReference.InvokeAsync<SimpleLineSymbol?>(
+            "getLineSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LineSymbol = result;
+            LineSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+            ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
         }
-         
+        
         return LineSymbol;
     }
     
@@ -507,17 +507,17 @@ public partial class GeoRSSLayer : IBlendLayer,
             return PointSymbol;
         }
 
-        // get the property value
-        MarkerSymbol? result = await JsComponentReference!.InvokeAsync<MarkerSymbol?>("getProperty",
-            CancellationTokenSource.Token, "pointSymbol");
+        MarkerSymbol? result = await JsComponentReference.InvokeAsync<MarkerSymbol?>(
+            "getPointSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PointSymbol = result;
+            PointSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+            ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
         }
-         
+        
         return PointSymbol;
     }
     
@@ -546,17 +546,17 @@ public partial class GeoRSSLayer : IBlendLayer,
             return PolygonSymbol;
         }
 
-        // get the property value
-        SimpleFillSymbol? result = await JsComponentReference!.InvokeAsync<SimpleFillSymbol?>("getProperty",
-            CancellationTokenSource.Token, "polygonSymbol");
+        SimpleFillSymbol? result = await JsComponentReference.InvokeAsync<SimpleFillSymbol?>(
+            "getPolygonSymbol", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PolygonSymbol = result;
+            PolygonSymbol = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+            ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
         }
-         
+        
         return PolygonSymbol;
     }
     

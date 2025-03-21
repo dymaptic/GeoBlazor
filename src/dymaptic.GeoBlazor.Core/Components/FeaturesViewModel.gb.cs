@@ -462,17 +462,17 @@ public partial class FeaturesViewModel : MapComponent,
             return Actions;
         }
 
-        // get the property value
-        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
-            CancellationTokenSource.Token, "actions");
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
+            "getActions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Actions = result;
+            Actions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Actions)] = Actions;
+            ModifiedParameters[nameof(Actions)] = Actions;
         }
-         
+        
         return Actions;
     }
     
@@ -540,17 +540,17 @@ public partial class FeaturesViewModel : MapComponent,
             return AllActions;
         }
 
-        // get the property value
-        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
-            CancellationTokenSource.Token, "allActions");
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
+            "getAllActions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AllActions = result;
+            AllActions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AllActions)] = AllActions;
+            ModifiedParameters[nameof(AllActions)] = AllActions;
         }
-         
+        
         return AllActions;
     }
     
@@ -657,17 +657,17 @@ public partial class FeaturesViewModel : MapComponent,
             return DefaultActions;
         }
 
-        // get the property value
-        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
-            CancellationTokenSource.Token, "defaultActions");
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
+            "getDefaultActions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DefaultActions = result;
+            DefaultActions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DefaultActions)] = DefaultActions;
+            ModifiedParameters[nameof(DefaultActions)] = DefaultActions;
         }
-         
+        
         return DefaultActions;
     }
     
@@ -891,17 +891,17 @@ public partial class FeaturesViewModel : MapComponent,
             return FeatureViewModelAbilities;
         }
 
-        // get the property value
-        Abilities? result = await JsComponentReference!.InvokeAsync<Abilities?>("getProperty",
-            CancellationTokenSource.Token, "featureViewModelAbilities");
+        Abilities? result = await JsComponentReference.InvokeAsync<Abilities?>(
+            "getFeatureViewModelAbilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureViewModelAbilities = result;
+            FeatureViewModelAbilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
+            ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
         }
-         
+        
         return FeatureViewModelAbilities;
     }
     
@@ -1335,17 +1335,17 @@ public partial class FeaturesViewModel : MapComponent,
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     

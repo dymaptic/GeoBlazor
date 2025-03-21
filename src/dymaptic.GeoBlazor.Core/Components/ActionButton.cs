@@ -19,7 +19,7 @@ public partial class ActionButton : ActionBase
 
     internal override ActionBaseSerializationRecord ToSerializationRecord()
     {
-        return new ActionBaseSerializationRecord(Type, Title, ClassName, Active, Disabled, Visible, Id)
+        return new ActionBaseSerializationRecord(Id, Type, Title, ClassName, Active, Disabled, Visible, ActionId)
         {
             Image = Image
         };

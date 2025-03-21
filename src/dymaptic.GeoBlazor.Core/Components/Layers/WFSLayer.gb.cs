@@ -977,17 +977,17 @@ public partial class WFSLayer : Layer,
             return ElevationInfo;
         }
 
-        // get the property value
-        WFSLayerElevationInfo? result = await JsComponentReference!.InvokeAsync<WFSLayerElevationInfo?>("getProperty",
-            CancellationTokenSource.Token, "elevationInfo");
+        WFSLayerElevationInfo? result = await JsComponentReference.InvokeAsync<WFSLayerElevationInfo?>(
+            "getElevationInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ElevationInfo = result;
+            ElevationInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+            ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
         }
-         
+        
         return ElevationInfo;
     }
     
@@ -1055,17 +1055,17 @@ public partial class WFSLayer : Layer,
             return FeatureReduction;
         }
 
-        IFeatureReduction? result = await JsComponentReference.InvokeAsync<IFeatureReduction?>(
-            "getFeatureReduction", CancellationTokenSource.Token);
-        
+        // get the property value
+        IFeatureReduction? result = await JsComponentReference!.InvokeAsync<IFeatureReduction?>("getProperty",
+            CancellationTokenSource.Token, "featureReduction");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            FeatureReduction = result;
+             FeatureReduction = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
+             ModifiedParameters[nameof(FeatureReduction)] = FeatureReduction;
         }
-        
+         
         return FeatureReduction;
     }
     
@@ -1601,17 +1601,17 @@ public partial class WFSLayer : Layer,
             return OrderBy;
         }
 
-        // get the property value
-        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>("getProperty",
-            CancellationTokenSource.Token, "orderBy");
+        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>(
+            "getOrderBy", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             OrderBy = result;
+            OrderBy = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(OrderBy)] = OrderBy;
+            ModifiedParameters[nameof(OrderBy)] = OrderBy;
         }
-         
+        
         return OrderBy;
     }
     
@@ -1718,17 +1718,17 @@ public partial class WFSLayer : Layer,
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -1918,17 +1918,17 @@ public partial class WFSLayer : Layer,
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     

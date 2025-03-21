@@ -258,45 +258,6 @@ public partial class BasemapLayerListWidget
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the BasemapTitle property.
-    /// </summary>
-    public async Task<string?> GetBasemapTitle()
-    {
-        if (CoreJsModule is null)
-        {
-            return BasemapTitle;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return BasemapTitle;
-        }
-
-        // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "basemapTitle");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             BasemapTitle = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(BasemapTitle)] = BasemapTitle;
-        }
-         
-        return BasemapTitle;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the CatalogLayerList property.
     /// </summary>
     public async Task<ICatalogLayerListWidget?> GetCatalogLayerList()
@@ -528,45 +489,6 @@ public partial class BasemapLayerListWidget
         }
          
         return FilterPlaceholder;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the HeadingLevel property.
-    /// </summary>
-    public async Task<int?> GetHeadingLevel()
-    {
-        if (CoreJsModule is null)
-        {
-            return HeadingLevel;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return HeadingLevel;
-        }
-
-        // get the property value
-        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "headingLevel");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             HeadingLevel = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(HeadingLevel)] = HeadingLevel;
-        }
-         
-        return HeadingLevel;
     }
     
     /// <summary>
@@ -872,17 +794,17 @@ public partial class BasemapLayerListWidget
             return VisibleElements;
         }
 
-        // get the property value
-        BasemapLayerListWidgetVisibleElements? result = await JsComponentReference!.InvokeAsync<BasemapLayerListWidgetVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        BasemapLayerListWidgetVisibleElements? result = await JsComponentReference.InvokeAsync<BasemapLayerListWidgetVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     
@@ -925,43 +847,6 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "baseFilterText", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the BasemapTitle property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetBasemapTitle(string? value)
-    {
-#pragma warning disable BL0005
-        BasemapTitle = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(BasemapTitle)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "basemapTitle", value);
     }
     
     /// <summary>
@@ -1147,43 +1032,6 @@ public partial class BasemapLayerListWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "filterPlaceholder", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the HeadingLevel property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetHeadingLevel(int? value)
-    {
-#pragma warning disable BL0005
-        HeadingLevel = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(HeadingLevel)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "headingLevel", value);
     }
     
     /// <summary>
@@ -1512,22 +1360,6 @@ public partial class BasemapLayerListWidget
 
 #region Event Handlers
 
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsTriggerAction(BasemapLayerListTriggerActionEvent triggerActionEvent)
-    {
-        await OnTriggerAction.InvokeAsync(triggerActionEvent);
-    }
-    
-    /// <summary>
-    ///     Event Listener for TriggerAction.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<BasemapLayerListTriggerActionEvent> OnTriggerAction { get; set; }
-   
 #endregion
 
 

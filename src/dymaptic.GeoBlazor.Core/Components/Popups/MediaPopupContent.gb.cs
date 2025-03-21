@@ -171,17 +171,17 @@ public partial class MediaPopupContent
             return MediaInfos;
         }
 
-        // get the property value
-        IReadOnlyList<MediaInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<MediaInfo>?>("getProperty",
-            CancellationTokenSource.Token, "mediaInfos");
+        IReadOnlyList<MediaInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<MediaInfo>?>(
+            "getMediaInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MediaInfos = result;
+            MediaInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
+            ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
         }
-         
+        
         return MediaInfos;
     }
     

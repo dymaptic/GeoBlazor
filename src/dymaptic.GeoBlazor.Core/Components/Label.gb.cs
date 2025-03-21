@@ -295,17 +295,17 @@ public partial class Label
             return LabelExpressionInfo;
         }
 
-        // get the property value
-        LabelExpressionInfo? result = await JsComponentReference!.InvokeAsync<LabelExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "labelExpressionInfo");
+        LabelExpressionInfo? result = await JsComponentReference.InvokeAsync<LabelExpressionInfo?>(
+            "getLabelExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelExpressionInfo = result;
+            LabelExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+            ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
         }
-         
+        
         return LabelExpressionInfo;
     }
     

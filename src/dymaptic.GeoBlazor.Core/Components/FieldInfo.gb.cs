@@ -168,17 +168,17 @@ public partial class FieldInfo
             return Format;
         }
 
-        // get the property value
-        FieldInfoFormat? result = await JsComponentReference!.InvokeAsync<FieldInfoFormat?>("getProperty",
-            CancellationTokenSource.Token, "format");
+        FieldInfoFormat? result = await JsComponentReference.InvokeAsync<FieldInfoFormat?>(
+            "getFormat", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Format = result;
+            Format = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Format)] = Format;
+            ModifiedParameters[nameof(Format)] = Format;
         }
-         
+        
         return Format;
     }
     

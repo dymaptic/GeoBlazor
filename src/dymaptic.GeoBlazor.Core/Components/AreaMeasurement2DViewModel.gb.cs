@@ -119,17 +119,17 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return Measurement;
         }
 
-        // get the property value
-        AreaMeasurement2DViewModelMeasurement? result = await JsComponentReference!.InvokeAsync<AreaMeasurement2DViewModelMeasurement?>("getProperty",
-            CancellationTokenSource.Token, "measurement");
+        AreaMeasurement2DViewModelMeasurement? result = await JsComponentReference.InvokeAsync<AreaMeasurement2DViewModelMeasurement?>(
+            "getMeasurement", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Measurement = result;
+            Measurement = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Measurement)] = Measurement;
+            ModifiedParameters[nameof(Measurement)] = Measurement;
         }
-         
+        
         return Measurement;
     }
     
@@ -158,17 +158,17 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
             return MeasurementLabel;
         }
 
-        // get the property value
-        AreaMeasurement2DViewModelMeasurementLabel? result = await JsComponentReference!.InvokeAsync<AreaMeasurement2DViewModelMeasurementLabel?>("getProperty",
-            CancellationTokenSource.Token, "measurementLabel");
+        AreaMeasurement2DViewModelMeasurementLabel? result = await JsComponentReference.InvokeAsync<AreaMeasurement2DViewModelMeasurementLabel?>(
+            "getMeasurementLabel", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MeasurementLabel = result;
+            MeasurementLabel = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
+            ModifiedParameters[nameof(MeasurementLabel)] = MeasurementLabel;
         }
-         
+        
         return MeasurementLabel;
     }
     

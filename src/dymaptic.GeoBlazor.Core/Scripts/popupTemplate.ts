@@ -6,6 +6,8 @@ import {buildJsExpressionInfo} from './expressionInfo';
 import {buildDotNetGraphic} from './graphic';
 import {buildJsFieldInfo} from './fieldInfo';
 import {buildJsLayerOptions} from './layerOptions';
+import {buildDotNetActionBase, buildJsActionBase} from "./actionBase";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     let properties: any = {};
@@ -15,27 +17,11 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
         properties.content = dotNetObject.stringContent;
     } else if (hasValue(dotNetObject.hasContentFunction) && dotNetObject.hasContentFunction) {
         properties.content = async (featureSelection) => {
-            try {
-                if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
-                    return;
-                }
-                let viewRef = dotNetRefs[viewId];
-                let popupRef = dotNetRefs[dotNetObject.id];
-                if (!hasValue(popupRef)) {
-                    popupRef = await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', dotNetObject.id);
-                    if (hasValue(popupRef)) {
-                        dotNetRefs[dotNetObject.id] = popupRef;
-                    }
-                }
-
-                if (!hasValue(popupRef)) return null;
-                let results: any | null = await popupRef
-                    .invokeMethodAsync("OnJsContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
-                return results?.map(r => buildJsPopupContent(r));
-            } catch (error) {
-                console.error(error);
-                return null;
-            }
+            let popupRef = await getPopupRef(dotNetObject.id, viewId);
+            if (!hasValue(popupRef)) return null;
+            let results: any | null = await popupRef
+                .invokeMethodAsync("OnJsContentFunction", buildDotNetGraphic(featureSelection.graphic, layerId, viewId));
+            return results?.map(r => buildJsPopupContent(r));
         }
     }
     if (hasValue(dotNetObject.expressionInfos)) {
@@ -49,7 +35,19 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
     }
 
     if (hasValue(dotNetObject.actions)) {
-        properties.actions = dotNetObject.actions;
+        properties.actions = dotNetObject.actions.map(buildJsActionBase) as any;
+
+        if (hasValue(viewId)) {
+            let view = arcGisObjectRefs[viewId!];
+            if (!hasValue(view.popup.on)) {
+                reactiveUtils.once(() => view.popup.on !== undefined)
+                    .then(() => {
+                        setTriggerActionHandlers(dotNetObject, view, viewId);
+                    })
+            } else {
+                setTriggerActionHandlers(dotNetObject, view, viewId);
+            }
+        }
     }
     if (hasValue(dotNetObject.lastEditInfoEnabled)) {
         properties.lastEditInfoEnabled = dotNetObject.lastEditInfoEnabled;
@@ -68,6 +66,7 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
     }
 
     let jsPopupTemplate = new PopupTemplate(properties);
+
     let jsObjectRef = DotNet.createJSObjectReference(jsPopupTemplate);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTemplate;
@@ -87,4 +86,63 @@ export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
     }
 
     return result;
+}
+
+let actionHandlers: any = {};
+
+function setTriggerActionHandlers(dotNetObject, view, viewId) {
+    if (actionHandlers.hasOwnProperty(dotNetObject.id)) {
+        actionHandlers[dotNetObject.id].remove();
+        delete actionHandlers[dotNetObject.id];
+    }
+
+    let handler = view.popup.on('trigger-action', async (evt: any) => {
+        for (let i = 0; i < dotNetObject.actions.length; i++) {
+            let dnAction = dotNetObject.actions[i];
+            let actionRef = await getActionRef(dnAction.id, viewId);
+            if (!hasValue(actionRef)) return;
+            await actionRef.invokeMethodAsync("OnJsTriggerAction", {
+                action: await buildDotNetActionBase(evt.action)
+            });
+        }
+        let popupRef = await getPopupRef(dotNetObject.id, viewId);
+        if (!hasValue(popupRef)) return;
+        await popupRef.invokeMethodAsync("OnJsTriggerAction", {
+            action: await buildDotNetActionBase(evt.action)
+        });
+    });
+
+    actionHandlers[dotNetObject.id] = handler;
+}
+
+async function getPopupRef(popupId, viewId) {
+    if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
+        return null;
+    }
+    let viewRef = dotNetRefs[viewId];
+    let popupRef = dotNetRefs[popupId];
+    if (!hasValue(popupRef)) {
+        popupRef = await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', popupId);
+        if (hasValue(popupRef)) {
+            dotNetRefs[popupId] = popupRef;
+        }
+    }
+
+    return popupRef;
+}
+
+async function getActionRef(actionId, viewId) {
+    if (viewId === null || !arcGisObjectRefs.hasOwnProperty(viewId)) {
+        return null;
+    }
+    let viewRef = dotNetRefs[viewId];
+    let actionRef = dotNetRefs[actionId];
+    if (!hasValue(actionRef)) {
+        actionRef = await viewRef.invokeMethodAsync('GetDotNetActionObjectReference', actionId);
+        if (hasValue(actionRef)) {
+            dotNetRefs[actionId] = actionRef;
+        }
+    }
+
+    return actionRef;
 }

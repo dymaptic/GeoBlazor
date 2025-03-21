@@ -124,17 +124,17 @@ public partial class PopupTemplate
             return Actions;
         }
 
-        // get the property value
-        IReadOnlyList<ActionBase>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ActionBase>?>("getProperty",
-            CancellationTokenSource.Token, "actions");
+        IReadOnlyList<ActionBase>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ActionBase>?>(
+            "getActions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Actions = result;
+            Actions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Actions)] = Actions;
+            ModifiedParameters[nameof(Actions)] = Actions;
         }
-         
+        
         return Actions;
     }
     
@@ -163,17 +163,17 @@ public partial class PopupTemplate
             return ExpressionInfos;
         }
 
-        // get the property value
-        IReadOnlyList<ExpressionInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ExpressionInfo>?>("getProperty",
-            CancellationTokenSource.Token, "expressionInfos");
+        IReadOnlyList<ExpressionInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ExpressionInfo>?>(
+            "getExpressionInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ExpressionInfos = result;
+            ExpressionInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
+            ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
         }
-         
+        
         return ExpressionInfos;
     }
     
@@ -202,17 +202,17 @@ public partial class PopupTemplate
             return FieldInfos;
         }
 
-        // get the property value
-        IReadOnlyList<FieldInfo>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<FieldInfo>?>("getProperty",
-            CancellationTokenSource.Token, "fieldInfos");
+        IReadOnlyList<FieldInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<FieldInfo>?>(
+            "getFieldInfos", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FieldInfos = result;
+            FieldInfos = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
+            ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
         }
-         
+        
         return FieldInfos;
     }
     
@@ -280,17 +280,17 @@ public partial class PopupTemplate
             return LayerOptions;
         }
 
-        // get the property value
-        LayerOptions? result = await JsComponentReference!.InvokeAsync<LayerOptions?>("getProperty",
-            CancellationTokenSource.Token, "layerOptions");
+        LayerOptions? result = await JsComponentReference.InvokeAsync<LayerOptions?>(
+            "getLayerOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LayerOptions = result;
+            LayerOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
+            ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
         }
-         
+        
         return LayerOptions;
     }
     

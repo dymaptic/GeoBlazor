@@ -297,7 +297,7 @@ public partial class Portal
         string? featuredItemsGroupQuery = null,
         string? galleryTemplatesGroupQuery = null,
         bool? hasCategorySchema = null,
-        object? helperServices = null,
+        HelperServices? helperServices = null,
         string? homePageFeaturedContent = null,
         int? homePageFeaturedContentCount = null,
         double? httpPort = null,
@@ -702,7 +702,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? HelperServices { get; set; }
+    public HelperServices? HelperServices { get; set; }
     
     /// <summary>
     ///     The group that contains featured content to be displayed on the home page.
@@ -2021,17 +2021,17 @@ public partial class Portal
             return FeaturedGroups;
         }
 
-        // get the property value
-        IReadOnlyList<PortalFeaturedGroups>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<PortalFeaturedGroups>?>("getProperty",
-            CancellationTokenSource.Token, "featuredGroups");
+        IReadOnlyList<PortalFeaturedGroups>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<PortalFeaturedGroups>?>(
+            "getFeaturedGroups", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeaturedGroups = result;
+            FeaturedGroups = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
+            ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
         }
-         
+        
         return FeaturedGroups;
     }
     
@@ -2155,7 +2155,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the HelperServices property.
     /// </summary>
-    public async Task<object?> GetHelperServices()
+    public async Task<HelperServices?> GetHelperServices()
     {
         if (CoreJsModule is null)
         {
@@ -2178,7 +2178,7 @@ public partial class Portal
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        HelperServices? result = await JsComponentReference!.InvokeAsync<HelperServices?>("getProperty",
             CancellationTokenSource.Token, "helperServices");
         if (result is not null)
         {
@@ -4600,7 +4600,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetHelperServices(object? value)
+    public async Task SetHelperServices(HelperServices? value)
     {
 #pragma warning disable BL0005
         HelperServices = value;

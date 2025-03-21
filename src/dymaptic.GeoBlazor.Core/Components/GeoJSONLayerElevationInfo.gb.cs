@@ -120,17 +120,17 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
             return FeatureExpressionInfo;
         }
 
-        // get the property value
-        GeoJSONLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference!.InvokeAsync<GeoJSONLayerElevationInfoFeatureExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "featureExpressionInfo");
+        GeoJSONLayerElevationInfoFeatureExpressionInfo? result = await JsComponentReference.InvokeAsync<GeoJSONLayerElevationInfoFeatureExpressionInfo?>(
+            "getFeatureExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             FeatureExpressionInfo = result;
+            FeatureExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
+            ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
         }
-         
+        
         return FeatureExpressionInfo;
     }
     

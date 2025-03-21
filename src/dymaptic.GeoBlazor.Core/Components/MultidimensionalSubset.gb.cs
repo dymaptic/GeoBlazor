@@ -108,17 +108,17 @@ public partial class MultidimensionalSubset
             return AreaOfInterest;
         }
 
-        // get the property value
-        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>("getProperty",
-            CancellationTokenSource.Token, "areaOfInterest");
+        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
+            "getAreaOfInterest", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             AreaOfInterest = result;
+            AreaOfInterest = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
+            ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
         }
-         
+        
         return AreaOfInterest;
     }
     
@@ -186,17 +186,17 @@ public partial class MultidimensionalSubset
             return SubsetDefinitions;
         }
 
-        // get the property value
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
-            CancellationTokenSource.Token, "subsetDefinitions");
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
+            "getSubsetDefinitions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SubsetDefinitions = result;
+            SubsetDefinitions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
+            ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
         }
-         
+        
         return SubsetDefinitions;
     }
     

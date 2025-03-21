@@ -23,7 +23,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
-            this.component.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+            this.component.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
@@ -125,7 +125,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     
     async setActions(value: any): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');
-        this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+        this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
     
     async getAllActions(): Promise<any> {
@@ -234,7 +234,7 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     let properties: any = {};
     if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
         let { buildJsActionBase } = await import('./actionBase');
-        properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
+        properties.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
     }
     if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
         let { buildJsGraphic } = await import('./graphic');

@@ -599,17 +599,17 @@ public partial class BookmarksWidget : IGoTo
             return VisibleElements;
         }
 
-        // get the property value
-        BookmarksVisibleElements? result = await JsComponentReference!.InvokeAsync<BookmarksVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        BookmarksVisibleElements? result = await JsComponentReference.InvokeAsync<BookmarksVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     

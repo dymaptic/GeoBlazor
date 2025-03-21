@@ -154,6 +154,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Func<ListItem, Task<ListItem>>? OnBaseListItemCreatedHandler { get; set; }
     
     /// <summary>
@@ -161,6 +162,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public string? BasemapTitle { get; set; }
     
     /// <summary>
@@ -170,6 +172,7 @@ public partial class BasemapLayerListWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Obsolete("Deprecated since 4.29. Use SelectionMode, VisibleElements.EditTitleButton, and DragEnabled instead.")]
+    [CodeGenerationIgnore]
     public bool? EditingEnabled { get; set; }
     
     /// <summary>
@@ -178,6 +181,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public int? HeadingLevel { get; set; }
     
     /// <summary>
@@ -187,12 +191,14 @@ public partial class BasemapLayerListWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Obsolete("Deprecated since 4.29. Use SelectionMode instead.")]
+    [CodeGenerationIgnore]
     public bool? MultipleSelectionEnabled { get; set; }
 
 
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnBaseListItemCreatedHandler" /> was registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasCustomBaseListHandler => OnBaseListItemCreatedHandler is not null;
 
     /// <summary>
@@ -201,12 +207,14 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public Func<ListItem, Task<ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
 
     /// <summary>
     ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler" /> was
     ///     registered.
     /// </summary>
+    [CodeGenerationIgnore]
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;
 
     /// <summary>
@@ -222,6 +230,7 @@ public partial class BasemapLayerListWidget : Widget
     ///     For internal use only. This returns an object simply for JavaScript serialization purposes.
     /// </remarks>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<object> OnBaseListItemCreated(ListItem item)
     {
         item.Parent = this;
@@ -241,6 +250,7 @@ public partial class BasemapLayerListWidget : Widget
     ///     Returns the modified reference <see cref="ListItem" />
     /// </returns>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task<object> OnReferenceListItemCreated(ListItem item)
     {
         item.Parent = this;
@@ -248,5 +258,40 @@ public partial class BasemapLayerListWidget : Widget
         
         return (object)result;
     }
+    
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(BasemapLayerListTriggerActionEvent triggerActionEvent)
+    {
+        if (BaseItems is not null)
+        {
+            foreach (ListItem listItem in BaseItems)
+            {
+                if (listItem.ActionsSections is not null)
+                {
+                    foreach (ActionBase action in listItem.ActionsSections.SelectMany(s => s))
+                    {
+                        if (action.ActionId == triggerActionEvent.Action?.ActionId && action.CallbackFunction is not null)
+                        {
+                            await action.CallbackFunction.Invoke();
+                        }
+                    }
+                }
+            }
+        }
+        
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<BasemapLayerListTriggerActionEvent> OnTriggerAction { get; set; }
 
 }

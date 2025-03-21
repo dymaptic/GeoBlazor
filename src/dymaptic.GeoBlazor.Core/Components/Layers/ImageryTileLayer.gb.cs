@@ -746,17 +746,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return MultidimensionalDefinition;
         }
 
-        // get the property value
-        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalDefinition");
+        IReadOnlyList<DimensionalDefinition>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<DimensionalDefinition>?>(
+            "getMultidimensionalDefinition", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalDefinition = result;
+            MultidimensionalDefinition = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+            ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
         }
-         
+        
         return MultidimensionalDefinition;
     }
     
@@ -941,17 +941,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return PopupTemplate;
         }
 
-        // get the property value
-        PopupTemplate? result = await JsComponentReference!.InvokeAsync<PopupTemplate?>("getProperty",
-            CancellationTokenSource.Token, "popupTemplate");
+        PopupTemplate? result = await JsComponentReference.InvokeAsync<PopupTemplate?>(
+            "getPopupTemplate", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PopupTemplate = result;
+            PopupTemplate = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+            ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
         }
-         
+        
         return PopupTemplate;
     }
     
@@ -1063,17 +1063,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return RasterFunction;
         }
 
-        // get the property value
-        RasterFunction? result = await JsComponentReference!.InvokeAsync<RasterFunction?>("getProperty",
-            CancellationTokenSource.Token, "rasterFunction");
+        RasterFunction? result = await JsComponentReference.InvokeAsync<RasterFunction?>(
+            "getRasterFunction", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RasterFunction = result;
+            RasterFunction = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+            ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
         }
-         
+        
         return RasterFunction;
     }
     
@@ -1307,17 +1307,17 @@ public partial class ImageryTileLayer : IBlendLayer,
             return TimeOffset;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "timeOffset");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getTimeOffset", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             TimeOffset = result;
+            TimeOffset = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+            ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
         }
-         
+        
         return TimeOffset;
     }
     

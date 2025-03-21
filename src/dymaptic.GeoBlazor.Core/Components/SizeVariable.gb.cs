@@ -394,17 +394,17 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
             return Stops;
         }
 
-        // get the property value
-        IReadOnlyList<SizeStop>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SizeStop>?>("getProperty",
-            CancellationTokenSource.Token, "stops");
+        IReadOnlyList<SizeStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SizeStop>?>(
+            "getStops", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Stops = result;
+            Stops = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Stops)] = Stops;
+            ModifiedParameters[nameof(Stops)] = Stops;
         }
-         
+        
         return Stops;
     }
     

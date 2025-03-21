@@ -83,24 +83,24 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
 
 export async function buildJsPopupWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsPopupWidgetGenerated} = await import('./popupWidget.gb');
-    let widget = await buildJsPopupWidgetGenerated(dotNetObject, layerId, viewId);
+    let jsPopup = await buildJsPopupWidgetGenerated(dotNetObject, layerId, viewId);
 
     if (hasValue(dotNetObject.widgetContent)) {
         const widgetContent = await buildJsWidget(dotNetObject.widgetContent, dotNetObject.widgetContent.layerId, viewId);
         if (hasValue(widgetContent)) {
-            widget.content = widgetContent as Widget;
+            jsPopup.content = widgetContent as Widget;
         }
     }
     
     if (hasValue(dotNetObject.htmlContent)) {
-        widget.content = dotNetObject.htmlContent;
+        jsPopup.content = dotNetObject.htmlContent;
     }
     
     if (hasValue(dotNetObject.stringContent)) {
-        widget.content = dotNetObject.stringContent;
+        jsPopup.content = dotNetObject.stringContent;
     }
     
-    return widget;
+    return jsPopup;
 }
 
 export async function buildDotNetPopupWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

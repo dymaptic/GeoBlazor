@@ -87,17 +87,17 @@ public partial class CompassViewModel : MapComponent,
             return Orientation;
         }
 
-        // get the property value
-        Orientation? result = await JsComponentReference!.InvokeAsync<Orientation?>("getProperty",
-            CancellationTokenSource.Token, "orientation");
+        Orientation? result = await JsComponentReference.InvokeAsync<Orientation?>(
+            "getOrientation", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Orientation = result;
+            Orientation = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Orientation)] = Orientation;
+            ModifiedParameters[nameof(Orientation)] = Orientation;
         }
-         
+        
         return Orientation;
     }
     

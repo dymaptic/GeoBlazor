@@ -198,17 +198,17 @@ public partial class BasemapGalleryViewModel : MapComponent
             return Source;
         }
 
-        IBasemapGalleryWidgetSource? result = await JsComponentReference.InvokeAsync<IBasemapGalleryWidgetSource?>(
-            "getSource", CancellationTokenSource.Token);
-        
+        // get the property value
+        IBasemapGalleryWidgetSource? result = await JsComponentReference!.InvokeAsync<IBasemapGalleryWidgetSource?>("getProperty",
+            CancellationTokenSource.Token, "source");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Source = result;
+             Source = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Source)] = Source;
+             ModifiedParameters[nameof(Source)] = Source;
         }
-        
+         
         return Source;
     }
     

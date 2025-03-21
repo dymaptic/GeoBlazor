@@ -195,17 +195,17 @@ public partial class Capabilities : MapComponent
             return Analytics;
         }
 
-        // get the property value
-        CapabilitiesAnalytics? result = await JsComponentReference!.InvokeAsync<CapabilitiesAnalytics?>("getProperty",
-            CancellationTokenSource.Token, "analytics");
+        CapabilitiesAnalytics? result = await JsComponentReference.InvokeAsync<CapabilitiesAnalytics?>(
+            "getAnalytics", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Analytics = result;
+            Analytics = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Analytics)] = Analytics;
+            ModifiedParameters[nameof(Analytics)] = Analytics;
         }
-         
+        
         return Analytics;
     }
     
@@ -234,17 +234,17 @@ public partial class Capabilities : MapComponent
             return Attachment;
         }
 
-        // get the property value
-        CapabilitiesAttachment? result = await JsComponentReference!.InvokeAsync<CapabilitiesAttachment?>("getProperty",
-            CancellationTokenSource.Token, "attachment");
+        CapabilitiesAttachment? result = await JsComponentReference.InvokeAsync<CapabilitiesAttachment?>(
+            "getAttachment", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Attachment = result;
+            Attachment = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Attachment)] = Attachment;
+            ModifiedParameters[nameof(Attachment)] = Attachment;
         }
-         
+        
         return Attachment;
     }
     
@@ -273,17 +273,17 @@ public partial class Capabilities : MapComponent
             return Data;
         }
 
-        // get the property value
-        CapabilitiesData? result = await JsComponentReference!.InvokeAsync<CapabilitiesData?>("getProperty",
-            CancellationTokenSource.Token, "data");
+        CapabilitiesData? result = await JsComponentReference.InvokeAsync<CapabilitiesData?>(
+            "getData", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Data = result;
+            Data = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Data)] = Data;
+            ModifiedParameters[nameof(Data)] = Data;
         }
-         
+        
         return Data;
     }
     
@@ -312,17 +312,17 @@ public partial class Capabilities : MapComponent
             return Editing;
         }
 
-        // get the property value
-        CapabilitiesEditing? result = await JsComponentReference!.InvokeAsync<CapabilitiesEditing?>("getProperty",
-            CancellationTokenSource.Token, "editing");
+        CapabilitiesEditing? result = await JsComponentReference.InvokeAsync<CapabilitiesEditing?>(
+            "getEditing", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Editing = result;
+            Editing = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Editing)] = Editing;
+            ModifiedParameters[nameof(Editing)] = Editing;
         }
-         
+        
         return Editing;
     }
     
@@ -351,17 +351,17 @@ public partial class Capabilities : MapComponent
             return Metadata;
         }
 
-        // get the property value
-        CapabilitiesMetadata? result = await JsComponentReference!.InvokeAsync<CapabilitiesMetadata?>("getProperty",
-            CancellationTokenSource.Token, "metadata");
+        CapabilitiesMetadata? result = await JsComponentReference.InvokeAsync<CapabilitiesMetadata?>(
+            "getMetadata", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Metadata = result;
+            Metadata = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Metadata)] = Metadata;
+            ModifiedParameters[nameof(Metadata)] = Metadata;
         }
-         
+        
         return Metadata;
     }
     
@@ -390,17 +390,17 @@ public partial class Capabilities : MapComponent
             return Operations;
         }
 
-        // get the property value
-        CapabilitiesOperations? result = await JsComponentReference!.InvokeAsync<CapabilitiesOperations?>("getProperty",
-            CancellationTokenSource.Token, "operations");
+        CapabilitiesOperations? result = await JsComponentReference.InvokeAsync<CapabilitiesOperations?>(
+            "getOperations", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Operations = result;
+            Operations = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Operations)] = Operations;
+            ModifiedParameters[nameof(Operations)] = Operations;
         }
-         
+        
         return Operations;
     }
     
@@ -468,17 +468,17 @@ public partial class Capabilities : MapComponent
             return QueryRelated;
         }
 
-        // get the property value
-        CapabilitiesQueryRelated? result = await JsComponentReference!.InvokeAsync<CapabilitiesQueryRelated?>("getProperty",
-            CancellationTokenSource.Token, "queryRelated");
+        CapabilitiesQueryRelated? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryRelated?>(
+            "getQueryRelated", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             QueryRelated = result;
+            QueryRelated = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
+            ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
         }
-         
+        
         return QueryRelated;
     }
     
@@ -507,17 +507,17 @@ public partial class Capabilities : MapComponent
             return QueryTopFeatures;
         }
 
-        // get the property value
-        CapabilitiesQueryTopFeatures? result = await JsComponentReference!.InvokeAsync<CapabilitiesQueryTopFeatures?>("getProperty",
-            CancellationTokenSource.Token, "queryTopFeatures");
+        CapabilitiesQueryTopFeatures? result = await JsComponentReference.InvokeAsync<CapabilitiesQueryTopFeatures?>(
+            "getQueryTopFeatures", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             QueryTopFeatures = result;
+            QueryTopFeatures = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
+            ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
         }
-         
+        
         return QueryTopFeatures;
     }
     

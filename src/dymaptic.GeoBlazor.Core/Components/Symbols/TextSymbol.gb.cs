@@ -338,17 +338,17 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
             return Font;
         }
 
-        // get the property value
-        MapFont? result = await JsComponentReference!.InvokeAsync<MapFont?>("getProperty",
-            CancellationTokenSource.Token, "font");
+        MapFont? result = await JsComponentReference.InvokeAsync<MapFont?>(
+            "getFont", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Font = result;
+            Font = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Font)] = Font;
+            ModifiedParameters[nameof(Font)] = Font;
         }
-         
+        
         return Font;
     }
     

@@ -105,17 +105,17 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return Mensuration;
         }
 
-        // get the property value
-        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>("getProperty",
-            CancellationTokenSource.Token, "mensuration");
+        ArcGISImageServiceCapabilitiesMensuration? result = await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesMensuration?>(
+            "getMensuration", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Mensuration = result;
+            Mensuration = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Mensuration)] = Mensuration;
+            ModifiedParameters[nameof(Mensuration)] = Mensuration;
         }
-         
+        
         return Mensuration;
     }
     
@@ -144,17 +144,17 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
             return Operations;
         }
 
-        // get the property value
-        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference!.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>("getProperty",
-            CancellationTokenSource.Token, "operations");
+        ArcGISImageServiceCapabilitiesOperations? result = await JsComponentReference.InvokeAsync<ArcGISImageServiceCapabilitiesOperations?>(
+            "getOperations", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Operations = result;
+            Operations = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Operations)] = Operations;
+            ModifiedParameters[nameof(Operations)] = Operations;
         }
-         
+        
         return Operations;
     }
     

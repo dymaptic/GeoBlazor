@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPopupTriggerActionEvent } from './popupTriggerActionEvent';
 
-export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any): Promise<any> {
     let jsPopupTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');
-        jsPopupTriggerActionEvent.action = await buildJsActionBase(dotNetObject.action, layerId, viewId) as any;
+        jsPopupTriggerActionEvent.action = buildJsActionBase(dotNetObject.action) as any;
     }
 
     
@@ -18,7 +18,7 @@ export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupTriggerActionEventGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

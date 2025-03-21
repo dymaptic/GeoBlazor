@@ -379,8 +379,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     const popupWidget = widgets.find(w => w.type === 'popup');
     if (hasValue(popupWidget)) {
         await addWidget(popupWidget, id);
-    } else {
-        await setPopupHandler(null, id);
     }
 
     for (let i = basemapBaseLayers.length - 1; i >= 0; i--) {
@@ -612,7 +610,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
-                        return '[Circular]';
+                        return null;
                     }
                     seenObjects.set(value, true);
                 }
@@ -628,7 +626,7 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
                     && !(Array.isArray(value) && value.length === 0)) {
                     if (seenObjects.has(value)) {
                         console.warn(`Circular reference in layerView type ${result.layerView.type} detected at path: ${key}, value: ${value}`);
-                        return '[Circular]';
+                        return null;
                     }
                     seenObjects.set(value, true);
                 }
@@ -1000,48 +998,6 @@ export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateOb
         }).catch((error) => {
         throw error;
     });
-}
-
-async function setPopupHandler(dotNetPopup: any | null, viewId: string) {
-    const view = arcGisObjectRefs[viewId] as View;
-
-    if (hasValue(triggerActionHandlers[viewId])) {
-        triggerActionHandlers[viewId].remove();
-    }
-
-    if (!hasValue(view.popup.on)) {
-        reactiveUtils.once(() => view.popup.on !== undefined)
-            .then(() => {
-                triggerActionHandlers[viewId] = view.popup.on("trigger-action",
-                    event => triggerActionCallback(event, viewId, dotNetPopup));
-            })
-    } else {
-        triggerActionHandlers[viewId] = view.popup.on("trigger-action",
-            event => triggerActionCallback(event, viewId, dotNetPopup));
-    }
-}
-
-async function triggerActionCallback(event, viewId, dotNetPopup) {
-    if (!arcGisObjectRefs.hasOwnProperty(viewId)) {
-        return;
-    }
-    if (hasValue(dotNetPopup)) {
-        await dotNetPopup.dotNetComponentReference.invokeMethodAsync("OnJsTriggerAction", event.action.id);
-    }
-    const viewRef = dotNetRefs[viewId];
-    for (const k of Object.keys(popupTemplateRefs)) {
-        let popupRef = dotNetRefs[k];
-        if (!hasValue(popupRef)) {
-            popupRef = await viewRef.invokeMethodAsync('GetDotNetPopupTemplateObjectReference', k);
-            if (hasValue(popupRef)) {
-                dotNetRefs[k] = popupRef;
-            }
-        }
-
-        if (hasValue(popupRef)) {
-            await popupRef.invokeMethodAsync("OnJsTriggerAction", event.action.id);
-        }
-    }
 }
 
 export const triggerActionHandlers: Record<string, IHandle> = {};
@@ -1537,7 +1493,6 @@ export async function addWidget(widget: any, viewId: string, setInContainerByDef
     }
     if (newWidget instanceof Popup) {
         view.popup = newWidget;
-        await setPopupHandler(widget, viewId);
         return;
     }
 

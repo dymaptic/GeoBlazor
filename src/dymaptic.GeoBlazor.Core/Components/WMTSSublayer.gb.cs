@@ -425,17 +425,17 @@ public partial class WMTSSublayer : MapComponent
             return Styles;
         }
 
-        // get the property value
-        IReadOnlyList<WMTSStyle>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<WMTSStyle>?>("getProperty",
-            CancellationTokenSource.Token, "styles");
+        IReadOnlyList<WMTSStyle>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<WMTSStyle>?>(
+            "getStyles", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Styles = result;
+            Styles = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Styles)] = Styles;
+            ModifiedParameters[nameof(Styles)] = Styles;
         }
-         
+        
         return Styles;
     }
     

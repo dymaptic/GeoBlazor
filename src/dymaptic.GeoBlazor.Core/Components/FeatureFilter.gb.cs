@@ -163,17 +163,17 @@ public partial class FeatureFilter
             return Geometry;
         }
 
-        // get the property value
-        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>("getProperty",
-            CancellationTokenSource.Token, "geometry");
+        Geometry? result = await JsComponentReference.InvokeAsync<Geometry?>(
+            "getGeometry", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Geometry = result;
+            Geometry = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Geometry)] = Geometry;
+            ModifiedParameters[nameof(Geometry)] = Geometry;
         }
-         
+        
         return Geometry;
     }
     

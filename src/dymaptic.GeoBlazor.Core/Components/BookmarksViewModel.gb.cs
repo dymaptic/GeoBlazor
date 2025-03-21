@@ -223,17 +223,17 @@ public partial class BookmarksViewModel : IGoTo
             return Capabilities;
         }
 
-        // get the property value
-        BookmarksCapabilities? result = await JsComponentReference!.InvokeAsync<BookmarksCapabilities?>("getProperty",
-            CancellationTokenSource.Token, "capabilities");
+        BookmarksCapabilities? result = await JsComponentReference.InvokeAsync<BookmarksCapabilities?>(
+            "getCapabilities", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Capabilities = result;
+            Capabilities = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Capabilities)] = Capabilities;
+            ModifiedParameters[nameof(Capabilities)] = Capabilities;
         }
-         
+        
         return Capabilities;
     }
     

@@ -129,17 +129,17 @@ public partial class WFSCapabilities : MapComponent
             return Operations;
         }
 
-        // get the property value
-        WFSOperations? result = await JsComponentReference!.InvokeAsync<WFSOperations?>("getProperty",
-            CancellationTokenSource.Token, "operations");
+        WFSOperations? result = await JsComponentReference.InvokeAsync<WFSOperations?>(
+            "getOperations", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Operations = result;
+            Operations = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Operations)] = Operations;
+            ModifiedParameters[nameof(Operations)] = Operations;
         }
-         
+        
         return Operations;
     }
     

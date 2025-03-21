@@ -144,17 +144,17 @@ public partial class OpacityVariable
             return Stops;
         }
 
-        // get the property value
-        IReadOnlyList<OpacityStop>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<OpacityStop>?>("getProperty",
-            CancellationTokenSource.Token, "stops");
+        IReadOnlyList<OpacityStop>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OpacityStop>?>(
+            "getStops", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Stops = result;
+            Stops = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Stops)] = Stops;
+            ModifiedParameters[nameof(Stops)] = Stops;
         }
-         
+        
         return Stops;
     }
     

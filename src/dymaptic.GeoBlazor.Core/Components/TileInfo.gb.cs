@@ -259,17 +259,17 @@ public partial class TileInfo
             return Lods;
         }
 
-        // get the property value
-        IReadOnlyList<LOD>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<LOD>?>("getProperty",
-            CancellationTokenSource.Token, "lods");
+        IReadOnlyList<LOD>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<LOD>?>(
+            "getLods", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Lods = result;
+            Lods = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Lods)] = Lods;
+            ModifiedParameters[nameof(Lods)] = Lods;
         }
-         
+        
         return Lods;
     }
     
@@ -381,17 +381,17 @@ public partial class TileInfo
             return SpatialReference;
         }
 
-        // get the property value
-        SpatialReference? result = await JsComponentReference!.InvokeAsync<SpatialReference?>("getProperty",
-            CancellationTokenSource.Token, "spatialReference");
+        SpatialReference? result = await JsComponentReference.InvokeAsync<SpatialReference?>(
+            "getSpatialReference", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             SpatialReference = result;
+            SpatialReference = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+            ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
         }
-         
+        
         return SpatialReference;
     }
     

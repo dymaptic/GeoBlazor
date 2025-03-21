@@ -254,17 +254,17 @@ public partial class TimeInfo
             return Interval;
         }
 
-        // get the property value
-        TimeInterval? result = await JsComponentReference!.InvokeAsync<TimeInterval?>("getProperty",
-            CancellationTokenSource.Token, "interval");
+        TimeInterval? result = await JsComponentReference.InvokeAsync<TimeInterval?>(
+            "getInterval", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Interval = result;
+            Interval = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Interval)] = Interval;
+            ModifiedParameters[nameof(Interval)] = Interval;
         }
-         
+        
         return Interval;
     }
     

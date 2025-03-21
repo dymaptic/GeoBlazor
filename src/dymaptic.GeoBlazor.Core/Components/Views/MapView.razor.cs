@@ -982,8 +982,7 @@ public partial class MapView : MapComponent
     public bool? PopupEnabled { get; set; }
 
     /// <summary>
-    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/>
-    ///     and returns it to JavaScript.
+    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for a <see cref="PopupTemplate"/> and returns it to JavaScript.
     /// </summary>
     [JSInvokable]
     public DotNetObjectReference<MapComponent>? GetDotNetPopupTemplateObjectReference(Guid popupTemplateId)
@@ -1038,6 +1037,107 @@ public partial class MapView : MapComponent
                     if (templateLayer.PopupTemplate?.Id == popupTemplateId)
                     {
                         return templateLayer.PopupTemplate.DotNetComponentReference;
+                    }
+
+                    break;
+            }
+        }
+
+        return null;
+    }
+    
+    /// <summary>
+    ///     For internal use only, this looks up a missing <see cref="DotNetObjectReference"/> for an <see cref="ActionBase"/> and returns it to JavaScript.
+    /// </summary>
+    [JSInvokable]
+    public DotNetObjectReference<MapComponent>? GetDotNetActionObjectReference(Guid actionId)
+    {
+        if (_isDisposed) return null;
+        foreach (Graphic graphic in Graphics)
+        {
+            if (graphic.PopupTemplate?.Actions is null)
+            {
+                continue;
+            }
+            
+            foreach (ActionBase action in graphic.PopupTemplate.Actions)
+            {
+                if (action.Id == actionId)
+                {
+                    return action.DotNetComponentReference;
+                }
+            }
+        }
+
+        if (Map is null)
+        {
+            return null;
+        }
+
+        foreach (Layer layer in Map!.Layers)
+        {
+            switch (layer)
+            {
+                case FeatureLayer featureLayer:
+                    if (featureLayer.PopupTemplate?.Actions is { } actions)
+                    {
+                        foreach (ActionBase action in actions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
+                    }
+
+                    if (featureLayer.Source is not null)
+                    {
+                        foreach (Graphic graphic in featureLayer.Source)
+                        {
+                            if (graphic.PopupTemplate?.Actions is not { } graphicActions)
+                            {
+                                continue;
+                            }
+
+                            foreach (ActionBase action in graphicActions)
+                            {
+                                if (action.Id == actionId)
+                                {
+                                    return action.DotNetComponentReference;
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case GraphicsLayer graphicsLayer:
+                    foreach (Graphic graphic in graphicsLayer.Graphics)
+                    {
+                        if (graphic.PopupTemplate?.Actions is not { } graphicActions)
+                        {
+                            continue;
+                        }
+
+                        foreach (ActionBase action in graphicActions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
+                    }
+
+                    break;
+                case IPopupTemplateLayer templateLayer:
+                    if (templateLayer.PopupTemplate?.Actions is { } templateLayerActions)
+                    {
+                        foreach (ActionBase action in templateLayerActions)
+                        {
+                            if (action.Id == actionId)
+                            {
+                                return action.DotNetComponentReference;
+                            }
+                        }
                     }
 
                     break;
@@ -2221,9 +2321,11 @@ public partial class MapView : MapComponent
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
                 mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
-            
 
             Rendering = false;
+            
+            // must be after `Rendering = false`
+            await GetPopupWidget();
             MapRendered = true;
         });
     }

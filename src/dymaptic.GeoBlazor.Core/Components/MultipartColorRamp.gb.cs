@@ -75,17 +75,17 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
             return ColorRamps;
         }
 
-        // get the property value
-        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>("getProperty",
-            CancellationTokenSource.Token, "colorRamps");
+        IReadOnlyList<AlgorithmicColorRamp>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AlgorithmicColorRamp>?>(
+            "getColorRamps", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ColorRamps = result;
+            ColorRamps = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
+            ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
         }
-         
+        
         return ColorRamps;
     }
     

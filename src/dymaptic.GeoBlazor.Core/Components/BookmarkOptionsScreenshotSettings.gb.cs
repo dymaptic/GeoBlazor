@@ -120,17 +120,17 @@ public partial class BookmarkOptionsScreenshotSettings
             return Area;
         }
 
-        // get the property value
-        BookmarkOptionsScreenshotSettingsArea? result = await JsComponentReference!.InvokeAsync<BookmarkOptionsScreenshotSettingsArea?>("getProperty",
-            CancellationTokenSource.Token, "area");
+        BookmarkOptionsScreenshotSettingsArea? result = await JsComponentReference.InvokeAsync<BookmarkOptionsScreenshotSettingsArea?>(
+            "getArea", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Area = result;
+            Area = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Area)] = Area;
+            ModifiedParameters[nameof(Area)] = Area;
         }
-         
+        
         return Area;
     }
     

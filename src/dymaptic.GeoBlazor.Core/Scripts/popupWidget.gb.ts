@@ -23,7 +23,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
             let { buildJsActionBase } = await import('./actionBase');
-            this.widget.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+            this.widget.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.dockOptions)) {
             let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -178,7 +178,7 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     
     async setActions(value: any): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');
-        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i, this.layerId, this.viewId))) as any;
+        this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
     
     async getDockOptions(): Promise<any> {
@@ -282,7 +282,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
         let { buildJsActionBase } = await import('./actionBase');
-        properties.actions = await Promise.all(dotNetObject.actions.map(async i => await buildJsActionBase(i, layerId, viewId))) as any;
+        properties.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
     }
     if (hasValue(dotNetObject.dockOptions)) {
         let { buildJsPopupDockOptions } = await import('./popupDockOptions');
@@ -357,7 +357,7 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     let jsPopup = new Popup(properties);
     jsPopup.on('trigger-action', async (evt: any) => {
         let { buildDotNetPopupTriggerActionEvent } = await import('./popupTriggerActionEvent');
-        let dnEvent = await buildDotNetPopupTriggerActionEvent(evt, layerId, viewId);
+        let dnEvent = await buildDotNetPopupTriggerActionEvent(evt);
         await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', dnEvent);
     });
     

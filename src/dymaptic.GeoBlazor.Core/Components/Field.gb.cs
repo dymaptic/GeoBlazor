@@ -255,17 +255,17 @@ public partial class Field
             return Domain;
         }
 
-        // get the property value
-        Domain? result = await JsComponentReference!.InvokeAsync<Domain?>("getProperty",
-            CancellationTokenSource.Token, "domain");
+        Domain? result = await JsComponentReference.InvokeAsync<Domain?>(
+            "getDomain", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Domain = result;
+            Domain = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Domain)] = Domain;
+            ModifiedParameters[nameof(Domain)] = Domain;
         }
-         
+        
         return Domain;
     }
     

@@ -375,17 +375,17 @@ public partial class PixelBlock : MapComponent
             return Statistics;
         }
 
-        // get the property value
-        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>("getProperty",
-            CancellationTokenSource.Token, "statistics");
+        IReadOnlyList<PixelBlockStatistics>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<PixelBlockStatistics>?>(
+            "getStatistics", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Statistics = result;
+            Statistics = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Statistics)] = Statistics;
+            ModifiedParameters[nameof(Statistics)] = Statistics;
         }
-         
+        
         return Statistics;
     }
     

@@ -62,17 +62,17 @@ public partial class ExpressionPopupContent
             return ExpressionInfo;
         }
 
-        // get the property value
-        ElementExpressionInfo? result = await JsComponentReference!.InvokeAsync<ElementExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "expressionInfo");
+        ElementExpressionInfo? result = await JsComponentReference.InvokeAsync<ElementExpressionInfo?>(
+            "getExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             ExpressionInfo = result;
+            ExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(ExpressionInfo)] = ExpressionInfo;
+            ModifiedParameters[nameof(ExpressionInfo)] = ExpressionInfo;
         }
-         
+        
         return ExpressionInfo;
     }
     

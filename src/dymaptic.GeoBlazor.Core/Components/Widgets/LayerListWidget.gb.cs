@@ -254,17 +254,17 @@ public partial class LayerListWidget
             return CatalogOptions;
         }
 
-        // get the property value
-        LayerListCatalogOptions? result = await JsComponentReference!.InvokeAsync<LayerListCatalogOptions?>("getProperty",
-            CancellationTokenSource.Token, "catalogOptions");
+        LayerListCatalogOptions? result = await JsComponentReference.InvokeAsync<LayerListCatalogOptions?>(
+            "getCatalogOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             CatalogOptions = result;
+            CatalogOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
+            ModifiedParameters[nameof(CatalogOptions)] = CatalogOptions;
         }
-         
+        
         return CatalogOptions;
     }
     
@@ -488,17 +488,17 @@ public partial class LayerListWidget
             return KnowledgeGraphOptions;
         }
 
-        // get the property value
-        LayerListKnowledgeGraphOptions? result = await JsComponentReference!.InvokeAsync<LayerListKnowledgeGraphOptions?>("getProperty",
-            CancellationTokenSource.Token, "knowledgeGraphOptions");
+        LayerListKnowledgeGraphOptions? result = await JsComponentReference.InvokeAsync<LayerListKnowledgeGraphOptions?>(
+            "getKnowledgeGraphOptions", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             KnowledgeGraphOptions = result;
+            KnowledgeGraphOptions = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(KnowledgeGraphOptions)] = KnowledgeGraphOptions;
+            ModifiedParameters[nameof(KnowledgeGraphOptions)] = KnowledgeGraphOptions;
         }
-         
+        
         return KnowledgeGraphOptions;
     }
     
@@ -844,17 +844,17 @@ public partial class LayerListWidget
             return VisibleElements;
         }
 
-        // get the property value
-        LayerListVisibleElements? result = await JsComponentReference!.InvokeAsync<LayerListVisibleElements?>("getProperty",
-            CancellationTokenSource.Token, "visibleElements");
+        LayerListVisibleElements? result = await JsComponentReference.InvokeAsync<LayerListVisibleElements?>(
+            "getVisibleElements", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             VisibleElements = result;
+            VisibleElements = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+            ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
         }
-         
+        
         return VisibleElements;
     }
     
@@ -1447,22 +1447,6 @@ public partial class LayerListWidget
 
 #region Event Handlers
 
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsTriggerAction(LayerListTriggerActionEvent triggerActionEvent)
-    {
-        await OnTriggerAction.InvokeAsync(triggerActionEvent);
-    }
-    
-    /// <summary>
-    ///     Event Listener for TriggerAction.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<LayerListTriggerActionEvent> OnTriggerAction { get; set; }
-   
 #endregion
 
 

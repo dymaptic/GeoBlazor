@@ -105,17 +105,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Point;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "point");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPoint", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Point = result;
+            Point = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Point)] = Point;
+            ModifiedParameters[nameof(Point)] = Point;
         }
-         
+        
         return Point;
     }
     
@@ -144,17 +144,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polygon;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "polygon");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolygon", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Polygon = result;
+            Polygon = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Polygon)] = Polygon;
+            ModifiedParameters[nameof(Polygon)] = Polygon;
         }
-         
+        
         return Polygon;
     }
     
@@ -183,17 +183,17 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
             return Polyline;
         }
 
-        // get the property value
-        Symbol? result = await JsComponentReference!.InvokeAsync<Symbol?>("getProperty",
-            CancellationTokenSource.Token, "polyline");
+        Symbol? result = await JsComponentReference.InvokeAsync<Symbol?>(
+            "getPolyline", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Polyline = result;
+            Polyline = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Polyline)] = Polyline;
+            ModifiedParameters[nameof(Polyline)] = Polyline;
         }
-         
+        
         return Polyline;
     }
     

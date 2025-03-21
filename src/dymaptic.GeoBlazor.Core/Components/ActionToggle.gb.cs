@@ -25,7 +25,7 @@ public partial class ActionToggle
     ///     The title of the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionBase.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="id">
+    /// <param name="actionId">
     ///     The name of the ID assigned to this action.
     /// </param>
     /// <param name="callbackFunction">
@@ -60,7 +60,7 @@ public partial class ActionToggle
     /// </param>
     public ActionToggle(
         string? title = null,
-        string? id = null,
+        string? actionId = null,
         Func<Task>? callbackFunction = null,
         bool? value = null,
         bool? active = null,
@@ -72,9 +72,9 @@ public partial class ActionToggle
         AllowRender = false;
 #pragma warning disable BL0005
         Title = title;
-        if (id is not null)
+        if (actionId is not null)
         {
-            Id = id;
+            ActionId = actionId;
         }
         if (callbackFunction is not null)
         {
