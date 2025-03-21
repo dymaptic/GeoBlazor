@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-public class CultureConverter: JsonConverter<CultureInfo>
+internal class CultureConverter: JsonConverter<CultureInfo>
 {
     public override CultureInfo? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

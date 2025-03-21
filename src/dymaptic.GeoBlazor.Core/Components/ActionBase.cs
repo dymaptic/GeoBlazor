@@ -41,6 +41,9 @@ public abstract partial class ActionBase : MapComponent
     [JsonIgnore]
     public Func<Task>? CallbackFunction { get; set; }
     
+    /// <summary>
+    ///     Identifies whether the action has a callback function.
+    /// </summary>
     public bool HasCallbackFunction => CallbackFunction != null;
     
     /// <summary>
