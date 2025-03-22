@@ -201,6 +201,19 @@ public partial class ImageMediaInfo
     /// </param>
     public async Task SetValue(ImageMediaInfoValue? value)
     {
+        if (Value is not null)
+        {
+            await Value.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Value = value;
 #pragma warning restore BL0005

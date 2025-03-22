@@ -113,6 +113,52 @@ public partial class ListItem: MapComponent
             value);
     }
     
+    /// <summary>
+    ///    Asynchronously set the value of the ActionsSections property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [CodeGenerationIgnore]
+    public async Task SetActionsSections(ActionBase[][]? value)
+    {
+        if (ActionsSections is not null)
+        {
+            foreach (ActionBase item in ActionsSections.SelectMany(s => s))
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+#pragma warning disable BL0005
+        ActionsSections = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActionsSections)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setActionsSections", 
+            CancellationTokenSource.Token, value);
+    }
+    
 #endregion
     
 #region Add to Collection Methods

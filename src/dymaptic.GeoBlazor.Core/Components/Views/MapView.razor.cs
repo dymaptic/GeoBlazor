@@ -2094,7 +2094,7 @@ public partial class MapView : MapComponent
                 CancellationTokenSource.Token, widget, Id);
         });
 
-        if (widget is PopupWidget)
+        if (widget is PopupWidget && Map is not null)
         {
             // we have to update the layers to make sure the popupTemplates aren't unset by this action
             foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))

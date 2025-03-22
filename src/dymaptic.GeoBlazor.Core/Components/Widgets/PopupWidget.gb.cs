@@ -1279,6 +1279,19 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetDockOptions(PopupDockOptions? value)
     {
+        if (DockOptions is not null)
+        {
+            await DockOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         DockOptions = value;
 #pragma warning restore BL0005
@@ -1316,6 +1329,25 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetFeatures(IReadOnlyList<Graphic>? value)
     {
+        if (Features is not null)
+        {
+            foreach (Graphic item in Features)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Graphic item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Features = value;
 #pragma warning restore BL0005
@@ -1464,6 +1496,19 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetLocation(Point? value)
     {
+        if (Location is not null)
+        {
+            await Location.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005
@@ -1649,6 +1694,19 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetViewModel(PopupViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1686,6 +1744,19 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetVisibleElements(PopupVisibleElements? value)
     {
+        if (VisibleElements is not null)
+        {
+            await VisibleElements.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005
@@ -1723,6 +1794,19 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetWidgetContent(Widget? value)
     {
+        if (WidgetContent is not null)
+        {
+            await WidgetContent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         WidgetContent = value;
 #pragma warning restore BL0005

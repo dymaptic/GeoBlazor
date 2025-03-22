@@ -941,6 +941,19 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
     /// </param>
     public async Task SetFont(MapFont? value)
     {
+        if (Font is not null)
+        {
+            await Font.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Font = value;
 #pragma warning restore BL0005

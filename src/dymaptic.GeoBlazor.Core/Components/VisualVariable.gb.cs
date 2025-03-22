@@ -240,6 +240,19 @@ public abstract partial class VisualVariable
     /// </param>
     public async Task SetLegendOptions(VisualVariableLegendOptions? value)
     {
+        if (LegendOptions is not null)
+        {
+            await LegendOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LegendOptions = value;
 #pragma warning restore BL0005

@@ -1767,6 +1767,25 @@ public partial class SliderWidget
     /// </param>
     public async Task SetTickConfigs(IReadOnlyList<TickConfig>? value)
     {
+        if (TickConfigs is not null)
+        {
+            foreach (TickConfig item in TickConfigs)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (TickConfig item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         TickConfigs = value;
 #pragma warning restore BL0005
@@ -1841,6 +1860,19 @@ public partial class SliderWidget
     /// </param>
     public async Task SetViewModel(SliderViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1878,6 +1910,19 @@ public partial class SliderWidget
     /// </param>
     public async Task SetVisibleElements(SliderVisibleElements? value)
     {
+        if (VisibleElements is not null)
+        {
+            await VisibleElements.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005

@@ -332,6 +332,19 @@ public partial class PopupDockOptions
     /// </param>
     public async Task SetPopupDockOptionsBreakpoint(PopupDockOptionsBreakpoint? value)
     {
+        if (PopupDockOptionsBreakpoint is not null)
+        {
+            await PopupDockOptionsBreakpoint.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupDockOptionsBreakpoint = value;
 #pragma warning restore BL0005

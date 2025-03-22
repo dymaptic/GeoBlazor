@@ -473,6 +473,19 @@ public partial class TimeInfo
     /// </param>
     public async Task SetFullTimeExtent(TimeExtent? value)
     {
+        if (FullTimeExtent is not null)
+        {
+            await FullTimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FullTimeExtent = value;
 #pragma warning restore BL0005
@@ -510,6 +523,19 @@ public partial class TimeInfo
     /// </param>
     public async Task SetInterval(TimeInterval? value)
     {
+        if (Interval is not null)
+        {
+            await Interval.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Interval = value;
 #pragma warning restore BL0005

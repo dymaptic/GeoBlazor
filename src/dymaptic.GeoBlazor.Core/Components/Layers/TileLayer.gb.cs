@@ -1514,6 +1514,19 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -1625,6 +1638,25 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetSubtables(IReadOnlyList<Sublayer>? value)
     {
+        if (Subtables is not null)
+        {
+            foreach (Sublayer item in Subtables)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Sublayer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Subtables = value;
 #pragma warning restore BL0005
@@ -1662,6 +1694,19 @@ public partial class TileLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
+        if (TileInfo is not null)
+        {
+            await TileInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005

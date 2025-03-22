@@ -200,6 +200,19 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetDescribeFeatureType(WFSOperationsDescribeFeatureType? value)
     {
+        if (DescribeFeatureType is not null)
+        {
+            await DescribeFeatureType.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         DescribeFeatureType = value;
 #pragma warning restore BL0005
@@ -237,6 +250,19 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetGetCapabilities(WFSOperationsGetCapabilities? value)
     {
+        if (GetCapabilities is not null)
+        {
+            await GetCapabilities.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         GetCapabilities = value;
 #pragma warning restore BL0005
@@ -274,6 +300,19 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetGetFeature(WFSOperationsGetFeature? value)
     {
+        if (GetFeature is not null)
+        {
+            await GetFeature.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         GetFeature = value;
 #pragma warning restore BL0005

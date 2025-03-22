@@ -609,6 +609,19 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// </param>
     public async Task SetGraphic(Graphic? value)
     {
+        if (Graphic is not null)
+        {
+            await Graphic.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Graphic = value;
 #pragma warning restore BL0005

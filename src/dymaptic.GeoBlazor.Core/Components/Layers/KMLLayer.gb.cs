@@ -649,6 +649,19 @@ public partial class KMLLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -686,6 +699,25 @@ public partial class KMLLayer : IBlendLayer,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<KMLSublayer>? value)
     {
+        if (Sublayers is not null)
+        {
+            foreach (KMLSublayer item in Sublayers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (KMLSublayer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Sublayers = value;
 #pragma warning restore BL0005

@@ -455,6 +455,25 @@ public partial class Basemap
     /// </param>
     public async Task SetBaseLayers(IReadOnlyList<Layer>? value)
     {
+        if (BaseLayers is not null)
+        {
+            foreach (Layer item in BaseLayers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Layer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         BaseLayers = value;
 #pragma warning restore BL0005
@@ -529,6 +548,19 @@ public partial class Basemap
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -566,6 +598,25 @@ public partial class Basemap
     /// </param>
     public async Task SetReferenceLayers(IReadOnlyList<Layer>? value)
     {
+        if (ReferenceLayers is not null)
+        {
+            foreach (Layer item in ReferenceLayers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Layer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         ReferenceLayers = value;
 #pragma warning restore BL0005
@@ -603,6 +654,19 @@ public partial class Basemap
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (SpatialReference is not null)
+        {
+            await SpatialReference.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -640,6 +704,19 @@ public partial class Basemap
     /// </param>
     public async Task SetStyle(BasemapStyle? value)
     {
+        if (Style is not null)
+        {
+            await Style.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Style = value;
 #pragma warning restore BL0005

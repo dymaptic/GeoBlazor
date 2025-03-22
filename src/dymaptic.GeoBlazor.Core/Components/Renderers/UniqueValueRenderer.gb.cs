@@ -794,6 +794,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetBackgroundFillSymbol(FillSymbol? value)
     {
+        if (BackgroundFillSymbol is not null)
+        {
+            await BackgroundFillSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         BackgroundFillSymbol = value;
 #pragma warning restore BL0005
@@ -868,6 +881,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetDefaultSymbol(Symbol? value)
     {
+        if (DefaultSymbol is not null)
+        {
+            await DefaultSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         DefaultSymbol = value;
 #pragma warning restore BL0005
@@ -1053,6 +1079,19 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetLegendOptions(UniqueValueRendererLegendOptions? value)
     {
+        if (LegendOptions is not null)
+        {
+            await LegendOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LegendOptions = value;
 #pragma warning restore BL0005
@@ -1127,6 +1166,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueGroups(IReadOnlyList<UniqueValueGroup>? value)
     {
+        if (UniqueValueGroups is not null)
+        {
+            foreach (UniqueValueGroup item in UniqueValueGroups)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (UniqueValueGroup item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         UniqueValueGroups = value;
 #pragma warning restore BL0005
@@ -1164,6 +1222,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueInfos(IReadOnlyList<UniqueValueInfo>? value)
     {
+        if (UniqueValueInfos is not null)
+        {
+            foreach (UniqueValueInfo item in UniqueValueInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (UniqueValueInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         UniqueValueInfos = value;
 #pragma warning restore BL0005
@@ -1275,6 +1352,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
+        if (VisualVariables is not null)
+        {
+            foreach (VisualVariable item in VisualVariables)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (VisualVariable item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         VisualVariables = value;
 #pragma warning restore BL0005

@@ -1480,6 +1480,19 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -1517,6 +1530,19 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPortal(Portal? value)
     {
+        if (Portal is not null)
+        {
+            await Portal.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
@@ -1628,6 +1654,25 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetSources(IReadOnlyList<SearchSource>? value)
     {
+        if (Sources is not null)
+        {
+            foreach (SearchSource item in Sources)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (SearchSource item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Sources = value;
 #pragma warning restore BL0005
@@ -1702,6 +1747,19 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetViewModel(SearchViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005

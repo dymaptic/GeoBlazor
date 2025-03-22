@@ -205,6 +205,19 @@ public partial class LegendLayerInfos : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (Layer is not null)
+        {
+            await Layer.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005

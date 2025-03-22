@@ -260,6 +260,19 @@ public partial class BasemapToggleWidget
     /// </param>
     public async Task SetViewModel(BasemapToggleViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -297,6 +310,19 @@ public partial class BasemapToggleWidget
     /// </param>
     public async Task SetVisibleElements(BasemapToggleVisibleElements? value)
     {
+        if (VisibleElements is not null)
+        {
+            await VisibleElements.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005

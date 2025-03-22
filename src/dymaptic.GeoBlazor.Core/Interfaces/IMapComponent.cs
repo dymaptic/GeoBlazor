@@ -10,6 +10,14 @@ public interface IMapComponent
     ///     A unique identifier, used to track components across .NET and JavaScript.
     /// </summary>   
     Guid Id { get; internal set; }
+    
+    MapComponent? Parent { get; internal set; }
+    
+    IJSObjectReference? CoreJsModule { get; internal set; }
+    
+    MapView? View { get; internal set; }
+    
+    Layer? Layer { get; internal set; }
 
     /// <summary>
     ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the
@@ -27,4 +35,6 @@ public interface IMapComponent
     ///     Validates source-generated child components.
     /// </summary>
     void ValidateRequiredGeneratedChildren();
+    
+    ValueTask DisposeAsync();
 }

@@ -203,6 +203,19 @@ public partial class BasemapGalleryItem : MapComponent
     /// </param>
     public async Task SetBasemap(Basemap? value)
     {
+        if (Basemap is not null)
+        {
+            await Basemap.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Basemap = value;
 #pragma warning restore BL0005

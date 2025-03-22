@@ -158,6 +158,19 @@ public partial class HomeViewModel : IGoTo
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
+        if (Viewpoint is not null)
+        {
+            await Viewpoint.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Viewpoint = value;
 #pragma warning restore BL0005

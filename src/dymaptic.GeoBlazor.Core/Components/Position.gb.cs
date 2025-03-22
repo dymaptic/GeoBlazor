@@ -197,6 +197,19 @@ public partial class Position : MapComponent
     /// </param>
     public async Task SetLocation(Point? value)
     {
+        if (Location is not null)
+        {
+            await Location.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005

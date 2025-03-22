@@ -372,6 +372,25 @@ public partial class LegendViewModel : MapComponent
     /// </param>
     public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
     {
+        if (ActiveLayerInfos is not null)
+        {
+            foreach (ActiveLayerInfo item in ActiveLayerInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ActiveLayerInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         ActiveLayerInfos = value;
 #pragma warning restore BL0005
@@ -483,6 +502,25 @@ public partial class LegendViewModel : MapComponent
     /// </param>
     public async Task SetLayerInfos(IReadOnlyList<LegendViewModelLayerInfos>? value)
     {
+        if (LayerInfos is not null)
+        {
+            foreach (LegendViewModelLayerInfos item in LayerInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (LegendViewModelLayerInfos item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         LayerInfos = value;
 #pragma warning restore BL0005

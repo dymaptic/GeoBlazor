@@ -263,6 +263,19 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
+        if (ActiveBasemap is not null)
+        {
+            await ActiveBasemap.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ActiveBasemap = value;
 #pragma warning restore BL0005
@@ -300,6 +313,25 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetItems(IReadOnlyList<BasemapGalleryItem>? value)
     {
+        if (Items is not null)
+        {
+            foreach (BasemapGalleryItem item in Items)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (BasemapGalleryItem item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Items = value;
 #pragma warning restore BL0005

@@ -2,7 +2,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">
+///         ArcGIS
+///         Maps SDK for JavaScript
+///     </a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
 [CodeGenerationIgnore]
@@ -18,12 +21,13 @@ public abstract partial class Widget : MapComponent
     public OverlayPosition? Position { get; set; }
 
     /// <summary>
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
+    ///     the map.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ContainerId { get; set; }
-    
+
     /// <summary>
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </summary>
@@ -35,41 +39,55 @@ public abstract partial class Widget : MapComponent
     ///     The type of widget
     /// </summary>
     public abstract WidgetType Type { get; }
-    
+
     /// <summary>
-    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
+    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the
+    ///     Expand widget).
     ///     Default Value:null
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Icon { get; set; }
-    
+
     /// <summary>
     ///     The widget's label.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public virtual string? Label { get; set; }
-    
+
     /// <summary>
-    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
+    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to
+    ///     the container ID, or if that is not present then it will be automatically generated.
     /// </summary>
     [Parameter]
     public string? WidgetId { get; set; }
-    
+
     /// <summary>
     ///     Event handler to know when the widget has been created.
     /// </summary>
     [Parameter]
     public EventCallback OnWidgetCreated { get; set; }
 
+    /// <summary>
+    ///     Indicates if the widget is hidden. For internal use only.
+    /// </summary>
+    protected virtual bool Hidden => false;
+
+    /// <summary>
+    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return
+    ///     false.
+    /// </summary>
+    protected internal virtual bool ArcGISWidget => true;
+
     /// <inheritdoc />
     [JSInvokable]
-    public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference, 
+    public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
         string? instantiatedComponentJson)
     {
-        Widget? renderedWidget = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Widget;
+        var renderedWidget = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Widget;
         await OnWidgetCreated.InvokeAsync(this);
+
         return renderedWidget;
     }
 
@@ -80,15 +98,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return ContainerId;
 
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
 
         if (JsComponentReference is null) return ContainerId;
 
@@ -106,7 +124,7 @@ public abstract partial class Widget : MapComponent
 
         return ContainerId;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Icon property.
     /// </summary>
@@ -114,15 +132,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Icon;
 
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
 
         if (JsComponentReference is null) return Icon;
 
@@ -140,7 +158,7 @@ public abstract partial class Widget : MapComponent
 
         return Icon;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Label property.
     /// </summary>
@@ -148,15 +166,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Label;
 
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
 
         if (JsComponentReference is null) return Label;
 
@@ -174,7 +192,7 @@ public abstract partial class Widget : MapComponent
 
         return Label;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the Position property.
     /// </summary>
@@ -182,21 +200,22 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return Position;
 
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
 
         if (JsComponentReference is null) return Position;
 
         // get the property value
-        JsNullableEnumWrapper<OverlayPosition>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OverlayPosition>?>("getProperty",
-            CancellationTokenSource.Token, JsComponentReference, "position");
+        JsNullableEnumWrapper<OverlayPosition>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OverlayPosition>?>("getProperty",
+                CancellationTokenSource.Token, JsComponentReference, "position");
 
         if (result?.Value is not null)
         {
@@ -208,7 +227,7 @@ public abstract partial class Widget : MapComponent
 
         return Position;
     }
-    
+
     /// <summary>
     ///     Asynchronously retrieve the current value of the WidgetId property.
     /// </summary>
@@ -216,15 +235,15 @@ public abstract partial class Widget : MapComponent
     {
         if (CoreJsModule is null) return WidgetId;
 
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
 
         if (JsComponentReference is null) return WidgetId;
 
@@ -244,7 +263,7 @@ public abstract partial class Widget : MapComponent
     }
 
     /// <summary>
-    ///    Asynchronously set the value of the ContainerId property after render.
+    ///     Asynchronously set the value of the ContainerId property after render.
     /// </summary>
     public async Task SetContainerId(string? containerId)
     {
@@ -252,24 +271,25 @@ public abstract partial class Widget : MapComponent
         ContainerId = containerId;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(ContainerId)] = containerId;
-        
+
         if (CoreJsModule is null) return;
-        
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
             "containerId", containerId);
     }
-    
+
     /// <summary>
     ///     Asynchronously set the value of the Icon property after render.
     /// </summary>
@@ -279,24 +299,25 @@ public abstract partial class Widget : MapComponent
         Icon = icon;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Icon)] = icon;
-        
+
         if (CoreJsModule is null) return;
-        
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
             "icon", icon);
     }
-    
+
     /// <summary>
     ///     Asynchronously set the value of the Label property after render.
     /// </summary>
@@ -306,24 +327,25 @@ public abstract partial class Widget : MapComponent
         Label = label;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Label)] = label;
-        
+
         if (CoreJsModule is null) return;
-        
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
             "label", label);
     }
-    
+
     /// <summary>
     ///     Asynchronously set the value of the Position property after render.
     /// </summary>
@@ -333,24 +355,25 @@ public abstract partial class Widget : MapComponent
         Position = position;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(Position)] = position;
-        
+
         if (CoreJsModule is null || View is null) return;
-        
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, View.Id, Id,
             position);
     }
-    
+
     /// <summary>
     ///     Asynchronously set the value of the WidgetId property after render.
     /// </summary>
@@ -360,50 +383,43 @@ public abstract partial class Widget : MapComponent
         WidgetId = widgetId;
 #pragma warning restore BL0005
         ModifiedParameters[nameof(WidgetId)] = widgetId;
-        
+
         if (CoreJsModule is null) return;
-        
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
         if (JsComponentReference is null) return;
 
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
             "widgetId", widgetId);
     }
 
-    /// <summary>
-    ///     Indicates if the widget is hidden. For internal use only.
-    /// </summary>
-    protected virtual bool Hidden => false;
-    
-    /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return false.
-    /// </summary>
-    protected internal virtual bool ArcGISWidget => true;
-    
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
-        
+
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
-            throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
+            throw new MissingMapViewReferenceException(
+                "Widgets outside the MapView must have the MapView parameter set.");
         }
-        
+
         if (PreviousParameters is not null && MapRendered)
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
                 if (kvp.Key is nameof(View) or nameof(MapRendered)) continue;
+
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
                 {
@@ -413,10 +429,10 @@ public abstract partial class Widget : MapComponent
                 }
             }
         }
-        
+
         PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
-    
+
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
@@ -440,14 +456,14 @@ public abstract partial class Widget : MapComponent
         {
             await UpdateWidget();
         }
-        
+
         if (View is null && MapView is not null && !_externalWidgetRegistered)
         {
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
     }
-    
+
     private async Task UpdateWidget()
     {
         WidgetChanged = false;
@@ -467,12 +483,12 @@ public abstract partial class Widget : MapComponent
 }
 
 /// <summary>
-///     Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
 /// </summary>
-public class MissingMapViewReferenceException: Exception
+public class MissingMapViewReferenceException : Exception
 {
     /// <summary>
-    ///    Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+    ///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
     /// </summary>
     public MissingMapViewReferenceException(string message) : base(message)
     {

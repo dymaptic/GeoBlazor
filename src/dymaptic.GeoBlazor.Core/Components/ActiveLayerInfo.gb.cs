@@ -772,6 +772,19 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (Layer is not null)
+        {
+            await Layer.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005
@@ -809,6 +822,19 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayerView(LayerView? value)
     {
+        if (LayerView is not null)
+        {
+            await LayerView.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LayerView = value;
 #pragma warning restore BL0005
@@ -846,6 +872,25 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLegendElements(IReadOnlyList<ILegendElement>? value)
     {
+        if (LegendElements is not null)
+        {
+            foreach (ILegendElement item in LegendElements)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ILegendElement item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         LegendElements = value;
 #pragma warning restore BL0005

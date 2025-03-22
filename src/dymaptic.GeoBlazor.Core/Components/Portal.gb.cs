@@ -4306,6 +4306,19 @@ public partial class Portal
     /// </param>
     public async Task SetDefaultExtent(Extent? value)
     {
+        if (DefaultExtent is not null)
+        {
+            await DefaultExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         DefaultExtent = value;
 #pragma warning restore BL0005
@@ -4454,6 +4467,25 @@ public partial class Portal
     /// </param>
     public async Task SetFeaturedGroups(IReadOnlyList<PortalFeaturedGroups>? value)
     {
+        if (FeaturedGroups is not null)
+        {
+            foreach (PortalFeaturedGroups item in FeaturedGroups)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (PortalFeaturedGroups item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         FeaturedGroups = value;
 #pragma warning restore BL0005

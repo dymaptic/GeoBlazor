@@ -425,6 +425,25 @@ public partial class RelationshipPopupContent
     /// </param>
     public async Task SetOrderByFields(IReadOnlyList<RelatedRecordsInfoFieldOrder>? value)
     {
+        if (OrderByFields is not null)
+        {
+            foreach (RelatedRecordsInfoFieldOrder item in OrderByFields)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (RelatedRecordsInfoFieldOrder item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         OrderByFields = value;
 #pragma warning restore BL0005

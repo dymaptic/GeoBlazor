@@ -372,6 +372,19 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
+        if (ActiveBasemap is not null)
+        {
+            await ActiveBasemap.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ActiveBasemap = value;
 #pragma warning restore BL0005
@@ -520,6 +533,19 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetViewModel(BasemapGalleryViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005

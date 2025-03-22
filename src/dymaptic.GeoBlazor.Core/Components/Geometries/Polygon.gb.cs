@@ -163,6 +163,19 @@ public partial class Polygon
     /// </param>
     public async Task SetCentroid(Point? value)
     {
+        if (Centroid is not null)
+        {
+            await Centroid.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Centroid = value;
 #pragma warning restore BL0005

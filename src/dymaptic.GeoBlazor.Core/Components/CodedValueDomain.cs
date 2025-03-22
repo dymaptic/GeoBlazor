@@ -59,15 +59,15 @@ public class CodedValueDomain<T> : Domain
         {
             return CodedValues;
         }
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
         if (JsComponentReference is null)
         {
             return CodedValues;

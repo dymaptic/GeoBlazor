@@ -2017,6 +2017,19 @@ public partial class PortalItem
     /// </param>
     public async Task SetExtent(Extent? value)
     {
+        if (Extent is not null)
+        {
+            await Extent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Extent = value;
 #pragma warning restore BL0005
@@ -2387,6 +2400,19 @@ public partial class PortalItem
     /// </param>
     public async Task SetPortal(Portal? value)
     {
+        if (Portal is not null)
+        {
+            await Portal.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005

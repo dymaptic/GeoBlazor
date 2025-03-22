@@ -2394,6 +2394,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetElevationInfo(CSVLayerElevationInfo? value)
     {
+        if (ElevationInfo is not null)
+        {
+            await ElevationInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005
@@ -2431,6 +2444,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
+        if (FeatureEffect is not null)
+        {
+            await FeatureEffect.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FeatureEffect = value;
 #pragma warning restore BL0005
@@ -2505,6 +2531,25 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
+        if (Fields is not null)
+        {
+            foreach (Field item in Fields)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Field item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Fields = value;
 #pragma warning restore BL0005
@@ -2579,6 +2624,25 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
+        if (LabelingInfo is not null)
+        {
+            foreach (Label item in LabelingInfo)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Label item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         LabelingInfo = value;
 #pragma warning restore BL0005
@@ -2875,6 +2939,25 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
     {
+        if (OrderBy is not null)
+        {
+            foreach (OrderedLayerOrderBy item in OrderBy)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (OrderedLayerOrderBy item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         OrderBy = value;
 #pragma warning restore BL0005
@@ -2986,6 +3069,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -3023,6 +3119,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -3097,6 +3206,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
+        if (Renderer is not null)
+        {
+            await Renderer.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Renderer = value;
 #pragma warning restore BL0005
@@ -3171,6 +3293,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (SpatialReference is not null)
+        {
+            await SpatialReference.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -3208,6 +3343,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (TimeExtent is not null)
+        {
+            await TimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -3245,6 +3393,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
+        if (TimeInfo is not null)
+        {
+            await TimeInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -3282,6 +3443,19 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
+        if (TimeOffset is not null)
+        {
+            await TimeOffset.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005

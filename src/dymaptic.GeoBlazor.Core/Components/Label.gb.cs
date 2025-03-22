@@ -744,6 +744,19 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
+        if (LabelExpressionInfo is not null)
+        {
+            await LabelExpressionInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
 #pragma warning restore BL0005

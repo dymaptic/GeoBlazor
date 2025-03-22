@@ -210,6 +210,25 @@ public partial class OpacityRampElement : MapComponent,
     /// </param>
     public async Task SetInfos(IReadOnlyList<OpacityRampStop>? value)
     {
+        if (Infos is not null)
+        {
+            foreach (OpacityRampStop item in Infos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (OpacityRampStop item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Infos = value;
 #pragma warning restore BL0005

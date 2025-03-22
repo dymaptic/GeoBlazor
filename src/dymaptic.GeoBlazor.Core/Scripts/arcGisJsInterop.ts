@@ -104,6 +104,8 @@ export const popupTemplateRefs: Record<string, Accessor> = {};
 export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
 export const graphicPopupLookupRefs: Record<string, string> = {};
 export const dotNetRefs: Record<string, any> = {};
+
+export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
 
@@ -203,6 +205,7 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
     const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
         let {buildJsPopupTemplate} = await import('./popupTemplate');
+        sublayer.popupTemplate?.destroy();
         sublayer.popupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     }
 }
@@ -847,6 +850,13 @@ export async function disposeMapComponent(componentId: string, viewId: string): 
     if (jsObjectRefs.hasOwnProperty(componentId)) {
         delete jsObjectRefs[componentId];
     }
+    if (popupTemplateRefs.hasOwnProperty(componentId)) {
+        delete popupTemplateRefs[componentId];
+    }
+    if (actionHandlers.hasOwnProperty(componentId)) {
+        actionHandlers[componentId].remove();
+        delete actionHandlers[componentId];
+    }
     const view = arcGisObjectRefs[viewId] as View;
     view?.ui?.remove(component as any);
 }
@@ -1072,8 +1082,8 @@ export function closePopup(viewId: string): void {
 export async function showPopup(popupTemplateObject: any, location: DotNetPoint, viewId: string): Promise<void> {
     let {buildJsPopupTemplate} = await import('./popupTemplate');
     const popupTemplate = await buildJsPopupTemplate(popupTemplateObject, null, viewId) as PopupTemplate;
-
-    await (arcGisObjectRefs[viewId] as View).openPopup({
+    let view = arcGisObjectRefs[viewId] as View;
+    await view.openPopup({
         title: popupTemplate.title as string,
         content: popupTemplate.content as string,
         location: buildJsPoint(location)!
@@ -1203,17 +1213,8 @@ export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetP
     let {buildJsPopupTemplate} = await import('./popupTemplate');
     const jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     if (graphic !== null && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
+        graphic.popupTemplate?.destroy();
         graphic.popupTemplate = jsPopupTemplate;
-    }
-}
-
-export function removeGraphicPopupTemplate(graphicId: string): void {
-    if (graphicPopupLookupRefs.hasOwnProperty(graphicId)) {
-        const popupTemplateId = graphicPopupLookupRefs[graphicId];
-        delete graphicPopupLookupRefs[graphicId];
-        if (dotNetRefs.hasOwnProperty(popupTemplateId)) {
-            delete dotNetRefs[popupTemplateId];
-        }
     }
 }
 

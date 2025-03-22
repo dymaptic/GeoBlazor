@@ -618,6 +618,19 @@ public partial class ListItemPanelWidget
     /// </param>
     public async Task SetListItem(ListItem? value)
     {
+        if (ListItem is not null)
+        {
+            await ListItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ListItem = value;
 #pragma warning restore BL0005

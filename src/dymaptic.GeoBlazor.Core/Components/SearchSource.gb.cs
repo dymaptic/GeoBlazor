@@ -994,6 +994,19 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -1105,6 +1118,19 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetResultSymbol(Symbol? value)
     {
+        if (ResultSymbol is not null)
+        {
+            await ResultSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ResultSymbol = value;
 #pragma warning restore BL0005

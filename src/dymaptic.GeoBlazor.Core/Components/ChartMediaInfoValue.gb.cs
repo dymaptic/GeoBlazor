@@ -410,6 +410,25 @@ public partial class ChartMediaInfoValue
     /// </param>
     public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
     {
+        if (Series is not null)
+        {
+            foreach (ChartMediaInfoValueSeries item in Series)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ChartMediaInfoValueSeries item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Series = value;
 #pragma warning restore BL0005

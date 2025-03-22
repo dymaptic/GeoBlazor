@@ -500,6 +500,19 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetGraphic(Graphic? value)
     {
+        if (Graphic is not null)
+        {
+            await Graphic.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Graphic = value;
 #pragma warning restore BL0005
@@ -611,6 +624,19 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetViewModel(LocateViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005

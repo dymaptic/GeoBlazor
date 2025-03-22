@@ -263,6 +263,25 @@ public partial class AuthoringInfoField
     /// </param>
     public async Task SetClassBreakInfos(IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? value)
     {
+        if (ClassBreakInfos is not null)
+        {
+            foreach (AuthoringInfoField1ClassBreakInfos item in ClassBreakInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (AuthoringInfoField1ClassBreakInfos item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         ClassBreakInfos = value;
 #pragma warning restore BL0005

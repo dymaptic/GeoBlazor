@@ -537,6 +537,19 @@ public partial class RelationshipRampElement : MapComponent,
     /// </param>
     public async Task SetLabels(RelationshipLabels? value)
     {
+        if (Labels is not null)
+        {
+            await Labels.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Labels = value;
 #pragma warning restore BL0005

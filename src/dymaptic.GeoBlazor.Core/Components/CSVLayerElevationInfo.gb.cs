@@ -263,6 +263,19 @@ public partial class CSVLayerElevationInfo : MapComponent
     /// </param>
     public async Task SetFeatureExpressionInfo(CSVLayerElevationInfoFeatureExpressionInfo? value)
     {
+        if (FeatureExpressionInfo is not null)
+        {
+            await FeatureExpressionInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FeatureExpressionInfo = value;
 #pragma warning restore BL0005

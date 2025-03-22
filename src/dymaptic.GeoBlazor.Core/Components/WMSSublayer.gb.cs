@@ -810,6 +810,19 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
+        if (FullExtent is not null)
+        {
+            await FullExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005

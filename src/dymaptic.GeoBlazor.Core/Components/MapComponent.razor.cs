@@ -61,7 +61,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             _coreJsModule ??= Parent?.CoreJsModule;
             return _coreJsModule;
         }
-        internal set => _coreJsModule = value;
+        set => _coreJsModule = value;
     }
 
     /// <summary>
@@ -132,12 +132,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [JsonIgnore]
     public bool IsDisposed { get; private set; }
-    
-    /// <summary>
-    ///     Extension properties for GeoBlazor Pro
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, object?>? ProProperties { get; set; }
 
     /// <summary>
     ///     Implements the `IAsyncDisposable` pattern.

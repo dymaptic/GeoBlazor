@@ -426,6 +426,19 @@ public partial class FeatureFilter
     /// </param>
     public async Task SetGeometry(Geometry? value)
     {
+        if (Geometry is not null)
+        {
+            await Geometry.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Geometry = value;
 #pragma warning restore BL0005
@@ -537,6 +550,19 @@ public partial class FeatureFilter
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (TimeExtent is not null)
+        {
+            await TimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005

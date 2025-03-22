@@ -25,5 +25,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     A boolean value indicating whether the Layer is a reference layer in the basemap.
 /// </param>
 public record LayerViewCreateInternalEvent(IJSObjectReference LayerObjectRef, IJSObjectReference LayerViewObjectRef,
-    Guid LayerGeoBlazorId, Layer? Layer, LayerView? LayerView, bool IsBasemapLayer, bool IsReferenceLayer);
+    Guid? LayerGeoBlazorId, Layer? Layer, LayerView? LayerView, bool IsBasemapLayer, bool IsReferenceLayer);
 

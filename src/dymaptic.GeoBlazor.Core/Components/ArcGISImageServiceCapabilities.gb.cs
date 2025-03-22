@@ -209,6 +209,19 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration? value)
     {
+        if (Mensuration is not null)
+        {
+            await Mensuration.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Mensuration = value;
 #pragma warning restore BL0005
@@ -246,6 +259,19 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations? value)
     {
+        if (Operations is not null)
+        {
+            await Operations.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005

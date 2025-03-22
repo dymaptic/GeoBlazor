@@ -1600,6 +1600,25 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetActions(IReadOnlyList<ActionBase>? value)
     {
+        if (Actions is not null)
+        {
+            foreach (ActionBase item in Actions)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ActionBase item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Actions = value;
 #pragma warning restore BL0005
@@ -1785,6 +1804,25 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetFeatures(IReadOnlyList<Graphic>? value)
     {
+        if (Features is not null)
+        {
+            foreach (Graphic item in Features)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Graphic item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Features = value;
 #pragma warning restore BL0005
@@ -1859,6 +1897,19 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetFeatureViewModelAbilities(Abilities? value)
     {
+        if (FeatureViewModelAbilities is not null)
+        {
+            await FeatureViewModelAbilities.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FeatureViewModelAbilities = value;
 #pragma warning restore BL0005
@@ -1970,6 +2021,19 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetLocation(Point? value)
     {
+        if (Location is not null)
+        {
+            await Location.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Location = value;
 #pragma warning restore BL0005
@@ -2081,6 +2145,19 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (SpatialReference is not null)
+        {
+            await SpatialReference.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -2229,6 +2306,19 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetWidgetContent(Widget? value)
     {
+        if (WidgetContent is not null)
+        {
+            await WidgetContent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         WidgetContent = value;
 #pragma warning restore BL0005

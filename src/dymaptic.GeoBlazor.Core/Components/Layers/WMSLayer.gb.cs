@@ -1794,6 +1794,25 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetAllSublayers(IReadOnlyList<WMSSublayer>? value)
     {
+        if (AllSublayers is not null)
+        {
+            foreach (WMSSublayer item in AllSublayers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (WMSSublayer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         AllSublayers = value;
 #pragma warning restore BL0005
@@ -2127,6 +2146,25 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetFullExtents(IReadOnlyList<Extent>? value)
     {
+        if (FullExtents is not null)
+        {
+            foreach (Extent item in FullExtents)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Extent item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         FullExtents = value;
 #pragma warning restore BL0005
@@ -2423,6 +2461,19 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -2497,6 +2548,19 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (SpatialReference is not null)
+        {
+            await SpatialReference.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005
@@ -2571,6 +2635,25 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<WMSSublayer>? value)
     {
+        if (Sublayers is not null)
+        {
+            foreach (WMSSublayer item in Sublayers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (WMSSublayer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Sublayers = value;
 #pragma warning restore BL0005
@@ -2608,6 +2691,19 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (TimeExtent is not null)
+        {
+            await TimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -2645,6 +2741,19 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
+        if (TimeInfo is not null)
+        {
+            await TimeInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -2682,6 +2791,19 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
+        if (TimeOffset is not null)
+        {
+            await TimeOffset.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005

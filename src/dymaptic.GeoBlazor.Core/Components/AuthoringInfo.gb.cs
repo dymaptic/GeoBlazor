@@ -1058,6 +1058,19 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
+        if (ColorRamp is not null)
+        {
+            await ColorRamp.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ColorRamp = value;
 #pragma warning restore BL0005
@@ -1132,6 +1145,19 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField1(AuthoringInfoField? value)
     {
+        if (Field1 is not null)
+        {
+            await Field1.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Field1 = value;
 #pragma warning restore BL0005
@@ -1169,6 +1195,19 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField2(AuthoringInfoField? value)
     {
+        if (Field2 is not null)
+        {
+            await Field2.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Field2 = value;
 #pragma warning restore BL0005
@@ -1539,6 +1578,19 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetStatistics(AuthoringInfoStatistics? value)
     {
+        if (Statistics is not null)
+        {
+            await Statistics.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Statistics = value;
 #pragma warning restore BL0005
@@ -1650,6 +1702,25 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<AuthoringInfoVisualVariable>? value)
     {
+        if (VisualVariables is not null)
+        {
+            foreach (AuthoringInfoVisualVariable item in VisualVariables)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (AuthoringInfoVisualVariable item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         VisualVariables = value;
 #pragma warning restore BL0005

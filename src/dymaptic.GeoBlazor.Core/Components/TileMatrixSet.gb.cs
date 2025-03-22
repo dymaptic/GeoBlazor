@@ -219,6 +219,19 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
+        if (FullExtent is not null)
+        {
+            await FullExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005
@@ -256,6 +269,19 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
+        if (TileInfo is not null)
+        {
+            await TileInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005

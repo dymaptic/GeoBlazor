@@ -246,6 +246,19 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
+        if (Symbol is not null)
+        {
+            await Symbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Symbol = value;
 #pragma warning restore BL0005
@@ -283,6 +296,25 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetValues(IReadOnlyList<UniqueValue>? value)
     {
+        if (Values is not null)
+        {
+            foreach (UniqueValue item in Values)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (UniqueValue item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Values = value;
 #pragma warning restore BL0005

@@ -326,6 +326,19 @@ public partial class FeatureEffect
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
+        if (Filter is not null)
+        {
+            await Filter.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Filter = value;
 #pragma warning restore BL0005

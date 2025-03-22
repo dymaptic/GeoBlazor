@@ -208,6 +208,19 @@ public partial class BasemapToggleViewModel : MapComponent
     /// </param>
     public async Task SetNextBasemap(Basemap? value)
     {
+        if (NextBasemap is not null)
+        {
+            await NextBasemap.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         NextBasemap = value;
 #pragma warning restore BL0005

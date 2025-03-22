@@ -207,6 +207,25 @@ public partial class ColorVariable : IColorSizeSliderWidgetUpdateVisualVariables
     /// </param>
     public async Task SetStops(IReadOnlyList<ColorStop>? value)
     {
+        if (Stops is not null)
+        {
+            foreach (ColorStop item in Stops)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ColorStop item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Stops = value;
 #pragma warning restore BL0005

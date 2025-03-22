@@ -1,5 +1,5 @@
 export async function buildJsImageryRenderer(dnRenderer: any, layerId: string | null, viewId: string | null) {
-    switch (dnRenderer?.imageryRendererType) {
+    switch (dnRenderer?.type) {
         case 'unique-value':
             let {buildJsUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildJsUniqueValueRenderer(dnRenderer, layerId, viewId);

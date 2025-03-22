@@ -211,15 +211,16 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         {
             return AggregateGeometries;
         }
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
         if (JsComponentReference is null)
         {
             return AggregateGeometries;
@@ -251,14 +252,15 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         }
         
         try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return IsAggregate;
@@ -362,16 +364,21 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     [CodeGenerationIgnore]
     public async Task SetPopupTemplate(PopupTemplate popupTemplate)
     {
-        var oldTemplate = PopupTemplate;
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
         PopupTemplate = popupTemplate;
+        PopupTemplate.CoreJsModule = CoreJsModule;
+        PopupTemplate.Layer = Layer;
+        PopupTemplate.View = View;
+        PopupTemplate.Parent = this;
+        
         if (CoreJsModule is not null)
         {
-            if (oldTemplate != null)
-            {
-                await CoreJsModule.InvokeVoidAsync("removeGraphicPopupTemplate", Id, oldTemplate.ToSerializationRecord(), oldTemplate.DotNetComponentReference, View?.Id);
-            }
-
-            await CoreJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id, PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetComponentReference, View?.Id);
+            await CoreJsModule.InvokeVoidAsync("setGraphicPopupTemplate", Id, 
+                PopupTemplate.ToSerializationRecord(), PopupTemplate.DotNetComponentReference, LayerId, View?.Id);
         }
         else
         {
@@ -473,11 +480,12 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     [CodeGenerationIgnore]
     public async Task<PopupTemplate?> GetEffectivePopupTemplate(bool defaultPopupTemplateEnabled)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
+        return await CoreJsModule!.InvokeAsync<PopupTemplate?>(
             "getEffectivePopupTemplate", 
             CancellationTokenSource.Token,
+            this,
             defaultPopupTemplateEnabled);
     }
     
@@ -517,7 +525,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         if (CoreJsModule is not null)
         {
             await CoreJsModule.InvokeVoidAsync("setGraphicAttributes",
-                CancellationTokenSource.Token, Id, LayerId, ViewId);
+                CancellationTokenSource.Token, Id, Attributes, LayerId, ViewId);
         }
     }
     

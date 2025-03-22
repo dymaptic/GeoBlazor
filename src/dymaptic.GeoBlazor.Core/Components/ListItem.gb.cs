@@ -907,43 +907,6 @@ public partial class ListItem
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ActionsSections property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetActionsSections(ActionBase[][]? value)
-    {
-#pragma warning disable BL0005
-        ActionsSections = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ActionsSections)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setActionsSections", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the ChildrenSortable property after render.
     /// </summary>
     /// <param name="value">
@@ -1025,6 +988,19 @@ public partial class ListItem
     /// </param>
     public async Task SetLayer(Layer? value)
     {
+        if (Layer is not null)
+        {
+            await Layer.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005

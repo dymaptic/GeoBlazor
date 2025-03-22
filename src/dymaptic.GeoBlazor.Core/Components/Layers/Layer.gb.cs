@@ -436,6 +436,19 @@ public abstract partial class Layer : IHitTestItem,
     /// </param>
     public async Task SetVisibilityTimeExtent(TimeExtent? value)
     {
+        if (VisibilityTimeExtent is not null)
+        {
+            await VisibilityTimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         VisibilityTimeExtent = value;
 #pragma warning restore BL0005

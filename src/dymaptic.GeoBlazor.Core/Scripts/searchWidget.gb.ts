@@ -221,6 +221,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     }
     
     async setViewModel(value: any): Promise<void> {
+        this.widget.viewModel?.destroy();
         let { buildJsSearchViewModel } = await import('./searchViewModel');
         this.widget.viewModel = await  buildJsSearchViewModel(value, this.layerId, this.viewId);
     }

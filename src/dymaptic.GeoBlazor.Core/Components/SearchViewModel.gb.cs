@@ -1856,6 +1856,19 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetDefaultSymbols(SearchViewModelDefaultSymbols? value)
     {
+        if (DefaultSymbols is not null)
+        {
+            await DefaultSymbols.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         DefaultSymbols = value;
 #pragma warning restore BL0005
@@ -2115,6 +2128,19 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -2152,6 +2178,19 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetPortal(Portal? value)
     {
+        if (Portal is not null)
+        {
+            await Portal.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Portal = value;
 #pragma warning restore BL0005
@@ -2300,6 +2339,25 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetSources(IReadOnlyList<SearchSource>? value)
     {
+        if (Sources is not null)
+        {
+            foreach (SearchSource item in Sources)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (SearchSource item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Sources = value;
 #pragma warning restore BL0005

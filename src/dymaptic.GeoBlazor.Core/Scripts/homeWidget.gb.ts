@@ -125,6 +125,7 @@ export default class HomeWidgetGenerated implements IPropertyWrapper {
     }
     
     async setViewModel(value: any): Promise<void> {
+        this.widget.viewModel?.destroy();
         let { buildJsHomeViewModel } = await import('./homeViewModel');
         this.widget.viewModel = await  buildJsHomeViewModel(value, this.viewId);
     }

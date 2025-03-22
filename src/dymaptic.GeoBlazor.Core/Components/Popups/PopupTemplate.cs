@@ -147,13 +147,16 @@ public partial class PopupTemplate : MapComponent
     [CodeGenerationIgnore]
     public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
     {
-        ActionBase? action = Actions?.FirstOrDefault(a => a.ActionId == triggerActionEvent.Action.ActionId);
-
-        if (action?.CallbackFunction is not null)
-        {
-            await action.CallbackFunction.Invoke();
-        }
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
     }
+    
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<PopupTriggerActionEvent> OnTriggerAction { get; set; }
     
     /// <summary>
     ///     JS-invokable method that triggers a custom <see cref="ContentFunction"/> for building the popup content.

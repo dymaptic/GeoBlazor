@@ -42,15 +42,15 @@ public partial class AttachmentsPopupContent : PopupContent
         {
             return DisplayType;
         }
-        try 
-                                {
-                                    JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                                        "getJsComponent", CancellationTokenSource.Token, Id);
-                                }
-                                catch (JSException)
-                                {
-                                    // this is expected if the component is not yet built
-                                }
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
         if (JsComponentReference is null)
         {
             return DisplayType;

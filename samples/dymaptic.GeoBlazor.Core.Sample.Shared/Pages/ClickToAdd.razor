@@ -9,7 +9,7 @@
     Click anywhere to see a point added to the map. Click on the point again to see a popup. Click on the popup action to add the point to the list below.
 </p>
 
-<MapView Class="map-view" OnClick="OnClick" Zoom="4">
+<MapView @ref="_mapView" Class="map-view" OnClick="OnClick" Zoom="4">
     <Map>
         <Basemap>
             <TileLayer>
@@ -37,6 +37,14 @@
             _graphic = new Graphic(point);
             await _graphicsLayer!.Add(_graphic);
         }
+        
+        HitTestResult result = await _mapView!.HitTest(arg);
+        
+        if (result.Results is { Length: > 0 } && result.Results[0] is GraphicHit)
+        {
+            // already added this point
+            return;
+        }
 
         SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(new Outline(new MapColor("blue")),
             new MapColor("yellow"), 10);
@@ -60,5 +68,6 @@
 
     private Graphic? _graphic;
     private GraphicsLayer? _graphicsLayer;
+    private MapView? _mapView;
     private readonly List<Point> _points = [];
 }

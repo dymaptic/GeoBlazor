@@ -1,6 +1,13 @@
 // override generated code in this file
 import PopupTemplate from '@arcgis/core/PopupTemplate';
-import {arcGisObjectRefs, dotNetRefs, hasValue, jsObjectRefs, popupTemplateRefs} from "./arcGisJsInterop";
+import {
+    actionHandlers,
+    arcGisObjectRefs,
+    dotNetRefs,
+    hasValue,
+    jsObjectRefs,
+    popupTemplateRefs
+} from "./arcGisJsInterop";
 import {buildJsPopupContent} from './popupContent';
 import {buildJsExpressionInfo} from './expressionInfo';
 import {buildDotNetGraphic} from './graphic';
@@ -87,8 +94,6 @@ export async function buildDotNetPopupTemplate(jsObject: any): Promise<any> {
 
     return result;
 }
-
-let actionHandlers: any = {};
 
 function setTriggerActionHandlers(dotNetObject, view, viewId) {
     if (actionHandlers.hasOwnProperty(dotNetObject.id)) {

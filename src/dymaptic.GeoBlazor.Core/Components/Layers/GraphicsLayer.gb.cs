@@ -473,6 +473,19 @@ public partial class GraphicsLayer : IBlendLayer,
     /// </param>
     public async Task SetElevationInfo(GraphicsLayerElevationInfo? value)
     {
+        if (ElevationInfo is not null)
+        {
+            await ElevationInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ElevationInfo = value;
 #pragma warning restore BL0005

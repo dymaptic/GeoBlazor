@@ -487,6 +487,19 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     /// </param>
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
+        if (HighlightOptions is not null)
+        {
+            await HighlightOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         HighlightOptions = value;
 #pragma warning restore BL0005

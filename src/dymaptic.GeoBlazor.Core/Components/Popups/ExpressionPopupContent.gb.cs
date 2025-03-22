@@ -88,6 +88,19 @@ public partial class ExpressionPopupContent
     /// </param>
     public async Task SetExpressionInfo(ElementExpressionInfo? value)
     {
+        if (ExpressionInfo is not null)
+        {
+            await ExpressionInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ExpressionInfo = value;
 #pragma warning restore BL0005

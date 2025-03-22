@@ -664,6 +664,25 @@ public partial class PixelBlock : MapComponent
     /// </param>
     public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
     {
+        if (Statistics is not null)
+        {
+            foreach (PixelBlockStatistics item in Statistics)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (PixelBlockStatistics item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Statistics = value;
 #pragma warning restore BL0005

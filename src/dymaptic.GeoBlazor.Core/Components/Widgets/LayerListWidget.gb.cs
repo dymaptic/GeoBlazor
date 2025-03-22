@@ -1203,6 +1203,25 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
     {
+        if (SelectedItems is not null)
+        {
+            foreach (ListItem item in SelectedItems)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ListItem item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         SelectedItems = value;
 #pragma warning restore BL0005
@@ -1277,6 +1296,19 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetViewModel(LayerListViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005
@@ -1351,6 +1383,19 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetVisibleElements(LayerListVisibleElements? value)
     {
+        if (VisibleElements is not null)
+        {
+            await VisibleElements.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         VisibleElements = value;
 #pragma warning restore BL0005

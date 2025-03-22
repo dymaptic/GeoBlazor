@@ -205,6 +205,25 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
+        if (VisualVariables is not null)
+        {
+            foreach (VisualVariable item in VisualVariables)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (VisualVariable item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         VisualVariables = value;
 #pragma warning restore BL0005

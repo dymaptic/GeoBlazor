@@ -761,6 +761,19 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetLineSymbol(SimpleLineSymbol? value)
     {
+        if (LineSymbol is not null)
+        {
+            await LineSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LineSymbol = value;
 #pragma warning restore BL0005
@@ -872,6 +885,19 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPointSymbol(MarkerSymbol? value)
     {
+        if (PointSymbol is not null)
+        {
+            await PointSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PointSymbol = value;
 #pragma warning restore BL0005
@@ -909,6 +935,19 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPolygonSymbol(SimpleFillSymbol? value)
     {
+        if (PolygonSymbol is not null)
+        {
+            await PolygonSymbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PolygonSymbol = value;
 #pragma warning restore BL0005

@@ -683,6 +683,19 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
+        if (FullExtent is not null)
+        {
+            await FullExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         FullExtent = value;
 #pragma warning restore BL0005
@@ -831,6 +844,25 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetStyles(IReadOnlyList<WMTSStyle>? value)
     {
+        if (Styles is not null)
+        {
+            foreach (WMTSStyle item in Styles)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (WMTSStyle item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Styles = value;
 #pragma warning restore BL0005
@@ -868,6 +900,19 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetTileMatrixSet(TileMatrixSet? value)
     {
+        if (TileMatrixSet is not null)
+        {
+            await TileMatrixSet.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TileMatrixSet = value;
 #pragma warning restore BL0005
@@ -942,6 +987,25 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetTileMatrixSets(IReadOnlyList<TileMatrixSet>? value)
     {
+        if (TileMatrixSets is not null)
+        {
+            foreach (TileMatrixSet item in TileMatrixSets)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (TileMatrixSet item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         TileMatrixSets = value;
 #pragma warning restore BL0005

@@ -165,6 +165,19 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetExtent(Extent? value)
     {
+        if (Extent is not null)
+        {
+            await Extent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Extent = value;
 #pragma warning restore BL0005
@@ -202,6 +215,19 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetPixelBlock(PixelBlock? value)
     {
+        if (PixelBlock is not null)
+        {
+            await PixelBlock.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PixelBlock = value;
 #pragma warning restore BL0005

@@ -954,6 +954,25 @@ public partial class AuthoringInfoVisualVariable
     /// </param>
     public async Task SetSizeStops(IReadOnlyList<SizeStop>? value)
     {
+        if (SizeStops is not null)
+        {
+            foreach (SizeStop item in SizeStops)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (SizeStop item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         SizeStops = value;
 #pragma warning restore BL0005

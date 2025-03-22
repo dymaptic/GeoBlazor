@@ -162,6 +162,19 @@ public partial class ImageryLayerView : LayerView
     /// </param>
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
+        if (HighlightOptions is not null)
+        {
+            await HighlightOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         HighlightOptions = value;
 #pragma warning restore BL0005
@@ -199,6 +212,19 @@ public partial class ImageryLayerView : LayerView
     /// </param>
     public async Task SetPixelData(PixelData? value)
     {
+        if (PixelData is not null)
+        {
+            await PixelData.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PixelData = value;
 #pragma warning restore BL0005

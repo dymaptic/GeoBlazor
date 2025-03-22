@@ -1783,6 +1783,25 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetMultidimensionalDefinition(IReadOnlyList<DimensionalDefinition>? value)
     {
+        if (MultidimensionalDefinition is not null)
+        {
+            foreach (DimensionalDefinition item in MultidimensionalDefinition)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (DimensionalDefinition item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         MultidimensionalDefinition = value;
 #pragma warning restore BL0005
@@ -1820,6 +1839,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetMultidimensionalSubset(MultidimensionalSubset? value)
     {
+        if (MultidimensionalSubset is not null)
+        {
+            await MultidimensionalSubset.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         MultidimensionalSubset = value;
 #pragma warning restore BL0005
@@ -1894,6 +1926,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPixelDataSource(PixelData? value)
     {
+        if (PixelDataSource is not null)
+        {
+            await PixelDataSource.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PixelDataSource = value;
 #pragma warning restore BL0005
@@ -1968,6 +2013,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PopupTemplate = value;
 #pragma warning restore BL0005
@@ -2005,6 +2063,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
+        if (PortalItem is not null)
+        {
+            await PortalItem.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         PortalItem = value;
 #pragma warning restore BL0005
@@ -2042,6 +2113,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetRasterFunction(RasterFunction? value)
     {
+        if (RasterFunction is not null)
+        {
+            await RasterFunction.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         RasterFunction = value;
 #pragma warning restore BL0005
@@ -2079,6 +2163,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
+        if (TileInfo is not null)
+        {
+            await TileInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TileInfo = value;
 #pragma warning restore BL0005
@@ -2116,6 +2213,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
+        if (TimeExtent is not null)
+        {
+            await TimeExtent.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeExtent = value;
 #pragma warning restore BL0005
@@ -2153,6 +2263,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
+        if (TimeInfo is not null)
+        {
+            await TimeInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeInfo = value;
 #pragma warning restore BL0005
@@ -2190,6 +2313,19 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
+        if (TimeOffset is not null)
+        {
+            await TimeOffset.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TimeOffset = value;
 #pragma warning restore BL0005

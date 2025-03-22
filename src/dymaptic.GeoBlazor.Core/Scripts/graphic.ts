@@ -32,6 +32,7 @@ export function buildJsGraphic(graphicObject: any): Graphic {
     }
 
     if (hasValue(graphicObject.popupTemplate)) {
+        graphic.popupTemplate?.destroy();
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, graphicObject.layerId, graphicObject.viewId) as PopupTemplate;
     }
 

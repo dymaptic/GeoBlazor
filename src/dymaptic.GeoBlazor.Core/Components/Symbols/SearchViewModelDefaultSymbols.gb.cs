@@ -209,6 +209,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPoint(Symbol? value)
     {
+        if (Point is not null)
+        {
+            await Point.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Point = value;
 #pragma warning restore BL0005
@@ -246,6 +259,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolygon(Symbol? value)
     {
+        if (Polygon is not null)
+        {
+            await Polygon.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Polygon = value;
 #pragma warning restore BL0005
@@ -283,6 +309,19 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolyline(Symbol? value)
     {
+        if (Polyline is not null)
+        {
+            await Polyline.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Polyline = value;
 #pragma warning restore BL0005

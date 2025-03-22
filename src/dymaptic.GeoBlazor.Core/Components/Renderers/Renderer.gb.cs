@@ -76,6 +76,19 @@ public abstract partial class Renderer
     /// </param>
     public async Task SetAuthoringInfo(AuthoringInfo? value)
     {
+        if (AuthoringInfo is not null)
+        {
+            await AuthoringInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         AuthoringInfo = value;
 #pragma warning restore BL0005

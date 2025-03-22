@@ -310,6 +310,25 @@ public partial class MediaPopupContent
     /// </param>
     public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
     {
+        if (MediaInfos is not null)
+        {
+            foreach (MediaInfo item in MediaInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (MediaInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         MediaInfos = value;
 #pragma warning restore BL0005

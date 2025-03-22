@@ -263,6 +263,19 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetArea(BookmarkOptionsScreenshotSettingsArea? value)
     {
+        if (Area is not null)
+        {
+            await Area.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Area = value;
 #pragma warning restore BL0005
@@ -337,6 +350,25 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetLayers(IReadOnlyList<Layer>? value)
     {
+        if (Layers is not null)
+        {
+            foreach (Layer item in Layers)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (Layer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Layers = value;
 #pragma warning restore BL0005

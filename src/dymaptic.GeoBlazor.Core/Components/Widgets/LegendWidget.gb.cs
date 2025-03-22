@@ -642,6 +642,25 @@ public partial class LegendWidget
     /// </param>
     public async Task SetActiveLayerInfos(IReadOnlyList<ActiveLayerInfo>? value)
     {
+        if (ActiveLayerInfos is not null)
+        {
+            foreach (ActiveLayerInfo item in ActiveLayerInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ActiveLayerInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         ActiveLayerInfos = value;
 #pragma warning restore BL0005
@@ -790,6 +809,25 @@ public partial class LegendWidget
     /// </param>
     public async Task SetLayerInfos(IReadOnlyList<LegendLayerInfos>? value)
     {
+        if (LayerInfos is not null)
+        {
+            foreach (LegendLayerInfos item in LayerInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (LegendLayerInfos item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         LayerInfos = value;
 #pragma warning restore BL0005
@@ -827,6 +865,19 @@ public partial class LegendWidget
     /// </param>
     public async Task SetLegendStyle(LegendStyle? value)
     {
+        if (LegendStyle is not null)
+        {
+            await LegendStyle.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LegendStyle = value;
 #pragma warning restore BL0005
@@ -975,6 +1026,19 @@ public partial class LegendWidget
     /// </param>
     public async Task SetViewModel(LegendViewModel? value)
     {
+        if (ViewModel is not null)
+        {
+            await ViewModel.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         ViewModel = value;
 #pragma warning restore BL0005

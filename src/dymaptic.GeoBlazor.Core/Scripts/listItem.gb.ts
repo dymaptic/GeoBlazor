@@ -26,6 +26,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
             this.component.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.layer)) {
+            this.component.layer?.destroy();
             let { buildJsLayer } = await import('./layer');
             this.component.layer = await buildJsLayer(dotNetObject.layer, this.layerId, this.viewId) as any;
         }
@@ -96,6 +97,7 @@ export default class ListItemGenerated implements IPropertyWrapper {
     }
     
     async setLayer(value: any): Promise<void> {
+        this.component.layer?.destroy();
         let { buildJsLayer } = await import('./layer');
         this.component.layer = await  buildJsLayer(value, this.layerId, this.viewId);
     }

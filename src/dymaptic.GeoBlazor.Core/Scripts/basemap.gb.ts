@@ -22,6 +22,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.baseLayers) && dotNetObject.baseLayers.length > 0) {
+            this.component.baseLayers?.destroy();
             let { buildJsLayer } = await import('./layer');
             this.component.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
         }
@@ -30,6 +31,7 @@ export default class BasemapGenerated implements IPropertyWrapper {
             this.component.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.referenceLayers) && dotNetObject.referenceLayers.length > 0) {
+            this.component.referenceLayers?.destroy();
             let { buildJsLayer } = await import('./layer');
             this.component.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
         }
@@ -70,6 +72,11 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     
     async setBaseLayers(value: any): Promise<void> {
+        if (hasValue(this.component.baseLayers && this.component.baseLayers.length > 0)) {
+            for (let i = 0; i < this.component.baseLayers.length;  i++) {  
+                this.component.baseLayers[i]?.destroy();
+            }
+        }
         let { buildJsLayer } = await import('./layer');
         this.component.baseLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }
@@ -98,6 +105,11 @@ export default class BasemapGenerated implements IPropertyWrapper {
     }
     
     async setReferenceLayers(value: any): Promise<void> {
+        if (hasValue(this.component.referenceLayers && this.component.referenceLayers.length > 0)) {
+            for (let i = 0; i < this.component.referenceLayers.length;  i++) {  
+                this.component.referenceLayers[i]?.destroy();
+            }
+        }
         let { buildJsLayer } = await import('./layer');
         this.component.referenceLayers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }

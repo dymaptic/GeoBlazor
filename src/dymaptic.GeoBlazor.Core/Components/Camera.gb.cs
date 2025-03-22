@@ -402,6 +402,19 @@ public partial class Camera : MapComponent
     /// </param>
     public async Task SetLayout(CameraLayout? value)
     {
+        if (Layout is not null)
+        {
+            await Layout.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Layout = value;
 #pragma warning restore BL0005
@@ -439,6 +452,19 @@ public partial class Camera : MapComponent
     /// </param>
     public async Task SetPosition(Point? value)
     {
+        if (Position is not null)
+        {
+            await Position.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Position = value;
 #pragma warning restore BL0005

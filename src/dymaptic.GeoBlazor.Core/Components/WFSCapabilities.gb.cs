@@ -155,6 +155,25 @@ public partial class WFSCapabilities : MapComponent
     /// </param>
     public async Task SetFeatureTypes(IReadOnlyList<WFSFeatureType>? value)
     {
+        if (FeatureTypes is not null)
+        {
+            foreach (WFSFeatureType item in FeatureTypes)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (WFSFeatureType item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         FeatureTypes = value;
 #pragma warning restore BL0005
@@ -192,6 +211,19 @@ public partial class WFSCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(WFSOperations? value)
     {
+        if (Operations is not null)
+        {
+            await Operations.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Operations = value;
 #pragma warning restore BL0005

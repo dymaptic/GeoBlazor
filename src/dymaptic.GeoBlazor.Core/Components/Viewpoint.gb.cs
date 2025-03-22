@@ -246,6 +246,19 @@ public partial class Viewpoint
     /// </param>
     public async Task SetCamera(Camera? value)
     {
+        if (Camera is not null)
+        {
+            await Camera.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Camera = value;
 #pragma warning restore BL0005
@@ -357,6 +370,19 @@ public partial class Viewpoint
     /// </param>
     public async Task SetTargetGeometry(Geometry? value)
     {
+        if (TargetGeometry is not null)
+        {
+            await TargetGeometry.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         TargetGeometry = value;
 #pragma warning restore BL0005

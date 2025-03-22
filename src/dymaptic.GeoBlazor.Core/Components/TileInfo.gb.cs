@@ -481,6 +481,25 @@ public partial class TileInfo
     /// </param>
     public async Task SetLods(IReadOnlyList<LOD>? value)
     {
+        if (Lods is not null)
+        {
+            foreach (LOD item in Lods)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (LOD item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Lods = value;
 #pragma warning restore BL0005
@@ -518,6 +537,19 @@ public partial class TileInfo
     /// </param>
     public async Task SetOrigin(Point? value)
     {
+        if (Origin is not null)
+        {
+            await Origin.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Origin = value;
 #pragma warning restore BL0005
@@ -592,6 +624,19 @@ public partial class TileInfo
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
+        if (SpatialReference is not null)
+        {
+            await SpatialReference.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         SpatialReference = value;
 #pragma warning restore BL0005

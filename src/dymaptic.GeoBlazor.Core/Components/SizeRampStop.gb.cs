@@ -519,6 +519,19 @@ public partial class SizeRampStop : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
+        if (Symbol is not null)
+        {
+            await Symbol.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Symbol = value;
 #pragma warning restore BL0005

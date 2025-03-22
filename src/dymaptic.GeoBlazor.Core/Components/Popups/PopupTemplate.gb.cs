@@ -540,6 +540,25 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetActions(IReadOnlyList<ActionBase>? value)
     {
+        if (Actions is not null)
+        {
+            foreach (ActionBase item in Actions)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ActionBase item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         Actions = value;
 #pragma warning restore BL0005
@@ -577,6 +596,25 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo>? value)
     {
+        if (ExpressionInfos is not null)
+        {
+            foreach (ExpressionInfo item in ExpressionInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (ExpressionInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         ExpressionInfos = value;
 #pragma warning restore BL0005
@@ -614,6 +652,25 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
+        if (FieldInfos is not null)
+        {
+            foreach (FieldInfo item in FieldInfos)
+            {
+                await item.DisposeAsync();
+            }
+        }
+        
+        if (value is not null)
+        {
+            foreach (FieldInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
 #pragma warning disable BL0005
         FieldInfos = value;
 #pragma warning restore BL0005
@@ -688,6 +745,19 @@ public partial class PopupTemplate
     /// </param>
     public async Task SetLayerOptions(LayerOptions? value)
     {
+        if (LayerOptions is not null)
+        {
+            await LayerOptions.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LayerOptions = value;
 #pragma warning restore BL0005
