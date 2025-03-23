@@ -16,12 +16,12 @@ export async function buildJsScaleRangeSliderVisibleElementsGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleRangeSliderVisibleElements;
     
-    let { buildDotNetScaleRangeSliderVisibleElements } = await import('./scaleRangeSliderVisibleElements');
-    let dnInstantiatedObject = await buildDotNetScaleRangeSliderVisibleElements(jsScaleRangeSliderVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetScaleRangeSliderVisibleElements } = await import('./scaleRangeSliderVisibleElements');
+        let dnInstantiatedObject = await buildDotNetScaleRangeSliderVisibleElements(jsScaleRangeSliderVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

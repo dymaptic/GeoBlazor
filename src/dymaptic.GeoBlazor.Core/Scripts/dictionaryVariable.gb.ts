@@ -17,12 +17,12 @@ export async function buildJsDictionaryVariableGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDictionaryVariable;
     
-    let { buildDotNetDictionaryVariable } = await import('./dictionaryVariable');
-    let dnInstantiatedObject = await buildDotNetDictionaryVariable(jsDictionaryVariable, layerId, viewId);
-
     try {
+        let { buildDotNetDictionaryVariable } = await import('./dictionaryVariable');
+        let dnInstantiatedObject = await buildDotNetDictionaryVariable(jsDictionaryVariable, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

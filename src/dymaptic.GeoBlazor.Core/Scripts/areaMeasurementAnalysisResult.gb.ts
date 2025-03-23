@@ -10,7 +10,7 @@ export async function buildJsAreaMeasurementAnalysisResultGenerated(dotNetObject
     }
     if (hasValue(dotNetObject.pathLength)) {
         let { buildJsLength } = await import('./length');
-        jsAreaMeasurementAnalysisResult.pathLength = await buildJsLength(dotNetObject.pathLength, layerId, viewId) as any;
+        jsAreaMeasurementAnalysisResult.pathLength = await buildJsLength(dotNetObject.pathLength) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -39,7 +39,7 @@ export async function buildDotNetAreaMeasurementAnalysisResultGenerated(jsObject
     
     if (hasValue(jsObject.pathLength)) {
         let { buildDotNetLength } = await import('./length');
-        dotNetAreaMeasurementAnalysisResult.pathLength = await buildDotNetLength(jsObject.pathLength, layerId, viewId);
+        dotNetAreaMeasurementAnalysisResult.pathLength = await buildDotNetLength(jsObject.pathLength);
     }
     
     if (hasValue(jsObject.mode)) {

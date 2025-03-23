@@ -19,12 +19,12 @@ export async function buildJsClassedSizeSliderViewModelBreaksGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsClassedSizeSliderViewModelBreaks;
     
-    let { buildDotNetClassedSizeSliderViewModelBreaks } = await import('./classedSizeSliderViewModelBreaks');
-    let dnInstantiatedObject = await buildDotNetClassedSizeSliderViewModelBreaks(jsClassedSizeSliderViewModelBreaks, layerId, viewId);
-
     try {
+        let { buildDotNetClassedSizeSliderViewModelBreaks } = await import('./classedSizeSliderViewModelBreaks');
+        let dnInstantiatedObject = await buildDotNetClassedSizeSliderViewModelBreaks(jsClassedSizeSliderViewModelBreaks, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

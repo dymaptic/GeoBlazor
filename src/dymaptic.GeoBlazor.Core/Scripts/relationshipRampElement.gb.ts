@@ -33,12 +33,12 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipRampElement;
     
-    let { buildDotNetRelationshipRampElement } = await import('./relationshipRampElement');
-    let dnInstantiatedObject = await buildDotNetRelationshipRampElement(jsRelationshipRampElement, layerId, viewId);
-
     try {
+        let { buildDotNetRelationshipRampElement } = await import('./relationshipRampElement');
+        let dnInstantiatedObject = await buildDotNetRelationshipRampElement(jsRelationshipRampElement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

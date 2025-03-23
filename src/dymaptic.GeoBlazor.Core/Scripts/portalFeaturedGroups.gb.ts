@@ -16,12 +16,12 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): P
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
-    let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-    let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
-
     try {
+        let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
+        let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

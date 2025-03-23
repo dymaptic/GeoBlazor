@@ -23,12 +23,12 @@ export async function buildJsConfigLogGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfigLog;
     
-    let { buildDotNetConfigLog } = await import('./configLog');
-    let dnInstantiatedObject = await buildDotNetConfigLog(jsconfigLog, layerId, viewId);
-
     try {
+        let { buildDotNetConfigLog } = await import('./configLog');
+        let dnInstantiatedObject = await buildDotNetConfigLog(jsconfigLog, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

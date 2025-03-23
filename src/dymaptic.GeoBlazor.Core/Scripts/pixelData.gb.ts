@@ -18,12 +18,12 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;
     
-    let { buildDotNetPixelData } = await import('./pixelData');
-    let dnInstantiatedObject = await buildDotNetPixelData(jsPixelData, layerId, viewId);
-
     try {
+        let { buildDotNetPixelData } = await import('./pixelData');
+        let dnInstantiatedObject = await buildDotNetPixelData(jsPixelData);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -46,7 +46,7 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
 }
 
 
-export async function buildDotNetPixelDataGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelDataGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetPixelDataGenerated(jsObject: any, layerId: stri
     
     if (hasValue(jsObject.pixelBlock)) {
         let { buildDotNetPixelBlock } = await import('./pixelBlock');
-        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock, layerId, viewId);
+        dotNetPixelData.pixelBlock = await buildDotNetPixelBlock(jsObject.pixelBlock);
     }
     
 

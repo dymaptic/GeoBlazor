@@ -326,12 +326,12 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = layerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
     
-    let { buildDotNetLayerListWidget } = await import('./layerListWidget');
-    let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList);
-
     try {
+        let { buildDotNetLayerListWidget } = await import('./layerListWidget');
+        let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

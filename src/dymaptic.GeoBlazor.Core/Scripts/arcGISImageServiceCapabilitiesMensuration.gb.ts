@@ -31,12 +31,12 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
     
-    let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-    let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration);
-
     try {
+        let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
+        let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

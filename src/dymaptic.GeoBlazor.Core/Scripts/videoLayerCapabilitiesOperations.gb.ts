@@ -25,12 +25,12 @@ export async function buildJsVideoLayerCapabilitiesOperationsGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVideoLayerCapabilitiesOperations;
     
-    let { buildDotNetVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetVideoLayerCapabilitiesOperations(jsVideoLayerCapabilitiesOperations);
-
     try {
+        let { buildDotNetVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');
+        let dnInstantiatedObject = await buildDotNetVideoLayerCapabilitiesOperations(jsVideoLayerCapabilitiesOperations);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

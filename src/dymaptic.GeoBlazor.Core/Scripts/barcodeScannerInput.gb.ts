@@ -18,12 +18,12 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBarcodeScannerInput;
     
-    let { buildDotNetBarcodeScannerInput } = await import('./barcodeScannerInput');
-    let dnInstantiatedObject = await buildDotNetBarcodeScannerInput(jsBarcodeScannerInput, layerId, viewId);
-
     try {
+        let { buildDotNetBarcodeScannerInput } = await import('./barcodeScannerInput');
+        let dnInstantiatedObject = await buildDotNetBarcodeScannerInput(jsBarcodeScannerInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

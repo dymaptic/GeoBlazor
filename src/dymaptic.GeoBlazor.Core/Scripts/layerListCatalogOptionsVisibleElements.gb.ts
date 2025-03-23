@@ -22,12 +22,12 @@ export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dot
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListCatalogOptionsVisibleElements;
     
-    let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements);
-
     try {
+        let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
+        let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

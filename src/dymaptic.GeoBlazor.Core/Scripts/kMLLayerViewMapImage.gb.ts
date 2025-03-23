@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetKMLLayerViewMapImage } from './kMLLayerViewMapImage';
 
-export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any): Promise<any> {
     let jsKMLLayerViewMapImage: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
@@ -23,12 +23,12 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;
     
-    let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-    let dnInstantiatedObject = await buildDotNetKMLLayerViewMapImage(jsKMLLayerViewMapImage, layerId, viewId);
-
     try {
+        let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
+        let dnInstantiatedObject = await buildDotNetKMLLayerViewMapImage(jsKMLLayerViewMapImage);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -51,7 +51,7 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerViewMapImageGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

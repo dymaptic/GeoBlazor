@@ -10,6 +10,11 @@ export default class FeaturesViewModelWrapper extends FeaturesViewModelGenerated
     constructor(component: FeaturesViewModel) {
         super(component);
     }
+
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
 }
 
 // CodeGenerationIgnore

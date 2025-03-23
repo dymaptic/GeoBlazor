@@ -92,12 +92,12 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = viewStateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewState;
     
-    let { buildDotNetViewState } = await import('./viewState');
-    let dnInstantiatedObject = await buildDotNetViewState(jsViewState, layerId, viewId);
-
     try {
+        let { buildDotNetViewState } = await import('./viewState');
+        let dnInstantiatedObject = await buildDotNetViewState(jsViewState, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

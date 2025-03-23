@@ -28,12 +28,12 @@ export async function buildJsSketchVisibleElementsSnappingControlsElementsGenera
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSketchVisibleElementsSnappingControlsElements;
     
-    let { buildDotNetSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
-    let dnInstantiatedObject = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsSketchVisibleElementsSnappingControlsElements, layerId, viewId);
-
     try {
+        let { buildDotNetSketchVisibleElementsSnappingControlsElements } = await import('./sketchVisibleElementsSnappingControlsElements');
+        let dnInstantiatedObject = await buildDotNetSketchVisibleElementsSnappingControlsElements(jsSketchVisibleElementsSnappingControlsElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -16,12 +16,12 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipTypeEndPoints;
     
-    let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-    let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints);
-
     try {
+        let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
+        let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

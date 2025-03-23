@@ -13,12 +13,12 @@ export async function buildJsTraceItemGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTraceItem;
     
-    let { buildDotNetTraceItem } = await import('./traceItem');
-    let dnInstantiatedObject = await buildDotNetTraceItem(jsTraceItem, layerId, viewId);
-
     try {
+        let { buildDotNetTraceItem } = await import('./traceItem');
+        let dnInstantiatedObject = await buildDotNetTraceItem(jsTraceItem, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

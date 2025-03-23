@@ -293,6 +293,11 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let {buildDotNetFeatureType} = await import('./featureType');
         return buildDotNetFeatureType(result);
     }
+    
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
 
     async getTemplates(): Promise<any> {
         if (!hasValue(this.layer.templates)) {

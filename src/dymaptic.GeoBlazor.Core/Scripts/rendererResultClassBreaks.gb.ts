@@ -18,12 +18,12 @@ export async function buildJsRendererResultClassBreaksGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRendererResultClassBreaks;
     
-    let { buildDotNetRendererResultClassBreaks } = await import('./rendererResultClassBreaks');
-    let dnInstantiatedObject = await buildDotNetRendererResultClassBreaks(jsRendererResultClassBreaks, layerId, viewId);
-
     try {
+        let { buildDotNetRendererResultClassBreaks } = await import('./rendererResultClassBreaks');
+        let dnInstantiatedObject = await buildDotNetRendererResultClassBreaks(jsRendererResultClassBreaks, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

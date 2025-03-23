@@ -22,12 +22,12 @@ export async function buildJsCoordinateConversionVisibleElementsGenerated(dotNet
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateConversionVisibleElements;
     
-    let { buildDotNetCoordinateConversionVisibleElements } = await import('./coordinateConversionVisibleElements');
-    let dnInstantiatedObject = await buildDotNetCoordinateConversionVisibleElements(jsCoordinateConversionVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetCoordinateConversionVisibleElements } = await import('./coordinateConversionVisibleElements');
+        let dnInstantiatedObject = await buildDotNetCoordinateConversionVisibleElements(jsCoordinateConversionVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -22,12 +22,12 @@ export async function buildJsSceneViewTakeScreenshotOptionsAreaGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewTakeScreenshotOptionsArea;
     
-    let { buildDotNetSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
-    let dnInstantiatedObject = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsSceneViewTakeScreenshotOptionsArea, layerId, viewId);
-
     try {
+        let { buildDotNetSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
+        let dnInstantiatedObject = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsSceneViewTakeScreenshotOptionsArea, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

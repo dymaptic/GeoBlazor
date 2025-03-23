@@ -15,12 +15,12 @@ export async function buildJsCloudyWeatherGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCloudyWeather;
     
-    let { buildDotNetCloudyWeather } = await import('./cloudyWeather');
-    let dnInstantiatedObject = await buildDotNetCloudyWeather(jsCloudyWeather, layerId, viewId);
-
     try {
+        let { buildDotNetCloudyWeather } = await import('./cloudyWeather');
+        let dnInstantiatedObject = await buildDotNetCloudyWeather(jsCloudyWeather, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

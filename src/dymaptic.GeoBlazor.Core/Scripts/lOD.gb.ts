@@ -24,12 +24,12 @@ export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
-    let { buildDotNetLOD } = await import('./lOD');
-    let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
-
     try {
+        let { buildDotNetLOD } = await import('./lOD');
+        let dnInstantiatedObject = await buildDotNetLOD(jsLOD);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

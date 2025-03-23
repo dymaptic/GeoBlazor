@@ -36,12 +36,12 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
-    let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
-    let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
-
     try {
+        let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
+        let dnInstantiatedObject = await buildDotNetRasterSensorInfo(jsRasterSensorInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

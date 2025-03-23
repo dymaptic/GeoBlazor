@@ -292,12 +292,12 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
-    let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
-    let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
-
     try {
+        let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
+        let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

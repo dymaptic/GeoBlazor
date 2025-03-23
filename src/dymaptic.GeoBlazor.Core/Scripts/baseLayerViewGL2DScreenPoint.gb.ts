@@ -16,12 +16,12 @@ export async function buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2DScreenPoint;
     
-    let { buildDotNetBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
-    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DScreenPoint(jsBaseLayerViewGL2DScreenPoint, layerId, viewId);
-
     try {
+        let { buildDotNetBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
+        let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DScreenPoint(jsBaseLayerViewGL2DScreenPoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

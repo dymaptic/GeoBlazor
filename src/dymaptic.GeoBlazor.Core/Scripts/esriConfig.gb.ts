@@ -56,12 +56,12 @@ export async function buildJsEsriConfigGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfig;
     
-    let { buildDotNetEsriConfig } = await import('./esriConfig');
-    let dnInstantiatedObject = await buildDotNetEsriConfig(jsconfig, layerId, viewId);
-
     try {
+        let { buildDotNetEsriConfig } = await import('./esriConfig');
+        let dnInstantiatedObject = await buildDotNetEsriConfig(jsconfig, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

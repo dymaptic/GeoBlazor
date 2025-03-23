@@ -22,12 +22,12 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesData;
     
-    let { buildDotNetCapabilitiesData } = await import('./capabilitiesData');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesData(jsCapabilitiesData);
-
     try {
+        let { buildDotNetCapabilitiesData } = await import('./capabilitiesData');
+        let dnInstantiatedObject = await buildDotNetCapabilitiesData(jsCapabilitiesData);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

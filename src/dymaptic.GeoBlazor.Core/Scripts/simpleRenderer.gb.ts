@@ -27,12 +27,12 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
     
-    let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
-    let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer, layerId, viewId);
-
     try {
+        let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
+        let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

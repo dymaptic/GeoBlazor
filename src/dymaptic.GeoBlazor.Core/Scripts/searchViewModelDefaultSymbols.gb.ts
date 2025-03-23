@@ -22,12 +22,12 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
     
-    let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-    let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols, layerId, viewId);
-
     try {
+        let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
+        let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -163,12 +163,12 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = unsupportedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
     
-    let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
-    let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer);
-
     try {
+        let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
+        let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

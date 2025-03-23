@@ -121,12 +121,12 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = basemapGalleryViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryViewModel;
     
-    let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapGalleryViewModel(jsBasemapGalleryViewModel);
-
     try {
+        let { buildDotNetBasemapGalleryViewModel } = await import('./basemapGalleryViewModel');
+        let dnInstantiatedObject = await buildDotNetBasemapGalleryViewModel(jsBasemapGalleryViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

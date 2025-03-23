@@ -27,12 +27,12 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any): Pr
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelDynamicSection;
     
-    let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-    let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection);
-
     try {
+        let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
+        let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

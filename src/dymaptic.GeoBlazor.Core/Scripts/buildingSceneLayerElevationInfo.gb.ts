@@ -19,12 +19,12 @@ export async function buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingSceneLayerElevationInfo;
     
-    let { buildDotNetBuildingSceneLayerElevationInfo } = await import('./buildingSceneLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetBuildingSceneLayerElevationInfo(jsBuildingSceneLayerElevationInfo);
-
     try {
+        let { buildDotNetBuildingSceneLayerElevationInfo } = await import('./buildingSceneLayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetBuildingSceneLayerElevationInfo(jsBuildingSceneLayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

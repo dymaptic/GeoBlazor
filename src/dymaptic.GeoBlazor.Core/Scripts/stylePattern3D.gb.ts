@@ -15,12 +15,12 @@ export async function buildJsStylePattern3DGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStylePattern3D;
     
-    let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
-    let dnInstantiatedObject = await buildDotNetStylePattern3D(jsStylePattern3D, layerId, viewId);
-
     try {
+        let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
+        let dnInstantiatedObject = await buildDotNetStylePattern3D(jsStylePattern3D, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

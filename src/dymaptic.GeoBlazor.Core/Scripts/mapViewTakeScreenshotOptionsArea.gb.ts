@@ -22,12 +22,12 @@ export async function buildJsMapViewTakeScreenshotOptionsAreaGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewTakeScreenshotOptionsArea;
     
-    let { buildDotNetMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
-    let dnInstantiatedObject = await buildDotNetMapViewTakeScreenshotOptionsArea(jsMapViewTakeScreenshotOptionsArea, layerId, viewId);
-
     try {
+        let { buildDotNetMapViewTakeScreenshotOptionsArea } = await import('./mapViewTakeScreenshotOptionsArea');
+        let dnInstantiatedObject = await buildDotNetMapViewTakeScreenshotOptionsArea(jsMapViewTakeScreenshotOptionsArea, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -111,12 +111,12 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = layerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
     
-    let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
-    let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel);
-
     try {
+        let { buildDotNetLayerListViewModel } = await import('./layerListViewModel');
+        let dnInstantiatedObject = await buildDotNetLayerListViewModel(jsLayerListViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

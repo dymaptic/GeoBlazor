@@ -19,12 +19,12 @@ export async function buildJsAssetTypeJSONGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAssetTypeJSON;
     
-    let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
-    let dnInstantiatedObject = await buildDotNetAssetTypeJSON(jsAssetTypeJSON, layerId, viewId);
-
     try {
+        let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
+        let dnInstantiatedObject = await buildDotNetAssetTypeJSON(jsAssetTypeJSON, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

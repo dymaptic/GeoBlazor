@@ -24,12 +24,12 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
-    let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-    let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
-
     try {
+        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
+        let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

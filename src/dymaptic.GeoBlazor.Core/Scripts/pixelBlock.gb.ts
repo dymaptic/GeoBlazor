@@ -23,7 +23,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
             let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-            this.component.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId))) as any;
+            this.component.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i))) as any;
         }
 
         if (hasValue(dotNetObject.height)) {
@@ -73,12 +73,12 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
     }
     
     async setStatistics(value: any): Promise<void> {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i, this.layerId, this.viewId))) as any;
+        this.component.statistics = await Promise.all(value.map(async i => await buildJsPixelBlockStatistics(i))) as any;
     }
     
     getProperty(prop: string): any {
@@ -95,7 +95,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     let properties: any = {};
     if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        properties.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i, layerId, viewId))) as any;
+        properties.statistics = await Promise.all(dotNetObject.statistics.map(async i => await buildJsPixelBlockStatistics(i))) as any;
     }
 
     if (hasValue(dotNetObject.height)) {
@@ -131,12 +131,12 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
     
-    let { buildDotNetPixelBlock } = await import('./pixelBlock');
-    let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock, layerId, viewId);
-
     try {
+        let { buildDotNetPixelBlock } = await import('./pixelBlock');
+        let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -159,7 +159,7 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
 }
 
 
-export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelBlockGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -168,7 +168,7 @@ export async function buildDotNetPixelBlockGenerated(jsObject: any, layerId: str
     
     if (hasValue(jsObject.statistics)) {
         let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i, layerId, viewId)));
+        dotNetPixelBlock.statistics = await Promise.all(jsObject.statistics.map(async i => await buildDotNetPixelBlockStatistics(i)));
     }
     
     if (hasValue(jsObject.height)) {

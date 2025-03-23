@@ -152,12 +152,12 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
     
-    let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
-    let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar);
-
     try {
+        let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
+        let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

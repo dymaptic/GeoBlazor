@@ -26,12 +26,12 @@ export async function buildJsExternalReferencePointGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExternalReferencePoint;
     
-    let { buildDotNetExternalReferencePoint } = await import('./externalReferencePoint');
-    let dnInstantiatedObject = await buildDotNetExternalReferencePoint(jsExternalReferencePoint, layerId, viewId);
-
     try {
+        let { buildDotNetExternalReferencePoint } = await import('./externalReferencePoint');
+        let dnInstantiatedObject = await buildDotNetExternalReferencePoint(jsExternalReferencePoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -128,12 +128,12 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = portalBasemapsSourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
     
-    let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
-    let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource, layerId, viewId);
-
     try {
+        let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
+        let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

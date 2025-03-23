@@ -53,7 +53,7 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
             const dnSection = dnItem.actionsSections[i];
             for (let j = 0; j < dnSection.length; j++) {
                 const dnAction = dnSection[j];
-                const action = await buildJsActionBase(dnAction, layerId, viewId);
+                const action = await buildJsActionBase(dnAction);
                 section.push(action);
             }
         }
@@ -65,58 +65,8 @@ export async function updateListItem(jsItem: ListItem, dnItem: DotNetListItem, l
     }
 
     if (hasValue(dnItem.panel)) {
-        if (hasValue(dnItem.panel.containerId)) {
-            const contentDiv = document.getElementById(dnItem.panel.containerId);
-            if (contentDiv !== null) {
-                jsItem.panel = {
-                    content: contentDiv,
-                    visible: dnItem.panel.visible,
-                    className: dnItem.panel.className,
-                    disabled: dnItem.panel.disabled,
-                    flowEnabled: dnItem.panel.flowEnabled,
-                    open: dnItem.panel.open,
-                    image: dnItem.panel.image,
-                    icon: dnItem.panel.icon,
-                    label: dnItem.panel.label
-                } as ListItemPanel;
-            }
-        } else if (hasValue(dnItem.panel.contentWidgetId)) {
-            const contentWidget = arcGisObjectRefs[dnItem.panel.contentWidgetId] as Widget;
-            jsItem.panel = {
-                content: contentWidget,
-                visible: dnItem.panel.visible,
-                className: dnItem.panel.className,
-                disabled: dnItem.panel.disabled,
-                flowEnabled: dnItem.panel.flowEnabled,
-                open: dnItem.panel.open,
-                image: dnItem.panel.image,
-                icon: dnItem.panel.icon,
-                label: dnItem.panel.label
-            } as ListItemPanel;
-        } else if (hasValue(dnItem.panel.stringContent)) {
-            jsItem.panel = {
-                content: dnItem.panel.stringContent,
-                visible: dnItem.panel.visible,
-                className: dnItem.panel.className,
-                disabled: dnItem.panel.disabled,
-                flowEnabled: dnItem.panel.flowEnabled,
-                open: dnItem.panel.open,
-                image: dnItem.panel.image,
-                icon: dnItem.panel.icon,
-                label: dnItem.panel.label
-            } as ListItemPanel;
-        } else if (hasValue(dnItem.panel.showLegendContent) && dnItem.panel.showLegendContent) {
-            jsItem.panel = {
-                content: 'legend',
-                visible: dnItem.panel.visible,
-                className: dnItem.panel.className,
-                disabled: dnItem.panel.disabled,
-                flowEnabled: dnItem.panel.flowEnabled,
-                open: dnItem.panel.open,
-                image: dnItem.panel.image,
-                icon: dnItem.panel.icon,
-                label: dnItem.panel.label
-            } as ListItemPanel;
-        }
+        let { buildJsListItemPanelWidget } = await import('./listItemPanelWidget');
+        let jsPanel = await buildJsListItemPanelWidget(dnItem.panel, layerId, viewId);
+        jsItem.panel = jsPanel;
     }
 }

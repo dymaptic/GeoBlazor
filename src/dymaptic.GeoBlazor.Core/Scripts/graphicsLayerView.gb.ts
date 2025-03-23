@@ -23,7 +23,7 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.visible)) {
@@ -51,12 +51,12 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -82,7 +82,7 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     let jsGraphicsLayerView: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        jsGraphicsLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.visible)) {
@@ -99,12 +99,12 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = graphicsLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerView;
     
-    let { buildDotNetGraphicsLayerView } = await import('./graphicsLayerView');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayerView(jsGraphicsLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetGraphicsLayerView } = await import('./graphicsLayerView');
+        let dnInstantiatedObject = await buildDotNetGraphicsLayerView(jsGraphicsLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -127,7 +127,7 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
 }
 
 
-export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -136,7 +136,7 @@ export async function buildDotNetGraphicsLayerViewGenerated(jsObject: any, layer
     
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
+        dotNetGraphicsLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.spatialReferenceSupported)) {

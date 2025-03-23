@@ -177,12 +177,12 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
     
-    let { buildDotNetSizeVariable } = await import('./sizeVariable');
-    let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable, layerId, viewId);
-
     try {
+        let { buildDotNetSizeVariable } = await import('./sizeVariable');
+        let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

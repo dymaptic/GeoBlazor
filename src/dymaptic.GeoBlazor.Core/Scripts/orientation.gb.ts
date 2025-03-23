@@ -13,12 +13,12 @@ export async function buildJsOrientationGenerated(dotNetObject: any): Promise<an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOrientation;
     
-    let { buildDotNetOrientation } = await import('./orientation');
-    let dnInstantiatedObject = await buildDotNetOrientation(jsOrientation);
-
     try {
+        let { buildDotNetOrientation } = await import('./orientation');
+        let dnInstantiatedObject = await buildDotNetOrientation(jsOrientation);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

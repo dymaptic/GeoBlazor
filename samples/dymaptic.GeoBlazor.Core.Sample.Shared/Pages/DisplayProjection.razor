@@ -19,7 +19,7 @@
          Scale="150000000"
          Class="map-view"
          Style="background-color: lightblue;">
-    <SpatialReference Wkid="@Wkid" />
+    <SpatialReference Wkid="4326" />
     <Graphic>
         <SimpleFillSymbol Color="@(new MapColor("transparent"))">
             <Outline Width="0.5" Color="@(new MapColor(50, 50, 50, 0.75))" Style="SimpleLineSymbolStyle.Dash" />
@@ -41,7 +41,7 @@
         </GeoJSONLayer>
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
-        <select id="wkid" class="esri-widget esri-select" @bind="Wkid">
+        <select id="wkid" class="esri-widget esri-select" @onchange="UpdateSpatialReference">
             <option value="3857" disabled>Select a projection</option>
             <optgroup label="Equidistant (maintain length)">
                 <option value="4326" selected>WGS84 (GCS) -> pseudo Plate Carrée (Cylindrical)</option>
@@ -81,20 +81,6 @@
     private Symbol? PointSym { get; set; }
     private MapView? View { get; set; }
 
-    private int Wkid
-    {
-        get => _wkid;
-        set
-        {
-            if (_wkid != value)
-            {
-                _wkid = value;
-                _coordinatesSet = false;
-                View!.Refresh();
-            }
-        }
-    }
-
     private async Task OnViewRendered()
     {
         if (_coordinatesSet) return;
@@ -124,7 +110,13 @@
         _coordinatesSet = true;
         await InvokeAsync(async () => await View!.ShowPopupWithGraphic(graphic, popupOptions));
     }
+    
+    private async Task UpdateSpatialReference(ChangeEventArgs args)
+    {
+        int wkid = int.Parse(args.Value!.ToString() ?? "4326");
+        SpatialReference spatialReference = new SpatialReference(wkid);
+        await View!.SetSpatialReference(spatialReference);
+    }
 
-    private int _wkid = 4326;
     private bool _coordinatesSet;
 }

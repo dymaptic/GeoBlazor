@@ -19,12 +19,12 @@ export async function buildJsLineSymbolGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbol;
     
-    let { buildDotNetLineSymbol } = await import('./lineSymbol');
-    let dnInstantiatedObject = await buildDotNetLineSymbol(jsLineSymbol, layerId, viewId);
-
     try {
+        let { buildDotNetLineSymbol } = await import('./lineSymbol');
+        let dnInstantiatedObject = await buildDotNetLineSymbol(jsLineSymbol, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

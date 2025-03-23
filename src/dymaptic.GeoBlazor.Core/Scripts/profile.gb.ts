@@ -14,12 +14,12 @@ export async function buildJsProfileGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsProfile;
     
-    let { buildDotNetProfile } = await import('./profile');
-    let dnInstantiatedObject = await buildDotNetProfile(jsProfile, layerId, viewId);
-
     try {
+        let { buildDotNetProfile } = await import('./profile');
+        let dnInstantiatedObject = await buildDotNetProfile(jsProfile, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -62,12 +62,12 @@ export async function buildJsVersionManagementViewModelVersionInfoExtendedJSONGe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementViewModelVersionInfoExtendedJSON;
     
-    let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSON } = await import('./versionManagementViewModelVersionInfoExtendedJSON');
-    let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsVersionManagementViewModelVersionInfoExtendedJSON, layerId, viewId);
-
     try {
+        let { buildDotNetVersionManagementViewModelVersionInfoExtendedJSON } = await import('./versionManagementViewModelVersionInfoExtendedJSON');
+        let dnInstantiatedObject = await buildDotNetVersionManagementViewModelVersionInfoExtendedJSON(jsVersionManagementViewModelVersionInfoExtendedJSON, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

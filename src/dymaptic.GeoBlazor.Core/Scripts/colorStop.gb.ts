@@ -22,12 +22,12 @@ export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any>
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
     
-    let { buildDotNetColorStop } = await import('./colorStop');
-    let dnInstantiatedObject = await buildDotNetColorStop(jsColorStop);
-
     try {
+        let { buildDotNetColorStop } = await import('./colorStop');
+        let dnInstantiatedObject = await buildDotNetColorStop(jsColorStop);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

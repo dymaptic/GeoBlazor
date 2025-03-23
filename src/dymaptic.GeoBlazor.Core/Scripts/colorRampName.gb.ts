@@ -16,12 +16,12 @@ export async function buildJsColorRampNameGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorRampName;
     
-    let { buildDotNetColorRampName } = await import('./colorRampName');
-    let dnInstantiatedObject = await buildDotNetColorRampName(jsColorRampName, layerId, viewId);
-
     try {
+        let { buildDotNetColorRampName } = await import('./colorRampName');
+        let dnInstantiatedObject = await buildDotNetColorRampName(jsColorRampName, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

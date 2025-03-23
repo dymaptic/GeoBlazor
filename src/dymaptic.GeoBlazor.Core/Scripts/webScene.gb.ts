@@ -51,12 +51,12 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
     
-    let { buildDotNetWebScene } = await import('./webScene');
-    let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene, layerId, viewId);
-
     try {
+        let { buildDotNetWebScene } = await import('./webScene');
+        let dnInstantiatedObject = await buildDotNetWebScene(jsWebScene, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

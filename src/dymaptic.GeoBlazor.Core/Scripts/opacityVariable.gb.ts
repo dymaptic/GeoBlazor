@@ -32,12 +32,12 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
-    let { buildDotNetOpacityVariable } = await import('./opacityVariable');
-    let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable, layerId, viewId);
-
     try {
+        let { buildDotNetOpacityVariable } = await import('./opacityVariable');
+        let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

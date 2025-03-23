@@ -10,12 +10,12 @@ export async function buildJsVisibleElementsSelectionToolsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsSelectionTools;
     
-    let { buildDotNetVisibleElementsSelectionTools } = await import('./visibleElementsSelectionTools');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsSelectionTools(jsVisibleElementsSelectionTools, layerId, viewId);
-
     try {
+        let { buildDotNetVisibleElementsSelectionTools } = await import('./visibleElementsSelectionTools');
+        let dnInstantiatedObject = await buildDotNetVisibleElementsSelectionTools(jsVisibleElementsSelectionTools, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

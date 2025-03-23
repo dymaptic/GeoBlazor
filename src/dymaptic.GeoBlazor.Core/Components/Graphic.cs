@@ -810,7 +810,9 @@ internal record GraphicSerializationRecord : MapComponentSerializationRecord
             Visible, null, AggregateGeometries, Origin?.FromSerializationRecord())
         {
             Id = graphicId,
+#pragma warning disable BL0005
             LayerId = layerId,
+#pragma warning restore BL0005
             ViewId = viewId
         };
     }

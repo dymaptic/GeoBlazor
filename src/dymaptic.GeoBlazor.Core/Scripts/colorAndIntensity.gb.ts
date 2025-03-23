@@ -16,12 +16,12 @@ export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorAndIntensity;
     
-    let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
-    let dnInstantiatedObject = await buildDotNetColorAndIntensity(jsColorAndIntensity, layerId, viewId);
-
     try {
+        let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
+        let dnInstantiatedObject = await buildDotNetColorAndIntensity(jsColorAndIntensity, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

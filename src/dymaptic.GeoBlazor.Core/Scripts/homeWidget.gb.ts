@@ -203,12 +203,12 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHome;
     
-    let { buildDotNetHomeWidget } = await import('./homeWidget');
-    let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
-
     try {
+        let { buildDotNetHomeWidget } = await import('./homeWidget');
+        let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

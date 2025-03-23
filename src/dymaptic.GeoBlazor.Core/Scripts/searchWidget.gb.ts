@@ -369,12 +369,12 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
     
-    let { buildDotNetSearchWidget } = await import('./searchWidget');
-    let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
-
     try {
+        let { buildDotNetSearchWidget } = await import('./searchWidget');
+        let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

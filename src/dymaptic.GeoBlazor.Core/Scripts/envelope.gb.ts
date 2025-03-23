@@ -22,12 +22,12 @@ export async function buildJsEnvelopeGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEnvelope;
     
-    let { buildDotNetEnvelope } = await import('./envelope');
-    let dnInstantiatedObject = await buildDotNetEnvelope(jsEnvelope, layerId, viewId);
-
     try {
+        let { buildDotNetEnvelope } = await import('./envelope');
+        let dnInstantiatedObject = await buildDotNetEnvelope(jsEnvelope, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

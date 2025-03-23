@@ -13,12 +13,12 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): P
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
-    let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
-
     try {
+        let { buildDotNetCapabilitiesMetadata } = await import('./capabilitiesMetadata');
+        let dnInstantiatedObject = await buildDotNetCapabilitiesMetadata(jsCapabilitiesMetadata);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

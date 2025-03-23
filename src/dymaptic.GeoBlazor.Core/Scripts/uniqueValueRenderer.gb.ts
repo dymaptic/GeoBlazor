@@ -279,12 +279,12 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
     
-    let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
-    let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer, layerId, viewId);
-
     try {
+        let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
+        let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -31,12 +31,12 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     
-    let { buildDotNetVisibleElementsMenuItems } = await import('./visibleElementsMenuItems');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsMenuItems(jsVisibleElementsMenuItems, layerId, viewId);
-
     try {
+        let { buildDotNetVisibleElementsMenuItems } = await import('./visibleElementsMenuItems');
+        let dnInstantiatedObject = await buildDotNetVisibleElementsMenuItems(jsVisibleElementsMenuItems, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

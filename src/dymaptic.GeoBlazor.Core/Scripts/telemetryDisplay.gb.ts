@@ -27,12 +27,12 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTelemetryDisplay;
     
-    let { buildDotNetTelemetryDisplay } = await import('./telemetryDisplay');
-    let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay);
-
     try {
+        let { buildDotNetTelemetryDisplay } = await import('./telemetryDisplay');
+        let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

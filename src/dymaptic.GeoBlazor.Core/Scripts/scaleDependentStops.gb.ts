@@ -20,12 +20,12 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleDependentStops;
     
-    let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
-    let dnInstantiatedObject = await buildDotNetScaleDependentStops(jsScaleDependentStops, layerId, viewId);
-
     try {
+        let { buildDotNetScaleDependentStops } = await import('./scaleDependentStops');
+        let dnInstantiatedObject = await buildDotNetScaleDependentStops(jsScaleDependentStops, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

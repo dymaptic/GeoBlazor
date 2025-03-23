@@ -21,12 +21,12 @@ export async function buildJsValuePickerComboboxGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerCombobox;
     
-    let { buildDotNetValuePickerCombobox } = await import('./valuePickerCombobox');
-    let dnInstantiatedObject = await buildDotNetValuePickerCombobox(jsValuePickerCombobox, layerId, viewId);
-
     try {
+        let { buildDotNetValuePickerCombobox } = await import('./valuePickerCombobox');
+        let dnInstantiatedObject = await buildDotNetValuePickerCombobox(jsValuePickerCombobox, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

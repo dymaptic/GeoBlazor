@@ -22,12 +22,12 @@ export async function buildJsExternalReferenceSpatialReferenceGenerated(dotNetOb
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExternalReferenceSpatialReference;
     
-    let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
-    let dnInstantiatedObject = await buildDotNetExternalReferenceSpatialReference(jsExternalReferenceSpatialReference, layerId, viewId);
-
     try {
+        let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
+        let dnInstantiatedObject = await buildDotNetExternalReferenceSpatialReference(jsExternalReferenceSpatialReference, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

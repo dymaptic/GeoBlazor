@@ -10,12 +10,12 @@ export async function buildJsISceneViewHitTestResultScreenPointGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewHitTestResultScreenPoint;
     
-    let { buildDotNetISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
-    let dnInstantiatedObject = await buildDotNetISceneViewHitTestResultScreenPoint(jsSceneViewHitTestResultScreenPoint, layerId, viewId);
-
     try {
+        let { buildDotNetISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
+        let dnInstantiatedObject = await buildDotNetISceneViewHitTestResultScreenPoint(jsSceneViewHitTestResultScreenPoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -23,12 +23,12 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfo;
     
-    let { buildDotNetKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo);
-
     try {
+        let { buildDotNetKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

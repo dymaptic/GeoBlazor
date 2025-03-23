@@ -21,12 +21,12 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
     
-    let { buildDotNetSizeStop } = await import('./sizeStop');
-    let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop, layerId, viewId);
-
     try {
+        let { buildDotNetSizeStop } = await import('./sizeStop');
+        let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

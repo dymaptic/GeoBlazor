@@ -28,12 +28,12 @@ export async function buildJsSnappingControlsVisibleElementsGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSnappingControlsVisibleElements;
     
-    let { buildDotNetSnappingControlsVisibleElements } = await import('./snappingControlsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetSnappingControlsVisibleElements(jsSnappingControlsVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetSnappingControlsVisibleElements } = await import('./snappingControlsVisibleElements');
+        let dnInstantiatedObject = await buildDotNetSnappingControlsVisibleElements(jsSnappingControlsVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

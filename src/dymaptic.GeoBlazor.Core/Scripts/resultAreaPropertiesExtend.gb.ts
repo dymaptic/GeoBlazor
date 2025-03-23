@@ -26,12 +26,12 @@ export async function buildJsResultAreaPropertiesExtendGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsResultAreaPropertiesExtend;
     
-    let { buildDotNetResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
-    let dnInstantiatedObject = await buildDotNetResultAreaPropertiesExtend(jsResultAreaPropertiesExtend, layerId, viewId);
-
     try {
+        let { buildDotNetResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
+        let dnInstantiatedObject = await buildDotNetResultAreaPropertiesExtend(jsResultAreaPropertiesExtend, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -755,12 +755,12 @@ export async function buildJsGeometryEngineAsyncGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = geometryEngineAsyncWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsgeometryEngineAsync;
     
-    let { buildDotNetGeometryEngineAsync } = await import('./geometryEngineAsync');
-    let dnInstantiatedObject = await buildDotNetGeometryEngineAsync(jsgeometryEngineAsync, layerId, viewId);
-
     try {
+        let { buildDotNetGeometryEngineAsync } = await import('./geometryEngineAsync');
+        let dnInstantiatedObject = await buildDotNetGeometryEngineAsync(jsgeometryEngineAsync, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

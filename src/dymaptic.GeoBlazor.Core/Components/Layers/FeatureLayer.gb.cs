@@ -4706,6 +4706,57 @@ public partial class FeatureLayer : IAPIKeyMixin,
             JsComponentReference, "popupEnabled", value);
     }
     
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PopupTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPopupTemplate(PopupTemplate? value)
+    {
+        if (PopupTemplate is not null)
+        {
+            await PopupTemplate.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        PopupTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PopupTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setPopupTemplate", 
+            CancellationTokenSource.Token, value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the PortalItem property after render.
     /// </summary>

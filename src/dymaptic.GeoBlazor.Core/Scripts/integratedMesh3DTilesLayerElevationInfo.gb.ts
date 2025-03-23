@@ -19,12 +19,12 @@ export async function buildJsIntegratedMesh3DTilesLayerElevationInfoGenerated(do
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIntegratedMesh3DTilesLayerElevationInfo;
     
-    let { buildDotNetIntegratedMesh3DTilesLayerElevationInfo } = await import('./integratedMesh3DTilesLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetIntegratedMesh3DTilesLayerElevationInfo(jsIntegratedMesh3DTilesLayerElevationInfo);
-
     try {
+        let { buildDotNetIntegratedMesh3DTilesLayerElevationInfo } = await import('./integratedMesh3DTilesLayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetIntegratedMesh3DTilesLayerElevationInfo(jsIntegratedMesh3DTilesLayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

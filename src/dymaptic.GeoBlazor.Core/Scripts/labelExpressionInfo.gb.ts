@@ -16,12 +16,12 @@ export async function buildJsLabelExpressionInfoGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClassLabelExpressionInfo;
     
-    let { buildDotNetLabelExpressionInfo } = await import('./labelExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetLabelExpressionInfo(jsLabelClassLabelExpressionInfo);
-
     try {
+        let { buildDotNetLabelExpressionInfo } = await import('./labelExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetLabelExpressionInfo(jsLabelClassLabelExpressionInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

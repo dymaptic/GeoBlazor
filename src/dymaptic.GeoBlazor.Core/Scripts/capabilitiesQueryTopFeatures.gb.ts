@@ -13,12 +13,12 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
     
-    let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesQueryTopFeatures(jsCapabilitiesQueryTopFeatures);
-
     try {
+        let { buildDotNetCapabilitiesQueryTopFeatures } = await import('./capabilitiesQueryTopFeatures');
+        let dnInstantiatedObject = await buildDotNetCapabilitiesQueryTopFeatures(jsCapabilitiesQueryTopFeatures);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

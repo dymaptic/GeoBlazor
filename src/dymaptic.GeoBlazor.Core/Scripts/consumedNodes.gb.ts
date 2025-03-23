@@ -16,12 +16,12 @@ export async function buildJsConsumedNodesGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConsumedNodes;
     
-    let { buildDotNetConsumedNodes } = await import('./consumedNodes');
-    let dnInstantiatedObject = await buildDotNetConsumedNodes(jsConsumedNodes, layerId, viewId);
-
     try {
+        let { buildDotNetConsumedNodes } = await import('./consumedNodes');
+        let dnInstantiatedObject = await buildDotNetConsumedNodes(jsConsumedNodes, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

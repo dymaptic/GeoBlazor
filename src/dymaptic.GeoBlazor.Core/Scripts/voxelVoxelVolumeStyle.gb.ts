@@ -26,12 +26,12 @@ export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsvoxelVoxelVolumeStyle;
     
-    let { buildDotNetVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
-    let dnInstantiatedObject = await buildDotNetVoxelVoxelVolumeStyle(jsvoxelVoxelVolumeStyle, layerId, viewId);
-
     try {
+        let { buildDotNetVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
+        let dnInstantiatedObject = await buildDotNetVoxelVoxelVolumeStyle(jsvoxelVoxelVolumeStyle, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

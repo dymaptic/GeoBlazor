@@ -16,12 +16,12 @@ export async function buildJsFeatureServiceApplyEditsEditsIdentifierFieldsGenera
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceApplyEditsEditsIdentifierFields;
     
-    let { buildDotNetFeatureServiceApplyEditsEditsIdentifierFields } = await import('./featureServiceApplyEditsEditsIdentifierFields');
-    let dnInstantiatedObject = await buildDotNetFeatureServiceApplyEditsEditsIdentifierFields(jsFeatureServiceApplyEditsEditsIdentifierFields, layerId, viewId);
-
     try {
+        let { buildDotNetFeatureServiceApplyEditsEditsIdentifierFields } = await import('./featureServiceApplyEditsEditsIdentifierFields');
+        let dnInstantiatedObject = await buildDotNetFeatureServiceApplyEditsEditsIdentifierFields(jsFeatureServiceApplyEditsEditsIdentifierFields, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

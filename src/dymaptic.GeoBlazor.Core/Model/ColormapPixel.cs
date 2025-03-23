@@ -15,4 +15,5 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Blue">
 ///     The blue value of the pixel.
 /// </param>
+[JsonConverter(typeof(ColormapPixelConverter))]
 public record ColormapPixel(double Value, double Red, double Green, double Blue);

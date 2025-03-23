@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetPixelBlockStatistics } from './pixelBlockStatistics';
 
-export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any): Promise<any> {
     let jsPixelBlockStatistics: any = {};
 
     if (hasValue(dotNetObject.maxValue)) {
@@ -19,12 +19,12 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     
-    let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-    let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics, layerId, viewId);
-
     try {
+        let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
+        let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -47,7 +47,7 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any, la
 }
 
 
-export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelBlockStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

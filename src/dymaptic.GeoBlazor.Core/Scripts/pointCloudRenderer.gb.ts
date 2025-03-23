@@ -23,12 +23,12 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any): Pro
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRenderer;
     
-    let { buildDotNetPointCloudRenderer } = await import('./pointCloudRenderer');
-    let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer);
-
     try {
+        let { buildDotNetPointCloudRenderer } = await import('./pointCloudRenderer');
+        let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

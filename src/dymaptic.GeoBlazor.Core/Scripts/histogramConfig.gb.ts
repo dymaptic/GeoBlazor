@@ -45,12 +45,12 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHistogramConfig;
     
-    let { buildDotNetHistogramConfig } = await import('./histogramConfig');
-    let dnInstantiatedObject = await buildDotNetHistogramConfig(jsHistogramConfig, layerId, viewId);
-
     try {
+        let { buildDotNetHistogramConfig } = await import('./histogramConfig');
+        let dnInstantiatedObject = await buildDotNetHistogramConfig(jsHistogramConfig, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

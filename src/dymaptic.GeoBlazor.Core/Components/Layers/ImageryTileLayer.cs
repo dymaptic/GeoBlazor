@@ -137,6 +137,8 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
         {
             return;
         }
+        
+        ModifiedParameters[nameof(Renderer)] = renderer;
 
         await JsComponentReference.InvokeVoidAsync("setRenderer", renderer);
     }

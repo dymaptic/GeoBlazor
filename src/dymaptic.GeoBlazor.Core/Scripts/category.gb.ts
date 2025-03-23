@@ -16,12 +16,12 @@ export async function buildJsCategoryGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCategory;
     
-    let { buildDotNetCategory } = await import('./category');
-    let dnInstantiatedObject = await buildDotNetCategory(jsCategory, layerId, viewId);
-
     try {
+        let { buildDotNetCategory } = await import('./category');
+        let dnInstantiatedObject = await buildDotNetCategory(jsCategory, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

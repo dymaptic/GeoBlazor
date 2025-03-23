@@ -12,12 +12,12 @@ export async function buildJsInputGenerated(dotNetObject: any, layerId: string |
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsInput;
     
-    let { buildDotNetInput } = await import('./input');
-    let dnInstantiatedObject = await buildDotNetInput(jsInput, layerId, viewId);
-
     try {
+        let { buildDotNetInput } = await import('./input');
+        let dnInstantiatedObject = await buildDotNetInput(jsInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -23,12 +23,12 @@ export async function buildJsFeatureLayerBaseElevationInfoGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfo;
     
-    let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
-    let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo);
-
     try {
+        let { buildDotNetFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
+        let dnInstantiatedObject = await buildDotNetFeatureLayerBaseElevationInfo(jsFeatureLayerBaseElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

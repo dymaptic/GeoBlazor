@@ -16,12 +16,12 @@ export async function buildJsSceneViewScreenshotGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewScreenshot;
     
-    let { buildDotNetSceneViewScreenshot } = await import('./sceneViewScreenshot');
-    let dnInstantiatedObject = await buildDotNetSceneViewScreenshot(jsSceneViewScreenshot, layerId, viewId);
-
     try {
+        let { buildDotNetSceneViewScreenshot } = await import('./sceneViewScreenshot');
+        let dnInstantiatedObject = await buildDotNetSceneViewScreenshot(jsSceneViewScreenshot, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

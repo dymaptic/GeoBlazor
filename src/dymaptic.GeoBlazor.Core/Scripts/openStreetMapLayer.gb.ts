@@ -297,12 +297,12 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = openStreetMapLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
     
-    let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
-    let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer);
-
     try {
+        let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
+        let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

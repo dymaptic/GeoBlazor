@@ -31,12 +31,12 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any):
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     
-    let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment);
-
     try {
+        let { buildDotNetCapabilitiesAttachment } = await import('./capabilitiesAttachment');
+        let dnInstantiatedObject = await buildDotNetCapabilitiesAttachment(jsCapabilitiesAttachment);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

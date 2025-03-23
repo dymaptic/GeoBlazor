@@ -13,12 +13,12 @@ export async function buildJsLegendStyleGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendStyle;
     
-    let { buildDotNetLegendStyle } = await import('./legendStyle');
-    let dnInstantiatedObject = await buildDotNetLegendStyle(jsLegendStyle, layerId, viewId);
-
     try {
+        let { buildDotNetLegendStyle } = await import('./legendStyle');
+        let dnInstantiatedObject = await buildDotNetLegendStyle(jsLegendStyle, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

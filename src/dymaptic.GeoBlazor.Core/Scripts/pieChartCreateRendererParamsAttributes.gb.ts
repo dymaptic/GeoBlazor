@@ -22,12 +22,12 @@ export async function buildJsPieChartCreateRendererParamsAttributesGenerated(dot
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspieChartCreateRendererParamsAttributes;
     
-    let { buildDotNetPieChartCreateRendererParamsAttributes } = await import('./pieChartCreateRendererParamsAttributes');
-    let dnInstantiatedObject = await buildDotNetPieChartCreateRendererParamsAttributes(jspieChartCreateRendererParamsAttributes, layerId, viewId);
-
     try {
+        let { buildDotNetPieChartCreateRendererParamsAttributes } = await import('./pieChartCreateRendererParamsAttributes');
+        let dnInstantiatedObject = await buildDotNetPieChartCreateRendererParamsAttributes(jspieChartCreateRendererParamsAttributes, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

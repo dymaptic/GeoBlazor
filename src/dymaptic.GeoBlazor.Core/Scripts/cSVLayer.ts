@@ -12,7 +12,7 @@ export default class CSVLayerWrapper extends CSVLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -22,6 +22,11 @@ export default class CSVLayerWrapper extends CSVLayerGenerated {
         let { buildJsIFeatureReduction } = await import('./iFeatureReduction');
         let jsFeatureReduction = await buildJsIFeatureReduction(featureReduction, this.layerId, this.viewId);
         this.layer.featureReduction = jsFeatureReduction;
+    }
+
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
     }
 }
 

@@ -15,12 +15,12 @@ export async function buildJsGPMessageGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGPMessage;
     
-    let { buildDotNetGPMessage } = await import('./gPMessage');
-    let dnInstantiatedObject = await buildDotNetGPMessage(jsGPMessage, layerId, viewId);
-
     try {
+        let { buildDotNetGPMessage } = await import('./gPMessage');
+        let dnInstantiatedObject = await buildDotNetGPMessage(jsGPMessage, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

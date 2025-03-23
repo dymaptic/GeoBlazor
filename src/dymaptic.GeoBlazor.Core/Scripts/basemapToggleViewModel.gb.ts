@@ -95,12 +95,12 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
     
-    let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
-
     try {
+        let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
+        let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

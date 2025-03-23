@@ -28,12 +28,12 @@ export async function buildJsShadowCastVisibleElementsGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsShadowCastVisibleElements;
     
-    let { buildDotNetShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
-    let dnInstantiatedObject = await buildDotNetShadowCastVisibleElements(jsShadowCastVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
+        let dnInstantiatedObject = await buildDotNetShadowCastVisibleElements(jsShadowCastVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

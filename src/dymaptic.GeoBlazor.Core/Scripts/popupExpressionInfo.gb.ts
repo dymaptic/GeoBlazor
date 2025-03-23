@@ -24,12 +24,12 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspopupExpressionInfo;
     
-    let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo, layerId, viewId);
-
     try {
+        let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

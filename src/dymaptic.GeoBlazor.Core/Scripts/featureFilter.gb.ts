@@ -129,12 +129,12 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
     
-    let { buildDotNetFeatureFilter } = await import('./featureFilter');
-    let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
-
     try {
+        let { buildDotNetFeatureFilter } = await import('./featureFilter');
+        let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

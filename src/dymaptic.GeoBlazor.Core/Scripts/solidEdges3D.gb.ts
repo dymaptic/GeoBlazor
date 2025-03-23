@@ -22,12 +22,12 @@ export async function buildJsSolidEdges3DGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSolidEdges3D;
     
-    let { buildDotNetSolidEdges3D } = await import('./solidEdges3D');
-    let dnInstantiatedObject = await buildDotNetSolidEdges3D(jsSolidEdges3D, layerId, viewId);
-
     try {
+        let { buildDotNetSolidEdges3D } = await import('./solidEdges3D');
+        let dnInstantiatedObject = await buildDotNetSolidEdges3D(jsSolidEdges3D, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

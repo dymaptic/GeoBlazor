@@ -16,12 +16,12 @@ export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGraphNamedObjectDeletes;
     
-    let { buildDotNetGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
-    let dnInstantiatedObject = await buildDotNetGraphNamedObjectDeletes(jsGraphNamedObjectDeletes, layerId, viewId);
-
     try {
+        let { buildDotNetGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
+        let dnInstantiatedObject = await buildDotNetGraphNamedObjectDeletes(jsGraphNamedObjectDeletes, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

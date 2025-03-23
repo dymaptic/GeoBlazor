@@ -307,12 +307,12 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = popupViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopupViewModel;
     
-    let { buildDotNetPopupViewModel } = await import('./popupViewModel');
-    let dnInstantiatedObject = await buildDotNetPopupViewModel(jsPopupViewModel, layerId, viewId);
-
     try {
+        let { buildDotNetPopupViewModel } = await import('./popupViewModel');
+        let dnInstantiatedObject = await buildDotNetPopupViewModel(jsPopupViewModel, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

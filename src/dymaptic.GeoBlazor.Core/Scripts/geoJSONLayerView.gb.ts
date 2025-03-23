@@ -31,7 +31,7 @@ export default class GeoJSONLayerViewGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -137,12 +137,12 @@ export default class GeoJSONLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -176,7 +176,7 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsGeoJSONLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        jsGeoJSONLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -199,12 +199,12 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = geoJSONLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerView;
     
-    let { buildDotNetGeoJSONLayerView } = await import('./geoJSONLayerView');
-    let dnInstantiatedObject = await buildDotNetGeoJSONLayerView(jsGeoJSONLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetGeoJSONLayerView } = await import('./geoJSONLayerView');
+        let dnInstantiatedObject = await buildDotNetGeoJSONLayerView(jsGeoJSONLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -227,7 +227,7 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -246,7 +246,7 @@ export async function buildDotNetGeoJSONLayerViewGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetGeoJSONLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
+        dotNetGeoJSONLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.availableFields)) {

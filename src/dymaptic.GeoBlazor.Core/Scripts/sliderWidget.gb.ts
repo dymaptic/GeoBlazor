@@ -382,12 +382,12 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
-    let { buildDotNetSliderWidget } = await import('./sliderWidget');
-    let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
-
     try {
+        let { buildDotNetSliderWidget } = await import('./sliderWidget');
+        let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

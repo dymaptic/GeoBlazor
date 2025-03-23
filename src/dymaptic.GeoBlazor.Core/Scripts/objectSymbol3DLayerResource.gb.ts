@@ -16,12 +16,12 @@ export async function buildJsObjectSymbol3DLayerResourceGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsObjectSymbol3DLayerResource;
     
-    let { buildDotNetObjectSymbol3DLayerResource } = await import('./objectSymbol3DLayerResource');
-    let dnInstantiatedObject = await buildDotNetObjectSymbol3DLayerResource(jsObjectSymbol3DLayerResource, layerId, viewId);
-
     try {
+        let { buildDotNetObjectSymbol3DLayerResource } = await import('./objectSymbol3DLayerResource');
+        let dnInstantiatedObject = await buildDotNetObjectSymbol3DLayerResource(jsObjectSymbol3DLayerResource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

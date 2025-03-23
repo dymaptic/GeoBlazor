@@ -13,12 +13,12 @@ export async function buildJsSupportingWidgetDefaultsFeatureFormGenerated(dotNet
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureForm;
     
-    let { buildDotNetSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
-    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureForm(jsSupportingWidgetDefaultsFeatureForm, layerId, viewId);
-
     try {
+        let { buildDotNetSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
+        let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureForm(jsSupportingWidgetDefaultsFeatureForm, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

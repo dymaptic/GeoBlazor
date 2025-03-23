@@ -16,12 +16,12 @@ export async function buildJsProjectParametersTransformationGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsProjectParametersTransformation;
     
-    let { buildDotNetProjectParametersTransformation } = await import('./projectParametersTransformation');
-    let dnInstantiatedObject = await buildDotNetProjectParametersTransformation(jsProjectParametersTransformation, layerId, viewId);
-
     try {
+        let { buildDotNetProjectParametersTransformation } = await import('./projectParametersTransformation');
+        let dnInstantiatedObject = await buildDotNetProjectParametersTransformation(jsProjectParametersTransformation, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

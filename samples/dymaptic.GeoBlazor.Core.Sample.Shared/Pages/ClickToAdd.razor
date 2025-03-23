@@ -32,11 +32,6 @@
     private async Task OnClick(ClickEvent arg)
     {
         Point point = arg.MapPoint;
-        if (_graphic is null)
-        {
-            _graphic = new Graphic(point);
-            await _graphicsLayer!.Add(_graphic);
-        }
         
         HitTestResult result = await _mapView!.HitTest(arg);
         
@@ -44,6 +39,12 @@
         {
             // already added this point
             return;
+        }
+        
+        if (_graphic is null)
+        {
+            _graphic = new Graphic(point);
+            await _graphicsLayer!.Add(_graphic);
         }
 
         SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(new Outline(new MapColor("blue")),

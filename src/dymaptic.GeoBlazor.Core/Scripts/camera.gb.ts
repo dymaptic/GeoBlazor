@@ -29,12 +29,12 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCamera;
     
-    let { buildDotNetCamera } = await import('./camera');
-    let dnInstantiatedObject = await buildDotNetCamera(jsCamera, layerId, viewId);
-
     try {
+        let { buildDotNetCamera } = await import('./camera');
+        let dnInstantiatedObject = await buildDotNetCamera(jsCamera, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

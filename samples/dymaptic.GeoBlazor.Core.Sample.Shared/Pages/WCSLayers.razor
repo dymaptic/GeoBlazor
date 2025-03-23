@@ -19,7 +19,7 @@
         </Basemap>
         @if (_markup)
         {
-            <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS"></WCSLayer>
+            <WCSLayer Url="https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer"></WCSLayer>
         }
 
     </Map>
@@ -78,7 +78,7 @@
     private MapView? _view;
     private bool _markup;
     private bool _mapRendered;
-    private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer?request=GetCapabilities&service=WCS";
+    private string _wcsLayerUrl = "https://sampleserver6.arcgisonline.com/arcgis/services/ScientificData/SeaTemperature/ImageServer/WCSServer";
     private double _wcsSampleOpacity = 0.5;
     private string _wcsSampleTitle = "Sea temperature - sea level";
     private RasterStretchRenderer? _wcsSampleRenderer;

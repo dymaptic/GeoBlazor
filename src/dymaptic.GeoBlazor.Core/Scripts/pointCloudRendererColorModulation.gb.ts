@@ -19,12 +19,12 @@ export async function buildJsPointCloudRendererColorModulationGenerated(dotNetOb
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererColorModulation;
     
-    let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation);
-
     try {
+        let { buildDotNetPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
+        let dnInstantiatedObject = await buildDotNetPointCloudRendererColorModulation(jsPointCloudRendererColorModulation);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

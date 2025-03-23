@@ -16,12 +16,12 @@ export async function buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayerAnchorPosition;
     
-    let { buildDotNetIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
-    let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerAnchorPosition(jsIconSymbol3DLayerAnchorPosition, layerId, viewId);
-
     try {
+        let { buildDotNetIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
+        let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerAnchorPosition(jsIconSymbol3DLayerAnchorPosition, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

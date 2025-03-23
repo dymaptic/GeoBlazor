@@ -547,12 +547,12 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     
-    let { buildDotNetPortal } = await import('./portal');
-    let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
-
     try {
+        let { buildDotNetPortal } = await import('./portal');
+        let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

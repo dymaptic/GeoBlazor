@@ -16,12 +16,12 @@ export async function buildJsNamedObjectEditResultsGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsNamedObjectEditResults;
     
-    let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
-    let dnInstantiatedObject = await buildDotNetNamedObjectEditResults(jsNamedObjectEditResults, layerId, viewId);
-
     try {
+        let { buildDotNetNamedObjectEditResults } = await import('./namedObjectEditResults');
+        let dnInstantiatedObject = await buildDotNetNamedObjectEditResults(jsNamedObjectEditResults, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

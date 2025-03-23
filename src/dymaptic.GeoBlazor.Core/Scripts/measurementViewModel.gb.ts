@@ -28,12 +28,12 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     
-    let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
-    let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel);
-
     try {
+        let { buildDotNetMeasurementViewModel } = await import('./measurementViewModel');
+        let dnInstantiatedObject = await buildDotNetMeasurementViewModel(jsMeasurementViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

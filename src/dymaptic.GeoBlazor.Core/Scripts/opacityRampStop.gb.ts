@@ -23,12 +23,12 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     
-    let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
-    let dnInstantiatedObject = await buildDotNetOpacityRampStop(jsOpacityRampStop, layerId, viewId);
-
     try {
+        let { buildDotNetOpacityRampStop } = await import('./opacityRampStop');
+        let dnInstantiatedObject = await buildDotNetOpacityRampStop(jsOpacityRampStop, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

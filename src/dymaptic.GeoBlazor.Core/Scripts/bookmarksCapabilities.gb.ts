@@ -13,12 +13,12 @@ export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any): 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksCapabilities;
     
-    let { buildDotNetBookmarksCapabilities } = await import('./bookmarksCapabilities');
-    let dnInstantiatedObject = await buildDotNetBookmarksCapabilities(jsBookmarksCapabilities);
-
     try {
+        let { buildDotNetBookmarksCapabilities } = await import('./bookmarksCapabilities');
+        let dnInstantiatedObject = await buildDotNetBookmarksCapabilities(jsBookmarksCapabilities);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -253,12 +253,12 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = kMLLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayer;
     
-    let { buildDotNetKMLLayer } = await import('./kMLLayer');
-    let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer);
-
     try {
+        let { buildDotNetKMLLayer } = await import('./kMLLayer');
+        let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

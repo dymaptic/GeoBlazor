@@ -231,12 +231,12 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
     
-    let { buildDotNetLocateWidget } = await import('./locateWidget');
-    let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
-
     try {
+        let { buildDotNetLocateWidget } = await import('./locateWidget');
+        let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

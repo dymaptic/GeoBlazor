@@ -31,7 +31,7 @@ public abstract partial class Layer : IHitTestItem,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public bool? Loaded { get; protected set; }
+    public bool? Loaded { get; protected internal set; }
     
 #endregion
 

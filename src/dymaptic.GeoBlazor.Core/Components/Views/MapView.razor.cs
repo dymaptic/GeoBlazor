@@ -78,6 +78,9 @@ public partial class MapView : MapComponent
         }
     }
 #pragma warning restore BL0007
+    
+    [Parameter]
+    public MapColor? BackgroundColor { get; set; }
 
     /// <summary>
     ///     Represents the level of detail (LOD) at the center of the view.
@@ -840,6 +843,7 @@ public partial class MapView : MapComponent
         if (createdLayer is not null) // layer already exists in GeoBlazor
         {
             createdLayer.LayerView = layerView;
+            createdLayer.Loaded = true;
 
             if (layerViewCreateEvent.Layer is not null)
             {
@@ -865,6 +869,7 @@ public partial class MapView : MapComponent
                 layer.ProJsModule = ProJsModule;
                 layer.AbortManager = new AbortManager(CoreJsModule!);
                 layer.Imported = true;
+                layer.Loaded = true;
 
                 if (layerView is not null)
                 {
@@ -1623,6 +1628,17 @@ public partial class MapView : MapComponent
         }
     }
 
+    public async Task SetBackgroundColor(MapColor backgroundColor)
+    {
+        BackgroundColor = backgroundColor;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setBackgroundColor", CancellationTokenSource.Token, Id, backgroundColor);
+    }
+
     /// <summary>
     ///     Returns the center <see cref="Point" /> of the current view extent.
     /// </summary>
@@ -1811,6 +1827,8 @@ public partial class MapView : MapComponent
             await CoreJsModule.InvokeVoidAsync("setConstraints",
                 CancellationTokenSource.Token, (object)Constraints, Id);
         }
+        
+        ModifiedParameters[nameof(Constraints)] = constraints;
     }
 
     /// <summary>
@@ -1827,6 +1845,8 @@ public partial class MapView : MapComponent
             await CoreJsModule.InvokeVoidAsync("setHighlightOptions",
                 CancellationTokenSource.Token, (object)HighlightOptions, Id);
         }
+        
+        ModifiedParameters[nameof(HighlightOptions)] = highlightOptions;
     }
 
     /// <summary>
@@ -1843,6 +1863,8 @@ public partial class MapView : MapComponent
             await CoreJsModule.InvokeVoidAsync("setSpatialReference",
                 CancellationTokenSource.Token, (object)SpatialReference, Id);
         }
+        
+        ModifiedParameters[nameof(SpatialReference)] = spatialReference;
     }
 
     /// <summary>
@@ -2079,6 +2101,7 @@ public partial class MapView : MapComponent
         {
             widget.Parent ??= this;
             widget.View ??= this;
+            widget.CoreJsModule ??= CoreJsModule;
         }
 
         if (CoreJsModule is null || !widget.ArcGISWidget) return;
@@ -2319,7 +2342,7 @@ public partial class MapView : MapComponent
 
             await CoreJsModule.InvokeVoidAsync("buildMapView", CancellationTokenSource.Token, Id,
                 DotNetComponentReference, Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 
             Rendering = false;

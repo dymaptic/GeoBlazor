@@ -26,12 +26,12 @@ export async function buildJsConfigGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsConfig;
     
-    let { buildDotNetConfig } = await import('./config');
-    let dnInstantiatedObject = await buildDotNetConfig(jsConfig, layerId, viewId);
-
     try {
+        let { buildDotNetConfig } = await import('./config');
+        let dnInstantiatedObject = await buildDotNetConfig(jsConfig, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

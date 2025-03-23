@@ -21,12 +21,12 @@ export async function buildJsSunLightGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSunLight;
     
-    let { buildDotNetSunLight } = await import('./sunLight');
-    let dnInstantiatedObject = await buildDotNetSunLight(jsSunLight, layerId, viewId);
-
     try {
+        let { buildDotNetSunLight } = await import('./sunLight');
+        let dnInstantiatedObject = await buildDotNetSunLight(jsSunLight, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

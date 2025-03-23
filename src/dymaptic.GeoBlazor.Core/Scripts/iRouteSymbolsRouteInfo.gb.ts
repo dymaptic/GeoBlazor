@@ -10,12 +10,12 @@ export async function buildJsIRouteSymbolsRouteInfoGenerated(dotNetObject: any):
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsRouteInfo;
     
-    let { buildDotNetIRouteSymbolsRouteInfo } = await import('./iRouteSymbolsRouteInfo');
-    let dnInstantiatedObject = await buildDotNetIRouteSymbolsRouteInfo(jsRouteSymbolsRouteInfo);
-
     try {
+        let { buildDotNetIRouteSymbolsRouteInfo } = await import('./iRouteSymbolsRouteInfo');
+        let dnInstantiatedObject = await buildDotNetIRouteSymbolsRouteInfo(jsRouteSymbolsRouteInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

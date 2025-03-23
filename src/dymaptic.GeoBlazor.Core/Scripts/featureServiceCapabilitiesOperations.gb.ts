@@ -40,12 +40,12 @@ export async function buildJsFeatureServiceCapabilitiesOperationsGenerated(dotNe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceCapabilitiesOperations;
     
-    let { buildDotNetFeatureServiceCapabilitiesOperations } = await import('./featureServiceCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesOperations(jsFeatureServiceCapabilitiesOperations, layerId, viewId);
-
     try {
+        let { buildDotNetFeatureServiceCapabilitiesOperations } = await import('./featureServiceCapabilitiesOperations');
+        let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesOperations(jsFeatureServiceCapabilitiesOperations, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

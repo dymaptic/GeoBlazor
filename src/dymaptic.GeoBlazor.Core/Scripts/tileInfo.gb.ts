@@ -127,12 +127,12 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
     
-    let { buildDotNetTileInfo } = await import('./tileInfo');
-    let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
-
     try {
+        let { buildDotNetTileInfo } = await import('./tileInfo');
+        let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

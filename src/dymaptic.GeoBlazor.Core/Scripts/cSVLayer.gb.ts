@@ -630,12 +630,12 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = cSVLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayer;
     
-    let { buildDotNetCSVLayer } = await import('./cSVLayer');
-    let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer);
-
     try {
+        let { buildDotNetCSVLayer } = await import('./cSVLayer');
+        let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

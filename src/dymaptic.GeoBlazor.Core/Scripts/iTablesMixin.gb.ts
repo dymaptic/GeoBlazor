@@ -14,12 +14,12 @@ export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;
     
-    let { buildDotNetITablesMixin } = await import('./iTablesMixin');
-    let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin, layerId, viewId);
-
     try {
+        let { buildDotNetITablesMixin } = await import('./iTablesMixin');
+        let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

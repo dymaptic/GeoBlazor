@@ -52,12 +52,12 @@ export async function buildJsMapViewConstraintsGenerated(dotNetObject: any): Pro
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewConstraints;
     
-    let { buildDotNetMapViewConstraints } = await import('./mapViewConstraints');
-    let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints);
-
     try {
+        let { buildDotNetMapViewConstraints } = await import('./mapViewConstraints');
+        let dnInstantiatedObject = await buildDotNetMapViewConstraints(jsMapViewConstraints);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

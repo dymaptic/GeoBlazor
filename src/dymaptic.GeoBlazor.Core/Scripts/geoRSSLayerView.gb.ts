@@ -65,12 +65,12 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = geoRSSLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayerView;
     
-    let { buildDotNetGeoRSSLayerView } = await import('./geoRSSLayerView');
-    let dnInstantiatedObject = await buildDotNetGeoRSSLayerView(jsGeoRSSLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetGeoRSSLayerView } = await import('./geoRSSLayerView');
+        let dnInstantiatedObject = await buildDotNetGeoRSSLayerView(jsGeoRSSLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -93,7 +93,7 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

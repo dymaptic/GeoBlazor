@@ -18,12 +18,12 @@ export async function buildJsTextAreaInputGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTextAreaInput;
     
-    let { buildDotNetTextAreaInput } = await import('./textAreaInput');
-    let dnInstantiatedObject = await buildDotNetTextAreaInput(jsTextAreaInput, layerId, viewId);
-
     try {
+        let { buildDotNetTextAreaInput } = await import('./textAreaInput');
+        let dnInstantiatedObject = await buildDotNetTextAreaInput(jsTextAreaInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

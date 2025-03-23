@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetHighlightOptions } from './highlightOptions';
 
-export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
     let jsHighlightOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -34,12 +34,12 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
     
-    let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-    let dnInstantiatedObject = await buildDotNetHighlightOptions(jsHighlightOptions, layerId, viewId);
-
     try {
+        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
+        let dnInstantiatedObject = await buildDotNetHighlightOptions(jsHighlightOptions);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -62,7 +62,7 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetHighlightOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetHighlightOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

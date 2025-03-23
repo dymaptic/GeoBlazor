@@ -17,12 +17,12 @@ export async function buildJsDistanceMeasurement2DViewModelMeasurementGenerated(
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModelMeasurement;
     
-    let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
-    let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsDistanceMeasurement2DViewModelMeasurement);
-
     try {
+        let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
+        let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsDistanceMeasurement2DViewModelMeasurement);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

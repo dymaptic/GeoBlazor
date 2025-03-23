@@ -17,12 +17,12 @@ export async function buildJsColorRampElementGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorRampElement;
     
-    let { buildDotNetColorRampElement } = await import('./colorRampElement');
-    let dnInstantiatedObject = await buildDotNetColorRampElement(jsColorRampElement, layerId, viewId);
-
     try {
+        let { buildDotNetColorRampElement } = await import('./colorRampElement');
+        let dnInstantiatedObject = await buildDotNetColorRampElement(jsColorRampElement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

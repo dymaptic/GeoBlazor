@@ -16,12 +16,12 @@ export async function buildJsDeviceLocationFeedGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDeviceLocationFeed;
     
-    let { buildDotNetDeviceLocationFeed } = await import('./deviceLocationFeed');
-    let dnInstantiatedObject = await buildDotNetDeviceLocationFeed(jsDeviceLocationFeed, layerId, viewId);
-
     try {
+        let { buildDotNetDeviceLocationFeed } = await import('./deviceLocationFeed');
+        let dnInstantiatedObject = await buildDotNetDeviceLocationFeed(jsDeviceLocationFeed, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

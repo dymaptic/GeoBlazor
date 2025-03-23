@@ -636,12 +636,12 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = geoJSONLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayer;
     
-    let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
-    let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer);
-
     try {
+        let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
+        let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -1,5 +1,6 @@
 import SliderWidgetGenerated from './sliderWidget.gb';
 import Slider from '@arcgis/core/widgets/Slider';
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 
 export default class SliderWidgetWrapper extends SliderWidgetGenerated {
     constructor(widget: Slider) {
@@ -51,7 +52,16 @@ export default class SliderWidgetWrapper extends SliderWidgetGenerated {
 
 export async function buildJsSliderWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsSliderWidgetGenerated } = await import('./sliderWidget.gb');
-    return await buildJsSliderWidgetGenerated(dotNetObject, layerId, viewId);
+    let jsObject = await buildJsSliderWidgetGenerated(dotNetObject, layerId, viewId);
+
+    reactiveUtils.watch(
+        () => jsObject.values,
+        async () => {
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsValueChanged', jsObject.values);
+        }
+    );
+    
+    return jsObject;
 }
 
 export async function buildDotNetSliderWidget(jsObject: any): Promise<any> {

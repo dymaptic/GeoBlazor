@@ -53,12 +53,12 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
     
-    let { buildDotNetLabel } = await import('./label');
-    let dnInstantiatedObject = await buildDotNetLabel(jsLabelClass);
-
     try {
+        let { buildDotNetLabel } = await import('./label');
+        let dnInstantiatedObject = await buildDotNetLabel(jsLabelClass);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

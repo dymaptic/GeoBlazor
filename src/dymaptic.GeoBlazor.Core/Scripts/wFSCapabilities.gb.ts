@@ -18,12 +18,12 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSCapabilities;
     
-    let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-    let dnInstantiatedObject = await buildDotNetWFSCapabilities(jsWFSCapabilities);
-
     try {
+        let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
+        let dnInstantiatedObject = await buildDotNetWFSCapabilities(jsWFSCapabilities);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

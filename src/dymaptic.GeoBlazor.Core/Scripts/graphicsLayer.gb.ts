@@ -278,12 +278,12 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
-    let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
-    let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
-
     try {
+        let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
+        let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

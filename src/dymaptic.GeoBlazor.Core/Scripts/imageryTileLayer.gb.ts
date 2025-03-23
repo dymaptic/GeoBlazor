@@ -535,12 +535,12 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
     
-    let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
-    let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
-
     try {
+        let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
+        let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

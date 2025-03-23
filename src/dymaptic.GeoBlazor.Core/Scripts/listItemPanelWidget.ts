@@ -1,18 +1,56 @@
 // override generated code in this file
-import ListItemPanelWidgetGenerated from './listItemPanelWidget.gb';
 import ListItemPanel from '@arcgis/core/widgets/LayerList/ListItemPanel';
-
-export default class ListItemPanelWidgetWrapper extends ListItemPanelWidgetGenerated {
-
-    constructor(widget: ListItemPanel) {
-        super(widget);
-    }
-
-}
+import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export async function buildJsListItemPanelWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
-    let {buildJsListItemPanelWidgetGenerated} = await import('./listItemPanelWidget.gb');
-    return await buildJsListItemPanelWidgetGenerated(dotNetObject, layerId, viewId);
+    let properties: any = {};
+    if (hasValue(dotNetObject.className)) {
+        properties.className = dotNetObject.className;
+    }
+    
+    if (hasValue(dotNetObject.containerId)) {
+        let contentDiv = document.getElementById(dotNetObject.containerId);
+        properties.content = contentDiv;
+    } else if (hasValue(dotNetObject.contentWidgetId)) {
+        let contentWidget = arcGisObjectRefs[dotNetObject.contentWidgetId];
+        properties.content = contentWidget;
+    } else if (hasValue(dotNetObject.stringContent)) {
+        properties.content = dotNetObject.stringContent;
+    } else if (hasValue(dotNetObject.showLegendContent)) {
+        properties.content = 'legend';
+    }
+    
+    if (hasValue(dotNetObject.disabled)) {
+        properties.disabled = dotNetObject.disabled;
+    }
+    if (hasValue(dotNetObject.flowEnabled)) {
+        properties.flowEnabled = dotNetObject.flowEnabled;
+    }
+    if (hasValue(dotNetObject.icon)) {
+        properties.icon = dotNetObject.icon;
+    }
+    if (hasValue(dotNetObject.image)) {
+        properties.image = dotNetObject.image;
+    }
+    if (hasValue(dotNetObject.label)) {
+        properties.label = dotNetObject.label;
+    }
+    if (hasValue(dotNetObject.open)) {
+        properties.open = dotNetObject.open;
+    }
+    if (hasValue(dotNetObject.title)) {
+        properties.title = dotNetObject.title;
+    }
+    if (hasValue(dotNetObject.visible)) {
+        properties.visible = dotNetObject.visible;
+    }
+    if (hasValue(dotNetObject.widgetId)) {
+        properties.id = dotNetObject.widgetId;
+    }
+    
+    // instantiating the actual class here causes issues when updating ListItems,
+    // so we will pass as properties and let ArcGIS cast it.
+    return properties;
 }
 
 export async function buildDotNetListItemPanelWidget(jsObject: any): Promise<any> {

@@ -19,12 +19,12 @@ export async function buildJsDirectionalPadVisibleElementsGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionalPadVisibleElements;
     
-    let { buildDotNetDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDirectionalPadVisibleElements(jsDirectionalPadVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
+        let dnInstantiatedObject = await buildDotNetDirectionalPadVisibleElements(jsDirectionalPadVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

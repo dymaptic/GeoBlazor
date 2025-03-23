@@ -239,7 +239,7 @@ public class SceneView : MapView
             await CoreJsModule.InvokeVoidAsync("buildMapView",
                 CancellationTokenSource.Token, Id, DotNetComponentReference,
                 Longitude, Latitude, Rotation, Map, Zoom, Scale,
-                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent,
+                mapType, Widgets, Graphics, SpatialReference, Constraints, Extent, BackgroundColor,
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions,
                 PopupEnabled, ZIndex, Tilt);
             

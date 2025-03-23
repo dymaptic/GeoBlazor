@@ -24,12 +24,12 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
     
-    let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-    let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings);
-
     try {
+        let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
+        let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

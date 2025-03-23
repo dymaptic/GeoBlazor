@@ -16,12 +16,12 @@ export async function buildJsStreamLayerElevationInfoFeatureExpressionInfoGenera
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfoFeatureExpressionInfo;
     
-    let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsStreamLayerElevationInfoFeatureExpressionInfo);
-
     try {
+        let { buildDotNetStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfoFeatureExpressionInfo(jsStreamLayerElevationInfoFeatureExpressionInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

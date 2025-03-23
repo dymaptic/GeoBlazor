@@ -52,12 +52,12 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any): Promise<an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWMSSublayer;
     
-    let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-    let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer);
-
     try {
+        let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
+        let dnInstantiatedObject = await buildDotNetWMSSublayer(jsWMSSublayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

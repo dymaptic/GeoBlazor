@@ -23,12 +23,12 @@ export async function buildJsRelationshipUpdateRendererParamsField2Generated(dot
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipUpdateRendererParamsField2;
     
-    let { buildDotNetRelationshipUpdateRendererParamsField2 } = await import('./relationshipUpdateRendererParamsField2');
-    let dnInstantiatedObject = await buildDotNetRelationshipUpdateRendererParamsField2(jsrelationshipUpdateRendererParamsField2, layerId, viewId);
-
     try {
+        let { buildDotNetRelationshipUpdateRendererParamsField2 } = await import('./relationshipUpdateRendererParamsField2');
+        let dnInstantiatedObject = await buildDotNetRelationshipUpdateRendererParamsField2(jsrelationshipUpdateRendererParamsField2, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

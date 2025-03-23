@@ -16,12 +16,12 @@ export async function buildJsConfigRequestProxyRulesGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfigRequestProxyRules;
     
-    let { buildDotNetConfigRequestProxyRules } = await import('./configRequestProxyRules');
-    let dnInstantiatedObject = await buildDotNetConfigRequestProxyRules(jsconfigRequestProxyRules, layerId, viewId);
-
     try {
+        let { buildDotNetConfigRequestProxyRules } = await import('./configRequestProxyRules');
+        let dnInstantiatedObject = await buildDotNetConfigRequestProxyRules(jsconfigRequestProxyRules, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

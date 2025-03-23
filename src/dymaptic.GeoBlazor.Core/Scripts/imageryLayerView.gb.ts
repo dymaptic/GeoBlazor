@@ -23,7 +23,7 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
         if (hasValue(dotNetObject.pixelData)) {
             let { buildJsPixelData } = await import('./pixelData');
@@ -51,12 +51,12 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -74,7 +74,7 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPixelData } = await import('./pixelData');
-        return await buildDotNetPixelData(this.component.pixelData, this.layerId, this.viewId);
+        return await buildDotNetPixelData(this.component.pixelData);
     }
     
     async setPixelData(value: any): Promise<void> {
@@ -96,7 +96,7 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     let properties: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        properties.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
     if (hasValue(dotNetObject.pixelData)) {
         let { buildJsPixelData } = await import('./pixelData');
@@ -118,12 +118,12 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = imageryLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayerView;
     
-    let { buildDotNetImageryLayerView } = await import('./imageryLayerView');
-    let dnInstantiatedObject = await buildDotNetImageryLayerView(jsImageryLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetImageryLayerView } = await import('./imageryLayerView');
+        let dnInstantiatedObject = await buildDotNetImageryLayerView(jsImageryLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -146,7 +146,7 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetImageryLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetImageryLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -155,12 +155,12 @@ export async function buildDotNetImageryLayerViewGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
+        dotNetImageryLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.pixelData)) {
         let { buildDotNetPixelData } = await import('./pixelData');
-        dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData, layerId, viewId);
+        dotNetImageryLayerView.pixelData = await buildDotNetPixelData(jsObject.pixelData);
     }
     
     if (hasValue(jsObject.spatialReferenceSupported)) {

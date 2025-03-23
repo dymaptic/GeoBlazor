@@ -23,7 +23,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         jsArcGISImageService.pixelFilter = async (pixelData) => {
             let { buildDotNetPixelData } = await import('./pixelData');
-            let dnPixelData = await buildDotNetPixelData(pixelData, layerId, viewId);
+            let dnPixelData = await buildDotNetPixelData(pixelData);
 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
@@ -90,12 +90,12 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageService;
     
-    let { buildDotNetIArcGISImageService } = await import('./iArcGISImageService');
-    let dnInstantiatedObject = await buildDotNetIArcGISImageService(jsArcGISImageService, layerId, viewId);
-
     try {
+        let { buildDotNetIArcGISImageService } = await import('./iArcGISImageService');
+        let dnInstantiatedObject = await buildDotNetIArcGISImageService(jsArcGISImageService, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

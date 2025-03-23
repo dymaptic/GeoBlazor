@@ -10,12 +10,12 @@ export async function buildJsISketchViewModelPolylineSymbolGenerated(dotNetObjec
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSketchViewModelPolylineSymbol;
     
-    let { buildDotNetISketchViewModelPolylineSymbol } = await import('./iSketchViewModelPolylineSymbol');
-    let dnInstantiatedObject = await buildDotNetISketchViewModelPolylineSymbol(jsSketchViewModelPolylineSymbol);
-
     try {
+        let { buildDotNetISketchViewModelPolylineSymbol } = await import('./iSketchViewModelPolylineSymbol');
+        let dnInstantiatedObject = await buildDotNetISketchViewModelPolylineSymbol(jsSketchViewModelPolylineSymbol);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -149,12 +149,12 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = iFillSymbol3DLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFillSymbol3DLayer;
     
-    let { buildDotNetIFillSymbol3DLayer } = await import('./iFillSymbol3DLayer');
-    let dnInstantiatedObject = await buildDotNetIFillSymbol3DLayer(jsFillSymbol3DLayer, layerId, viewId);
-
     try {
+        let { buildDotNetIFillSymbol3DLayer } = await import('./iFillSymbol3DLayer');
+        let dnInstantiatedObject = await buildDotNetIFillSymbol3DLayer(jsFillSymbol3DLayer, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

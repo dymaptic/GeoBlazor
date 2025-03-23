@@ -8,6 +8,10 @@ export default class WMSLayerWrapper extends WMSLayerGenerated {
         super(layer);
     }
 
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
 }
 
 export async function buildJsWMSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

@@ -4,6 +4,9 @@ public partial class GraphicsLayerView
 {
    // Add custom code to this file to override generated code
    
+   /// <inheritdoc />
+   public override LayerType? Type => LayerType.Graphics;
+   
    /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>

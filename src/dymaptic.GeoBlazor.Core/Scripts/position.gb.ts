@@ -17,12 +17,12 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPosition;
     
-    let { buildDotNetPosition } = await import('./position');
-    let dnInstantiatedObject = await buildDotNetPosition(jsPosition, layerId, viewId);
-
     try {
+        let { buildDotNetPosition } = await import('./position');
+        let dnInstantiatedObject = await buildDotNetPosition(jsPosition, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

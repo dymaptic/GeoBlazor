@@ -19,12 +19,12 @@ export async function buildJsSceneViewConstraintsClipDistanceGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraintsClipDistance;
     
-    let { buildDotNetSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraintsClipDistance(jsSceneViewConstraintsClipDistance, layerId, viewId);
-
     try {
+        let { buildDotNetSceneViewConstraintsClipDistance } = await import('./sceneViewConstraintsClipDistance');
+        let dnInstantiatedObject = await buildDotNetSceneViewConstraintsClipDistance(jsSceneViewConstraintsClipDistance, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

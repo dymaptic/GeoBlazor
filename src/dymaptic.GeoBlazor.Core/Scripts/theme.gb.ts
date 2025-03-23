@@ -20,12 +20,12 @@ export async function buildJsThemeGenerated(dotNetObject: any): Promise<any> {
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTheme;
     
-    let { buildDotNetTheme } = await import('./theme');
-    let dnInstantiatedObject = await buildDotNetTheme(jsTheme);
-
     try {
+        let { buildDotNetTheme } = await import('./theme');
+        let dnInstantiatedObject = await buildDotNetTheme(jsTheme);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

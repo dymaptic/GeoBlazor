@@ -22,12 +22,12 @@ export async function buildJsSketchEdges3DGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSketchEdges3D;
     
-    let { buildDotNetSketchEdges3D } = await import('./sketchEdges3D');
-    let dnInstantiatedObject = await buildDotNetSketchEdges3D(jsSketchEdges3D, layerId, viewId);
-
     try {
+        let { buildDotNetSketchEdges3D } = await import('./sketchEdges3D');
+        let dnInstantiatedObject = await buildDotNetSketchEdges3D(jsSketchEdges3D, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

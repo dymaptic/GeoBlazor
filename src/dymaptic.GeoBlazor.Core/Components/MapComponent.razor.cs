@@ -103,16 +103,14 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
     [JsonIgnore]
+    [Parameter]
     public Layer? Layer { get; set; }
     
     /// <summary>
     ///     The Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
     /// </summary>
-    public Guid? LayerId
-    {
-        get => _layerId ??= Layer?.Id;
-        set => _layerId = value;
-    }
+    [Parameter]
+    public Guid? LayerId { get; set; }
 
     /// <summary>
     ///     Indicates the visibility of the component. Default value: true.
@@ -684,6 +682,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         foreach (PropertyInfo prop in GetType().GetProperties()
             .Where(p => p.SetMethod is not null))
         {
+            if (prop.Name == nameof(CoreJsModule)
+                || prop.Name == nameof(Layer)
+                || prop.Name == nameof(View))
+            {
+                continue;
+            }
+            
             CopyProperty(prop, deserializedComponent);
         }
     }
@@ -708,6 +713,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             
         if (currentValue is MapComponent currentPropComponent)
         {
+            currentPropComponent.CoreJsModule = CoreJsModule;
+            currentPropComponent.View = View;
+            currentPropComponent.Layer = Layer;
+            currentPropComponent.Parent = this;
             currentPropComponent.CopyProperties((MapComponent)newValue);
         }
         else
@@ -843,6 +852,32 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
+        
+        _layerId ??= Layer?.Id;
+
+        if (_layerId is not null && Layer is null && View?.Map is not null)
+        {
+            foreach (Layer layer in View.Map.Layers)
+            {
+                if (layer.Id == _layerId)
+                {
+                    Layer = layer;
+                    break;
+                }
+
+                if (layer is IGroupLayer { Layers: not null } groupLayer)
+                {
+                    foreach (Layer subLayer in groupLayer.Layers)
+                    {
+                        if (subLayer.Id == _layerId)
+                        {
+                            Layer = subLayer;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         
         foreach (KeyValuePair<string, object?> kvp in ModifiedParameters)
         {

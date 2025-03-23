@@ -16,12 +16,12 @@ export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any): 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSliderVisibleElements;
     
-    let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
-    let dnInstantiatedObject = await buildDotNetSliderVisibleElements(jsSliderVisibleElements);
-
     try {
+        let { buildDotNetSliderVisibleElements } = await import('./sliderVisibleElements');
+        let dnInstantiatedObject = await buildDotNetSliderVisibleElements(jsSliderVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

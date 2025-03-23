@@ -291,11 +291,14 @@ public abstract partial class Layer : MapComponent
         AbortManager = new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
-        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildJsLayer",
+        await CoreJsModule!.InvokeAsync<IJSObjectReference>("buildJsLayer",
             // ReSharper disable once RedundantCast
             cancellationToken, (object)this, Id, View?.Id);
         
-        await JsComponentReference.InvokeVoidAsync("load", cancellationToken, abortSignal);
+        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", cancellationToken, Id);
+        
+        await JsComponentReference!.InvokeVoidAsync("load", cancellationToken, abortSignal);
         await AbortManager.DisposeAbortController(cancellationToken);
     }
 

@@ -181,12 +181,12 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     
-    let { buildDotNetBasemap } = await import('./basemap');
-    let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
-
     try {
+        let { buildDotNetBasemap } = await import('./basemap');
+        let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

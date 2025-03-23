@@ -25,12 +25,12 @@ export async function buildJsVisibleElementsConnectivityAssociationsSettingsGene
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsConnectivityAssociationsSettings;
     
-    let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
-    let dnInstantiatedObject = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsVisibleElementsConnectivityAssociationsSettings, layerId, viewId);
-
     try {
+        let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
+        let dnInstantiatedObject = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsVisibleElementsConnectivityAssociationsSettings, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

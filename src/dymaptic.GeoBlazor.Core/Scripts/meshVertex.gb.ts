@@ -31,12 +31,12 @@ export async function buildJsMeshVertexGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeshVertex;
     
-    let { buildDotNetMeshVertex } = await import('./meshVertex');
-    let dnInstantiatedObject = await buildDotNetMeshVertex(jsMeshVertex, layerId, viewId);
-
     try {
+        let { buildDotNetMeshVertex } = await import('./meshVertex');
+        let dnInstantiatedObject = await buildDotNetMeshVertex(jsMeshVertex, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

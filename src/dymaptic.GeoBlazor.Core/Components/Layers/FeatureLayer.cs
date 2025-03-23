@@ -2,8 +2,6 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplateLayer, IFeatureLayerBase
 {
-
-    
     /// <summary>
     ///     An authorization string used to access a resource or service. API keys are generated and managed in the ArcGIS Developer Portal. An API key is tied explicitly to an ArcGIS account; it is also used to monitor service usage. Setting a fine-grained API key on a specific class overrides the global API key.
     /// </summary>
@@ -158,17 +156,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public Task Remove(Field field)
     {
         return UnregisterChildComponent(field);
-    }
-
-    /// <summary>
-    ///     Updates the <see cref="PopupTemplate"/> for this layer.
-    /// </summary>
-    /// <param name="template">
-    ///     The new template to use.
-    /// </param>
-    public async Task SetPopupTemplate(PopupTemplate template)
-    {
-        await RegisterChildComponent(template);
     }
 
     /// <summary>
@@ -363,6 +350,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISMethod]
     public async Task<FeatureType?> GetFeatureType(Graphic feature)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         return await JsComponentReference!.InvokeAsync<FeatureType>("getFeatureType", feature);
     }
 
@@ -373,6 +363,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISMethod]
     public async Task<Field?> GetField(string fieldName)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         return await JsComponentReference!.InvokeAsync<Field?>("getField", fieldName);
     }
 
@@ -382,6 +375,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         return await JsComponentReference!.InvokeAsync<Domain?>("getFieldDomain", fieldName, feature);
     }
 
@@ -576,6 +572,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISMethod]
     public async Task<PopupTemplate> CreatePopupTemplate(CreatePopupTemplateOptions? options = null)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return new PopupTemplate();
         return await JsComponentReference!.InvokeAsync<PopupTemplate>("createPopupTemplate",
             CancellationTokenSource.Token, options);
     }
@@ -586,6 +585,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [ArcGISMethod]
     public async Task<Query> CreateQuery()
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return new Query();
         return await JsComponentReference!.InvokeAsync<Query>("createQuery", CancellationTokenSource.Token);
     }
 
@@ -601,6 +603,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<ExtentQueryResult> QueryExtent(Query? query = null, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         ExtentQueryResult result = await JsComponentReference!.InvokeAsync<ExtentQueryResult>("queryExtent",
@@ -624,6 +628,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<int> QueryFeatureCount(Query? query = null, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return 0;
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         int result = await JsComponentReference!.InvokeAsync<int>("queryFeatureCount", cancellationToken,
@@ -647,6 +654,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<FeatureSet?> QueryFeatures(Query? query = null, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
 
@@ -707,6 +717,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<long[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return [];
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
@@ -727,6 +740,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public async Task<RelatedFeaturesQueryResult?> QueryRelatedFeatures(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         RelatedFeaturesQueryResult result = (await JsComponentReference!.InvokeAsync<RelatedFeaturesQueryResult?>(
@@ -802,6 +818,8 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public async Task<RelatedFeaturesCountQueryResult?> QueryRelatedFeaturesCount(RelationshipQuery query,
         CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
@@ -830,6 +848,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<int> QueryTopFeatureCount(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         int result = await JsComponentReference!.InvokeAsync<int>("queryTopFeatureCount", cancellationToken,
@@ -856,6 +877,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public async Task<FeatureSet?> QueryTopFeatures(TopFeaturesQuery query,
         CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return null;
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Guid queryId = Guid.NewGuid();
         FeatureSet result = (await JsComponentReference!.InvokeAsync<FeatureSet?>("queryTopFeatures", cancellationToken,
@@ -894,6 +918,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [CodeGenerationIgnore]
     public async Task<long[]> QueryTopObjectIds(TopFeaturesQuery query, CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        if (JsComponentReference is null) return [];
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryTopObjectIds", cancellationToken,
@@ -920,6 +947,9 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     public async Task<ExtentQueryResult> QueryTopFeaturesExtent(TopFeaturesQuery? query = null,
         CancellationToken cancellationToken = default)
     {
+        JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+            "getJsComponent", CancellationTokenSource.Token, Id);
+        
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         ExtentQueryResult result = await JsComponentReference!.InvokeAsync<ExtentQueryResult>("queryExtent",
@@ -936,61 +966,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         await base.UpdateFromJavaScript(renderedLayer);
         var renderedFeatureLayer = (FeatureLayer)renderedLayer;
-        Url ??= renderedFeatureLayer.Url;
-        Title ??= renderedFeatureLayer.Title;
-
-        if (renderedFeatureLayer.Source is not null && renderedFeatureLayer.Source.Any() &&
-            Source is null)
-        {
-            Source = renderedFeatureLayer.Source;
-        }
-
+        
         if (renderedFeatureLayer.Fields is not null && renderedFeatureLayer.Fields.Any())
         {
             Fields = Fields?
                 .Concat(renderedFeatureLayer.Fields)
                 .ToList() 
                 ?? renderedFeatureLayer.Fields;
-        }
-
-        if (renderedFeatureLayer.DefinitionExpression is not null)
-        {
-            DefinitionExpression = renderedFeatureLayer.DefinitionExpression;
-        }
-
-        if (renderedFeatureLayer.OutFields is not null && renderedFeatureLayer.OutFields.Any())
-        {
-            OutFields = renderedFeatureLayer.OutFields;
-        }
-
-        if (renderedFeatureLayer.MinScale is not null)
-        {
-            MinScale = renderedFeatureLayer.MinScale;
-        }
-
-        if (renderedFeatureLayer.MaxScale is not null)
-        {
-            MaxScale = renderedFeatureLayer.MaxScale;
-        }
-
-        if (renderedFeatureLayer.ObjectIdField is not null)
-        {
-            ObjectIdField = renderedFeatureLayer.ObjectIdField;
-        }
-
-        if (renderedFeatureLayer.GeometryType is not null)
-        {
-            GeometryType = renderedFeatureLayer.GeometryType;
-        }
-
-        if (renderedFeatureLayer.OrderBy is not null && renderedFeatureLayer.OrderBy.Any())
-        {
-            OrderBy = renderedFeatureLayer.OrderBy;
-        }
-
-        if (renderedFeatureLayer.PopupTemplate is not null && PopupTemplate is null)
-        {
-            PopupTemplate = renderedFeatureLayer.PopupTemplate;
         }
 
         if (renderedFeatureLayer.LabelingInfo is not null && renderedFeatureLayer.LabelingInfo.Any())
@@ -1008,31 +990,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                     LabelingInfo = LabelingInfo.Append(label).ToList();
                 }
             }
-        }
-
-        if (renderedFeatureLayer.Renderer is not null && Renderer is null)
-        {
-            Renderer = renderedFeatureLayer.Renderer;
-        }
-
-        if (renderedFeatureLayer.PortalItem is not null && PortalItem is null)
-        {
-            PortalItem = renderedFeatureLayer.PortalItem;
-        }
-
-        if (renderedFeatureLayer.SpatialReference is not null && SpatialReference is null)
-        {
-            SpatialReference = renderedFeatureLayer.SpatialReference;
-        }
-
-        if (renderedFeatureLayer.Relationships is not null && Relationships is null)
-        {
-            Relationships = renderedFeatureLayer.Relationships;
-        }
-
-        if (renderedFeatureLayer.TimeInfo is not null)
-        {
-            TimeInfo = renderedFeatureLayer.TimeInfo;
         }
     }
 

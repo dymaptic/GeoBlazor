@@ -71,12 +71,12 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     
-    let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo, layerId, viewId);
-
     try {
+        let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
+        let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

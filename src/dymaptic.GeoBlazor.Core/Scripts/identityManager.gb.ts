@@ -176,12 +176,12 @@ export async function buildJsIdentityManagerGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = identityManagerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsIdentityManager;
     
-    let { buildDotNetIdentityManager } = await import('./identityManager');
-    let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager, layerId, viewId);
-
     try {
+        let { buildDotNetIdentityManager } = await import('./identityManager');
+        let dnInstantiatedObject = await buildDotNetIdentityManager(jsIdentityManager, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

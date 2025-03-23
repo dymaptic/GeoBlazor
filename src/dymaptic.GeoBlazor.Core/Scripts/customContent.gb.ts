@@ -34,12 +34,12 @@ export async function buildJsCustomContentGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCustomContent;
     
-    let { buildDotNetCustomContent } = await import('./customContent');
-    let dnInstantiatedObject = await buildDotNetCustomContent(jsCustomContent, layerId, viewId);
-
     try {
+        let { buildDotNetCustomContent } = await import('./customContent');
+        let dnInstantiatedObject = await buildDotNetCustomContent(jsCustomContent, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

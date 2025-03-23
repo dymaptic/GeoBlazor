@@ -19,12 +19,12 @@ export async function buildJsServiceAreaParametersAttributeParameterValueGenerat
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceAreaParametersAttributeParameterValue;
     
-    let { buildDotNetServiceAreaParametersAttributeParameterValue } = await import('./serviceAreaParametersAttributeParameterValue');
-    let dnInstantiatedObject = await buildDotNetServiceAreaParametersAttributeParameterValue(jsServiceAreaParametersAttributeParameterValue, layerId, viewId);
-
     try {
+        let { buildDotNetServiceAreaParametersAttributeParameterValue } = await import('./serviceAreaParametersAttributeParameterValue');
+        let dnInstantiatedObject = await buildDotNetServiceAreaParametersAttributeParameterValue(jsServiceAreaParametersAttributeParameterValue, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

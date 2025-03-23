@@ -1,9 +1,9 @@
-export async function buildJsKMLLayerViewMapImage(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsKMLLayerViewMapImage(dotNetObject: any): Promise<any> {
     let {buildJsKMLLayerViewMapImageGenerated} = await import('./kMLLayerViewMapImage.gb');
-    return await buildJsKMLLayerViewMapImageGenerated(dotNetObject, layerId, viewId);
+    return await buildJsKMLLayerViewMapImageGenerated(dotNetObject);
 }
 
-export async function buildDotNetKMLLayerViewMapImage(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerViewMapImage(jsObject: any): Promise<any> {
     let {buildDotNetKMLLayerViewMapImageGenerated} = await import('./kMLLayerViewMapImage.gb');
-    return await buildDotNetKMLLayerViewMapImageGenerated(jsObject, layerId, viewId);
+    return await buildDotNetKMLLayerViewMapImageGenerated(jsObject);
 }

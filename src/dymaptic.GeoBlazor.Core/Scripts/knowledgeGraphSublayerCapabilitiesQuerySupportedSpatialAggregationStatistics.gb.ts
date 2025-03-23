@@ -19,12 +19,12 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics;
     
-    let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-    let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
-
     try {
+        let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
+        let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

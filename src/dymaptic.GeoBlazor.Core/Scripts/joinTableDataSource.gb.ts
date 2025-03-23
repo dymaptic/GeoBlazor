@@ -27,12 +27,12 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsJoinTableDataSource;
     
-    let { buildDotNetJoinTableDataSource } = await import('./joinTableDataSource');
-    let dnInstantiatedObject = await buildDotNetJoinTableDataSource(jsJoinTableDataSource, layerId, viewId);
-
     try {
+        let { buildDotNetJoinTableDataSource } = await import('./joinTableDataSource');
+        let dnInstantiatedObject = await buildDotNetJoinTableDataSource(jsJoinTableDataSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

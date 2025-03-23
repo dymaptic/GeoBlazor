@@ -22,12 +22,12 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTemporalSceneLayer;
     
-    let { buildDotNetITemporalSceneLayer } = await import('./iTemporalSceneLayer');
-    let dnInstantiatedObject = await buildDotNetITemporalSceneLayer(jsTemporalSceneLayer, layerId, viewId);
-
     try {
+        let { buildDotNetITemporalSceneLayer } = await import('./iTemporalSceneLayer');
+        let dnInstantiatedObject = await buildDotNetITemporalSceneLayer(jsTemporalSceneLayer, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

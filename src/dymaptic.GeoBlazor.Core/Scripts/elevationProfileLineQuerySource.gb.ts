@@ -22,12 +22,12 @@ export async function buildJsElevationProfileLineQuerySourceGenerated(dotNetObje
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineQuerySource;
     
-    let { buildDotNetElevationProfileLineQuerySource } = await import('./elevationProfileLineQuerySource');
-    let dnInstantiatedObject = await buildDotNetElevationProfileLineQuerySource(jsElevationProfileLineQuerySource, layerId, viewId);
-
     try {
+        let { buildDotNetElevationProfileLineQuerySource } = await import('./elevationProfileLineQuerySource');
+        let dnInstantiatedObject = await buildDotNetElevationProfileLineQuerySource(jsElevationProfileLineQuerySource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetLength } from './length';
 
-export async function buildJsLengthGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsLengthGenerated(dotNetObject: any): Promise<any> {
     let jsLength: any = {};
 
     if (hasValue(dotNetObject.unit)) {
@@ -16,12 +16,12 @@ export async function buildJsLengthGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLength;
     
-    let { buildDotNetLength } = await import('./length');
-    let dnInstantiatedObject = await buildDotNetLength(jsLength, layerId, viewId);
-
     try {
+        let { buildDotNetLength } = await import('./length');
+        let dnInstantiatedObject = await buildDotNetLength(jsLength);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -44,7 +44,7 @@ export async function buildJsLengthGenerated(dotNetObject: any, layerId: string 
 }
 
 
-export async function buildDotNetLengthGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLengthGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

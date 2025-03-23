@@ -16,12 +16,12 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicMapLayer;
     
-    let { buildDotNetDynamicMapLayer } = await import('./dynamicMapLayer');
-    let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer);
-
     try {
+        let { buildDotNetDynamicMapLayer } = await import('./dynamicMapLayer');
+        let dnInstantiatedObject = await buildDotNetDynamicMapLayer(jsDynamicMapLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

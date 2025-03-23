@@ -19,12 +19,12 @@ export async function buildJsPointCloudRendererPointSizeAlgorithmGenerated(dotNe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRendererPointSizeAlgorithm;
     
-    let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
-    let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm);
-
     try {
+        let { buildDotNetPointCloudRendererPointSizeAlgorithm } = await import('./pointCloudRendererPointSizeAlgorithm');
+        let dnInstantiatedObject = await buildDotNetPointCloudRendererPointSizeAlgorithm(jsPointCloudRendererPointSizeAlgorithm);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

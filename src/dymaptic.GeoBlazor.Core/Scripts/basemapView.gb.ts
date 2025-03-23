@@ -13,12 +13,12 @@ export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapView;
     
-    let { buildDotNetBasemapView } = await import('./basemapView');
-    let dnInstantiatedObject = await buildDotNetBasemapView(jsBasemapView, layerId, viewId);
-
     try {
+        let { buildDotNetBasemapView } = await import('./basemapView');
+        let dnInstantiatedObject = await buildDotNetBasemapView(jsBasemapView, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

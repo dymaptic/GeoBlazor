@@ -24,12 +24,12 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any>
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSStyle;
     
-    let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-    let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle);
-
     try {
+        let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
+        let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

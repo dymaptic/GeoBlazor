@@ -12,12 +12,12 @@ export async function buildJsGamepadInputDeviceGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGamepadInputDevice;
     
-    let { buildDotNetGamepadInputDevice } = await import('./gamepadInputDevice');
-    let dnInstantiatedObject = await buildDotNetGamepadInputDevice(jsGamepadInputDevice, layerId, viewId);
-
     try {
+        let { buildDotNetGamepadInputDevice } = await import('./gamepadInputDevice');
+        let dnInstantiatedObject = await buildDotNetGamepadInputDevice(jsGamepadInputDevice, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

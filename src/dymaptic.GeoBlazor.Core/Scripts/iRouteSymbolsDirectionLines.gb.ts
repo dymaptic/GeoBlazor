@@ -10,12 +10,12 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsDirectionLines;
     
-    let { buildDotNetIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
-    let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines);
-
     try {
+        let { buildDotNetIRouteSymbolsDirectionLines } = await import('./iRouteSymbolsDirectionLines');
+        let dnInstantiatedObject = await buildDotNetIRouteSymbolsDirectionLines(jsRouteSymbolsDirectionLines);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -15,7 +15,7 @@ export async function buildJsGeoRSSLayerView(dotNetObject: any, layerId: string 
     return await buildJsGeoRSSLayerViewGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetGeoRSSLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetGeoRSSLayerView(jsObject: any): Promise<any> {
     let { buildDotNetGeoRSSLayerViewGenerated } = await import('./geoRSSLayerView.gb');
-    return await buildDotNetGeoRSSLayerViewGenerated(jsObject, layerId, viewId);
+    return await buildDotNetGeoRSSLayerViewGenerated(jsObject);
 }

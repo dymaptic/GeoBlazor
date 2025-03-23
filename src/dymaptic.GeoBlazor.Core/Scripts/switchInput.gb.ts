@@ -18,12 +18,12 @@ export async function buildJsSwitchInputGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSwitchInput;
     
-    let { buildDotNetSwitchInput } = await import('./switchInput');
-    let dnInstantiatedObject = await buildDotNetSwitchInput(jsSwitchInput, layerId, viewId);
-
     try {
+        let { buildDotNetSwitchInput } = await import('./switchInput');
+        let dnInstantiatedObject = await buildDotNetSwitchInput(jsSwitchInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

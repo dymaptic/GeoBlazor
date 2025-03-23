@@ -22,12 +22,12 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneService;
     
-    let { buildDotNetISceneService } = await import('./iSceneService');
-    let dnInstantiatedObject = await buildDotNetISceneService(jsSceneService, layerId, viewId);
-
     try {
+        let { buildDotNetISceneService } = await import('./iSceneService');
+        let dnInstantiatedObject = await buildDotNetISceneService(jsSceneService, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

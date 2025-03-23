@@ -18,12 +18,12 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
     
-    let { buildDotNetTimeInterval } = await import('./timeInterval');
-    let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
-
     try {
+        let { buildDotNetTimeInterval } = await import('./timeInterval');
+        let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

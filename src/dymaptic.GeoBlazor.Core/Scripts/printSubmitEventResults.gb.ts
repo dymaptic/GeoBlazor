@@ -14,12 +14,12 @@ export async function buildJsPrintSubmitEventResultsGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrintSubmitEventResults;
     
-    let { buildDotNetPrintSubmitEventResults } = await import('./printSubmitEventResults');
-    let dnInstantiatedObject = await buildDotNetPrintSubmitEventResults(jsPrintSubmitEventResults, layerId, viewId);
-
     try {
+        let { buildDotNetPrintSubmitEventResults } = await import('./printSubmitEventResults');
+        let dnInstantiatedObject = await buildDotNetPrintSubmitEventResults(jsPrintSubmitEventResults, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

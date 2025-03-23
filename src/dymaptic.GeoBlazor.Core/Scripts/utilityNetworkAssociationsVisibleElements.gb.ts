@@ -21,12 +21,12 @@ export async function buildJsUtilityNetworkAssociationsVisibleElementsGenerated(
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUtilityNetworkAssociationsVisibleElements;
     
-    let { buildDotNetUtilityNetworkAssociationsVisibleElements } = await import('./utilityNetworkAssociationsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetUtilityNetworkAssociationsVisibleElements(jsUtilityNetworkAssociationsVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetUtilityNetworkAssociationsVisibleElements } = await import('./utilityNetworkAssociationsVisibleElements');
+        let dnInstantiatedObject = await buildDotNetUtilityNetworkAssociationsVisibleElements(jsUtilityNetworkAssociationsVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

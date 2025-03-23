@@ -16,12 +16,12 @@ export async function buildJsCapabilitiesSyncGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesSync;
     
-    let { buildDotNetCapabilitiesSync } = await import('./capabilitiesSync');
-    let dnInstantiatedObject = await buildDotNetCapabilitiesSync(jsCapabilitiesSync, layerId, viewId);
-
     try {
+        let { buildDotNetCapabilitiesSync } = await import('./capabilitiesSync');
+        let dnInstantiatedObject = await buildDotNetCapabilitiesSync(jsCapabilitiesSync, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

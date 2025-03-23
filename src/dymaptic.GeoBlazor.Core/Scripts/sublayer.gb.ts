@@ -366,12 +366,12 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
     
-    let { buildDotNetSublayer } = await import('./sublayer');
-    let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
-
     try {
+        let { buildDotNetSublayer } = await import('./sublayer');
+        let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

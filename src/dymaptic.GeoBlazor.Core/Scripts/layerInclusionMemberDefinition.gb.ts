@@ -13,12 +13,12 @@ export async function buildJsLayerInclusionMemberDefinitionGenerated(dotNetObjec
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerInclusionMemberDefinition;
     
-    let { buildDotNetLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
-    let dnInstantiatedObject = await buildDotNetLayerInclusionMemberDefinition(jsLayerInclusionMemberDefinition);
-
     try {
+        let { buildDotNetLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
+        let dnInstantiatedObject = await buildDotNetLayerInclusionMemberDefinition(jsLayerInclusionMemberDefinition);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -16,12 +16,12 @@ export async function buildJsBackgroundColorBackgroundGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsbackgroundColorBackground;
     
-    let { buildDotNetBackgroundColorBackground } = await import('./backgroundColorBackground');
-    let dnInstantiatedObject = await buildDotNetBackgroundColorBackground(jsbackgroundColorBackground, layerId, viewId);
-
     try {
+        let { buildDotNetBackgroundColorBackground } = await import('./backgroundColorBackground');
+        let dnInstantiatedObject = await buildDotNetBackgroundColorBackground(jsbackgroundColorBackground, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -25,12 +25,12 @@ export async function buildJsRelationshipCreateRendererParamsField1Generated(dot
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipCreateRendererParamsField1;
     
-    let { buildDotNetRelationshipCreateRendererParamsField1 } = await import('./relationshipCreateRendererParamsField1');
-    let dnInstantiatedObject = await buildDotNetRelationshipCreateRendererParamsField1(jsrelationshipCreateRendererParamsField1, layerId, viewId);
-
     try {
+        let { buildDotNetRelationshipCreateRendererParamsField1 } = await import('./relationshipCreateRendererParamsField1');
+        let dnInstantiatedObject = await buildDotNetRelationshipCreateRendererParamsField1(jsrelationshipCreateRendererParamsField1, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

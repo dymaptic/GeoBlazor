@@ -25,12 +25,12 @@ export async function buildJsDirectLineMeasurement3DViewModelMeasurementGenerate
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectLineMeasurement3DViewModelMeasurement;
     
-    let { buildDotNetDirectLineMeasurement3DViewModelMeasurement } = await import('./directLineMeasurement3DViewModelMeasurement');
-    let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DViewModelMeasurement(jsDirectLineMeasurement3DViewModelMeasurement, layerId, viewId);
-
     try {
+        let { buildDotNetDirectLineMeasurement3DViewModelMeasurement } = await import('./directLineMeasurement3DViewModelMeasurement');
+        let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DViewModelMeasurement(jsDirectLineMeasurement3DViewModelMeasurement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

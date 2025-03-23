@@ -34,12 +34,12 @@ export async function buildJsElevationProfileLineViewGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineView;
     
-    let { buildDotNetElevationProfileLineView } = await import('./elevationProfileLineView');
-    let dnInstantiatedObject = await buildDotNetElevationProfileLineView(jsElevationProfileLineView, layerId, viewId);
-
     try {
+        let { buildDotNetElevationProfileLineView } = await import('./elevationProfileLineView');
+        let dnInstantiatedObject = await buildDotNetElevationProfileLineView(jsElevationProfileLineView, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

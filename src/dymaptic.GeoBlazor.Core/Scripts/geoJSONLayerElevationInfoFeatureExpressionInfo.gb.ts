@@ -16,12 +16,12 @@ export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGener
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
     
-    let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsGeoJSONLayerElevationInfoFeatureExpressionInfo);
-
     try {
+        let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsGeoJSONLayerElevationInfoFeatureExpressionInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

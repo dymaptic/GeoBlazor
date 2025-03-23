@@ -14,12 +14,12 @@ export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFilterBlockFilterMode;
     
-    let { buildDotNetBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
-    let dnInstantiatedObject = await buildDotNetBuildingFilterBlockFilterMode(jsBuildingFilterBlockFilterMode, layerId, viewId);
-
     try {
+        let { buildDotNetBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
+        let dnInstantiatedObject = await buildDotNetBuildingFilterBlockFilterMode(jsBuildingFilterBlockFilterMode, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

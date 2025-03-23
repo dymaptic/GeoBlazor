@@ -15,12 +15,12 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
     
-    let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-    let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
-
     try {
+        let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
+        let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

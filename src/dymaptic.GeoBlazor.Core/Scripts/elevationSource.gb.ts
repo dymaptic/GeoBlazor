@@ -19,12 +19,12 @@ export async function buildJsElevationSourceGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationSource;
     
-    let { buildDotNetElevationSource } = await import('./elevationSource');
-    let dnInstantiatedObject = await buildDotNetElevationSource(jsElevationSource, layerId, viewId);
-
     try {
+        let { buildDotNetElevationSource } = await import('./elevationSource');
+        let dnInstantiatedObject = await buildDotNetElevationSource(jsElevationSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -16,12 +16,12 @@ export async function buildJsAreaMeasurement3DViewModelMeasurementValueGenerated
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement3DViewModelMeasurementValue;
     
-    let { buildDotNetAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsAreaMeasurement3DViewModelMeasurementValue, layerId, viewId);
-
     try {
+        let { buildDotNetAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
+        let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModelMeasurementValue(jsAreaMeasurement3DViewModelMeasurementValue, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

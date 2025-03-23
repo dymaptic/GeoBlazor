@@ -1,10 +1,10 @@
 
-export async function buildJsPixelBlockStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPixelBlockStatistics(dotNetObject: any): Promise<any> {
     let { buildJsPixelBlockStatisticsGenerated } = await import('./pixelBlockStatistics.gb');
-    return await buildJsPixelBlockStatisticsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsPixelBlockStatisticsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetPixelBlockStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelBlockStatistics(jsObject: any): Promise<any> {
     let { buildDotNetPixelBlockStatisticsGenerated } = await import('./pixelBlockStatistics.gb');
-    return await buildDotNetPixelBlockStatisticsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPixelBlockStatisticsGenerated(jsObject);
 }

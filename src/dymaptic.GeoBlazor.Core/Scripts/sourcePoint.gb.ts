@@ -16,12 +16,12 @@ export async function buildJsSourcePointGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSourcePoint;
     
-    let { buildDotNetSourcePoint } = await import('./sourcePoint');
-    let dnInstantiatedObject = await buildDotNetSourcePoint(jsSourcePoint, layerId, viewId);
-
     try {
+        let { buildDotNetSourcePoint } = await import('./sourcePoint');
+        let dnInstantiatedObject = await buildDotNetSourcePoint(jsSourcePoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

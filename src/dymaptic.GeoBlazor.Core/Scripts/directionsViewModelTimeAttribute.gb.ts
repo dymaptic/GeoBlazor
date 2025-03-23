@@ -16,12 +16,12 @@ export async function buildJsDirectionsViewModelTimeAttributeGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsViewModelTimeAttribute;
     
-    let { buildDotNetDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
-    let dnInstantiatedObject = await buildDotNetDirectionsViewModelTimeAttribute(jsDirectionsViewModelTimeAttribute, layerId, viewId);
-
     try {
+        let { buildDotNetDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
+        let dnInstantiatedObject = await buildDotNetDirectionsViewModelTimeAttribute(jsDirectionsViewModelTimeAttribute, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

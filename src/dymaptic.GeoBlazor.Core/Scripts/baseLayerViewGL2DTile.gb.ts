@@ -37,12 +37,12 @@ export async function buildJsBaseLayerViewGL2DTileGenerated(dotNetObject: any, l
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2DTile;
     
-    let { buildDotNetBaseLayerViewGL2DTile } = await import('./baseLayerViewGL2DTile');
-    let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DTile(jsBaseLayerViewGL2DTile, layerId, viewId);
-
     try {
+        let { buildDotNetBaseLayerViewGL2DTile } = await import('./baseLayerViewGL2DTile');
+        let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DTile(jsBaseLayerViewGL2DTile, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

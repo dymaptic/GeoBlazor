@@ -22,12 +22,12 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueInfo;
     
-    let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
-    let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo, layerId, viewId);
-
     try {
+        let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
+        let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

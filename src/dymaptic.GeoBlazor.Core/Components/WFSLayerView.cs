@@ -4,6 +4,9 @@ public partial class WFSLayerView
 {
    // Add custom code to this file to override generated code
    
+   /// <inheritdoc />
+   public override LayerType? Type => LayerType.WFS;
+   
    /// <summary>
     ///     Highlights the given feature(s).
     /// </summary>

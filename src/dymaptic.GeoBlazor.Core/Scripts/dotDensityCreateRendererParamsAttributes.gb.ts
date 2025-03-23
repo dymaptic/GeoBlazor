@@ -22,12 +22,12 @@ export async function buildJsDotDensityCreateRendererParamsAttributesGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsdotDensityCreateRendererParamsAttributes;
     
-    let { buildDotNetDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
-    let dnInstantiatedObject = await buildDotNetDotDensityCreateRendererParamsAttributes(jsdotDensityCreateRendererParamsAttributes, layerId, viewId);
-
     try {
+        let { buildDotNetDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
+        let dnInstantiatedObject = await buildDotNetDotDensityCreateRendererParamsAttributes(jsdotDensityCreateRendererParamsAttributes, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

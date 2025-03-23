@@ -31,12 +31,12 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
     
-    let { buildDotNetRotationVariable } = await import('./rotationVariable');
-    let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable, layerId, viewId);
-
     try {
+        let { buildDotNetRotationVariable } = await import('./rotationVariable');
+        let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -13,12 +13,12 @@ export async function buildJsWFSOperationsDescribeFeatureTypeGenerated(dotNetObj
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSOperationsDescribeFeatureType;
     
-    let { buildDotNetWFSOperationsDescribeFeatureType } = await import('./wFSOperationsDescribeFeatureType');
-    let dnInstantiatedObject = await buildDotNetWFSOperationsDescribeFeatureType(jsWFSOperationsDescribeFeatureType);
-
     try {
+        let { buildDotNetWFSOperationsDescribeFeatureType } = await import('./wFSOperationsDescribeFeatureType');
+        let dnInstantiatedObject = await buildDotNetWFSOperationsDescribeFeatureType(jsWFSOperationsDescribeFeatureType);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

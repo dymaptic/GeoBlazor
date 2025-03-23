@@ -21,12 +21,12 @@ export async function buildJsSymbol3DVerticalOffsetGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSymbol3DVerticalOffset;
     
-    let { buildDotNetSymbol3DVerticalOffset } = await import('./symbol3DVerticalOffset');
-    let dnInstantiatedObject = await buildDotNetSymbol3DVerticalOffset(jsSymbol3DVerticalOffset, layerId, viewId);
-
     try {
+        let { buildDotNetSymbol3DVerticalOffset } = await import('./symbol3DVerticalOffset');
+        let dnInstantiatedObject = await buildDotNetSymbol3DVerticalOffset(jsSymbol3DVerticalOffset, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

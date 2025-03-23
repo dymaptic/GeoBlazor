@@ -25,12 +25,12 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesGeometryCapabilities;
     
-    let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
-
     try {
+        let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
+        let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

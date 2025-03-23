@@ -362,12 +362,12 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = vectorTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
     
-    let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
-    let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
-
     try {
+        let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
+        let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

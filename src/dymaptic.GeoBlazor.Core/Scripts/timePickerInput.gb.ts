@@ -21,12 +21,12 @@ export async function buildJsTimePickerInputGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimePickerInput;
     
-    let { buildDotNetTimePickerInput } = await import('./timePickerInput');
-    let dnInstantiatedObject = await buildDotNetTimePickerInput(jsTimePickerInput, layerId, viewId);
-
     try {
+        let { buildDotNetTimePickerInput } = await import('./timePickerInput');
+        let dnInstantiatedObject = await buildDotNetTimePickerInput(jsTimePickerInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

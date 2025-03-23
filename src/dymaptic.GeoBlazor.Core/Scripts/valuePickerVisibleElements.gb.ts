@@ -19,12 +19,12 @@ export async function buildJsValuePickerVisibleElementsGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerVisibleElements;
     
-    let { buildDotNetValuePickerVisibleElements } = await import('./valuePickerVisibleElements');
-    let dnInstantiatedObject = await buildDotNetValuePickerVisibleElements(jsValuePickerVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetValuePickerVisibleElements } = await import('./valuePickerVisibleElements');
+        let dnInstantiatedObject = await buildDotNetValuePickerVisibleElements(jsValuePickerVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

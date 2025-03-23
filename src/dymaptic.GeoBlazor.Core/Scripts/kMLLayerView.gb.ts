@@ -35,7 +35,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
     }
     
     async getAllVisiblePoints(): Promise<any> {
@@ -101,12 +101,12 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = kMLLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;
     
-    let { buildDotNetKMLLayerView } = await import('./kMLLayerView');
-    let dnInstantiatedObject = await buildDotNetKMLLayerView(jsKMLLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetKMLLayerView } = await import('./kMLLayerView');
+        let dnInstantiatedObject = await buildDotNetKMLLayerView(jsKMLLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -129,7 +129,7 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetKMLLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -138,7 +138,7 @@ export async function buildDotNetKMLLayerViewGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.allVisibleMapImages)) {
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i, layerId, viewId)));
+        dotNetKMLLayerView.allVisibleMapImages = await Promise.all(jsObject.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
     }
     
     if (hasValue(jsObject.spatialReferenceSupported)) {

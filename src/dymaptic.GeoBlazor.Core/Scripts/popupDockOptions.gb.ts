@@ -19,12 +19,12 @@ export async function buildJsPopupDockOptionsGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptions;
     
-    let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
-    let dnInstantiatedObject = await buildDotNetPopupDockOptions(jsPopupDockOptions);
-
     try {
+        let { buildDotNetPopupDockOptions } = await import('./popupDockOptions');
+        let dnInstantiatedObject = await buildDotNetPopupDockOptions(jsPopupDockOptions);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

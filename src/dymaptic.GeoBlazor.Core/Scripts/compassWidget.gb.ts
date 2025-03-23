@@ -166,12 +166,12 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
-    let { buildDotNetCompassWidget } = await import('./compassWidget');
-    let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
-
     try {
+        let { buildDotNetCompassWidget } = await import('./compassWidget');
+        let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

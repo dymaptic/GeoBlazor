@@ -23,12 +23,12 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any): 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     
-    let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo);
-
     try {
+        let { buildDotNetCSVLayerElevationInfo } = await import('./cSVLayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetCSVLayerElevationInfo(jsCSVLayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

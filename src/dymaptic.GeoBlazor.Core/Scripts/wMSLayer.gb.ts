@@ -495,12 +495,12 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = wMSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
     
-    let { buildDotNetWMSLayer } = await import('./wMSLayer');
-    let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
-
     try {
+        let { buildDotNetWMSLayer } = await import('./wMSLayer');
+        let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

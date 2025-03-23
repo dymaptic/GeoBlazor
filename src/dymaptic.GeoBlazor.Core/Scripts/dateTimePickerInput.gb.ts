@@ -21,12 +21,12 @@ export async function buildJsDateTimePickerInputGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDateTimePickerInput;
     
-    let { buildDotNetDateTimePickerInput } = await import('./dateTimePickerInput');
-    let dnInstantiatedObject = await buildDotNetDateTimePickerInput(jsDateTimePickerInput, layerId, viewId);
-
     try {
+        let { buildDotNetDateTimePickerInput } = await import('./dateTimePickerInput');
+        let dnInstantiatedObject = await buildDotNetDateTimePickerInput(jsDateTimePickerInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -61,6 +61,9 @@ public partial class FeatureLayerView : LayerView
         MaximumNumberOfFeaturesExceeded = maximumNumberOfFeaturesExceeded;
 #pragma warning restore BL0005    
     }
+    
+    /// <inheritdoc />
+    public override LayerType? Type => LayerType.Feature;
 
     
     /// <summary>
@@ -99,13 +102,11 @@ public partial class FeatureLayerView : LayerView
     public async Task SetFilter(FeatureFilter? filter)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        IJSObjectReference? filterRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>(
+
+        if (JsComponentReference is null) return;
+        await JsComponentReference.InvokeVoidAsync(
             "setFilter", CancellationTokenSource.Token, filter);
 
-        if (filter is not null)
-        {
-            filter.JsComponentReference = filterRef;
-        }
         Filter = filter;
     }
 
@@ -120,13 +121,9 @@ public partial class FeatureLayerView : LayerView
     public async Task SetFeatureEffect(FeatureEffect? featureEffect)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference>("getJsComponent");
-        IJSObjectReference? effectRef = await JsComponentReference.InvokeAsync<IJSObjectReference?>(
+        await JsComponentReference.InvokeVoidAsync(
             "setFeatureEffect", CancellationTokenSource.Token, featureEffect);
 
-        if (featureEffect is not null)
-        {
-            featureEffect.JsComponentReference = effectRef;
-        }
         FeatureEffect = featureEffect;
     }
 

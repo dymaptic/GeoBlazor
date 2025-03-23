@@ -19,12 +19,12 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any): Pr
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     
-    let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
-    let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
-
     try {
+        let { buildDotNetOrderedLayerOrderBy } = await import('./orderedLayerOrderBy');
+        let dnInstantiatedObject = await buildDotNetOrderedLayerOrderBy(jsOrderedLayerOrderBy);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -31,12 +31,12 @@ export async function buildJsVersionManagementServiceCapabilitiesGenerated(dotNe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementServiceCapabilities;
     
-    let { buildDotNetVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
-    let dnInstantiatedObject = await buildDotNetVersionManagementServiceCapabilities(jsVersionManagementServiceCapabilities, layerId, viewId);
-
     try {
+        let { buildDotNetVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
+        let dnInstantiatedObject = await buildDotNetVersionManagementServiceCapabilities(jsVersionManagementServiceCapabilities, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

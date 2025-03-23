@@ -36,12 +36,12 @@ export async function buildJsButtonMenuItemGenerated(dotNetObject: any, layerId:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsButtonMenuItem;
     
-    let { buildDotNetButtonMenuItem } = await import('./buttonMenuItem');
-    let dnInstantiatedObject = await buildDotNetButtonMenuItem(jsButtonMenuItem, layerId, viewId);
-
     try {
+        let { buildDotNetButtonMenuItem } = await import('./buttonMenuItem');
+        let dnInstantiatedObject = await buildDotNetButtonMenuItem(jsButtonMenuItem, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

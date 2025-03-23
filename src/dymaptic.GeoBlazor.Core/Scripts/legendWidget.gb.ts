@@ -27,7 +27,7 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
             let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-            this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, this.layerId, this.viewId))) as any;
+            this.widget.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i))) as any;
         }
 
         if (hasValue(dotNetObject.basemapLegendVisible)) {
@@ -133,7 +133,7 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
     
     async setLayerInfos(value: any): Promise<void> {
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        this.widget.layerInfos = await Promise.all(value.map(async i => await buildJsLegendLayerInfos(i, this.layerId, this.viewId))) as any;
+        this.widget.layerInfos = await Promise.all(value.map(async i => await buildJsLegendLayerInfos(i))) as any;
     }
     
     async getViewModel(): Promise<any> {
@@ -171,7 +171,7 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.layerInfos) && dotNetObject.layerInfos.length > 0) {
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
-        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i, layerId, viewId))) as any;
+        properties.layerInfos = await Promise.all(dotNetObject.layerInfos.map(async i => await buildJsLegendLayerInfos(i))) as any;
     }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsLegendViewModel } = await import('./legendViewModel');
@@ -220,12 +220,12 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = legendWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegend;
     
-    let { buildDotNetLegendWidget } = await import('./legendWidget');
-    let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend);
-
     try {
+        let { buildDotNetLegendWidget } = await import('./legendWidget');
+        let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

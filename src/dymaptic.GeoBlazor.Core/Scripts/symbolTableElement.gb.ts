@@ -19,12 +19,12 @@ export async function buildJsSymbolTableElementGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSymbolTableElement;
     
-    let { buildDotNetSymbolTableElement } = await import('./symbolTableElement');
-    let dnInstantiatedObject = await buildDotNetSymbolTableElement(jsSymbolTableElement, layerId, viewId);
-
     try {
+        let { buildDotNetSymbolTableElement } = await import('./symbolTableElement');
+        let dnInstantiatedObject = await buildDotNetSymbolTableElement(jsSymbolTableElement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

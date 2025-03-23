@@ -20,12 +20,12 @@ export async function buildJsPrimitiveOverrideGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrimitiveOverride;
     
-    let { buildDotNetPrimitiveOverride } = await import('./primitiveOverride');
-    let dnInstantiatedObject = await buildDotNetPrimitiveOverride(jsPrimitiveOverride, layerId, viewId);
-
     try {
+        let { buildDotNetPrimitiveOverride } = await import('./primitiveOverride');
+        let dnInstantiatedObject = await buildDotNetPrimitiveOverride(jsPrimitiveOverride, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

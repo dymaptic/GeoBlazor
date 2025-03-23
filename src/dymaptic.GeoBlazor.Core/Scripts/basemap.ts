@@ -8,6 +8,10 @@ export default class BasemapWrapper extends BasemapGenerated {
         super(component);
     }
 
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.component.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
 }
 
 export async function buildJsBasemap(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

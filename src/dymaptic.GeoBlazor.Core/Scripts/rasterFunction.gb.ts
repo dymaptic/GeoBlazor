@@ -27,12 +27,12 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any): Promise
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
     
-    let { buildDotNetRasterFunction } = await import('./rasterFunction');
-    let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction);
-
     try {
+        let { buildDotNetRasterFunction } = await import('./rasterFunction');
+        let dnInstantiatedObject = await buildDotNetRasterFunction(jsRasterFunction);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

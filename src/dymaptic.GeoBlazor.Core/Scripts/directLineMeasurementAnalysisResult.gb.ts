@@ -6,19 +6,19 @@ export async function buildJsDirectLineMeasurementAnalysisResultGenerated(dotNet
     let jsDirectLineMeasurementAnalysisResult: any = {};
     if (hasValue(dotNetObject.directDistance)) {
         let { buildJsLength } = await import('./length');
-        jsDirectLineMeasurementAnalysisResult.directDistance = await buildJsLength(dotNetObject.directDistance, layerId, viewId) as any;
+        jsDirectLineMeasurementAnalysisResult.directDistance = await buildJsLength(dotNetObject.directDistance) as any;
     }
     if (hasValue(dotNetObject.distance)) {
         let { buildJsLength } = await import('./length');
-        jsDirectLineMeasurementAnalysisResult.distance = await buildJsLength(dotNetObject.distance, layerId, viewId) as any;
+        jsDirectLineMeasurementAnalysisResult.distance = await buildJsLength(dotNetObject.distance) as any;
     }
     if (hasValue(dotNetObject.horizontalDistance)) {
         let { buildJsLength } = await import('./length');
-        jsDirectLineMeasurementAnalysisResult.horizontalDistance = await buildJsLength(dotNetObject.horizontalDistance, layerId, viewId) as any;
+        jsDirectLineMeasurementAnalysisResult.horizontalDistance = await buildJsLength(dotNetObject.horizontalDistance) as any;
     }
     if (hasValue(dotNetObject.verticalDistance)) {
         let { buildJsLength } = await import('./length');
-        jsDirectLineMeasurementAnalysisResult.verticalDistance = await buildJsLength(dotNetObject.verticalDistance, layerId, viewId) as any;
+        jsDirectLineMeasurementAnalysisResult.verticalDistance = await buildJsLength(dotNetObject.verticalDistance) as any;
     }
 
     if (hasValue(dotNetObject.mode)) {
@@ -42,17 +42,17 @@ export async function buildDotNetDirectLineMeasurementAnalysisResultGenerated(js
     
     if (hasValue(jsObject.directDistance)) {
         let { buildDotNetLength } = await import('./length');
-        dotNetDirectLineMeasurementAnalysisResult.directDistance = await buildDotNetLength(jsObject.directDistance, layerId, viewId);
+        dotNetDirectLineMeasurementAnalysisResult.directDistance = await buildDotNetLength(jsObject.directDistance);
     }
     
     if (hasValue(jsObject.horizontalDistance)) {
         let { buildDotNetLength } = await import('./length');
-        dotNetDirectLineMeasurementAnalysisResult.horizontalDistance = await buildDotNetLength(jsObject.horizontalDistance, layerId, viewId);
+        dotNetDirectLineMeasurementAnalysisResult.horizontalDistance = await buildDotNetLength(jsObject.horizontalDistance);
     }
     
     if (hasValue(jsObject.verticalDistance)) {
         let { buildDotNetLength } = await import('./length');
-        dotNetDirectLineMeasurementAnalysisResult.verticalDistance = await buildDotNetLength(jsObject.verticalDistance, layerId, viewId);
+        dotNetDirectLineMeasurementAnalysisResult.verticalDistance = await buildDotNetLength(jsObject.verticalDistance);
     }
     
     if (hasValue(jsObject.mode)) {

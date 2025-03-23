@@ -92,7 +92,7 @@ export async function buildJsFeatureLayerView(dotNetObject: any, layerId: string
     return await buildJsFeatureLayerViewGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetFeatureLayerView(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetFeatureLayerView(jsObject: any): Promise<any> {
     let {buildDotNetFeatureLayerViewGenerated} = await import('./featureLayerView.gb');
-    return await buildDotNetFeatureLayerViewGenerated(jsObject, layerId, viewId);
+    return await buildDotNetFeatureLayerViewGenerated(jsObject);
 }

@@ -17,12 +17,12 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampElement;
     
-    let { buildDotNetHeatmapRampElement } = await import('./heatmapRampElement');
-    let dnInstantiatedObject = await buildDotNetHeatmapRampElement(jsHeatmapRampElement, layerId, viewId);
-
     try {
+        let { buildDotNetHeatmapRampElement } = await import('./heatmapRampElement');
+        let dnInstantiatedObject = await buildDotNetHeatmapRampElement(jsHeatmapRampElement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -16,12 +16,12 @@ export async function buildJsLabelitemGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLabelitem;
     
-    let { buildDotNetLabelitem } = await import('./labelitem');
-    let dnInstantiatedObject = await buildDotNetLabelitem(jsLabelitem, layerId, viewId);
-
     try {
+        let { buildDotNetLabelitem } = await import('./labelitem');
+        let dnInstantiatedObject = await buildDotNetLabelitem(jsLabelitem, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

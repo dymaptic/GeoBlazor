@@ -12,12 +12,12 @@ export async function buildJsGroundViewGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGroundView;
     
-    let { buildDotNetGroundView } = await import('./groundView');
-    let dnInstantiatedObject = await buildDotNetGroundView(jsGroundView, layerId, viewId);
-
     try {
+        let { buildDotNetGroundView } = await import('./groundView');
+        let dnInstantiatedObject = await buildDotNetGroundView(jsGroundView, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -336,12 +336,12 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = searchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModel;
     
-    let { buildDotNetSearchViewModel } = await import('./searchViewModel');
-    let dnInstantiatedObject = await buildDotNetSearchViewModel(jsSearchViewModel, layerId, viewId);
-
     try {
+        let { buildDotNetSearchViewModel } = await import('./searchViewModel');
+        let dnInstantiatedObject = await buildDotNetSearchViewModel(jsSearchViewModel, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

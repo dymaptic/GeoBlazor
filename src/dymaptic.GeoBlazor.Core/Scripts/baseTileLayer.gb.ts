@@ -268,12 +268,12 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
     
-            let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
-            let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer);
-
             try {
+                let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
+                let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer);
+
                 let seenObjects = new WeakMap();
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+                await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
                     jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                         if (key.startsWith('_') || key === 'jsComponentReference') {
                             return undefined;

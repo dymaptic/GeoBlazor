@@ -62,7 +62,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildJsCatalogFootprintLayerView} = await import('./catalogFootprintLayerView');
                 // @ts-ignore GeoBlazor Pro Only
-                return await buildJsCatalogFootprintLayerView(dotNetObject, layerId, viewId);
+                return await buildJsCatalogFootprintLayerView(dotNetObject);
             } catch (e) {
                 throw e;
             }
@@ -80,7 +80,7 @@ export async function buildJsLayerView(dotNetObject: any, layerId: string | null
                 // @ts-ignore GeoBlazor Pro Only
                 let {buildJsMediaLayerView} = await import('./mediaLayerView');
                 // @ts-ignore GeoBlazor Pro Only
-                return await buildJsMediaLayerView(dotNetObject, layerId, viewId);
+                return await buildJsMediaLayerView(dotNetObject);
             } catch (e) {
                 throw e;
             }

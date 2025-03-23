@@ -13,12 +13,12 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesVisibleElem
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureTemplatesVisibleElements;
     
-    let { buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements');
-    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsSupportingWidgetDefaultsFeatureTemplatesVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements');
+        let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplatesVisibleElements(jsSupportingWidgetDefaultsFeatureTemplatesVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

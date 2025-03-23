@@ -31,7 +31,7 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.highlightOptions)) {
             let { buildJsHighlightOptions } = await import('./highlightOptions');
-            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, this.layerId, this.viewId) as any;
+            this.component.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
         }
 
         if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -137,12 +137,12 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        return await buildDotNetHighlightOptions(this.component.highlightOptions, this.layerId, this.viewId);
+        return await buildDotNetHighlightOptions(this.component.highlightOptions);
     }
     
     async setHighlightOptions(value: any): Promise<void> {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        this.component.highlightOptions = await  buildJsHighlightOptions(value, this.layerId, this.viewId);
+        this.component.highlightOptions = await  buildJsHighlightOptions(value);
     }
     
     async getLayer(): Promise<any> {
@@ -176,7 +176,7 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
-        jsCSVLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions, layerId, viewId) as any;
+        jsCSVLayerView.highlightOptions = await buildJsHighlightOptions(dotNetObject.highlightOptions) as any;
     }
 
     if (hasValue(dotNetObject.maximumNumberOfFeatures)) {
@@ -199,12 +199,12 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = cSVLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerView;
     
-    let { buildDotNetCSVLayerView } = await import('./cSVLayerView');
-    let dnInstantiatedObject = await buildDotNetCSVLayerView(jsCSVLayerView, layerId, viewId);
-
     try {
+        let { buildDotNetCSVLayerView } = await import('./cSVLayerView');
+        let dnInstantiatedObject = await buildDotNetCSVLayerView(jsCSVLayerView);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
@@ -227,7 +227,7 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetCSVLayerViewGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetCSVLayerViewGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -246,7 +246,7 @@ export async function buildDotNetCSVLayerViewGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.highlightOptions)) {
         let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        dotNetCSVLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions, layerId, viewId);
+        dotNetCSVLayerView.highlightOptions = await buildDotNetHighlightOptions(jsObject.highlightOptions);
     }
     
     if (hasValue(jsObject.availableFields)) {

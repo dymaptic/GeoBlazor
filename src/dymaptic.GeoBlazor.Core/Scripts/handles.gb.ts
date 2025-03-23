@@ -70,12 +70,12 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = handlesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandles;
     
-    let { buildDotNetHandles } = await import('./handles');
-    let dnInstantiatedObject = await buildDotNetHandles(jsHandles, layerId, viewId);
-
     try {
+        let { buildDotNetHandles } = await import('./handles');
+        let dnInstantiatedObject = await buildDotNetHandles(jsHandles, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

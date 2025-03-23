@@ -25,7 +25,7 @@ public partial class LayerInfo
     ///     The geometry type of a layer.
     ///     <a target="_blank" href="global.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="layerInfoId">
+    /// <param name="arcGISLayerId">
     ///     The id of a layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-featureService-FeatureService.html#LayerInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -39,17 +39,17 @@ public partial class LayerInfo
     /// </param>
     public LayerInfo(
         GeometryType? geometryType = null,
-        long? layerInfoId = null,
+        long? arcGISLayerId = null,
         string? name = null,
         string? url = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         GeometryType = geometryType;
-        LayerInfoId = layerInfoId;
+        ArcGISLayerId = arcGISLayerId;
         Name = name;
         Url = url;
-#pragma warning restore BL0005    
+#pragma warning restore BL0005
     }
     
     
@@ -63,15 +63,6 @@ public partial class LayerInfo
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public GeometryType? GeometryType { get; set; }
-    
-    /// <summary>
-    ///     The id of a layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-featureService-FeatureService.html#LayerInfo">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public long? LayerInfoId { get; set; }
     
     /// <summary>
     ///     The name of a layer.
@@ -132,13 +123,13 @@ public partial class LayerInfo
     {
         if (CoreJsModule is null)
         {
-            return LayerInfoId;
+            return ArcGISLayerId;
         }
         JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null)
         {
-            return LayerInfoId;
+            return ArcGISLayerId;
         }
 
         // get the property value
@@ -147,12 +138,12 @@ public partial class LayerInfo
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             LayerInfoId = result.Value.Value;
+             ArcGISLayerId = result.Value.Value;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LayerInfoId)] = LayerInfoId;
+             ModifiedParameters[nameof(ArcGISLayerId)] = ArcGISLayerId;
         }
          
-        return LayerInfoId;
+        return ArcGISLayerId;
     }
     
     /// <summary>
@@ -258,9 +249,9 @@ public partial class LayerInfo
     public async Task SetLayerInfoId(long? value)
     {
 #pragma warning disable BL0005
-        LayerInfoId = value;
+        ArcGISLayerId = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(LayerInfoId)] = value;
+        ModifiedParameters[nameof(ArcGISLayerId)] = value;
         
         if (CoreJsModule is null)
         {

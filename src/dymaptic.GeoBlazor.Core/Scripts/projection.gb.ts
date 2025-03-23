@@ -58,12 +58,12 @@ export async function buildJsProjectionGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = projectionWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsprojection;
     
-    let { buildDotNetProjection } = await import('./projection');
-    let dnInstantiatedObject = await buildDotNetProjection(jsprojection, layerId, viewId);
-
     try {
+        let { buildDotNetProjection } = await import('./projection');
+        let dnInstantiatedObject = await buildDotNetProjection(jsprojection, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

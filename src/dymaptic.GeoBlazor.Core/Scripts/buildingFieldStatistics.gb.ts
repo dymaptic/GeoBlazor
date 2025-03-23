@@ -31,12 +31,12 @@ export async function buildJsBuildingFieldStatisticsGenerated(dotNetObject: any)
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFieldStatistics;
     
-    let { buildDotNetBuildingFieldStatistics } = await import('./buildingFieldStatistics');
-    let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics);
-
     try {
+        let { buildDotNetBuildingFieldStatistics } = await import('./buildingFieldStatistics');
+        let dnInstantiatedObject = await buildDotNetBuildingFieldStatistics(jsBuildingFieldStatistics);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -19,12 +19,12 @@ export async function buildJsBinGenerated(dotNetObject: any, layerId: string | n
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBin;
     
-    let { buildDotNetBin } = await import('./bin');
-    let dnInstantiatedObject = await buildDotNetBin(jsBin, layerId, viewId);
-
     try {
+        let { buildDotNetBin } = await import('./bin');
+        let dnInstantiatedObject = await buildDotNetBin(jsBin, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

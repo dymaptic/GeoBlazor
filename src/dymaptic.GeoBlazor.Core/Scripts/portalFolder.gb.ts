@@ -21,12 +21,12 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
     
-    let { buildDotNetPortalFolder } = await import('./portalFolder');
-    let dnInstantiatedObject = await buildDotNetPortalFolder(jsPortalFolder);
-
     try {
+        let { buildDotNetPortalFolder } = await import('./portalFolder');
+        let dnInstantiatedObject = await buildDotNetPortalFolder(jsPortalFolder);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

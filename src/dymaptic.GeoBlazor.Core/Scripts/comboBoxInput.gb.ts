@@ -18,12 +18,12 @@ export async function buildJsComboBoxInputGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsComboBoxInput;
     
-    let { buildDotNetComboBoxInput } = await import('./comboBoxInput');
-    let dnInstantiatedObject = await buildDotNetComboBoxInput(jsComboBoxInput, layerId, viewId);
-
     try {
+        let { buildDotNetComboBoxInput } = await import('./comboBoxInput');
+        let dnInstantiatedObject = await buildDotNetComboBoxInput(jsComboBoxInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

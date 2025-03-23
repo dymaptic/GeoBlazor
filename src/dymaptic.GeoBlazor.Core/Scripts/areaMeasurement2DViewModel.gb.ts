@@ -97,12 +97,12 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModel;
     
-    let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-    let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModel(jsAreaMeasurement2DViewModel);
-
     try {
+        let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
+        let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModel(jsAreaMeasurement2DViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

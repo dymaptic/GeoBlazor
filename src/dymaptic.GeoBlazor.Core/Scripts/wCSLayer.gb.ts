@@ -374,11 +374,6 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     
     let dotNetWCSLayer: any = {};
     
-    if (hasValue(jsObject.coverageInfo)) {
-        let { buildDotNetCoverageInfo } = await import('./coverageInfo');
-        dotNetWCSLayer.coverageInfo = await buildDotNetCoverageInfo(jsObject.coverageInfo);
-    }
-    
     if (hasValue(jsObject.effect)) {
         let { buildDotNetEffect } = await import('./effect');
         dotNetWCSLayer.effect = buildDotNetEffect(jsObject.effect);

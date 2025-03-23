@@ -17,12 +17,12 @@ export async function buildJsInclusionModeDefinitionGenerated(dotNetObject: any)
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsInclusionModeDefinition;
     
-    let { buildDotNetInclusionModeDefinition } = await import('./inclusionModeDefinition');
-    let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition);
-
     try {
+        let { buildDotNetInclusionModeDefinition } = await import('./inclusionModeDefinition');
+        let dnInstantiatedObject = await buildDotNetInclusionModeDefinition(jsInclusionModeDefinition);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -37,12 +37,12 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListVisibleElements;
     
-    let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListVisibleElements(jsLayerListVisibleElements);
-
     try {
+        let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
+        let dnInstantiatedObject = await buildDotNetLayerListVisibleElements(jsLayerListVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

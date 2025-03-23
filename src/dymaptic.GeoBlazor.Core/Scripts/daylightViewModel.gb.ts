@@ -42,12 +42,12 @@ export async function buildJsDaylightViewModelGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDaylightViewModel;
     
-    let { buildDotNetDaylightViewModel } = await import('./daylightViewModel');
-    let dnInstantiatedObject = await buildDotNetDaylightViewModel(jsDaylightViewModel, layerId, viewId);
-
     try {
+        let { buildDotNetDaylightViewModel } = await import('./daylightViewModel');
+        let dnInstantiatedObject = await buildDotNetDaylightViewModel(jsDaylightViewModel, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

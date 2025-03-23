@@ -15,24 +15,15 @@ public partial class BasemapGalleryWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; } = "\"World Basemaps for Developers\" AND owner:esri";
 
-    /// <summary>
-    ///     The source for basemaps that the widget will display.
-    /// </summary>
-    /// <remarks>
-    ///     Use either <see cref="Title" /> or <see cref="PortalBasemapsSource" /> to define the query.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PortalBasemapsSource? PortalBasemapsSource { get; set; }
-
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {
         switch (child)
         {
-            case PortalBasemapsSource pbms:
-                if (!pbms.Equals(PortalBasemapsSource))
+            case IBasemapGalleryWidgetSource src:
+                if (!src.Equals(Source))
                 {
-                    PortalBasemapsSource = pbms;
+                    Source = src;
                     WidgetChanged = MapRendered;
                 }
 

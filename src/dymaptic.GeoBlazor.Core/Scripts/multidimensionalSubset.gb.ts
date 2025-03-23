@@ -20,12 +20,12 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any):
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
     
-    let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-    let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
-
     try {
+        let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
+        let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

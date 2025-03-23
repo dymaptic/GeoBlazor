@@ -11,7 +11,7 @@
 </p>
 
 <MapView @ref="_mapView"
-         OnViewInitialized="OnViewInitialized"
+         OnLayerViewCreate="OnLayerViewCreate"
          Class="map-view"
          OnClick="OnClick"
          PopupEnabled="false">
@@ -19,7 +19,7 @@
         <Basemap>
             <BasemapStyle Name="BasemapStyleName.ArcgisDarkGray" />
         </Basemap>
-        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })">
+        <FeatureLayer @ref="_featureLayer" OutFields="@(["*"])">
             <PortalItem PortalItemId="234d2e3f6f554e0e84757662469c26d3" />
         </FeatureLayer>
     </Map>
@@ -35,7 +35,7 @@
                           Position="PopupDockPosition.BottomRight" />
     </PopupWidget>
     <LegendWidget Position="OverlayPosition.BottomLeft">
-        <LayerInfo LayerId="_featureLayer?.Id" />
+        <LegendLayerInfos LayerId="@(_featureLayer?.Id)" />
     </LegendWidget>
     <CustomOverlay Position="OverlayPosition.TopRight">
         <div id="optionsDiv" class="esri-widget">
@@ -53,15 +53,13 @@
 
 @code {
 
-    private async Task OnViewInitialized()
+    private async Task OnLayerViewCreate(LayerViewCreateEvent createEvent)
     {
-        if (!_fullyLoaded)
+        if (createEvent.Layer?.Id == _featureLayer?.Id)
         {
-            await _featureLayer!.Load();
-            PopupTemplate popupTemplate = await _featureLayer.CreatePopupTemplate();
+            PopupTemplate popupTemplate = await _featureLayer!.CreatePopupTemplate();
             await _featureLayer!.SetPopupTemplate(popupTemplate);
             await _mapView!.SetExtent(_featureLayer!.FullExtent!);
-            _fullyLoaded = true;
         }
     }
 
@@ -116,5 +114,4 @@
         new Outline(new MapColor(255, 255, 255), 1.5),
         new MapColor(173, 216, 230, 0.2)));
     private string? _queryType;
-    private bool _fullyLoaded;
 }

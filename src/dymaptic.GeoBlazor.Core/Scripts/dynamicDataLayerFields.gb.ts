@@ -16,12 +16,12 @@ export async function buildJsDynamicDataLayerFieldsGenerated(dotNetObject: any, 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayerFields;
     
-    let { buildDotNetDynamicDataLayerFields } = await import('./dynamicDataLayerFields');
-    let dnInstantiatedObject = await buildDotNetDynamicDataLayerFields(jsDynamicDataLayerFields, layerId, viewId);
-
     try {
+        let { buildDotNetDynamicDataLayerFields } = await import('./dynamicDataLayerFields');
+        let dnInstantiatedObject = await buildDotNetDynamicDataLayerFields(jsDynamicDataLayerFields, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

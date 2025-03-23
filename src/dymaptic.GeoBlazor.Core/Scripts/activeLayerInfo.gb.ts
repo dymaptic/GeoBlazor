@@ -51,12 +51,12 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
-    let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-    let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
-
     try {
+        let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
+        let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

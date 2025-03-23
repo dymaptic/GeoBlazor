@@ -13,7 +13,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         try {
             let jsFeatureReduction = this.layer.featureReduction;
             let { buildDotNetIFeatureReduction } = await import('./iFeatureReduction');
-            return await buildDotNetIFeatureReduction(jsFeatureReduction, this.layerId, this.viewId);
+            return await buildDotNetIFeatureReduction(jsFeatureReduction);
         } catch (error) {
             throw new Error("Available only in GeoBlazor Pro. " + error);
         }
@@ -25,13 +25,17 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
         this.layer.featureReduction = jsFeatureReduction;
     }
 
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
     async getTemplates(): Promise<any> {
         if (!hasValue(this.layer.templates)) {
             return null;
         }
 
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
-        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i, this.layerId, this.viewId)));
+        return await Promise.all(this.layer.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
     }
 
     async setTemplates(value: any): Promise<void> {

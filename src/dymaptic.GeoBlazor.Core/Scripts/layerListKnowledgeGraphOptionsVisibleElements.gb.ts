@@ -19,12 +19,12 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
     
-    let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements);
-
     try {
+        let { buildDotNetLayerListKnowledgeGraphOptionsVisibleElements } = await import('./layerListKnowledgeGraphOptionsVisibleElements');
+        let dnInstantiatedObject = await buildDotNetLayerListKnowledgeGraphOptionsVisibleElements(jsLayerListKnowledgeGraphOptionsVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

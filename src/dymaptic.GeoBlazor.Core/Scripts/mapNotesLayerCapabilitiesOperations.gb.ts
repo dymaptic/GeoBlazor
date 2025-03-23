@@ -13,12 +13,12 @@ export async function buildJsMapNotesLayerCapabilitiesOperationsGenerated(dotNet
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapNotesLayerCapabilitiesOperations;
     
-    let { buildDotNetMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
-    let dnInstantiatedObject = await buildDotNetMapNotesLayerCapabilitiesOperations(jsMapNotesLayerCapabilitiesOperations);
-
     try {
+        let { buildDotNetMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');
+        let dnInstantiatedObject = await buildDotNetMapNotesLayerCapabilitiesOperations(jsMapNotesLayerCapabilitiesOperations);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

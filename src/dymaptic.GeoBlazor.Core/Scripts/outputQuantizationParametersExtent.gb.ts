@@ -22,12 +22,12 @@ export async function buildJsOutputQuantizationParametersExtentGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOutputQuantizationParametersExtent;
     
-    let { buildDotNetOutputQuantizationParametersExtent } = await import('./outputQuantizationParametersExtent');
-    let dnInstantiatedObject = await buildDotNetOutputQuantizationParametersExtent(jsOutputQuantizationParametersExtent, layerId, viewId);
-
     try {
+        let { buildDotNetOutputQuantizationParametersExtent } = await import('./outputQuantizationParametersExtent');
+        let dnInstantiatedObject = await buildDotNetOutputQuantizationParametersExtent(jsOutputQuantizationParametersExtent, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

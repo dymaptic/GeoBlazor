@@ -15,7 +15,7 @@ export async function buildJsPixelBlock(dotNetObject: any, layerId: string | nul
     return await buildJsPixelBlockGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetPixelBlock(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPixelBlock(jsObject: any): Promise<any> {
     let {buildDotNetPixelBlockGenerated} = await import('./pixelBlock.gb');
-    return await buildDotNetPixelBlockGenerated(jsObject, layerId, viewId);
+    return await buildDotNetPixelBlockGenerated(jsObject);
 }

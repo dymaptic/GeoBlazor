@@ -219,12 +219,12 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
     
-    let { buildDotNetPortalUser } = await import('./portalUser');
-    let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser, layerId, viewId);
-
     try {
+        let { buildDotNetPortalUser } = await import('./portalUser');
+        let dnInstantiatedObject = await buildDotNetPortalUser(jsPortalUser, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

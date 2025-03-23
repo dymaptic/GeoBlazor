@@ -25,12 +25,12 @@ export async function buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBreakpointsOwnerBreakpoints;
     
-    let { buildDotNetBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
-    let dnInstantiatedObject = await buildDotNetBreakpointsOwnerBreakpoints(jsBreakpointsOwnerBreakpoints, layerId, viewId);
-
     try {
+        let { buildDotNetBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
+        let dnInstantiatedObject = await buildDotNetBreakpointsOwnerBreakpoints(jsBreakpointsOwnerBreakpoints, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

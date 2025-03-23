@@ -23,12 +23,12 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTileMatrixSet;
     
-    let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-    let dnInstantiatedObject = await buildDotNetTileMatrixSet(jsTileMatrixSet);
-
     try {
+        let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
+        let dnInstantiatedObject = await buildDotNetTileMatrixSet(jsTileMatrixSet);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

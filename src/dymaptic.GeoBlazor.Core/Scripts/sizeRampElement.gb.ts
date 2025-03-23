@@ -17,12 +17,12 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampElement;
     
-    let { buildDotNetSizeRampElement } = await import('./sizeRampElement');
-    let dnInstantiatedObject = await buildDotNetSizeRampElement(jsSizeRampElement, layerId, viewId);
-
     try {
+        let { buildDotNetSizeRampElement } = await import('./sizeRampElement');
+        let dnInstantiatedObject = await buildDotNetSizeRampElement(jsSizeRampElement, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -16,12 +16,12 @@ export async function buildJsViewDragEventOriginGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewDragEventOrigin;
     
-    let { buildDotNetViewDragEventOrigin } = await import('./viewDragEventOrigin');
-    let dnInstantiatedObject = await buildDotNetViewDragEventOrigin(jsViewDragEventOrigin, layerId, viewId);
-
     try {
+        let { buildDotNetViewDragEventOrigin } = await import('./viewDragEventOrigin');
+        let dnInstantiatedObject = await buildDotNetViewDragEventOrigin(jsViewDragEventOrigin, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

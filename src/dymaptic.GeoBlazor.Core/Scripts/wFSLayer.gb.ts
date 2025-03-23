@@ -586,12 +586,12 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = wFSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayer;
     
-    let { buildDotNetWFSLayer } = await import('./wFSLayer');
-    let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer);
-
     try {
+        let { buildDotNetWFSLayer } = await import('./wFSLayer');
+        let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

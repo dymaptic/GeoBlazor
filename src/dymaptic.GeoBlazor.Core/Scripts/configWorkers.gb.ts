@@ -20,12 +20,12 @@ export async function buildJsConfigWorkersGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfigWorkers;
     
-    let { buildDotNetConfigWorkers } = await import('./configWorkers');
-    let dnInstantiatedObject = await buildDotNetConfigWorkers(jsconfigWorkers, layerId, viewId);
-
     try {
+        let { buildDotNetConfigWorkers } = await import('./configWorkers');
+        let dnInstantiatedObject = await buildDotNetConfigWorkers(jsconfigWorkers, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

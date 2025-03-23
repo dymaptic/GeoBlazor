@@ -17,12 +17,12 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModelLayerInfos;
     
-    let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
-    let dnInstantiatedObject = await buildDotNetLegendViewModelLayerInfos(jsLegendViewModelLayerInfos);
-
     try {
+        let { buildDotNetLegendViewModelLayerInfos } = await import('./legendViewModelLayerInfos');
+        let dnInstantiatedObject = await buildDotNetLegendViewModelLayerInfos(jsLegendViewModelLayerInfos);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

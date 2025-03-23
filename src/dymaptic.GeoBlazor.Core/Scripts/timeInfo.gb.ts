@@ -35,12 +35,12 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
     
-    let { buildDotNetTimeInfo } = await import('./timeInfo');
-    let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo);
-
     try {
+        let { buildDotNetTimeInfo } = await import('./timeInfo');
+        let dnInstantiatedObject = await buildDotNetTimeInfo(jsTimeInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -21,12 +21,12 @@ export async function buildJsGeotriggersInfoExpressionInfoGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgeotriggersInfoExpressionInfo;
     
-    let { buildDotNetGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetGeotriggersInfoExpressionInfo(jsgeotriggersInfoExpressionInfo, layerId, viewId);
-
     try {
+        let { buildDotNetGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetGeotriggersInfoExpressionInfo(jsgeotriggersInfoExpressionInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

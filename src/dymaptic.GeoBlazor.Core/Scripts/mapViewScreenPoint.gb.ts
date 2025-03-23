@@ -16,12 +16,12 @@ export async function buildJsMapViewScreenPointGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMapViewScreenPoint;
     
-    let { buildDotNetMapViewScreenPoint } = await import('./mapViewScreenPoint');
-    let dnInstantiatedObject = await buildDotNetMapViewScreenPoint(jsMapViewScreenPoint, layerId, viewId);
-
     try {
+        let { buildDotNetMapViewScreenPoint } = await import('./mapViewScreenPoint');
+        let dnInstantiatedObject = await buildDotNetMapViewScreenPoint(jsMapViewScreenPoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -23,6 +23,11 @@ export default class WFSLayerWrapper extends WFSLayerGenerated {
         let jsFeatureReduction = await buildJsIFeatureReduction(featureReduction, this.layerId, this.viewId);
         this.layer.featureReduction = jsFeatureReduction;
     }
+
+    async setSpatialReference(spatialReference: any): Promise<void> {
+        let {buildJsSpatialReference} = await import('./spatialReference');
+        this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
+    }
 }
 
 export async function buildJsWFSLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {

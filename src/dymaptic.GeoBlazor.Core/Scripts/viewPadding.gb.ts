@@ -22,12 +22,12 @@ export async function buildJsViewPaddingGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewPadding;
     
-    let { buildDotNetViewPadding } = await import('./viewPadding');
-    let dnInstantiatedObject = await buildDotNetViewPadding(jsViewPadding, layerId, viewId);
-
     try {
+        let { buildDotNetViewPadding } = await import('./viewPadding');
+        let dnInstantiatedObject = await buildDotNetViewPadding(jsViewPadding, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

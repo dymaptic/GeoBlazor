@@ -16,12 +16,12 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
     
-    let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-    let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos, layerId, viewId);
-
     try {
+        let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
+        let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

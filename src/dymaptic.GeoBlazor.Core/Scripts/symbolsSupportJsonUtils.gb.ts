@@ -10,12 +10,12 @@ export async function buildJsSymbolsSupportJsonUtilsGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jssymbolsSupportJsonUtils;
     
-    let { buildDotNetSymbolsSupportJsonUtils } = await import('./symbolsSupportJsonUtils');
-    let dnInstantiatedObject = await buildDotNetSymbolsSupportJsonUtils(jssymbolsSupportJsonUtils, layerId, viewId);
-
     try {
+        let { buildDotNetSymbolsSupportJsonUtils } = await import('./symbolsSupportJsonUtils');
+        let dnInstantiatedObject = await buildDotNetSymbolsSupportJsonUtils(jssymbolsSupportJsonUtils, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

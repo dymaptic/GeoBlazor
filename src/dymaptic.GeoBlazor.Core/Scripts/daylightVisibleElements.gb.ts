@@ -28,12 +28,12 @@ export async function buildJsDaylightVisibleElementsGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDaylightVisibleElements;
     
-    let { buildDotNetDaylightVisibleElements } = await import('./daylightVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDaylightVisibleElements(jsDaylightVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetDaylightVisibleElements } = await import('./daylightVisibleElements');
+        let dnInstantiatedObject = await buildDotNetDaylightVisibleElements(jsDaylightVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

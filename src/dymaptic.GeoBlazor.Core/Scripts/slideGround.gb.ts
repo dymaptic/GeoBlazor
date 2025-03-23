@@ -13,12 +13,12 @@ export async function buildJsSlideGroundGenerated(dotNetObject: any, layerId: st
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSlideGround;
     
-    let { buildDotNetSlideGround } = await import('./slideGround');
-    let dnInstantiatedObject = await buildDotNetSlideGround(jsSlideGround, layerId, viewId);
-
     try {
+        let { buildDotNetSlideGround } = await import('./slideGround');
+        let dnInstantiatedObject = await buildDotNetSlideGround(jsSlideGround, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

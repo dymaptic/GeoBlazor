@@ -19,12 +19,12 @@ export async function buildJsPredominantCategoriesResultPredominantCategoryInfos
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPredominantCategoriesResultPredominantCategoryInfos;
     
-    let { buildDotNetPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
-    let dnInstantiatedObject = await buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsPredominantCategoriesResultPredominantCategoryInfos, layerId, viewId);
-
     try {
+        let { buildDotNetPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
+        let dnInstantiatedObject = await buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsPredominantCategoriesResultPredominantCategoryInfos, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

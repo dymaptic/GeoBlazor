@@ -11,12 +11,12 @@ export async function buildJsStreamConnectionGenerated(dotNetObject: any, layerI
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStreamConnection;
     
-    let { buildDotNetStreamConnection } = await import('./streamConnection');
-    let dnInstantiatedObject = await buildDotNetStreamConnection(jsStreamConnection, layerId, viewId);
-
     try {
+        let { buildDotNetStreamConnection } = await import('./streamConnection');
+        let dnInstantiatedObject = await buildDotNetStreamConnection(jsStreamConnection, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

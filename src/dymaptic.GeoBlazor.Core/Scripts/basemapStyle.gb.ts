@@ -27,12 +27,12 @@ export async function buildJsBasemapStyleGenerated(dotNetObject: any): Promise<a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapStyle;
     
-    let { buildDotNetBasemapStyle } = await import('./basemapStyle');
-    let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
-
     try {
+        let { buildDotNetBasemapStyle } = await import('./basemapStyle');
+        let dnInstantiatedObject = await buildDotNetBasemapStyle(jsBasemapStyle);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

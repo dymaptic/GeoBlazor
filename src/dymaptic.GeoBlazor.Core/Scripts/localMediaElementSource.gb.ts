@@ -15,12 +15,12 @@ export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any,
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocalMediaElementSource;
     
-    let { buildDotNetLocalMediaElementSource } = await import('./localMediaElementSource');
-    let dnInstantiatedObject = await buildDotNetLocalMediaElementSource(jsLocalMediaElementSource, layerId, viewId);
-
     try {
+        let { buildDotNetLocalMediaElementSource } = await import('./localMediaElementSource');
+        let dnInstantiatedObject = await buildDotNetLocalMediaElementSource(jsLocalMediaElementSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

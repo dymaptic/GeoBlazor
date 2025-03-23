@@ -19,12 +19,12 @@ export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudLayerElevationInfo;
     
-    let { buildDotNetPointCloudLayerElevationInfo } = await import('./pointCloudLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetPointCloudLayerElevationInfo(jsPointCloudLayerElevationInfo);
-
     try {
+        let { buildDotNetPointCloudLayerElevationInfo } = await import('./pointCloudLayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetPointCloudLayerElevationInfo(jsPointCloudLayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

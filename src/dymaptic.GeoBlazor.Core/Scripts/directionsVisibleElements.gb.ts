@@ -19,12 +19,12 @@ export async function buildJsDirectionsVisibleElementsGenerated(dotNetObject: an
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsVisibleElements;
     
-    let { buildDotNetDirectionsVisibleElements } = await import('./directionsVisibleElements');
-    let dnInstantiatedObject = await buildDotNetDirectionsVisibleElements(jsDirectionsVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetDirectionsVisibleElements } = await import('./directionsVisibleElements');
+        let dnInstantiatedObject = await buildDotNetDirectionsVisibleElements(jsDirectionsVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

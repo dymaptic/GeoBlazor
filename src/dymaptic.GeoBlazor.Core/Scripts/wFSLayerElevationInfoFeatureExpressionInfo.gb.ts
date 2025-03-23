@@ -16,12 +16,12 @@ export async function buildJsWFSLayerElevationInfoFeatureExpressionInfoGenerated
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerElevationInfoFeatureExpressionInfo;
     
-    let { buildDotNetWFSLayerElevationInfoFeatureExpressionInfo } = await import('./wFSLayerElevationInfoFeatureExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetWFSLayerElevationInfoFeatureExpressionInfo(jsWFSLayerElevationInfoFeatureExpressionInfo);
-
     try {
+        let { buildDotNetWFSLayerElevationInfoFeatureExpressionInfo } = await import('./wFSLayerElevationInfoFeatureExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetWFSLayerElevationInfoFeatureExpressionInfo(jsWFSLayerElevationInfoFeatureExpressionInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

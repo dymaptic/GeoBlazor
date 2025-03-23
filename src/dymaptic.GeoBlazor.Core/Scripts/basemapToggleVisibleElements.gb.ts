@@ -13,12 +13,12 @@ export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleVisibleElements;
     
-    let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
-    let dnInstantiatedObject = await buildDotNetBasemapToggleVisibleElements(jsBasemapToggleVisibleElements);
-
     try {
+        let { buildDotNetBasemapToggleVisibleElements } = await import('./basemapToggleVisibleElements');
+        let dnInstantiatedObject = await buildDotNetBasemapToggleVisibleElements(jsBasemapToggleVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

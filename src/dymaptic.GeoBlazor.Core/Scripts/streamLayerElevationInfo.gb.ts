@@ -23,12 +23,12 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfo;
     
-    let { buildDotNetStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
-    let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo);
-
     try {
+        let { buildDotNetStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
+        let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

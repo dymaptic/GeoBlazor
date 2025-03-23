@@ -12,12 +12,12 @@ export async function buildJsCallout3DGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCallout3D;
     
-    let { buildDotNetCallout3D } = await import('./callout3D');
-    let dnInstantiatedObject = await buildDotNetCallout3D(jsCallout3D, layerId, viewId);
-
     try {
+        let { buildDotNetCallout3D } = await import('./callout3D');
+        let dnInstantiatedObject = await buildDotNetCallout3D(jsCallout3D, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

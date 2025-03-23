@@ -16,12 +16,12 @@ export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any): Promi
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelOpacityStop;
     
-    let { buildDotNetVoxelOpacityStop } = await import('./voxelOpacityStop');
-    let dnInstantiatedObject = await buildDotNetVoxelOpacityStop(jsVoxelOpacityStop);
-
     try {
+        let { buildDotNetVoxelOpacityStop } = await import('./voxelOpacityStop');
+        let dnInstantiatedObject = await buildDotNetVoxelOpacityStop(jsVoxelOpacityStop);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

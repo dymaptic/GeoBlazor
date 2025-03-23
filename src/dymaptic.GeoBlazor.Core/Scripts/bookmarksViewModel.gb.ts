@@ -195,12 +195,12 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
     
-    let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
-    let dnInstantiatedObject = await buildDotNetBookmarksViewModel(jsBookmarksViewModel);
-
     try {
+        let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
+        let dnInstantiatedObject = await buildDotNetBookmarksViewModel(jsBookmarksViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

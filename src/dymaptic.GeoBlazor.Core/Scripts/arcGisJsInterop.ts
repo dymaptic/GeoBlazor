@@ -78,6 +78,8 @@ import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
 import {buildJsWidget} from "./widget";
+import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
+import { buildJsColor } from './mapColor';
 
 // region exports
 
@@ -241,9 +243,10 @@ export async function getLocationServiceWrapper(): Promise<LocatorWrapper> {
 export async function buildMapView(id: string, dotNetReference: any, long: number | null, lat: number | null,
                                    rotation: number, mapObject: any, zoom: number | null, scale: number,
                                    mapType: string, widgets: any[], graphics: any,
-                                   spatialReference: any, constraints: any, extent: any,
+                                   spatialReference: any, constraints: any, extent: any, backgroundColor: any,
                                    eventRateLimitInMilliseconds: number | null, activeEventHandlers: Array<string>,
-                                   isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, zIndex?: number, tilt?: number)
+                                   isServer: boolean, highlightOptions?: any | null, popupEnabled?: boolean | null, 
+                                   zIndex?: number, tilt?: number)
     : Promise<void> {
     console.debug("render map");
     notifyExtentChanged = false;
@@ -358,6 +361,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 rotation: rotation
             });
             break;
+    }
+    
+    if (hasValue(backgroundColor)) {
+        (view as MapView).background = new ColorBackground({ color: await buildJsColor(backgroundColor) });
     }
 
     if (hasValue(popupEnabled)) {
@@ -953,7 +960,7 @@ export async function setSpatialReference(spatialReferenceObject: any, viewId: s
 }
 
 export async function queryFeatureLayer(queryObject: any, layerObject: any, symbol: any, popupTemplateObject: any,
-                                        layerId: string | null, viewId: string): Promise<void> {
+                                        viewId: string): Promise<void> {
     const query = new Query({
         where: queryObject.where,
         outFields: queryObject.outFields,
@@ -1422,6 +1429,14 @@ export function setCenter(center: any, viewId: string): any {
     const view = arcGisObjectRefs[viewId] as MapView;
     view.center = buildJsPoint(center) as Point;
     return buildViewExtentUpdate(view);
+}
+
+export async function setBackgroundColor(viewId: string, color: string) {
+    const view = arcGisObjectRefs[viewId] as MapView;
+    if (view === undefined || view === null) return;
+    view.background = new ColorBackground({
+        color: await buildJsColor(color)
+    });
 }
 
 export function getExtent(viewId: string): DotNetExtent | null {

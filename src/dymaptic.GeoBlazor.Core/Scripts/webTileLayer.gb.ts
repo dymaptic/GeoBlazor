@@ -303,12 +303,12 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
     
-            let { buildDotNetWebTileLayer } = await import('./webTileLayer');
-            let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
-
             try {
+                let { buildDotNetWebTileLayer } = await import('./webTileLayer');
+                let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
+
                 let seenObjects = new WeakMap();
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+                await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
                     jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                         if (key.startsWith('_') || key === 'jsComponentReference') {
                             return undefined;

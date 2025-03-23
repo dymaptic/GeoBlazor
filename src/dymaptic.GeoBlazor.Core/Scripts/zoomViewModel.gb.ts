@@ -74,12 +74,12 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = zoomViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoomViewModel;
     
-    let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
-    let dnInstantiatedObject = await buildDotNetZoomViewModel(jsZoomViewModel, layerId, viewId);
-
     try {
+        let { buildDotNetZoomViewModel } = await import('./zoomViewModel');
+        let dnInstantiatedObject = await buildDotNetZoomViewModel(jsZoomViewModel, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

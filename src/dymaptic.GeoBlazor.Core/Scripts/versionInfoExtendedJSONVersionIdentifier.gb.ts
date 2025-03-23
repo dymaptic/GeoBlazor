@@ -16,12 +16,12 @@ export async function buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionInfoExtendedJSONVersionIdentifier;
     
-    let { buildDotNetVersionInfoExtendedJSONVersionIdentifier } = await import('./versionInfoExtendedJSONVersionIdentifier');
-    let dnInstantiatedObject = await buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
-
     try {
+        let { buildDotNetVersionInfoExtendedJSONVersionIdentifier } = await import('./versionInfoExtendedJSONVersionIdentifier');
+        let dnInstantiatedObject = await buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -28,12 +28,12 @@ export async function buildJsFileLinkGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFileLink;
     
-    let { buildDotNetFileLink } = await import('./fileLink');
-    let dnInstantiatedObject = await buildDotNetFileLink(jsFileLink, layerId, viewId);
-
     try {
+        let { buildDotNetFileLink } = await import('./fileLink');
+        let dnInstantiatedObject = await buildDotNetFileLink(jsFileLink, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

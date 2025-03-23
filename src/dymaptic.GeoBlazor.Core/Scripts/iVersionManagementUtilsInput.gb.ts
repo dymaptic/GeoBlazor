@@ -10,12 +10,12 @@ export async function buildJsIVersionManagementUtilsInputGenerated(dotNetObject:
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementUtilsInput;
     
-    let { buildDotNetIVersionManagementUtilsInput } = await import('./iVersionManagementUtilsInput');
-    let dnInstantiatedObject = await buildDotNetIVersionManagementUtilsInput(jsVersionManagementUtilsInput, layerId, viewId);
-
     try {
+        let { buildDotNetIVersionManagementUtilsInput } = await import('./iVersionManagementUtilsInput');
+        let dnInstantiatedObject = await buildDotNetIVersionManagementUtilsInput(jsVersionManagementUtilsInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

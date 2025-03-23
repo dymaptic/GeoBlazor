@@ -22,12 +22,12 @@ export async function buildJsPrimitiveOverrideValueExpressionInfoGenerated(dotNe
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPrimitiveOverrideValueExpressionInfo;
     
-    let { buildDotNetPrimitiveOverrideValueExpressionInfo } = await import('./primitiveOverrideValueExpressionInfo');
-    let dnInstantiatedObject = await buildDotNetPrimitiveOverrideValueExpressionInfo(jsPrimitiveOverrideValueExpressionInfo, layerId, viewId);
-
     try {
+        let { buildDotNetPrimitiveOverrideValueExpressionInfo } = await import('./primitiveOverrideValueExpressionInfo');
+        let dnInstantiatedObject = await buildDotNetPrimitiveOverrideValueExpressionInfo(jsPrimitiveOverrideValueExpressionInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

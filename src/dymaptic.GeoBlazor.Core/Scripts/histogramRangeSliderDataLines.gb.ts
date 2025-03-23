@@ -16,12 +16,12 @@ export async function buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHistogramRangeSliderDataLines;
     
-    let { buildDotNetHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
-    let dnInstantiatedObject = await buildDotNetHistogramRangeSliderDataLines(jsHistogramRangeSliderDataLines, layerId, viewId);
-
     try {
+        let { buildDotNetHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
+        let dnInstantiatedObject = await buildDotNetHistogramRangeSliderDataLines(jsHistogramRangeSliderDataLines, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

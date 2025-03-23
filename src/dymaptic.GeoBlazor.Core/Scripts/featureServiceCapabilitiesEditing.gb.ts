@@ -22,12 +22,12 @@ export async function buildJsFeatureServiceCapabilitiesEditingGenerated(dotNetOb
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceCapabilitiesEditing;
     
-    let { buildDotNetFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
-    let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesEditing(jsFeatureServiceCapabilitiesEditing, layerId, viewId);
-
     try {
+        let { buildDotNetFeatureServiceCapabilitiesEditing } = await import('./featureServiceCapabilitiesEditing');
+        let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilitiesEditing(jsFeatureServiceCapabilitiesEditing, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

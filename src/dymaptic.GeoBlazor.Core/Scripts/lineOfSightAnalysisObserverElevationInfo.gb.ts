@@ -16,12 +16,12 @@ export async function buildJsLineOfSightAnalysisObserverElevationInfoGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisObserverElevationInfo;
     
-    let { buildDotNetLineOfSightAnalysisObserverElevationInfo } = await import('./lineOfSightAnalysisObserverElevationInfo');
-    let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo);
-
     try {
+        let { buildDotNetLineOfSightAnalysisObserverElevationInfo } = await import('./lineOfSightAnalysisObserverElevationInfo');
+        let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisObserverElevationInfo(jsLineOfSightAnalysisObserverElevationInfo);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

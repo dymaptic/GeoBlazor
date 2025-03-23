@@ -166,12 +166,12 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
-    let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
-    let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
-
     try {
+        let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
+        let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

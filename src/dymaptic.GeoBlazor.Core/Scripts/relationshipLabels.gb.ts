@@ -22,12 +22,12 @@ export async function buildJsRelationshipLabelsGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipLabels;
     
-    let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
-    let dnInstantiatedObject = await buildDotNetRelationshipLabels(jsRelationshipLabels, layerId, viewId);
-
     try {
+        let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
+        let dnInstantiatedObject = await buildDotNetRelationshipLabels(jsRelationshipLabels, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

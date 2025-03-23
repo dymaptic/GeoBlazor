@@ -690,7 +690,7 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.hasPixelFilter) && dotNetObject.hasPixelFilter) {
         properties.pixelFilter = async (pixelData) => {
             let { buildDotNetPixelData } = await import('./pixelData');
-            let dnPixelData = await buildDotNetPixelData(pixelData, layerId, viewId);
+            let dnPixelData = await buildDotNetPixelData(pixelData);
 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsPixelFilter', dnPixelData);
         };
@@ -849,12 +849,12 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     
-    let { buildDotNetImageryLayer } = await import('./imageryLayer');
-    let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
-
     try {
+        let { buildDotNetImageryLayer } = await import('./imageryLayer');
+        let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

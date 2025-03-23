@@ -105,12 +105,12 @@ export async function buildJsCredentialGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = credentialWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCredential;
     
-    let { buildDotNetCredential } = await import('./credential');
-    let dnInstantiatedObject = await buildDotNetCredential(jsCredential, layerId, viewId);
-
     try {
+        let { buildDotNetCredential } = await import('./credential');
+        let dnInstantiatedObject = await buildDotNetCredential(jsCredential, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

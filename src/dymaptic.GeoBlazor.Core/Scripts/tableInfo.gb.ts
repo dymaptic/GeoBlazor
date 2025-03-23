@@ -19,12 +19,12 @@ export async function buildJsTableInfoGenerated(dotNetObject: any, layerId: stri
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTableInfo;
     
-    let { buildDotNetTableInfo } = await import('./tableInfo');
-    let dnInstantiatedObject = await buildDotNetTableInfo(jsTableInfo, layerId, viewId);
-
     try {
+        let { buildDotNetTableInfo } = await import('./tableInfo');
+        let dnInstantiatedObject = await buildDotNetTableInfo(jsTableInfo, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

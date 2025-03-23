@@ -22,12 +22,12 @@ export async function buildJsRasterValueToColorGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterValueToColor;
     
-    let { buildDotNetRasterValueToColor } = await import('./rasterValueToColor');
-    let dnInstantiatedObject = await buildDotNetRasterValueToColor(jsRasterValueToColor, layerId, viewId);
-
     try {
+        let { buildDotNetRasterValueToColor } = await import('./rasterValueToColor');
+        let dnInstantiatedObject = await buildDotNetRasterValueToColor(jsRasterValueToColor, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

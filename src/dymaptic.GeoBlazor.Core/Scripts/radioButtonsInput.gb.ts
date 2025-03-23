@@ -18,12 +18,12 @@ export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRadioButtonsInput;
     
-    let { buildDotNetRadioButtonsInput } = await import('./radioButtonsInput');
-    let dnInstantiatedObject = await buildDotNetRadioButtonsInput(jsRadioButtonsInput, layerId, viewId);
-
     try {
+        let { buildDotNetRadioButtonsInput } = await import('./radioButtonsInput');
+        let dnInstantiatedObject = await buildDotNetRadioButtonsInput(jsRadioButtonsInput, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

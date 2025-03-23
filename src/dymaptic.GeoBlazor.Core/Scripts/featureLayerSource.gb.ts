@@ -18,12 +18,12 @@ export async function buildJsFeatureLayerSourceGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerSource;
     
-    let { buildDotNetFeatureLayerSource } = await import('./featureLayerSource');
-    let dnInstantiatedObject = await buildDotNetFeatureLayerSource(jsFeatureLayerSource, layerId, viewId);
-
     try {
+        let { buildDotNetFeatureLayerSource } = await import('./featureLayerSource');
+        let dnInstantiatedObject = await buildDotNetFeatureLayerSource(jsFeatureLayerSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

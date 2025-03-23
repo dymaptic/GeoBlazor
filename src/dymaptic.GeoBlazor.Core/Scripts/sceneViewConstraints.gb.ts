@@ -22,12 +22,12 @@ export async function buildJsSceneViewConstraintsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraints;
     
-    let { buildDotNetSceneViewConstraints } = await import('./sceneViewConstraints');
-    let dnInstantiatedObject = await buildDotNetSceneViewConstraints(jsSceneViewConstraints, layerId, viewId);
-
     try {
+        let { buildDotNetSceneViewConstraints } = await import('./sceneViewConstraints');
+        let dnInstantiatedObject = await buildDotNetSceneViewConstraints(jsSceneViewConstraints, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

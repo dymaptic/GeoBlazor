@@ -16,12 +16,12 @@ export async function buildJsViewingGenerated(dotNetObject: any, layerId: string
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewing;
     
-    let { buildDotNetViewing } = await import('./viewing');
-    let dnInstantiatedObject = await buildDotNetViewing(jsViewing, layerId, viewId);
-
     try {
+        let { buildDotNetViewing } = await import('./viewing');
+        let dnInstantiatedObject = await buildDotNetViewing(jsViewing, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

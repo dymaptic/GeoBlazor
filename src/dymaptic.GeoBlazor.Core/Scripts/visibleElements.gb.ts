@@ -49,12 +49,12 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promis
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElements;
     
-    let { buildDotNetVisibleElements } = await import('./visibleElements');
-    let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements);
-
     try {
+        let { buildDotNetVisibleElements } = await import('./visibleElements');
+        let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

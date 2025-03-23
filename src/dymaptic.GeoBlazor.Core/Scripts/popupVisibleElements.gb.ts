@@ -31,12 +31,12 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
     
-    let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
-    let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements, layerId, viewId);
-
     try {
+        let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
+        let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

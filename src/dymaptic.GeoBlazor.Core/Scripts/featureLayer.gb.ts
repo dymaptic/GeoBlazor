@@ -807,12 +807,12 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = featureLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
     
-    let { buildDotNetFeatureLayer } = await import('./featureLayer');
-    let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
-
     try {
+        let { buildDotNetFeatureLayer } = await import('./featureLayer');
+        let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

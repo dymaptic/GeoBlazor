@@ -81,12 +81,12 @@ export async function buildJsViewAnimationGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = viewAnimationWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewAnimation;
     
-    let { buildDotNetViewAnimation } = await import('./viewAnimation');
-    let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation, layerId, viewId);
-
     try {
+        let { buildDotNetViewAnimation } = await import('./viewAnimation');
+        let dnInstantiatedObject = await buildDotNetViewAnimation(jsViewAnimation, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

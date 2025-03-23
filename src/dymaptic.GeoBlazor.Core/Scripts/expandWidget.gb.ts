@@ -218,12 +218,12 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
     
-    let { buildDotNetExpandWidget } = await import('./expandWidget');
-    let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
-
     try {
+        let { buildDotNetExpandWidget } = await import('./expandWidget');
+        let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

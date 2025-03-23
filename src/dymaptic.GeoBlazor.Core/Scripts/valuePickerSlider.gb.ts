@@ -49,12 +49,12 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerSlider;
     
-    let { buildDotNetValuePickerSlider } = await import('./valuePickerSlider');
-    let dnInstantiatedObject = await buildDotNetValuePickerSlider(jsValuePickerSlider, layerId, viewId);
-
     try {
+        let { buildDotNetValuePickerSlider } = await import('./valuePickerSlider');
+        let dnInstantiatedObject = await buildDotNetValuePickerSlider(jsValuePickerSlider, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

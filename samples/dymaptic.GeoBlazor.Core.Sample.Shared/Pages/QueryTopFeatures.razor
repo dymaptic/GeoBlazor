@@ -21,7 +21,7 @@
         <Basemap>
             <PortalItem PortalItemId="4f2e99ba65e34bb8af49733d9778fb8e" />
         </Basemap>
-        <FeatureLayer @ref="_featureLayer" OutFields="@(new[] { "*" })"
+        <FeatureLayer @ref="_featureLayer" OutFields="@(["*"])"
                       Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/US_National_Parks_Annual_Visitation/FeatureServer/0">
             <SimpleRenderer>
                 <PictureMarkerSymbol Url="https://upload.wikimedia.org/wikipedia/commons/9/9e/Emojione_1F332.svg"
@@ -64,14 +64,17 @@
                         appearance="outline"
                         scale="m"
                         width="auto">
-                        <calcite-radio-group-item value="DESC" checked=""
+                        <calcite-label layout="inline">
+                            <calcite-radio-button checked
                                                   @onclick="@(() => _orderDirectionSelected = "DESC")">
+                            </calcite-radio-button>
                             Most visited
-                        </calcite-radio-group-item>
-                        <calcite-radio-group-item value="ASC"
-                                                  @onclick="@(() => _orderDirectionSelected = "ASC")">
+                        </calcite-label>
+                        <calcite-label layout="inline">
+                            <calcite-radio-button @onclick="@(() => _orderDirectionSelected = "ASC")">
+                            </calcite-radio-button>
                             Least visited
-                        </calcite-radio-group-item>
+                        </calcite-label>
                     </calcite-radio-group>
                 </label>
                 <br /><br />
@@ -175,12 +178,7 @@
 
         query.OrderByFields = [""];
         long[] objectIds = await _featureLayer!.QueryTopObjectIds(query);
-        await _layerView!.SetFilter(new FeatureFilter
-        {
-#pragma warning disable BL0005
-            ObjectIds = objectIds
-#pragma warning restore BL0005
-        });
+        await _layerView!.SetFilter(new FeatureFilter(objectIds: objectIds));
     }
 
     private async Task OnParkResultClicked(int index)

@@ -41,12 +41,12 @@ export async function buildJsRequestInterceptorGenerated(dotNetObject: any, laye
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRequestInterceptor;
     
-    let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
-    let dnInstantiatedObject = await buildDotNetRequestInterceptor(jsRequestInterceptor, layerId, viewId);
-
     try {
+        let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
+        let dnInstantiatedObject = await buildDotNetRequestInterceptor(jsRequestInterceptor, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

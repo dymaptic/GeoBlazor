@@ -16,12 +16,12 @@ export async function buildJsDisplayFieldGenerated(dotNetObject: any, layerId: s
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDisplayField;
     
-    let { buildDotNetDisplayField } = await import('./displayField');
-    let dnInstantiatedObject = await buildDotNetDisplayField(jsDisplayField, layerId, viewId);
-
     try {
+        let { buildDotNetDisplayField } = await import('./displayField');
+        let dnInstantiatedObject = await buildDotNetDisplayField(jsDisplayField, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

@@ -20,12 +20,12 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesGenerated(d
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureTemplates;
     
-    let { buildDotNetSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
-    let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplates(jsSupportingWidgetDefaultsFeatureTemplates, layerId, viewId);
-
     try {
+        let { buildDotNetSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
+        let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplates(jsSupportingWidgetDefaultsFeatureTemplates, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

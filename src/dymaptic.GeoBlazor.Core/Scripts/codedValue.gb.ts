@@ -16,12 +16,12 @@ export async function buildJsCodedValueGenerated(dotNetObject: any, layerId: str
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCodedValue;
     
-    let { buildDotNetCodedValue } = await import('./codedValue');
-    let dnInstantiatedObject = await buildDotNetCodedValue(jsCodedValue, layerId, viewId);
-
     try {
+        let { buildDotNetCodedValue } = await import('./codedValue');
+        let dnInstantiatedObject = await buildDotNetCodedValue(jsCodedValue, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

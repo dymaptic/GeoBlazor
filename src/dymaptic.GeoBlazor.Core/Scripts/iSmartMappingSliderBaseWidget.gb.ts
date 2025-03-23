@@ -251,12 +251,12 @@ export async function buildJsISmartMappingSliderBaseWidgetGenerated(dotNetObject
     jsObjectRefs[dotNetObject.id] = iSmartMappingSliderBaseWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSmartMappingSliderBase;
     
-    let { buildDotNetISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
-    let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase, layerId, viewId);
-
     try {
+        let { buildDotNetISmartMappingSliderBaseWidget } = await import('./iSmartMappingSliderBaseWidget');
+        let dnInstantiatedObject = await buildDotNetISmartMappingSliderBaseWidget(jsSmartMappingSliderBase, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

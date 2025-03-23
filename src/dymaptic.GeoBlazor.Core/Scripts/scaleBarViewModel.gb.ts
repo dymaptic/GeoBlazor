@@ -15,12 +15,12 @@ export async function buildJsScaleBarViewModelGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBarViewModel;
     
-    let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
-    let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel);
-
     try {
+        let { buildDotNetScaleBarViewModel } = await import('./scaleBarViewModel');
+        let dnInstantiatedObject = await buildDotNetScaleBarViewModel(jsScaleBarViewModel);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

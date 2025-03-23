@@ -16,12 +16,12 @@ export async function buildJsPopupDockOptionsBreakpointGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptionsBreakpoint;
     
-    let { buildDotNetPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
-    let dnInstantiatedObject = await buildDotNetPopupDockOptionsBreakpoint(jsPopupDockOptionsBreakpoint, layerId, viewId);
-
     try {
+        let { buildDotNetPopupDockOptionsBreakpoint } = await import('./popupDockOptionsBreakpoint');
+        let dnInstantiatedObject = await buildDotNetPopupDockOptionsBreakpoint(jsPopupDockOptionsBreakpoint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

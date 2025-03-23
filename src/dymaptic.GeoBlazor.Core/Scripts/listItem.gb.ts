@@ -180,12 +180,12 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     jsObjectRefs[dotNetObject.id] = listItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItem;
     
-    let { buildDotNetListItem } = await import('./listItem');
-    let dnInstantiatedObject = await buildDotNetListItem(jsListItem);
-
     try {
+        let { buildDotNetListItem } = await import('./listItem');
+        let dnInstantiatedObject = await buildDotNetListItem(jsListItem);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

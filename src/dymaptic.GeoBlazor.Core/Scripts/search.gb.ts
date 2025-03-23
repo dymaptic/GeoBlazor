@@ -29,12 +29,12 @@ export async function buildJsSearchGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearch;
     
-    let { buildDotNetSearch } = await import('./search');
-    let dnInstantiatedObject = await buildDotNetSearch(jsSearch, layerId, viewId);
-
     try {
+        let { buildDotNetSearch } = await import('./search');
+        let dnInstantiatedObject = await buildDotNetSearch(jsSearch, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

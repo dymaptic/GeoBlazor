@@ -19,12 +19,12 @@ export async function buildJsCoordinateSegmentGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateSegment;
     
-    let { buildDotNetCoordinateSegment } = await import('./coordinateSegment');
-    let dnInstantiatedObject = await buildDotNetCoordinateSegment(jsCoordinateSegment, layerId, viewId);
-
     try {
+        let { buildDotNetCoordinateSegment } = await import('./coordinateSegment');
+        let dnInstantiatedObject = await buildDotNetCoordinateSegment(jsCoordinateSegment, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

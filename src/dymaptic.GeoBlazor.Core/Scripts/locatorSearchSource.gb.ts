@@ -104,12 +104,12 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     
-    let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
-    let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource, layerId, viewId);
-
     try {
+        let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
+        let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

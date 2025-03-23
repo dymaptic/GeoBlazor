@@ -13,12 +13,12 @@ export async function buildJsSceneViewEnvironmentAtmosphereGenerated(dotNetObjec
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewEnvironmentAtmosphere;
     
-    let { buildDotNetSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
-    let dnInstantiatedObject = await buildDotNetSceneViewEnvironmentAtmosphere(jsSceneViewEnvironmentAtmosphere, layerId, viewId);
-
     try {
+        let { buildDotNetSceneViewEnvironmentAtmosphere } = await import('./sceneViewEnvironmentAtmosphere');
+        let dnInstantiatedObject = await buildDotNetSceneViewEnvironmentAtmosphere(jsSceneViewEnvironmentAtmosphere, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

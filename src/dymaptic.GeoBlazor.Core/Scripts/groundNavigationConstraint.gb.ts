@@ -10,12 +10,12 @@ export async function buildJsGroundNavigationConstraintGenerated(dotNetObject: a
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGroundNavigationConstraint;
     
-    let { buildDotNetGroundNavigationConstraint } = await import('./groundNavigationConstraint');
-    let dnInstantiatedObject = await buildDotNetGroundNavigationConstraint(jsGroundNavigationConstraint, layerId, viewId);
-
     try {
+        let { buildDotNetGroundNavigationConstraint } = await import('./groundNavigationConstraint');
+        let dnInstantiatedObject = await buildDotNetGroundNavigationConstraint(jsGroundNavigationConstraint, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

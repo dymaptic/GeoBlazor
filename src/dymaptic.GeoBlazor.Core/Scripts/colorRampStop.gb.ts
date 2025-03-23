@@ -23,12 +23,12 @@ export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorRampStop;
     
-    let { buildDotNetColorRampStop } = await import('./colorRampStop');
-    let dnInstantiatedObject = await buildDotNetColorRampStop(jsColorRampStop, layerId, viewId);
-
     try {
+        let { buildDotNetColorRampStop } = await import('./colorRampStop');
+        let dnInstantiatedObject = await buildDotNetColorRampStop(jsColorRampStop, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

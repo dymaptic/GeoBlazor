@@ -19,12 +19,12 @@ export async function buildJsServiceDefinitionServiceCapabilitiesIndexCapabiliti
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesIndexCapabilities;
     
-    let { buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
-    let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsServiceDefinitionServiceCapabilitiesIndexCapabilities);
-
     try {
+        let { buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities } = await import('./serviceDefinitionServiceCapabilitiesIndexCapabilities');
+        let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesIndexCapabilities(jsServiceDefinitionServiceCapabilitiesIndexCapabilities);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;

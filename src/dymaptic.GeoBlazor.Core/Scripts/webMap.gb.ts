@@ -52,12 +52,12 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWebMap;
     
-    let { buildDotNetWebMap } = await import('./webMap');
-    let dnInstantiatedObject = await buildDotNetWebMap(jsWebMap, layerId, viewId);
-
     try {
+        let { buildDotNetWebMap } = await import('./webMap');
+        let dnInstantiatedObject = await buildDotNetWebMap(jsWebMap, layerId, viewId);
+
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', 
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
