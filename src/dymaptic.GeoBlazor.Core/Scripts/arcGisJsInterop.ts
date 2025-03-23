@@ -80,6 +80,7 @@ import ScreenPoint = __esri.ScreenPoint;
 import {buildJsWidget} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import { buildJsColor } from './mapColor';
+import {buildJsBasemap} from "./basemap";
 
 // region exports
 
@@ -266,49 +267,11 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     dotNetRefs[id] = dotNetRef;
     let view: View;
 
-    let basemap: Basemap | undefined = undefined;
-    const basemapBaseLayers: any[] = [];
-    const basemapReferenceLayers: any[] = [];
-    if (!mapType.startsWith('web')) {
-        if (mapObject.arcGISDefaultBasemap !== undefined &&
-            mapObject.arcGISDefaultBasemap !== null) {
-            basemap = mapObject.arcGISDefaultBasemap;
-        } else if (hasValue(mapObject.basemap?.style)) {
-            const style = new BasemapStyle({
-                id: mapObject.basemap.style.name
-            });
-            if (hasValue(mapObject.basemap.style.language)) {
-                style.language = mapObject.basemap.style.language
-            }
-            if (hasValue(mapObject.basemap.style.serviceUrl)) {
-                style.serviceUrl = mapObject.basemap.style.serviceUrl;
-            }
-            basemap = new Basemap({style: style})
-        } else if (hasValue(mapObject.basemap?.portalItem?.id)) {
-            const portalItem = await buildJsPortalItem(mapObject.basemap.portalItem, mapObject.basemap.id, id);
-            basemap = new Basemap({portalItem: portalItem});
-        } else if (mapObject.basemap?.baseLayers?.length > 0 || mapObject.basemap?.referenceLayers?.length > 0) {
-            if (hasValue(mapObject.basemap.baseLayers)) {
-                for (let i = 0; i < mapObject.basemap.baseLayers.length; i++) {
-                    const layerObject = mapObject.basemap.baseLayers[i];
-                    if (layerObject.isReferenceLayer) {
-                        basemapReferenceLayers.push(layerObject);
-                    } else {
-                        basemapBaseLayers.push(layerObject);
-                    }
-                }
-            }
-            if (hasValue(mapObject.basemap.referenceLayers)) {
-                for (let j = 0; j < mapObject.basemap.referenceLayers.length; j++) {
-                    const layerObject = mapObject.basemap.referenceLayers[j];
-                    basemapReferenceLayers.push(layerObject);
-                }
-            }
-            basemap = new Basemap({
-                baseLayers: []
-            });
-        }
-    }
+    let basemap = hasValue(mapObject.basemap) 
+        ? await buildJsBasemap(mapObject.basemap, null, id) 
+        : hasValue(mapObject.arcGISDefaultBasemap)
+            ? mapObject.arcGISDefaultBasemap
+            : undefined;
 
     switch (mapType) {
         case 'webmap':
@@ -389,16 +352,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     const popupWidget = widgets.find(w => w.type === 'popup');
     if (hasValue(popupWidget)) {
         await addWidget(popupWidget, id);
-    }
-
-    for (let i = basemapBaseLayers.length - 1; i >= 0; i--) {
-        const layerObject = basemapBaseLayers[i];
-        await addLayer(layerObject, id, true);
-    }
-
-    for (let i = basemapReferenceLayers.length - 1; i >= 0; i--) {
-        const layerObject = basemapReferenceLayers[i];
-        await addLayer(layerObject, id, false, true);
     }
 
     if (hasValue(mapObject.layers)) {

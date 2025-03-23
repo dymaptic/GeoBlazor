@@ -23,16 +23,6 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ArcGISLayerId { get; set; }
     
-    /// <summary>
-    ///     Indicates whether the layer's resources have loaded.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#loaded">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public bool? Loaded { get; protected internal set; }
-    
 #endregion
 
 #region Property Getters

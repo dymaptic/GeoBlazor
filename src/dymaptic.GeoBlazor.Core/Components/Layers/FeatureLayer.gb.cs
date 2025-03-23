@@ -4706,7 +4706,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
             JsComponentReference, "popupEnabled", value);
     }
     
-    
     /// <summary>
     ///    Asynchronously set the value of the PopupTemplate property after render.
     /// </summary>

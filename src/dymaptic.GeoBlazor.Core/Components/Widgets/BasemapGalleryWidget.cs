@@ -40,8 +40,8 @@ public partial class BasemapGalleryWidget : Widget
     {
         switch (child)
         {
-            case PortalBasemapsSource _:
-                PortalBasemapsSource = null;
+            case IBasemapGalleryWidgetSource _:
+                Source = null;
                 WidgetChanged = MapRendered;
 
                 break;

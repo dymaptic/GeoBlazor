@@ -7,6 +7,7 @@ public partial class LayerView : MapComponent
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public LayerView()
     {
     }
@@ -45,6 +46,7 @@ public partial class LayerView : MapComponent
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    [CodeGenerationIgnore]
     public LayerView(
         LayerType type,
         bool? spatialReferenceSupported = null,

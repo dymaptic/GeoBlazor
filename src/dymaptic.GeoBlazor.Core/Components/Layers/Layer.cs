@@ -9,6 +9,17 @@ public abstract partial class Layer : MapComponent
     public abstract LayerType Type { get; }
     
     /// <summary>
+    ///     Indicates whether the layer's resources have loaded.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#loaded">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    [CodeGenerationIgnore]
+    public bool? Loaded { get; internal set; }
+    
+    /// <summary>
     ///     The opacity of the layer.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>

@@ -1,5 +1,6 @@
 import PortalBasemapsSource from '@arcgis/core/widgets/BasemapGallery/support/PortalBasemapsSource';
 import PortalBasemapsSourceGenerated from './portalBasemapsSource.gb';
+import {hasValue} from "./arcGisJsInterop";
 
 export default class PortalBasemapsSourceWrapper extends PortalBasemapsSourceGenerated {
 
@@ -11,7 +12,15 @@ export default class PortalBasemapsSourceWrapper extends PortalBasemapsSourceGen
 
 export async function buildJsPortalBasemapsSource(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsPortalBasemapsSourceGenerated} = await import('./portalBasemapsSource.gb');
-    return await buildJsPortalBasemapsSourceGenerated(dotNetObject, layerId, viewId);
+    let jsObject = await buildJsPortalBasemapsSourceGenerated(dotNetObject, layerId, viewId);
+    
+    if (hasValue(dotNetObject.queryString)) {
+        jsObject.query = dotNetObject.queryString;
+    } else if (hasValue(dotNetObject.queryParams)) {
+        jsObject.query = dotNetObject.queryParams;
+    }
+    
+    return jsObject;
 }
 
 export async function buildDotNetPortalBasemapsSource(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
