@@ -933,14 +933,42 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
     });
 }
 
-export async function removeGraphics(graphicWrapperIds: string[]): Promise<void> {
+export async function removeGraphics(graphicWrapperIds: string[], viewId: string): Promise<void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    
+    if (!graphicsRefs.hasOwnProperty(viewId)) {
+        view.graphics.removeAll();
+        return;
+    }
+    
     for (const id of graphicWrapperIds) {
-        await disposeGraphic(id);
+        if (!graphicsRefs[viewId].hasOwnProperty(id)) {
+            continue;
+        }
+        let graphic = graphicsRefs[viewId][id];
+        if (hasValue(graphic)) {
+            view.graphics.remove(graphic);
+        }
+        delete graphicsRefs[viewId][id];
     }
 }
 
-export async function removeGraphic(graphicId: string): Promise<void> {
-    await disposeGraphic(graphicId);
+export async function removeGraphic(graphicId: string, viewId: string): Promise<void> {
+    let view = arcGisObjectRefs[viewId] as MapView;
+    if (!graphicsRefs.hasOwnProperty(viewId)) {
+        return;
+    }
+    
+    if (!graphicsRefs[viewId].hasOwnProperty(graphicId)) {
+        return;
+    }
+    
+    let graphic = graphicsRefs[viewId][graphicId];
+    if (hasValue(graphic)) {
+        view.graphics.remove(graphic);
+    }
+    
+    delete graphicsRefs[viewId][graphicId];
 }
 
 export function findPlaces(addressQueryParams: any, symbol: any, popupTemplateObject: any, viewId: string): void {
@@ -1981,37 +2009,28 @@ export function toLowerFirstChar(str: string): string {
     return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-// this is here for if we have issues serializing in `layerview-create`
-function findCircularReferences(obj: any, path = '') {
-    const seen = new WeakMap();
-    const circularPaths: string[] = [];
-    path = typeof obj;
-
-    function detect(obj: any, currentPath: string) {
-        if (obj === null || typeof obj !== 'object') return;
-        if (seen.has(obj)) {
-            let circularMessage = `Circular reference found at: ${currentPath} -> ${seen.get(obj)}`;
-            circularPaths.push(circularMessage);
-            console.log(circularMessage);
-            return;
-        }
-
-        seen.set(obj, currentPath);
-
-        for (const [key, value] of Object.entries(obj)) {
-            if (key.startsWith('_')) {
-                continue;
-            }
-            detect(value, `${currentPath}${currentPath ? '.' : ''}${key}`);
-        }
-    }
-
-    detect(obj, path);
-    return circularPaths;
-}
-
 
 export function sanitize(dotNetObject: any): any {
     let {id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject} = dotNetObject;
     return sanitizedDotNetObject;
+}
+
+export function removeCircularReferences(jsObject: any) {
+    let seenObjects = new WeakMap();
+    let json = JSON.stringify(jsObject, function (key, value) {
+        if (key.startsWith('_') || key === 'jsComponentReference') {
+            return null;
+        }
+        if (typeof value === 'object' && value !== null
+            && !(Array.isArray(value) && value.length === 0)) {
+            if (seenObjects.has(value)) {
+                console.debug(`Circular reference in serializing type AttachmentsViewModel detected at path: ${key}, value: ${value.declaredClass}`);
+                return null;
+            }
+            seenObjects.set(value, true);
+        }
+        return value;
+    });
+
+    return JSON.parse(json);
 }

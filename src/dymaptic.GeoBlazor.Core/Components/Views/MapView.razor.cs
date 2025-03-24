@@ -1573,7 +1573,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null) return;
 
         await CoreJsModule.InvokeVoidAsync("removeGraphic", CancellationTokenSource.Token,
-            graphic.Id);
+            graphic.Id, Id);
         graphic.Parent = null;
         graphic.View = null;
     }
@@ -1599,7 +1599,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null) return;
 
         await CoreJsModule.InvokeVoidAsync("removeGraphics", CancellationTokenSource.Token,
-            oldGraphics.Select(g => g.Id));
+            oldGraphics.Select(g => g.Id), Id);
         AllowRender = true;
     }
 

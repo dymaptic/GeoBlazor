@@ -628,60 +628,6 @@ public partial class GraphicsLayer : IBlendLayer,
     
 #endregion
 
-#region Public Methods
-
-    /// <summary>
-    ///     Adds an array of graphics to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#addMany">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="graphics">
-    ///     The graphic(s) to add to the layer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task AddMany(IReadOnlyCollection<Graphic> graphics)
-    {
-        if (JsComponentReference is null) return;
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "addMany", 
-            CancellationTokenSource.Token,
-            graphics);
-    }
-    
-    /// <summary>
-    ///     Clears all the graphics from the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeAll">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task RemoveAll()
-    {
-        if (JsComponentReference is null) return;
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "removeAll", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     Removes an array of graphics from the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeMany">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="graphics">
-    ///     The graphics to remove from the layer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task RemoveMany(IReadOnlyCollection<Graphic> graphics)
-    {
-        if (JsComponentReference is null) return;
-        
-        await JsComponentReference!.InvokeVoidAsync(
-            "removeMany", 
-            CancellationTokenSource.Token,
-            graphics);
-    }
-    
-#endregion
-
 
     /// <inheritdoc />
     protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)

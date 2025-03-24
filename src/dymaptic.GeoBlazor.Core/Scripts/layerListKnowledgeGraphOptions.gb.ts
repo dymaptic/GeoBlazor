@@ -49,10 +49,6 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObjec
         dotNetLayerListKnowledgeGraphOptions.filterPlaceholder = jsObject.filterPlaceholder;
     }
     
-    if (hasValue(jsObject.listItemCreatedFunction)) {
-        dotNetLayerListKnowledgeGraphOptions.listItemCreatedFunction = jsObject.listItemCreatedFunction;
-    }
-    
     if (hasValue(jsObject.minFilterItems)) {
         dotNetLayerListKnowledgeGraphOptions.minFilterItems = jsObject.minFilterItems;
     }

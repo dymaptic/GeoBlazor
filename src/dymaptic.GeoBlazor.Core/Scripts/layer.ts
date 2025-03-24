@@ -1,13 +1,13 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue, lookupGeoBlazorId} from './arcGisJsInterop';
+import {arcGisObjectRefs, hasValue} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
-    
-    if (hasValue(layerId) && arcGisObjectRefs.hasOwnProperty(layerId!)) {
-        return arcGisObjectRefs[layerId!];
+
+    if (hasValue(dotNetObject.id) && arcGisObjectRefs.hasOwnProperty(dotNetObject.id!)) {
+        return arcGisObjectRefs[dotNetObject.id!];
     }
 
     switch (dotNetObject.type) {

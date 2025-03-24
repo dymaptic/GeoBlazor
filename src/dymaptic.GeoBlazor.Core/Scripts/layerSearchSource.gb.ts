@@ -161,14 +161,6 @@ export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, layer
         dotNetLayerSearchSource.exactMatch = jsObject.exactMatch;
     }
     
-    if (hasValue(jsObject.getResults)) {
-        dotNetLayerSearchSource.getResultsHandler = jsObject.getResults;
-    }
-    
-    if (hasValue(jsObject.getSuggestions)) {
-        dotNetLayerSearchSource.getSuggestionsHandler = jsObject.getSuggestions;
-    }
-    
     if (hasValue(jsObject.maxResults)) {
         dotNetLayerSearchSource.maxResults = jsObject.maxResults;
     }

@@ -50,10 +50,6 @@ public partial class ListItemPanelWidget
     ///     The widget's label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="listItem">
-    ///     The panel's parent ListItem that represents a layer in the map.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#listItem">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </param>
@@ -86,7 +82,6 @@ public partial class ListItemPanelWidget
         string? icon = null,
         string? image = null,
         string? label = null,
-        ListItem? listItem = null,
         MapView? mapView = null,
         bool? open = null,
         OverlayPosition? position = null,
@@ -103,7 +98,6 @@ public partial class ListItemPanelWidget
         Icon = icon;
         Image = image;
         Label = label;
-        ListItem = listItem;
         MapView = mapView;
         Open = open;
         Position = position;
@@ -158,6 +152,7 @@ public partial class ListItemPanelWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#listItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [AncestorPropertyReference]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ListItem? ListItem { get; set; }
@@ -339,45 +334,6 @@ public partial class ListItemPanelWidget
         }
          
         return Image;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ListItem property.
-    /// </summary>
-    public async Task<ListItem?> GetListItem()
-    {
-        if (CoreJsModule is null)
-        {
-            return ListItem;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ListItem;
-        }
-
-        ListItem? result = await JsComponentReference.InvokeAsync<ListItem?>(
-            "getListItem", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            ListItem = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(ListItem)] = ListItem;
-        }
-        
-        return ListItem;
     }
     
     /// <summary>
@@ -608,56 +564,6 @@ public partial class ListItemPanelWidget
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "image", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ListItem property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetListItem(ListItem? value)
-    {
-        if (ListItem is not null)
-        {
-            await ListItem.DisposeAsync();
-        }
-        
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        ListItem = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ListItem)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setListItem", 
-            CancellationTokenSource.Token, value);
     }
     
     /// <summary>

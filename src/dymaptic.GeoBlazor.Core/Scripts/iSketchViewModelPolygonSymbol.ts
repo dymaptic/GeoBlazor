@@ -1,10 +1,9 @@
+import {buildDotNetSymbol, buildJsSymbol} from "./symbol";
 
-export async function buildJsISketchViewModelPolygonSymbol(dotNetObject: any): Promise<any> {
-    let { buildJsISketchViewModelPolygonSymbolGenerated } = await import('./iSketchViewModelPolygonSymbol.gb');
-    return await buildJsISketchViewModelPolygonSymbolGenerated(dotNetObject);
-}     
+export function buildJsISketchViewModelPolygonSymbol(dotNetObject: any): Promise<any> {
+    return buildJsSymbol(dotNetObject);
+}
 
-export async function buildDotNetISketchViewModelPolygonSymbol(jsObject: any): Promise<any> {
-    let { buildDotNetISketchViewModelPolygonSymbolGenerated } = await import('./iSketchViewModelPolygonSymbol.gb');
-    return await buildDotNetISketchViewModelPolygonSymbolGenerated(jsObject);
+export function buildDotNetISketchViewModelPolygonSymbol(jsObject: any): Promise<any> {
+    return buildDotNetSymbol(jsObject);
 }

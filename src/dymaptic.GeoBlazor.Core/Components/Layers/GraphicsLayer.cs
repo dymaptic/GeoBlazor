@@ -57,7 +57,8 @@ public partial class GraphicsLayer : Layer
     /// <param name="graphic">
     ///     The graphic to add
     /// </param>
-[ArcGISMethod]
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
     public Task Add(Graphic graphic)
     {
         return Add([graphic]);
@@ -72,6 +73,7 @@ public partial class GraphicsLayer : Layer
     /// <param name="cancellationToken">
     ///     A CancellationToken to cancel the operation
     /// </param>
+    [CodeGenerationIgnore]
     public async Task Add(IEnumerable<Graphic> graphics, CancellationToken cancellationToken = default)
     {
         AllowRender = false;
@@ -202,6 +204,20 @@ public partial class GraphicsLayer : Layer
             await Task.WhenAll(serializationTasks);
         }
     }
+    
+    /// <summary>
+    ///     Adds an array of graphics to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#addMany">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphic(s) to add to the layer.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public Task AddMany(IReadOnlyCollection<Graphic> graphics)
+    {
+        return Add(graphics);
+    }
 
     /// <summary>
     ///     Remove a graphic from the current layer
@@ -210,9 +226,41 @@ public partial class GraphicsLayer : Layer
     ///     The graphic to remove
     /// </param>
     [ArcGISMethod]
-    public Task Remove(Graphic graphic)
+    [CodeGenerationIgnore]
+    public async Task Remove(Graphic graphic)
     {
-        return UnregisterChildComponent(graphic);
+        if (!_graphics.Remove(graphic))
+        {
+            // graphic was not in layer
+            return;
+        }
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+         
+        AllowRender = false;
+        await JsComponentReference!.InvokeVoidAsync(
+            "remove", 
+            CancellationTokenSource.Token,
+            graphic);
+        AllowRender = true;
     }
 
     /// <summary>
@@ -221,25 +269,101 @@ public partial class GraphicsLayer : Layer
     /// <param name="graphics">
     ///     The graphics to remove
     /// </param>
-    public async Task Remove(IEnumerable<Graphic> graphics)
+    [CodeGenerationIgnore]
+    public Task Remove(IReadOnlyCollection<Graphic> graphics)
+    {
+        return RemoveMany(graphics);
+    }
+    
+    /// <summary>
+    ///     Removes an array of graphics from the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeMany">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="graphics">
+    ///     The graphics to remove from the layer.
+    /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task RemoveMany(IReadOnlyCollection<Graphic> graphics)
     {
         AllowRender = false;
-        var removedGraphics = graphics.ToList();
-        var wrapperIds = removedGraphics.Select(g => g.Id).ToList();
-        await CoreJsModule!.InvokeVoidAsync("removeGraphics", wrapperIds);
-        _graphics.ExceptWith(removedGraphics);
+        _graphics.ExceptWith(graphics);
+        
+        if (CoreJsModule is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "removeMany", 
+            CancellationTokenSource.Token,
+            graphics);
+        AllowRender = true;
+    }
+    
+    /// <summary>
+    ///     Clears all the graphics from the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GraphicsLayer.html#removeAll">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public async Task RemoveAll()
+    {
+        AllowRender = false;
+        _graphics.Clear();
+        
+        if (CoreJsModule is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                            
+        if (JsComponentReference is null)
+        {
+            AllowRender = true;
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "removeAll", 
+            CancellationTokenSource.Token);
         AllowRender = true;
     }
 
     /// <summary>
     ///     Removes all graphics from the current layer
     /// </summary>
-    public async Task Clear()
+    [CodeGenerationIgnore]
+    public Task Clear()
     {
-        AllowRender = false;
-        _graphics.Clear();
-        await CoreJsModule!.InvokeVoidAsync("clearGraphics", View!.Id, Id);
-        AllowRender = true;
+        return RemoveAll();
     }
 
     /// <inheritdoc />

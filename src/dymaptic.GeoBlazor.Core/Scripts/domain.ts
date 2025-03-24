@@ -1,7 +1,12 @@
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
+import {hasValue} from "./arcGisJsInterop";
 
 export function buildJsDomain(dotNetDomain) {
+    if (!hasValue(dotNetDomain)) {
+        return null;
+    }
+    
     switch (dotNetDomain?.type) {
         case 'coded-value':
             return new CodedValueDomain({
@@ -30,7 +35,10 @@ export function buildJsDomain(dotNetDomain) {
 }
 
 export function buildDotNetDomain(domain): any {
-    if (domain === undefined || domain === null) return null;
+    if (!hasValue(domain)) {
+        return null;
+    }
+    
     switch (domain.type) {
         case 'coded-value':
             return buildDotNetCodedValueDomain(domain);

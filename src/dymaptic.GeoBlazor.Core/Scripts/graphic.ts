@@ -1,10 +1,10 @@
 import Graphic from "@arcgis/core/Graphic";
 import {
     arcGisObjectRefs,
-    copyValuesIfExists,
+    copyValuesIfExists, dotNetRefs,
     graphicsRefs,
     hasValue,
-    jsObjectRefs,
+    jsObjectRefs, lookupGeoBlazorId,
     lookupJsGraphicById
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
@@ -77,6 +77,10 @@ export function buildJsGraphic(graphicObject: any): Graphic {
 export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, viewId: string | null): any {
     if (graphic === undefined || graphic === null) return null;
     let dotNetGraphic: any = {};
+    
+    if (layerId === null && hasValue(graphic.layer)) {
+        layerId = lookupGeoBlazorId(graphic.layer);
+    }
 
     let groupId = layerId ?? viewId;
     if (groupId !== null && graphicsRefs.hasOwnProperty(groupId)) {
@@ -112,5 +116,17 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
     if (hasValue(graphic.geometry)) {
         dotNetGraphic.geometry = buildDotNetGeometry(graphic.geometry);
     }
+
+    if (hasValue(groupId)) {
+        if (!graphicsRefs.hasOwnProperty(groupId!)) {
+            graphicsRefs[groupId!] = {};
+        }
+        
+        if (!hasValue(dotNetGraphic.id)) {
+            dotNetGraphic.id = crypto.randomUUID();
+            graphicsRefs[groupId!][dotNetGraphic.id] = graphic;
+        }
+    }
+    
     return dotNetGraphic;
 }

@@ -1,7 +1,7 @@
 import FeatureLayerViewGenerated from './featureLayerView.gb';
 import Query from '@arcgis/core/rest/support/Query';
 import {DotNetQuery} from './definitions';
-import {getProtobufGraphicStream, hasValue} from './arcGisJsInterop';
+import {getProtobufGraphicStream, hasValue, graphicsRefs, lookupJsGraphicById} from './arcGisJsInterop';
 
 export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
     
@@ -33,6 +33,29 @@ export default class FeatureLayerViewWrapper extends FeatureLayerViewGenerated {
 
     highlight(target: any): any {
         return this.component.highlight(target);
+    }
+
+    highlightByGeoBlazorId(geoBlazorId: string): any {
+        let graphic = lookupJsGraphicById(geoBlazorId, this.layerId, this.viewId);
+        if (hasValue(graphic)) {
+            return this.component.highlight(graphic!);
+        }
+        
+        return null;
+    }
+
+    highlightByGeoBlazorIds(geoBlazorIds: string[]): any {
+        let graphics : any[] = [];
+        geoBlazorIds.forEach(i => {
+            let graphic = lookupJsGraphicById(i, this.layerId, this.viewId);
+            if (hasValue(graphic)) {
+                graphics.push(graphic);
+            }
+        });
+        if (graphics.length === 0) {
+            return null;
+        }
+        return this.component.highlight(graphics);
     }
 
     async queryExtent(query: DotNetQuery, options: any): Promise<any> {

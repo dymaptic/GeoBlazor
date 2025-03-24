@@ -76,18 +76,6 @@ export async function buildDotNetRequestInterceptorGenerated(jsObject: any, laye
     
     let dotNetRequestInterceptor: any = {};
     
-    if (hasValue(jsObject.after)) {
-        dotNetRequestInterceptor.after = jsObject.after;
-    }
-    
-    if (hasValue(jsObject.before)) {
-        dotNetRequestInterceptor.before = jsObject.before;
-    }
-    
-    if (hasValue(jsObject.error)) {
-        dotNetRequestInterceptor.error = jsObject.error;
-    }
-    
     if (hasValue(jsObject.headers)) {
         dotNetRequestInterceptor.headers = jsObject.headers;
     }

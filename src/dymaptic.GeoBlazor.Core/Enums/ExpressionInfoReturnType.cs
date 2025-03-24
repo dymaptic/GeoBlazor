@@ -8,6 +8,7 @@ public enum ExpressionInfoReturnType
 {
 #pragma warning disable CS1591
     String,
-    Number
+    Number,
+    Boolean
 #pragma warning restore CS1591
 }

@@ -106,45 +106,6 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Loaded property.
-    /// </summary>
-    public async Task<bool?> GetLoaded()
-    {
-        if (CoreJsModule is null)
-        {
-            return Loaded;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Loaded;
-        }
-
-        // get the property value
-        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "loaded");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             Loaded = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Loaded)] = Loaded;
-        }
-         
-        return Loaded;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the PersistenceEnabled property.
     /// </summary>
     public async Task<bool?> GetPersistenceEnabled()

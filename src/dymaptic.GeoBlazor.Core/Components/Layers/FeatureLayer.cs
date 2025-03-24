@@ -483,6 +483,14 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 }
 
                 break;
+            case IFormTemplate formTemplate:
+                if (!formTemplate.Equals(FormTemplate))
+                {
+                    FormTemplate = formTemplate;
+                    LayerChanged = MapRendered;
+                }
+
+                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -520,6 +528,12 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 break;
             case IFeatureReduction _:
                 FeatureReduction = null;
+                LayerChanged = MapRendered;
+
+                break;
+            
+            case IFormTemplate _:
+                FormTemplate = null;
                 LayerChanged = MapRendered;
 
                 break;
@@ -561,6 +575,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         }
         
         FeatureReduction?.ValidateRequiredChildren();
+        FormTemplate?.ValidateRequiredChildren();
     }
 
     /// <summary>
@@ -674,6 +689,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
             graphic.View = View;
             graphic.Parent = this;
             graphic.Layer = this;
+            graphic.CoreJsModule = CoreJsModule;
         }
 
         await AbortManager.DisposeAbortController(cancellationToken);

@@ -29,5 +29,6 @@ public partial record FeatureType(
     string Name,
     IReadOnlyCollection<IFeatureTemplate> Templates,
     Dictionary<string, Domain> Domains,
+    [property:JsonConverter(typeof(NumberToStringConverter))]
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? FeatureTypeId = null);

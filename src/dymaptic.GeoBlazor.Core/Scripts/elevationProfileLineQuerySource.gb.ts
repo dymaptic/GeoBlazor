@@ -57,10 +57,6 @@ export async function buildDotNetElevationProfileLineQuerySourceGenerated(jsObje
     
     let dotNetElevationProfileLineQuerySource: any = {};
     
-    if (hasValue(jsObject.queryElevation)) {
-        dotNetElevationProfileLineQuerySource.queryElevation = jsObject.queryElevation;
-    }
-    
 
     let geoBlazorId = lookupGeoBlazorId(jsObject);
     if (hasValue(geoBlazorId)) {

@@ -108,6 +108,7 @@ public partial class AuthoringInfoVisualVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#endTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [JsonConverter(typeof(NumberToStringConverter))]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? EndTime { get; set; }
@@ -180,6 +181,7 @@ public partial class AuthoringInfoVisualVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#startTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [JsonConverter(typeof(NumberToStringConverter))]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? StartTime { get; set; }

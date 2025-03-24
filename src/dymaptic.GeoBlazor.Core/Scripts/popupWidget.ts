@@ -48,13 +48,10 @@ export default class PopupWidgetWrapper extends PopupWidgetGenerated {
         return this.widget.featureCount;
     }
 
-    async getSelectedFeature(viewId: string | null): Promise<any | null> {
+    async getSelectedFeature(): Promise<any | null> {
         let feature = this.widget.selectedFeature;
         let {buildDotNetGraphic} = await import('./graphic');
-        let graphic = await buildDotNetGraphic(feature, null, viewId);
-        if (viewId !== null && graphic !== null) {
-            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
-        }
+        let graphic = buildDotNetGraphic(feature, null, this.viewId);
         return graphic;
     }
 

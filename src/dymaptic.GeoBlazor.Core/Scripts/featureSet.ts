@@ -50,17 +50,6 @@ export async function buildDotNetFeatureSet(jsFs: any, layerId: string | null, v
     for (let i = 0; i < jsFs.features.length; i++) {
         let feature = jsFs.features[i];
         let graphic = buildDotNetGraphic(feature, layerId, viewId);
-        if (viewId !== undefined && viewId !== null) {
-            graphic.id = await dotNetRefs[viewId].invokeMethodAsync('GetId');
-            let groupId = layerId ?? viewId;
-            if (groupId !== null) {
-                if (!graphicsRefs.hasOwnProperty(groupId)) {
-                    graphicsRefs[groupId] = {};
-                }
-                graphicsRefs[groupId][graphic.id as string] = feature;
-            }
-
-        }
         graphics.push(graphic);
     }
     dotNetFeatureSet.features = graphics;

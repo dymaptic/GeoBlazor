@@ -71,6 +71,7 @@ public partial record MosaicRule(
     Operation? Operation = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SortField = null,
+    [property:JsonConverter(typeof(NumberToStringConverter))]
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? SortValue = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

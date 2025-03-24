@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LayerView
 {
-    
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

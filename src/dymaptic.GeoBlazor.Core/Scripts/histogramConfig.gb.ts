@@ -94,14 +94,6 @@ export async function buildDotNetHistogramConfigGenerated(jsObject: any, layerId
         dotNetHistogramConfig.average = jsObject.average;
     }
     
-    if (hasValue(jsObject.barCreatedFunction)) {
-        dotNetHistogramConfig.barCreatedFunction = jsObject.barCreatedFunction;
-    }
-    
-    if (hasValue(jsObject.dataLineCreatedFunction)) {
-        dotNetHistogramConfig.dataLineCreatedFunction = jsObject.dataLineCreatedFunction;
-    }
-    
     if (hasValue(jsObject.standardDeviation)) {
         dotNetHistogramConfig.standardDeviation = jsObject.standardDeviation;
     }

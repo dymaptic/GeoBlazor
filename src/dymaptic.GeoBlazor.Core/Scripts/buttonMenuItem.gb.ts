@@ -75,10 +75,6 @@ export async function buildDotNetButtonMenuItemGenerated(jsObject: any, layerId:
         dotNetButtonMenuItem.autoCloseMenu = jsObject.autoCloseMenu;
     }
     
-    if (hasValue(jsObject.clickFunction)) {
-        dotNetButtonMenuItem.clickFunction = jsObject.clickFunction;
-    }
-    
     if (hasValue(jsObject.label)) {
         dotNetButtonMenuItem.label = jsObject.label;
     }

@@ -23,6 +23,7 @@ public partial record ElevationLayerCreateElevationSamplerOptions(
     ///     default auto
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [JsonConverter(typeof(NumberToStringConverter))]
     public string? DemResolution { get; set; } = DemResolution;
     
     /// <summary>

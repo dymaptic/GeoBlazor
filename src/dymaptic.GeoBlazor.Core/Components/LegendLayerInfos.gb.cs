@@ -9,6 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 /// </summary>
 public partial class LegendLayerInfos : MapComponent
 {
+
 #region Public Properties / Blazor Parameters
 
     /// <summary>

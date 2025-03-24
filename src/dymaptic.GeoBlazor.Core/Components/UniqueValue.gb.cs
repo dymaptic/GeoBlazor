@@ -54,6 +54,7 @@ public partial class UniqueValue : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [JsonConverter(typeof(NumberToStringConverter))]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Value { get; set; }
@@ -63,6 +64,7 @@ public partial class UniqueValue : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value2">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [JsonConverter(typeof(NumberToStringConverter))]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Value2 { get; set; }
@@ -72,6 +74,7 @@ public partial class UniqueValue : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValue.html#value3">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [JsonConverter(typeof(NumberToStringConverter))]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Value3 { get; set; }

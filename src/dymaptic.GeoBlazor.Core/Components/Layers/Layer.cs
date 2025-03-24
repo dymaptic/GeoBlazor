@@ -371,8 +371,62 @@ public abstract partial class Layer : MapComponent
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
                 if (kvp.Key == nameof(View) || kvp.Key == nameof(MapRendered)) continue;
-                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
-                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
+                {
+                    LayerChanged = true;
+
+                    break;
+                }
+
+                Type paramType = previousValue!.GetType();
+
+                if (paramType.IsArray)
+                {
+                    Array prevArray = (Array)previousValue;
+                    Array currArray = (Array)kvp.Value!;
+                    
+                    if (prevArray.Length != currArray.Length)
+                    {
+                        LayerChanged = true;
+                        break;
+                    }
+                    
+                    for (int i = 0; i < prevArray.Length; i++)
+                    {
+                        if (!Equals(prevArray.GetValue(i), currArray.GetValue(i)))
+                        {
+                            LayerChanged = true;
+                            break;
+                        }
+                    }
+                    
+                    if (LayerChanged) break;
+                }
+                else if (paramType.IsGenericType)
+                {
+                    ICollection prevCollection = (ICollection)previousValue;
+                    ICollection currCollection = (ICollection)kvp.Value!;
+                    
+                    if (prevCollection.Count != currCollection.Count)
+                    {
+                        LayerChanged = true;
+                        break;
+                    }
+                    
+                    IEnumerator prevEnumerator = prevCollection.GetEnumerator();
+                    using var prevEnumerator1 = prevEnumerator as IDisposable;
+                    IEnumerator currEnumerator = currCollection.GetEnumerator();
+                    using var currEnumerator1 = currEnumerator as IDisposable;
+                    while (prevEnumerator.MoveNext() && currEnumerator.MoveNext())
+                    {
+                        if (!Equals(prevEnumerator.Current, currEnumerator.Current))
+                        {
+                            LayerChanged = true;
+                            break;
+                        }
+                    }
+                }
+                else if (!kvp.Value?.Equals(previousValue) ?? true)
                 {
                     LayerChanged = true;
 
@@ -414,5 +468,5 @@ public abstract partial class Layer : MapComponent
     /// <summary>
     ///     Indicates if the layer has changed since the last render.
     /// </summary>
-    public bool LayerChanged;
+    public bool LayerChanged { get; set; }
 }

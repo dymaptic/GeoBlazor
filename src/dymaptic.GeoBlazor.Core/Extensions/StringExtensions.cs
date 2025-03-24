@@ -17,6 +17,13 @@ internal static class StringExtensions
 
     public static string ToKebabCase(this string val)
     {
+        int upperCount = val.Count(char.IsUpper);
+
+        if (upperCount <= 0)
+        {
+            return val;
+        }
+        
         return string.Create(val.Length + (val.Count(char.IsUpper) - 1), val, (span, txt) =>
         {
             var offset = 0;
