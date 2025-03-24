@@ -3,7 +3,7 @@ import UniqueValueClass from '@arcgis/core/renderers/support/UniqueValueClass';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetUniqueValueClass } from './uniqueValueClass';
 
-export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsUniqueValueClassGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
@@ -11,7 +11,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
-        properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i, layerId, viewId))) as any;
+        properties.values = await Promise.all(dotNetObject.values.map(async i => await buildJsUniqueValue(i))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -25,7 +25,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
     
     try {
         let { buildDotNetUniqueValueClass } = await import('./uniqueValueClass');
-        let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetUniqueValueClass(jsUniqueValueClass);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -51,7 +51,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetUniqueValueClassGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -65,7 +65,7 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.values)) {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
-        dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i, layerId, viewId)));
+        dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i)));
     }
     
     if (hasValue(jsObject.label)) {

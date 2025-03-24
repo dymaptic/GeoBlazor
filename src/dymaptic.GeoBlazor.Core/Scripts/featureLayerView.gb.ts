@@ -93,7 +93,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer);
+        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
     }
     
     getProperty(prop: string): any {

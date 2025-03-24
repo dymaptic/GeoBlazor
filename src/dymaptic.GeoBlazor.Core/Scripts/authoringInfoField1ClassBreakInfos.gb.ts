@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoField1ClassBreakInfos } from './authoringInfoField1ClassBreakInfos';
 
-export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any): Promise<any> {
     let jsAuthoringInfoField1ClassBreakInfos: any = {};
 
     if (hasValue(dotNetObject.maxValue)) {
@@ -18,7 +18,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     
     try {
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -44,7 +44,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
 }
 
 
-export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoField1ClassBreakInfosGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

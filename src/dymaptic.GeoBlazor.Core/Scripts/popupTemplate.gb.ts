@@ -15,8 +15,8 @@ export async function buildDotNetPopupTemplateGenerated(jsObject: any): Promise<
     }
     
     if (hasValue(jsObject.expressionInfos)) {
-        let { buildDotNetExpressionInfo } = await import('./expressionInfo');
-        dotNetPopupTemplate.expressionInfos = jsObject.expressionInfos.map(i => buildDotNetExpressionInfo(i));
+        let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
+        dotNetPopupTemplate.expressionInfos = await Promise.all(jsObject.expressionInfos.map(async i => await buildDotNetPopupExpressionInfo(i)));
     }
     
     if (hasValue(jsObject.fieldInfos)) {

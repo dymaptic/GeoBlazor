@@ -686,6 +686,16 @@ public partial class ListItemPanelWidget
     {
         switch (child)
         {
+            case ListItemPanelContent content:
+                Content ??= [];
+                if (!Content.Contains(content))
+                {
+                    Content = [..Content, content];
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(Content)] = Content;
+                }
+                
+                return true;
             case ListItem listItem:
                 if (listItem != ListItem)
                 {
@@ -705,6 +715,11 @@ public partial class ListItemPanelWidget
     {
         switch (child)
         {
+            case ListItemPanelContent content:
+                Content = Content?.Where(c => c != content).ToList();
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(Content)] = Content;
+                return true;
             case ListItem _:
                 ListItem = null;
                 WidgetChanged = MapRendered;
@@ -719,6 +734,13 @@ public partial class ListItemPanelWidget
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (Content is not null)
+        {
+            foreach (ListItemPanelContent child in Content)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         ListItem?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

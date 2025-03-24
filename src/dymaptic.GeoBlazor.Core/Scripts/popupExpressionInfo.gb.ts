@@ -3,7 +3,7 @@ import popupExpressionInfo from '@arcgis/core/popup/ExpressionInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetPopupExpressionInfo } from './popupExpressionInfo';
 
-export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -26,7 +26,7 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, lay
     
     try {
         let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
-        let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -52,7 +52,7 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any, lay
 }
 
 
-export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetPopupExpressionInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

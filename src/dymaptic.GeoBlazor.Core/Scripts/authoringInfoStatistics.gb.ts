@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoStatistics } from './authoringInfoStatistics';
 
-export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any): Promise<any> {
     let jsAuthoringInfoStatistics: any = {};
 
     if (hasValue(dotNetObject.max)) {
@@ -18,7 +18,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
     
     try {
         let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -44,7 +44,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any,
 }
 
 
-export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoStatisticsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

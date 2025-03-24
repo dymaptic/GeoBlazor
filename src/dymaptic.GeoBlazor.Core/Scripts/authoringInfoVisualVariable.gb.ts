@@ -3,11 +3,11 @@ import AuthoringInfoVisualVariable from '@arcgis/core/renderers/support/Authorin
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
-export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.sizeStops) && dotNetObject.sizeStops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
+        properties.sizeStops = await Promise.all(dotNetObject.sizeStops.map(async i => await buildJsSizeStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.endTime)) {
@@ -51,7 +51,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     
     try {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -77,7 +77,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -86,7 +86,7 @@ export async function buildDotNetAuthoringInfoVisualVariableGenerated(jsObject: 
     
     if (hasValue(jsObject.sizeStops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
+        dotNetAuthoringInfoVisualVariable.sizeStops = await Promise.all(jsObject.sizeStops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     if (hasValue(jsObject.endTime)) {

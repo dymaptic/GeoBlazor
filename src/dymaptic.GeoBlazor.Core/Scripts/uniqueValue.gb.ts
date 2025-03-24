@@ -3,7 +3,7 @@ import UniqueValue from '@arcgis/core/renderers/support/UniqueValue';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetUniqueValue } from './uniqueValue';
 
-export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.value)) {
@@ -23,7 +23,7 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: st
     
     try {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
-        let dnInstantiatedObject = await buildDotNetUniqueValue(jsUniqueValue, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetUniqueValue(jsUniqueValue);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -49,7 +49,7 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetUniqueValueGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

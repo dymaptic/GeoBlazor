@@ -15,7 +15,7 @@ export async function buildJsSizeVariable(dotNetObject: any, layerId: string | n
     return await buildJsSizeVariableGenerated(dotNetObject, layerId, viewId);
 }
 
-export async function buildDotNetSizeVariable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeVariable(jsObject: any): Promise<any> {
     let {buildDotNetSizeVariableGenerated} = await import('./sizeVariable.gb');
-    return await buildDotNetSizeVariableGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSizeVariableGenerated(jsObject);
 }

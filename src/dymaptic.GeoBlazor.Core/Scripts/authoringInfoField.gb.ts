@@ -2,11 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfoField } from './authoringInfoField';
 
-export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any): Promise<any> {
     let jsAuthoringInfoField1: any = {};
     if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        jsAuthoringInfoField1.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i, layerId, viewId))) as any;
+        jsAuthoringInfoField1.classBreakInfos = await Promise.all(dotNetObject.classBreakInfos.map(async i => await buildJsAuthoringInfoField1ClassBreakInfos(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -25,7 +25,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
     
     try {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -51,7 +51,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any, laye
 }
 
 
-export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -60,7 +60,7 @@ export async function buildDotNetAuthoringInfoFieldGenerated(jsObject: any, laye
     
     if (hasValue(jsObject.classBreakInfos)) {
         let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i, layerId, viewId)));
+        dotNetAuthoringInfoField.classBreakInfos = await Promise.all(jsObject.classBreakInfos.map(async i => await buildDotNetAuthoringInfoField1ClassBreakInfos(i)));
     }
     
     if (hasValue(jsObject.field)) {

@@ -1,10 +1,10 @@
 
-export async function buildJsAuthoringInfoStatistics(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoStatistics(dotNetObject: any): Promise<any> {
     let { buildJsAuthoringInfoStatisticsGenerated } = await import('./authoringInfoStatistics.gb');
-    return await buildJsAuthoringInfoStatisticsGenerated(dotNetObject, layerId, viewId);
+    return await buildJsAuthoringInfoStatisticsGenerated(dotNetObject);
 }     
 
-export async function buildDotNetAuthoringInfoStatistics(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoStatistics(jsObject: any): Promise<any> {
     let { buildDotNetAuthoringInfoStatisticsGenerated } = await import('./authoringInfoStatistics.gb');
-    return await buildDotNetAuthoringInfoStatisticsGenerated(jsObject, layerId, viewId);
+    return await buildDotNetAuthoringInfoStatisticsGenerated(jsObject);
 }

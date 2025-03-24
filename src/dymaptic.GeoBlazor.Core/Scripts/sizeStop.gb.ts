@@ -3,7 +3,7 @@ import SizeStop from '@arcgis/core/renderers/visualVariables/support/SizeStop';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetSizeStop } from './sizeStop';
 
-export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.label)) {
@@ -23,7 +23,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
     
     try {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetSizeStop(jsSizeStop);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -49,7 +49,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetSizeStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

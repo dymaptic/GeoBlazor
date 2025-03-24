@@ -9,12 +9,12 @@ import {
     popupTemplateRefs
 } from "./arcGisJsInterop";
 import {buildJsPopupContent} from './popupContent';
-import {buildJsExpressionInfo} from './expressionInfo';
 import {buildDotNetGraphic} from './graphic';
 import {buildJsFieldInfo} from './fieldInfo';
 import {buildJsLayerOptions} from './layerOptions';
 import {buildDotNetActionBase, buildJsActionBase} from "./actionBase";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
+import {buildJsPopupExpressionInfo} from "./popupExpressionInfo";
 
 export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): any {
     let properties: any = {};
@@ -32,7 +32,7 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
         }
     }
     if (hasValue(dotNetObject.expressionInfos)) {
-        properties.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsExpressionInfo(i)) as any;
+        properties.expressionInfos = dotNetObject.expressionInfos.map(i => buildJsPopupExpressionInfo(i)) as any;
     }
     if (hasValue(dotNetObject.fieldInfos)) {
         properties.fieldInfos = dotNetObject.fieldInfos.map(i => buildJsFieldInfo(i)) as any;

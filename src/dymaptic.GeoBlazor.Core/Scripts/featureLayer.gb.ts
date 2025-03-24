@@ -809,7 +809,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     
     try {
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
+        let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer, layerId, viewId);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -835,7 +835,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetFeatureLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

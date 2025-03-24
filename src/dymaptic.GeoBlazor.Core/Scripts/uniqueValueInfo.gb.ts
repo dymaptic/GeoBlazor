@@ -3,7 +3,7 @@ import UniqueValueInfo from '@arcgis/core/renderers/support/UniqueValueInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetUniqueValueInfo } from './uniqueValueInfo';
 
-export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
@@ -24,7 +24,7 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
     
     try {
         let { buildDotNetUniqueValueInfo } = await import('./uniqueValueInfo');
-        let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetUniqueValueInfo(jsUniqueValueInfo);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -50,7 +50,7 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetUniqueValueInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

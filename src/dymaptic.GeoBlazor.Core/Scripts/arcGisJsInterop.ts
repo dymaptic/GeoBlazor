@@ -8,7 +8,6 @@ import {
     DotNetGraphicHit,
     DotNetHitTestOptions,
     DotNetHitTestResult,
-    DotNetListItem,
     DotNetPoint,
     DotNetPolygon,
     DotNetPolyline,
@@ -26,8 +25,6 @@ import * as serviceArea from "@arcgis/core/rest/serviceArea";
 import Accessor from "@arcgis/core/core/Accessor";
 import ArcGisSymbol from "@arcgis/core/symbols/Symbol";
 import AuthenticationManager from "./authenticationManager";
-import Basemap from "@arcgis/core/Basemap";
-import BasemapStyle from "@arcgis/core/support/BasemapStyle";
 import Camera from "@arcgis/core/Camera";
 import Color from "@arcgis/core/Color";
 import esriConfig from "@arcgis/core/config";
@@ -733,7 +730,7 @@ export function registerGeoBlazorObject(jsObjectRef: any, geoBlazorId: string) {
         return;
     }
     jsObjectRefs[geoBlazorId] = jsObjectRef;
-    arcGisObjectRefs[geoBlazorId] = jsObjectRef.hasOwnProperty('unwrap')
+    arcGisObjectRefs[geoBlazorId] = typeof jsObjectRef.unwrap === 'function'
         ? jsObjectRef.unwrap()
         : jsObjectRef;
 }

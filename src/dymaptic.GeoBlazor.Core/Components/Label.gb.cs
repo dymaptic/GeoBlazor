@@ -295,17 +295,17 @@ public partial class Label
             return LabelExpressionInfo;
         }
 
-        // get the property value
-        LabelExpressionInfo? result = await JsComponentReference!.InvokeAsync<LabelExpressionInfo?>("getProperty",
-            CancellationTokenSource.Token, "labelExpressionInfo");
+        LabelExpressionInfo? result = await JsComponentReference.InvokeAsync<LabelExpressionInfo?>(
+            "getLabelExpressionInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             LabelExpressionInfo = result;
+            LabelExpressionInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+            ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
         }
-         
+        
         return LabelExpressionInfo;
     }
     
@@ -744,6 +744,19 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
+        if (LabelExpressionInfo is not null)
+        {
+            await LabelExpressionInfo.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         LabelExpressionInfo = value;
 #pragma warning restore BL0005
@@ -1077,6 +1090,15 @@ public partial class Label
     {
         switch (child)
         {
+            case LabelExpressionInfo labelExpressionInfo:
+                if (labelExpressionInfo != LabelExpressionInfo)
+                {
+                    LabelExpressionInfo = labelExpressionInfo;
+                    
+                    ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+                }
+                
+                return true;
             case Symbol symbol:
                 if (symbol != Symbol)
                 {
@@ -1096,6 +1118,11 @@ public partial class Label
     {
         switch (child)
         {
+            case LabelExpressionInfo _:
+                LabelExpressionInfo = null;
+                
+                ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
+                return true;
             case Symbol _:
                 Symbol = null;
                 
@@ -1110,6 +1137,7 @@ public partial class Label
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        LabelExpressionInfo?.ValidateRequiredGeneratedChildren();
         Symbol?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

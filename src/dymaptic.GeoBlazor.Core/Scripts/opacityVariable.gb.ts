@@ -3,15 +3,15 @@ import OpacityVariable from '@arcgis/core/renderers/visualVariables/OpacityVaria
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetOpacityVariable } from './opacityVariable';
 
-export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsOpacityStop } = await import('./opacityStop');
-        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsOpacityStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.field)) {
@@ -34,7 +34,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
     
     try {
         let { buildDotNetOpacityVariable } = await import('./opacityVariable');
-        let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetOpacityVariable(jsOpacityVariable);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -60,7 +60,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any, layerId
 }
 
 
-export async function buildDotNetOpacityVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -69,12 +69,12 @@ export async function buildDotNetOpacityVariableGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
+        dotNetOpacityVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.stops)) {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
-        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i, layerId, viewId)));
+        dotNetOpacityVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetOpacityStop(i)));
     }
     
     if (hasValue(jsObject.field)) {

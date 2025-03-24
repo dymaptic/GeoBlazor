@@ -28,7 +28,7 @@ public partial class PopupTemplate
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<ExpressionInfo>? ExpressionInfos { get; set; }
+    public IReadOnlyList<PopupExpressionInfo>? ExpressionInfos { get; set; }
     
     /// <summary>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> that defines how fields in the dataset or values from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions participate in a popup.
@@ -141,7 +141,7 @@ public partial class PopupTemplate
     /// <summary>
     ///     Asynchronously retrieve the current value of the ExpressionInfos property.
     /// </summary>
-    public async Task<IReadOnlyList<ExpressionInfo>?> GetExpressionInfos()
+    public async Task<IReadOnlyList<PopupExpressionInfo>?> GetExpressionInfos()
     {
         if (CoreJsModule is null)
         {
@@ -163,7 +163,7 @@ public partial class PopupTemplate
             return ExpressionInfos;
         }
 
-        IReadOnlyList<ExpressionInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<ExpressionInfo>?>(
+        IReadOnlyList<PopupExpressionInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<PopupExpressionInfo>?>(
             "getExpressionInfos", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -594,11 +594,11 @@ public partial class PopupTemplate
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetExpressionInfos(IReadOnlyList<ExpressionInfo>? value)
+    public async Task SetExpressionInfos(IReadOnlyList<PopupExpressionInfo>? value)
     {
         if (ExpressionInfos is not null)
         {
-            foreach (ExpressionInfo item in ExpressionInfos)
+            foreach (PopupExpressionInfo item in ExpressionInfos)
             {
                 await item.DisposeAsync();
             }
@@ -606,7 +606,7 @@ public partial class PopupTemplate
         
         if (value is not null)
         {
-            foreach (ExpressionInfo item in value)
+            foreach (PopupExpressionInfo item in value)
             {
                 item.CoreJsModule = CoreJsModule;
                 item.Parent = this;
@@ -1033,9 +1033,9 @@ public partial class PopupTemplate
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToExpressionInfos(params ExpressionInfo[] values)
+    public async Task AddToExpressionInfos(params PopupExpressionInfo[] values)
     {
-        ExpressionInfo[] join = ExpressionInfos is null
+        PopupExpressionInfo[] join = ExpressionInfos is null
             ? values
             : [..ExpressionInfos, ..values];
         await SetExpressionInfos(join);
@@ -1096,7 +1096,7 @@ public partial class PopupTemplate
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromExpressionInfos(params ExpressionInfo[] values)
+    public async Task RemoveFromExpressionInfos(params PopupExpressionInfo[] values)
     {
         if (ExpressionInfos is null)
         {
@@ -1145,7 +1145,17 @@ public partial class PopupTemplate
     {
         switch (child)
         {
-            case ExpressionInfo expressionInfos:
+            case ActionBase actions:
+                Actions ??= [];
+                if (!Actions.Contains(actions))
+                {
+                    Actions = [..Actions, actions];
+                    
+                    ModifiedParameters[nameof(Actions)] = Actions;
+                }
+                
+                return true;
+            case PopupExpressionInfo expressionInfos:
                 ExpressionInfos ??= [];
                 if (!ExpressionInfos.Contains(expressionInfos))
                 {
@@ -1184,7 +1194,12 @@ public partial class PopupTemplate
     {
         switch (child)
         {
-            case ExpressionInfo expressionInfos:
+            case ActionBase actions:
+                Actions = Actions?.Where(a => a != actions).ToList();
+                
+                ModifiedParameters[nameof(Actions)] = Actions;
+                return true;
+            case PopupExpressionInfo expressionInfos:
                 ExpressionInfos = ExpressionInfos?.Where(e => e != expressionInfos).ToList();
                 
                 ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
@@ -1212,9 +1227,16 @@ public partial class PopupTemplate
         {
             throw new MissingRequiredOptionsChildElementException(nameof(PopupTemplate), [nameof(Content), nameof(ContentFunction), nameof(StringContent)]);
         }
+        if (Actions is not null)
+        {
+            foreach (ActionBase child in Actions)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         if (ExpressionInfos is not null)
         {
-            foreach (ExpressionInfo child in ExpressionInfos)
+            foreach (PopupExpressionInfo child in ExpressionInfos)
             {
                 child.ValidateRequiredGeneratedChildren();
             }

@@ -427,4 +427,47 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Outline outline:
+                if (outline != Outline)
+                {
+                    Outline = outline;
+                    
+                    ModifiedParameters[nameof(Outline)] = Outline;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Outline _:
+                Outline = null;
+                
+                ModifiedParameters[nameof(Outline)] = Outline;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Outline?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

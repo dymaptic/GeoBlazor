@@ -3,7 +3,7 @@ import OpacityStop from '@arcgis/core/renderers/visualVariables/support/OpacityS
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetOpacityStop } from './opacityStop';
 
-export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
 
     if (hasValue(dotNetObject.label)) {
@@ -23,7 +23,7 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: st
     
     try {
         let { buildDotNetOpacityStop } = await import('./opacityStop');
-        let dnInstantiatedObject = await buildDotNetOpacityStop(jsOpacityStop, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetOpacityStop(jsOpacityStop);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -49,7 +49,7 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any, layerId: st
 }
 
 
-export async function buildDotNetOpacityStopGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetOpacityStopGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

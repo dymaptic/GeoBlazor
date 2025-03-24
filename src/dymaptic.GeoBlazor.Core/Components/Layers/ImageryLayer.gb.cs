@@ -4575,6 +4575,15 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
+            case NoData noData:
+                if (noData != NoData)
+                {
+                    NoData = noData;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(NoData)] = NoData;
+                }
+                
+                return true;
             case PopupTemplate popupTemplate:
                 if (popupTemplate != PopupTemplate)
                 {
@@ -4627,6 +4636,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 return true;
+            case NoData _:
+                NoData = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(NoData)] = NoData;
+                return true;
             case PopupTemplate _:
                 PopupTemplate = null;
                 LayerChanged = MapRendered;
@@ -4664,6 +4678,7 @@ public partial class ImageryLayer : IArcGISImageService,
             }
         }
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
+        NoData?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

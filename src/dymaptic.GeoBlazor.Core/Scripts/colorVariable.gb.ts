@@ -3,11 +3,11 @@ import ColorVariable from '@arcgis/core/renderers/visualVariables/ColorVariable'
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetColorVariable } from './colorVariable';
 
-export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsColorStop } = await import('./colorStop');
@@ -34,7 +34,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
     
     try {
         let { buildDotNetColorVariable } = await import('./colorVariable');
-        let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetColorVariable(jsColorVariable);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -60,7 +60,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetColorVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetColorVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -69,7 +69,7 @@ export async function buildDotNetColorVariableGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
+        dotNetColorVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.stops)) {

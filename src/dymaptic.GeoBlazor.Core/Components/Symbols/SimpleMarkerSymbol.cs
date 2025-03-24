@@ -21,51 +21,6 @@ public partial class SimpleMarkerSymbol : MarkerSymbol
     [Parameter]
     public SimpleMarkerSymbolStyle? Style { get; set; }
 
-    /// <inheritdoc />
-    [CodeGenerationIgnore]
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Outline outline:
-                if (!outline.Equals(Outline))
-                {
-                    Outline = outline;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    [CodeGenerationIgnore]
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Outline _:
-                Outline = null;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-    
-    /// <inheritdoc />
-    [CodeGenerationIgnore]
-    public override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Outline?.ValidateRequiredChildren();
-    }
-
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
         return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)

@@ -1,6 +1,11 @@
 // override generated code in this file
 
+import {hasValue, sanitize} from "./arcGisJsInterop";
+
 export async function buildJsRenderer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
     switch (dotNetObject?.type) {
         case 'simple':
             let {buildJsSimpleRenderer} = await import('./simpleRenderer');
@@ -17,13 +22,16 @@ export async function buildJsRenderer(dotNetObject: any, layerId: string | null,
             let {buildJsUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildJsUniqueValueRenderer(dotNetObject, layerId, viewId);
         default:
-            let { id, dotNetComponentReference, ...sanitizedRenderer } = dotNetObject;
-            return sanitizedRenderer;
+            return sanitize(dotNetObject);
     }
 }
 
 
 export async function buildDotNetRenderer(jsObject: any): Promise<any> {
+    if (!hasValue(jsObject)) {
+        return null;
+    }
+    
     switch (jsObject?.type) {
         case 'simple':
             let {buildDotNetSimpleRenderer} = await import('./simpleRenderer');

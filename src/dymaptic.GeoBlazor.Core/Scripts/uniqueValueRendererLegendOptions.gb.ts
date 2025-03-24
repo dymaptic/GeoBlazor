@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetUniqueValueRendererLegendOptions } from './uniqueValueRendererLegendOptions';
 
-export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObject: any): Promise<any> {
     let jsUniqueValueRendererLegendOptions: any = {};
 
     if (hasValue(dotNetObject.title)) {
@@ -15,7 +15,7 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
     
     try {
         let { buildDotNetUniqueValueRendererLegendOptions } = await import('./uniqueValueRendererLegendOptions');
-        let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetUniqueValueRendererLegendOptions(jsUniqueValueRendererLegendOptions);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -41,7 +41,7 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
 }
 
 
-export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetUniqueValueRendererLegendOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

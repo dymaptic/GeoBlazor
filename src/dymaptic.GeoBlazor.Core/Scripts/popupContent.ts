@@ -5,6 +5,7 @@ import {buildDotNetFieldsPopupContent, buildJsFieldsPopupContent} from "./fields
 import {buildDotNetMediaPopupContent, buildJsMediaPopupContent} from "./mediaPopupContent";
 import {buildJsRelationshipPopupContent} from "./relationshipPopupContent";
 import {buildDotNetTextPopupContent, buildJsTextPopupContent} from "./textPopupContent";
+import {sanitize} from "./arcGisJsInterop";
 
 
 export function buildJsPopupContent(dotNetObject: any): any {
@@ -22,8 +23,7 @@ export function buildJsPopupContent(dotNetObject: any): any {
         case 'text':
             return buildJsTextPopupContent(dotNetObject);
         default:
-            let { id, dotNetComponentReference, ...sanitizedPopupTemplate } = dotNetObject;
-            return sanitizedPopupTemplate;
+            return sanitize(dotNetObject);
     }
 }
 

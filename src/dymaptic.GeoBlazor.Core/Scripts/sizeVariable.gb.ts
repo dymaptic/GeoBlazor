@@ -23,11 +23,11 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.legendOptions)) {
             let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-            this.component.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, this.layerId, this.viewId) as any;
+            this.component.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
         }
         if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
             let { buildJsSizeStop } = await import('./sizeStop');
-            this.component.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
+            this.component.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i))) as any;
         }
 
         if (hasValue(dotNetObject.axis)) {
@@ -83,12 +83,12 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions, this.layerId, this.viewId);
+        return await buildDotNetVisualVariableLegendOptions(this.component.legendOptions);
     }
     
     async setLegendOptions(value: any): Promise<void> {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value, this.layerId, this.viewId);
+        this.component.legendOptions = await  buildJsVisualVariableLegendOptions(value);
     }
     
     async getStops(): Promise<any> {
@@ -97,12 +97,12 @@ export default class SizeVariableGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i, this.layerId, this.viewId)));
+        return await Promise.all(this.component.stops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     async setStops(value: any): Promise<void> {
         let { buildJsSizeStop } = await import('./sizeStop');
-        this.component.stops = await Promise.all(value.map(async i => await buildJsSizeStop(i, this.layerId, this.viewId))) as any;
+        this.component.stops = await Promise.all(value.map(async i => await buildJsSizeStop(i))) as any;
     }
     
     getProperty(prop: string): any {
@@ -119,11 +119,11 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
+        properties.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.axis)) {
@@ -179,7 +179,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     
     try {
         let { buildDotNetSizeVariable } = await import('./sizeVariable');
-        let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetSizeVariable(jsSizeVariable);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -205,7 +205,7 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
 }
 
 
-export async function buildDotNetSizeVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSizeVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -214,12 +214,12 @@ export async function buildDotNetSizeVariableGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
+        dotNetSizeVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
+        dotNetSizeVariable.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     if (hasValue(jsObject.axis)) {

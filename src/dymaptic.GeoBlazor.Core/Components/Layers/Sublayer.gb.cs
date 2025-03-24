@@ -2367,6 +2367,15 @@ public partial class Sublayer
                 }
                 
                 return true;
+            case DynamicLayer source:
+                if (source != Source)
+                {
+                    Source = source;
+                    
+                    ModifiedParameters[nameof(Source)] = Source;
+                }
+                
+                return true;
             case Sublayer sublayers:
                 Sublayers ??= [];
                 if (!Sublayers.Contains(sublayers))
@@ -2402,6 +2411,11 @@ public partial class Sublayer
                 
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
+            case DynamicLayer _:
+                Source = null;
+                
+                ModifiedParameters[nameof(Source)] = Source;
+                return true;
             case Sublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
                 
@@ -2425,6 +2439,7 @@ public partial class Sublayer
         }
         PopupTemplate?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
+        Source?.ValidateRequiredGeneratedChildren();
         if (Sublayers is not null)
         {
             foreach (Sublayer child in Sublayers)

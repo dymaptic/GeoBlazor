@@ -1185,6 +1185,22 @@ public partial class ListItem
     {
         switch (child)
         {
+            case ActionBase actionsSections:
+                ActionsSections ??= [];
+                if (ActionsSections.Length == 0)
+                {
+                    ActionsSections = [[actionsSections]];
+                    
+                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+                }
+                else if (!ActionsSections.Any(s => s.Contains(actionsSections)))
+                {
+                    ActionsSections = [..ActionsSections, [actionsSections]];
+                    
+                    ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+                }
+                
+                return true;
             case ListItem children:
                 Children ??= [];
                 if (!Children.Contains(children))
@@ -1214,6 +1230,13 @@ public partial class ListItem
     {
         switch (child)
         {
+            case ActionBase actionsSections:
+                ActionsSections = ActionsSections?
+                    .Select(s => s.Where(a => a != actionsSections).ToArray())
+                    .Where(s => s.Any()).ToArray();
+                
+                ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
+                return true;
             case ListItem children:
                 Children = Children?.Where(c => c != children).ToList();
                 
@@ -1233,6 +1256,16 @@ public partial class ListItem
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (ActionsSections is not null)
+        {
+            foreach (ActionBase[] section in ActionsSections)
+            {
+                foreach (ActionBase child in section)
+                {
+                    child.ValidateRequiredGeneratedChildren();
+                }
+            }
+        }
         if (Children is not null)
         {
             foreach (ListItem child in Children)

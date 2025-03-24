@@ -86,6 +86,57 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     [Parameter]  
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]  
     public IFeatureReduction? FeatureReduction { get; set; }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the FeatureReduction property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    [CodeGenerationIgnore]
+    public async Task SetFeatureReduction(IFeatureReduction? value)
+    {
+        if (FeatureReduction is not null)
+        {
+            await FeatureReduction.DisposeAsync();
+        }
+        
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        FeatureReduction = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(FeatureReduction)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setFeatureReduction", 
+            CancellationTokenSource.Token, value);
+    }
 
     /// <summary>
     ///     Add a graphic to the current layer's source

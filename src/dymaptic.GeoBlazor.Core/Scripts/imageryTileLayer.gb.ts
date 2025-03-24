@@ -537,7 +537,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     
     try {
         let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
-        let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
+        let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer, layerId, viewId);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -563,7 +563,7 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetImageryTileLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetImageryTileLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

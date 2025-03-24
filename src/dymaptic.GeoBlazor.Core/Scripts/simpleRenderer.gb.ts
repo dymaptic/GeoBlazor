@@ -7,7 +7,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
-        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo, layerId, viewId) as any;
+        properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
         let { buildJsSymbol } = await import('./symbol');
@@ -29,7 +29,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     
     try {
         let { buildDotNetSimpleRenderer } = await import('./simpleRenderer');
-        let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetSimpleRenderer(jsSimpleRenderer);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -55,7 +55,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetSimpleRendererGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -64,7 +64,7 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any, layerId:
     
     if (hasValue(jsObject.authoringInfo)) {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo, layerId, viewId);
+        dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
     }
     
     if (hasValue(jsObject.symbol)) {

@@ -2040,6 +2040,15 @@ public partial class PopupWidget : IGoTo
                 }
                 
                 return true;
+            case Widget widgetContent:
+                if (widgetContent != WidgetContent)
+                {
+                    WidgetContent = widgetContent;
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -2075,6 +2084,11 @@ public partial class PopupWidget : IGoTo
                 WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
+            case Widget _:
+                WidgetContent = null;
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -2095,6 +2109,7 @@ public partial class PopupWidget : IGoTo
         Location?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         VisibleElements?.ValidateRequiredGeneratedChildren();
+        WidgetContent?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

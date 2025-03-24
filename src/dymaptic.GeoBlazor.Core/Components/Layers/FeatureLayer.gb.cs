@@ -3971,43 +3971,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the FeatureReduction property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatureReduction(IFeatureReduction? value)
-    {
-#pragma warning disable BL0005
-        FeatureReduction = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeatureReduction)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureReduction", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
     /// <param name="value">
@@ -5913,6 +5876,15 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
+            case DynamicLayer dynamicDataSource:
+                if (dynamicDataSource != DynamicDataSource)
+                {
+                    DynamicDataSource = dynamicDataSource;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+                }
+                
+                return true;
             case FeatureLayerBaseElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -6053,6 +6025,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
+            case DynamicLayer _:
+                DynamicDataSource = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+                return true;
             case FeatureLayerBaseElevationInfo _:
                 ElevationInfo = null;
                 LayerChanged = MapRendered;
@@ -6136,6 +6113,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(PortalItem), nameof(Source), nameof(Url)]);
         }
+        DynamicDataSource?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)

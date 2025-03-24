@@ -1,10 +1,10 @@
 
-export async function buildJsAuthoringInfoVisualVariable(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoVisualVariable(dotNetObject: any): Promise<any> {
     let { buildJsAuthoringInfoVisualVariableGenerated } = await import('./authoringInfoVisualVariable.gb');
-    return await buildJsAuthoringInfoVisualVariableGenerated(dotNetObject, layerId, viewId);
+    return await buildJsAuthoringInfoVisualVariableGenerated(dotNetObject);
 }     
 
-export async function buildDotNetAuthoringInfoVisualVariable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoVisualVariable(jsObject: any): Promise<any> {
     let { buildDotNetAuthoringInfoVisualVariableGenerated } = await import('./authoringInfoVisualVariable.gb');
-    return await buildDotNetAuthoringInfoVisualVariableGenerated(jsObject, layerId, viewId);
+    return await buildDotNetAuthoringInfoVisualVariableGenerated(jsObject);
 }

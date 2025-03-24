@@ -3,11 +3,11 @@ import RotationVariable from '@arcgis/core/renderers/visualVariables/RotationVar
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetRotationVariable } from './rotationVariable';
 
-export async function buildJsRotationVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRotationVariableGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.legendOptions)) {
         let { buildJsVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions, layerId, viewId) as any;
+        properties.legendOptions = await buildJsVisualVariableLegendOptions(dotNetObject.legendOptions) as any;
     }
 
     if (hasValue(dotNetObject.axis)) {
@@ -33,7 +33,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
     
     try {
         let { buildDotNetRotationVariable } = await import('./rotationVariable');
-        let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetRotationVariable(jsRotationVariable);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -59,7 +59,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetRotationVariableGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRotationVariableGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -68,7 +68,7 @@ export async function buildDotNetRotationVariableGenerated(jsObject: any, layerI
     
     if (hasValue(jsObject.legendOptions)) {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions, layerId, viewId);
+        dotNetRotationVariable.legendOptions = await buildDotNetVisualVariableLegendOptions(jsObject.legendOptions);
     }
     
     if (hasValue(jsObject.axis)) {

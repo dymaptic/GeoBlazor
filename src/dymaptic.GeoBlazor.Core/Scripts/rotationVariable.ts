@@ -1,9 +1,9 @@
-export async function buildJsRotationVariable(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsRotationVariable(dotNetObject: any): Promise<any> {
     let {buildJsRotationVariableGenerated} = await import('./rotationVariable.gb');
-    return await buildJsRotationVariableGenerated(dotNetObject, layerId, viewId);
+    return await buildJsRotationVariableGenerated(dotNetObject);
 }
 
-export async function buildDotNetRotationVariable(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetRotationVariable(jsObject: any): Promise<any> {
     let {buildDotNetRotationVariableGenerated} = await import('./rotationVariable.gb');
-    return await buildDotNetRotationVariableGenerated(jsObject, layerId, viewId);
+    return await buildDotNetRotationVariableGenerated(jsObject);
 }

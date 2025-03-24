@@ -6,7 +6,7 @@ export async function buildJsScaleDependentStopsGenerated(dotNetObject: any, lay
     let jsScaleDependentStops: any = {};
     if (hasValue(dotNetObject.stops) && dotNetObject.stops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
-        jsScaleDependentStops.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i, layerId, viewId))) as any;
+        jsScaleDependentStops.stops = await Promise.all(dotNetObject.stops.map(async i => await buildJsSizeStop(i))) as any;
     }
 
     if (hasValue(dotNetObject.target)) {
@@ -57,7 +57,7 @@ export async function buildDotNetScaleDependentStopsGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.stops)) {
         let { buildDotNetSizeStop } = await import('./sizeStop');
-        dotNetScaleDependentStops.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i, layerId, viewId)));
+        dotNetScaleDependentStops.stops = await Promise.all(jsObject.stops.map(async i => await buildDotNetSizeStop(i)));
     }
     
     if (hasValue(jsObject.target)) {

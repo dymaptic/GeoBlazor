@@ -6,6 +6,7 @@ public partial class PopupTemplate : MapComponent
     ///     Parameterless constructor for using as a razor component
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public PopupTemplate()
     {
     }
@@ -42,9 +43,10 @@ public partial class PopupTemplate : MapComponent
     /// <param name="actions">
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </param>
+    [CodeGenerationIgnore]
     public PopupTemplate(string? title = null, string? stringContent = null, IReadOnlyList<string>? outFields = null,
         IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? content = null,
-        IReadOnlyList<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
+        IReadOnlyList<PopupExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
@@ -190,11 +192,6 @@ public partial class PopupTemplate : MapComponent
                 FieldInfos = [..FieldInfos, fieldInfo];
 
                 break;
-            case ExpressionInfo expressionInfo:
-                ExpressionInfos ??= [];
-                ExpressionInfos = [..ExpressionInfos, expressionInfo];
-
-                break;
             case ActionBase action:
                 Actions ??= [];
                 Actions = [..Actions, action];
@@ -218,10 +215,6 @@ public partial class PopupTemplate : MapComponent
                 break;
             case FieldInfo fieldInfo:
                 FieldInfos = FieldInfos?.Except([fieldInfo]).ToList();
-
-                break;
-            case ExpressionInfo expressionInfo:
-                ExpressionInfos = ExpressionInfos?.Except([expressionInfo]).ToList();
 
                 break;
             case ActionBase action:
@@ -272,7 +265,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
         IEnumerable<string>? OutFields = null,
         IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
         IEnumerable<PopupContentSerializationRecord>? Content = null,
-        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos = null,
         bool? OverwriteActions = null,
         bool? ReturnGeometry = null,
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
@@ -322,7 +315,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
-    public IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
+    public IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]

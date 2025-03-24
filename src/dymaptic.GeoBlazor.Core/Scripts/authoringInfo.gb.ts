@@ -3,7 +3,7 @@ import AuthoringInfo from '@arcgis/core/renderers/support/AuthoringInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetAuthoringInfo } from './authoringInfo';
 
-export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<any> {
     let properties: any = {};
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./colorRamp');
@@ -11,19 +11,19 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     }
     if (hasValue(dotNetObject.field1)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
-        properties.field1 = await buildJsAuthoringInfoField(dotNetObject.field1, layerId, viewId) as any;
+        properties.field1 = await buildJsAuthoringInfoField(dotNetObject.field1) as any;
     }
     if (hasValue(dotNetObject.field2)) {
         let { buildJsAuthoringInfoField } = await import('./authoringInfoField');
-        properties.field2 = await buildJsAuthoringInfoField(dotNetObject.field2, layerId, viewId) as any;
+        properties.field2 = await buildJsAuthoringInfoField(dotNetObject.field2) as any;
     }
     if (hasValue(dotNetObject.statistics)) {
         let { buildJsAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        properties.statistics = await buildJsAuthoringInfoStatistics(dotNetObject.statistics, layerId, viewId) as any;
+        properties.statistics = await buildJsAuthoringInfoStatistics(dotNetObject.statistics) as any;
     }
     if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
         let { buildJsAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i, layerId, viewId))) as any;
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsAuthoringInfoVisualVariable(i))) as any;
     }
 
     if (hasValue(dotNetObject.classificationMethod)) {
@@ -73,7 +73,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
     
     try {
         let { buildDotNetAuthoringInfo } = await import('./authoringInfo');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetAuthoringInfo(jsAuthoringInfo);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -99,7 +99,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any, layerId: 
 }
 
 
-export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetAuthoringInfoGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -113,22 +113,22 @@ export async function buildDotNetAuthoringInfoGenerated(jsObject: any, layerId: 
     
     if (hasValue(jsObject.field1)) {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1, layerId, viewId);
+        dotNetAuthoringInfo.field1 = await buildDotNetAuthoringInfoField(jsObject.field1);
     }
     
     if (hasValue(jsObject.field2)) {
         let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2, layerId, viewId);
+        dotNetAuthoringInfo.field2 = await buildDotNetAuthoringInfoField(jsObject.field2);
     }
     
     if (hasValue(jsObject.statistics)) {
         let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics, layerId, viewId);
+        dotNetAuthoringInfo.statistics = await buildDotNetAuthoringInfoStatistics(jsObject.statistics);
     }
     
     if (hasValue(jsObject.visualVariables)) {
         let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i, layerId, viewId)));
+        dotNetAuthoringInfo.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetAuthoringInfoVisualVariable(i)));
     }
     
     if (hasValue(jsObject.classificationMethod)) {

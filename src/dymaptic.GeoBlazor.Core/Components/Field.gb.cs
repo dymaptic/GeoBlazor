@@ -803,6 +803,41 @@ public partial class Field
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain domain:
+                if (domain != Domain)
+                {
+                    Domain = domain;
+                    
+                    ModifiedParameters[nameof(Domain)] = Domain;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Domain _:
+                Domain = null;
+                
+                ModifiedParameters[nameof(Domain)] = Domain;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
@@ -811,6 +846,7 @@ public partial class Field
         {
             throw new MissingRequiredChildElementException(nameof(Field), nameof(Type));
         }
+        Domain?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

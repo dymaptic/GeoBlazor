@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './arcGisJsInterop';
 import { buildDotNetVisualVariableLegendOptions } from './visualVariableLegendOptions';
 
-export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: any): Promise<any> {
     let jsVisualVariableLegendOptions: any = {};
 
     if (hasValue(dotNetObject.showLegend)) {
@@ -18,7 +18,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
     
     try {
         let { buildDotNetVisualVariableLegendOptions } = await import('./visualVariableLegendOptions');
-        let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions, layerId, viewId);
+        let dnInstantiatedObject = await buildDotNetVisualVariableLegendOptions(jsVisualVariableLegendOptions);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -44,7 +44,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
 }
 
 
-export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetVisualVariableLegendOptionsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

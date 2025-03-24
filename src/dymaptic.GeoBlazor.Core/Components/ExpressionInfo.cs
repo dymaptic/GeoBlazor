@@ -33,46 +33,4 @@ public partial class ExpressionInfo : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ExpressionInfoReturnType? ReturnType { get; set; }
-
-    internal ExpressionInfoSerializationRecord ToSerializationRecord()
-    {
-        return new ExpressionInfoSerializationRecord(Expression, Name, Title, ReturnType);
-    }
-}
-
-[ProtoContract(Name = "ExpressionInfo")]
-internal record ExpressionInfoSerializationRecord : MapComponentSerializationRecord
-{
-    public ExpressionInfoSerializationRecord()
-    {
-    }
-
-    public ExpressionInfoSerializationRecord(string? Expression, string? Name, string? Title, ExpressionInfoReturnType? ReturnType)
-    {
-        this.Expression = Expression;
-        this.Name = Name;
-        this.Title = Title;
-        this.ReturnType = ReturnType;
-    }
-
-    public ExpressionInfo FromSerializationRecord()
-    {
-        return new ExpressionInfo();
-    }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(1)]
-    public string? Expression { get; init; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(2)]
-    public string? Name { get; init; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(3)]
-    public string? Title { get; init; }
-
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [ProtoMember(4)]
-    public ExpressionInfoReturnType? ReturnType { get; init; }
 }

@@ -632,7 +632,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     
     try {
         let { buildDotNetCSVLayer } = await import('./cSVLayer');
-        let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer);
+        let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer, layerId, viewId);
 
         let seenObjects = new WeakMap();
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
@@ -658,7 +658,7 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
 }
 
 
-export async function buildDotNetCSVLayerGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetCSVLayerGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

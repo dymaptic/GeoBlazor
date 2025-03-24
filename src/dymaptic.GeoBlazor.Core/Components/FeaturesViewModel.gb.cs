@@ -2528,6 +2528,16 @@ public partial class FeaturesViewModel : MapComponent,
     {
         switch (child)
         {
+            case ActionBase actions:
+                Actions ??= [];
+                if (!Actions.Contains(actions))
+                {
+                    Actions = [..Actions, actions];
+                    
+                    ModifiedParameters[nameof(Actions)] = Actions;
+                }
+                
+                return true;
             case Graphic features:
                 Features ??= [];
                 if (!Features.Contains(features))
@@ -2565,6 +2575,15 @@ public partial class FeaturesViewModel : MapComponent,
                 }
                 
                 return true;
+            case Widget widgetContent:
+                if (widgetContent != WidgetContent)
+                {
+                    WidgetContent = widgetContent;
+                    
+                    ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -2575,6 +2594,11 @@ public partial class FeaturesViewModel : MapComponent,
     {
         switch (child)
         {
+            case ActionBase actions:
+                Actions = Actions?.Where(a => a != actions).ToList();
+                
+                ModifiedParameters[nameof(Actions)] = Actions;
+                return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
                 
@@ -2595,6 +2619,11 @@ public partial class FeaturesViewModel : MapComponent,
                 
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
+            case Widget _:
+                WidgetContent = null;
+                
+                ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -2604,6 +2633,13 @@ public partial class FeaturesViewModel : MapComponent,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        if (Actions is not null)
+        {
+            foreach (ActionBase child in Actions)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         if (Features is not null)
         {
             foreach (Graphic child in Features)
@@ -2614,6 +2650,7 @@ public partial class FeaturesViewModel : MapComponent,
         FeatureViewModelAbilities?.ValidateRequiredGeneratedChildren();
         Location?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
+        WidgetContent?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

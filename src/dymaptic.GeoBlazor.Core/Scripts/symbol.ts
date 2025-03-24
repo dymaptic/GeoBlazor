@@ -26,7 +26,7 @@ export function buildJsSymbol(symbol: any): any {
         case "text":
             return buildJsTextSymbol(symbol);
         default:
-            let { id, dotNetComponentReference, ...sanitizedSymbol } = symbol;
+            let { id, dotNetComponentReference, layerId, viewId, ...sanitizedSymbol } = symbol;
             return sanitizedSymbol;
     }
 }
