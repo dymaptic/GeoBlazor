@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetDimensionalDefinition } from './dimensionalDefinition';
 
 export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.dimensionName)) {
@@ -23,30 +27,6 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): 
     let jsObjectRef = DotNet.createJSObjectReference(jsDimensionalDefinition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
-    
-    try {
-        let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        let dnInstantiatedObject = await buildDotNetDimensionalDefinition(jsDimensionalDefinition);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DimensionalDefinition detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DimensionalDefinition', e);
-    }
     
     return jsDimensionalDefinition;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetExternalReferencePolygon } from './externalReferencePolygon';
 
 export async function buildJsExternalReferencePolygonGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsExternalReferencePolygon: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
@@ -25,30 +29,6 @@ export async function buildJsExternalReferencePolygonGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(jsExternalReferencePolygon);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExternalReferencePolygon;
-    
-    try {
-        let { buildDotNetExternalReferencePolygon } = await import('./externalReferencePolygon');
-        let dnInstantiatedObject = await buildDotNetExternalReferencePolygon(jsExternalReferencePolygon, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ExternalReferencePolygon detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExternalReferencePolygon', e);
-    }
     
     return jsExternalReferencePolygon;
 }

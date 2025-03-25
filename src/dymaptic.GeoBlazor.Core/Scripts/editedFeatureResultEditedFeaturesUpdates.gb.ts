@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEditedFeatureResultEditedFeaturesUpdates } from './editedFeatureResultEditedFeaturesUpdates';
 
 export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEditedFeatureResultEditedFeaturesUpdates: any = {};
     if (hasValue(dotNetObject.current) && dotNetObject.current.length > 0) {
         let { buildJsGraphic } = await import('./graphic');

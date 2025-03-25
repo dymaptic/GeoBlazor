@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVectorTileLayerCurrentStyleInfo } from './vectorTileLayerCurrentStyleInfo';
 
 export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVectorTileLayerCurrentStyleInfo: any = {};
 
     if (hasValue(dotNetObject.glyphsUrl)) {

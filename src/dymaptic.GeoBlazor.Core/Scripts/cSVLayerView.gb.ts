@@ -165,6 +165,10 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCSVLayerView: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -198,30 +202,6 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(cSVLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerView;
-    
-    try {
-        let { buildDotNetCSVLayerView } = await import('./cSVLayerView');
-        let dnInstantiatedObject = await buildDotNetCSVLayerView(jsCSVLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type CSVLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for CSVLayerView', e);
-    }
     
     return jsCSVLayerView;
 }

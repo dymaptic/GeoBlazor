@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSummaryStatisticsSummaryStatisticsParams } from './summaryStatisticsSummaryStatisticsParams';
 
 export async function buildJsSummaryStatisticsSummaryStatisticsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jssummaryStatisticsSummaryStatisticsParams: any = {};
     if (hasValue(viewId)) {
         jssummaryStatisticsSummaryStatisticsParams.view = arcGisObjectRefs[viewId!];

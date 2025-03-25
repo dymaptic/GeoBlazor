@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetDateTimeOffsetPickerInput } from './dateTimeOffsetPickerInput';
 
 export async function buildJsDateTimeOffsetPickerInputGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.includeTimeOffset)) {
@@ -23,30 +27,6 @@ export async function buildJsDateTimeOffsetPickerInputGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsDateTimeOffsetPickerInput);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDateTimeOffsetPickerInput;
-    
-    try {
-        let { buildDotNetDateTimeOffsetPickerInput } = await import('./dateTimeOffsetPickerInput');
-        let dnInstantiatedObject = await buildDotNetDateTimeOffsetPickerInput(jsDateTimeOffsetPickerInput, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DateTimeOffsetPickerInput detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DateTimeOffsetPickerInput', e);
-    }
     
     return jsDateTimeOffsetPickerInput;
 }

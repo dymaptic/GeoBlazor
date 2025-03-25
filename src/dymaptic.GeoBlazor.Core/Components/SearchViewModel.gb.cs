@@ -2616,8 +2616,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchClear(SearchViewModelSearchClearEvent searchClearEvent)
+    public async Task OnJsSearchClear(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSearchClearEvent searchClearEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSearchClearEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchClear.InvokeAsync(searchClearEvent);
     }
     
@@ -2632,8 +2641,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchComplete(SearchViewModelSearchCompleteEvent searchCompleteEvent)
+    public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSearchCompleteEvent searchCompleteEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSearchCompleteEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchComplete.InvokeAsync(searchCompleteEvent);
     }
     
@@ -2648,8 +2666,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchStart(SearchViewModelSearchStartEvent searchStartEvent)
+    public async Task OnJsSearchStart(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSearchStartEvent searchStartEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSearchStartEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchStart.InvokeAsync(searchStartEvent);
     }
     
@@ -2664,8 +2691,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSelectResult(SearchViewModelSelectResultEvent selectResultEvent)
+    public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSelectResultEvent selectResultEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSelectResultEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSelectResult.InvokeAsync(selectResultEvent);
     }
     
@@ -2680,8 +2716,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSuggestComplete(SearchViewModelSuggestCompleteEvent suggestCompleteEvent)
+    public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSuggestCompleteEvent suggestCompleteEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSuggestCompleteEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
     }
     
@@ -2696,8 +2741,17 @@ public partial class SearchViewModel : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSuggestStart(SearchViewModelSuggestStartEvent suggestStartEvent)
+    public async Task OnJsSuggestStart(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchViewModelSuggestStartEvent suggestStartEvent = 
+            JsonSerializer.Deserialize<SearchViewModelSuggestStartEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSuggestStart.InvokeAsync(suggestStartEvent);
     }
     

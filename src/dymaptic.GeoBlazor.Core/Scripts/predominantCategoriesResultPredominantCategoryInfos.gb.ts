@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPredominantCategoriesResultPredominantCategoryInfos } from './predominantCategoriesResultPredominantCategoryInfos';
 
 export async function buildJsPredominantCategoriesResultPredominantCategoryInfosGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPredominantCategoriesResultPredominantCategoryInfos: any = {};
 
     if (hasValue(dotNetObject.count)) {
@@ -18,30 +22,6 @@ export async function buildJsPredominantCategoriesResultPredominantCategoryInfos
     let jsObjectRef = DotNet.createJSObjectReference(jsPredominantCategoriesResultPredominantCategoryInfos);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPredominantCategoriesResultPredominantCategoryInfos;
-    
-    try {
-        let { buildDotNetPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');
-        let dnInstantiatedObject = await buildDotNetPredominantCategoriesResultPredominantCategoryInfos(jsPredominantCategoriesResultPredominantCategoryInfos, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PredominantCategoriesResultPredominantCategoryInfos detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PredominantCategoriesResultPredominantCategoryInfos', e);
-    }
     
     return jsPredominantCategoriesResultPredominantCategoryInfos;
 }

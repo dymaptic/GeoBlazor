@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } from './geoJSONLayerElevationInfoFeatureExpressionInfo';
 
 export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGeoJSONLayerElevationInfoFeatureExpressionInfo: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -15,30 +19,6 @@ export async function buildJsGeoJSONLayerElevationInfoFeatureExpressionInfoGener
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerElevationInfoFeatureExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
-    
-    try {
-        let { buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
-        let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfoFeatureExpressionInfo(jsGeoJSONLayerElevationInfoFeatureExpressionInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GeoJSONLayerElevationInfoFeatureExpressionInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerElevationInfoFeatureExpressionInfo', e);
-    }
     
     return jsGeoJSONLayerElevationInfoFeatureExpressionInfo;
 }

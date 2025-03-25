@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetImageSampleResult } from './imageSampleResult';
 
 export async function buildJsImageSampleResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.samples) && dotNetObject.samples.length > 0) {
         let { buildJsImageSample } = await import('./imageSample');

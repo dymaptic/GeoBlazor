@@ -29,6 +29,10 @@ export default class PortalGenerated implements IPropertyWrapper {
             let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
             this.component.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i))) as any;
         }
+        if (hasValue(dotNetObject.portalProperties)) {
+            let { buildJsPortalProperties } = await import('./portalProperties');
+            this.component.portalProperties = await buildJsPortalProperties(dotNetObject.portalProperties, this.layerId, this.viewId) as any;
+        }
 
         if (hasValue(dotNetObject.access)) {
             this.component.access = dotNetObject.access;
@@ -155,9 +159,6 @@ export default class PortalGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.portalMode)) {
             this.component.portalMode = dotNetObject.portalMode;
-        }
-        if (hasValue(dotNetObject.portalProperties)) {
-            this.component.portalProperties = dotNetObject.portalProperties;
         }
         if (hasValue(dotNetObject.recycleBinEnabled)) {
             this.component.recycleBinEnabled = dotNetObject.recycleBinEnabled;
@@ -329,6 +330,20 @@ export default class PortalGenerated implements IPropertyWrapper {
         this.component.featuredGroups = await Promise.all(value.map(async i => await buildJsPortalFeaturedGroups(i))) as any;
     }
     
+    async getPortalProperties(): Promise<any> {
+        if (!hasValue(this.component.portalProperties)) {
+            return null;
+        }
+        
+        let { buildDotNetPortalProperties } = await import('./portalProperties');
+        return await buildDotNetPortalProperties(this.component.portalProperties);
+    }
+    
+    async setPortalProperties(value: any): Promise<void> {
+        let { buildJsPortalProperties } = await import('./portalProperties');
+        this.component.portalProperties = await  buildJsPortalProperties(value, this.layerId, this.viewId);
+    }
+    
     async getUser(): Promise<any> {
         if (!hasValue(this.component.user)) {
             return null;
@@ -354,6 +369,10 @@ export default class PortalGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.defaultExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -362,6 +381,10 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.featuredGroups) && dotNetObject.featuredGroups.length > 0) {
         let { buildJsPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         properties.featuredGroups = await Promise.all(dotNetObject.featuredGroups.map(async i => await buildJsPortalFeaturedGroups(i))) as any;
+    }
+    if (hasValue(dotNetObject.portalProperties)) {
+        let { buildJsPortalProperties } = await import('./portalProperties');
+        properties.portalProperties = await buildJsPortalProperties(dotNetObject.portalProperties, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.access)) {
@@ -490,9 +513,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     if (hasValue(dotNetObject.portalMode)) {
         properties.portalMode = dotNetObject.portalMode;
     }
-    if (hasValue(dotNetObject.portalProperties)) {
-        properties.portalProperties = dotNetObject.portalProperties;
-    }
     if (hasValue(dotNetObject.recycleBinEnabled)) {
         properties.recycleBinEnabled = dotNetObject.recycleBinEnabled;
     }
@@ -547,30 +567,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     
-    try {
-        let { buildDotNetPortal } = await import('./portal');
-        let dnInstantiatedObject = await buildDotNetPortal(jsPortal);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Portal detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Portal', e);
-    }
-    
     return jsPortal;
 }
 
@@ -590,6 +586,11 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     if (hasValue(jsObject.featuredGroups)) {
         let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
         dotNetPortal.featuredGroups = await Promise.all(jsObject.featuredGroups.map(async i => await buildDotNetPortalFeaturedGroups(i)));
+    }
+    
+    if (hasValue(jsObject.portalProperties)) {
+        let { buildDotNetPortalProperties } = await import('./portalProperties');
+        dotNetPortal.portalProperties = await buildDotNetPortalProperties(jsObject.portalProperties);
     }
     
     if (hasValue(jsObject.access)) {
@@ -768,10 +769,6 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
         dotNetPortal.portalMode = removeCircularReferences(jsObject.portalMode);
     }
     
-    if (hasValue(jsObject.portalProperties)) {
-        dotNetPortal.portalProperties = jsObject.portalProperties;
-    }
-    
     if (hasValue(jsObject.recycleBinEnabled)) {
         dotNetPortal.recycleBinEnabled = jsObject.recycleBinEnabled;
     }
@@ -785,7 +782,7 @@ export async function buildDotNetPortalGenerated(jsObject: any): Promise<any> {
     }
     
     if (hasValue(jsObject.rotatorPanels)) {
-        dotNetPortal.rotatorPanels = jsObject.rotatorPanels;
+        dotNetPortal.rotatorPanels = removeCircularReferences(jsObject.rotatorPanels);
     }
     
     if (hasValue(jsObject.showHomePageDescription)) {

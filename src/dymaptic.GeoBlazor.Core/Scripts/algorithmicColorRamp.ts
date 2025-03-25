@@ -20,14 +20,6 @@ export function buildJsAlgorithmicColorRamp(dotNetObject: any): any {
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAlgorithmicColorRamp;
 
-    let dnInstantiatedObject = buildDotNetAlgorithmicColorRamp(jsAlgorithmicColorRamp);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AlgorithmicColorRamp', e);
-    }
-
     return jsAlgorithmicColorRamp;
 }
 

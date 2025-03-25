@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetCloudyWeather } from './cloudyWeather';
 
 export async function buildJsCloudyWeatherGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.cloudCover)) {
@@ -14,30 +18,6 @@ export async function buildJsCloudyWeatherGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(jsCloudyWeather);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCloudyWeather;
-    
-    try {
-        let { buildDotNetCloudyWeather } = await import('./cloudyWeather');
-        let dnInstantiatedObject = await buildDotNetCloudyWeather(jsCloudyWeather, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type CloudyWeather detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for CloudyWeather', e);
-    }
     
     return jsCloudyWeather;
 }

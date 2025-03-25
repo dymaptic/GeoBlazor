@@ -83,9 +83,9 @@ public abstract partial class Widget : MapComponent
     /// <inheritdoc />
     [JSInvokable]
     public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
-        string? instantiatedComponentJson)
+        IJSStreamReference jsonStreamReference)
     {
-        var renderedWidget = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Widget;
+        var renderedWidget = await base.OnJsComponentCreated(jsComponentReference, jsonStreamReference) as Widget;
         await OnWidgetCreated.InvokeAsync(this);
 
         return renderedWidget;

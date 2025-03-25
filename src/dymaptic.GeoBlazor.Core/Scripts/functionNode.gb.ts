@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFunctionNode } from './functionNode';
 
 export async function buildJsFunctionNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFunctionNode: any = {};
     if (hasValue(dotNetObject.args)) {
         let { buildJsListNode } = await import('./listNode');

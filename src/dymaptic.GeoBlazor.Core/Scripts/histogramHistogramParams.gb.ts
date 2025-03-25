@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetHistogramHistogramParams } from './histogramHistogramParams';
 
 export async function buildJsHistogramHistogramParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jshistogramHistogramParams: any = {};
     if (hasValue(viewId)) {
         jshistogramHistogramParams.view = arcGisObjectRefs[viewId!];

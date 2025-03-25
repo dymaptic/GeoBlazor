@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetFeatureLayerSource } from './featureLayerSource';
 
 export async function buildJsFeatureLayerSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.layerId)) {
@@ -17,30 +21,6 @@ export async function buildJsFeatureLayerSourceGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerSource;
-    
-    try {
-        let { buildDotNetFeatureLayerSource } = await import('./featureLayerSource');
-        let dnInstantiatedObject = await buildDotNetFeatureLayerSource(jsFeatureLayerSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeatureLayerSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureLayerSource', e);
-    }
     
     return jsFeatureLayerSource;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerListKnowledgeGraphOptions } from './layerListKnowledgeGraphOptions';
 
 export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerListKnowledgeGraphOptions: any = {};
     if (hasValue(dotNetObject.hasListItemCreatedFunction) && dotNetObject.hasListItemCreatedFunction) {
         jsLayerListKnowledgeGraphOptions.listItemCreatedFunction = async (event) => {

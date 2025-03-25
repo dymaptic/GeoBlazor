@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDirectionalPadVisibleElements } from './directionalPadVisibleElements';
 
 export async function buildJsDirectionalPadVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDirectionalPadVisibleElements: any = {};
 
     if (hasValue(dotNetObject.directionalButtons)) {
@@ -18,30 +22,6 @@ export async function buildJsDirectionalPadVisibleElementsGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionalPadVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionalPadVisibleElements;
-    
-    try {
-        let { buildDotNetDirectionalPadVisibleElements } = await import('./directionalPadVisibleElements');
-        let dnInstantiatedObject = await buildDotNetDirectionalPadVisibleElements(jsDirectionalPadVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DirectionalPadVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DirectionalPadVisibleElements', e);
-    }
     
     return jsDirectionalPadVisibleElements;
 }

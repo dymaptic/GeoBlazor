@@ -16,17 +16,9 @@ export function buildJsLineSymbolMarker(dotNetObject: any): any {
         jsLineSymbolMarker.style = dotNetObject.style;
     }
 
-        let jsObjectRef = DotNet.createJSObjectReference(jsLineSymbolMarker);
+    let jsObjectRef = DotNet.createJSObjectReference(jsLineSymbolMarker);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbolMarker;
-
-    let dnInstantiatedObject = buildDotNetLineSymbolMarker(jsLineSymbolMarker);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LineSymbolMarker', e);
-    }
 
     return jsLineSymbolMarker;
 }

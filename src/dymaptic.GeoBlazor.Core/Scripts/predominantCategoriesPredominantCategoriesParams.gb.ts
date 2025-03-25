@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominantCategoriesPredominantCategoriesParams } from './predominantCategoriesPredominantCategoriesParams';
 
 export async function buildJsPredominantCategoriesPredominantCategoriesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jspredominantCategoriesPredominantCategoriesParams: any = {};
     if (hasValue(viewId)) {
         jspredominantCategoriesPredominantCategoriesParams.view = arcGisObjectRefs[viewId!];

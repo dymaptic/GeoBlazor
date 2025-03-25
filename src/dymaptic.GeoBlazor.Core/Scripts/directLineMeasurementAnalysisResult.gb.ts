@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetDirectLineMeasurementAnalysisResult } from './directLineMeasurementAnalysisResult';
 
 export async function buildJsDirectLineMeasurementAnalysisResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDirectLineMeasurementAnalysisResult: any = {};
     if (hasValue(dotNetObject.directDistance)) {
         let { buildJsLength } = await import('./length');

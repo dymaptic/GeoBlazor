@@ -14,14 +14,6 @@ export function buildJsMultipartColorRamp(dotNetObject: any): any {
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMultipartColorRamp;
 
-    let dnInstantiatedObject = buildDotNetMultipartColorRamp(jsMultipartColorRamp);
-
-    try {
-        dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsComponentCreated', jsObjectRef, JSON.stringify(dnInstantiatedObject));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MultipartColorRamp', e);
-    }
-
     return jsMultipartColorRamp;
 }
 

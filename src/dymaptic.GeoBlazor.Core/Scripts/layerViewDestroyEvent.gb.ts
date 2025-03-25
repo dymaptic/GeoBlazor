@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerViewDestroyEvent } from './layerViewDestroyEvent';
 
 export async function buildJsLayerViewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
         jsFeatureLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];

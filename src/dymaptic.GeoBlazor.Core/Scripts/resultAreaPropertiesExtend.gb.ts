@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetResultAreaPropertiesExtend } from './resultAreaPropertiesExtend';
 
 export async function buildJsResultAreaPropertiesExtendGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsResultAreaPropertiesExtend: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsGraphicColor } = await import('./graphicColor');
@@ -25,30 +29,6 @@ export async function buildJsResultAreaPropertiesExtendGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsResultAreaPropertiesExtend);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsResultAreaPropertiesExtend;
-    
-    try {
-        let { buildDotNetResultAreaPropertiesExtend } = await import('./resultAreaPropertiesExtend');
-        let dnInstantiatedObject = await buildDotNetResultAreaPropertiesExtend(jsResultAreaPropertiesExtend, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ResultAreaPropertiesExtend detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ResultAreaPropertiesExtend', e);
-    }
     
     return jsResultAreaPropertiesExtend;
 }

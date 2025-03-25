@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetHistogramConfig } from './histogramConfig';
 
 export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHistogramConfig: any = {};
     if (hasValue(dotNetObject.hasBarCreatedFunction) && dotNetObject.hasBarCreatedFunction) {
         jsHistogramConfig.barCreatedFunction = async (index,
@@ -44,30 +48,6 @@ export async function buildJsHistogramConfigGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(jsHistogramConfig);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHistogramConfig;
-    
-    try {
-        let { buildDotNetHistogramConfig } = await import('./histogramConfig');
-        let dnInstantiatedObject = await buildDotNetHistogramConfig(jsHistogramConfig, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type HistogramConfig detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HistogramConfig', e);
-    }
     
     return jsHistogramConfig;
 }

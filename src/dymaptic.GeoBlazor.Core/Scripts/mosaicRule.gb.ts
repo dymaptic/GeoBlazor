@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetMosaicRule } from './mosaicRule';
 
 export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.itemRasterFunction)) {
         let { buildJsRasterFunction } = await import('./rasterFunction');

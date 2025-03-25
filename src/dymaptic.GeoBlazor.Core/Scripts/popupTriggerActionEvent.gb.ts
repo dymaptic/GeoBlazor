@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPopupTriggerActionEvent } from './popupTriggerActionEvent';
 
 export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPopupTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');

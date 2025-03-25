@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetViewDragEvent } from './viewDragEvent';
 
 export async function buildJsViewDragEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsViewDragEvent: any = {};
     if (hasValue(dotNetObject.origin)) {
         let { buildJsViewDragEventOrigin } = await import('./viewDragEventOrigin');

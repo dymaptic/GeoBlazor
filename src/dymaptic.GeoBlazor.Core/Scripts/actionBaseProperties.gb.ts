@@ -8,6 +8,10 @@ export async function buildJsActionBasePropertiesGenerated(dotNetObject: any, la
     
     switch (dotNetObject.type) {
         case 'any':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let jsActionBaseProperties: any = {};
 
             if (hasValue(dotNetObject.actionBaseId)) {

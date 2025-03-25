@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVoxelDynamicSection } from './voxelDynamicSection';
 
 export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.enabled)) {
@@ -26,30 +30,6 @@ export async function buildJsVoxelDynamicSectionGenerated(dotNetObject: any): Pr
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelDynamicSection);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelDynamicSection;
-    
-    try {
-        let { buildDotNetVoxelDynamicSection } = await import('./voxelDynamicSection');
-        let dnInstantiatedObject = await buildDotNetVoxelDynamicSection(jsVoxelDynamicSection);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VoxelDynamicSection detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VoxelDynamicSection', e);
-    }
     
     return jsVoxelDynamicSection;
 }

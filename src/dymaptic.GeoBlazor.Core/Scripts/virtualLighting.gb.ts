@@ -44,6 +44,10 @@ export default class VirtualLightingGenerated implements IPropertyWrapper {
 
 
 export async function buildJsVirtualLightingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.directShadowsEnabled)) {

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetPortalQueryParams } from './portalQueryParams';
 
 export async function buildJsPortalQueryParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');

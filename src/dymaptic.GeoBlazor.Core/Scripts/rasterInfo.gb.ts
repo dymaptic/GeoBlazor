@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetRasterInfo } from './rasterInfo';
 
 export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTable)) {
         let { buildJsFeatureSet } = await import('./featureSet');

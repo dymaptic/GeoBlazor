@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetImageInspectionInfo } from './imageInspectionInfo';
 
 export async function buildJsImageInspectionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLocatorSuggestLocationsParams } from './locatorSuggestLocationsParams';
 
 export async function buildJsLocatorSuggestLocationsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jslocatorSuggestLocationsParams: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');

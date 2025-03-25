@@ -365,8 +365,17 @@ public partial class LayerListViewModel : MapComponent
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsTriggerAction(LayerListViewModelTriggerActionEvent triggerActionEvent)
+    public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LayerListViewModelTriggerActionEvent triggerActionEvent = 
+            JsonSerializer.Deserialize<LayerListViewModelTriggerActionEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnTriggerAction.InvokeAsync(triggerActionEvent);
     }
     

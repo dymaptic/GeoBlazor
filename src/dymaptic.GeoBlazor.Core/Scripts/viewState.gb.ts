@@ -78,6 +78,10 @@ export default class ViewStateGenerated implements IPropertyWrapper {
 
 
 export async function buildJsViewStateGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     let jsViewState = new ViewState(properties);
@@ -91,30 +95,6 @@ export async function buildJsViewStateGenerated(dotNetObject: any, layerId: stri
     let jsObjectRef = DotNet.createJSObjectReference(viewStateWrapper);
     jsObjectRefs[dotNetObject.id] = viewStateWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsViewState;
-    
-    try {
-        let { buildDotNetViewState } = await import('./viewState');
-        let dnInstantiatedObject = await buildDotNetViewState(jsViewState, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ViewState detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ViewState', e);
-    }
     
     return jsViewState;
 }

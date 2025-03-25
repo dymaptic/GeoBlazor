@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVersionInfoExtendedJSONVersionIdentifier } from './versionInfoExtendedJSONVersionIdentifier';
 
 export async function buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVersionInfoExtendedJSONVersionIdentifier: any = {};
 
     if (hasValue(dotNetObject.guid)) {
@@ -15,30 +19,6 @@ export async function buildJsVersionInfoExtendedJSONVersionIdentifierGenerated(d
     let jsObjectRef = DotNet.createJSObjectReference(jsVersionInfoExtendedJSONVersionIdentifier);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionInfoExtendedJSONVersionIdentifier;
-    
-    try {
-        let { buildDotNetVersionInfoExtendedJSONVersionIdentifier } = await import('./versionInfoExtendedJSONVersionIdentifier');
-        let dnInstantiatedObject = await buildDotNetVersionInfoExtendedJSONVersionIdentifier(jsVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VersionInfoExtendedJSONVersionIdentifier detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VersionInfoExtendedJSONVersionIdentifier', e);
-    }
     
     return jsVersionInfoExtendedJSONVersionIdentifier;
 }

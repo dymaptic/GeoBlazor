@@ -158,6 +158,10 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -194,30 +198,6 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(bookmarksViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
-    
-    try {
-        let { buildDotNetBookmarksViewModel } = await import('./bookmarksViewModel');
-        let dnInstantiatedObject = await buildDotNetBookmarksViewModel(jsBookmarksViewModel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BookmarksViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarksViewModel', e);
-    }
     
     return jsBookmarksViewModel;
 }

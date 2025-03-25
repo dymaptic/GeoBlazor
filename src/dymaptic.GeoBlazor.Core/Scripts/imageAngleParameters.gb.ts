@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetImageAngleParameters } from './imageAngleParameters';
 
 export async function buildJsImageAngleParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.point)) {
         let { buildJsPoint } = await import('./point');

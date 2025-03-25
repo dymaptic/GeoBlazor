@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceDefinitionServiceCapabilities } from './serviceDefinitionServiceCapabilities';
 
 export async function buildJsServiceDefinitionServiceCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsServiceDefinitionServiceCapabilities: any = {};
     if (hasValue(dotNetObject.applyEditsCapabilities)) {
         let { buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');

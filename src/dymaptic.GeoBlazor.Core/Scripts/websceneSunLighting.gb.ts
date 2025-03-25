@@ -9,6 +9,10 @@ export async function buildJsWebsceneSunLightingGenerated(dotNetObject: any, lay
     
     switch (dotNetObject.type) {
         case 'sun':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let properties: any = {};
 
             if (hasValue(dotNetObject.date)) {

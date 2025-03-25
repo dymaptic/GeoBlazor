@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetIntervalNode } from './intervalNode';
 
 export async function buildJsIntervalNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsIntervalNode: any = {};
 
     if (hasValue(dotNetObject.op)) {

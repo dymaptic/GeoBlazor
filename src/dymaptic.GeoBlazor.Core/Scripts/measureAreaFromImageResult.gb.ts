@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMeasureAreaFromImageResult } from './measureAreaFromImageResult';
 
 export async function buildJsMeasureAreaFromImageResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.center)) {
         let { buildJsPoint } = await import('./point');

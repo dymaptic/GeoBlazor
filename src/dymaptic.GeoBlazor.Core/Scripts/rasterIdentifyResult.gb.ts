@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRasterIdentifyResult } from './rasterIdentifyResult';
 
 export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRasterIdentifyResult: any = {};
     if (hasValue(dotNetObject.dataSeries) && dotNetObject.dataSeries.length > 0) {
         let { buildJsRasterSliceValue } = await import('./rasterSliceValue');

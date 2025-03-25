@@ -57,6 +57,10 @@ export default class HandlesGenerated implements IPropertyWrapper {
 
 
 export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHandles: any = {};
 
 
@@ -69,30 +73,6 @@ export async function buildJsHandlesGenerated(dotNetObject: any, layerId: string
     let jsObjectRef = DotNet.createJSObjectReference(handlesWrapper);
     jsObjectRefs[dotNetObject.id] = handlesWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandles;
-    
-    try {
-        let { buildDotNetHandles } = await import('./handles');
-        let dnInstantiatedObject = await buildDotNetHandles(jsHandles, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Handles detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Handles', e);
-    }
     
     return jsHandles;
 }

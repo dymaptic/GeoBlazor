@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetDOMContainer } from './dOMContainer';
 
 export async function buildJsDOMContainerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDOMContainer: any = {};
     if (hasValue(dotNetObject.ui)) {
         let { buildJsDefaultUI } = await import('./defaultUI');

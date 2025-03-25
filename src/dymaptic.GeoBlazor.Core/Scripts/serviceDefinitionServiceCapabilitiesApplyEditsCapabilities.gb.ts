@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } from './serviceDefinitionServiceCapabilitiesApplyEditsCapabilities';
 
 export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities: any = {};
 
     if (hasValue(dotNetObject.graphDefaultRollbackOnFailure)) {
@@ -12,30 +16,6 @@ export async function buildJsServiceDefinitionServiceCapabilitiesApplyEditsCapab
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities;
-    
-    try {
-        let { buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities } = await import('./serviceDefinitionServiceCapabilitiesApplyEditsCapabilities');
-        let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesApplyEditsCapabilities(jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ServiceDefinitionServiceCapabilitiesApplyEditsCapabilities detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ServiceDefinitionServiceCapabilitiesApplyEditsCapabilities', e);
-    }
     
     return jsServiceDefinitionServiceCapabilitiesApplyEditsCapabilities;
 }

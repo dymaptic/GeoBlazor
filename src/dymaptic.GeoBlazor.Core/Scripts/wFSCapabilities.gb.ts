@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetWFSCapabilities } from './wFSCapabilities';
 
 export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsWFSCapabilities: any = {};
     if (hasValue(dotNetObject.featureTypes) && dotNetObject.featureTypes.length > 0) {
         let { buildJsWFSFeatureType } = await import('./wFSFeatureType');
@@ -17,30 +21,6 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSCapabilities;
-    
-    try {
-        let { buildDotNetWFSCapabilities } = await import('./wFSCapabilities');
-        let dnInstantiatedObject = await buildDotNetWFSCapabilities(jsWFSCapabilities);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type WFSCapabilities detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WFSCapabilities', e);
-    }
     
     return jsWFSCapabilities;
 }

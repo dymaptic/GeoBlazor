@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMagnifier } from './magnifier';
 
 export async function buildJsMagnifierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.offset)) {
         let { buildJsMagnifierScreenPoint } = await import('./magnifierScreenPoint');

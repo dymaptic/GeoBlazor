@@ -312,10 +312,10 @@ public partial class Portal
         string? portalHostname = null,
         string? portalId = null,
         PortalMode? portalMode = null,
-        object? portalProperties = null,
+        PortalProperties? portalProperties = null,
         bool? recycleBinEnabled = null,
         string? region = null,
-        IReadOnlyList<object>? rotatorPanels = null,
+        IReadOnlyList<RotatorPanel>? rotatorPanels = null,
         bool? showHomePageDescription = null,
         bool? supportsHostedServices = null,
         string? symbolSetsGroupQuery = null,
@@ -856,7 +856,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? PortalProperties { get; set; }
+    public PortalProperties? PortalProperties { get; set; }
     
     /// <summary>
     ///     Indicates whether the recycle bin is enabled for the organization.
@@ -892,7 +892,7 @@ public partial class Portal
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<object>? RotatorPanels { get; set; }
+    public IReadOnlyList<RotatorPanel>? RotatorPanels { get; set; }
     
     /// <summary>
     ///     Indicates whether the description of your organization displays on the home page.
@@ -2818,7 +2818,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the PortalProperties property.
     /// </summary>
-    public async Task<object?> GetPortalProperties()
+    public async Task<PortalProperties?> GetPortalProperties()
     {
         if (CoreJsModule is null)
         {
@@ -2840,17 +2840,17 @@ public partial class Portal
             return PortalProperties;
         }
 
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "portalProperties");
+        PortalProperties? result = await JsComponentReference.InvokeAsync<PortalProperties?>(
+            "getPortalProperties", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             PortalProperties = result;
+            PortalProperties = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(PortalProperties)] = PortalProperties;
+            ModifiedParameters[nameof(PortalProperties)] = PortalProperties;
         }
-         
+        
         return PortalProperties;
     }
     
@@ -2974,7 +2974,7 @@ public partial class Portal
     /// <summary>
     ///     Asynchronously retrieve the current value of the RotatorPanels property.
     /// </summary>
-    public async Task<IReadOnlyList<object>?> GetRotatorPanels()
+    public async Task<IReadOnlyList<RotatorPanel>?> GetRotatorPanels()
     {
         if (CoreJsModule is null)
         {
@@ -2997,7 +2997,7 @@ public partial class Portal
         }
 
         // get the property value
-        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
+        IReadOnlyList<RotatorPanel>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<RotatorPanel>?>("getProperty",
             CancellationTokenSource.Token, "rotatorPanels");
         if (result is not null)
         {
@@ -5187,7 +5187,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPortalProperties(object? value)
+    public async Task SetPortalProperties(PortalProperties? value)
     {
 #pragma warning disable BL0005
         PortalProperties = value;
@@ -5214,8 +5214,8 @@ public partial class Portal
             return;
         }
         
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "portalProperties", value);
+        await JsComponentReference.InvokeVoidAsync("setPortalProperties", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -5298,7 +5298,7 @@ public partial class Portal
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRotatorPanels(IReadOnlyList<object>? value)
+    public async Task SetRotatorPanels(IReadOnlyList<RotatorPanel>? value)
     {
 #pragma warning disable BL0005
         RotatorPanels = value;
@@ -5774,9 +5774,9 @@ public partial class Portal
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToRotatorPanels(params object[] values)
+    public async Task AddToRotatorPanels(params RotatorPanel[] values)
     {
-        object[] join = RotatorPanels is null
+        RotatorPanel[] join = RotatorPanels is null
             ? values
             : [..RotatorPanels, ..values];
         await SetRotatorPanels(join);
@@ -5825,7 +5825,7 @@ public partial class Portal
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromRotatorPanels(params object[] values)
+    public async Task RemoveFromRotatorPanels(params RotatorPanel[] values)
     {
         if (RotatorPanels is null)
         {

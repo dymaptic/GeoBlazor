@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUIAddComponent } from './uIAddComponent';
 
 export async function buildJsUIAddComponentGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsUIAddComponent: any = {};
     if (hasValue(dotNetObject.widgetComponent)) {
         let { buildJsWidget } = await import('./widget');

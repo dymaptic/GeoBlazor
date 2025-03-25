@@ -113,6 +113,10 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
 
 
 export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -157,8 +161,7 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
         let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D);
 
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+        let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
@@ -171,7 +174,12 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
                     seenObjects.set(value, true);
                 }
                 return value;
-            }));
+            });
+        let encoder = new TextEncoder();
+        let encodedArray = encoder.encode(dnJson);
+        let dnStream = DotNet.createJSStreamReference(encodedArray);
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, dnStream);
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DWidget', e);
     }

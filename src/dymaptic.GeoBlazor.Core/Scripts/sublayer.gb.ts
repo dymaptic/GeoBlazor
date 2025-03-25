@@ -83,7 +83,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
     async createFeatureLayer(): Promise<any> {
         let result = await this.component.createFeatureLayer();
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(result, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(result);
     }
 
     async createPopupTemplate(options: any): Promise<any> {
@@ -296,6 +296,10 @@ export default class SublayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSublayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.floorInfo)) {
         let { buildJsLayerFloorInfo } = await import('./layerFloorInfo');
@@ -365,30 +369,6 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
-    
-    try {
-        let { buildDotNetSublayer } = await import('./sublayer');
-        let dnInstantiatedObject = await buildDotNetSublayer(jsSublayer);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Sublayer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Sublayer', e);
-    }
     
     return jsSublayer;
 }

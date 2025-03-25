@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetTileInfoCreateOptions } from './tileInfoCreateOptions';
 
 export async function buildJsTileInfoCreateOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTileInfoCreateOptions: any = {};
 
     if (hasValue(dotNetObject.numLODs)) {

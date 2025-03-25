@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapNotesLayerCapabilities } from './mapNotesLayerCapabilities';
 
 export async function buildJsMapNotesLayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsMapNotesLayerCapabilities: any = {};
     if (hasValue(dotNetObject.operations)) {
         let { buildJsMapNotesLayerCapabilitiesOperations } = await import('./mapNotesLayerCapabilitiesOperations');

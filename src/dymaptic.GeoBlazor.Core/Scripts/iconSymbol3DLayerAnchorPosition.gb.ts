@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetIconSymbol3DLayerAnchorPosition } from './iconSymbol3DLayerAnchorPosition';
 
 export async function buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsIconSymbol3DLayerAnchorPosition: any = {};
 
     if (hasValue(dotNetObject.x)) {
@@ -15,30 +19,6 @@ export async function buildJsIconSymbol3DLayerAnchorPositionGenerated(dotNetObje
     let jsObjectRef = DotNet.createJSObjectReference(jsIconSymbol3DLayerAnchorPosition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayerAnchorPosition;
-    
-    try {
-        let { buildDotNetIconSymbol3DLayerAnchorPosition } = await import('./iconSymbol3DLayerAnchorPosition');
-        let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerAnchorPosition(jsIconSymbol3DLayerAnchorPosition, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type IconSymbol3DLayerAnchorPosition detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for IconSymbol3DLayerAnchorPosition', e);
-    }
     
     return jsIconSymbol3DLayerAnchorPosition;
 }

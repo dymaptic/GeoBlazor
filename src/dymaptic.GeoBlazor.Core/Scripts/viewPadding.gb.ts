@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetViewPadding } from './viewPadding';
 
 export async function buildJsViewPaddingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsViewPadding: any = {};
 
     if (hasValue(dotNetObject.bottom)) {
@@ -21,30 +25,6 @@ export async function buildJsViewPaddingGenerated(dotNetObject: any, layerId: st
     let jsObjectRef = DotNet.createJSObjectReference(jsViewPadding);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsViewPadding;
-    
-    try {
-        let { buildDotNetViewPadding } = await import('./viewPadding');
-        let dnInstantiatedObject = await buildDotNetViewPadding(jsViewPadding, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ViewPadding detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ViewPadding', e);
-    }
     
     return jsViewPadding;
 }

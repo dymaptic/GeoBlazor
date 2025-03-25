@@ -165,6 +165,10 @@ export default class WFSLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsWFSLayerView: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -198,30 +202,6 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(wFSLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = wFSLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerView;
-    
-    try {
-        let { buildDotNetWFSLayerView } = await import('./wFSLayerView');
-        let dnInstantiatedObject = await buildDotNetWFSLayerView(jsWFSLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type WFSLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WFSLayerView', e);
-    }
     
     return jsWFSLayerView;
 }

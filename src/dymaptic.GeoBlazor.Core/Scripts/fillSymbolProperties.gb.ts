@@ -8,6 +8,10 @@ export async function buildJsFillSymbolPropertiesGenerated(dotNetObject: any, la
     
     switch (dotNetObject.type) {
         case 'any':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let jsFillSymbolProperties: any = {};
 
             if (hasValue(dotNetObject.color)) {

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetImageGPSInfoParameters } from './imageGPSInfoParameters';
 
 export async function buildJsImageGPSInfoParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');

@@ -1,5 +1,5 @@
 // override generated code in this file
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue, removeCircularReferences} from "./arcGisJsInterop";
 
 export async function buildJsWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -156,19 +156,5 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
 }
 
 export async function buildDotNetWidget(jsObject: any): Promise<any> {
-    let seenObjects = new WeakMap();
-    let jsonSanitizedObject = JSON.stringify(jsObject, function (key, value) {
-        if (typeof value === 'object' && value !== null) {
-            if (seenObjects.has(value)) {
-                console.warn(`Circular reference in serializing type widget detected at path: ${key}, value: ${value}`);
-                return undefined;
-            }
-            seenObjects.set(value, true);
-        }
-        if (key.startsWith('_')) {
-            return undefined;
-        }
-        return value;
-    });
-    return JSON.parse(jsonSanitizedObject);
+    return removeCircularReferences(jsObject);
 }

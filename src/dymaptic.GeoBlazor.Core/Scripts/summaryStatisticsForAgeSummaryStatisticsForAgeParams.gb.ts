@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSummaryStatisticsForAgeSummaryStatisticsForAgeParams } from './summaryStatisticsForAgeSummaryStatisticsForAgeParams';
 
 export async function buildJsSummaryStatisticsForAgeSummaryStatisticsForAgeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jssummaryStatisticsForAgeSummaryStatisticsForAgeParams: any = {};
     if (hasValue(viewId)) {
         jssummaryStatisticsForAgeSummaryStatisticsForAgeParams.view = arcGisObjectRefs[viewId!];

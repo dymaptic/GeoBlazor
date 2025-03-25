@@ -72,6 +72,10 @@ export default class AreaMeasurement2DViewModelGenerated implements IPropertyWra
 
 
 export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAreaMeasurement2DViewModel: any = {};
     if (hasValue(viewId)) {
         jsAreaMeasurement2DViewModel.view = arcGisObjectRefs[viewId!];
@@ -96,30 +100,6 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModel;
-    
-    try {
-        let { buildDotNetAreaMeasurement2DViewModel } = await import('./areaMeasurement2DViewModel');
-        let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModel(jsAreaMeasurement2DViewModel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AreaMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DViewModel', e);
-    }
     
     return jsAreaMeasurement2DViewModel;
 }

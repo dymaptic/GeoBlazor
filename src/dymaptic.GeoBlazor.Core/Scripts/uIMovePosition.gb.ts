@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUIMovePosition } from './uIMovePosition';
 
 export async function buildJsUIMovePositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsUIMovePosition: any = {};
     if (hasValue(dotNetObject.position)) {
         let { buildJsPosition } = await import('./position');

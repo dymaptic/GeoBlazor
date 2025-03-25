@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetCoverageDescriptionV201EoMetadataObservation } from './coverageDescriptionV201EoMetadataObservation';
 
 export async function buildJsCoverageDescriptionV201EoMetadataObservationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCoverageDescriptionV201EoMetadataObservation: any = {};
     if (hasValue(dotNetObject.footprint)) {
         let { buildJsPolygon } = await import('./polygon');

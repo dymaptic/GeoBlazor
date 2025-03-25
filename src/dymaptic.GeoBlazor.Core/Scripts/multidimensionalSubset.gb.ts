@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetMultidimensionalSubset } from './multidimensionalSubset';
 
 export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.areaOfInterest)) {
         let { buildJsGeometry } = await import('./geometry');
@@ -19,30 +23,6 @@ export async function buildJsMultidimensionalSubsetGenerated(dotNetObject: any):
     let jsObjectRef = DotNet.createJSObjectReference(jsMultidimensionalSubset);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMultidimensionalSubset;
-    
-    try {
-        let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
-        let dnInstantiatedObject = await buildDotNetMultidimensionalSubset(jsMultidimensionalSubset);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type MultidimensionalSubset detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MultidimensionalSubset', e);
-    }
     
     return jsMultidimensionalSubset;
 }

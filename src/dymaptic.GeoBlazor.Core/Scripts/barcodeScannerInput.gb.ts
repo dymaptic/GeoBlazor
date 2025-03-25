@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetBarcodeScannerInput } from './barcodeScannerInput';
 
 export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.maxLength)) {
@@ -17,30 +21,6 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsBarcodeScannerInput);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBarcodeScannerInput;
-    
-    try {
-        let { buildDotNetBarcodeScannerInput } = await import('./barcodeScannerInput');
-        let dnInstantiatedObject = await buildDotNetBarcodeScannerInput(jsBarcodeScannerInput, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BarcodeScannerInput detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BarcodeScannerInput', e);
-    }
     
     return jsBarcodeScannerInput;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFetchResourcesResult } from './fetchResourcesResult';
 
 export async function buildJsFetchResourcesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFetchResourcesResult: any = {};
     if (hasValue(dotNetObject.resources) && dotNetObject.resources.length > 0) {
         let { buildJsFetchResource } = await import('./fetchResource');

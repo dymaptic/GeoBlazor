@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRelationshipUpdateRendererParamsField2 } from './relationshipUpdateRendererParamsField2';
 
 export async function buildJsRelationshipUpdateRendererParamsField2Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsrelationshipUpdateRendererParamsField2: any = {};
     if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsClassBreak } = await import('./classBreak');
@@ -22,30 +26,6 @@ export async function buildJsRelationshipUpdateRendererParamsField2Generated(dot
     let jsObjectRef = DotNet.createJSObjectReference(jsrelationshipUpdateRendererParamsField2);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrelationshipUpdateRendererParamsField2;
-    
-    try {
-        let { buildDotNetRelationshipUpdateRendererParamsField2 } = await import('./relationshipUpdateRendererParamsField2');
-        let dnInstantiatedObject = await buildDotNetRelationshipUpdateRendererParamsField2(jsrelationshipUpdateRendererParamsField2, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RelationshipUpdateRendererParamsField2 detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RelationshipUpdateRendererParamsField2', e);
-    }
     
     return jsrelationshipUpdateRendererParamsField2;
 }

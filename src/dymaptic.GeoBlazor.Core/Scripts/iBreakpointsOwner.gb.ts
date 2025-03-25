@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetIBreakpointsOwner } from './iBreakpointsOwner';
 
 export async function buildJsIBreakpointsOwnerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBreakpointsOwner: any = {};
     if (hasValue(dotNetObject.breakpoints)) {
         let { buildJsBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');

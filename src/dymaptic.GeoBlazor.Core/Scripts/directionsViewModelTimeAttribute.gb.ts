@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDirectionsViewModelTimeAttribute } from './directionsViewModelTimeAttribute';
 
 export async function buildJsDirectionsViewModelTimeAttributeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDirectionsViewModelTimeAttribute: any = {};
 
     if (hasValue(dotNetObject.name)) {
@@ -15,30 +19,6 @@ export async function buildJsDirectionsViewModelTimeAttributeGenerated(dotNetObj
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsViewModelTimeAttribute);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsViewModelTimeAttribute;
-    
-    try {
-        let { buildDotNetDirectionsViewModelTimeAttribute } = await import('./directionsViewModelTimeAttribute');
-        let dnInstantiatedObject = await buildDotNetDirectionsViewModelTimeAttribute(jsDirectionsViewModelTimeAttribute, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DirectionsViewModelTimeAttribute detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DirectionsViewModelTimeAttribute', e);
-    }
     
     return jsDirectionsViewModelTimeAttribute;
 }

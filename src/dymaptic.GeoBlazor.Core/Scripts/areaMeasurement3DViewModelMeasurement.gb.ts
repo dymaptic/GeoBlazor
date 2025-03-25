@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetAreaMeasurement3DViewModelMeasurement } from './areaMeasurement3DViewModelMeasurement';
 
 export async function buildJsAreaMeasurement3DViewModelMeasurementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAreaMeasurement3DViewModelMeasurement: any = {};
     if (hasValue(dotNetObject.area)) {
         let { buildJsAreaMeasurement3DViewModelMeasurementValue } = await import('./areaMeasurement3DViewModelMeasurementValue');
@@ -20,30 +24,6 @@ export async function buildJsAreaMeasurement3DViewModelMeasurementGenerated(dotN
     let jsObjectRef = DotNet.createJSObjectReference(jsAreaMeasurement3DViewModelMeasurement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement3DViewModelMeasurement;
-    
-    try {
-        let { buildDotNetAreaMeasurement3DViewModelMeasurement } = await import('./areaMeasurement3DViewModelMeasurement');
-        let dnInstantiatedObject = await buildDotNetAreaMeasurement3DViewModelMeasurement(jsAreaMeasurement3DViewModelMeasurement, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AreaMeasurement3DViewModelMeasurement detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AreaMeasurement3DViewModelMeasurement', e);
-    }
     
     return jsAreaMeasurement3DViewModelMeasurement;
 }

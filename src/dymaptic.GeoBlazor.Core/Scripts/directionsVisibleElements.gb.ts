@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDirectionsVisibleElements } from './directionsVisibleElements';
 
 export async function buildJsDirectionsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDirectionsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.layerDetails)) {
@@ -18,30 +22,6 @@ export async function buildJsDirectionsVisibleElementsGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectionsVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectionsVisibleElements;
-    
-    try {
-        let { buildDotNetDirectionsVisibleElements } = await import('./directionsVisibleElements');
-        let dnInstantiatedObject = await buildDotNetDirectionsVisibleElements(jsDirectionsVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DirectionsVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DirectionsVisibleElements', e);
-    }
     
     return jsDirectionsVisibleElements;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetWebSceneSaveAsOptions } from './webSceneSaveAsOptions';
 
 export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsWebSceneSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');

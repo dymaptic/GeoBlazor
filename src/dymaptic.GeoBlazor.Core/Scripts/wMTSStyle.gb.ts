@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetWMTSStyle } from './wMTSStyle';
 
 export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.description)) {
@@ -23,30 +27,6 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any>
     let jsObjectRef = DotNet.createJSObjectReference(jsWMTSStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSStyle;
-    
-    try {
-        let { buildDotNetWMTSStyle } = await import('./wMTSStyle');
-        let dnInstantiatedObject = await buildDotNetWMTSStyle(jsWMTSStyle);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type WMTSStyle detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WMTSStyle', e);
-    }
     
     return jsWMTSStyle;
 }

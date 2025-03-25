@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDaylightVisibleElements } from './daylightVisibleElements';
 
 export async function buildJsDaylightVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDaylightVisibleElements: any = {};
 
     if (hasValue(dotNetObject.datePicker)) {
@@ -27,30 +31,6 @@ export async function buildJsDaylightVisibleElementsGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsDaylightVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDaylightVisibleElements;
-    
-    try {
-        let { buildDotNetDaylightVisibleElements } = await import('./daylightVisibleElements');
-        let dnInstantiatedObject = await buildDotNetDaylightVisibleElements(jsDaylightVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DaylightVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DaylightVisibleElements', e);
-    }
     
     return jsDaylightVisibleElements;
 }

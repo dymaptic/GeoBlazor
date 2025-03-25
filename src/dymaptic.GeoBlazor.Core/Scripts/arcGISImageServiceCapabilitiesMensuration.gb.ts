@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetArcGISImageServiceCapabilitiesMensuration } from './arcGISImageServiceCapabilitiesMensuration';
 
 export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsArcGISImageServiceCapabilitiesMensuration: any = {};
 
     if (hasValue(dotNetObject.supports3D)) {
@@ -30,30 +34,6 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
     let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageServiceCapabilitiesMensuration);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
-    
-    try {
-        let { buildDotNetArcGISImageServiceCapabilitiesMensuration } = await import('./arcGISImageServiceCapabilitiesMensuration');
-        let dnInstantiatedObject = await buildDotNetArcGISImageServiceCapabilitiesMensuration(jsArcGISImageServiceCapabilitiesMensuration);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ArcGISImageServiceCapabilitiesMensuration detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ArcGISImageServiceCapabilitiesMensuration', e);
-    }
     
     return jsArcGISImageServiceCapabilitiesMensuration;
 }

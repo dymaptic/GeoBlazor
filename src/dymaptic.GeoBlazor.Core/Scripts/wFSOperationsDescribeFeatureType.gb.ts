@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetWFSOperationsDescribeFeatureType } from './wFSOperationsDescribeFeatureType';
 
 export async function buildJsWFSOperationsDescribeFeatureTypeGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsWFSOperationsDescribeFeatureType: any = {};
 
     if (hasValue(dotNetObject.url)) {
@@ -12,30 +16,6 @@ export async function buildJsWFSOperationsDescribeFeatureTypeGenerated(dotNetObj
     let jsObjectRef = DotNet.createJSObjectReference(jsWFSOperationsDescribeFeatureType);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsWFSOperationsDescribeFeatureType;
-    
-    try {
-        let { buildDotNetWFSOperationsDescribeFeatureType } = await import('./wFSOperationsDescribeFeatureType');
-        let dnInstantiatedObject = await buildDotNetWFSOperationsDescribeFeatureType(jsWFSOperationsDescribeFeatureType);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type WFSOperationsDescribeFeatureType detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for WFSOperationsDescribeFeatureType', e);
-    }
     
     return jsWFSOperationsDescribeFeatureType;
 }

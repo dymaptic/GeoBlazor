@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetTile } from './tile';
 
 export async function buildJsTileGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTile: any = {};
 
     if (hasValue(dotNetObject.bounds) && dotNetObject.bounds.length > 0) {
@@ -36,30 +40,6 @@ export async function buildJsTileGenerated(dotNetObject: any, layerId: string | 
     let jsObjectRef = DotNet.createJSObjectReference(jsTile);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTile;
-    
-    try {
-        let { buildDotNetTile } = await import('./tile');
-        let dnInstantiatedObject = await buildDotNetTile(jsTile, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Tile detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Tile', e);
-    }
     
     return jsTile;
 }

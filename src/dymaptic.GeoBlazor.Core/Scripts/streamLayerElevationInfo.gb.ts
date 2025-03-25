@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetStreamLayerElevationInfo } from './streamLayerElevationInfo';
 
 export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsStreamLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsStreamLayerElevationInfoFeatureExpressionInfo } = await import('./streamLayerElevationInfoFeatureExpressionInfo');
@@ -22,30 +26,6 @@ export async function buildJsStreamLayerElevationInfoGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(jsStreamLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStreamLayerElevationInfo;
-    
-    try {
-        let { buildDotNetStreamLayerElevationInfo } = await import('./streamLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetStreamLayerElevationInfo(jsStreamLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type StreamLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for StreamLayerElevationInfo', e);
-    }
     
     return jsStreamLayerElevationInfo;
 }

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetColorStop } from './colorStop';
 
 export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -21,30 +25,6 @@ export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any>
     let jsObjectRef = DotNet.createJSObjectReference(jsColorStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
-    
-    try {
-        let { buildDotNetColorStop } = await import('./colorStop');
-        let dnInstantiatedObject = await buildDotNetColorStop(jsColorStop);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ColorStop detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ColorStop', e);
-    }
     
     return jsColorStop;
 }

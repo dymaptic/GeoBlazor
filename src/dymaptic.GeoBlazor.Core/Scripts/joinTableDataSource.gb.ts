@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetJoinTableDataSource } from './joinTableDataSource';
 
 export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsJoinTableDataSource: any = {};
     if (hasValue(dotNetObject.leftTableSource)) {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
@@ -26,30 +30,6 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsJoinTableDataSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsJoinTableDataSource;
-    
-    try {
-        let { buildDotNetJoinTableDataSource } = await import('./joinTableDataSource');
-        let dnInstantiatedObject = await buildDotNetJoinTableDataSource(jsJoinTableDataSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type JoinTableDataSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for JoinTableDataSource', e);
-    }
     
     return jsJoinTableDataSource;
 }

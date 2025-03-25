@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVersionInfo } from './versionInfo';
 
 export async function buildJsVersionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVersionInfo: any = {};
     if (hasValue(dotNetObject.versionIdentifier)) {
         let { buildJsVersionInfoVersionIdentifier } = await import('./versionInfoVersionIdentifier');

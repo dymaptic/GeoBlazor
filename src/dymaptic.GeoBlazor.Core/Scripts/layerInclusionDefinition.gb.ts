@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetLayerInclusionDefinition } from './layerInclusionDefinition';
 
 export async function buildJsLayerInclusionDefinitionGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerInclusionDefinition: any = {};
     if (hasValue(dotNetObject.members)) {
         let { buildJsLayerInclusionMemberDefinition } = await import('./layerInclusionMemberDefinition');
@@ -16,30 +20,6 @@ export async function buildJsLayerInclusionDefinitionGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerInclusionDefinition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerInclusionDefinition;
-    
-    try {
-        let { buildDotNetLayerInclusionDefinition } = await import('./layerInclusionDefinition');
-        let dnInstantiatedObject = await buildDotNetLayerInclusionDefinition(jsLayerInclusionDefinition);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LayerInclusionDefinition detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerInclusionDefinition', e);
-    }
     
     return jsLayerInclusionDefinition;
 }

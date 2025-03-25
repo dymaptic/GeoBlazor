@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetGeotriggersInfoExpressionInfo } from './geotriggersInfoExpressionInfo';
 
 export async function buildJsGeotriggersInfoExpressionInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -20,30 +24,6 @@ export async function buildJsGeotriggersInfoExpressionInfoGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(jsgeotriggersInfoExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgeotriggersInfoExpressionInfo;
-    
-    try {
-        let { buildDotNetGeotriggersInfoExpressionInfo } = await import('./geotriggersInfoExpressionInfo');
-        let dnInstantiatedObject = await buildDotNetGeotriggersInfoExpressionInfo(jsgeotriggersInfoExpressionInfo, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GeotriggersInfoExpressionInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeotriggersInfoExpressionInfo', e);
-    }
     
     return jsgeotriggersInfoExpressionInfo;
 }

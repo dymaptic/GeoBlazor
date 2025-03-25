@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetEnvelope } from './envelope';
 
 export async function buildJsEnvelopeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEnvelope: any = {};
 
     if (hasValue(dotNetObject.xmax)) {
@@ -21,30 +25,6 @@ export async function buildJsEnvelopeGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(jsEnvelope);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEnvelope;
-    
-    try {
-        let { buildDotNetEnvelope } = await import('./envelope');
-        let dnInstantiatedObject = await buildDotNetEnvelope(jsEnvelope, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Envelope detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Envelope', e);
-    }
     
     return jsEnvelope;
 }

@@ -63,6 +63,10 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
 
 
 export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -88,30 +92,6 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModel;
-    
-    try {
-        let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
-        let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DViewModel(jsDistanceMeasurement2DViewModel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DistanceMeasurement2DViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DistanceMeasurement2DViewModel', e);
-    }
     
     return jsDistanceMeasurement2DViewModel;
 }

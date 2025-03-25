@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetRasterFunctionConstants } from './rasterFunctionConstants';
 
 export async function buildJsRasterFunctionConstantsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsrasterFunctionConstants: any = {};
     if (hasValue(dotNetObject.localArithmeticOperation)) {
         let { buildJsRasterFunctionConstantsLocalArithmeticOperation } = await import('./rasterFunctionConstantsLocalArithmeticOperation');

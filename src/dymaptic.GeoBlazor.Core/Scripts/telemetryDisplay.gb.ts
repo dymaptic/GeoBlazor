@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetTelemetryDisplay } from './telemetryDisplay';
 
 export async function buildJsTelemetryDisplayGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.frameCenter)) {
@@ -26,30 +30,6 @@ export async function buildJsTelemetryDisplayGenerated(dotNetObject: any): Promi
     let jsObjectRef = DotNet.createJSObjectReference(jsTelemetryDisplay);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTelemetryDisplay;
-    
-    try {
-        let { buildDotNetTelemetryDisplay } = await import('./telemetryDisplay');
-        let dnInstantiatedObject = await buildDotNetTelemetryDisplay(jsTelemetryDisplay);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type TelemetryDisplay detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TelemetryDisplay', e);
-    }
     
     return jsTelemetryDisplay;
 }

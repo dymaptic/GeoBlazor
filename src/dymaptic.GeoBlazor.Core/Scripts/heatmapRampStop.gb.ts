@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetHeatmapRampStop } from './heatmapRampStop';
 
 export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHeatmapRampStop: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -22,30 +26,6 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
-    
-    try {
-        let { buildDotNetHeatmapRampStop } = await import('./heatmapRampStop');
-        let dnInstantiatedObject = await buildDotNetHeatmapRampStop(jsHeatmapRampStop, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type HeatmapRampStop detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HeatmapRampStop', e);
-    }
     
     return jsHeatmapRampStop;
 }

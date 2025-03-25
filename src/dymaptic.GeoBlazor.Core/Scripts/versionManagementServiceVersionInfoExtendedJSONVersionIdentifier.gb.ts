@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier } from './versionManagementServiceVersionInfoExtendedJSONVersionIdentifier';
 
 export async function buildJsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifierGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier: any = {};
 
     if (hasValue(dotNetObject.guid)) {
@@ -15,30 +19,6 @@ export async function buildJsVersionManagementServiceVersionInfoExtendedJSONVers
     let jsObjectRef = DotNet.createJSObjectReference(jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier;
-    
-    try {
-        let { buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementServiceVersionInfoExtendedJSONVersionIdentifier');
-        let dnInstantiatedObject = await buildDotNetVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier(jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VersionManagementServiceVersionInfoExtendedJSONVersionIdentifier detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VersionManagementServiceVersionInfoExtendedJSONVersionIdentifier', e);
-    }
     
     return jsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier;
 }

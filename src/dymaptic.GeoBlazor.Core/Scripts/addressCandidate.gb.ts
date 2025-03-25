@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetAddressCandidate } from './addressCandidate';
 
 export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');

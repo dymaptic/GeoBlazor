@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPosition } from './position';
 
 export async function buildJsPositionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPosition: any = {};
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');
@@ -16,30 +20,6 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(jsPosition);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPosition;
-    
-    try {
-        let { buildDotNetPosition } = await import('./position');
-        let dnInstantiatedObject = await buildDotNetPosition(jsPosition, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Position detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Position', e);
-    }
     
     return jsPosition;
 }

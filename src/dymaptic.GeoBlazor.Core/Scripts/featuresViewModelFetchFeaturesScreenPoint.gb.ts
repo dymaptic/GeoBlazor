@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetFeaturesViewModelFetchFeaturesScreenPoint } from './featuresViewModelFetchFeaturesScreenPoint';
 
 export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeaturesViewModelFetchFeaturesScreenPoint: any = {};
 
     if (hasValue(dotNetObject.x)) {
@@ -15,30 +19,6 @@ export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(
     let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesViewModelFetchFeaturesScreenPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelFetchFeaturesScreenPoint;
-    
-    try {
-        let { buildDotNetFeaturesViewModelFetchFeaturesScreenPoint } = await import('./featuresViewModelFetchFeaturesScreenPoint');
-        let dnInstantiatedObject = await buildDotNetFeaturesViewModelFetchFeaturesScreenPoint(jsFeaturesViewModelFetchFeaturesScreenPoint, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeaturesViewModelFetchFeaturesScreenPoint detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeaturesViewModelFetchFeaturesScreenPoint', e);
-    }
     
     return jsFeaturesViewModelFetchFeaturesScreenPoint;
 }

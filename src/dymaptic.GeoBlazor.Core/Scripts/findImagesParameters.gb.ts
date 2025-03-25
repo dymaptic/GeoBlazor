@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindImagesParameters } from './findImagesParameters';
 
 export async function buildJsFindImagesParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.fromGeometry)) {
         let { buildJsPoint } = await import('./point');

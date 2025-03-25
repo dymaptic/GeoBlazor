@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetRadioButtonsInput } from './radioButtonsInput';
 
 export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.noValueOptionLabel)) {
@@ -17,30 +21,6 @@ export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(jsRadioButtonsInput);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRadioButtonsInput;
-    
-    try {
-        let { buildDotNetRadioButtonsInput } = await import('./radioButtonsInput');
-        let dnInstantiatedObject = await buildDotNetRadioButtonsInput(jsRadioButtonsInput, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RadioButtonsInput detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RadioButtonsInput', e);
-    }
     
     return jsRadioButtonsInput;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetFeatureServiceCapabilities } from './featureServiceCapabilities';
 
 export async function buildJsFeatureServiceCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureServiceCapabilities: any = {};
     if (hasValue(dotNetObject.data)) {
         let { buildJsFeatureServiceCapabilitiesData } = await import('./featureServiceCapabilitiesData');
@@ -28,30 +32,6 @@ export async function buildJsFeatureServiceCapabilitiesGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureServiceCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureServiceCapabilities;
-    
-    try {
-        let { buildDotNetFeatureServiceCapabilities } = await import('./featureServiceCapabilities');
-        let dnInstantiatedObject = await buildDotNetFeatureServiceCapabilities(jsFeatureServiceCapabilities, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeatureServiceCapabilities detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureServiceCapabilities', e);
-    }
     
     return jsFeatureServiceCapabilities;
 }

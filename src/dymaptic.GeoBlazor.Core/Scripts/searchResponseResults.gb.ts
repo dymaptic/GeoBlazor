@@ -2,7 +2,11 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchResponseResults } from './searchResponseResults';
 
-export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchResponseResults: any = {};
     if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResult } = await import('./searchResult');
@@ -25,7 +29,7 @@ export async function buildJsSearchResponseResultsGenerated(dotNetObject: any, l
 }
 
 
-export async function buildDotNetSearchResponseResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSearchResponseResultsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

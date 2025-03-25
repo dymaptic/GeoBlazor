@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetGraphicsLayerElevationInfo } from './graphicsLayerElevationInfo';
 
 export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGraphicsLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsGraphicsLayerElevationInfoFeatureExpressionInfo } = await import('./graphicsLayerElevationInfoFeatureExpressionInfo');
@@ -22,30 +26,6 @@ export async function buildJsGraphicsLayerElevationInfoGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsGraphicsLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerElevationInfo;
-    
-    try {
-        let { buildDotNetGraphicsLayerElevationInfo } = await import('./graphicsLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetGraphicsLayerElevationInfo(jsGraphicsLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GraphicsLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GraphicsLayerElevationInfo', e);
-    }
     
     return jsGraphicsLayerElevationInfo;
 }

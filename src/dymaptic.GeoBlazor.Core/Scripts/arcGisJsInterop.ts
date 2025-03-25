@@ -332,7 +332,7 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     }
 
     if (hasValue(constraints)) {
-        (view as MapView).constraints = constraints;
+        (view as MapView).constraints = sanitize(constraints);
     }
 
     arcGisObjectRefs[id] = view;
@@ -1258,8 +1258,36 @@ export function lookupJsGraphicById(graphicId: string, layerId: string | null, v
 
 export function lookupGeoBlazorId(jsObject: any): string | null {
     for (const key in arcGisObjectRefs) {
-        if (arcGisObjectRefs[key] === jsObject) {
+        let item = arcGisObjectRefs[key];
+        if (!hasValue(item)) {
+            delete arcGisObjectRefs[key];
+            continue;
+        }
+        if (item === jsObject
+            || item.uid === jsObject.uid) {
             return key;
+        }
+    }
+
+    return null;
+}
+
+export function lookupGeoBlazorGraphicId(jsObject: any): string | null {
+    for (const key in graphicsRefs) {
+        let group = graphicsRefs[key];
+        if (!hasValue(group)) {
+            continue;
+        }
+        for (const k2 in group) {
+            let item = group[k2];
+            if (!hasValue(item)) {
+                delete group[k2];
+                continue;
+            }
+            if (item === jsObject
+                || (item as any).uid === jsObject.uid) {
+                return k2;
+            }
         }
     }
 
@@ -2009,6 +2037,13 @@ export function toLowerFirstChar(str: string): string {
 
 export function sanitize(dotNetObject: any): any {
     let {id, dotNetComponentReference, layerId, viewId, ...sanitizedDotNetObject} = dotNetObject;
+    
+    for (const key in sanitizedDotNetObject) {
+        if (typeof sanitizedDotNetObject[key] === 'object' && sanitizedDotNetObject[key] !== null) {
+            sanitizedDotNetObject[key] = sanitize(sanitizedDotNetObject[key]);
+        }
+    }
+    
     return sanitizedDotNetObject;
 }
 
@@ -2030,4 +2065,25 @@ export function removeCircularReferences(jsObject: any) {
     });
 
     return JSON.parse(json);
+}
+
+export function buildJsStreamReference(dnObject: any) {
+    let seenObjects = new WeakMap();
+    let dnJson = JSON.stringify(dnObject, function (key, value) {
+        if (key.startsWith('_') || key === 'jsComponentReference') {
+            return undefined;
+        }
+        if (typeof value === 'object' && value !== null
+            && !(Array.isArray(value) && value.length === 0)) {
+            if (seenObjects.has(value)) {
+                console.debug(`Circular reference in serializing type SearchWidget detected at path: ${key}, value: ${value.declaredClass}`);
+                return undefined;
+            }
+            seenObjects.set(value, true);
+        }
+        return value;
+    });
+    let encoder = new TextEncoder();
+    let encodedArray = encoder.encode(dnJson);
+    return DotNet.createJSStreamReference(encodedArray);
 }

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFindImagesResult } from './findImagesResult';
 
 export async function buildJsFindImagesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.images) && dotNetObject.images.length > 0) {
         let { buildJsImageInspectionInfo } = await import('./imageInspectionInfo');

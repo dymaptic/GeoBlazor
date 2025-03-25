@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetPointCloudRenderer } from './pointCloudRenderer';
 
 export async function buildJsPointCloudRendererGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.colorModulation)) {
         let { buildJsPointCloudRendererColorModulation } = await import('./pointCloudRendererColorModulation');
@@ -22,30 +26,6 @@ export async function buildJsPointCloudRendererGenerated(dotNetObject: any): Pro
     let jsObjectRef = DotNet.createJSObjectReference(jsPointCloudRenderer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudRenderer;
-    
-    try {
-        let { buildDotNetPointCloudRenderer } = await import('./pointCloudRenderer');
-        let dnInstantiatedObject = await buildDotNetPointCloudRenderer(jsPointCloudRenderer);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PointCloudRenderer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PointCloudRenderer', e);
-    }
     
     return jsPointCloudRenderer;
 }

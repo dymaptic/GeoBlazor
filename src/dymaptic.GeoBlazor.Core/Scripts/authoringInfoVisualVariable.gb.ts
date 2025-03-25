@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetAuthoringInfoVisualVariable } from './authoringInfoVisualVariable';
 
 export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.sizeStops) && dotNetObject.sizeStops.length > 0) {
         let { buildJsSizeStop } = await import('./sizeStop');
@@ -48,30 +52,6 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoVisualVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
-    
-    try {
-        let { buildDotNetAuthoringInfoVisualVariable } = await import('./authoringInfoVisualVariable');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoVisualVariable(jsAuthoringInfoVisualVariable);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AuthoringInfoVisualVariable detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AuthoringInfoVisualVariable', e);
-    }
     
     return jsAuthoringInfoVisualVariable;
 }

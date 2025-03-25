@@ -1099,8 +1099,17 @@ public partial class BookmarksWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsBookmarkEdit(BookmarksBookmarkEditEvent bookmarkEditEvent)
+    public async Task OnJsBookmarkEdit(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        BookmarksBookmarkEditEvent bookmarkEditEvent = 
+            JsonSerializer.Deserialize<BookmarksBookmarkEditEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnBookmarkEdit.InvokeAsync(bookmarkEditEvent);
     }
     

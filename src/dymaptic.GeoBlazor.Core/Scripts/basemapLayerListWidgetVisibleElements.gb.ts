@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBasemapLayerListWidgetVisibleElements } from './basemapLayerListWidgetVisibleElements';
 
 export async function buildJsBasemapLayerListWidgetVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBasemapLayerListVisibleElements: any = {};
 
     if (hasValue(dotNetObject.baseLayers)) {
@@ -42,30 +46,6 @@ export async function buildJsBasemapLayerListWidgetVisibleElementsGenerated(dotN
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapLayerListVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListVisibleElements;
-    
-    try {
-        let { buildDotNetBasemapLayerListWidgetVisibleElements } = await import('./basemapLayerListWidgetVisibleElements');
-        let dnInstantiatedObject = await buildDotNetBasemapLayerListWidgetVisibleElements(jsBasemapLayerListVisibleElements);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BasemapLayerListWidgetVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapLayerListWidgetVisibleElements', e);
-    }
     
     return jsBasemapLayerListVisibleElements;
 }

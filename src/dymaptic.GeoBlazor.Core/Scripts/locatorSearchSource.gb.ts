@@ -4,18 +4,14 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetLocatorSearchSource } from './locatorSearchSource';
 
 export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
         properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter) as any;
-    }
-    if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
-        properties.getResults = async (parameters) => {
-
-            let result = await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
-            let { buildJsSearchResult } = await import('./searchResult');
-            return await Promise.all(result.map(async i => await buildJsSearchResult(i)));
-        };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -40,9 +36,6 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.defaultZoomScale)) {
         properties.defaultZoomScale = dotNetObject.defaultZoomScale;
-    }
-    if (hasValue(dotNetObject.getSuggestionsHandler)) {
-        properties.getSuggestions = dotNetObject.getSuggestionsHandler;
     }
     if (hasValue(dotNetObject.localSearchDisabled)) {
         properties.localSearchDisabled = dotNetObject.localSearchDisabled;
@@ -104,35 +97,11 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     
-    try {
-        let { buildDotNetLocatorSearchSource } = await import('./locatorSearchSource');
-        let dnInstantiatedObject = await buildDotNetLocatorSearchSource(jsLocatorSearchSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LocatorSearchSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LocatorSearchSource', e);
-    }
-    
     return jsLocatorSearchSource;
 }
 
 
-export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

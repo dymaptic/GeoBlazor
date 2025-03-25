@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVoxelVolumeStyle } from './voxelVolumeStyle';
 
 export async function buildJsVoxelVolumeStyleGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.dynamicSections) && dotNetObject.dynamicSections.length > 0) {
         let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');

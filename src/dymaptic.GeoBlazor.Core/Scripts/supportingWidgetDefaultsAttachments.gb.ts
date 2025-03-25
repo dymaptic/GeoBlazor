@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSupportingWidgetDefaultsAttachments } from './supportingWidgetDefaultsAttachments';
 
 export async function buildJsSupportingWidgetDefaultsAttachmentsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSupportingWidgetDefaultsAttachments: any = {};
     if (hasValue(dotNetObject.capabilities)) {
         let { buildJsAttachmentsCapabilities } = await import('./attachmentsCapabilities');

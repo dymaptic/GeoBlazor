@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHistogramResult } from './histogramResult';
 
 export async function buildJsHistogramResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHistogramResult: any = {};
     if (hasValue(dotNetObject.bins) && dotNetObject.bins.length > 0) {
         let { buildJsBin } = await import('./bin');

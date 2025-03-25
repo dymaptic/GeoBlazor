@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRasterDataSource } from './rasterDataSource';
 
 export async function buildJsRasterDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRasterDataSource: any = {};
 
     if (hasValue(dotNetObject.dataSourceName)) {
@@ -15,30 +19,6 @@ export async function buildJsRasterDataSourceGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(jsRasterDataSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRasterDataSource;
-    
-    try {
-        let { buildDotNetRasterDataSource } = await import('./rasterDataSource');
-        let dnInstantiatedObject = await buildDotNetRasterDataSource(jsRasterDataSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RasterDataSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RasterDataSource', e);
-    }
     
     return jsRasterDataSource;
 }

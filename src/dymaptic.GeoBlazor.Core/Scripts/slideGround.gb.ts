@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSlideGround } from './slideGround';
 
 export async function buildJsSlideGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSlideGround: any = {};
 
     if (hasValue(dotNetObject.opacity)) {
@@ -12,30 +16,6 @@ export async function buildJsSlideGroundGenerated(dotNetObject: any, layerId: st
     let jsObjectRef = DotNet.createJSObjectReference(jsSlideGround);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSlideGround;
-    
-    try {
-        let { buildDotNetSlideGround } = await import('./slideGround');
-        let dnInstantiatedObject = await buildDotNetSlideGround(jsSlideGround, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SlideGround detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SlideGround', e);
-    }
     
     return jsSlideGround;
 }

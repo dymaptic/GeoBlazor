@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetIconSymbol3DLayerMaterial } from './iconSymbol3DLayerMaterial';
 
 export async function buildJsIconSymbol3DLayerMaterialGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsIconSymbol3DLayerMaterial: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -13,30 +17,6 @@ export async function buildJsIconSymbol3DLayerMaterialGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsIconSymbol3DLayerMaterial);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIconSymbol3DLayerMaterial;
-    
-    try {
-        let { buildDotNetIconSymbol3DLayerMaterial } = await import('./iconSymbol3DLayerMaterial');
-        let dnInstantiatedObject = await buildDotNetIconSymbol3DLayerMaterial(jsIconSymbol3DLayerMaterial, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type IconSymbol3DLayerMaterial detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for IconSymbol3DLayerMaterial', e);
-    }
     
     return jsIconSymbol3DLayerMaterial;
 }

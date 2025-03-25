@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetProfile } from './profile';
 
 export async function buildJsProfileGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsProfile: any = {};
     if (hasValue(dotNetObject.variables) && dotNetObject.variables.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
@@ -13,30 +17,6 @@ export async function buildJsProfileGenerated(dotNetObject: any, layerId: string
     let jsObjectRef = DotNet.createJSObjectReference(jsProfile);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsProfile;
-    
-    try {
-        let { buildDotNetProfile } = await import('./profile');
-        let dnInstantiatedObject = await buildDotNetProfile(jsProfile, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Profile detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Profile', e);
-    }
     
     return jsProfile;
 }

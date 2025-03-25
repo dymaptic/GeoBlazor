@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetImageryTileLayerSaveAsOptions } from './imageryTileLayerSaveAsOptions';
 
 export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsImageryTileLayerSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');

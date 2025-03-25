@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSearchSuggestCompleteEventResults } from './searchSuggestCompleteEventResults';
 
 export async function buildJsSearchSuggestCompleteEventResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchSuggestCompleteEventResults: any = {};
     if (hasValue(dotNetObject.source)) {
         let { buildJsSearchSource } = await import('./searchSource');

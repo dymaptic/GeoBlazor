@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetElevationProfileLineGround } from './elevationProfileLineGround';
 
 export async function buildJsElevationProfileLineGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -27,30 +31,6 @@ export async function buildJsElevationProfileLineGroundGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsElevationProfileLineGround);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationProfileLineGround;
-    
-    try {
-        let { buildDotNetElevationProfileLineGround } = await import('./elevationProfileLineGround');
-        let dnInstantiatedObject = await buildDotNetElevationProfileLineGround(jsElevationProfileLineGround, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ElevationProfileLineGround detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ElevationProfileLineGround', e);
-    }
     
     return jsElevationProfileLineGround;
 }

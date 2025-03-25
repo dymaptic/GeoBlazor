@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetCoverageInfo } from './coverageInfo';
 
 export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCoverageInfo: any = {};
     if (hasValue(dotNetObject.coverageDescription)) {
         jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;

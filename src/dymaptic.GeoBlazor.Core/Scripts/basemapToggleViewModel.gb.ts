@@ -74,6 +74,10 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
 
 
 export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -94,30 +98,6 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     let jsObjectRef = DotNet.createJSObjectReference(basemapToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
-    
-    try {
-        let { buildDotNetBasemapToggleViewModel } = await import('./basemapToggleViewModel');
-        let dnInstantiatedObject = await buildDotNetBasemapToggleViewModel(jsBasemapToggleViewModel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BasemapToggleViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapToggleViewModel', e);
-    }
     
     return jsBasemapToggleViewModel;
 }

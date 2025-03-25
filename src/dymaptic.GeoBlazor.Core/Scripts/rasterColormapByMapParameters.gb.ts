@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetRasterColormapByMapParameters } from './rasterColormapByMapParameters';
 
 export async function buildJsRasterColormapByMapParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRasterColormapByMapParameters: any = {};
     if (hasValue(dotNetObject.rasterValueToColorCollectionColormap) && dotNetObject.rasterValueToColorCollectionColormap.length > 0) {
         let { buildJsRasterValueToColor } = await import('./rasterValueToColor');

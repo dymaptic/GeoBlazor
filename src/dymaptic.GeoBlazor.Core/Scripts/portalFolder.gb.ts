@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPortalFolder } from './portalFolder';
 
 export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.created)) {
@@ -20,30 +24,6 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<a
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalFolder);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
-    
-    try {
-        let { buildDotNetPortalFolder } = await import('./portalFolder');
-        let dnInstantiatedObject = await buildDotNetPortalFolder(jsPortalFolder);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PortalFolder detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalFolder', e);
-    }
     
     return jsPortalFolder;
 }

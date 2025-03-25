@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetServiceDescription } from './serviceDescription';
 
 export async function buildJsServiceDescriptionGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsServiceDescription: any = {};
     if (hasValue(dotNetObject.defaultTravelMode)) {
         let { buildJsTravelMode } = await import('./travelMode');

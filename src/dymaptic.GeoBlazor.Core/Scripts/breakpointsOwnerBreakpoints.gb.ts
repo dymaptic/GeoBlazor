@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBreakpointsOwnerBreakpoints } from './breakpointsOwnerBreakpoints';
 
 export async function buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBreakpointsOwnerBreakpoints: any = {};
 
     if (hasValue(dotNetObject.large)) {
@@ -24,30 +28,6 @@ export async function buildJsBreakpointsOwnerBreakpointsGenerated(dotNetObject: 
     let jsObjectRef = DotNet.createJSObjectReference(jsBreakpointsOwnerBreakpoints);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBreakpointsOwnerBreakpoints;
-    
-    try {
-        let { buildDotNetBreakpointsOwnerBreakpoints } = await import('./breakpointsOwnerBreakpoints');
-        let dnInstantiatedObject = await buildDotNetBreakpointsOwnerBreakpoints(jsBreakpointsOwnerBreakpoints, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BreakpointsOwnerBreakpoints detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BreakpointsOwnerBreakpoints', e);
-    }
     
     return jsBreakpointsOwnerBreakpoints;
 }

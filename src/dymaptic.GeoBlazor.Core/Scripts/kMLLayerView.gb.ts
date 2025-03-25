@@ -85,6 +85,10 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKMLLayerView: any = {};
 
     if (hasValue(dotNetObject.visible)) {
@@ -100,30 +104,6 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(kMLLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = kMLLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;
-    
-    try {
-        let { buildDotNetKMLLayerView } = await import('./kMLLayerView');
-        let dnInstantiatedObject = await buildDotNetKMLLayerView(jsKMLLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type KMLLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for KMLLayerView', e);
-    }
     
     return jsKMLLayerView;
 }

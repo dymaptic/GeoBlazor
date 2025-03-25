@@ -8,6 +8,10 @@ export async function buildJsLineSymbolPropertiesGenerated(dotNetObject: any, la
     
     switch (dotNetObject.type) {
         case 'any':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let jsLineSymbolProperties: any = {};
 
             if (hasValue(dotNetObject.color)) {

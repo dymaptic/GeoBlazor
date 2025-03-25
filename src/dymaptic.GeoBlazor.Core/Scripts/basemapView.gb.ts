@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBasemapView } from './basemapView';
 
 export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBasemapView: any = {};
     if (hasValue(viewId)) {
         jsBasemapView.view = arcGisObjectRefs[viewId!];
@@ -12,30 +16,6 @@ export async function buildJsBasemapViewGenerated(dotNetObject: any, layerId: st
     let jsObjectRef = DotNet.createJSObjectReference(jsBasemapView);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapView;
-    
-    try {
-        let { buildDotNetBasemapView } = await import('./basemapView');
-        let dnInstantiatedObject = await buildDotNetBasemapView(jsBasemapView, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BasemapView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapView', e);
-    }
     
     return jsBasemapView;
 }

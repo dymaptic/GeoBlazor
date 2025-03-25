@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFetchItemsResult } from './fetchItemsResult';
 
 export async function buildJsFetchItemsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFetchItemsResult: any = {};
     if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsPortalItem } = await import('./portalItem');

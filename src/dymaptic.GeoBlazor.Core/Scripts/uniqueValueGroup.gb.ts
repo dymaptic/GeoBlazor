@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetUniqueValueGroup } from './uniqueValueGroup';
 
 export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.classes) && dotNetObject.classes.length > 0) {
         let { buildJsUniqueValueClass } = await import('./uniqueValueClass');
@@ -18,30 +22,6 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promi
     let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueGroup);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
-    
-    try {
-        let { buildDotNetUniqueValueGroup } = await import('./uniqueValueGroup');
-        let dnInstantiatedObject = await buildDotNetUniqueValueGroup(jsUniqueValueGroup);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type UniqueValueGroup detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for UniqueValueGroup', e);
-    }
     
     return jsUniqueValueGroup;
 }

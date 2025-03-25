@@ -3,36 +3,16 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetISceneViewHitTestResultScreenPoint } from './iSceneViewHitTestResultScreenPoint';
 
 export async function buildJsISceneViewHitTestResultScreenPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewHitTestResultScreenPoint: any = {};
 
     
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewHitTestResultScreenPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewHitTestResultScreenPoint;
-    
-    try {
-        let { buildDotNetISceneViewHitTestResultScreenPoint } = await import('./iSceneViewHitTestResultScreenPoint');
-        let dnInstantiatedObject = await buildDotNetISceneViewHitTestResultScreenPoint(jsSceneViewHitTestResultScreenPoint, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ISceneViewHitTestResultScreenPoint detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ISceneViewHitTestResultScreenPoint', e);
-    }
     
     return jsSceneViewHitTestResultScreenPoint;
 }

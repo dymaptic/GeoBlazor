@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetViewLayerviewCreateErrorEvent } from './viewLayerviewCreateErrorEvent';
 
 export async function buildJsViewLayerviewCreateErrorEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsViewLayerviewCreateErrorEvent: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');

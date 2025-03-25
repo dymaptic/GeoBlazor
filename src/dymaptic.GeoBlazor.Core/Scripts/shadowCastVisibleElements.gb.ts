@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetShadowCastVisibleElements } from './shadowCastVisibleElements';
 
 export async function buildJsShadowCastVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsShadowCastVisibleElements: any = {};
 
     if (hasValue(dotNetObject.colorPicker)) {
@@ -27,30 +31,6 @@ export async function buildJsShadowCastVisibleElementsGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsShadowCastVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsShadowCastVisibleElements;
-    
-    try {
-        let { buildDotNetShadowCastVisibleElements } = await import('./shadowCastVisibleElements');
-        let dnInstantiatedObject = await buildDotNetShadowCastVisibleElements(jsShadowCastVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ShadowCastVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ShadowCastVisibleElements', e);
-    }
     
     return jsShadowCastVisibleElements;
 }

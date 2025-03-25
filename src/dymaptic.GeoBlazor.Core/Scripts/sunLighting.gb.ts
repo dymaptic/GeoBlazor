@@ -53,6 +53,10 @@ export default class SunLightingGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSunLightingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.cameraTrackingEnabled)) {

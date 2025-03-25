@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetBinaryNode } from './binaryNode';
 
 export async function buildJsBinaryNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBinaryNode: any = {};
 
     if (hasValue(dotNetObject.escape)) {

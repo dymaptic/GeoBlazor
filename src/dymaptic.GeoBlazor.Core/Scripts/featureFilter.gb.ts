@@ -92,6 +92,10 @@ export default class FeatureFilterGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.geometry)) {
         let { buildJsGeometry } = await import('./geometry');
@@ -128,30 +132,6 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
-    
-    try {
-        let { buildDotNetFeatureFilter } = await import('./featureFilter');
-        let dnInstantiatedObject = await buildDotNetFeatureFilter(jsFeatureFilter);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeatureFilter detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureFilter', e);
-    }
     
     return jsFeatureFilter;
 }

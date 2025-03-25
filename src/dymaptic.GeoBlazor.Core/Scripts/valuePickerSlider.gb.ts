@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetValuePickerSlider } from './valuePickerSlider';
 
 export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsValuePickerSlider: any = {};
     if (hasValue(dotNetObject.hasLabelFormatFunction) && dotNetObject.hasLabelFormatFunction) {
         jsValuePickerSlider.labelFormatFunction = async (value,
@@ -48,30 +52,6 @@ export async function buildJsValuePickerSliderGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(jsValuePickerSlider);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsValuePickerSlider;
-    
-    try {
-        let { buildDotNetValuePickerSlider } = await import('./valuePickerSlider');
-        let dnInstantiatedObject = await buildDotNetValuePickerSlider(jsValuePickerSlider, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ValuePickerSlider detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ValuePickerSlider', e);
-    }
     
     return jsValuePickerSlider;
 }

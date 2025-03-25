@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetCapabilitiesAnalytics } from './capabilitiesAnalytics';
 
 export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCapabilitiesAnalytics: any = {};
 
     if (hasValue(dotNetObject.supportsCacheHint)) {
@@ -12,30 +16,6 @@ export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): 
     let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesAnalytics);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAnalytics;
-    
-    try {
-        let { buildDotNetCapabilitiesAnalytics } = await import('./capabilitiesAnalytics');
-        let dnInstantiatedObject = await buildDotNetCapabilitiesAnalytics(jsCapabilitiesAnalytics);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type CapabilitiesAnalytics detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for CapabilitiesAnalytics', e);
-    }
     
     return jsCapabilitiesAnalytics;
 }

@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue} from './arcGisJsInterop';
+import {arcGisObjectRefs, hasValue, removeCircularReferences} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -550,20 +550,6 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
                 throw e;
             }
         default:
-            let seenObjects = new WeakMap();
-            let jsonSanitizedObject = JSON.stringify(jsObject, function (key, value) {
-                if (typeof value === 'object' && value !== null) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in serializing layer type ${jsObject.type} detected at path: ${key}, value: ${value}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                return value;
-            });
-            return JSON.parse(jsonSanitizedObject);
+            return removeCircularReferences(jsObject);
     }
 }

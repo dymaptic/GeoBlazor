@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetImageBoundaryParameters } from './imageBoundaryParameters';
 
 export async function buildJsImageBoundaryParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.outSpatialReference)) {

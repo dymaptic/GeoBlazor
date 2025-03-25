@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetConfigRequestProxyRules } from './configRequestProxyRules';
 
 export async function buildJsConfigRequestProxyRulesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsconfigRequestProxyRules: any = {};
 
     if (hasValue(dotNetObject.proxyUrl)) {
@@ -15,30 +19,6 @@ export async function buildJsConfigRequestProxyRulesGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsconfigRequestProxyRules);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfigRequestProxyRules;
-    
-    try {
-        let { buildDotNetConfigRequestProxyRules } = await import('./configRequestProxyRules');
-        let dnInstantiatedObject = await buildDotNetConfigRequestProxyRules(jsconfigRequestProxyRules, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ConfigRequestProxyRules detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ConfigRequestProxyRules', e);
-    }
     
     return jsconfigRequestProxyRules;
 }

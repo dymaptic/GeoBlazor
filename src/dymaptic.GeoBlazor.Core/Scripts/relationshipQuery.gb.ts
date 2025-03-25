@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetRelationshipQuery } from './relationshipQuery';
 
 export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.cacheHint)) {

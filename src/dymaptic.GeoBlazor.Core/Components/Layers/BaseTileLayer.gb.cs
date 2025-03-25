@@ -764,8 +764,17 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsRefresh(RefreshEvent refreshEvent)
+    public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        RefreshEvent refreshEvent = 
+            JsonSerializer.Deserialize<RefreshEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnRefresh.InvokeAsync(refreshEvent);
     }
     

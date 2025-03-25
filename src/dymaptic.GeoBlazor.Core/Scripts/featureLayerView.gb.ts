@@ -93,7 +93,7 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
-        return await buildDotNetFeatureLayer(this.component.layer, this.layerId, this.viewId);
+        return await buildDotNetFeatureLayer(this.component.layer);
     }
     
     getProperty(prop: string): any {
@@ -107,6 +107,10 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -141,30 +145,6 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
-    
-    try {
-        let { buildDotNetFeatureLayerView } = await import('./featureLayerView');
-        let dnInstantiatedObject = await buildDotNetFeatureLayerView(jsFeatureLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeatureLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureLayerView', e);
-    }
     
     return jsFeatureLayerView;
 }

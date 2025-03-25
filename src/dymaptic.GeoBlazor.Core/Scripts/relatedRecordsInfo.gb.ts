@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetRelatedRecordsInfo } from './relatedRecordsInfo';
 
 export async function buildJsRelatedRecordsInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         let { buildJsRelatedRecordsInfoFieldOrder } = await import('./relatedRecordsInfoFieldOrder');

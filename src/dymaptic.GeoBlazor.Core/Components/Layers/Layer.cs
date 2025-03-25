@@ -335,9 +335,9 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     [JSInvokable]
     public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
-        string? instantiatedComponentJson)
+        IJSStreamReference jsonStreamReference)
     {
-        Layer? renderedLayer = await base.OnJsComponentCreated(jsComponentReference, instantiatedComponentJson) as Layer;
+        Layer? renderedLayer = await base.OnJsComponentCreated(jsComponentReference, jsonStreamReference) as Layer;
 
         if (renderedLayer is not null)
         {

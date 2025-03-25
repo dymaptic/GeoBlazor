@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetBaseLayerViewGL2DRenderRenderParameters } from './baseLayerViewGL2DRenderRenderParameters';
 
 export async function buildJsBaseLayerViewGL2DRenderRenderParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBaseLayerViewGL2DRenderRenderParameters: any = {};
     if (hasValue(dotNetObject.state)) {
         let { buildJsViewState } = await import('./viewState');

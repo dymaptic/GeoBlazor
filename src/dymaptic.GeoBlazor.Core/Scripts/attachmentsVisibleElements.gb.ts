@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAttachmentsVisibleElements } from './attachmentsVisibleElements';
 
 export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAttachmentsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.addButton)) {
@@ -33,30 +37,6 @@ export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: a
     let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsVisibleElements;
-    
-    try {
-        let { buildDotNetAttachmentsVisibleElements } = await import('./attachmentsVisibleElements');
-        let dnInstantiatedObject = await buildDotNetAttachmentsVisibleElements(jsAttachmentsVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AttachmentsVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AttachmentsVisibleElements', e);
-    }
     
     return jsAttachmentsVisibleElements;
 }

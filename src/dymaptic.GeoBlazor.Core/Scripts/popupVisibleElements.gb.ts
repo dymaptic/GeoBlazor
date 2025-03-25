@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPopupVisibleElements } from './popupVisibleElements';
 
 export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPopupVisibleElements: any = {};
 
     if (hasValue(dotNetObject.actionBar)) {
@@ -30,30 +34,6 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
     let jsObjectRef = DotNet.createJSObjectReference(jsPopupVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
-    
-    try {
-        let { buildDotNetPopupVisibleElements } = await import('./popupVisibleElements');
-        let dnInstantiatedObject = await buildDotNetPopupVisibleElements(jsPopupVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PopupVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PopupVisibleElements', e);
-    }
     
     return jsPopupVisibleElements;
 }

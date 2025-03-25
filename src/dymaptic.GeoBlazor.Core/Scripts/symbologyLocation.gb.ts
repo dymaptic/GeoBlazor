@@ -59,6 +59,10 @@ export default class SymbologyLocationGenerated implements IPropertyWrapper {
 
 
 export async function buildJsSymbologyLocationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jssymbologyLocation: any = {};
 
 

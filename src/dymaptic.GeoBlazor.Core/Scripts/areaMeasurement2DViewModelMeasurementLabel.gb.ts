@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } from './areaMeasurement2DViewModelMeasurementLabel';
 
 export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAreaMeasurement2DViewModelMeasurementLabel: any = {};
 
     if (hasValue(dotNetObject.area)) {
@@ -15,30 +19,6 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementLabelGenerated
     let jsObjectRef = DotNet.createJSObjectReference(jsAreaMeasurement2DViewModelMeasurementLabel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurementLabel;
-    
-    try {
-        let { buildDotNetAreaMeasurement2DViewModelMeasurementLabel } = await import('./areaMeasurement2DViewModelMeasurementLabel');
-        let dnInstantiatedObject = await buildDotNetAreaMeasurement2DViewModelMeasurementLabel(jsAreaMeasurement2DViewModelMeasurementLabel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AreaMeasurement2DViewModelMeasurementLabel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AreaMeasurement2DViewModelMeasurementLabel', e);
-    }
     
     return jsAreaMeasurement2DViewModelMeasurementLabel;
 }

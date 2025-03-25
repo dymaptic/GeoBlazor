@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } from './serviceDefinitionServiceCapabilitiesGeometryCapabilities';
 
 export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsServiceDefinitionServiceCapabilitiesGeometryCapabilities: any = {};
 
     if (hasValue(dotNetObject.geometryMaxBoundingRectangleSizeX)) {
@@ -24,30 +28,6 @@ export async function buildJsServiceDefinitionServiceCapabilitiesGeometryCapabil
     let jsObjectRef = DotNet.createJSObjectReference(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDefinitionServiceCapabilitiesGeometryCapabilities;
-    
-    try {
-        let { buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities } = await import('./serviceDefinitionServiceCapabilitiesGeometryCapabilities');
-        let dnInstantiatedObject = await buildDotNetServiceDefinitionServiceCapabilitiesGeometryCapabilities(jsServiceDefinitionServiceCapabilitiesGeometryCapabilities);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ServiceDefinitionServiceCapabilitiesGeometryCapabilities detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ServiceDefinitionServiceCapabilitiesGeometryCapabilities', e);
-    }
     
     return jsServiceDefinitionServiceCapabilitiesGeometryCapabilities;
 }

@@ -483,8 +483,17 @@ public abstract partial class Layer : IHitTestItem,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsCreate(LayerViewCreateEvent createEvent)
+    public async Task OnJsCreate(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LayerViewCreateEvent createEvent = 
+            JsonSerializer.Deserialize<LayerViewCreateEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnCreate.InvokeAsync(createEvent);
     }
     
@@ -499,8 +508,17 @@ public abstract partial class Layer : IHitTestItem,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsCreateError(LayerViewCreateErrorEvent createErrorEvent)
+    public async Task OnJsCreateError(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LayerViewCreateErrorEvent createErrorEvent = 
+            JsonSerializer.Deserialize<LayerViewCreateErrorEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnCreateError.InvokeAsync(createErrorEvent);
     }
     
@@ -516,8 +534,17 @@ public abstract partial class Layer : IHitTestItem,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsDestroy(LayerViewDestroyEvent destroyEvent)
+    public async Task OnJsDestroy(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LayerViewDestroyEvent destroyEvent = 
+            JsonSerializer.Deserialize<LayerViewDestroyEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnDestroy.InvokeAsync(destroyEvent);
     }
     

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetImageToMapMultirayParameters } from './imageToMapMultirayParameters';
 
 export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.geometries) && dotNetObject.geometries.length > 0) {
         let { buildJsGeometry } = await import('./geometry');

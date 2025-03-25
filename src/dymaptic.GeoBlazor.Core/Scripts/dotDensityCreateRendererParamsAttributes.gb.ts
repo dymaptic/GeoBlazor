@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDotDensityCreateRendererParamsAttributes } from './dotDensityCreateRendererParamsAttributes';
 
 export async function buildJsDotDensityCreateRendererParamsAttributesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsdotDensityCreateRendererParamsAttributes: any = {};
 
     if (hasValue(dotNetObject.field)) {
@@ -21,30 +25,6 @@ export async function buildJsDotDensityCreateRendererParamsAttributesGenerated(d
     let jsObjectRef = DotNet.createJSObjectReference(jsdotDensityCreateRendererParamsAttributes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsdotDensityCreateRendererParamsAttributes;
-    
-    try {
-        let { buildDotNetDotDensityCreateRendererParamsAttributes } = await import('./dotDensityCreateRendererParamsAttributes');
-        let dnInstantiatedObject = await buildDotNetDotDensityCreateRendererParamsAttributes(jsdotDensityCreateRendererParamsAttributes, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DotDensityCreateRendererParamsAttributes detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DotDensityCreateRendererParamsAttributes', e);
-    }
     
     return jsdotDensityCreateRendererParamsAttributes;
 }

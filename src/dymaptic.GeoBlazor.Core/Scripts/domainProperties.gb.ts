@@ -8,6 +8,10 @@ export async function buildJsDomainPropertiesGenerated(dotNetObject: any, layerI
     
     switch (dotNetObject.type) {
         case 'any':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let jsDomainProperties: any = {};
 
             if (hasValue(dotNetObject.name)) {

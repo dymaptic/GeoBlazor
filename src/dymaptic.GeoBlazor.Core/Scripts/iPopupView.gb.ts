@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetIPopupView } from './iPopupView';
 
 export async function buildJsIPopupViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPopupView: any = {};
     if (hasValue(dotNetObject.popup)) {
         let { buildJsPopupWidget } = await import('./popupWidget');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetCoverageDescriptionV201 } from './coverageDescriptionV201';
 
 export async function buildJsCoverageDescriptionV201Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCoverageDescriptionV201: any = {};
     if (hasValue(dotNetObject.boundedBy)) {
         let { buildJsCoverageDescriptionV201BoundedBy } = await import('./coverageDescriptionV201BoundedBy');

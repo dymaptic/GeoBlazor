@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetAreaMeasurementAnalysisResult } from './areaMeasurementAnalysisResult';
 
 export async function buildJsAreaMeasurementAnalysisResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAreaMeasurementAnalysisResult: any = {};
     if (hasValue(dotNetObject.area)) {
         let { buildJsArea } = await import('./area');

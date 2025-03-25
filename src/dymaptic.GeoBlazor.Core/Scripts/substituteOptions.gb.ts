@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSubstituteOptions } from './substituteOptions';
 
 export async function buildJsSubstituteOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSubstituteOptions: any = {};
 
     if (hasValue(dotNetObject.format)) {

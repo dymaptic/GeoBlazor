@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSupportingWidgetDefaultsFeatureTemplates } from './supportingWidgetDefaultsFeatureTemplates';
 
 export async function buildJsSupportingWidgetDefaultsFeatureTemplatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSupportingWidgetDefaultsFeatureTemplates: any = {};
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsSupportingWidgetDefaultsFeatureTemplatesVisibleElements } = await import('./supportingWidgetDefaultsFeatureTemplatesVisibleElements');
@@ -19,30 +23,6 @@ export async function buildJsSupportingWidgetDefaultsFeatureTemplatesGenerated(d
     let jsObjectRef = DotNet.createJSObjectReference(jsSupportingWidgetDefaultsFeatureTemplates);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureTemplates;
-    
-    try {
-        let { buildDotNetSupportingWidgetDefaultsFeatureTemplates } = await import('./supportingWidgetDefaultsFeatureTemplates');
-        let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureTemplates(jsSupportingWidgetDefaultsFeatureTemplates, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SupportingWidgetDefaultsFeatureTemplates detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SupportingWidgetDefaultsFeatureTemplates', e);
-    }
     
     return jsSupportingWidgetDefaultsFeatureTemplates;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTemplates } from './templates';
 
 export async function buildJsTemplatesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTemplates: any = {};
     if (hasValue(dotNetObject.primaryTemplate)) {
         let { buildJsTemplate } = await import('./template');

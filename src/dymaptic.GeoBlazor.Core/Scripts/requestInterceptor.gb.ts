@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRequestInterceptor } from './requestInterceptor';
 
 export async function buildJsRequestInterceptorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRequestInterceptor: any = {};
     if (hasValue(dotNetObject.hasAfter) && dotNetObject.hasAfter) {
         jsRequestInterceptor.after = async (response) => {
@@ -40,30 +44,6 @@ export async function buildJsRequestInterceptorGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(jsRequestInterceptor);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRequestInterceptor;
-    
-    try {
-        let { buildDotNetRequestInterceptor } = await import('./requestInterceptor');
-        let dnInstantiatedObject = await buildDotNetRequestInterceptor(jsRequestInterceptor, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RequestInterceptor detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RequestInterceptor', e);
-    }
     
     return jsRequestInterceptor;
 }

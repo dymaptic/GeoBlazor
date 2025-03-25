@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSceneViewConstraints } from './sceneViewConstraints';
 
 export async function buildJsSceneViewConstraintsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewConstraints: any = {};
     if (hasValue(dotNetObject.altitude)) {
         let { buildJsSceneViewConstraintsAltitude } = await import('./sceneViewConstraintsAltitude');
@@ -21,30 +25,6 @@ export async function buildJsSceneViewConstraintsGenerated(dotNetObject: any, la
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewConstraints);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewConstraints;
-    
-    try {
-        let { buildDotNetSceneViewConstraints } = await import('./sceneViewConstraints');
-        let dnInstantiatedObject = await buildDotNetSceneViewConstraints(jsSceneViewConstraints, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SceneViewConstraints detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SceneViewConstraints', e);
-    }
     
     return jsSceneViewConstraints;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBasemapLayerListTriggerActionEvent } from './basemapLayerListTriggerActionEvent';
 
 export async function buildJsBasemapLayerListTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBasemapLayerListTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');

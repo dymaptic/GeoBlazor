@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetTessellatedMesh } from './tessellatedMesh';
 
 export async function buildJsTessellatedMeshGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTessellatedMesh: any = {};
     if (hasValue(dotNetObject.vertices) && dotNetObject.vertices.length > 0) {
         let { buildJsMeshVertex } = await import('./meshVertex');

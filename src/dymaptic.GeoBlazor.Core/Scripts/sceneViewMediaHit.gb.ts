@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSceneViewMediaHit } from './sceneViewMediaHit';
 
 export async function buildJsSceneViewMediaHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewMediaHit: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsMediaLayer } = await import('./mediaLayer');

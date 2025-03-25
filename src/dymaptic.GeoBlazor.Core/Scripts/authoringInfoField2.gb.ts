@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAuthoringInfoField2 } from './authoringInfoField2';
 
 export async function buildJsAuthoringInfoField2Generated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAuthoringInfoField2: any = {};
     if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsAuthoringInfoField2ClassBreakInfos } = await import('./authoringInfoField2ClassBreakInfos');
@@ -22,30 +26,6 @@ export async function buildJsAuthoringInfoField2Generated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoField2);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField2;
-    
-    try {
-        let { buildDotNetAuthoringInfoField2 } = await import('./authoringInfoField2');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoField2(jsAuthoringInfoField2, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AuthoringInfoField2 detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AuthoringInfoField2', e);
-    }
     
     return jsAuthoringInfoField2;
 }

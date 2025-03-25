@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetClassedSizeSliderBreaks } from './classedSizeSliderBreaks';
 
 export async function buildJsClassedSizeSliderBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsClassedSizeSliderBreaks: any = {};
 
     if (hasValue(dotNetObject.max)) {
@@ -18,30 +22,6 @@ export async function buildJsClassedSizeSliderBreaksGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsClassedSizeSliderBreaks);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsClassedSizeSliderBreaks;
-    
-    try {
-        let { buildDotNetClassedSizeSliderBreaks } = await import('./classedSizeSliderBreaks');
-        let dnInstantiatedObject = await buildDotNetClassedSizeSliderBreaks(jsClassedSizeSliderBreaks, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ClassedSizeSliderBreaks detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ClassedSizeSliderBreaks', e);
-    }
     
     return jsClassedSizeSliderBreaks;
 }

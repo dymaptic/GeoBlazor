@@ -3,6 +3,7 @@ import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';
 import {buildDotNetExtent} from "./extent";
+import {buildJsStreamReference} from "./arcGisJsInterop";
 
 
 export default class SearchWidgetWrapper extends SearchWidgetGenerated {
@@ -107,19 +108,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
 export async function buildJsSearchWidget(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let {buildJsSearchWidgetGenerated} = await import('./searchWidget.gb');
-    let jsSearch = await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
-    
-    // obsolete/deprecated call for backwards compatibility
-    jsSearch.on('select-result', async (evt) => {
-        const {buildDotNetGraphic} = await import('./graphic');
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJavaScriptSearchSelectResult', {
-            extent: buildDotNetExtent(evt.result.extent),
-            feature: buildDotNetGraphic(evt.result.feature, null, viewId),
-            name: evt.result.name
-        });
-    });
-    
-    return jsSearch;
+    return await buildJsSearchWidgetGenerated(dotNetObject, layerId, viewId);
 }
 
 export async function buildDotNetSearchWidget(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {

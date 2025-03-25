@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSketchEdges3D } from './sketchEdges3D';
 
 export async function buildJsSketchEdges3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -21,30 +25,6 @@ export async function buildJsSketchEdges3DGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(jsSketchEdges3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSketchEdges3D;
-    
-    try {
-        let { buildDotNetSketchEdges3D } = await import('./sketchEdges3D');
-        let dnInstantiatedObject = await buildDotNetSketchEdges3D(jsSketchEdges3D, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SketchEdges3D detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SketchEdges3D', e);
-    }
     
     return jsSketchEdges3D;
 }

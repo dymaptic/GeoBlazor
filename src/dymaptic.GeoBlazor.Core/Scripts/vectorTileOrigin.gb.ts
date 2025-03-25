@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetVectorTileOrigin } from './vectorTileOrigin';
 
 export async function buildJsVectorTileOriginGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVectorTileOrigin: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsVectorTileLayer } = await import('./vectorTileLayer');

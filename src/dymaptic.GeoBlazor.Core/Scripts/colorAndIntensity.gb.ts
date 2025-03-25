@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetColorAndIntensity } from './colorAndIntensity';
 
 export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsColorAndIntensity: any = {};
 
     if (hasValue(dotNetObject.color) && dotNetObject.color.length > 0) {
@@ -15,30 +19,6 @@ export async function buildJsColorAndIntensityGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(jsColorAndIntensity);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsColorAndIntensity;
-    
-    try {
-        let { buildDotNetColorAndIntensity } = await import('./colorAndIntensity');
-        let dnInstantiatedObject = await buildDotNetColorAndIntensity(jsColorAndIntensity, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ColorAndIntensity detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ColorAndIntensity', e);
-    }
     
     return jsColorAndIntensity;
 }

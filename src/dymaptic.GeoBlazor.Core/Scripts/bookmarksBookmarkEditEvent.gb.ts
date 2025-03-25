@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBookmarksBookmarkEditEvent } from './bookmarksBookmarkEditEvent';
 
 export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBookmarksBookmarkEditEvent: any = {};
     if (hasValue(dotNetObject.bookmark)) {
         let { buildJsBookmark } = await import('./bookmark');

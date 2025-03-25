@@ -102,32 +102,8 @@ export async function buildJsPortalItem(dotNetObject: any, layerId: string | nul
     portalItemWrapper.viewId = viewId;
     portalItemWrapper.layerId = layerId;
 
-    let jsObjectRef = DotNet.createJSObjectReference(portalItemWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItem;
-
-    try {
-        let dnInstantiatedObject = await buildDotNetPortalItem(jsPortalItem);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated',
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PortalItem detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalItem', e);
-    }
 
     return jsPortalItem;
 }

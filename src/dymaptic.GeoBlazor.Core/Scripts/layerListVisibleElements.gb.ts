@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetLayerListVisibleElements } from './layerListVisibleElements';
 
 export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerListVisibleElements: any = {};
 
     if (hasValue(dotNetObject.catalogLayerList)) {
@@ -36,30 +40,6 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerListVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListVisibleElements;
-    
-    try {
-        let { buildDotNetLayerListVisibleElements } = await import('./layerListVisibleElements');
-        let dnInstantiatedObject = await buildDotNetLayerListVisibleElements(jsLayerListVisibleElements);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LayerListVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerListVisibleElements', e);
-    }
     
     return jsLayerListVisibleElements;
 }

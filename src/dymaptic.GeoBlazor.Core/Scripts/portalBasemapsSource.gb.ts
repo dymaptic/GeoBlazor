@@ -80,6 +80,10 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.basemaps) && dotNetObject.basemaps.length > 0) {
         let { buildJsBasemap } = await import('./basemap');
@@ -127,30 +131,6 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     let jsObjectRef = DotNet.createJSObjectReference(portalBasemapsSourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalBasemapsSourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
-    
-    try {
-        let { buildDotNetPortalBasemapsSource } = await import('./portalBasemapsSource');
-        let dnInstantiatedObject = await buildDotNetPortalBasemapsSource(jsPortalBasemapsSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PortalBasemapsSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalBasemapsSource', e);
-    }
     
     return jsPortalBasemapsSource;
 }

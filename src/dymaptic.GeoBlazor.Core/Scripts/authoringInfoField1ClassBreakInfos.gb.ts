@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAuthoringInfoField1ClassBreakInfos } from './authoringInfoField1ClassBreakInfos';
 
 export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAuthoringInfoField1ClassBreakInfos: any = {};
 
     if (hasValue(dotNetObject.maxValue)) {
@@ -15,30 +19,6 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoField1ClassBreakInfos);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
-    
-    try {
-        let { buildDotNetAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoField1ClassBreakInfos(jsAuthoringInfoField1ClassBreakInfos);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AuthoringInfoField1ClassBreakInfos detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AuthoringInfoField1ClassBreakInfos', e);
-    }
     
     return jsAuthoringInfoField1ClassBreakInfos;
 }

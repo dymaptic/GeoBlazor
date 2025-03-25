@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetVersionManagementServiceVersionInfoExtendedJSON } from './versionManagementServiceVersionInfoExtendedJSON';
 
 export async function buildJsVersionManagementServiceVersionInfoExtendedJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVersionManagementServiceVersionInfoExtendedJSON: any = {};
     if (hasValue(dotNetObject.versionIdentifier)) {
         let { buildJsVersionManagementServiceVersionInfoExtendedJSONVersionIdentifier } = await import('./versionManagementServiceVersionInfoExtendedJSONVersionIdentifier');

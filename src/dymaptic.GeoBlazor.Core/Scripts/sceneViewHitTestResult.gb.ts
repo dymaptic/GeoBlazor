@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSceneViewHitTestResult } from './sceneViewHitTestResult';
 
 export async function buildJsSceneViewHitTestResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewHitTestResult: any = {};
     if (hasValue(dotNetObject.ground)) {
         let { buildJsHitTestResultGround } = await import('./hitTestResultGround');

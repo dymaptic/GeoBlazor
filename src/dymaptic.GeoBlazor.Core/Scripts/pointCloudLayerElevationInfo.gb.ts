@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetPointCloudLayerElevationInfo } from './pointCloudLayerElevationInfo';
 
 export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPointCloudLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -18,30 +22,6 @@ export async function buildJsPointCloudLayerElevationInfoGenerated(dotNetObject:
     let jsObjectRef = DotNet.createJSObjectReference(jsPointCloudLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPointCloudLayerElevationInfo;
-    
-    try {
-        let { buildDotNetPointCloudLayerElevationInfo } = await import('./pointCloudLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetPointCloudLayerElevationInfo(jsPointCloudLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PointCloudLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PointCloudLayerElevationInfo', e);
-    }
     
     return jsPointCloudLayerElevationInfo;
 }

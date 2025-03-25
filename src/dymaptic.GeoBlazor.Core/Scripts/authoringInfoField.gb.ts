@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAuthoringInfoField } from './authoringInfoField';
 
 export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAuthoringInfoField1: any = {};
     if (hasValue(dotNetObject.classBreakInfos) && dotNetObject.classBreakInfos.length > 0) {
         let { buildJsAuthoringInfoField1ClassBreakInfos } = await import('./authoringInfoField1ClassBreakInfos');
@@ -22,30 +26,6 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any): Pro
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoField1);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
-    
-    try {
-        let { buildDotNetAuthoringInfoField } = await import('./authoringInfoField');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoField(jsAuthoringInfoField1);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AuthoringInfoField detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AuthoringInfoField', e);
-    }
     
     return jsAuthoringInfoField1;
 }

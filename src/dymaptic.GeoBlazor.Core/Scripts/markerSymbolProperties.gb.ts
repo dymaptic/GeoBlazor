@@ -8,6 +8,10 @@ export async function buildJsMarkerSymbolPropertiesGenerated(dotNetObject: any, 
     
     switch (dotNetObject.type) {
         case 'any':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let jsMarkerSymbolProperties: any = {};
 
             if (hasValue(dotNetObject.angle)) {

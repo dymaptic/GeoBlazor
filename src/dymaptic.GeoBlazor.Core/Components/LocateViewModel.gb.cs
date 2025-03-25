@@ -802,8 +802,17 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsLocate(LocateViewModelLocateEvent locateEvent)
+    public async Task OnJsLocate(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LocateViewModelLocateEvent locateEvent = 
+            JsonSerializer.Deserialize<LocateViewModelLocateEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnLocate.InvokeAsync(locateEvent);
     }
     
@@ -818,8 +827,17 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsLocateError(LocateViewModelLocateErrorEvent locateErrorEvent)
+    public async Task OnJsLocateError(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        LocateViewModelLocateErrorEvent locateErrorEvent = 
+            JsonSerializer.Deserialize<LocateViewModelLocateErrorEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnLocateError.InvokeAsync(locateErrorEvent);
     }
     

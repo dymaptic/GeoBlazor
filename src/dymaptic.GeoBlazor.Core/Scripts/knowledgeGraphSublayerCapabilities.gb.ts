@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetKnowledgeGraphSublayerCapabilities } from './knowledgeGraphSublayerCapabilities';
 
 export async function buildJsKnowledgeGraphSublayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKnowledgeGraphSublayerCapabilities: any = {};
     if (hasValue(dotNetObject.query)) {
         let { buildJsKnowledgeGraphSublayerCapabilitiesQuery } = await import('./knowledgeGraphSublayerCapabilitiesQuery');

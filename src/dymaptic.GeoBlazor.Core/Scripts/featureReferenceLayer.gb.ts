@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetFeatureReferenceLayer } from './featureReferenceLayer';
 
 export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureReferenceLayer: any = {};
 
     if (hasValue(dotNetObject.featureReferenceLayerId)) {
@@ -15,30 +19,6 @@ export async function buildJsFeatureReferenceLayerGenerated(dotNetObject: any, l
     let jsObjectRef = DotNet.createJSObjectReference(jsFeatureReferenceLayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureReferenceLayer;
-    
-    try {
-        let { buildDotNetFeatureReferenceLayer } = await import('./featureReferenceLayer');
-        let dnInstantiatedObject = await buildDotNetFeatureReferenceLayer(jsFeatureReferenceLayer, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type FeatureReferenceLayer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for FeatureReferenceLayer', e);
-    }
     
     return jsFeatureReferenceLayer;
 }

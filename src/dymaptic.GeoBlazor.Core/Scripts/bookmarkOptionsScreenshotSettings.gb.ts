@@ -3,14 +3,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBookmarkOptionsScreenshotSettings } from './bookmarkOptionsScreenshotSettings';
 
 export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBookmarkOptionsScreenshotSettings: any = {};
     if (hasValue(dotNetObject.area)) {
         let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
         jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area) as any;
     }
-    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        jsBookmarkOptionsScreenshotSettings.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsBookmarkOptionsScreenshotSettings.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        jsBookmarkOptionsScreenshotSettings.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
 
     if (hasValue(dotNetObject.height)) {
@@ -23,30 +29,6 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
     let jsObjectRef = DotNet.createJSObjectReference(jsBookmarkOptionsScreenshotSettings);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
-    
-    try {
-        let { buildDotNetBookmarkOptionsScreenshotSettings } = await import('./bookmarkOptionsScreenshotSettings');
-        let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettings(jsBookmarkOptionsScreenshotSettings);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BookmarkOptionsScreenshotSettings detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarkOptionsScreenshotSettings', e);
-    }
     
     return jsBookmarkOptionsScreenshotSettings;
 }

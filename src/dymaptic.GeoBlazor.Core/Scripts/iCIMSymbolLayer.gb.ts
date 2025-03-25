@@ -41,6 +41,10 @@ export default class ICIMSymbolLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsICIMSymbolLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCIMSymbolLayer: any = {};
 
 
@@ -53,6 +57,34 @@ export async function buildJsICIMSymbolLayerGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(iCIMSymbolLayerWrapper);
     jsObjectRefs[dotNetObject.id] = iCIMSymbolLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCIMSymbolLayer;
+    
+    try {
+        let { buildDotNetICIMSymbolLayer } = await import('./iCIMSymbolLayer');
+        let dnInstantiatedObject = await buildDotNetICIMSymbolLayer(jsCIMSymbolLayer);
+
+        let seenObjects = new WeakMap();
+        let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
+                if (key.startsWith('_') || key === 'jsComponentReference') {
+                    return undefined;
+                }
+                if (typeof value === 'object' && value !== null
+                    && !(Array.isArray(value) && value.length === 0)) {
+                    if (seenObjects.has(value)) {
+                        console.debug(`Circular reference in serializing type ICIMSymbolLayer detected at path: ${key}, value: ${value.declaredClass}`);
+                        return undefined;
+                    }
+                    seenObjects.set(value, true);
+                }
+                return value;
+            });
+        let encoder = new TextEncoder();
+        let encodedArray = encoder.encode(dnJson);
+        let dnStream = DotNet.createJSStreamReference(encodedArray);
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, dnStream);
+    } catch (e) {
+        console.error('Error invoking OnJsComponentCreated for ICIMSymbolLayer', e);
+    }
     
     return jsCIMSymbolLayer;
 }

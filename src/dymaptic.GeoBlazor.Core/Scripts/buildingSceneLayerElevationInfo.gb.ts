@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetBuildingSceneLayerElevationInfo } from './buildingSceneLayerElevationInfo';
 
 export async function buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBuildingSceneLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -18,30 +22,6 @@ export async function buildJsBuildingSceneLayerElevationInfoGenerated(dotNetObje
     let jsObjectRef = DotNet.createJSObjectReference(jsBuildingSceneLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingSceneLayerElevationInfo;
-    
-    try {
-        let { buildDotNetBuildingSceneLayerElevationInfo } = await import('./buildingSceneLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetBuildingSceneLayerElevationInfo(jsBuildingSceneLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BuildingSceneLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BuildingSceneLayerElevationInfo', e);
-    }
     
     return jsBuildingSceneLayerElevationInfo;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRelationshipLabels } from './relationshipLabels';
 
 export async function buildJsRelationshipLabelsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRelationshipLabels: any = {};
 
     if (hasValue(dotNetObject.bottom)) {
@@ -21,30 +25,6 @@ export async function buildJsRelationshipLabelsGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipLabels);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipLabels;
-    
-    try {
-        let { buildDotNetRelationshipLabels } = await import('./relationshipLabels');
-        let dnInstantiatedObject = await buildDotNetRelationshipLabels(jsRelationshipLabels, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RelationshipLabels detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RelationshipLabels', e);
-    }
     
     return jsRelationshipLabels;
 }

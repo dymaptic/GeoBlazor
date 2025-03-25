@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetHighlightOptions } from './highlightOptions';
 
 export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHighlightOptions: any = {};
     if (hasValue(dotNetObject.color)) {
         let { buildJsMapColor } = await import('./mapColor');
@@ -33,30 +37,6 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promi
     let jsObjectRef = DotNet.createJSObjectReference(jsHighlightOptions);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
-    
-    try {
-        let { buildDotNetHighlightOptions } = await import('./highlightOptions');
-        let dnInstantiatedObject = await buildDotNetHighlightOptions(jsHighlightOptions);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type HighlightOptions detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HighlightOptions', e);
-    }
     
     return jsHighlightOptions;
 }

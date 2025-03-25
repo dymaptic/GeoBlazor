@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBuildingFilter } from './buildingFilter';
 
 export async function buildJsBuildingFilterGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.filterBlocks) && dotNetObject.filterBlocks.length > 0) {
         let { buildJsBuildingFilterBlock } = await import('./buildingFilterBlock');

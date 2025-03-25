@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularRefer
 import { buildDotNetEditedFeatureResultEditedFeatures } from './editedFeatureResultEditedFeatures';
 
 export async function buildJsEditedFeatureResultEditedFeaturesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEditedFeatureResultEditedFeatures: any = {};
     if (hasValue(dotNetObject.adds) && dotNetObject.adds.length > 0) {
         let { buildJsGraphic } = await import('./graphic');

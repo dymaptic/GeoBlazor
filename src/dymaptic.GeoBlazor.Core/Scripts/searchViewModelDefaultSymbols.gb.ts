@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSearchViewModelDefaultSymbols } from './searchViewModelDefaultSymbols';
 
 export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchViewModelDefaultSymbols: any = {};
     if (hasValue(dotNetObject.point)) {
         let { buildJsSymbol } = await import('./symbol');
@@ -21,30 +25,6 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelDefaultSymbols);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
-    
-    try {
-        let { buildDotNetSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
-        let dnInstantiatedObject = await buildDotNetSearchViewModelDefaultSymbols(jsSearchViewModelDefaultSymbols, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SearchViewModelDefaultSymbols detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchViewModelDefaultSymbols', e);
-    }
     
     return jsSearchViewModelDefaultSymbols;
 }

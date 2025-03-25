@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetScaleRangeScaleRangeParams } from './scaleRangeScaleRangeParams';
 
 export async function buildJsScaleRangeScaleRangeParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsscaleRangeScaleRangeParams: any = {};
     if (hasValue(viewId)) {
         jsscaleRangeScaleRangeParams.view = arcGisObjectRefs[viewId!];

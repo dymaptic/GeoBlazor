@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetButtonMenuViewModel } from './buttonMenuViewModel';
 
 export async function buildJsButtonMenuViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.items) && dotNetObject.items.length > 0) {
         let { buildJsButtonMenuItem } = await import('./buttonMenuItem');
@@ -18,30 +22,6 @@ export async function buildJsButtonMenuViewModelGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsButtonMenuViewModel);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsButtonMenuViewModel;
-    
-    try {
-        let { buildDotNetButtonMenuViewModel } = await import('./buttonMenuViewModel');
-        let dnInstantiatedObject = await buildDotNetButtonMenuViewModel(jsButtonMenuViewModel, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ButtonMenuViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ButtonMenuViewModel', e);
-    }
     
     return jsButtonMenuViewModel;
 }

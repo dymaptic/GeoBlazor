@@ -132,6 +132,10 @@ export default class GroundGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGroundGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');

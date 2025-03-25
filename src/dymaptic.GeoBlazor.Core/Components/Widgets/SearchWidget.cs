@@ -126,6 +126,135 @@ public partial class SearchWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SuggestionsEnabled { get; set; }
     
+#region Event Handlers
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef
+            .OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+
+        SearchCompleteEvent searchCompleteEvent = JsonSerializer.Deserialize<SearchCompleteEvent>(json,
+            GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        if (searchCompleteEvent.Results is { Count: > 0 })
+        {
+            foreach (SearchCompleteEventResults results in searchCompleteEvent.Results)
+            {
+                if (results.Source is LayerSearchSource layerSearchSource)
+                {
+                    if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id)
+                        is LayerSearchSource matchingSource)
+                    {
+#pragma warning disable BL0005
+                        layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+                    }
+                }
+            }
+        }
+
+        await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SearchComplete.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchCompleteEvent> OnSearchComplete { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSelectResultEvent selectResultEvent = JsonSerializer.Deserialize<SearchSelectResultEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (selectResultEvent.Source is LayerSearchSource layerSearchSource)
+        {
+            if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id) 
+                is LayerSearchSource matchingSource)
+            {
+#pragma warning disable BL0005
+                layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+            }
+        }
+        await OnSelectResult.InvokeAsync(selectResultEvent);
+#pragma warning disable CS0618 // Type or member is obsolete
+        await OnSearchSelectResultEvent.InvokeAsync(selectResultEvent.Result);
+#pragma warning restore CS0618 // Type or member is obsolete
+    }
+    
+    /// <summary>
+    ///     Event Listener for SelectResult.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchSelectResultEvent> OnSelectResult { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSuggestCompleteEvent suggestCompleteEvent = JsonSerializer.Deserialize<SearchSuggestCompleteEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (suggestCompleteEvent.Results is { Count: > 0 })
+        {
+            foreach (SearchSuggestCompleteEventResults results in suggestCompleteEvent.Results)
+            {
+                if (results.Source is LayerSearchSource layerSearchSource)
+                {
+                    if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id) 
+                        is LayerSearchSource matchingSource)
+                    {
+#pragma warning disable BL0005
+                        layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+                    }
+                }
+            }
+        }
+        await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SuggestComplete.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchSuggestCompleteEvent> OnSuggestComplete { get; set; }
+    
     /// <summary>
     ///     A delegate for a handler of search selection result events.
     ///     Function must take in a <see cref="SearchResult" /> parameter, and return a <see cref="Task" />
@@ -152,8 +281,16 @@ public partial class SearchWidget : Widget
     /// </summary>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToParameters)
+    public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
         if (GoToOverride is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -165,6 +302,8 @@ public partial class SearchWidget : Widget
     /// </summary>
     [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
+    
+#endregion
 
     /// <summary>
     ///     Set the value of the search text box programmatically.
@@ -302,29 +441,6 @@ public partial class SearchWidget : Widget
     public async Task<SuggestResult[]> GetSuggestions()
     {
         return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getProperty", "suggestions");
-    }
-
-    /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a "select-result" event is fired by the search widget.
-    /// </summary>
-    /// <param name="searchResult">
-    ///     The result selected in the search widget.
-    /// </param>
-    [JSInvokable]
-    public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-        await OnSearchSelectResultEvent.InvokeAsync(searchResult);
-#pragma warning restore CS0618 // Type or member is obsolete
-    }
-    
-    /// <summary>
-    ///     JavaScript-invokable method for internal use
-    /// </summary>
-    [JSInvokable]
-    public void OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
-    {
-        GoToOverride?.Invoke(goToOverrideParams);
     }
     
     /// <inheritdoc />

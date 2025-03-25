@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPixelBlockStatistics } from './pixelBlockStatistics';
 
 export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPixelBlockStatistics: any = {};
 
     if (hasValue(dotNetObject.maxValue)) {
@@ -18,30 +22,6 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any): P
     let jsObjectRef = DotNet.createJSObjectReference(jsPixelBlockStatistics);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
-    
-    try {
-        let { buildDotNetPixelBlockStatistics } = await import('./pixelBlockStatistics');
-        let dnInstantiatedObject = await buildDotNetPixelBlockStatistics(jsPixelBlockStatistics);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PixelBlockStatistics detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PixelBlockStatistics', e);
-    }
     
     return jsPixelBlockStatistics;
 }

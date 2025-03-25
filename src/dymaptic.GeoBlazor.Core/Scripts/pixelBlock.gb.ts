@@ -92,6 +92,10 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
 
 
 export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.statistics) && dotNetObject.statistics.length > 0) {
         let { buildJsPixelBlockStatistics } = await import('./pixelBlockStatistics');
@@ -130,30 +134,6 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
-    
-    try {
-        let { buildDotNetPixelBlock } = await import('./pixelBlock');
-        let dnInstantiatedObject = await buildDotNetPixelBlock(jsPixelBlock);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PixelBlock detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PixelBlock', e);
-    }
     
     return jsPixelBlock;
 }

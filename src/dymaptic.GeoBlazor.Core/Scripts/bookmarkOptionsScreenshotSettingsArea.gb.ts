@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBookmarkOptionsScreenshotSettingsArea } from './bookmarkOptionsScreenshotSettingsArea';
 
 export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBookmarkOptionsScreenshotSettingsArea: any = {};
 
     if (hasValue(dotNetObject.height)) {
@@ -21,30 +25,6 @@ export async function buildJsBookmarkOptionsScreenshotSettingsAreaGenerated(dotN
     let jsObjectRef = DotNet.createJSObjectReference(jsBookmarkOptionsScreenshotSettingsArea);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettingsArea;
-    
-    try {
-        let { buildDotNetBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
-        let dnInstantiatedObject = await buildDotNetBookmarkOptionsScreenshotSettingsArea(jsBookmarkOptionsScreenshotSettingsArea);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BookmarkOptionsScreenshotSettingsArea detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarkOptionsScreenshotSettingsArea', e);
-    }
     
     return jsBookmarkOptionsScreenshotSettingsArea;
 }

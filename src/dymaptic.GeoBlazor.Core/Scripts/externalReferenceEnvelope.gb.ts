@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetExternalReferenceEnvelope } from './externalReferenceEnvelope';
 
 export async function buildJsExternalReferenceEnvelopeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsExternalReferenceEnvelope: any = {};
     if (hasValue(dotNetObject.spatialReference)) {
         let { buildJsExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBuildingFilterBlock } from './buildingFilterBlock';
 
 export async function buildJsBuildingFilterBlockGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBuildingFilterBlock: any = {};
     if (hasValue(dotNetObject.filterMode)) {
         let { buildJsBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
@@ -19,30 +23,6 @@ export async function buildJsBuildingFilterBlockGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsBuildingFilterBlock);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFilterBlock;
-    
-    try {
-        let { buildDotNetBuildingFilterBlock } = await import('./buildingFilterBlock');
-        let dnInstantiatedObject = await buildDotNetBuildingFilterBlock(jsBuildingFilterBlock, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BuildingFilterBlock detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BuildingFilterBlock', e);
-    }
     
     return jsBuildingFilterBlock;
 }

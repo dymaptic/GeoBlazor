@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetDirectLineMeasurement3DViewModelMeasurement } from './directLineMeasurement3DViewModelMeasurement';
 
 export async function buildJsDirectLineMeasurement3DViewModelMeasurementGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDirectLineMeasurement3DViewModelMeasurement: any = {};
     if (hasValue(dotNetObject.directDistance)) {
         let { buildJsDirectLineMeasurement3DViewModelMeasurementValue } = await import('./directLineMeasurement3DViewModelMeasurementValue');
@@ -24,30 +28,6 @@ export async function buildJsDirectLineMeasurement3DViewModelMeasurementGenerate
     let jsObjectRef = DotNet.createJSObjectReference(jsDirectLineMeasurement3DViewModelMeasurement);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDirectLineMeasurement3DViewModelMeasurement;
-    
-    try {
-        let { buildDotNetDirectLineMeasurement3DViewModelMeasurement } = await import('./directLineMeasurement3DViewModelMeasurement');
-        let dnInstantiatedObject = await buildDotNetDirectLineMeasurement3DViewModelMeasurement(jsDirectLineMeasurement3DViewModelMeasurement, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DirectLineMeasurement3DViewModelMeasurement detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DirectLineMeasurement3DViewModelMeasurement', e);
-    }
     
     return jsDirectLineMeasurement3DViewModelMeasurement;
 }

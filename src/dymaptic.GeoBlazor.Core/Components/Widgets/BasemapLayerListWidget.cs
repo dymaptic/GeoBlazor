@@ -264,8 +264,16 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsTriggerAction(BasemapLayerListTriggerActionEvent triggerActionEvent)
+    public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        BasemapLayerListTriggerActionEvent triggerActionEvent = JsonSerializer.Deserialize<BasemapLayerListTriggerActionEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
         if (BaseItems is not null)
         {
             foreach (ListItem listItem in BaseItems)

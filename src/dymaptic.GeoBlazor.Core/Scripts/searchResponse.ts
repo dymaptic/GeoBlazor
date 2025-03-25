@@ -1,9 +1,9 @@
-export async function buildJsSearchResponse(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSearchResponse(dotNetObject: any): Promise<any> {
     let {buildJsSearchResponseGenerated} = await import('./searchResponse.gb');
-    return await buildJsSearchResponseGenerated(dotNetObject, layerId, viewId);
+    return await buildJsSearchResponseGenerated(dotNetObject);
 }
 
-export async function buildDotNetSearchResponse(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSearchResponse(jsObject: any): Promise<any> {
     let {buildDotNetSearchResponseGenerated} = await import('./searchResponse.gb');
-    return await buildDotNetSearchResponseGenerated(jsObject, layerId, viewId);
+    return await buildDotNetSearchResponseGenerated(jsObject);
 }

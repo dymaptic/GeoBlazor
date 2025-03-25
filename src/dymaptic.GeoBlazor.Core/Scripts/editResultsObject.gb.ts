@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetEditResultsObject } from './editResultsObject';
 
 export async function buildJsEditResultsObjectGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEditResultsObject: any = {};
     if (hasValue(dotNetObject.adds) && dotNetObject.adds.length > 0) {
         let { buildJsNamedObjectEditResults } = await import('./namedObjectEditResults');
@@ -24,30 +28,6 @@ export async function buildJsEditResultsObjectGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(jsEditResultsObject);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsEditResultsObject;
-    
-    try {
-        let { buildDotNetEditResultsObject } = await import('./editResultsObject');
-        let dnInstantiatedObject = await buildDotNetEditResultsObject(jsEditResultsObject, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type EditResultsObject detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for EditResultsObject', e);
-    }
     
     return jsEditResultsObject;
 }

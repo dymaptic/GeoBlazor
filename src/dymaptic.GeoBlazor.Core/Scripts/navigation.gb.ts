@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetNavigation } from './navigation';
 
 export async function buildJsNavigationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.gamepad)) {
         let { buildJsGamepadGamepadSettings } = await import('./gamepadGamepadSettings');

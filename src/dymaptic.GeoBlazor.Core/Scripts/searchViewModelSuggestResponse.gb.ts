@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSearchViewModelSuggestResponse } from './searchViewModelSuggestResponse';
 
 export async function buildJsSearchViewModelSuggestResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchViewModelSuggestResponse: any = {};
     if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchViewModelSuggestResponseResults } = await import('./searchViewModelSuggestResponseResults');

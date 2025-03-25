@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetGamepadGamepadSettings } from './gamepadGamepadSettings';
 
 export async function buildJsGamepadGamepadSettingsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.device)) {
         let { buildJsGamepadInputDevice } = await import('./gamepadInputDevice');
@@ -24,30 +28,6 @@ export async function buildJsGamepadGamepadSettingsGenerated(dotNetObject: any, 
     let jsObjectRef = DotNet.createJSObjectReference(jsgamepadGamepadSettings);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsgamepadGamepadSettings;
-    
-    try {
-        let { buildDotNetGamepadGamepadSettings } = await import('./gamepadGamepadSettings');
-        let dnInstantiatedObject = await buildDotNetGamepadGamepadSettings(jsgamepadGamepadSettings, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GamepadGamepadSettings detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GamepadGamepadSettings', e);
-    }
     
     return jsgamepadGamepadSettings;
 }

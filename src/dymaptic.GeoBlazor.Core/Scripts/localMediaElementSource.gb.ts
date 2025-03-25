@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetLocalMediaElementSource } from './localMediaElementSource';
 
 export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.elements) && dotNetObject.elements.length > 0) {
@@ -14,30 +18,6 @@ export async function buildJsLocalMediaElementSourceGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsLocalMediaElementSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLocalMediaElementSource;
-    
-    try {
-        let { buildDotNetLocalMediaElementSource } = await import('./localMediaElementSource');
-        let dnInstantiatedObject = await buildDotNetLocalMediaElementSource(jsLocalMediaElementSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LocalMediaElementSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LocalMediaElementSource', e);
-    }
     
     return jsLocalMediaElementSource;
 }

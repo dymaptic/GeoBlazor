@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetLineOfSightAnalysisTargetElevationInfo } from './lineOfSightAnalysisTargetElevationInfo';
 
 export async function buildJsLineOfSightAnalysisTargetElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLineOfSightAnalysisTargetElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -15,30 +19,6 @@ export async function buildJsLineOfSightAnalysisTargetElevationInfoGenerated(dot
     let jsObjectRef = DotNet.createJSObjectReference(jsLineOfSightAnalysisTargetElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLineOfSightAnalysisTargetElevationInfo;
-    
-    try {
-        let { buildDotNetLineOfSightAnalysisTargetElevationInfo } = await import('./lineOfSightAnalysisTargetElevationInfo');
-        let dnInstantiatedObject = await buildDotNetLineOfSightAnalysisTargetElevationInfo(jsLineOfSightAnalysisTargetElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LineOfSightAnalysisTargetElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LineOfSightAnalysisTargetElevationInfo', e);
-    }
     
     return jsLineOfSightAnalysisTargetElevationInfo;
 }

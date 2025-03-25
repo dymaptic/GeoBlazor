@@ -37,6 +37,10 @@ export default class LocationServiceGenerated implements IPropertyWrapper {
 
 
 export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jslocator: any = {};
 
 
@@ -49,30 +53,6 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(locationServiceWrapper);
     jsObjectRefs[dotNetObject.id] = locationServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslocator;
-    
-    try {
-        let { buildDotNetLocationService } = await import('./locationService');
-        let dnInstantiatedObject = await buildDotNetLocationService(jslocator, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LocationService detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LocationService', e);
-    }
     
     return jslocator;
 }

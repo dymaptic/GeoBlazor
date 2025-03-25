@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPCTrueColorRendererResult } from './pCTrueColorRendererResult';
 
 export async function buildJsPCTrueColorRendererResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPCTrueColorRendererResult: any = {};
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsPointCloudRGBRenderer } = await import('./pointCloudRGBRenderer');

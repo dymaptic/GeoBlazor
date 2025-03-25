@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetGeoJSONLayerElevationInfo } from './geoJSONLayerElevationInfo';
 
 export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGeoJSONLayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsGeoJSONLayerElevationInfoFeatureExpressionInfo } = await import('./geoJSONLayerElevationInfoFeatureExpressionInfo');
@@ -22,30 +26,6 @@ export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
-    
-    try {
-        let { buildDotNetGeoJSONLayerElevationInfo } = await import('./geoJSONLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetGeoJSONLayerElevationInfo(jsGeoJSONLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GeoJSONLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerElevationInfo', e);
-    }
     
     return jsGeoJSONLayerElevationInfo;
 }

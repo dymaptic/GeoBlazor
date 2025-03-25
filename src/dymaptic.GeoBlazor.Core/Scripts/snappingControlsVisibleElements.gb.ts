@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSnappingControlsVisibleElements } from './snappingControlsVisibleElements';
 
 export async function buildJsSnappingControlsVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSnappingControlsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.enabledToggle)) {
@@ -27,30 +31,6 @@ export async function buildJsSnappingControlsVisibleElementsGenerated(dotNetObje
     let jsObjectRef = DotNet.createJSObjectReference(jsSnappingControlsVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSnappingControlsVisibleElements;
-    
-    try {
-        let { buildDotNetSnappingControlsVisibleElements } = await import('./snappingControlsVisibleElements');
-        let dnInstantiatedObject = await buildDotNetSnappingControlsVisibleElements(jsSnappingControlsVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SnappingControlsVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SnappingControlsVisibleElements', e);
-    }
     
     return jsSnappingControlsVisibleElements;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetWhenNode } from './whenNode';
 
 export async function buildJsWhenNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsWhenNode: any = {};
 
     if (hasValue(dotNetObject.operand)) {

@@ -4,7 +4,7 @@ import {
     copyValuesIfExists, dotNetRefs,
     graphicsRefs,
     hasValue,
-    jsObjectRefs, lookupGeoBlazorId,
+    jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
     lookupJsGraphicById
 } from "./arcGisJsInterop";
 import Geometry from "@arcgis/core/geometry/Geometry";
@@ -83,25 +83,7 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
     }
 
     let groupId = layerId ?? viewId;
-    if (groupId !== null && graphicsRefs.hasOwnProperty(groupId)) {
-        let group = graphicsRefs[groupId];
-        for (const k of Object.keys(group)) {
-            if (group[k] === graphic) {
-                dotNetGraphic.id = k;
-                break;
-            }
-        }
-    } else {
-        for (const k of Object.keys(graphicsRefs)) {
-            let group = graphicsRefs[k];
-            for (const j of Object.keys(group)) {
-                if (group[j] === graphic) {
-                    dotNetGraphic.id = j;
-                    break;
-                }
-            }
-        }
-    }
+    dotNetGraphic.id = lookupGeoBlazorGraphicId(graphic);
 
     copyValuesIfExists(graphic, dotNetGraphic, 'visible', 'aggregateGeometries', 'uid');
 
@@ -126,6 +108,8 @@ export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, vie
             dotNetGraphic.id = crypto.randomUUID();
             graphicsRefs[groupId!][dotNetGraphic.id] = graphic;
         }
+    } else if (!hasValue(dotNetGraphic.id)) {
+        dotNetGraphic.id = crypto.randomUUID();
     }
     
     return dotNetGraphic;

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPrintSubmitEvent } from './printSubmitEvent';
 
 export async function buildJsPrintSubmitEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPrintSubmitEvent: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsPrintSubmitEventResults } = await import('./printSubmitEventResults');

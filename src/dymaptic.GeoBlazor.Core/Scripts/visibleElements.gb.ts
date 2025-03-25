@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVisibleElements } from './visibleElements';
 
 export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.area)) {
@@ -48,30 +52,6 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promis
     let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElements;
-    
-    try {
-        let { buildDotNetVisibleElements } = await import('./visibleElements');
-        let dnInstantiatedObject = await buildDotNetVisibleElements(jsVisibleElements);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VisibleElements', e);
-    }
     
     return jsVisibleElements;
 }

@@ -52,6 +52,10 @@ export default class GeographicTransformationStepGenerated implements IPropertyW
 
 
 export async function buildJsGeographicTransformationStepGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGeographicTransformationStep: any = {};
 
     if (hasValue(dotNetObject.isInverse)) {

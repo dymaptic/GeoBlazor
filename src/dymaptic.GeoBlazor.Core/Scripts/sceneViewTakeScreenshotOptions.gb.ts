@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSceneViewTakeScreenshotOptions } from './sceneViewTakeScreenshotOptions';
 
 export async function buildJsSceneViewTakeScreenshotOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewTakeScreenshotOptions: any = {};
     if (hasValue(dotNetObject.area)) {
         let { buildJsSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');

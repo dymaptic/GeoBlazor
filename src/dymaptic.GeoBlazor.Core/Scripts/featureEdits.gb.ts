@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetFeatureEdits } from './featureEdits';
 
 export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureLayerBaseApplyEditsEdits: any = {};
     if (hasValue(dotNetObject.addAttachments) && dotNetObject.addAttachments.length > 0) {
         let { buildJsAttachmentEdit } = await import('./attachmentEdit');

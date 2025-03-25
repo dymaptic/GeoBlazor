@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetSceneViewScreenshot } from './sceneViewScreenshot';
 
 export async function buildJsSceneViewScreenshotGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewScreenshot: any = {};
 
     if (hasValue(dotNetObject.data)) {
@@ -15,30 +19,6 @@ export async function buildJsSceneViewScreenshotGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewScreenshot);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewScreenshot;
-    
-    try {
-        let { buildDotNetSceneViewScreenshot } = await import('./sceneViewScreenshot');
-        let dnInstantiatedObject = await buildDotNetSceneViewScreenshot(jsSceneViewScreenshot, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SceneViewScreenshot detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SceneViewScreenshot', e);
-    }
     
     return jsSceneViewScreenshot;
 }

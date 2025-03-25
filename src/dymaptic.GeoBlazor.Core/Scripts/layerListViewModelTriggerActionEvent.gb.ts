@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerListViewModelTriggerActionEvent } from './layerListViewModelTriggerActionEvent';
 
 export async function buildJsLayerListViewModelTriggerActionEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerListViewModelTriggerActionEvent: any = {};
     if (hasValue(dotNetObject.action)) {
         let { buildJsActionBase } = await import('./actionBase');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetMediaHit } from './mediaHit';
 
 export async function buildJsMediaHitGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsMediaHit: any = {};
     if (hasValue(dotNetObject.layer)) {
         let { buildJsMediaLayer } = await import('./mediaLayer');

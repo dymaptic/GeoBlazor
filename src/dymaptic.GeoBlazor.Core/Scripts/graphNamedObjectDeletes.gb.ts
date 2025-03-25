@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetGraphNamedObjectDeletes } from './graphNamedObjectDeletes';
 
 export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGraphNamedObjectDeletes: any = {};
 
     if (hasValue(dotNetObject.ids) && dotNetObject.ids.length > 0) {
@@ -15,30 +19,6 @@ export async function buildJsGraphNamedObjectDeletesGenerated(dotNetObject: any,
     let jsObjectRef = DotNet.createJSObjectReference(jsGraphNamedObjectDeletes);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGraphNamedObjectDeletes;
-    
-    try {
-        let { buildDotNetGraphNamedObjectDeletes } = await import('./graphNamedObjectDeletes');
-        let dnInstantiatedObject = await buildDotNetGraphNamedObjectDeletes(jsGraphNamedObjectDeletes, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GraphNamedObjectDeletes detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GraphNamedObjectDeletes', e);
-    }
     
     return jsGraphNamedObjectDeletes;
 }

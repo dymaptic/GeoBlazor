@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAuthoringInfoStatistics } from './authoringInfoStatistics';
 
 export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAuthoringInfoStatistics: any = {};
 
     if (hasValue(dotNetObject.max)) {
@@ -15,30 +19,6 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any)
     let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoStatistics);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
-    
-    try {
-        let { buildDotNetAuthoringInfoStatistics } = await import('./authoringInfoStatistics');
-        let dnInstantiatedObject = await buildDotNetAuthoringInfoStatistics(jsAuthoringInfoStatistics);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AuthoringInfoStatistics detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AuthoringInfoStatistics', e);
-    }
     
     return jsAuthoringInfoStatistics;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPredominanceCreateRendererParamsFields } from './predominanceCreateRendererParamsFields';
 
 export async function buildJsPredominanceCreateRendererParamsFieldsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jspredominanceCreateRendererParamsFields: any = {};
 
     if (hasValue(dotNetObject.label)) {
@@ -15,30 +19,6 @@ export async function buildJsPredominanceCreateRendererParamsFieldsGenerated(dot
     let jsObjectRef = DotNet.createJSObjectReference(jspredominanceCreateRendererParamsFields);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspredominanceCreateRendererParamsFields;
-    
-    try {
-        let { buildDotNetPredominanceCreateRendererParamsFields } = await import('./predominanceCreateRendererParamsFields');
-        let dnInstantiatedObject = await buildDotNetPredominanceCreateRendererParamsFields(jspredominanceCreateRendererParamsFields, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PredominanceCreateRendererParamsFields detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PredominanceCreateRendererParamsFields', e);
-    }
     
     return jspredominanceCreateRendererParamsFields;
 }

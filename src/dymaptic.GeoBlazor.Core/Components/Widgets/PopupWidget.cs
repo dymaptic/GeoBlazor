@@ -132,8 +132,16 @@ public partial class PopupWidget : Widget
     /// </summary>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToParameters)
+    public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
         if (GoToOverride is not null)
         {
             await GoToOverride.Invoke(goToParameters);
@@ -234,8 +242,16 @@ public partial class PopupWidget : Widget
     /// </param>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
+    public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        PopupTriggerActionEvent triggerActionEvent = JsonSerializer.Deserialize<PopupTriggerActionEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
         if (Actions is null)
         {
             return;

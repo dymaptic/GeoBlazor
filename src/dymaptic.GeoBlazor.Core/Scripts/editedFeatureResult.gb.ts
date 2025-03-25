@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEditedFeatureResult } from './editedFeatureResult';
 
 export async function buildJsEditedFeatureResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEditedFeatureResult: any = {};
     if (hasValue(dotNetObject.editedFeatures)) {
         let { buildJsEditedFeatureResultEditedFeatures } = await import('./editedFeatureResultEditedFeatures');

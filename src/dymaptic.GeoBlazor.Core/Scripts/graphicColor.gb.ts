@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetGraphicColor } from './graphicColor';
 
 export async function buildJsGraphicColorGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGraphicColor: any = {};
 
     if (hasValue(dotNetObject.color) && dotNetObject.color.length > 0) {
@@ -18,30 +22,6 @@ export async function buildJsGraphicColorGenerated(dotNetObject: any, layerId: s
     let jsObjectRef = DotNet.createJSObjectReference(jsGraphicColor);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicColor;
-    
-    try {
-        let { buildDotNetGraphicColor } = await import('./graphicColor');
-        let dnInstantiatedObject = await buildDotNetGraphicColor(jsGraphicColor, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GraphicColor detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GraphicColor', e);
-    }
     
     return jsGraphicColor;
 }

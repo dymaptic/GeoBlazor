@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetGraphQueryStreaming } from './graphQueryStreaming';
 
 export async function buildJsGraphQueryStreamingGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.outputQuantizationParameters)) {
         let { buildJsOutputQuantizationParameters } = await import('./outputQuantizationParameters');

@@ -2,11 +2,15 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetSearchResponse } from './searchResponse';
 
-export async function buildJsSearchResponseGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsSearchResponseGenerated(dotNetObject: any, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchResponse: any = {};
     if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResponseResults } = await import('./searchResponseResults');
-        jsSearchResponse.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResponseResults(i, layerId, viewId))) as any;
+        jsSearchResponse.results = await Promise.all(dotNetObject.results.map(async i => await buildJsSearchResponseResults(i, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.activeSourceIndex)) {
@@ -30,7 +34,7 @@ export async function buildJsSearchResponseGenerated(dotNetObject: any, layerId:
 }
 
 
-export async function buildDotNetSearchResponseGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSearchResponseGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -39,7 +43,7 @@ export async function buildDotNetSearchResponseGenerated(jsObject: any, layerId:
     
     if (hasValue(jsObject.results)) {
         let { buildDotNetSearchResponseResults } = await import('./searchResponseResults');
-        dotNetSearchResponse.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchResponseResults(i, layerId, viewId)));
+        dotNetSearchResponse.results = await Promise.all(jsObject.results.map(async i => await buildDotNetSearchResponseResults(i)));
     }
     
     if (hasValue(jsObject.activeSourceIndex)) {

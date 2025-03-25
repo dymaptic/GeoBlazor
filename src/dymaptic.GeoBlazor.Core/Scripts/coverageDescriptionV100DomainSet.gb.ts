@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetCoverageDescriptionV100DomainSet } from './coverageDescriptionV100DomainSet';
 
 export async function buildJsCoverageDescriptionV100DomainSetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCoverageDescriptionV100DomainSet: any = {};
     if (hasValue(dotNetObject.spatialDomain)) {
         let { buildJsCoverageDescriptionV100DomainSetSpatialDomain } = await import('./coverageDescriptionV100DomainSetSpatialDomain');

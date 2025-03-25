@@ -165,6 +165,10 @@ export default class GeoJSONLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGeoJSONLayerView: any = {};
     if (hasValue(dotNetObject.featureEffect)) {
         let { buildJsFeatureEffect } = await import('./featureEffect');
@@ -198,30 +202,6 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerView;
-    
-    try {
-        let { buildDotNetGeoJSONLayerView } = await import('./geoJSONLayerView');
-        let dnInstantiatedObject = await buildDotNetGeoJSONLayerView(jsGeoJSONLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GeoJSONLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GeoJSONLayerView', e);
-    }
     
     return jsGeoJSONLayerView;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetPortalFeaturedGroups } from './portalFeaturedGroups';
 
 export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPortalFeaturedGroups: any = {};
 
     if (hasValue(dotNetObject.owner)) {
@@ -15,30 +19,6 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): P
     let jsObjectRef = DotNet.createJSObjectReference(jsPortalFeaturedGroups);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
-    
-    try {
-        let { buildDotNetPortalFeaturedGroups } = await import('./portalFeaturedGroups');
-        let dnInstantiatedObject = await buildDotNetPortalFeaturedGroups(jsPortalFeaturedGroups);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PortalFeaturedGroups detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PortalFeaturedGroups', e);
-    }
     
     return jsPortalFeaturedGroups;
 }

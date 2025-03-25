@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValuesUniqueValuesParams } from './uniqueValuesUniqueValuesParams';
 
 export async function buildJsUniqueValuesUniqueValuesParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsuniqueValuesUniqueValuesParams: any = {};
     if (hasValue(viewId)) {
         jsuniqueValuesUniqueValuesParams.view = arcGisObjectRefs[viewId!];

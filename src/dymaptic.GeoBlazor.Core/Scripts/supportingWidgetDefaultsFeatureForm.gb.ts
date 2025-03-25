@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSupportingWidgetDefaultsFeatureForm } from './supportingWidgetDefaultsFeatureForm';
 
 export async function buildJsSupportingWidgetDefaultsFeatureFormGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSupportingWidgetDefaultsFeatureForm: any = {};
 
     if (hasValue(dotNetObject.groupDisplay)) {
@@ -12,30 +16,6 @@ export async function buildJsSupportingWidgetDefaultsFeatureFormGenerated(dotNet
     let jsObjectRef = DotNet.createJSObjectReference(jsSupportingWidgetDefaultsFeatureForm);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSupportingWidgetDefaultsFeatureForm;
-    
-    try {
-        let { buildDotNetSupportingWidgetDefaultsFeatureForm } = await import('./supportingWidgetDefaultsFeatureForm');
-        let dnInstantiatedObject = await buildDotNetSupportingWidgetDefaultsFeatureForm(jsSupportingWidgetDefaultsFeatureForm, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SupportingWidgetDefaultsFeatureForm detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SupportingWidgetDefaultsFeatureForm', e);
-    }
     
     return jsSupportingWidgetDefaultsFeatureForm;
 }

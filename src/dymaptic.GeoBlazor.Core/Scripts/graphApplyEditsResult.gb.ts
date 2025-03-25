@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetGraphApplyEditsResult } from './graphApplyEditsResult';
 
 export async function buildJsGraphApplyEditsResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.editResults) && dotNetObject.editResults.length > 0) {
         let { buildJsEditResultsObject } = await import('./editResultsObject');

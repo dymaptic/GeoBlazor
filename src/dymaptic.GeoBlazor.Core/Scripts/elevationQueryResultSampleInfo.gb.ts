@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetElevationQueryResultSampleInfo } from './elevationQueryResultSampleInfo';
 
 export async function buildJsElevationQueryResultSampleInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsElevationQueryResultSampleInfo: any = {};
     if (hasValue(dotNetObject.source)) {
         let { buildJsElevationLayer } = await import('./elevationLayer');

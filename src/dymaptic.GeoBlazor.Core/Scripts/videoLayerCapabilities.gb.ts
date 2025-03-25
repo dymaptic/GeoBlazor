@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetVideoLayerCapabilities } from './videoLayerCapabilities';
 
 export async function buildJsVideoLayerCapabilitiesGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVideoLayerCapabilities: any = {};
     if (hasValue(dotNetObject.operations)) {
         let { buildJsVideoLayerCapabilitiesOperations } = await import('./videoLayerCapabilitiesOperations');

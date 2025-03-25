@@ -139,18 +139,26 @@ export default class BasemapGenerated implements IPropertyWrapper {
 
 
 export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
-    if (hasValue(dotNetObject.baseLayers) && dotNetObject.baseLayers.length > 0) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        properties.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.referenceLayers) && dotNetObject.referenceLayers.length > 0) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');
@@ -180,30 +188,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
-    
-    try {
-        let { buildDotNetBasemap } = await import('./basemap');
-        let dnInstantiatedObject = await buildDotNetBasemap(jsBasemap);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Basemap detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Basemap', e);
-    }
     
     return jsBasemap;
 }

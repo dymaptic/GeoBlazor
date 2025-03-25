@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetConfigLog } from './configLog';
 
 export async function buildJsConfigLogGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsconfigLog: any = {};
     if (hasValue(dotNetObject.hasInterceptors) && dotNetObject.hasInterceptors) {
         jsconfigLog.interceptors = async (level,
@@ -22,30 +26,6 @@ export async function buildJsConfigLogGenerated(dotNetObject: any, layerId: stri
     let jsObjectRef = DotNet.createJSObjectReference(jsconfigLog);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfigLog;
-    
-    try {
-        let { buildDotNetConfigLog } = await import('./configLog');
-        let dnInstantiatedObject = await buildDotNetConfigLog(jsconfigLog, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ConfigLog detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ConfigLog', e);
-    }
     
     return jsconfigLog;
 }

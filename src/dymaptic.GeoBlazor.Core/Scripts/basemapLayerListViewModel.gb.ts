@@ -74,6 +74,10 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
 
 
 export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -111,30 +115,6 @@ export async function buildJsBasemapLayerListViewModelGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListViewModel;
-    
-    try {
-        let { buildDotNetBasemapLayerListViewModel } = await import('./basemapLayerListViewModel');
-        let dnInstantiatedObject = await buildDotNetBasemapLayerListViewModel(jsBasemapLayerListViewModel);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BasemapLayerListViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BasemapLayerListViewModel', e);
-    }
     
     return jsBasemapLayerListViewModel;
 }

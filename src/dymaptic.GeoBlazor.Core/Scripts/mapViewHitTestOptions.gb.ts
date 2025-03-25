@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetMapViewHitTestOptions } from './mapViewHitTestOptions';
 
 export async function buildJsMapViewHitTestOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsMapViewHitTestOptions: any = {};
     if (hasValue(dotNetObject.exclude) && dotNetObject.exclude.length > 0) {
         let { buildJsIHitTestItem } = await import('./iHitTestItem');

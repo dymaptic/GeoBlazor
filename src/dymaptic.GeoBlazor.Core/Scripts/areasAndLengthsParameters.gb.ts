@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetAreasAndLengthsParameters } from './areasAndLengthsParameters';
 
 export async function buildJsAreasAndLengthsParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.polygons) && dotNetObject.polygons.length > 0) {
         let { buildJsPolygon } = await import('./polygon');

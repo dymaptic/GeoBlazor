@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetAssetTypeJSON } from './assetTypeJSON';
 
 export async function buildJsAssetTypeJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAssetTypeJSON: any = {};
 
     if (hasValue(dotNetObject.assetTypeCode)) {
@@ -18,30 +22,6 @@ export async function buildJsAssetTypeJSONGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(jsAssetTypeJSON);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsAssetTypeJSON;
-    
-    try {
-        let { buildDotNetAssetTypeJSON } = await import('./assetTypeJSON');
-        let dnInstantiatedObject = await buildDotNetAssetTypeJSON(jsAssetTypeJSON, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type AssetTypeJSON detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for AssetTypeJSON', e);
-    }
     
     return jsAssetTypeJSON;
 }

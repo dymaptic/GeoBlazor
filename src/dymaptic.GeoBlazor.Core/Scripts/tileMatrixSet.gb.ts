@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetTileMatrixSet } from './tileMatrixSet';
 
 export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
@@ -22,30 +26,6 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(jsTileMatrixSet);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTileMatrixSet;
-    
-    try {
-        let { buildDotNetTileMatrixSet } = await import('./tileMatrixSet');
-        let dnInstantiatedObject = await buildDotNetTileMatrixSet(jsTileMatrixSet);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type TileMatrixSet detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TileMatrixSet', e);
-    }
     
     return jsTileMatrixSet;
 }

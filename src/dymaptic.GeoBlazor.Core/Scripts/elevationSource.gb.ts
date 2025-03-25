@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetElevationSource } from './elevationSource';
 
 export async function buildJsElevationSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsElevationSource: any = {};
 
     if (hasValue(dotNetObject.lod)) {
@@ -18,30 +22,6 @@ export async function buildJsElevationSourceGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(jsElevationSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsElevationSource;
-    
-    try {
-        let { buildDotNetElevationSource } = await import('./elevationSource');
-        let dnInstantiatedObject = await buildDotNetElevationSource(jsElevationSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ElevationSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ElevationSource', e);
-    }
     
     return jsElevationSource;
 }

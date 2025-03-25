@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSceneViewTakeScreenshotOptionsArea } from './sceneViewTakeScreenshotOptionsArea';
 
 export async function buildJsSceneViewTakeScreenshotOptionsAreaGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneViewTakeScreenshotOptionsArea: any = {};
 
     if (hasValue(dotNetObject.height)) {
@@ -21,30 +25,6 @@ export async function buildJsSceneViewTakeScreenshotOptionsAreaGenerated(dotNetO
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneViewTakeScreenshotOptionsArea);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneViewTakeScreenshotOptionsArea;
-    
-    try {
-        let { buildDotNetSceneViewTakeScreenshotOptionsArea } = await import('./sceneViewTakeScreenshotOptionsArea');
-        let dnInstantiatedObject = await buildDotNetSceneViewTakeScreenshotOptionsArea(jsSceneViewTakeScreenshotOptionsArea, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SceneViewTakeScreenshotOptionsArea detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SceneViewTakeScreenshotOptionsArea', e);
-    }
     
     return jsSceneViewTakeScreenshotOptionsArea;
 }

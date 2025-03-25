@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPredominantCategoriesResult } from './predominantCategoriesResult';
 
 export async function buildJsPredominantCategoriesResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPredominantCategoriesResult: any = {};
     if (hasValue(dotNetObject.predominantCategoryInfos) && dotNetObject.predominantCategoryInfos.length > 0) {
         let { buildJsPredominantCategoriesResultPredominantCategoryInfos } = await import('./predominantCategoriesResultPredominantCategoryInfos');

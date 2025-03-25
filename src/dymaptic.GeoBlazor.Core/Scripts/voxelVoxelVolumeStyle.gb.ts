@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVoxelVoxelVolumeStyle } from './voxelVoxelVolumeStyle';
 
 export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.dynamicSections) && dotNetObject.dynamicSections.length > 0) {
         let { buildJsVoxelDynamicSection } = await import('./voxelDynamicSection');
@@ -25,30 +29,6 @@ export async function buildJsVoxelVoxelVolumeStyleGenerated(dotNetObject: any, l
     let jsObjectRef = DotNet.createJSObjectReference(jsvoxelVoxelVolumeStyle);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsvoxelVoxelVolumeStyle;
-    
-    try {
-        let { buildDotNetVoxelVoxelVolumeStyle } = await import('./voxelVoxelVolumeStyle');
-        let dnInstantiatedObject = await buildDotNetVoxelVoxelVolumeStyle(jsvoxelVoxelVolumeStyle, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VoxelVoxelVolumeStyle detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VoxelVoxelVolumeStyle', e);
-    }
     
     return jsvoxelVoxelVolumeStyle;
 }

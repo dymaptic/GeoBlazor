@@ -131,6 +131,10 @@ export default class ListItemGenerated implements IPropertyWrapper {
 
 
 export async function buildJsListItemGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -139,9 +143,11 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
         let { buildJsActionBase } = await import('./actionBase');
         properties.actionsSections = dotNetObject.actionsSections.map(i => buildJsActionBase(i)) as any;
     }
-    if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
 
     if (hasValue(dotNetObject.actionsOpen)) {
@@ -179,30 +185,6 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(listItemWrapper);
     jsObjectRefs[dotNetObject.id] = listItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItem;
-    
-    try {
-        let { buildDotNetListItem } = await import('./listItem');
-        let dnInstantiatedObject = await buildDotNetListItem(jsListItem);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ListItem detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ListItem', e);
-    }
     
     return jsListItem;
 }

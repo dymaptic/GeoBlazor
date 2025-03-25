@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetKMLLayerViewMapImage } from './kMLLayerViewMapImage';
 
 export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKMLLayerViewMapImage: any = {};
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
@@ -22,30 +26,6 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any): P
     let jsObjectRef = DotNet.createJSObjectReference(jsKMLLayerViewMapImage);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;
-    
-    try {
-        let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        let dnInstantiatedObject = await buildDotNetKMLLayerViewMapImage(jsKMLLayerViewMapImage);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type KMLLayerViewMapImage detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for KMLLayerViewMapImage', e);
-    }
     
     return jsKMLLayerViewMapImage;
 }

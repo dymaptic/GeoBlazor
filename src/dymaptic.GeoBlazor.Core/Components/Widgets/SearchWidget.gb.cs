@@ -1881,8 +1881,17 @@ public partial class SearchWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchBlur(SearchBlurEvent searchBlurEvent)
+    public async Task OnJsSearchBlur(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchBlurEvent searchBlurEvent = 
+            JsonSerializer.Deserialize<SearchBlurEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchBlur.InvokeAsync(searchBlurEvent);
     }
     
@@ -1897,8 +1906,17 @@ public partial class SearchWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchClear(SearchClearEvent searchClearEvent)
+    public async Task OnJsSearchClear(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchClearEvent searchClearEvent = 
+            JsonSerializer.Deserialize<SearchClearEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchClear.InvokeAsync(searchClearEvent);
     }
     
@@ -1913,24 +1931,17 @@ public partial class SearchWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchComplete(SearchCompleteEvent searchCompleteEvent)
+    public async Task OnJsSearchFocus(IJSStreamReference jsStreamRef)
     {
-        await OnSearchComplete.InvokeAsync(searchCompleteEvent);
-    }
-    
-    /// <summary>
-    ///     Event Listener for SearchComplete.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<SearchCompleteEvent> OnSearchComplete { get; set; }
-   
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsSearchFocus(SearchFocusEvent searchFocusEvent)
-    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchFocusEvent searchFocusEvent = 
+            JsonSerializer.Deserialize<SearchFocusEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchFocus.InvokeAsync(searchFocusEvent);
     }
     
@@ -1945,8 +1956,17 @@ public partial class SearchWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSearchStart(SearchStartEvent searchStartEvent)
+    public async Task OnJsSearchStart(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchStartEvent searchStartEvent = 
+            JsonSerializer.Deserialize<SearchStartEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSearchStart.InvokeAsync(searchStartEvent);
     }
     
@@ -1961,40 +1981,17 @@ public partial class SearchWidget : IGoTo
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsSelectResult(SearchSelectResultEvent selectResultEvent)
+    public async Task OnJsSuggestStart(IJSStreamReference jsStreamRef)
     {
-        await OnSelectResult.InvokeAsync(selectResultEvent);
-    }
-    
-    /// <summary>
-    ///     Event Listener for SelectResult.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<SearchSelectResultEvent> OnSelectResult { get; set; }
-   
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsSuggestComplete(SearchSuggestCompleteEvent suggestCompleteEvent)
-    {
-        await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
-    }
-    
-    /// <summary>
-    ///     Event Listener for SuggestComplete.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    public EventCallback<SearchSuggestCompleteEvent> OnSuggestComplete { get; set; }
-   
-    /// <summary>
-    ///     JavaScript-Invokable Method for internal use only.
-    /// </summary>
-    [JSInvokable]
-    public async Task OnJsSuggestStart(SearchSuggestStartEvent suggestStartEvent)
-    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSuggestStartEvent suggestStartEvent = 
+            JsonSerializer.Deserialize<SearchSuggestStartEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnSuggestStart.InvokeAsync(suggestStartEvent);
     }
     

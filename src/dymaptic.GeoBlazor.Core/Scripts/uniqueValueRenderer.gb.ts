@@ -213,6 +213,10 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
 
 
 export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.authoringInfo)) {
         let { buildJsAuthoringInfo } = await import('./authoringInfo');
@@ -278,30 +282,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
-    
-    try {
-        let { buildDotNetUniqueValueRenderer } = await import('./uniqueValueRenderer');
-        let dnInstantiatedObject = await buildDotNetUniqueValueRenderer(jsUniqueValueRenderer);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type UniqueValueRenderer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for UniqueValueRenderer', e);
-    }
     
     return jsUniqueValueRenderer;
 }

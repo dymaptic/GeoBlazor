@@ -1,4 +1,7 @@
-﻿namespace dymaptic.GeoBlazor.Core.Components;
+﻿using System.Text.Encodings.Web;
+
+
+namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
@@ -104,7 +107,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </summary>
     [JsonIgnore]
     [Parameter]
-    public Layer? Layer { get; set; }
+    public virtual Layer? Layer { get; set; }
     
     /// <summary>
     ///     The Id of the relevant Layer for the MapComponent. Not always applicable to every component type.
@@ -642,39 +645,44 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     For internal use, registration from JavaScript.
     /// </summary>
     [JSInvokable]
-    public virtual ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference, 
-        string? instantiatedComponentJson)
+    public virtual async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference, 
+        IJSStreamReference jsonStreamReference)
     {
         JsComponentReference = jsComponentReference;
         MapComponent? instantiatedComponent = null;
 
         try
         {
-            if (instantiatedComponentJson is not null)
+            await using Stream stream = await jsonStreamReference
+                .OpenReadStreamAsync(1_000_000_000L);
+            await using MemoryStream ms = new();
+            await stream.CopyToAsync(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            byte[] encodedJson = ms.ToArray();
+            string instantiatedComponentJson = Encoding.UTF8.GetString(encodedJson);
+            Type componentType = GetType();
+            // deserialize to this type
+            JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
+
+            if (JsonSerializer.Deserialize(instantiatedComponentJson, componentType, options) 
+                is MapComponent deserialized)
             {
-                Type componentType = GetType();
-                // deserialize to this type
-                JsonSerializerOptions options = GeoBlazorSerialization.JsonSerializerOptions;
+                instantiatedComponent = deserialized;
+                CopyProperties(instantiatedComponent);
+            }
 
-                if (JsonSerializer.Deserialize(instantiatedComponentJson, componentType, options) 
-                    is MapComponent deserialized)
-                {
-                    instantiatedComponent = deserialized;
-                    CopyProperties(instantiatedComponent);
-                }
-
-                // we can't serialize the already-serialized sourceJSON, so we call this separately
-                if (componentType.GetMethod("GetSourceJSON") is { } getSourceJSONMethod)
-                {
-                    getSourceJSONMethod.Invoke(this, []);
-                }
+            // we can't serialize the already-serialized sourceJSON, so we call this separately
+            if (componentType.GetMethod("GetSourceJSON") is { } getSourceJSONMethod)
+            {
+                getSourceJSONMethod.Invoke(this, []);
             }
         }
         catch(Exception ex)
         {
             Console.WriteLine($"Error deserializing instantiated component: {ex}");
         }
-        return new ValueTask<MapComponent?>(instantiatedComponent);
+        
+        return instantiatedComponent;
     }
 
     internal void CopyProperties(MapComponent deserializedComponent)

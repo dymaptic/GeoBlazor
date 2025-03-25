@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetUniqueValueCreateRendererParams } from './uniqueValueCreateRendererParams';
 
 export async function buildJsUniqueValueCreateRendererParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsuniqueValueCreateRendererParams: any = {};
     if (hasValue(dotNetObject.colorRamp)) {
         let { buildJsColorRamp } = await import('./colorRamp');

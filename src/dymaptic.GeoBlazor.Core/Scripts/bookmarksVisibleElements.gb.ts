@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBookmarksVisibleElements } from './bookmarksVisibleElements';
 
 export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBookmarksVisibleElements: any = {};
 
     if (hasValue(dotNetObject.addBookmark)) {
@@ -39,30 +43,6 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
     let jsObjectRef = DotNet.createJSObjectReference(jsBookmarksVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksVisibleElements;
-    
-    try {
-        let { buildDotNetBookmarksVisibleElements } = await import('./bookmarksVisibleElements');
-        let dnInstantiatedObject = await buildDotNetBookmarksVisibleElements(jsBookmarksVisibleElements);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BookmarksVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BookmarksVisibleElements', e);
-    }
     
     return jsBookmarksVisibleElements;
 }

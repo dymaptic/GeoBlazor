@@ -3,40 +3,22 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetITablesMixin } from './iTablesMixin';
 
 export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTablesMixin: any = {};
-    if (hasValue(dotNetObject.tables) && dotNetObject.tables.length > 0) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        jsTablesMixin.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        jsTablesMixin.tables = await Promise.all(dotNetObject.tables.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
+        jsTablesMixin.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
 
     
     let jsObjectRef = DotNet.createJSObjectReference(jsTablesMixin);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;
-    
-    try {
-        let { buildDotNetITablesMixin } = await import('./iTablesMixin');
-        let dnInstantiatedObject = await buildDotNetITablesMixin(jsTablesMixin, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ITablesMixin detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ITablesMixin', e);
-    }
     
     return jsTablesMixin;
 }

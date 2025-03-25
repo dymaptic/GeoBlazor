@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPortalQueryResult } from './portalQueryResult';
 
 export async function buildJsPortalQueryResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.nextQueryParams)) {
         let { buildJsPortalQueryParams } = await import('./portalQueryParams');

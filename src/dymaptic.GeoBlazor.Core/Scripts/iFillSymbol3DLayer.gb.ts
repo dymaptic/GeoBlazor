@@ -116,6 +116,10 @@ export default class IFillSymbol3DLayerGenerated implements IPropertyWrapper {
 
 
 export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsEdges3D } = await import('./edges3D');
@@ -154,8 +158,7 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
         let dnInstantiatedObject = await buildDotNetIFillSymbol3DLayer(jsFillSymbol3DLayer, layerId, viewId);
 
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+        let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
@@ -168,7 +171,12 @@ export async function buildJsIFillSymbol3DLayerGenerated(dotNetObject: any, laye
                     seenObjects.set(value, true);
                 }
                 return value;
-            }));
+            });
+        let encoder = new TextEncoder();
+        let encodedArray = encoder.encode(dnJson);
+        let dnStream = DotNet.createJSStreamReference(encodedArray);
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, dnStream);
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for IFillSymbol3DLayer', e);
     }

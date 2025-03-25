@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetSketchVisibleElements } from './sketchVisibleElements';
 
 export async function buildJsSketchVisibleElementsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSketchVisibleElements: any = {};
     if (hasValue(dotNetObject.createTools)) {
         let { buildJsVisibleElementsCreateTools } = await import('./visibleElementsCreateTools');
@@ -39,30 +43,6 @@ export async function buildJsSketchVisibleElementsGenerated(dotNetObject: any, l
     let jsObjectRef = DotNet.createJSObjectReference(jsSketchVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSketchVisibleElements;
-    
-    try {
-        let { buildDotNetSketchVisibleElements } = await import('./sketchVisibleElements');
-        let dnInstantiatedObject = await buildDotNetSketchVisibleElements(jsSketchVisibleElements, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SketchVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SketchVisibleElements', e);
-    }
     
     return jsSketchVisibleElements;
 }

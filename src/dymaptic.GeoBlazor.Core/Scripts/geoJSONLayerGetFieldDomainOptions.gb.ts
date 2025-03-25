@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetGeoJSONLayerGetFieldDomainOptions } from './geoJSONLayerGetFieldDomainOptions';
 
 export async function buildJsGeoJSONLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGeoJSONLayerGetFieldDomainOptions: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');

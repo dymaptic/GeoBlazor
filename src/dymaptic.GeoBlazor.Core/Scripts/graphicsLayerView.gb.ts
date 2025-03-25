@@ -79,6 +79,10 @@ export default class GraphicsLayerViewGenerated implements IPropertyWrapper {
 
 
 export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsGraphicsLayerView: any = {};
     if (hasValue(dotNetObject.highlightOptions)) {
         let { buildJsHighlightOptions } = await import('./highlightOptions');
@@ -98,30 +102,6 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerView;
-    
-    try {
-        let { buildDotNetGraphicsLayerView } = await import('./graphicsLayerView');
-        let dnInstantiatedObject = await buildDotNetGraphicsLayerView(jsGraphicsLayerView);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type GraphicsLayerView detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for GraphicsLayerView', e);
-    }
     
     return jsGraphicsLayerView;
 }

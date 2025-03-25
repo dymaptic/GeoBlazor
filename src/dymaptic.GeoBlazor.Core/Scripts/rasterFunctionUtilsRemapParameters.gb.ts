@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetRasterFunctionUtilsRemapParameters } from './rasterFunctionUtilsRemapParameters';
 
 export async function buildJsRasterFunctionUtilsRemapParametersGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsrasterFunctionUtilsRemapParameters: any = {};
     if (hasValue(dotNetObject.rangeMaps) && dotNetObject.rangeMaps.length > 0) {
         let { buildJsPixelValueRangeMap } = await import('./pixelValueRangeMap');

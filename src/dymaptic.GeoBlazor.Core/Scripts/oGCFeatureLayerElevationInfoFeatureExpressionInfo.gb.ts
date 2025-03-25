@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo } from './oGCFeatureLayerElevationInfoFeatureExpressionInfo';
 
 export async function buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsOGCFeatureLayerElevationInfoFeatureExpressionInfo: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -15,30 +19,6 @@ export async function buildJsOGCFeatureLayerElevationInfoFeatureExpressionInfoGe
     let jsObjectRef = DotNet.createJSObjectReference(jsOGCFeatureLayerElevationInfoFeatureExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsOGCFeatureLayerElevationInfoFeatureExpressionInfo;
-    
-    try {
-        let { buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo } = await import('./oGCFeatureLayerElevationInfoFeatureExpressionInfo');
-        let dnInstantiatedObject = await buildDotNetOGCFeatureLayerElevationInfoFeatureExpressionInfo(jsOGCFeatureLayerElevationInfoFeatureExpressionInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type OGCFeatureLayerElevationInfoFeatureExpressionInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for OGCFeatureLayerElevationInfoFeatureExpressionInfo', e);
-    }
     
     return jsOGCFeatureLayerElevationInfoFeatureExpressionInfo;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCoverageDescriptionV201EoMetadata } from './coverageDescriptionV201EoMetadata';
 
 export async function buildJsCoverageDescriptionV201EoMetadataGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCoverageDescriptionV201EoMetadata: any = {};
     if (hasValue(dotNetObject.observation)) {
         let { buildJsCoverageDescriptionV201EoMetadataObservation } = await import('./coverageDescriptionV201EoMetadataObservation');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } from './knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics';
 
 export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatisticsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics: any = {};
 
     if (hasValue(dotNetObject.centroid)) {
@@ -18,30 +22,6 @@ export async function buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpa
     let jsObjectRef = DotNet.createJSObjectReference(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics;
-    
-    try {
-        let { buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');
-        let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics(jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type KnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for KnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics', e);
-    }
     
     return jsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics;
 }

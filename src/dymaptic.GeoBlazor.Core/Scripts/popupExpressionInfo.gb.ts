@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetPopupExpressionInfo } from './popupExpressionInfo';
 
 export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.expression)) {
@@ -23,30 +27,6 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any): Pr
     let jsObjectRef = DotNet.createJSObjectReference(jspopupExpressionInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jspopupExpressionInfo;
-    
-    try {
-        let { buildDotNetPopupExpressionInfo } = await import('./popupExpressionInfo');
-        let dnInstantiatedObject = await buildDotNetPopupExpressionInfo(jspopupExpressionInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type PopupExpressionInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for PopupExpressionInfo', e);
-    }
     
     return jspopupExpressionInfo;
 }

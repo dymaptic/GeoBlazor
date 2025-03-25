@@ -67,6 +67,10 @@ export default class SymbologyPredominanceGenerated implements IPropertyWrapper 
 
 
 export async function buildJsSymbologyPredominanceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jssymbologyPredominance: any = {};
 
 

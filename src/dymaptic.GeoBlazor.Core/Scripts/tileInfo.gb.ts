@@ -93,6 +93,10 @@ export default class TileInfoGenerated implements IPropertyWrapper {
 
 
 export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.lods) && dotNetObject.lods.length > 0) {
         let { buildJsLOD } = await import('./lOD');
@@ -126,30 +130,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
-    
-    try {
-        let { buildDotNetTileInfo } = await import('./tileInfo');
-        let dnInstantiatedObject = await buildDotNetTileInfo(jsTileInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type TileInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TileInfo', e);
-    }
     
     return jsTileInfo;
 }

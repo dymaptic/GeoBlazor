@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetPrintCompleteEvent } from './printCompleteEvent';
 
 export async function buildJsPrintCompleteEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsPrintCompleteEvent: any = {};
     if (hasValue(dotNetObject.results)) {
         let { buildJsPrintCompleteEventResults } = await import('./printCompleteEventResults');

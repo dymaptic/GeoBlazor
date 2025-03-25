@@ -4,13 +4,19 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetActiveLayerInfo } from './activeLayerInfo';
 
 export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
     if (hasValue(dotNetObject.layerView)) {
         let { buildJsLayerView } = await import('./layerView');
@@ -50,30 +56,6 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(jsActiveLayerInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
-    
-    try {
-        let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        let dnInstantiatedObject = await buildDotNetActiveLayerInfo(jsActiveLayerInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ActiveLayerInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ActiveLayerInfo', e);
-    }
     
     return jsActiveLayerInfo;
 }

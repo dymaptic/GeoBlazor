@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetLabel } from './label';
 
 export async function buildJsLabelGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.labelExpressionInfo)) {
         let { buildJsLabelExpressionInfo } = await import('./labelExpressionInfo');
@@ -52,30 +56,6 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     let jsObjectRef = DotNet.createJSObjectReference(jsLabelClass);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
-    
-    try {
-        let { buildDotNetLabel } = await import('./label');
-        let dnInstantiatedObject = await buildDotNetLabel(jsLabelClass);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type Label detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for Label', e);
-    }
     
     return jsLabelClass;
 }

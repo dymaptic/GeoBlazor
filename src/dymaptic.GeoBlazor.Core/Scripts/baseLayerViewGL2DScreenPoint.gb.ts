@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetBaseLayerViewGL2DScreenPoint } from './baseLayerViewGL2DScreenPoint';
 
 export async function buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBaseLayerViewGL2DScreenPoint: any = {};
 
     if (hasValue(dotNetObject.x)) {
@@ -15,30 +19,6 @@ export async function buildJsBaseLayerViewGL2DScreenPointGenerated(dotNetObject:
     let jsObjectRef = DotNet.createJSObjectReference(jsBaseLayerViewGL2DScreenPoint);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBaseLayerViewGL2DScreenPoint;
-    
-    try {
-        let { buildDotNetBaseLayerViewGL2DScreenPoint } = await import('./baseLayerViewGL2DScreenPoint');
-        let dnInstantiatedObject = await buildDotNetBaseLayerViewGL2DScreenPoint(jsBaseLayerViewGL2DScreenPoint, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BaseLayerViewGL2DScreenPoint detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BaseLayerViewGL2DScreenPoint', e);
-    }
     
     return jsBaseLayerViewGL2DScreenPoint;
 }

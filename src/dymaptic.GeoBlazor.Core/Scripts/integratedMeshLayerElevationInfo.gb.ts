@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetIntegratedMeshLayerElevationInfo } from './integratedMeshLayerElevationInfo';
 
 export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsIntegratedMeshLayerElevationInfo: any = {};
 
     if (hasValue(dotNetObject.mode)) {
@@ -18,30 +22,6 @@ export async function buildJsIntegratedMeshLayerElevationInfoGenerated(dotNetObj
     let jsObjectRef = DotNet.createJSObjectReference(jsIntegratedMeshLayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsIntegratedMeshLayerElevationInfo;
-    
-    try {
-        let { buildDotNetIntegratedMeshLayerElevationInfo } = await import('./integratedMeshLayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetIntegratedMeshLayerElevationInfo(jsIntegratedMeshLayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type IntegratedMeshLayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for IntegratedMeshLayerElevationInfo', e);
-    }
     
     return jsIntegratedMeshLayerElevationInfo;
 }

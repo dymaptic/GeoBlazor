@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetExternalReferenceSpatialReference } from './externalReferenceSpatialReference';
 
 export async function buildJsExternalReferenceSpatialReferenceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsExternalReferenceSpatialReference: any = {};
 
     if (hasValue(dotNetObject.latestVcsWkid)) {
@@ -21,30 +25,6 @@ export async function buildJsExternalReferenceSpatialReferenceGenerated(dotNetOb
     let jsObjectRef = DotNet.createJSObjectReference(jsExternalReferenceSpatialReference);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsExternalReferenceSpatialReference;
-    
-    try {
-        let { buildDotNetExternalReferenceSpatialReference } = await import('./externalReferenceSpatialReference');
-        let dnInstantiatedObject = await buildDotNetExternalReferenceSpatialReference(jsExternalReferenceSpatialReference, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ExternalReferenceSpatialReference detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ExternalReferenceSpatialReference', e);
-    }
     
     return jsExternalReferenceSpatialReference;
 }

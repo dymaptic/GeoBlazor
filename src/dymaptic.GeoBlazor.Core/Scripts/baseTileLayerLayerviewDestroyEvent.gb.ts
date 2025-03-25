@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBaseTileLayerLayerviewDestroyEvent } from './baseTileLayerLayerviewDestroyEvent';
 
 export async function buildJsBaseTileLayerLayerviewDestroyEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBaseTileLayerLayerviewDestroyEvent: any = {};
     if (hasValue(viewId)) {
         jsBaseTileLayerLayerviewDestroyEvent.view = arcGisObjectRefs[viewId!];

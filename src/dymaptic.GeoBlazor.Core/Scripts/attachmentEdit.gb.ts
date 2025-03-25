@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetAttachmentEdit } from './attachmentEdit';
 
 export async function buildJsAttachmentEditGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsAttachmentEdit: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');

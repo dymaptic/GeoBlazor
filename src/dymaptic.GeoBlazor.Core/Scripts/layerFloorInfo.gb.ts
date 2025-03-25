@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetLayerFloorInfo } from './layerFloorInfo';
 
 export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.floorField)) {
@@ -14,30 +18,6 @@ export async function buildJsLayerFloorInfoGenerated(dotNetObject: any): Promise
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerFloorInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerFloorInfo;
-    
-    try {
-        let { buildDotNetLayerFloorInfo } = await import('./layerFloorInfo');
-        let dnInstantiatedObject = await buildDotNetLayerFloorInfo(jsLayerFloorInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LayerFloorInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerFloorInfo', e);
-    }
     
     return jsLayerFloorInfo;
 }

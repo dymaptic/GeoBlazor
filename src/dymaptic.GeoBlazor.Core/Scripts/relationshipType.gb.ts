@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetRelationshipType } from './relationshipType';
 
 export async function buildJsRelationshipTypeGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.endPoints) && dotNetObject.endPoints.length > 0) {
         let { buildJsRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');

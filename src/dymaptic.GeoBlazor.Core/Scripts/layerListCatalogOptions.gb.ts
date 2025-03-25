@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetLayerListCatalogOptions } from './layerListCatalogOptions';
 
 export async function buildJsLayerListCatalogOptionsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerListCatalogOptions: any = {};
     if (hasValue(dotNetObject.visibleElements)) {
         let { buildJsLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');

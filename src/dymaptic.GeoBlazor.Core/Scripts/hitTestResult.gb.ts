@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetHitTestResult } from './hitTestResult';
 
 export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHitTestResult: any = {};
     if (hasValue(dotNetObject.screenPoint)) {
         let { buildJsMapViewScreenPoint } = await import('./mapViewScreenPoint');

@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetEsriConfig } from './esriConfig';
 
 export async function buildJsEsriConfigGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsconfig: any = {};
     if (hasValue(dotNetObject.log)) {
         let { buildJsConfigLog } = await import('./configLog');
@@ -55,30 +59,6 @@ export async function buildJsEsriConfigGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(jsconfig);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsconfig;
-    
-    try {
-        let { buildDotNetEsriConfig } = await import('./esriConfig');
-        let dnInstantiatedObject = await buildDotNetEsriConfig(jsconfig, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type EsriConfig detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for EsriConfig', e);
-    }
     
     return jsconfig;
 }

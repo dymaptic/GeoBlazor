@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetHeatmapStatisticsHeatmapStatisticsParams } from './heatmapStatisticsHeatmapStatisticsParams';
 
 export async function buildJsHeatmapStatisticsHeatmapStatisticsParamsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsheatmapStatisticsHeatmapStatisticsParams: any = {};
     if (hasValue(viewId)) {
         jsheatmapStatisticsHeatmapStatisticsParams.view = arcGisObjectRefs[viewId!];

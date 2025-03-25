@@ -26,31 +26,6 @@ public partial class BookmarksWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? HeadingLevel { get; set; }
-
-
-    /// <summary>
-    ///     Handler delegate for click events on the view.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore]
-    [CodeGenerationIgnore]
-    public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
-
-    /// <summary>
-    ///     JS-Invokable method to return a selected bookmark
-    /// </summary>
-    /// <param name="bookmarkSelectEvent">
-    ///     The <see cref="BookmarkSelectEvent" /> return meta object.
-    /// </param>
-    /// <remarks>
-    ///     Fires after a user clicks on a bookmark.
-    /// </remarks>
-    [JSInvokable]
-    [CodeGenerationIgnore]
-    public async Task OnJsBookmarkSelect(BookmarkSelectEvent bookmarkSelectEvent)
-    {
-        await OnBookmarkSelect.InvokeAsync(bookmarkSelectEvent);
-    }
     
     /// <summary>
     ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
@@ -68,8 +43,16 @@ public partial class BookmarksWidget : Widget
     /// </summary>
     [JSInvokable]
     [CodeGenerationIgnore]
-    public async Task OnJsGoToOverride(GoToOverrideParameters goToParameters)
+    public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
         if (GoToOverride is not null)
         {
             await GoToOverride.Invoke(goToParameters);

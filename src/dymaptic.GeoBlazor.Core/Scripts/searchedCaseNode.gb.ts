@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetSearchedCaseNode } from './searchedCaseNode';
 
 export async function buildJsSearchedCaseNodeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchedCaseNode: any = {};
     if (hasValue(dotNetObject.clauses) && dotNetObject.clauses.length > 0) {
         let { buildJsWhenNode } = await import('./whenNode');

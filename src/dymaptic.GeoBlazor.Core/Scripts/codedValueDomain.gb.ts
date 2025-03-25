@@ -47,6 +47,10 @@ export default class CodedValueDomainGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCodedValueDomainGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.codedValues) && dotNetObject.codedValues.length > 0) {

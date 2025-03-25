@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetMeshVertex } from './meshVertex';
 
 export async function buildJsMeshVertexGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsMeshVertex: any = {};
 
     if (hasValue(dotNetObject.distance)) {
@@ -30,30 +34,6 @@ export async function buildJsMeshVertexGenerated(dotNetObject: any, layerId: str
     let jsObjectRef = DotNet.createJSObjectReference(jsMeshVertex);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsMeshVertex;
-    
-    try {
-        let { buildDotNetMeshVertex } = await import('./meshVertex');
-        let dnInstantiatedObject = await buildDotNetMeshVertex(jsMeshVertex, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type MeshVertex detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for MeshVertex', e);
-    }
     
     return jsMeshVertex;
 }

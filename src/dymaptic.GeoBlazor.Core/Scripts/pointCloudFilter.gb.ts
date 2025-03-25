@@ -9,6 +9,10 @@ export async function buildJsPointCloudFilterGenerated(dotNetObject: any, layerI
     
     switch (dotNetObject.type) {
         case 'PointCloudFilterType':
+            if (!hasValue(dotNetObject)) {
+                return null;
+            }
+
             let properties: any = {};
 
             if (hasValue(dotNetObject.field)) {

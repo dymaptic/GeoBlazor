@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetObjectSymbol3DLayerResource } from './objectSymbol3DLayerResource';
 
 export async function buildJsObjectSymbol3DLayerResourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsObjectSymbol3DLayerResource: any = {};
 
     if (hasValue(dotNetObject.href)) {
@@ -15,30 +19,6 @@ export async function buildJsObjectSymbol3DLayerResourceGenerated(dotNetObject: 
     let jsObjectRef = DotNet.createJSObjectReference(jsObjectSymbol3DLayerResource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsObjectSymbol3DLayerResource;
-    
-    try {
-        let { buildDotNetObjectSymbol3DLayerResource } = await import('./objectSymbol3DLayerResource');
-        let dnInstantiatedObject = await buildDotNetObjectSymbol3DLayerResource(jsObjectSymbol3DLayerResource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ObjectSymbol3DLayerResource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ObjectSymbol3DLayerResource', e);
-    }
     
     return jsObjectSymbol3DLayerResource;
 }

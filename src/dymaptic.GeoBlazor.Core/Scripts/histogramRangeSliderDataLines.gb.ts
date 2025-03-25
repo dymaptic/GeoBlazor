@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetHistogramRangeSliderDataLines } from './histogramRangeSliderDataLines';
 
 export async function buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsHistogramRangeSliderDataLines: any = {};
 
     if (hasValue(dotNetObject.label)) {
@@ -15,30 +19,6 @@ export async function buildJsHistogramRangeSliderDataLinesGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(jsHistogramRangeSliderDataLines);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsHistogramRangeSliderDataLines;
-    
-    try {
-        let { buildDotNetHistogramRangeSliderDataLines } = await import('./histogramRangeSliderDataLines');
-        let dnInstantiatedObject = await buildDotNetHistogramRangeSliderDataLines(jsHistogramRangeSliderDataLines, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type HistogramRangeSliderDataLines detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for HistogramRangeSliderDataLines', e);
-    }
     
     return jsHistogramRangeSliderDataLines;
 }

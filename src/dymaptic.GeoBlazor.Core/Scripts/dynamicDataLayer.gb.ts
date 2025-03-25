@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetDynamicDataLayer } from './dynamicDataLayer';
 
 export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDynamicDataLayer: any = {};
     if (hasValue(dotNetObject.dataSource)) {
         let { buildJsDynamicDataSource } = await import('./dynamicDataSource');
@@ -16,30 +20,6 @@ export async function buildJsDynamicDataLayerGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(jsDynamicDataLayer);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayer;
-    
-    try {
-        let { buildDotNetDynamicDataLayer } = await import('./dynamicDataLayer');
-        let dnInstantiatedObject = await buildDotNetDynamicDataLayer(jsDynamicDataLayer);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DynamicDataLayer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DynamicDataLayer', e);
-    }
     
     return jsDynamicDataLayer;
 }

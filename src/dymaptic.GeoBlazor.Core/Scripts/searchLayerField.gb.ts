@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetSearchLayerField } from './searchLayerField';
 
 export async function buildJsSearchLayerFieldGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.exactMatch)) {
@@ -17,30 +21,6 @@ export async function buildJsSearchLayerFieldGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(jsSearchLayerField);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSearchLayerField;
-    
-    try {
-        let { buildDotNetSearchLayerField } = await import('./searchLayerField');
-        let dnInstantiatedObject = await buildDotNetSearchLayerField(jsSearchLayerField, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type SearchLayerField detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for SearchLayerField', e);
-    }
     
     return jsSearchLayerField;
 }

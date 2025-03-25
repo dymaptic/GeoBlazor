@@ -103,6 +103,10 @@ export default class DefaultUIGenerated implements IPropertyWrapper {
 
 
 export async function buildJsDefaultUIGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.components) && dotNetObject.components.length > 0) {

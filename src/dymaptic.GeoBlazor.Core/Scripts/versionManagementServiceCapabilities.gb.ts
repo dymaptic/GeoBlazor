@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVersionManagementServiceCapabilities } from './versionManagementServiceCapabilities';
 
 export async function buildJsVersionManagementServiceCapabilitiesGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVersionManagementServiceCapabilities: any = {};
 
     if (hasValue(dotNetObject.supportsAsyncDifferences)) {
@@ -30,30 +34,6 @@ export async function buildJsVersionManagementServiceCapabilitiesGenerated(dotNe
     let jsObjectRef = DotNet.createJSObjectReference(jsVersionManagementServiceCapabilities);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVersionManagementServiceCapabilities;
-    
-    try {
-        let { buildDotNetVersionManagementServiceCapabilities } = await import('./versionManagementServiceCapabilities');
-        let dnInstantiatedObject = await buildDotNetVersionManagementServiceCapabilities(jsVersionManagementServiceCapabilities, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VersionManagementServiceCapabilities detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VersionManagementServiceCapabilities', e);
-    }
     
     return jsVersionManagementServiceCapabilities;
 }

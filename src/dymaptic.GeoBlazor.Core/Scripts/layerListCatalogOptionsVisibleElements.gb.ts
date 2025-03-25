@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetLayerListCatalogOptionsVisibleElements } from './layerListCatalogOptionsVisibleElements';
 
 export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsLayerListCatalogOptionsVisibleElements: any = {};
 
     if (hasValue(dotNetObject.errors)) {
@@ -21,30 +25,6 @@ export async function buildJsLayerListCatalogOptionsVisibleElementsGenerated(dot
     let jsObjectRef = DotNet.createJSObjectReference(jsLayerListCatalogOptionsVisibleElements);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListCatalogOptionsVisibleElements;
-    
-    try {
-        let { buildDotNetLayerListCatalogOptionsVisibleElements } = await import('./layerListCatalogOptionsVisibleElements');
-        let dnInstantiatedObject = await buildDotNetLayerListCatalogOptionsVisibleElements(jsLayerListCatalogOptionsVisibleElements);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LayerListCatalogOptionsVisibleElements detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerListCatalogOptionsVisibleElements', e);
-    }
     
     return jsLayerListCatalogOptionsVisibleElements;
 }

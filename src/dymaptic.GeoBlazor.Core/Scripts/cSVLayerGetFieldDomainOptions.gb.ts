@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetCSVLayerGetFieldDomainOptions } from './cSVLayerGetFieldDomainOptions';
 
 export async function buildJsCSVLayerGetFieldDomainOptionsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsCSVLayerGetFieldDomainOptions: any = {};
     if (hasValue(dotNetObject.feature)) {
         let { buildJsGraphic } = await import('./graphic');

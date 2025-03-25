@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetDictionaryVariable } from './dictionaryVariable';
 
 export async function buildJsDictionaryVariableGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsDictionaryVariable: any = {};
     if (hasValue(dotNetObject.properties) && dotNetObject.properties.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
@@ -16,30 +20,6 @@ export async function buildJsDictionaryVariableGenerated(dotNetObject: any, laye
     let jsObjectRef = DotNet.createJSObjectReference(jsDictionaryVariable);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsDictionaryVariable;
-    
-    try {
-        let { buildDotNetDictionaryVariable } = await import('./dictionaryVariable');
-        let dnInstantiatedObject = await buildDotNetDictionaryVariable(jsDictionaryVariable, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type DictionaryVariable detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for DictionaryVariable', e);
-    }
     
     return jsDictionaryVariable;
 }

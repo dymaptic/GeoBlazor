@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, sanitize, 
 import { buildDotNetISceneService } from './iSceneService';
 
 export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSceneService: any = {};
 
     if (hasValue(dotNetObject.copyright)) {
@@ -21,30 +25,6 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
     let jsObjectRef = DotNet.createJSObjectReference(jsSceneService);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsSceneService;
-    
-    try {
-        let { buildDotNetISceneService } = await import('./iSceneService');
-        let dnInstantiatedObject = await buildDotNetISceneService(jsSceneService, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ISceneService detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ISceneService', e);
-    }
     
     return jsSceneService;
 }

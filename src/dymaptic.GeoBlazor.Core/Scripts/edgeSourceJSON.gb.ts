@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetEdgeSourceJSON } from './edgeSourceJSON';
 
 export async function buildJsEdgeSourceJSONGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsEdgeSourceJSON: any = {};
     if (hasValue(dotNetObject.assetGroups) && dotNetObject.assetGroups.length > 0) {
         let { buildJsAssetGroupJSON } = await import('./assetGroupJSON');

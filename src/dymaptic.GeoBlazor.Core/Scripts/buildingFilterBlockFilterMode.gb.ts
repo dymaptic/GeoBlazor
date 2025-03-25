@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetBuildingFilterBlockFilterMode } from './buildingFilterBlockFilterMode';
 
 export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsBuildingFilterBlockFilterMode: any = {};
     if (hasValue(dotNetObject.edges)) {
         let { buildJsIBuildingFilterBlockFilterModeEdges } = await import('./iBuildingFilterBlockFilterModeEdges');
@@ -13,30 +17,6 @@ export async function buildJsBuildingFilterBlockFilterModeGenerated(dotNetObject
     let jsObjectRef = DotNet.createJSObjectReference(jsBuildingFilterBlockFilterMode);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsBuildingFilterBlockFilterMode;
-    
-    try {
-        let { buildDotNetBuildingFilterBlockFilterMode } = await import('./buildingFilterBlockFilterMode');
-        let dnInstantiatedObject = await buildDotNetBuildingFilterBlockFilterMode(jsBuildingFilterBlockFilterMode, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type BuildingFilterBlockFilterMode detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for BuildingFilterBlockFilterMode', e);
-    }
     
     return jsBuildingFilterBlockFilterMode;
 }

@@ -4,22 +4,20 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetLayerSearchSource } from './layerSearchSource';
 
 export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.filter)) {
         let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
         properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter) as any;
     }
-    if (hasValue(dotNetObject.hasGetResultsHandler) && dotNetObject.hasGetResultsHandler) {
-        properties.getResults = async (parameters) => {
-
-            let result = await dotNetObject.invokeMethodAsync('OnJsGetResultsHandler', parameters);
-            let { buildJsSearchResult } = await import('./searchResult');
-            return await Promise.all(result.map(async i => await buildJsSearchResult(i)));
-        };
-    }
-    if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
+        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
+    } else if (hasValue(dotNetObject.layer)) {
         let { buildJsLayer } = await import('./layer');
-        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId) as any;
+        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -38,9 +36,6 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     }
     if (hasValue(dotNetObject.exactMatch)) {
         properties.exactMatch = dotNetObject.exactMatch;
-    }
-    if (hasValue(dotNetObject.getSuggestionsHandler)) {
-        properties.getSuggestions = dotNetObject.getSuggestionsHandler;
     }
     if (hasValue(dotNetObject.maxResults)) {
         properties.maxResults = dotNetObject.maxResults;
@@ -99,35 +94,11 @@ export async function buildJsLayerSearchSourceGenerated(dotNetObject: any, layer
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsLayerSearchSource;
     
-    try {
-        let { buildDotNetLayerSearchSource } = await import('./layerSearchSource');
-        let dnInstantiatedObject = await buildDotNetLayerSearchSource(jsLayerSearchSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type LayerSearchSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for LayerSearchSource', e);
-    }
-    
     return jsLayerSearchSource;
 }
 
 
-export async function buildDotNetLayerSearchSourceGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetLayerSearchSourceGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

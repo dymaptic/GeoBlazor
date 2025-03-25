@@ -129,6 +129,10 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
 
 
 export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
@@ -171,8 +175,7 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
         let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
 
         let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
+        let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
                 if (key.startsWith('_') || key === 'jsComponentReference') {
                     return undefined;
                 }
@@ -185,7 +188,12 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
                     seenObjects.set(value, true);
                 }
                 return value;
-            }));
+            });
+        let encoder = new TextEncoder();
+        let encodedArray = encoder.encode(dnJson);
+        let dnStream = DotNet.createJSStreamReference(encodedArray);
+        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
+            jsObjectRef, dnStream);
     } catch (e) {
         console.error('Error invoking OnJsComponentCreated for CompassWidget', e);
     }

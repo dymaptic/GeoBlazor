@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRendererResultClassBreaks } from './rendererResultClassBreaks';
 
 export async function buildJsRendererResultClassBreaksGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRendererResultClassBreaks: any = {};
     if (hasValue(dotNetObject.field1)) {
         let { buildJsClassBreaksResult } = await import('./classBreaksResult');
@@ -17,30 +21,6 @@ export async function buildJsRendererResultClassBreaksGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsRendererResultClassBreaks);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRendererResultClassBreaks;
-    
-    try {
-        let { buildDotNetRendererResultClassBreaks } = await import('./rendererResultClassBreaks');
-        let dnInstantiatedObject = await buildDotNetRendererResultClassBreaks(jsRendererResultClassBreaks, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RendererResultClassBreaks detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RendererResultClassBreaks', e);
-    }
     
     return jsRendererResultClassBreaks;
 }

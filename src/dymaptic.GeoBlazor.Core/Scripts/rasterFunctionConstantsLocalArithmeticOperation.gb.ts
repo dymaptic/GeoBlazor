@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRasterFunctionConstantsLocalArithmeticOperation } from './rasterFunctionConstantsLocalArithmeticOperation';
 
 export async function buildJsRasterFunctionConstantsLocalArithmeticOperationGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsrasterFunctionConstantsLocalArithmeticOperation: any = {};
 
     if (hasValue(dotNetObject.abs)) {
@@ -69,30 +73,6 @@ export async function buildJsRasterFunctionConstantsLocalArithmeticOperationGene
     let jsObjectRef = DotNet.createJSObjectReference(jsrasterFunctionConstantsLocalArithmeticOperation);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsrasterFunctionConstantsLocalArithmeticOperation;
-    
-    try {
-        let { buildDotNetRasterFunctionConstantsLocalArithmeticOperation } = await import('./rasterFunctionConstantsLocalArithmeticOperation');
-        let dnInstantiatedObject = await buildDotNetRasterFunctionConstantsLocalArithmeticOperation(jsrasterFunctionConstantsLocalArithmeticOperation, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RasterFunctionConstantsLocalArithmeticOperation detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RasterFunctionConstantsLocalArithmeticOperation', e);
-    }
     
     return jsrasterFunctionConstantsLocalArithmeticOperation;
 }

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetLayerViewCreateEvent } from './layerViewCreateEvent';
 
 export async function buildJsLayerViewCreateEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureLayerLayerviewCreateEvent: any = {};
     if (hasValue(viewId)) {
         jsFeatureLayerLayerviewCreateEvent.view = arcGisObjectRefs[viewId!];

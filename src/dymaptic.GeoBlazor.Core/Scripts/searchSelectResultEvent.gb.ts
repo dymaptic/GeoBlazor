@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchSelectResultEvent } from './searchSelectResultEvent';
 
 export async function buildJsSearchSelectResultEventGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchSelectResultEvent: any = {};
     if (hasValue(dotNetObject.result)) {
         let { buildJsSearchResult } = await import('./searchResult');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetKnowledgeGraphSublayerCapabilitiesQuery } from './knowledgeGraphSublayerCapabilitiesQuery';
 
 export async function buildJsKnowledgeGraphSublayerCapabilitiesQueryGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKnowledgeGraphSublayerCapabilitiesQuery: any = {};
     if (hasValue(dotNetObject.supportedSpatialAggregationStatistics)) {
         let { buildJsKnowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics } = await import('./knowledgeGraphSublayerCapabilitiesQuerySupportedSpatialAggregationStatistics');

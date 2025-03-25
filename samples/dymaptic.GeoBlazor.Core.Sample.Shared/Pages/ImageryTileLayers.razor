@@ -11,14 +11,14 @@
     This sample shows how to add an instance of a hosted ImageryTileLayer to a Map in a MapView. The ImageryTileLayer in this sample shows the National Land Cover Database (NLCD) 2016 land cover types for the United States.
 </p>
 
-<MapView @ref="_mapView" 
-         class="map-view" 
+<MapView @ref="_mapView"
+         class="map-view"
          Center="@(new Point(x: 0, y: 0, spatialReference: new SpatialReference(102003)))"
          Scale="19975114"
          OnLayerViewCreate="OnLayerViewCreated"
          BackgroundColor="@(new MapColor("#F5F5F5"))">
+    <SpatialReference Wkid="102003" />
     <Map>
-        <SpatialReference Wkid="102003" />
         <Basemap>
             <FeatureLayer @ref="_states"
                           Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2"

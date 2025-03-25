@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVoxelOpacityStop } from './voxelOpacityStop';
 
 export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVoxelOpacityStop: any = {};
 
     if (hasValue(dotNetObject.opacity)) {
@@ -15,30 +19,6 @@ export async function buildJsVoxelOpacityStopGenerated(dotNetObject: any): Promi
     let jsObjectRef = DotNet.createJSObjectReference(jsVoxelOpacityStop);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVoxelOpacityStop;
-    
-    try {
-        let { buildDotNetVoxelOpacityStop } = await import('./voxelOpacityStop');
-        let dnInstantiatedObject = await buildDotNetVoxelOpacityStop(jsVoxelOpacityStop);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VoxelOpacityStop detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VoxelOpacityStop', e);
-    }
     
     return jsVoxelOpacityStop;
 }

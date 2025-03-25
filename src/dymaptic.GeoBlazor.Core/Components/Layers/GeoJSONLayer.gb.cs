@@ -3946,8 +3946,17 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsEdits(GeoJSONLayerEditsEvent editsEvent)
+    public async Task OnJsEdits(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GeoJSONLayerEditsEvent editsEvent = 
+            JsonSerializer.Deserialize<GeoJSONLayerEditsEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnEdits.InvokeAsync(editsEvent);
     }
     
@@ -3963,8 +3972,17 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
     [JSInvokable]
-    public async Task OnJsRefresh(RefreshEvent refreshEvent)
+    public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        RefreshEvent refreshEvent = 
+            JsonSerializer.Deserialize<RefreshEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
         await OnRefresh.InvokeAsync(refreshEvent);
     }
     

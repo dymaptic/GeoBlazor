@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetKnowledgeGraphSublayerElevationInfo } from './knowledgeGraphSublayerElevationInfo';
 
 export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsKnowledgeGraphSublayerElevationInfo: any = {};
     if (hasValue(dotNetObject.featureExpressionInfo)) {
         let { buildJsKnowledgeGraphSublayerElevationInfoFeatureExpressionInfo } = await import('./knowledgeGraphSublayerElevationInfoFeatureExpressionInfo');
@@ -22,30 +26,6 @@ export async function buildJsKnowledgeGraphSublayerElevationInfoGenerated(dotNet
     let jsObjectRef = DotNet.createJSObjectReference(jsKnowledgeGraphSublayerElevationInfo);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsKnowledgeGraphSublayerElevationInfo;
-    
-    try {
-        let { buildDotNetKnowledgeGraphSublayerElevationInfo } = await import('./knowledgeGraphSublayerElevationInfo');
-        let dnInstantiatedObject = await buildDotNetKnowledgeGraphSublayerElevationInfo(jsKnowledgeGraphSublayerElevationInfo);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type KnowledgeGraphSublayerElevationInfo detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for KnowledgeGraphSublayerElevationInfo', e);
-    }
     
     return jsKnowledgeGraphSublayerElevationInfo;
 }

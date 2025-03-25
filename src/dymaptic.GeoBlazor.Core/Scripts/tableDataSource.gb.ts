@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetTableDataSource } from './tableDataSource';
 
 export async function buildJsTableDataSourceGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsTableDataSource: any = {};
 
     if (hasValue(dotNetObject.dataSourceName)) {
@@ -18,30 +22,6 @@ export async function buildJsTableDataSourceGenerated(dotNetObject: any, layerId
     let jsObjectRef = DotNet.createJSObjectReference(jsTableDataSource);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTableDataSource;
-    
-    try {
-        let { buildDotNetTableDataSource } = await import('./tableDataSource');
-        let dnInstantiatedObject = await buildDotNetTableDataSource(jsTableDataSource, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type TableDataSource detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TableDataSource', e);
-    }
     
     return jsTableDataSource;
 }

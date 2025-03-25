@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetBuildingSummaryStatistics } from './buildingSummaryStatistics';
 
 export async function buildJsBuildingSummaryStatisticsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
     if (hasValue(dotNetObject.fields) && dotNetObject.fields.length > 0) {
         let { buildJsBuildingFieldStatistics } = await import('./buildingFieldStatistics');

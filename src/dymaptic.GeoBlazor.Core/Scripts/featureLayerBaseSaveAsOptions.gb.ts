@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } fr
 import { buildDotNetFeatureLayerBaseSaveAsOptions } from './featureLayerBaseSaveAsOptions';
 
 export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsFeatureLayerBaseSaveAsOptions: any = {};
     if (hasValue(dotNetObject.folder)) {
         let { buildJsPortalFolder } = await import('./portalFolder');

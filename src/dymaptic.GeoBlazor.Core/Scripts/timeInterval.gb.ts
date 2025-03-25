@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetTimeInterval } from './timeInterval';
 
 export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.unit)) {
@@ -17,30 +21,6 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<a
     let jsObjectRef = DotNet.createJSObjectReference(jsTimeInterval);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
-    
-    try {
-        let { buildDotNetTimeInterval } = await import('./timeInterval');
-        let dnInstantiatedObject = await buildDotNetTimeInterval(jsTimeInterval);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type TimeInterval detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for TimeInterval', e);
-    }
     
     return jsTimeInterval;
 }

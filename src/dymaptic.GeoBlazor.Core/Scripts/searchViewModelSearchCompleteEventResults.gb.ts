@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue } from './arcGisJsInterop';
 import { buildDotNetSearchViewModelSearchCompleteEventResults } from './searchViewModelSearchCompleteEventResults';
 
 export async function buildJsSearchViewModelSearchCompleteEventResultsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsSearchViewModelSearchCompleteEventResults: any = {};
     if (hasValue(dotNetObject.results) && dotNetObject.results.length > 0) {
         let { buildJsSearchResult } = await import('./searchResult');

@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetRelationshipTypeEndPoints } from './relationshipTypeEndPoints';
 
 export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: any): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsRelationshipTypeEndPoints: any = {};
 
     if (hasValue(dotNetObject.destinationEntityType)) {
@@ -15,30 +19,6 @@ export async function buildJsRelationshipTypeEndPointsGenerated(dotNetObject: an
     let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipTypeEndPoints);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipTypeEndPoints;
-    
-    try {
-        let { buildDotNetRelationshipTypeEndPoints } = await import('./relationshipTypeEndPoints');
-        let dnInstantiatedObject = await buildDotNetRelationshipTypeEndPoints(jsRelationshipTypeEndPoints);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type RelationshipTypeEndPoints detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for RelationshipTypeEndPoints', e);
-    }
     
     return jsRelationshipTypeEndPoints;
 }

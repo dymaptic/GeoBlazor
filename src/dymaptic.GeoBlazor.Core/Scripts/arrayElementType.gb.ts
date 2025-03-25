@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetArrayElementType } from './arrayElementType';
 
 export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsArrayElementType: any = {};
     if (hasValue(dotNetObject.properties) && dotNetObject.properties.length > 0) {
         let { buildJsIProfileVariable } = await import('./iProfileVariable');
@@ -13,30 +17,6 @@ export async function buildJsArrayElementTypeGenerated(dotNetObject: any, layerI
     let jsObjectRef = DotNet.createJSObjectReference(jsArrayElementType);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsArrayElementType;
-    
-    try {
-        let { buildDotNetArrayElementType } = await import('./arrayElementType');
-        let dnInstantiatedObject = await buildDotNetArrayElementType(jsArrayElementType, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ArrayElementType detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for ArrayElementType', e);
-    }
     
     return jsArrayElementType;
 }

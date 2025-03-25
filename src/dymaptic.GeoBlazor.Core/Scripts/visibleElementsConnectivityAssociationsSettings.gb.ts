@@ -3,6 +3,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId } from './a
 import { buildDotNetVisibleElementsConnectivityAssociationsSettings } from './visibleElementsConnectivityAssociationsSettings';
 
 export async function buildJsVisibleElementsConnectivityAssociationsSettingsGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let jsVisibleElementsConnectivityAssociationsSettings: any = {};
 
     if (hasValue(dotNetObject.arrowsToggle)) {
@@ -24,30 +28,6 @@ export async function buildJsVisibleElementsConnectivityAssociationsSettingsGene
     let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsConnectivityAssociationsSettings);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsConnectivityAssociationsSettings;
-    
-    try {
-        let { buildDotNetVisibleElementsConnectivityAssociationsSettings } = await import('./visibleElementsConnectivityAssociationsSettings');
-        let dnInstantiatedObject = await buildDotNetVisibleElementsConnectivityAssociationsSettings(jsVisibleElementsConnectivityAssociationsSettings, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type VisibleElementsConnectivityAssociationsSettings detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for VisibleElementsConnectivityAssociationsSettings', e);
-    }
     
     return jsVisibleElementsConnectivityAssociationsSettings;
 }

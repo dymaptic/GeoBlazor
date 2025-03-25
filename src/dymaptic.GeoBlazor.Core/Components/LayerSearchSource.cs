@@ -4,6 +4,11 @@ public partial class LayerSearchSource : SearchSource
 {
     /// <inheritdoc/>
     public override SearchSourceType Type => SearchSourceType.Layer;
+    
+    /// <inheritdoc />
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] // override to allow serialization
+    [Parameter]
+    public override Layer? Layer { get; set; }
 
     /// <summary>
     ///     The results are displayed using this field. Defaults to the layer's displayField or the first string field.

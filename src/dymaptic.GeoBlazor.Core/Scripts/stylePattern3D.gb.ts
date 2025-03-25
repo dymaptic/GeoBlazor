@@ -4,6 +4,10 @@ import { arcGisObjectRefs, jsObjectRefs, hasValue, lookupGeoBlazorId, removeCirc
 import { buildDotNetStylePattern3D } from './stylePattern3D';
 
 export async function buildJsStylePattern3DGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    if (!hasValue(dotNetObject)) {
+        return null;
+    }
+
     let properties: any = {};
 
     if (hasValue(dotNetObject.style)) {
@@ -14,30 +18,6 @@ export async function buildJsStylePattern3DGenerated(dotNetObject: any, layerId:
     let jsObjectRef = DotNet.createJSObjectReference(jsStylePattern3D);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
     arcGisObjectRefs[dotNetObject.id] = jsStylePattern3D;
-    
-    try {
-        let { buildDotNetStylePattern3D } = await import('./stylePattern3D');
-        let dnInstantiatedObject = await buildDotNetStylePattern3D(jsStylePattern3D, layerId, viewId);
-
-        let seenObjects = new WeakMap();
-        await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
-            jsObjectRef, JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type StylePattern3D detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            }));
-    } catch (e) {
-        console.error('Error invoking OnJsComponentCreated for StylePattern3D', e);
-    }
     
     return jsStylePattern3D;
 }
