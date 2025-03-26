@@ -27,6 +27,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <CompressionEnabled Condition="$(Configuration) != 'RELEASE'">false</CompressionEnabled>
         <SkipStaticWebAssets Condition="$(SkipStaticWebAssets) == 'true'">false</SkipStaticWebAssets>
+        <NoWarn>GeoBlazor_Untested</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

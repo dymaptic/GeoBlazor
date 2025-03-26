@@ -36,7 +36,7 @@ export async function buildDotNetDomainPropertiesGenerated(jsObject: any): Promi
     
     switch (jsObject.type) {
         case 'any': 
-        let dotNetDomainProperties: any = {};
+            let dotNetDomainProperties: any = {};
             if (hasValue(jsObject.name)) {
                 dotNetDomainProperties.name = removeCircularReferences(jsObject.name);
             }

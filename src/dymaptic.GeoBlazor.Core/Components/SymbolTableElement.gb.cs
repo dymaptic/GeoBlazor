@@ -7,6 +7,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 ///    Describes the schema of the SymbolTableElement used as a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElement">legendElement</a>.
 ///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElement">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[Experimental("GeoBlazor_Untested", UrlFormat = "https://docs.geoblazor.com/pages/untested.html")]
 public partial class SymbolTableElement : MapComponent,
     ILegendElement
 {

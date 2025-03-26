@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Widgets;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Defines the dimensions of the View at which to dock the popup. Set to false to disable docking at a breakpoint.
@@ -54,24 +54,4 @@ public record BreakPoint
     /// </summary>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? Height { get; set; }
-}
-
-internal class BreakPointConverter : JsonConverter<BreakPoint>
-{
-    public override BreakPoint? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        return JsonSerializer.Deserialize(ref reader, typeof(object), options) as BreakPoint;
-    }
-
-    public override void Write(Utf8JsonWriter writer, BreakPoint value, JsonSerializerOptions options)
-    {
-        if (value.BoolValue.HasValue)
-        {
-            JsonSerializer.Serialize(writer, value.BoolValue.Value, options);
-        }
-        else
-        {
-            JsonSerializer.Serialize(writer, (object)value, options);
-        }
-    }
 }

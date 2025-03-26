@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Symbols;
+namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class SymbolTableElement
 {

@@ -140,17 +140,17 @@
         }
     }
 
-    private void DrawLine()
+    private async Task DrawLine()
     {
         _showLine = !_showLine;
         
         if (_showLine)
         {
-            _graphicsLayer!.Add(_polylineGraphic);
+            await _graphicsLayer!.Add(_polylineGraphic);
         }
         else
         {
-            _graphicsLayer!.Remove(_polylineGraphic);
+            await _graphicsLayer!.Remove(_polylineGraphic);
         }
     }
 

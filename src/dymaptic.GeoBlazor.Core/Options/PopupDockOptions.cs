@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Components.Popups;
+namespace dymaptic.GeoBlazor.Core.Options;
 
 public partial class PopupDockOptions : MapComponent
 {
