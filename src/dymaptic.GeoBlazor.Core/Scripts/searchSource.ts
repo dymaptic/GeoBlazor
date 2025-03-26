@@ -27,5 +27,67 @@ export async function buildJsSearchSource(dotNetSource: any, viewId: string | nu
         jsSource = await buildJsLayerSearchSource(dotNetSource, layerId, viewId);
     }
 
+    if (dotNetSource.hasGetResults) {
+        jsSource.getResults = async (params: any) => {
+            let viewId: string | null = lookupGeoBlazorId(params.view);
+
+            let dnResults = await dotNetSource.dotNetComponentReference
+                .invokeMethodAsync('OnJsGetResults', params.exactMatch, buildDotNetPoint(params.location),
+                    params.maxResults, params.sourceIndex, buildDotNetSpatialReference(params.spatialReference),
+                    params.suggestResult, viewId);
+
+            let results: any[] = [];
+
+            for (let dnResult of dnResults) {
+                let result: any = {
+                    extent: buildJsExtent(dnResult.extent, null) ?? undefined,
+                    name: dnResult.name ?? undefined,
+                };
+                if (hasValue(dnResult.feature)) {
+                    result.feature = buildJsGraphic(dnResult.feature);
+                }
+                results.push(result);
+            }
+
+            return results;
+        }
+    }
+
+    if (dotNetSource.hasGetSuggestions) {
+        jsSource.getSuggestions = async (params: any) => {
+            let viewId: string | null = null;
+
+            for (let key in arcGisObjectRefs) {
+                if (arcGisObjectRefs[key] === params.view) {
+                    viewId = key;
+                    break;
+                }
+            }
+
+            let dnParams = {
+                maxSuggestions: params.maxSuggestions,
+                sourceIndex: params.sourceIndex,
+                spatialReference: buildDotNetSpatialReference(params.spatialReference),
+                suggestTerm: params.suggestTerm,
+                viewId: viewId
+            }
+            let dnResults = await dotNetSource.dotNetComponentReference
+                .invokeMethodAsync('OnJsGetSuggestions', params.maxSuggestions, params.sourceIndex,
+                    buildDotNetSpatialReference(params.spatialReference), params.suggestTerm, viewId);
+
+            let results: any[] = [];
+
+            for (let dnResult of dnResults) {
+                results.push({
+                    key: dnResult.key,
+                    text: dnResult.text,
+                    sourceIndex: dnResult.sourceIndex
+                })
+            }
+
+            return results;
+        }
+    }
+
     return jsSource;
 }

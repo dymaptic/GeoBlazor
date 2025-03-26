@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     Contains items with the `gdbVersion` property.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-versionManagement-VersionManagementService.html#VersionAdapter">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IVersionAdapterVersionableItem 
+public partial interface IVersionAdapterVersionableItem : IMapComponent
 {
 }

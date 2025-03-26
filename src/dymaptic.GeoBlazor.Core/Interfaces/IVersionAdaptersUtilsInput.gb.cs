@@ -6,6 +6,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVersionAdaptersUtilsInput.html">GeoBlazor Docs</a>
 ///     Interface for types FeatureLayer, Network, UtilityNetwork
 /// </summary>
-public partial interface IVersionAdaptersUtilsInput 
+public partial interface IVersionAdaptersUtilsInput : IMapComponent
 {
 }

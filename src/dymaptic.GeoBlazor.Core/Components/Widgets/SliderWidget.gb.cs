@@ -1971,19 +1971,6 @@ public partial class SliderWidget
         await SetTickConfigs(join);
     }
     
-    /// <summary>
-    ///     Asynchronously adds elements to the Values property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToValues(params double[] values)
-    {
-        double[] join = Values is null
-            ? values
-            : [..Values, ..values];
-        await SetValues(join);
-    }
     
 #endregion
 
@@ -2005,21 +1992,6 @@ public partial class SliderWidget
         await SetTickConfigs(TickConfigs.Except(values).ToArray());
     }
     
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the Values property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromValues(params double[] values)
-    {
-        if (Values is null)
-        {
-            return;
-        }
-        await SetValues(Values.Except(values).ToArray());
-    }
     
 #endregion
 

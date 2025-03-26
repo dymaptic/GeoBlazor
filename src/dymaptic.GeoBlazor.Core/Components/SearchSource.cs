@@ -86,6 +86,80 @@ public abstract partial class SearchSource : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? ZoomScale { get; set; }
     
+    /// <summary>
+    ///     Function used to get search results.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getResults">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public GetResultsHandler? GetResultsHandler { get; set; }
+    
+    /// <summary>
+    ///     JS-invokable method that triggers the <see cref="GetResultsHandler"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<SearchResult>?> OnJsGetResults(bool? exactMatch, Point? location, int? maxResults, 
+        int? sourceIndex, SpatialReference? spatialReference, SuggestResult suggestResult, Guid? viewId)
+    {
+        IReadOnlyList<SearchResult>? result = null;
+    
+        if (GetResultsHandler is not null)
+        {
+            result = await GetResultsHandler.Invoke(exactMatch, location, maxResults, sourceIndex, spatialReference, 
+                suggestResult, viewId);
+        }
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="GetResultsHandler" /> function was registered.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public bool HasGetResults => GetResultsHandler is not null;
+    
+    /// <summary>
+    ///     Function used to get search suggestions.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#getSuggestions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public GetSuggestionsHandler? GetSuggestionsHandler { get; set; }
+    
+    /// <summary>
+    ///     JS-invokable method that triggers the <see cref="GetSuggestionsHandler"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<SuggestResult>?> OnJsGetSuggestions(int? maxSuggestions, int? sourceIndex, 
+        SpatialReference? spatialReference, string? suggestTerm, Guid? viewId)
+    {
+        IReadOnlyList<SuggestResult>? result = null;
+    
+        if (GetSuggestionsHandler is not null)
+        {
+            result = await GetSuggestionsHandler.Invoke(maxSuggestions, sourceIndex, spatialReference, suggestTerm, viewId);
+        }
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="GetSuggestionsHandler" /> function was registered.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public bool HasGetSuggestions => GetSuggestionsHandler is not null;
+
+
     /// <inheritdoc/>
     public override async Task RegisterChildComponent(MapComponent child)
     {

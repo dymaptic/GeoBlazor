@@ -153,6 +153,8 @@ public partial class LocatorSearchSource
         string? countryCode = null,
         double? defaultZoomScale = null,
         SearchSourceFilter? filter = null,
+        GetResultsHandler? getResultsHandler = null,
+        GetSuggestionsHandler? getSuggestionsHandler = null,
         bool? localSearchDisabled = null,
         LocatorSearchLocationType? locationType = null,
         int? maxResults = null,
@@ -185,6 +187,8 @@ public partial class LocatorSearchSource
         CountryCode = countryCode;
         DefaultZoomScale = defaultZoomScale;
         Filter = filter;
+        GetResultsHandler = getResultsHandler;
+        GetSuggestionsHandler = getSuggestionsHandler;
         LocalSearchDisabled = localSearchDisabled;
         LocationType = locationType;
         MaxResults = maxResults;

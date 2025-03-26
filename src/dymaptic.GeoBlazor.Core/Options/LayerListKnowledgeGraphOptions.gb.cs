@@ -35,7 +35,7 @@ public partial record LayerListKnowledgeGraphOptions(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? FilterPlaceholder = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    TableListListItemCreatedHandler? ListItemCreatedFunction = null,
+    Func<ListItem, Task<ListItem>>? ListItemCreatedFunction = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? MinFilterItems = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
