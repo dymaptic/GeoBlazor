@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#pointBarriers">point barriers</a>.
-///    default { type: "simple-marker", style: "x", size: 10, outline: { color: [255, 0, 0], width: 3 } }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#pointBarriers">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteSymbolsPointBarriers.html">GeoBlazor Docs</a>
+///     The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#pointBarriers">point barriers</a>.
+///     default { type: "simple-marker", style: "x", size: 10, outline: { color: [255, 0, 0], width: 3 } }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#pointBarriers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteSymbolsPointBarriers : IMapComponent
 {

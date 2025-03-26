@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Describes the schema of the HeatmapRampElement used as a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElement">legendElement</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html">GeoBlazor Docs</a>
+///     Describes the schema of the HeatmapRampElement used as a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#legendElement">legendElement</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class HeatmapRampElement : MapComponent,
     ILegendElement

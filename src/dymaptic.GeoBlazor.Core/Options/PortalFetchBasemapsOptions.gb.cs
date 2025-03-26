@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.PortalFetchBasemapsOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Include3d">
 ///     When `true` the basemaps based on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#basemapGalleryGroupQuery3D">basemapGalleryGroupQuery3D</a> are also fetched, if no `basemapGalleryGroupQuery` is passed as an argument.

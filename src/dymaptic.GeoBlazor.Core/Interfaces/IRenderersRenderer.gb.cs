@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types HeatmapRenderer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRenderersRenderer.html">GeoBlazor Docs</a>
+///     Interface for types HeatmapRenderer
 /// </summary>
 public partial interface IRenderersRenderer : IMapComponent
 {

@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.ImageryLayerSaveOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="ValidationOptions">
 ///     Options for validating the save operation.

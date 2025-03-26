@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Defines a screen measurement in points or pixels. Supports implicit conversion from string, int, or double.

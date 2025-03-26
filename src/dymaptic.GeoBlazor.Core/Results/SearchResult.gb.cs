@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The result object returned from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#search">search()</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchResult.html">GeoBlazor Docs</a>
+///     The result object returned from a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#search">search()</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Extent">
 ///     The extent, or bounding box, of the returned feature.

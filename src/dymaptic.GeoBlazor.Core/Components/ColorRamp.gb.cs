@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A ColorRamp object is used to specify a range of colors that are applied to a group of symbols or pixels.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ColorRamp.html">GeoBlazor Docs</a>
+///     A ColorRamp object is used to specify a range of colors that are applied to a group of symbols or pixels.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class ColorRamp
 {

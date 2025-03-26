@@ -356,7 +356,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
     
     switch (jsObject.type) {
         case 'web-tile': 
-        let dotNetWebTileLayer: any = {};
+            let dotNetWebTileLayer: any = {};
             if (hasValue(jsObject.effect)) {
                 let { buildDotNetEffect } = await import('./effect');
                 dotNetWebTileLayer.effect = buildDotNetEffect(jsObject.effect);
@@ -462,7 +462,7 @@ export async function buildDotNetWebTileLayerGenerated(jsObject: any): Promise<a
             let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
             return await buildDotNetOpenStreetMapLayer(jsObject);
         default: 
-            return jsObject;
+            return removeCircularReferences(jsObject);
     }
 }     
 

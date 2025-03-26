@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    Additional options to set for `identify()` method on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#identify">ImageryTileLayer</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#identify">WCSLayer</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.RasterIdentifyOptions.html">GeoBlazor Docs</a>
+///     Additional options to set for `identify()` method on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#identify">ImageryTileLayer</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#identify">WCSLayer</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#RasterIdentifyOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MultidimensionalDefinition">
 ///     A dimensional definition used for the `identify` operation.

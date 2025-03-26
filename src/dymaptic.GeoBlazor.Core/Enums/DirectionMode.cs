@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.DirectionMode.html">GeoBlazor Docs</a>
 ///     Enumeration for DirectionMode
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DirectionMode>))]

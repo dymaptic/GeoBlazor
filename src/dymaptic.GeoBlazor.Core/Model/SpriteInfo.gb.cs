@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A description of each image contained in the sprite.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SpriteInfo.html">GeoBlazor Docs</a>
+///     A description of each image contained in the sprite.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#SpriteInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Height">
 ///     The height of the sprite.

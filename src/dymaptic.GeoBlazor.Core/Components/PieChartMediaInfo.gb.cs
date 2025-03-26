@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A `PieChartMediaInfo` is a type of chart media element that represents a pie chart displayed within a popup.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PieChartMediaInfo.html">GeoBlazor Docs</a>
+///     A `PieChartMediaInfo` is a type of chart media element that represents a pie chart displayed within a popup.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PieChartMediaInfo : IChartMediaInfo
 {

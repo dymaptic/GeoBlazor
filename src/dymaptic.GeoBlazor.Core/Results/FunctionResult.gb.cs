@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    A trace can optionally return a aggregated function result if the trace configuration asked for it.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-FunctionResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.FunctionResult.html">GeoBlazor Docs</a>
+///     A trace can optionally return a aggregated function result if the trace configuration asked for it.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-FunctionResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial record FunctionResult(
 );

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A reference to a portal item resource.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemResource.html">GeoBlazor Docs</a>
+///     A reference to a portal item resource.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Path">
 ///     Path of the resource relative to `{ITEM}/resources/`.

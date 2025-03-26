@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.OrderBy.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Specify ASC (ascending) or DESC (descending) to control the order of the data. For example, in a data set of 10
 ///          values from 1 to 10, the percentile value for 0.9 with orderBy set to ascending (ASC) is 9, but when orderBy is set

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.BlendMode.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
 ///          seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend

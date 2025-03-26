@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 
 /// <summary>
-///    A `TextContent` popup element is used to define descriptive text as an element within a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate's</a> content.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.TextPopupContent.html">GeoBlazor Docs</a>
+///     A `TextContent` popup element is used to define descriptive text as an element within a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate's</a> content.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-TextContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TextPopupContent
 {

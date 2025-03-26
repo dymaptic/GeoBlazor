@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The area and perimeter of the measurement polygon in square meters and meters respectively.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurement.html">GeoBlazor Docs</a>
+///     The area and perimeter of the measurement polygon in square meters and meters respectively.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
 {

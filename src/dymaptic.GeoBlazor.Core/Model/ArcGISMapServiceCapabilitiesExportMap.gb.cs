@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Indicates options supported by the exportMap operation.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ArcGISMapServiceCapabilitiesExportMap.html">GeoBlazor Docs</a>
+///     Indicates options supported by the exportMap operation.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="SupportsArcadeExpressionForLabeling">
 ///     Indicates if sublayers support Arcade expressions for labeling.

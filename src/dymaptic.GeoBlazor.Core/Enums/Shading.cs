@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Shading.html">GeoBlazor Docs</a>
 ///     Enumeration for Shading
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Shading>))]

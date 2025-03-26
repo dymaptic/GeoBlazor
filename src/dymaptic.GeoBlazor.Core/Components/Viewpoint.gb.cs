@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Describes a point of view for a 2D or 3D view.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Viewpoint.html">GeoBlazor Docs</a>
+///     Describes a point of view for a 2D or 3D view.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Viewpoint
 {

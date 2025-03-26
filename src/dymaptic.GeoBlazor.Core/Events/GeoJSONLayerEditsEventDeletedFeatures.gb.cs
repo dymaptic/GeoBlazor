@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    An array of successfully deleted features.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.GeoJSONLayerEditsEventDeletedFeatures.html">GeoBlazor Docs</a>
+///     An array of successfully deleted features.
 /// </summary>
 /// <param name="ObjectId">
 /// </param>

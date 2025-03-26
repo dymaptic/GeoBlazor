@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The `ChartMediaInfoValue` class contains information for popups regarding how charts should be constructed.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ChartMediaInfoValue.html">GeoBlazor Docs</a>
+///     The `ChartMediaInfoValue` class contains information for popups regarding how charts should be constructed.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-support-ChartMediaInfoValue.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ChartMediaInfoValue
 {

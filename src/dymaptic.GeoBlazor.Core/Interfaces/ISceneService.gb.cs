@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types SceneLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISceneService.html">GeoBlazor Docs</a>
+///     Interface for types SceneLayer
 /// </summary>
 public partial interface ISceneService : IMapComponent
 {

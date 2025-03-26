@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BarChartMediaInfo, ColumnChartMediaInfo, LineChartMediaInfo, PieChartMediaInfo
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IChartMediaInfo.html">GeoBlazor Docs</a>
+///     Interface for types BarChartMediaInfo, ColumnChartMediaInfo, LineChartMediaInfo, PieChartMediaInfo
 /// </summary>
 public partial interface IChartMediaInfo : IMapComponent
 {

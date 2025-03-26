@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    An object containing properties specific to the orientation of an image attachment.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.OrientationInfo.html">GeoBlazor Docs</a>
+///     An object containing properties specific to the orientation of an image attachment.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#OrientationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Id">
 ///     The identifier for the orientation info.

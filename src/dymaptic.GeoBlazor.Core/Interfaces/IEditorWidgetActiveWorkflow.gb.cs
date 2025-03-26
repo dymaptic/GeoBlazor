@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    A property indicating the current active workflow.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#activeWorkflow">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IEditorWidgetActiveWorkflow.html">GeoBlazor Docs</a>
+///     A property indicating the current active workflow.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#activeWorkflow">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial interface IEditorWidgetActiveWorkflow 
+public partial interface IEditorWidgetActiveWorkflow : IMapComponent
 {
 }

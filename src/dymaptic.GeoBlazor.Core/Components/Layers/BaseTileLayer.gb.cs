@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    This class may be extended to create a custom <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayer</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BaseTileLayer.html">GeoBlazor Docs</a>
+///     This class may be extended to create a custom <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">TileLayer</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BaseTileLayer : IBlendLayer,
     IRefreshableLayer,

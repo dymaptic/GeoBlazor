@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.FeatureLayerBaseSaveAsOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Folder">
 ///     The portal folder where the layer's portal item will be saved.

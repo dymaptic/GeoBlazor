@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    ImageryTileLayer presents raster data from a tiled image service.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html">GeoBlazor Docs</a>
+///     ImageryTileLayer presents raster data from a tiled image service.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryTileLayer : IBlendLayer,
     IImageryTileMixin,

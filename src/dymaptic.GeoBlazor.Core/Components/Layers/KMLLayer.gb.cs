@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The KMLLayer class is used to create a layer based on a KML file (.kml, .kmz).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.KMLLayer.html">GeoBlazor Docs</a>
+///     The KMLLayer class is used to create a layer based on a KML file (.kml, .kmz).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KMLLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class KMLLayer : IBlendLayer,
     IOperationalLayer,

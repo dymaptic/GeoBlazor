@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    An array of time, elevation and other dimensions for the sublayer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IWMSSublayerDimensions.html">GeoBlazor Docs</a>
+///     An array of time, elevation and other dimensions for the sublayer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IWMSSublayerDimensions 
 {

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Creates a multipart color ramp to combine multiple continuous color ramps for use in raster renderers.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MultipartColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MultipartColorRamp.html">GeoBlazor Docs</a>
+///     Creates a multipart color ramp to combine multiple continuous color ramps for use in raster renderers.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MultipartColorRamp.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
 {

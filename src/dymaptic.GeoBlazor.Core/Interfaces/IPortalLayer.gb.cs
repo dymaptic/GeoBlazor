@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, OpenStreetMapLayer, SceneLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IPortalLayer.html">GeoBlazor Docs</a>
+///     Interface for types CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, OpenStreetMapLayer, SceneLayer, TileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IPortalLayer : IMapComponent
 {

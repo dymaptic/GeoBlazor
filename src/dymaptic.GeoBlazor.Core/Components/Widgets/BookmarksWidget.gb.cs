@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The Bookmarks widget allows end users to quickly navigate to a particular area of interest.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BookmarksWidget.html">GeoBlazor Docs</a>
+///     The Bookmarks widget allows end users to quickly navigate to a particular area of interest.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BookmarksWidget : IGoTo
 {

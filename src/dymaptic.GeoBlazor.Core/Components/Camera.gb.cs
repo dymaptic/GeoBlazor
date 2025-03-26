@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The camera defines the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">position</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">tilt</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">heading</a> of the point from which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView's</a> visible extent is observed.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html">GeoBlazor Docs</a>
+///     The camera defines the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">position</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">tilt</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">heading</a> of the point from which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView's</a> visible extent is observed.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Camera : MapComponent
 {

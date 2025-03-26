@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchViewModel.OnSearchClear event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchViewModelSearchClearEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchViewModel.OnSearchClear event.
 /// </summary>
 public partial record SearchViewModelSearchClearEvent(
 );

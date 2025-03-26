@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Specifies the abilities for the Bookmarks widget.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarksCapabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarksCapabilities.html">GeoBlazor Docs</a>
+///     Specifies the abilities for the Bookmarks widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarksCapabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BookmarksCapabilities : MapComponent
 {

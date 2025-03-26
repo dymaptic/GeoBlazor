@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Describes the layer's supported capabilities.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.GeoJSONLayerCapabilities.html">GeoBlazor Docs</a>
+///     Describes the layer's supported capabilities.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Data">
 ///     Describes characteristics of the data in the layer.

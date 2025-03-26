@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 
 /// <summary>
-///    The `ExpressionInfo` class references <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html">GeoBlazor Docs</a>
+///     The `ExpressionInfo` class references <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PopupExpressionInfo
 {

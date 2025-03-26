@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ColorVariable, SizeVariable
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IColorSizeSliderWidgetUpdateVisualVariables.html">GeoBlazor Docs</a>
+///     Interface for types ColorVariable, SizeVariable
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IColorSizeSliderWidgetUpdateVisualVariables>))]
 public partial interface IColorSizeSliderWidgetUpdateVisualVariables : IMapComponent

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The ScaleBar widget displays a scale bar on the map or in a specified HTML node.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ScaleBarWidget.html">GeoBlazor Docs</a>
+///     The ScaleBar widget displays a scale bar on the map or in a specified HTML node.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ScaleBarWidget
 {

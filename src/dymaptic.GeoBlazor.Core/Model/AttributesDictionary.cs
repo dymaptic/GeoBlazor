@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Dictionary of Graphic Attributes that can be asynchronously updated

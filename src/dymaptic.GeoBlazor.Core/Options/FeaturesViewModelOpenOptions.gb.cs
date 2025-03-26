@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.FeaturesViewModelOpenOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Content">
 ///     Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#content">content</a> of the popup.

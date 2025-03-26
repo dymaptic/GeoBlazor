@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Provides information about an individual feature type, or layer, found in the WFS service.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html">GeoBlazor Docs</a>
+///     Provides information about an individual feature type, or layer, found in the WFS service.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WFSFeatureType : MapComponent
 {

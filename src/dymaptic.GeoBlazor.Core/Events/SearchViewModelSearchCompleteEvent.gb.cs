@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchViewModel.OnSearchComplete event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchViewModelSearchCompleteEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchViewModel.OnSearchComplete event.
 /// </summary>
 /// <param name="ActiveSourceIndex">
 ///     The index of the source from which the search result was obtained.

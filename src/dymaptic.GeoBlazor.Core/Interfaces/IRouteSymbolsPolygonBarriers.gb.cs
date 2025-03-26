@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#polygonBarriers">polygon barriers</a>.
-///    default { type: "simple-fill", color: [255, 170, 0, 0.6], outline: { width: 7.5, color: [255, 0, 0, 0.6] } }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#polygonBarriers">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteSymbolsPolygonBarriers.html">GeoBlazor Docs</a>
+///     The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#polygonBarriers">polygon barriers</a>.
+///     default { type: "simple-fill", color: [255, 170, 0, 0.6], outline: { width: 7.5, color: [255, 0, 0, 0.6] } }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#polygonBarriers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteSymbolsPolygonBarriers : IMapComponent
 {

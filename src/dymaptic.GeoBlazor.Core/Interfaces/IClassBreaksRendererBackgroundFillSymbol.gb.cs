@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    When symbolizing polygon features with graduated symbols, set a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html">FillSymbol</a> on this property to visualize the boundaries of each feature.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-ClassBreaksRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IClassBreaksRendererBackgroundFillSymbol.html">GeoBlazor Docs</a>
+///     When symbolizing polygon features with graduated symbols, set a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-FillSymbol.html">FillSymbol</a> on this property to visualize the boundaries of each feature.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-ClassBreaksRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IClassBreaksRendererBackgroundFillSymbol : IMapComponent
 {

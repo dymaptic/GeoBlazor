@@ -3,33 +3,34 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A cache of elevation values created from an elevation service or the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-GroundView.html">GroundView</a>
-///    used for synchronously querying elevation information for geometries.
-///    This class does not have a constructor. You can create an instance of this class by using
-///    <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ElevationLayer.createElevationSampler()</a>
-///    or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">Ground.createElevationSampler()</a> methods.
-///    The elevation sampler created from the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html">Ground</a> will sample data from the first elevation layer that has data available.
-///    To control the layer used for elevation sampling and the sampling resolution, use
-///    <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ElevationLayer.createElevationSampler()</a>.
-///    <pre><code class="js">map.<span class="hljs-property">ground</span>.<span class="hljs-title function_">load</span>()
-///    .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-///    <span class="hljs-comment">// create an elevation sampler from a given extent</span>
-///    <span class="hljs-keyword">return</span> view.<span class="hljs-property">map</span>.<span class="hljs-property">ground</span>.<span class="hljs-title function_">createElevationSampler</span>(extent);
-///    })
-///    .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">elevationSampler</span>) {
-///    <span class="hljs-comment">// use the elevation sampler to get z-values for a point, multipoint or polyline geometry</span>
-///    <span class="hljs-keyword">let</span> zEnrichedGeometry = elevationSampler.<span class="hljs-title function_">queryElevation</span>(geometry);
-///    });
-///    </code></pre>
-///    An instance of this class is also available in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-GroundView.html#elevationSampler">GroundView.elevationSampler</a>.
-///    This can be used when the elevation values need to reflect the elevation currently displayed in the view.
-///    <pre><code class="js"><span class="hljs-keyword">let</span> elevationSampler = view.<span class="hljs-property">groundView</span>.<span class="hljs-property">elevationSampler</span>;
-///    <span class="hljs-comment">// listen for elevation changes in the view</span>
-///    elevationSampler.<span class="hljs-title function_">on</span>(<span class="hljs-string">'changed'</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-///    <span class="hljs-comment">// enrich geometry with z-values from the elevation displayed in the view</span>
-///    <span class="hljs-keyword">let</span> zEnrichedGeometry = elevationSampler.<span class="hljs-title function_">queryElevation</span>(point);
-///    });
-///    </code></pre>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ElevationSampler.html">GeoBlazor Docs</a>
+///     A cache of elevation values created from an elevation service or the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-GroundView.html">GroundView</a>
+///     used for synchronously querying elevation information for geometries.
+///     This class does not have a constructor. You can create an instance of this class by using
+///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ElevationLayer.createElevationSampler()</a>
+///     or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">Ground.createElevationSampler()</a> methods.
+///     The elevation sampler created from the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html">Ground</a> will sample data from the first elevation layer that has data available.
+///     To control the layer used for elevation sampling and the sampling resolution, use
+///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html#createElevationSampler">ElevationLayer.createElevationSampler()</a>.
+///     <pre><code class="js">map.<span class="hljs-property">ground</span>.<span class="hljs-title function_">load</span>()
+///     .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+///     <span class="hljs-comment">// create an elevation sampler from a given extent</span>
+///     <span class="hljs-keyword">return</span> view.<span class="hljs-property">map</span>.<span class="hljs-property">ground</span>.<span class="hljs-title function_">createElevationSampler</span>(extent);
+///     })
+///     .<span class="hljs-title function_">then</span>(<span class="hljs-keyword">function</span>(<span class="hljs-params">elevationSampler</span>) {
+///     <span class="hljs-comment">// use the elevation sampler to get z-values for a point, multipoint or polyline geometry</span>
+///     <span class="hljs-keyword">let</span> zEnrichedGeometry = elevationSampler.<span class="hljs-title function_">queryElevation</span>(geometry);
+///     });
+///     </code></pre>
+///     An instance of this class is also available in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-GroundView.html#elevationSampler">GroundView.elevationSampler</a>.
+///     This can be used when the elevation values need to reflect the elevation currently displayed in the view.
+///     <pre><code class="js"><span class="hljs-keyword">let</span> elevationSampler = view.<span class="hljs-property">groundView</span>.<span class="hljs-property">elevationSampler</span>;
+///     <span class="hljs-comment">// listen for elevation changes in the view</span>
+///     elevationSampler.<span class="hljs-title function_">on</span>(<span class="hljs-string">'changed'</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+///     <span class="hljs-comment">// enrich geometry with z-values from the elevation displayed in the view</span>
+///     <span class="hljs-keyword">let</span> zEnrichedGeometry = elevationSampler.<span class="hljs-title function_">queryElevation</span>(point);
+///     });
+///     </code></pre>
 /// </summary>
 public partial record ElevationSampler(
 ) : IMeshUtilsSource

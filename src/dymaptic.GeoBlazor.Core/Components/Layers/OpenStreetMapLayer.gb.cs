@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    Allows you to use <a target="_blank" href="http://wiki.openstreetmap.org/wiki/List_of_OSM-based_services">basemaps</a> from <a target="_blank" href="http://www.openstreetmap.org/">OpenStreetMap</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.OpenStreetMapLayer.html">GeoBlazor Docs</a>
+///     Allows you to use <a target="_blank" href="http://wiki.openstreetmap.org/wiki/List_of_OSM-based_services">basemaps</a> from <a target="_blank" href="http://www.openstreetmap.org/">OpenStreetMap</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-OpenStreetMapLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class OpenStreetMapLayer
 {

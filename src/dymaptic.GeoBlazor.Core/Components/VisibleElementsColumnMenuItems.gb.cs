@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    _(Since 4.30)_ The menu items within the column menu.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsColumnMenuItems.html">GeoBlazor Docs</a>
+///     _(Since 4.30)_ The menu items within the column menu.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisibleElementsColumnMenuItems : MapComponent
 {

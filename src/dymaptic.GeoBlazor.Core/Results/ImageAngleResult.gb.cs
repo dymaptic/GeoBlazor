@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a> method.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImageAngleResult.html">GeoBlazor Docs</a>
+///     The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a> method.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="North">
 ///     The computed north angle after rotating the map so the top of the image is oriented toward north.

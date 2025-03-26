@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A read-only property containing metadata regarding the last edit performed on a feature.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#lastEditInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureViewModelLastEditInfo.html">GeoBlazor Docs</a>
+///     A read-only property containing metadata regarding the last edit performed on a feature.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#lastEditInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Date">
 ///     Date that the edit was performed.

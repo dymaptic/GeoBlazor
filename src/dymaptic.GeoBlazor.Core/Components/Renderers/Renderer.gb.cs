@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 
 /// <summary>
-///    Renderers define how to visually represent each feature in one of the following layer types:
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.Renderer.html">GeoBlazor Docs</a>
+///     Renderers define how to visually represent each feature in one of the following layer types:
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Renderer
 {

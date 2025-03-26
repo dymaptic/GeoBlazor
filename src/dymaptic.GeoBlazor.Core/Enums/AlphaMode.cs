@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AlphaMode.html">GeoBlazor Docs</a>
 ///     Enumeration for AlphaMode
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AlphaMode>))]

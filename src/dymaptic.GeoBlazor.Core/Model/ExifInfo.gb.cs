@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    An array of <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> information for the attachment.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#ExifInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ExifInfo.html">GeoBlazor Docs</a>
+///     An array of <a target="_blank" href="https://en.wikipedia.org/wiki/Exif">Exchangeable image file format</a> information for the attachment.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html#ExifInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Name">
 ///     The file name.

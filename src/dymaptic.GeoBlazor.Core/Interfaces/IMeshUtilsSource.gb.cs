@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ElevationLayer, ElevationSampler, Ground
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IMeshUtilsSource.html">GeoBlazor Docs</a>
+///     Interface for types ElevationLayer, ElevationSampler, Ground
 /// </summary>
 public partial interface IMeshUtilsSource 
 {

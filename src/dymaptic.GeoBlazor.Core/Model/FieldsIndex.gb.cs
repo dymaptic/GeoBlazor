@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    An array of date fields or field json objects.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FieldsIndex.html">GeoBlazor Docs</a>
+///     An array of date fields or field json objects.
 /// </summary>
 /// <param name="DateFields">
 ///     An array of date fields or field json objects.

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMapMultiray">ImageryLayer.imageToMapMultiray()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#imageToMapMultiray">imageService.imageToMapMultiray()</a> methods.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapMultirayParameters.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageToMapMultirayParameters.html">GeoBlazor Docs</a>
+///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMapMultiray">ImageryLayer.imageToMapMultiray()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#imageToMapMultiray">imageService.imageToMapMultiray()</a> methods.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapMultirayParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometries">
 ///     An array of geometries in image space coordinates representing the same map location on different images.

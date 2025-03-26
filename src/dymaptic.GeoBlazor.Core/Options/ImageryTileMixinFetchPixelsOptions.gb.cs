@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.ImageryTileMixinFetchPixelsOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Interpolation">
 ///     Added at version 4.23.

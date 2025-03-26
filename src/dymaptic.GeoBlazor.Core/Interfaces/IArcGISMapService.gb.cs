@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types MapImageLayer, TileLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISMapService.html">GeoBlazor Docs</a>
+///     Interface for types MapImageLayer, TileLayer
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IArcGISMapService>))]
 public partial interface IArcGISMapService : IMapComponent

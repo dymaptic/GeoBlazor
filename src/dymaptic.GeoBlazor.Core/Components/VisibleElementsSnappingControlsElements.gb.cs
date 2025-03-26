@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The available <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-SnappingControls.html">SnappingControls</a> elements within the widget.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html">GeoBlazor Docs</a>
+///     The available <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-SnappingControls.html">SnappingControls</a> elements within the widget.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisibleElementsSnappingControlsElements : MapComponent
 {

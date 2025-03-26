@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">`fetchItems()`</a> method containing an array of the fetched <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal items</a>, the next entry index, and the total number of results.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#FetchItemsResult">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.FetchItemsResult.html">GeoBlazor Docs</a>
+///     The result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#fetchItems">`fetchItems()`</a> method containing an array of the fetched <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">portal items</a>, the next entry index, and the total number of results.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#FetchItemsResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Items">
 ///     An array containing user's portal items.

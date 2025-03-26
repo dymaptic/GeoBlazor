@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    An object containing measurement values returned from a mensuration operation.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measurementValue">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.MeasurementValue.html">GeoBlazor Docs</a>
+///     An object containing measurement values returned from a mensuration operation.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measurementValue">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="DisplayValue">
 ///     Measured value represented in significant figures in string format.

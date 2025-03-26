@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    A slider widget that can be used for filtering data, or gathering numeric input from a user.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html">GeoBlazor Docs</a>
+///     A slider widget that can be used for filtering data, or gathering numeric input from a user.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SliderWidget
 {

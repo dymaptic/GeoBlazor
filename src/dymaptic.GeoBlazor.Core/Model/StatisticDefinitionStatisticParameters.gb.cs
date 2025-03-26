@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType">percentile statistics</a>.
-///    default null
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticParameters">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.StatisticDefinitionStatisticParameters.html">GeoBlazor Docs</a>
+///     The parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticType">percentile statistics</a>.
+///     default null
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html#statisticParameters">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="OrderBy">
 ///     Specify `ASC` (ascending) or `DESC` (descending) to control the order of the data.

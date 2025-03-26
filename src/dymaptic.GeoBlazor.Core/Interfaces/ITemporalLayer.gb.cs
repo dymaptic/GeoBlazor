@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CatalogLayer, CSVLayer, FeatureLayer, ImageryLayer, MapImageLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITemporalLayer.html">GeoBlazor Docs</a>
+///     Interface for types CatalogLayer, CSVLayer, FeatureLayer, ImageryLayer, MapImageLayer
 /// </summary>
 public partial interface ITemporalLayer : IMapComponent
 {

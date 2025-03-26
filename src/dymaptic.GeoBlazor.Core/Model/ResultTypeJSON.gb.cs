@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    ResultTypeJSON specifies the type of results to return after running a trace.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-TraceParameters.html#ResultTypeJSON">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ResultTypeJSON.html">GeoBlazor Docs</a>
+///     ResultTypeJSON specifies the type of results to return after running a trace.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-TraceParameters.html#ResultTypeJSON">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="DiagramTemplateName">
 ///     Specifies the name of a predefined Diagram Template.

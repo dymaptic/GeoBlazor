@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Describes editing capabilities that can be performed on the features in the layer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.CSVLayerCapabilitiesEditing.html">GeoBlazor Docs</a>
+///     Describes editing capabilities that can be performed on the features in the layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="SupportsDeleteByAnonymous">
 ///     Indicates if anonymous users can delete features created by others.

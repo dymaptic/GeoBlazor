@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The DistanceMeasurement2D widget calculates and displays the distance between two or more points in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.DistanceMeasurement2DWidget.html">GeoBlazor Docs</a>
+///     The DistanceMeasurement2D widget calculates and displays the distance between two or more points in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-DistanceMeasurement2D.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class DistanceMeasurement2DWidget : Widget
 {

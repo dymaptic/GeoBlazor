@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.BaseImageMeasureResult.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Name">
 ///     Name of the raster dataset used in the area and height measurement.

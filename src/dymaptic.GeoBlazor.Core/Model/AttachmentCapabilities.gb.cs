@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The editing capabilities for attachments.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-support-EditorItem.html#AttachmentCapabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.AttachmentCapabilities.html">GeoBlazor Docs</a>
+///     The editing capabilities for attachments.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-support-EditorItem.html#AttachmentCapabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Enabled">
 ///     Indicates whether attachments are enabled on the editable layer.

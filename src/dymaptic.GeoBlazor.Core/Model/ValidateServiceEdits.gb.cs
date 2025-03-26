@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    ValidateServiceEdits represents the layerId and editedFeatures.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-ValidateNetworkTopologyResult.html#ValidateServiceEdits">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ValidateServiceEdits.html">GeoBlazor Docs</a>
+///     ValidateServiceEdits represents the layerId and editedFeatures.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-ValidateNetworkTopologyResult.html#ValidateServiceEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="EditedFeatures">
 ///     The editedFeatures object returns full features including the original features prior to delete, the original and current features for updates, and the current rows for inserts, which may contain implicit changes (for example, as a result of a calculation rule).

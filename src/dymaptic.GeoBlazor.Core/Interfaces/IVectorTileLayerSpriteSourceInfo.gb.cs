@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types SpriteSourceImageInfo, SpriteSourceUrlInfo
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVectorTileLayerSpriteSourceInfo.html">GeoBlazor Docs</a>
+///     Interface for types SpriteSourceImageInfo, SpriteSourceUrlInfo
 /// </summary>
 public partial interface IVectorTileLayerSpriteSourceInfo 
 {

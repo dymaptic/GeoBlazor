@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types WebMap, WebScene
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITimeSliderViewModelDocument.html">GeoBlazor Docs</a>
+///     Interface for types WebMap, WebScene
 /// </summary>
 public partial interface ITimeSliderViewModelDocument : IMapComponent
 {

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Specific permissions for update operations.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-support-EditorItem.html#UpdateCapabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.UpdateCapabilities.html">GeoBlazor Docs</a>
+///     Specific permissions for update operations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-support-EditorItem.html#UpdateCapabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Attachments">
 ///     The editing capabilities for attachments.

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Provides information about folders used to organize content in a portal.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFolder.html">GeoBlazor Docs</a>
+///     Provides information about folders used to organize content in a portal.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalFolder.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PortalFolder : MapComponent
 {

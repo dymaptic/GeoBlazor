@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.PopupOpenOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Collapsed">
 ///     Since: 4.5    When `true`, indicates that only the popup header will display.

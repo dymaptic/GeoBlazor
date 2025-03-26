@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PixelBlockAddDataPlaneData.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Pixels">
 ///     A two dimensional array representing the pixels to add.

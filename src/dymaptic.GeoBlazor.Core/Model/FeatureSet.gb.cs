@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A collection of features returned from ArcGIS Server or used as input to methods.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureSet.html">GeoBlazor Docs</a>
+///     A collection of features returned from ArcGIS Server or used as input to methods.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="DisplayFieldName">
 ///     The name of the layer's primary display field.

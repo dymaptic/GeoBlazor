@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItems">`deleteItems()`</a> method containing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">item</a>, if deletion is successful, and error, if any.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#DeleteItemsResult">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.DeleteItemsResult.html">GeoBlazor Docs</a>
+///     The result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#deleteItems">`deleteItems()`</a> method containing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">item</a>, if deletion is successful, and error, if any.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#DeleteItemsResult">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Error">
 ///     The error if the item was not deleted.

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RadiusUnit.html">GeoBlazor Docs</a>
 ///     Enumeration for RadiusUnit
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RadiusUnit>))]

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RotationType.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Options for rotation type for <see cref="RotationVariable" />
 ///      </summary>

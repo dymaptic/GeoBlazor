@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The LayerList widget provides a way to display a list of layers, and switch on/off their visibility.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html">GeoBlazor Docs</a>
+///     The LayerList widget provides a way to display a list of layers, and switch on/off their visibility.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LayerListWidget
 {

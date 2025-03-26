@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The Compass widget indicates where north is in relation to the current view <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">camera heading</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.CompassWidget.html">GeoBlazor Docs</a>
+///     The Compass widget indicates where north is in relation to the current view <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">camera heading</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CompassWidget : IGoTo
 {

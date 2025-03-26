@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer, Network, UtilityNetwork
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVersionAdaptersUtilsInput.html">GeoBlazor Docs</a>
+///     Interface for types FeatureLayer, Network, UtilityNetwork
 /// </summary>
 public partial interface IVersionAdaptersUtilsInput 
 {

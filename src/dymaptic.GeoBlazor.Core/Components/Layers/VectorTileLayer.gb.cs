@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    VectorTileLayer accesses cached tiles of data and renders it in vector format.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html">GeoBlazor Docs</a>
+///     VectorTileLayer accesses cached tiles of data and renders it in vector format.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VectorTileLayer : IBlendLayer,
     IOperationalLayer,

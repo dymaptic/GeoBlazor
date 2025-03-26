@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types PictureMarkerSymbol, SimpleMarkerSymbol
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISymbolsMarkerSymbol.html">GeoBlazor Docs</a>
+///     Interface for types PictureMarkerSymbol, SimpleMarkerSymbol
 /// </summary>
 public partial interface ISymbolsMarkerSymbol : IMapComponent
 {

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Describes operations that can be performed on features in the layer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SceneLayerCapabilitiesOperations.html">GeoBlazor Docs</a>
+///     Describes operations that can be performed on features in the layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="SupportsAdd">
 ///     Indicates if new features can be <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#applyEdits">added</a> to the layer.

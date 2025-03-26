@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the BookmarksWidget.OnBookmarkEdit event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.BookmarksBookmarkEditEvent.html">GeoBlazor Docs</a>
+///     Event result type for the BookmarksWidget.OnBookmarkEdit event.
 /// </summary>
 /// <param name="Bookmark">
 /// </param>

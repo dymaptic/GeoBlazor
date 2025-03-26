@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    Specifies how bookmarks will be created or modified.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.BookmarkOptions.html">GeoBlazor Docs</a>
+///     Specifies how bookmarks will be created or modified.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="CaptureRotation">
 ///     _Since 4.17_ Indicates whether the rotation of the current view will be saved in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">viewpoint</a> of a newly created or modified bookmark.

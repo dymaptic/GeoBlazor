@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.MapImageLayerCreateExportImageParametersOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="PixelRatio">
 ///     The pixel ratio to apply to the dpi of the exported image.

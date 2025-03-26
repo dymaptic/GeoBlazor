@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html">GeoBlazor Docs</a>
+///     WebTileLayer provides a simple way to add non-ArcGIS Server map tiles as a layer to a map.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WebTileLayer : IBlendLayer,
     IOperationalLayer,

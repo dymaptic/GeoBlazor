@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The length result from a selected image's measurement in an image space when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureLengthFromImage">ImageryLayer.measureLengthFromImage()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureLengthFromImage">imageService.measureLengthFromImage()</a> methods resolve successfully.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MeasureLengthFromImageResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.MeasureLengthFromImageResult.html">GeoBlazor Docs</a>
+///     The length result from a selected image's measurement in an image space when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureLengthFromImage">ImageryLayer.measureLengthFromImage()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureLengthFromImage">imageService.measureLengthFromImage()</a> methods resolve successfully.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MeasureLengthFromImageResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometry">
 ///     Polyline geometry in a map space.

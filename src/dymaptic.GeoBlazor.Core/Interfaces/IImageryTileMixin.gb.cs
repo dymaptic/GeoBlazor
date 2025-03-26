@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ImageryTileLayer, WCSLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html">GeoBlazor Docs</a>
+///     Interface for types ImageryTileLayer, WCSLayer
 /// </summary>
 public partial interface IImageryTileMixin : IMapComponent
 {

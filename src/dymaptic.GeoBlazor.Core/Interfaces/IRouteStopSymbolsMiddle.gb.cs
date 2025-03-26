@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for _middle_ <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#stops">stops</a>.
-///    default { type: "simple-marker", color: [51, 51, 51],, size: 12, outline: { color: [0, 122, 194], width: 3 } }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteStopSymbols.html#middle">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteStopSymbolsMiddle.html">GeoBlazor Docs</a>
+///     The default symbol for _middle_ <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#stops">stops</a>.
+///     default { type: "simple-marker", color: [51, 51, 51],, size: 12, outline: { color: [0, 122, 194], width: 3 } }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteStopSymbols.html#middle">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteStopSymbolsMiddle : IMapComponent
 {

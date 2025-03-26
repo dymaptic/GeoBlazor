@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A complete street address for use in an <see cref="AddressQuery" />

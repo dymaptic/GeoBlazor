@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 
 /// <summary>
-///    Symbol is the base class for all symbols.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.Symbol.html">GeoBlazor Docs</a>
+///     Symbol is the base class for all symbols.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Symbol
 {

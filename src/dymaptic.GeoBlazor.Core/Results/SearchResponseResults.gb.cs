@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    An array of objects representing the results of search.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchResponseResults.html">GeoBlazor Docs</a>
+///     An array of objects representing the results of search.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#SearchResponse">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Results">
 ///     An array of search results.

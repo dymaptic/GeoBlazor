@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    Represents the result object returned from a portal query.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.PortalQueryResult.html">GeoBlazor Docs</a>
+///     Represents the result object returned from a portal query.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="NextQueryParams">
 ///     The query parameters for the next set of results.

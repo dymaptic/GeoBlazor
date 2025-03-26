@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The `AttachmentInfo` class returns information about attachments associated with a feature.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.AttachmentInfo.html">GeoBlazor Docs</a>
+///     The `AttachmentInfo` class returns information about attachments associated with a feature.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ContentType">
 ///     The content type of the attachment.

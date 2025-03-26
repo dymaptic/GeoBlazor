@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The Zoom widget allows users to zoom in/out within a view.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ZoomWidget.html">GeoBlazor Docs</a>
+///     The Zoom widget allows users to zoom in/out within a view.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ZoomWidget : Widget
 {

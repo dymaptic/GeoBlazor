@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AuthMode.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Authentication modes for the <see cref="RequestOptions" /> class.
 ///      </summary>

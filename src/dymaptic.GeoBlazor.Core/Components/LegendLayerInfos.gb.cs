@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Properties defining the scheme of each SymbolTableElementType.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementType">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendLayerInfos.html">GeoBlazor Docs</a>
+///     Properties defining the scheme of each SymbolTableElementType.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SymbolTableElementType">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LegendLayerInfos : MapComponent
 {

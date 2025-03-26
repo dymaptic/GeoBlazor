@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    An array of objects representing the results of the search. See object specification
-///    table below for more information about the result object.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchViewModelSearchCompleteEventResults.html">GeoBlazor Docs</a>
+///     An array of objects representing the results of the search. See object specification
+///     table below for more information about the result object.
 /// </summary>
 /// <param name="Results">
 /// </param>

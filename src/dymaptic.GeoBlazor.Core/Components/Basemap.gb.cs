@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A basemap is a collection of layers that provide geographic context to a map or scene with data such as topographic features, road networks, buildings, and labels.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html">GeoBlazor Docs</a>
+///     A basemap is a collection of layers that provide geographic context to a map or scene with data such as topographic features, road networks, buildings, and labels.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Basemap
 {

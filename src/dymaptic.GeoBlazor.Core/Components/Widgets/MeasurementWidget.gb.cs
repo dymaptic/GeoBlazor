@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The Measurement widget groups and manages multiple measurement tools and allows you to easily switch between them using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeTool">activeTool</a> property.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html">GeoBlazor Docs</a>
+///     The Measurement widget groups and manages multiple measurement tools and allows you to easily switch between them using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeTool">activeTool</a> property.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MeasurementWidget
 {

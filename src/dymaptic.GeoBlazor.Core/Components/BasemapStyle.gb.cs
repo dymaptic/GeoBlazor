@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The style of the basemap from the <a target="_blank" href="https://developers.arcgis.com/rest/basemap-styles/">basemap styles service (v2)</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapStyle.html">GeoBlazor Docs</a>
+///     The style of the basemap from the <a target="_blank" href="https://developers.arcgis.com/rest/basemap-styles/">basemap styles service (v2)</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-BasemapStyle.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapStyle
 {

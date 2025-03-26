@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#polylineBarriers">polyline Barriers</a>.
-///    default { type: "simple-line", color: [255, 85, 0, 0.7], width: 7.5 }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#polylineBarriers">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteSymbolsPolylineBarriers.html">GeoBlazor Docs</a>
+///     The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#polylineBarriers">polyline Barriers</a>.
+///     default { type: "simple-line", color: [255, 85, 0, 0.7], width: 7.5 }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#polylineBarriers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteSymbolsPolylineBarriers : IMapComponent
 {

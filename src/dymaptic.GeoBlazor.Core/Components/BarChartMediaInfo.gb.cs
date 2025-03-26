@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A `BarChartMediaInfo` is a type of chart media element that represents a bar chart displayed within a popup.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BarChartMediaInfo.html">GeoBlazor Docs</a>
+///     A `BarChartMediaInfo` is a type of chart media element that represents a bar chart displayed within a popup.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-BarChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BarChartMediaInfo : IChartMediaInfo
 {

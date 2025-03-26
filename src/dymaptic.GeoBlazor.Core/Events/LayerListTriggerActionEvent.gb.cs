@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the LayerListWidget.OnTriggerAction event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.LayerListTriggerActionEvent.html">GeoBlazor Docs</a>
+///     Event result type for the LayerListWidget.OnTriggerAction event.
 /// </summary>
 /// <param name="Action">
 /// </param>

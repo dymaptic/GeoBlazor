@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Used to project the geometry onto a virtual grid, likely representing pixels on the screen. Geometry coordinates

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VertexOperation.html">GeoBlazor Docs</a>
 ///     Enumeration for VertexOperation
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VertexOperation>))]

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A `LineChartMediaInfo` is a type of chart media element that represents a line chart displayed within a popup.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LineChartMediaInfo.html">GeoBlazor Docs</a>
+///     A `LineChartMediaInfo` is a type of chart media element that represents a line chart displayed within a popup.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-LineChartMediaInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LineChartMediaInfo : IChartMediaInfo
 {

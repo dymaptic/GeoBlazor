@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Authoring information related to generating renderers and visual variables with the Smart Mapping methods.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfo.html">GeoBlazor Docs</a>
+///     Authoring information related to generating renderers and visual variables with the Smart Mapping methods.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AuthoringInfo
 {

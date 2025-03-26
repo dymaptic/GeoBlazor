@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The GeoJSONLayer class is used to create a layer based on <a target="_blank" href="http://geojson.org/">GeoJSON</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html">GeoBlazor Docs</a>
+///     The GeoJSONLayer class is used to create a layer based on <a target="_blank" href="http://geojson.org/">GeoJSON</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class GeoJSONLayer : IBlendLayer,
     IFeatureEffectLayer,

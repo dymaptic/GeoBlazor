@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, OGCFeatureLayerView, WFSLayerView
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureLayerViewMixin.html">GeoBlazor Docs</a>
+///     Interface for types CatalogFootprintLayerView, CSVLayerView, FeatureLayerView, GeoJSONLayerView, OGCFeatureLayerView, WFSLayerView
 /// </summary>
 public partial interface IFeatureLayerViewMixin : IMapComponent
 {

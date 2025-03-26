@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The WMSLayer is used to create layers based on OGC Web Map Services (WMS).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html">GeoBlazor Docs</a>
+///     The WMSLayer is used to create layers based on OGC Web Map Services (WMS).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WMSLayer : Layer,
     IBlendLayer,

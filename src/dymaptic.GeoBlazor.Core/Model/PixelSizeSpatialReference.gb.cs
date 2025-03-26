@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Spatial reference to be used for the request.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#PixelSize">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PixelSizeSpatialReference.html">GeoBlazor Docs</a>
+///     Spatial reference to be used for the request.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#PixelSize">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Wkid">
 ///     The wkid of the spatial reference.

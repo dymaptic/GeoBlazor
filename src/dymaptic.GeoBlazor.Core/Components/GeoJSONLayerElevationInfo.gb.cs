@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Specifies how features are placed on the vertical axis (z).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GeoJSONLayerElevationInfo.html">GeoBlazor Docs</a>
+///     Specifies how features are placed on the vertical axis (z).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class GeoJSONLayerElevationInfo : MapComponent
 {

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    An object with the following properties that describe the request.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.RequestOptions.html">GeoBlazor Docs</a>
+///     An object with the following properties that describe the request.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AuthMode">
 ///     Indicates if and how requests to ArcGIS Services are authenticated.

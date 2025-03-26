@@ -1,4 +1,4 @@
-namespace dymaptic.GeoBlazor.Core.Objects;
+namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     Error is a class that enhances the debugging and error handling process. Rather than returning a generic JavaScript error, this Error returns a standardized error object with several properties. The error class can be useful in many scenarios, such as working with promises, the esriRequest module, and many different layers and widgets.

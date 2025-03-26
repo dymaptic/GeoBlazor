@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchWidget.OnSearchClear event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchClearEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchWidget.OnSearchClear event.
 /// </summary>
 public partial record SearchClearEvent(
 );

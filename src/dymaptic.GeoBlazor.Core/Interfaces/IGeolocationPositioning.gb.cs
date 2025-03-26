@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types LocateViewModel, TrackViewModel
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IGeolocationPositioning.html">GeoBlazor Docs</a>
+///     Interface for types LocateViewModel, TrackViewModel
 /// </summary>
 public partial interface IGeolocationPositioning : IMapComponent
 {

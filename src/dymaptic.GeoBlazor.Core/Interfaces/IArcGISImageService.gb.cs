@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ImageryLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html">GeoBlazor Docs</a>
+///     Interface for types ImageryLayer
 /// </summary>
 public partial interface IArcGISImageService : IMapComponent
 {

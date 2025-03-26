@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The URL for a thumbnail image.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#thumbnail">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.BookmarkThumbnail.html">GeoBlazor Docs</a>
+///     The URL for a thumbnail image.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#thumbnail">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Url">
 ///     URL to a thumbnail to display.

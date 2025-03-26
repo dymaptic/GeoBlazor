@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Contains an array of objects containing proxy information for premium platform services.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#applicationProxies">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemApplicationProxies.html">GeoBlazor Docs</a>
+///     Contains an array of objects containing proxy information for premium platform services.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#applicationProxies">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ProxyId">
 ///     The proxy ID registered in ArcGIS Online or ArcGIS Enterprise Portal.

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    Represents a dynamic <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service resource</a> as a layer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html">GeoBlazor Docs</a>
+///     Represents a dynamic <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service resource</a> as a layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryLayer : IArcGISImageService,
     IBlendLayer,

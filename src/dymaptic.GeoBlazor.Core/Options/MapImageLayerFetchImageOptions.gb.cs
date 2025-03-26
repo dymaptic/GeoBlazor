@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.MapImageLayerFetchImageOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="PixelRatio">
 ///     The ratio of the resolution in physical pixels of the image to the resolution it will be displayed at.

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VerticalAlignment.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          The vertical alignment for a text symbol's text.
 ///      </summary>

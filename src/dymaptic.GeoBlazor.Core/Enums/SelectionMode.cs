@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SelectionMode.html">GeoBlazor Docs</a>
 ///     Enumeration for SelectionMode
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SelectionMode>))]

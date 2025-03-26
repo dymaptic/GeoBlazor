@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.HorizontalAlignment.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          The horizontal alignment for a text symbol's text.
 ///      </summary>

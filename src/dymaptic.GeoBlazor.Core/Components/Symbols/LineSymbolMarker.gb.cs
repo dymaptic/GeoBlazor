@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 
 /// <summary>
-///    LineSymbolMarker is used for rendering a simple marker graphic on a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.LineSymbolMarker.html">GeoBlazor Docs</a>
+///     LineSymbolMarker is used for rendering a simple marker graphic on a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">SimpleLineSymbol</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-LineSymbolMarker.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LineSymbolMarker
 {

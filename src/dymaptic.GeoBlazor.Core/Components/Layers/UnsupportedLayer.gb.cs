@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    Represents an unsupported layer instance.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-UnsupportedLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.UnsupportedLayer.html">GeoBlazor Docs</a>
+///     Represents an unsupported layer instance.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-UnsupportedLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UnsupportedLayer : Layer
 {

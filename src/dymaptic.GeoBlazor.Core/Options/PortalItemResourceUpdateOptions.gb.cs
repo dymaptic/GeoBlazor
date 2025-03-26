@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.PortalItemResourceUpdateOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Access">
 ///     Indicates the level of access to the resource.

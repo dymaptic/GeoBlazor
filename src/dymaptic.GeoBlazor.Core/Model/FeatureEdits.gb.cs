@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FeatureEdits.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="AddAttachments">
 ///     An array of attachments to be added.

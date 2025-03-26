@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    This class defines the parameters for querying a layer or layer view for statistics.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.StatisticDefinition.html">GeoBlazor Docs</a>
+///     This class defines the parameters for querying a layer or layer view for statistics.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-StatisticDefinition.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="OnStatisticField">
 ///     Defines the field for which statistics will be calculated.

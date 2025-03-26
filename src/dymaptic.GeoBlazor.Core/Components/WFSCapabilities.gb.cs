@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    WFS service information about the available layers and operations.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSCapabilities.html">GeoBlazor Docs</a>
+///     WFS service information about the available layers and operations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSCapabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WFSCapabilities : MapComponent
 {

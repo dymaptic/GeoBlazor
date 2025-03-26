@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The GeoRSSLayer class is used to create a layer based on <a target="_blank" href="https://www.ogc.org/standards/georss">GeoRSS</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoRSSLayer.html">GeoBlazor Docs</a>
+///     The GeoRSSLayer class is used to create a layer based on <a target="_blank" href="https://www.ogc.org/standards/georss">GeoRSS</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoRSSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class GeoRSSLayer : IBlendLayer,
     IOperationalLayer,

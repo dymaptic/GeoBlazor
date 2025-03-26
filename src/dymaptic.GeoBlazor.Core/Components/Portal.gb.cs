@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The Portal class is part of the <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a> that provides a way to build applications that work with content from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or an <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Portal.html">GeoBlazor Docs</a>
+///     The Portal class is part of the <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a> that provides a way to build applications that work with content from <a target="_blank" href="https://www.arcgis.com/home/">ArcGIS Online</a> or an <a target="_blank" href="https://enterprise.arcgis.com/en/portal/">ArcGIS Enterprise portal</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Portal
 {

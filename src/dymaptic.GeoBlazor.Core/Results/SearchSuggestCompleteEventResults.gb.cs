@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchSuggestCompleteEventResults.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Results">
 /// </param>

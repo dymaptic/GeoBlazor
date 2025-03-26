@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types ClassBreaksRenderer, DictionaryRenderer, PieChartRenderer, SimpleRenderer, UniqueValueRenderer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRendererWithVisualVariables.html">GeoBlazor Docs</a>
+///     Interface for types ClassBreaksRenderer, DictionaryRenderer, PieChartRenderer, SimpleRenderer, UniqueValueRenderer
 /// </summary>
 public partial interface IRendererWithVisualVariables : IRenderersRenderer,
     IMapComponent

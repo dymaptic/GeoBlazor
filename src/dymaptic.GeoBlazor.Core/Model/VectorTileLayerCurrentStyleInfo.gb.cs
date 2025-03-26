@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The current style information of the VectorTileLayer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.VectorTileLayerCurrentStyleInfo.html">GeoBlazor Docs</a>
+///     The current style information of the VectorTileLayer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="GlyphsUrl">
 ///     Absolute template URL for font sets included in a style.

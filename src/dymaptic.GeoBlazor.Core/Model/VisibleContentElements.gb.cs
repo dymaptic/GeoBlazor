@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.VisibleContentElements.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="Attachments">
 ///     Indicates whether to display any <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">AttachmentsContent</a> elements.

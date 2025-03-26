@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 
 /// <summary>
-///    UniqueValueRenderer allows you to symbolize features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> based on one or more categorical attributes.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html">GeoBlazor Docs</a>
+///     UniqueValueRenderer allows you to symbolize features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> based on one or more categorical attributes.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     IVisualVariablesMixin

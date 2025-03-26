@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The CSVLayer is a point layer based on a CSV file (.csv, .txt).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html">GeoBlazor Docs</a>
+///     The CSVLayer is a point layer based on a CSV file (.csv, .txt).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CSVLayer : IBlendLayer,
     IFeatureEffectLayer,

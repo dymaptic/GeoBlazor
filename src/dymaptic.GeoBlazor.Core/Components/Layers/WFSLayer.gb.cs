@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The WFSLayer is used to create a layer based on an <a target="_blank" href="https://www.ogc.org/standards/wfs">OGC Web Feature Service</a> (WFS).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html">GeoBlazor Docs</a>
+///     The WFSLayer is used to create a layer based on an <a target="_blank" href="https://www.ogc.org/standards/wfs">OGC Web Feature Service</a> (WFS).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WFSLayer : Layer,
     IBlendLayer,

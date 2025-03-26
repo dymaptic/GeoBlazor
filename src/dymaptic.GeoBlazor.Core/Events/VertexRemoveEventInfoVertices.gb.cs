@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Contains the details of the removed vertices to track changes in topology of the geometry.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch.html#VertexRemoveEventInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.VertexRemoveEventInfoVertices.html">GeoBlazor Docs</a>
+///     Contains the details of the removed vertices to track changes in topology of the geometry.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch.html#VertexRemoveEventInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ComponentIndex">
 ///     The ring/path index of the removed vertex.

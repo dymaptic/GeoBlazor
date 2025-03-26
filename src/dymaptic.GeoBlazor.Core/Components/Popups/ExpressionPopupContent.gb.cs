@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 
 /// <summary>
-///    An ExpressionContent element allows you to define a popup content element with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.ExpressionPopupContent.html">GeoBlazor Docs</a>
+///     An ExpressionContent element allows you to define a popup content element with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ExpressionPopupContent
 {

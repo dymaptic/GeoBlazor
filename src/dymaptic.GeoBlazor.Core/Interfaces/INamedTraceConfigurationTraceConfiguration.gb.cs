@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The full definition of the trace configuration.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-support-NamedTraceConfiguration.html#traceConfiguration">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.INamedTraceConfigurationTraceConfiguration.html">GeoBlazor Docs</a>
+///     The full definition of the trace configuration.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-support-NamedTraceConfiguration.html#traceConfiguration">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface INamedTraceConfigurationTraceConfiguration 
 {

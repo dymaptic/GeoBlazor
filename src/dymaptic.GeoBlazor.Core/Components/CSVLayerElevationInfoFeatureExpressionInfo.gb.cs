@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Defines how to override a feature's Z-value based on its attributes.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CSVLayerElevationInfoFeatureExpressionInfo.html">GeoBlazor Docs</a>
+///     Defines how to override a feature's Z-value based on its attributes.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CSVLayerElevationInfoFeatureExpressionInfo : MapComponent
 {

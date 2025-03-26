@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    WCS presents raster data from a <a target="_blank" href="https://www.ogc.org/standards/wcs">OGC Web Coverage Service</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html">GeoBlazor Docs</a>
+///     WCS presents raster data from a <a target="_blank" href="https://www.ogc.org/standards/wcs">OGC Web Coverage Service</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WCSLayer : IBlendLayer,
     IImageryTileMixin,

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ServiceMode.html">GeoBlazor Docs</a>
 ///     Enumeration for ServiceMode
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ServiceMode>))]

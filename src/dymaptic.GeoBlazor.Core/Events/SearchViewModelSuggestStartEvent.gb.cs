@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchViewModel.OnSuggestStart event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchViewModelSuggestStartEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchViewModel.OnSuggestStart event.
 /// </summary>
 public partial record SearchViewModelSuggestStartEvent(
 );

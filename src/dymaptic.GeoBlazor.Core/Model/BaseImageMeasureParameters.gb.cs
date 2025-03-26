@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.BaseImageMeasureParameters.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="MosaicRule">
 ///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked when the measure is computed.

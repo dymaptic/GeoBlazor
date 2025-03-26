@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PixelType.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Types of pixels for raster data sources
 ///      </summary>

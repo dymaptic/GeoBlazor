@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for the overall <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#routeInfo">route</a>.
-///    default { type: "simple-line", color: [20, 89, 127], width: 8 }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#routeInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteSymbolsRouteInfo.html">GeoBlazor Docs</a>
+///     The default symbol for the overall <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#routeInfo">route</a>.
+///     default { type: "simple-line", color: [20, 89, 127], width: 8 }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#routeInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteSymbolsRouteInfo : IMapComponent
 {

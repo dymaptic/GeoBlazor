@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.ElevationLayerFetchTileOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="NoDataValue">
 ///     The value representing pixels in the tile that don't contain an elevation value.

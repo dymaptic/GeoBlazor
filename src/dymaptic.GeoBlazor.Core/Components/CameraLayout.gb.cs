@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The camera layout defines the position of the current view in a distributed larger view.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CameraLayout.html">GeoBlazor Docs</a>
+///     The camera layout defines the position of the current view in a distributed larger view.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-CameraLayout.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CameraLayout : MapComponent
 {

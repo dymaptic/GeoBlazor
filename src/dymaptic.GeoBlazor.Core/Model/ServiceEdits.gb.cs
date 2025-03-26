@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Results returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#generateAddAssociations">generateAddAssociations</a> method and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#generateDeleteAssociations">generateDeleteAssociations</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#ServiceEdits">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ServiceEdits.html">GeoBlazor Docs</a>
+///     Results returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#generateAddAssociations">generateAddAssociations</a> method and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#generateDeleteAssociations">generateDeleteAssociations</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#ServiceEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AddFeatures">
 ///     Object of generated add features.

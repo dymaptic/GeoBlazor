@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    Represents a layer whose type could not be determined.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-UnknownLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.UnknownLayer.html">GeoBlazor Docs</a>
+///     Represents a layer whose type could not be determined.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-UnknownLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UnknownLayer : Layer
 {

@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A SceneFilter defines parameters for setting a client-side spatial filter on a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#filter">SceneLayer</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-SceneFilter.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SceneFilter.html">GeoBlazor Docs</a>
+///     A SceneFilter defines parameters for setting a client-side spatial filter on a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#filter">SceneLayer</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-SceneFilter.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometries">
 ///     The geometries to apply to the spatial filter.

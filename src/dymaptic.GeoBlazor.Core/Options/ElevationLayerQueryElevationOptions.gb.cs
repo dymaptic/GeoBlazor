@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.ElevationLayerQueryElevationOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="DemResolution">
 ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`).

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SpatialRelationship.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          For spatial queries, this parameter defines the spatial relationship to query features in the layer or layer view
 ///          against the input geometry. The spatial relationships discover how features are spatially related to each other.

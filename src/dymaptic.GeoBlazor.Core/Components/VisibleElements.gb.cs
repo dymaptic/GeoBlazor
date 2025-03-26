@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The elements that are displayed within the tooltip while sketching and editing.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElements.html">GeoBlazor Docs</a>
+///     The elements that are displayed within the tooltip while sketching and editing.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-sketch-SketchTooltipOptions.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class VisibleElements : MapComponent
 {

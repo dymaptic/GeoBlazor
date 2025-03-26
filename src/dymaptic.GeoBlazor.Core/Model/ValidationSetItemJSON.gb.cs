@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    ValidationSetItemJSON represents the set of features and objects to validate.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-ValidateNetworkTopologyParameters.html#ValidationSetItemJSON">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ValidationSetItemJSON.html">GeoBlazor Docs</a>
+///     ValidationSetItemJSON represents the set of features and objects to validate.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-networks-support-ValidateNetworkTopologyParameters.html#ValidationSetItemJSON">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="GlobalIds">
 ///     An array of globalId strings to validate.

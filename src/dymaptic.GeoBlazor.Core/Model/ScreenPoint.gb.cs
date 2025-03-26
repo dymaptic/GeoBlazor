@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    An object representing a point on the screen.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ScreenPoint.html">GeoBlazor Docs</a>
+///     An object representing a point on the screen.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-2d-layers-BaseLayerView2D.html#ScreenPoint">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="X">
 ///     The x coordinate.

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The featured groups for the portal.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalFeaturedGroups.html">GeoBlazor Docs</a>
+///     The featured groups for the portal.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#featuredGroups">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PortalFeaturedGroups : MapComponent
 {

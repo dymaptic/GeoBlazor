@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The fields that record who adds or edits data in the feature service and when the edit is made.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.EditFieldsInfo.html">GeoBlazor Docs</a>
+///     The fields that record who adds or edits data in the feature service and when the edit is made.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#EditFieldsInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="CreationDateField">
 ///     The name of the field that stores the date and time the feature was created.

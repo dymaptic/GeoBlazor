@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchViewModel.OnSelectResult event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchViewModelSelectResultEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchViewModel.OnSelectResult event.
 /// </summary>
 /// <param name="Result">
 ///     An object containing the results of the search.

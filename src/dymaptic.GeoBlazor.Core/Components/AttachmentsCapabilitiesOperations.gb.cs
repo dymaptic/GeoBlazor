@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Describes the configurable attachments operations.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments-AttachmentsViewModel.html#AttachmentsCapabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsCapabilitiesOperations.html">GeoBlazor Docs</a>
+///     Describes the configurable attachments operations.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments-AttachmentsViewModel.html#AttachmentsCapabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AttachmentsCapabilitiesOperations : MapComponent
 {

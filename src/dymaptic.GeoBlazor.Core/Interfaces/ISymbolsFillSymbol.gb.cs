@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types PictureFillSymbol, SimpleFillSymbol
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISymbolsFillSymbol.html">GeoBlazor Docs</a>
+///     Interface for types PictureFillSymbol, SimpleFillSymbol
 /// </summary>
 public partial interface ISymbolsFillSymbol : IMapComponent
 {

@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BaseTileLayer, BingMapsLayer, CatalogLayer, ImageryLayer, MapImageLayer, OpenStreetMapLayer, TileLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRefreshableLayer.html">GeoBlazor Docs</a>
+///     Interface for types BaseTileLayer, BingMapsLayer, CatalogLayer, ImageryLayer, MapImageLayer, OpenStreetMapLayer, TileLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IRefreshableLayer : IMapComponent
 {

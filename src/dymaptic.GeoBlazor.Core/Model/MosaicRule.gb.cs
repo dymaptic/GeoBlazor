@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Specifies the mosaic rule when defining how individual images should be mosaicked.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.MosaicRule.html">GeoBlazor Docs</a>
+///     Specifies the mosaic rule when defining how individual images should be mosaicked.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Ascending">
 ///     Indicates whether the sort should be ascending.

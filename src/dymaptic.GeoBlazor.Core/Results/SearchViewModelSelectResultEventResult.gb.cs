@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    An object containing the results of the search.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.SearchViewModelSelectResultEventResult.html">GeoBlazor Docs</a>
+///     An object containing the results of the search.
 /// </summary>
 /// <param name="Extent">
 /// </param>

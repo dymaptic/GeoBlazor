@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A Graphic is a vector representation of real world geographic phenomena.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Graphic.html">GeoBlazor Docs</a>
+///     A Graphic is a vector representation of real world geographic phenomena.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Graphic : IHitTestItem,
     IIntersectItem

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Describes <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/measure.htm">mensuration operations</a> supported by the ImageryLayer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html">GeoBlazor Docs</a>
+///     Describes <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/measure.htm">mensuration operations</a> supported by the ImageryLayer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 {

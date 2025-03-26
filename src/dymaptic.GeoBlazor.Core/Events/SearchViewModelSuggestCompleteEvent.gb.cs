@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchViewModel.OnSuggestComplete event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchViewModelSuggestCompleteEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchViewModel.OnSuggestComplete event.
 /// </summary>
 /// <param name="ActiveSourceIndex">
 ///     The index of the source from which suggestions are obtained. This value is <code>-1</code> when all sources are selected.

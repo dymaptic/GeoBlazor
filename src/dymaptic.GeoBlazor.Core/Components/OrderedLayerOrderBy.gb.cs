@@ -4,9 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Determines the order in which features are drawn in the view.
-///    default null
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OrderedLayerOrderBy.html">GeoBlazor Docs</a>
+///     Determines the order in which features are drawn in the view.
+///     default null
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class OrderedLayerOrderBy
 {

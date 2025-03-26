@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    Options for creating the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-popupUtils.html#CreatePopupTemplateOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.CreatePopupTemplateOptions.html">GeoBlazor Docs</a>
+///     Options for creating the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-popupUtils.html#CreatePopupTemplateOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="IgnoreFieldTypes">
 ///     An array of field types to ignore when creating the popup.

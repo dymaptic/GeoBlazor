@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types BaseTileLayer, BingMapsLayer, BuildingComponentSublayer, BuildingGroupSublayer, BuildingSublayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, Graphic, GraphicsLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OpenStreetMapLayer, SceneLayer, TileLayer, UnknownLayer, UnsupportedLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IIntersectItem.html">GeoBlazor Docs</a>
+///     Interface for types BaseTileLayer, BingMapsLayer, BuildingComponentSublayer, BuildingGroupSublayer, BuildingSublayer, CatalogDynamicGroupLayer, CatalogFootprintLayer, CatalogLayer, CSVLayer, ElevationLayer, FeatureLayer, GeoJSONLayer, GeoRSSLayer, Graphic, GraphicsLayer, GroupLayer, ImageryLayer, ImageryTileLayer, KMLLayer, MapImageLayer, OpenStreetMapLayer, SceneLayer, TileLayer, UnknownLayer, UnsupportedLayer, VectorTileLayer, WCSLayer, WebTileLayer, WFSLayer, WMSLayer, WMTSLayer
 /// </summary>
 public partial interface IIntersectItem 
 {

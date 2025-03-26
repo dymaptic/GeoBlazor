@@ -321,7 +321,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
     
     switch (jsObject.type) {
         case 'base-tile': 
-        let dotNetBaseTileLayer: any = {};
+            let dotNetBaseTileLayer: any = {};
             if (hasValue(jsObject.effect)) {
                 let { buildDotNetEffect } = await import('./effect');
                 dotNetBaseTileLayer.effect = buildDotNetEffect(jsObject.effect);
@@ -406,7 +406,7 @@ export async function buildDotNetBaseTileLayerGenerated(jsObject: any): Promise<
             let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
             return await buildDotNetBingMapsLayer(jsObject);
         default: 
-            return jsObject;
+            return removeCircularReferences(jsObject);
     }
 }     
 

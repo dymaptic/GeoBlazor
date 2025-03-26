@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    One or more locations from which the service searches for the nearby locations
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ClosestFacilityParameters.html#incidents">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IClosestFacilityParametersIncidents.html">GeoBlazor Docs</a>
+///     One or more locations from which the service searches for the nearby locations
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ClosestFacilityParameters.html#incidents">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IClosestFacilityParametersIncidents 
 {

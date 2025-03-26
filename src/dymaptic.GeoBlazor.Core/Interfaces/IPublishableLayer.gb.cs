@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types FeatureLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IPublishableLayer.html">GeoBlazor Docs</a>
+///     Interface for types FeatureLayer
 /// </summary>
 public partial interface IPublishableLayer : IMapComponent
 {

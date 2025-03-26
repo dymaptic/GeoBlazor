@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 
 /// <summary>
-///    The BasemapGallery widget displays a collection of images representing basemaps from ArcGIS.com or a user-defined set of map or image services.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html">GeoBlazor Docs</a>
+///     The BasemapGallery widget displays a collection of images representing basemaps from ArcGIS.com or a user-defined set of map or image services.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapGalleryWidget
 {

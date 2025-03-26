@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    The content displayed in the ListItem panel.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#LayerListItemPanelContent">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.LayerListCatalogOptions.html">GeoBlazor Docs</a>
+///     The content displayed in the ListItem panel.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItemPanel.html#LayerListItemPanelContent">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="FilterPlaceholder">
 ///     Placeholder text used in the filter input box.

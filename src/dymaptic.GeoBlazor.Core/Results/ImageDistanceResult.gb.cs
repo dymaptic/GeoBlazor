@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    Image service distance and angle measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureDistanceAndAngle">ImageryLayer.measureDistanceAndAngle()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureDistanceAndAngle">imageService.measureDistanceAndAngle()</a> methods resolve successfully.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageDistanceResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImageDistanceResult.html">GeoBlazor Docs</a>
+///     Image service distance and angle measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureDistanceAndAngle">ImageryLayer.measureDistanceAndAngle()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureDistanceAndAngle">imageService.measureDistanceAndAngle()</a> methods resolve successfully.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageDistanceResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Name">
 ///     Name of the raster dataset used in the area and height measurement.

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a> exposed by the ArcGIS Server REST API and add it to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> as a tile layer.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.TileLayer.html">GeoBlazor Docs</a>
+///     The TileLayer allows you work with a cached <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a> exposed by the ArcGIS Server REST API and add it to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> as a tile layer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-TileLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TileLayer : IAPIKeyMixin,
     IArcGISCachedService,

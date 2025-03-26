@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    Options for configuring the highlight on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">MapView</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">SceneView</a> or on layer views.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HighlightOptions.html">GeoBlazor Docs</a>
+///     Options for configuring the highlight on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">MapView</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">SceneView</a> or on layer views.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#HighlightOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class HighlightOptions
 {

@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the SearchWidget.OnSearchBlur event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.SearchBlurEvent.html">GeoBlazor Docs</a>
+///     Event result type for the SearchWidget.OnSearchBlur event.
 /// </summary>
 public partial record SearchBlurEvent(
 );

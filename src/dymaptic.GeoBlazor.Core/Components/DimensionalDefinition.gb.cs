@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    A dimensional definition defines a filter based on one variable and one dimension.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.DimensionalDefinition.html">GeoBlazor Docs</a>
+///     A dimensional definition defines a filter based on one variable and one dimension.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-DimensionalDefinition.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class DimensionalDefinition
 {

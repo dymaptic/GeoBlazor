@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 
 /// <summary>
-///    A FeatureLayer is a single layer that can be created from a <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">Map Service</a> or <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-feature-service-.htm">Feature Service</a>; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html">GeoBlazor Docs</a>
+///     A FeatureLayer is a single layer that can be created from a <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">Map Service</a> or <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-feature-service-.htm">Feature Service</a>; ArcGIS Online or ArcGIS Enterprise portal items; or from an array of client-side features.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FeatureLayer : IAPIKeyMixin,
     IBlendLayer,

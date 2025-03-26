@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.TextAlign.html">GeoBlazor Docs</a>
 ///     Enumeration for TextAlign
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TextAlign>))]

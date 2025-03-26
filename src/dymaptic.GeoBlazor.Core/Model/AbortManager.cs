@@ -1,4 +1,4 @@
-﻿namespace dymaptic.GeoBlazor.Core.Objects;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     The AbortManager translates a .NET <see cref="CancellationToken" /> into a JavaScript abort signal.

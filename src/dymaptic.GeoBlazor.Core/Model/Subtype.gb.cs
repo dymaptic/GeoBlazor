@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Subtypes categorize a subset of features in a layer that share the same attributes.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Subtype.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Subtype.html">GeoBlazor Docs</a>
+///     Subtypes categorize a subset of features in a layer that share the same attributes.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Subtype.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Code">
 ///     The subtype unique identifier number.

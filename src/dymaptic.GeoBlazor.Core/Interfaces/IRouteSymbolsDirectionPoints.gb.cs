@@ -3,9 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#directionPoints">direction points</a>.
-///    default { type: "simple-marker", color: [255, 255, 255], size: 6, outline: { color: [0, 122, 194], width: 2 } }
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#directionPoints">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IRouteSymbolsDirectionPoints.html">GeoBlazor Docs</a>
+///     The default symbol for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-RouteLayer.html#directionPoints">direction points</a>.
+///     default { type: "simple-marker", color: [255, 255, 255], size: 6, outline: { color: [0, 122, 194], width: 2 } }
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RouteSymbols.html#directionPoints">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IRouteSymbolsDirectionPoints : IMapComponent
 {

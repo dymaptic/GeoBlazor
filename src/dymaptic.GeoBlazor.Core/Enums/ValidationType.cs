@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ValidationType.html">GeoBlazor Docs</a>
 ///     Enumeration for ValidationType
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ValidationType>))]

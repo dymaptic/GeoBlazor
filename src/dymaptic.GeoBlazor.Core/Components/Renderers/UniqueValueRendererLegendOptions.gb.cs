@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 
 /// <summary>
-///    An object providing options for displaying the renderer in the Legend.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRendererLegendOptions.html">GeoBlazor Docs</a>
+///     An object providing options for displaying the renderer in the Legend.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UniqueValueRendererLegendOptions
 {

@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 
 /// <summary>
-///    PictureFillSymbol uses an image in a repeating pattern to symbolize polygon features in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.PictureFillSymbol.html">GeoBlazor Docs</a>
+///     PictureFillSymbol uses an image in a repeating pattern to symbolize polygon features in a 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-PictureFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PictureFillSymbol : IRouteSymbolsPolygonBarriers,
     ISymbol2D,

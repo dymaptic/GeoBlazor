@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Image's orientation along x, y, z axis.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageInspectionInfo.html#orientation">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageInspectionInfoOrientation.html">GeoBlazor Docs</a>
+///     Image's orientation along x, y, z axis.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageInspectionInfo.html#orientation">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Clockwise">
 ///     Indicates if the rotation is clockwise.

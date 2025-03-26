@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    TimeInterval is a class that describes a length of time in one of ten temporal units such as seconds, days, or years.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TimeInterval.html">GeoBlazor Docs</a>
+///     TimeInterval is a class that describes a length of time in one of ten temporal units such as seconds, days, or years.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class TimeInterval
 {

@@ -14,7 +14,6 @@ global using dymaptic.GeoBlazor.Core.Extensions;
 global using dymaptic.GeoBlazor.Core.Functions;
 global using dymaptic.GeoBlazor.Core.Interfaces;
 global using dymaptic.GeoBlazor.Core.Model;
-global using dymaptic.GeoBlazor.Core.Objects;
 global using dymaptic.GeoBlazor.Core.Options;
 global using dymaptic.GeoBlazor.Core.Results;
 global using dymaptic.GeoBlazor.Core.Serialization;

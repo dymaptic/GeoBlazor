@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Contains items with the `gdbVersion` property.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-versionManagement-VersionManagementService.html#VersionAdapter">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVersionAdapterVersionableItem.html">GeoBlazor Docs</a>
+///     Contains items with the `gdbVersion` property.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-versionManagement-VersionManagementService.html#VersionAdapter">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IVersionAdapterVersionableItem 
 {

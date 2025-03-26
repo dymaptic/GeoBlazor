@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.FeatureFormViewModelValidateContingencyConstraintsOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="IncludeIncompleteViolations">
 ///     If `true`, return contingency violations for field groups that are invalid because values have not yet been specified for all their fields.

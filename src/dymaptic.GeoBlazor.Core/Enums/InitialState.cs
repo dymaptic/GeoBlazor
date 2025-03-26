@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.InitialState.html">GeoBlazor Docs</a>
 ///     Enumeration for InitialState
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<InitialState>))]

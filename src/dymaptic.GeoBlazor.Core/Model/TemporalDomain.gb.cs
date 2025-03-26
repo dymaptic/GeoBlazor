@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Temporal domain or extent of a coverage.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#TemporalDomain">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.TemporalDomain.html">GeoBlazor Docs</a>
+///     Temporal domain or extent of a coverage.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#TemporalDomain">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Begin">
 ///     Start date for the temporal domain of a coverage.

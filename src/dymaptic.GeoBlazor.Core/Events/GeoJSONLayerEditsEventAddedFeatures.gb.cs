@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    An array of successfully added features.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.GeoJSONLayerEditsEventAddedFeatures.html">GeoBlazor Docs</a>
+///     An array of successfully added features.
 /// </summary>
 /// <param name="ObjectId">
 /// </param>

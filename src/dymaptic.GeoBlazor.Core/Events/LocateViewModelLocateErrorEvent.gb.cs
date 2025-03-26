@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the LocateViewModel.OnLocateError event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.LocateViewModelLocateErrorEvent.html">GeoBlazor Docs</a>
+///     Event result type for the LocateViewModel.OnLocateError event.
 /// </summary>
 /// <param name="Error">
 ///     The Error object that occurred while locating.

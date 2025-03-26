@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Add layers to this collection to exclude them from the slice.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slice-SliceViewModel.html#excludedLayers">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISliceViewModelExcludedLayers.html">GeoBlazor Docs</a>
+///     Add layers to this collection to exclude them from the slice.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slice-SliceViewModel.html#excludedLayers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface ISliceViewModelExcludedLayers : IMapComponent
 {

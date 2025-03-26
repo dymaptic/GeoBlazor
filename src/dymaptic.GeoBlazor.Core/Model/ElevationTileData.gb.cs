@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Describes elevation contained in the pixels that comprise an elevation tile.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseElevationLayer.html#ElevationTileData">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ElevationTileData.html">GeoBlazor Docs</a>
+///     Describes elevation contained in the pixels that comprise an elevation tile.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseElevationLayer.html#ElevationTileData">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Height">
 ///     The height of the tile in pixels.

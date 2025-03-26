@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    A list of layers and graphics to include in the hitTest.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IHitTestItem.html">GeoBlazor Docs</a>
+///     A list of layers and graphics to include in the hitTest.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#hitTest">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IHitTestItem : IMapComponent
 {

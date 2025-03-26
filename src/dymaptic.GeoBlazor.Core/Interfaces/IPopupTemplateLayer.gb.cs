@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IPopupTemplateLayer.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 public partial interface IPopupTemplateLayer : IMapComponent
 {

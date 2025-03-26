@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The `FieldInfoFormat` class is used with numerical or date fields to provide more detail about how the value should be displayed in a popup.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfoFormat.html">GeoBlazor Docs</a>
+///     The `FieldInfoFormat` class is used with numerical or date fields to provide more detail about how the value should be displayed in a popup.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FieldInfoFormat
 {

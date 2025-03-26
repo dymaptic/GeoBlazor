@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///    The area and length result from a selected image's measurement in an image space when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaFromImage">ImageryLayer.measureAreaFromImage()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaFromImage">imageService.measureAreaFromImage()</a> methods resolve successfully.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MeasureAreaFromImageResult.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.MeasureAreaFromImageResult.html">GeoBlazor Docs</a>
+///     The area and length result from a selected image's measurement in an image space when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaFromImage">ImageryLayer.measureAreaFromImage()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaFromImage">imageService.measureAreaFromImage()</a> methods resolve successfully.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MeasureAreaFromImageResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Area">
 ///     The area of a polygon in square meters.

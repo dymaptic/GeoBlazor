@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Options;
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.FeatureEditOptions.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 /// <param name="GdbVersion">
 ///     The geodatabase version to apply the edits.

@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
-///    Interface for types MapImageLayer, TileLayer
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISublayersOwner.html">GeoBlazor Docs</a>
+///     Interface for types MapImageLayer, TileLayer
 /// </summary>
 public partial interface ISublayersOwner : IMapComponent
 {

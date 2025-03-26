@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.html">GeoBlazor Docs</a>
+///     
 /// </summary>
 public partial class WFSOperationsGetFeature : MapComponent
 {

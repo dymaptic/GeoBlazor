@@ -4,8 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Components.Geometries;
 
 
 /// <summary>
-///    The base class for geometry objects.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Geometry.html">GeoBlazor Docs</a>
+///     The base class for geometry objects.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public abstract partial class Geometry
 {

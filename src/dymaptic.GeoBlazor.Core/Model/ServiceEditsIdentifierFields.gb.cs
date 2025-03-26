@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Identifier for globalId and objectId.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#ServiceEdits">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ServiceEditsIdentifierFields.html">GeoBlazor Docs</a>
+///     Identifier for globalId and objectId.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-networks-UtilityNetwork.html#ServiceEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="GlobalIdField">
 ///     The globalId identifier.

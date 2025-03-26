@@ -3,7 +3,8 @@
 namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
-///    Event result type for the GeoJSONLayer.OnEdits event.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Events.GeoJSONLayerEditsEvent.html">GeoBlazor Docs</a>
+///     Event result type for the GeoJSONLayer.OnEdits event.
 /// </summary>
 /// <param name="AddedFeatures">
 ///     An array of successfully added features.
