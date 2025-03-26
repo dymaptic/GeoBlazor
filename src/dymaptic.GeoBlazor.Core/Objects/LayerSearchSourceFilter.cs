@@ -33,33 +33,3 @@ public class LocatorSearchSourceFilter : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Geometry? Geometry { get; set; }
 }
-
-/// <summary>
-///     An object that is passed as a parameter to get search results.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#GetResultsHandler">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <param name="ExactMatch">
-///     The key field used to find the result.
-/// </param>
-/// <param name="Location">
-///     The location value used by the Search.
-/// </param>
-/// <param name="MaxResults">
-///     Indicates the maximum number of search results to return.
-/// </param>
-/// <param name="SourceIndex">
-///     Indicates the index of the search source.
-/// </param>
-/// <param name="SpatialReference">
-///     Indicates the Spatial Reference defined by the source.
-/// </param>
-/// <param name="SuggestResult">
-///     Indicates the Suggest Result that triggered the search for a result.
-/// </param>
-/// <param name="ViewId">
-///     Indicates the Id for the MapView or SceneView provided to the Search Widget using the source.
-/// </param>
-public record GetResultsParameters(bool? ExactMatch, Point? Location, int? MaxResults, int? SourceIndex, 
-    SpatialReference? SpatialReference, SuggestResult SuggestResult, Guid? ViewId);
-
-

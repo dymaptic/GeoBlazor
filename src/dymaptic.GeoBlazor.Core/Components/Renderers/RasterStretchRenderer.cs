@@ -189,21 +189,3 @@ public override void ValidateRequiredChildren()
     }
 
 }
-
-/// <summary>
-///     The input statistics for rasters
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#statistics">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <param name="Min">
-///     The minimum pixel value.
-/// </param>
-/// <param name="Max">
-///     The maximum pixel value.
-/// </param>
-/// <param name="Avg">
-///     The average pixel value.
-/// </param>
-/// <param name="Stddev">
-///     The standard deviation of the pixel value.
-/// </param>
-public record RasterStatistics(double Min, double Max, double? Avg = null, double? Stddev = null);

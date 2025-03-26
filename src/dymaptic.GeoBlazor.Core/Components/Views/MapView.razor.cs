@@ -176,7 +176,7 @@ public partial class MapView : MapComponent
     ///     An instance of a <see cref="Map" /> object to display in the view.
     /// </summary>
     [RequiredProperty]
-    public virtual Map? Map { get; private set; }
+    public Map? Map { get; private set; }
     
     /// <summary>
     ///     Boolean flag to identify if GeoBlazor is running in Blazor Server mode

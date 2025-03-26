@@ -2,19 +2,25 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class Basemap : MapComponent
 {
-
-
     /// <summary>
     ///     A collection of tile layers that make of the basemap's features.
     /// </summary>
     [CodeGenerationIgnore]
     [Obsolete("Use BaseLayers and ReferenceLayers instead.")]
-    public List<Layer> Layers { get; set; } = [];
+    public List<Layer> Layers
+    {
+        get => BaseLayers?.Concat(ReferenceLayers ?? [])?.ToList() ?? [];
+        set
+        {
+            BaseLayers = value.Where(layer => layer.IsBasemapReferenceLayer != true).ToList();
+            ReferenceLayers = value.Where(layer => layer.IsBasemapReferenceLayer == true).ToList();
+        }
+    }
     
     /// <summary>  
     ///     Asynchronously retrieve the current value of the BaseLayers property.  
     /// </summary>  
-    public Task<IReadOnlyList<Layer>?> GetBaseLayers()  
+    public Task<IReadOnlyList<Layer>?> GetBaseLayers()
     {  
         return Task.FromResult(BaseLayers);
     }  
@@ -34,8 +40,16 @@ public partial class Basemap : MapComponent
         switch (child)
         {
             case Layer layer:
-                await View!.AddLayer(layer, layer.IsBasemapReferenceLayer != true, 
-                    layer.IsBasemapReferenceLayer == true);
+                if (layer.IsBasemapReferenceLayer == true)
+                {
+                    ReferenceLayers ??= [];
+                    ReferenceLayers = [..ReferenceLayers, layer];
+                }
+                else
+                {
+                    BaseLayers ??= [];
+                    BaseLayers = [..BaseLayers, layer];
+                }
                 ModifiedParameters[nameof(BaseLayers)] = BaseLayers;
 
                 break;

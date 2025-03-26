@@ -12,18 +12,26 @@ public partial class FeaturesViewModel: IViewModel
    [JsonIgnore]
    [CodeGenerationIgnore]
    public GoToOverride? GoToOverride { get; set; }
-    
+
    /// <summary>
-   ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+   ///    JS-invokable method that triggers the <see cref = "GoToOverride"/> function.
    ///     Should not be called by consuming code.
    /// </summary>
    [JSInvokable]
    [CodeGenerationIgnore]
-   public async Task OnJsGoToOverride(GoToOverrideParameters goToParameters)
+   public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
    {
+      await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+      await using MemoryStream ms = new();
+      await stream.CopyToAsync(ms);
+      ms.Seek(0, SeekOrigin.Begin);
+      byte[] encodedJson = ms.ToArray();
+      string json = Encoding.UTF8.GetString(encodedJson);
+      GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+         json, GeoBlazorSerialization.JsonSerializerOptions)!;
       if (GoToOverride is not null)
       {
-         await GoToOverride(goToParameters);
+         await GoToOverride.Invoke(goToParameters);
       }
    }
     

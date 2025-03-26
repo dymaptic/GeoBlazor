@@ -87,27 +87,6 @@ public class MapPath : List<MapPoint>, IEquatable<MapPath>
     }
 }
 
-internal class MapPathEqualityComparer : EqualityComparer<MapPath>
-{
-    public static MapPathEqualityComparer Instance => _instance ??= new MapPathEqualityComparer();
-
-    public override bool Equals(MapPath? x, MapPath? y)
-    {
-        if (x is null && y is null) return true;
-        if (x is null) return false;
-        if (y is null) return false;
-
-        return x.Equals(y);
-    }
-
-    public override int GetHashCode(MapPath obj)
-    {
-        return obj.GetHashCode();
-    }
-
-    private static MapPathEqualityComparer? _instance;
-}
-
 /// <summary>
 ///     This is another representation of <see cref="Point" /> that should be used to create <see cref="MapPath" />s.
 /// </summary>

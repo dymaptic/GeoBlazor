@@ -13,7 +13,9 @@
 <button disabled="@(!_mapRendered)" @onclick="AddRemoveImageryLayer">Add or Remove Imagery Layer in code</button>
 <button disabled="@(!_mapRendered)" @onclick="()=>_markup = !_markup">Add new Imagery Layer in Markup</button>
 
-<MapView @ref="_view" class="map-view"
+<MapView @ref="_view" class="map-view" 
+         Center="@(new Point(-100, 40))"
+         Zoom="4"
          OnViewRendered="OnViewRendered">
     <Map>
         <Basemap>

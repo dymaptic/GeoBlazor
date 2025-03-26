@@ -19,14 +19,11 @@ public interface IGoTo
    /// </summary>
    [CodeGenerationIgnore]
    bool HasGoToOverride => GoToOverride is not null;
-    
+
    /// <summary>
    ///     JavaScript-invokable method for internal use
    /// </summary>
    [JSInvokable]
    [CodeGenerationIgnore]
-   Task OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
-   {
-      return GoToOverride?.Invoke(goToOverrideParams) ?? Task.CompletedTask;
-   }
+   Task OnJsGoToOverride(IJSStreamReference jsStreamReference);
 }

@@ -8,11 +8,9 @@ export async function buildJsILayersMixinGenerated(dotNetObject: any, layerId: s
     }
 
     let jsLayersMixin: any = {};
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
-        jsLayersMixin.layer = arcGisObjectRefs[dotNetObject.layerId!];
-    } else if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
-        jsLayersMixin.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
+        jsLayersMixin.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
     

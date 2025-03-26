@@ -12,11 +12,9 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
         let { buildJsBookmarkOptionsScreenshotSettingsArea } = await import('./bookmarkOptionsScreenshotSettingsArea');
         jsBookmarkOptionsScreenshotSettings.area = await buildJsBookmarkOptionsScreenshotSettingsArea(dotNetObject.area) as any;
     }
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
-        jsBookmarkOptionsScreenshotSettings.layer = arcGisObjectRefs[dotNetObject.layerId!];
-    } else if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
         let { buildJsLayer } = await import('./layer');
-        jsBookmarkOptionsScreenshotSettings.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
+        jsBookmarkOptionsScreenshotSettings.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.height)) {

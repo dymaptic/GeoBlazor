@@ -144,21 +144,17 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
-        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
-    } else if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.baseLayers) && dotNetObject.baseLayers.length > 0) {
         let { buildJsLayer } = await import('./layer');
-        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
+        properties.baseLayers = await Promise.all(dotNetObject.baseLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.layerId) && arcGisObjectRefs.hasOwnProperty(dotNetObject.layerId)) {
-        properties.layer = arcGisObjectRefs[dotNetObject.layerId!];
-    } else if (hasValue(dotNetObject.layer)) {
+    if (hasValue(dotNetObject.referenceLayers) && dotNetObject.referenceLayers.length > 0) {
         let { buildJsLayer } = await import('./layer');
-        properties.layer = await buildJsLayer(dotNetObject.layer, layerId, viewId);
+        properties.referenceLayers = await Promise.all(dotNetObject.referenceLayers.map(async i => await buildJsLayer(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.style)) {
         let { buildJsBasemapStyle } = await import('./basemapStyle');

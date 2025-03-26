@@ -237,9 +237,6 @@ public partial class PopupWidget : Widget
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
-    /// <param name="triggerActionEvent">
-    ///     The event that is triggered when the action is clicked.
-    /// </param>
     [JSInvokable]
     [CodeGenerationIgnore]
     public async Task OnJsTriggerAction(IJSStreamReference jsStreamRef)

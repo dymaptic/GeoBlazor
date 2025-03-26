@@ -13,8 +13,8 @@
 
 <MapView @ref="_mapView"
          class="map-view"
-         Center="@(new Point(x: 0, y: 0, spatialReference: new SpatialReference(102003)))"
-         Scale="19975114"
+         Center="@(new Point(-100, 40))"
+         Zoom="4"
          OnLayerViewCreate="OnLayerViewCreated"
          BackgroundColor="@(new MapColor("#F5F5F5"))">
     <SpatialReference Wkid="102003" />
@@ -44,35 +44,30 @@
                     <b>Select land type:</b>
                     <calcite-radio-button-group name="Select land type" layout="vertical"
                                                 id="landCoverTypeSelect" scale="s">
-                        <calcite-label layout="inline">
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("forests"))">
                             <calcite-radio-button id="forests"
                                                   value="forests"
-                                                  checked
-                                                  @onclick="@(e => UpdateLandCoverType("forests"))">
+                                                  checked>
                             </calcite-radio-button>
                             Forested Areas
                         </calcite-label>
-                        <calcite-label layout="inline">
-                            <calcite-radio-button value="developed"
-                                                  @onclick="@(e => UpdateLandCoverType("developed"))">
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("developed"))">
+                            <calcite-radio-button value="developed">
                             </calcite-radio-button>
                             Developed Areas
                         </calcite-label>
-                        <calcite-label layout="inline">
-                            <calcite-radio-button value="crops"
-                                                  @onclick="@(e => UpdateLandCoverType("crops"))">
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("crops"))">
+                            <calcite-radio-button value="crops">
                             </calcite-radio-button>
                             Cultivated Areas
                         </calcite-label>
-                        <calcite-label layout="inline">
-                            <calcite-radio-button value="hay"
-                                                  @onclick="@(e => UpdateLandCoverType("hay"))">
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("hay"))">
+                            <calcite-radio-button value="hay">
                             </calcite-radio-button>
                             Hay/Pasture Areas
                         </calcite-label>
-                        <calcite-label layout="inline">
-                            <calcite-radio-button value="wetlands"
-                                                  @onclick="@(e => UpdateLandCoverType("wetlands"))">
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("wetlands"))">
+                            <calcite-radio-button value="wetlands">
                             </calcite-radio-button>
                             Wetlands
                         </calcite-label>
@@ -101,7 +96,7 @@
         if (createEvent.Layer?.Id == _layer?.Id)
         {
             await UpdateSpatialReference(new ChangeEventArgs{Value = "102003"});
-            await UpdateLandCoverType("forest");
+            await UpdateLandCoverType("forests");
         }
     }
 
@@ -119,13 +114,17 @@
             return;
         }
         
-        LandType landType = _landTypes.First(t => t.Name == type);
+        LandType? landType = _landTypes.FirstOrDefault(t => t.Name == type);
         List<UniqueValueInfo> infos = [];
-        for (int i = 0; i < landType.Categories.Length; i++)
+
+        if (landType is not null)
         {
-            infos.Add(new UniqueValueInfo(
-                symbol: new SimpleFillSymbol(color: new MapColor(landType.Colors[i])),
-                value: landType.Categories[i]));
+            for (int i = 0; i < landType.Categories.Length; i++)
+            {
+                infos.Add(new UniqueValueInfo(
+                    symbol: new SimpleFillSymbol(color: new MapColor(landType.Colors[i])),
+                    value: landType.Categories[i]));
+            }
         }
         
         await _layer.SetRenderer(new UniqueValueRenderer(field: "NLCD_Land",

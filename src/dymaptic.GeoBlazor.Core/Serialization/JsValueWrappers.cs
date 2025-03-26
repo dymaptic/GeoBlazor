@@ -16,11 +16,6 @@ internal record struct JsObjectRefWrapper(IJSObjectReference? Value);
 internal record struct JsNullableDoubleWrapper(double? Value);
 
 /// <summary>
-///     Wraps a nullable float value for serialization
-/// </summary>
-internal record struct JsNullableFloatWrapper(float? Value);
-
-/// <summary>
 ///     Wraps a nullable int value for serialization
 /// </summary>
 internal record struct JsNullableIntWrapper(int? Value);
