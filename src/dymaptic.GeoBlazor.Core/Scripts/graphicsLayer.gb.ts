@@ -197,10 +197,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
     }
-    if (hasValue(dotNetObject.graphics) && dotNetObject.graphics.length > 0) {
-        let { buildJsGraphic } = await import('./graphic');
-        properties.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
-    }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;

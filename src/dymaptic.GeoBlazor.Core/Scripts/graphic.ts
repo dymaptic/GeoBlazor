@@ -32,7 +32,6 @@ export function buildJsGraphic(graphicObject: any): Graphic {
     }
 
     if (hasValue(graphicObject.popupTemplate)) {
-        graphic.popupTemplate?.destroy();
         graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, graphicObject.layerId, graphicObject.viewId) as PopupTemplate;
     }
 
@@ -49,7 +48,7 @@ export function buildJsGraphic(graphicObject: any): Graphic {
         }
     }
     
-    if (hasValue(graphicObject.layerId)) {
+    if (hasValue(graphicObject.layerId) && arcGisObjectRefs.hasOwnProperty(graphicObject.layerId)) {
         graphic.layer = arcGisObjectRefs[graphicObject.layerId] as any;
     }
     
@@ -59,7 +58,9 @@ export function buildJsGraphic(graphicObject: any): Graphic {
 
     copyValuesIfExists(graphicObject, graphic, 'visible');
 
-    let groupId = graphicObject.layerId ?? graphicObject.viewId;
+    let groupId = graphicObject.layerId 
+        ?? graphicObject.layer?.id 
+        ?? graphicObject.viewId;
     if (hasValue(groupId)) {
         if (!graphicsRefs.hasOwnProperty(groupId!)) {
             graphicsRefs[groupId!] = {};

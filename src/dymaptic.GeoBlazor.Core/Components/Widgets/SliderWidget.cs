@@ -137,12 +137,14 @@ public partial class SliderWidget: Widget
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [CodeGenerationIgnore]
     public EventCallback<double[]> ValueChanged { get; set; }
 
     /// <summary>
     ///     JS-invokable method, for internal use only.
     /// </summary>
     [JSInvokable]
+    [CodeGenerationIgnore]
     public async Task OnJsValueChanged(double[] newValues)
     {
         Values = newValues;

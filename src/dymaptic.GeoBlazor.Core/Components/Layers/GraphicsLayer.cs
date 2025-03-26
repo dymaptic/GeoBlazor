@@ -84,6 +84,7 @@ public partial class GraphicsLayer : Layer
         {
             graphic.View = View;
             graphic.Layer = this;
+            graphic.LayerId = Id;
             graphic.Parent = this;
         }
 

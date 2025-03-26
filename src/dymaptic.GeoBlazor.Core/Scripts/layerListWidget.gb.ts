@@ -202,7 +202,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     }
     
     async setViewModel(value: any): Promise<void> {
-        this.widget.viewModel?.destroy();
         let { buildJsLayerListViewModel } = await import('./layerListViewModel');
         this.widget.viewModel = await  buildJsLayerListViewModel(value, this.layerId, this.viewId);
     }

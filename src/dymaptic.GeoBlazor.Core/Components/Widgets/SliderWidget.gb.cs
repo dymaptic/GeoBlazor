@@ -81,10 +81,7 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#snapOnClickEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="steps">
-    ///     Sets steps on the slider that restrict user input to specific values. If an array of numbers is passed to this property, the slider thumbs may only be moved to the positions specified in the array. User either this or <see cref="StepInterval"/>.
-    /// </param>
-    /// <param name="stepInterval">
-    ///     The interval in which slider thumbs can be moved. Use either this or <see cref="Steps"/>.
+    ///     Sets steps on the slider that restrict user input to specific values. If an array of numbers is passed to this property, the slider thumbs may only be moved to the positions specified in the array.
     /// </param>
     /// <param name="syncedSegmentsEnabled">
     ///     When `true`, all segments will sync together in updating thumb values when the user drags any segment.
@@ -179,7 +176,6 @@ public partial class SliderWidget
         bool? rangeLabelInputsEnabled = null,
         bool? snapOnClickEnabled = null,
         double[]? steps = null,
-        double? stepInterval = null,
         bool? syncedSegmentsEnabled = null,
         bool? thumbsConstrained = null,
         IReadOnlyList<double>? values = null,
@@ -218,10 +214,6 @@ public partial class SliderWidget
         if (steps is not null)
         {
             Steps = steps;
-        }
-        if (stepInterval is not null)
-        {
-            StepInterval = stepInterval.Value;
         }
         SyncedSegmentsEnabled = syncedSegmentsEnabled;
         ThumbsConstrained = thumbsConstrained;

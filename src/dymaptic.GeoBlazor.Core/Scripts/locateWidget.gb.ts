@@ -151,7 +151,6 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     }
     
     async setViewModel(value: any): Promise<void> {
-        this.widget.viewModel?.destroy();
         let { buildJsLocateViewModel } = await import('./locateViewModel');
         this.widget.viewModel = await  buildJsLocateViewModel(value, this.layerId, this.viewId);
     }

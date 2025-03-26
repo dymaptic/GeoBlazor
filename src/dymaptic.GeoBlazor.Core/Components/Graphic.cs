@@ -653,7 +653,8 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         {
             _serializationRecord = new GraphicSerializationRecord(Id.ToString(), Geometry?.ToSerializationRecord(), 
                 Symbol?.ToSerializationRecord(), PopupTemplate?.ToSerializationRecord(), 
-                Attributes.ToSerializationRecord(), Visible, JsonSerializer.Serialize(AggregateGeometries), 
+                Attributes.ToSerializationRecord(), Visible, 
+                AggregateGeometries is null ? null : JsonSerializer.Serialize(AggregateGeometries), 
                 Origin?.ToSerializationRecord(), LayerId?.ToString(), ViewId?.ToString());
         }
 
