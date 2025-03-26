@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SpatialReferenceUnit.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          The unit of the spatial reference.
 ///          <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#unit">ArcGIS Maps SDK for JavaScript</a>

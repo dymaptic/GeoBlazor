@@ -143,10 +143,6 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
         dotNetLocatorSearchSource.defaultZoomScale = jsObject.defaultZoomScale;
     }
     
-    if (hasValue(jsObject.getSuggestions)) {
-        dotNetLocatorSearchSource.getSuggestionsHandler = removeCircularReferences(jsObject.getSuggestions);
-    }
-    
     if (hasValue(jsObject.localSearchDisabled)) {
         dotNetLocatorSearchSource.localSearchDisabled = jsObject.localSearchDisabled;
     }

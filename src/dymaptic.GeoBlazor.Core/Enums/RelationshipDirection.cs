@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RelationshipDirection.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          The direction of the relationship. Can either be forward (from origin to destination) or reverse (from destination to origin).
 ///      </summary>

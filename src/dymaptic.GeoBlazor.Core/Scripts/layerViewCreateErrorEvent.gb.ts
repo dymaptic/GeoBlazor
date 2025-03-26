@@ -7,20 +7,20 @@ export async function buildJsLayerViewCreateErrorEventGenerated(dotNetObject: an
         return null;
     }
 
-    let jsFeatureLayerLayerviewCreateErrorEvent: any = {};
+    let jsBaseTileLayerLayerviewCreateErrorEvent: any = {};
     if (hasValue(viewId)) {
-        jsFeatureLayerLayerviewCreateErrorEvent.view = arcGisObjectRefs[viewId!];
+        jsBaseTileLayerLayerviewCreateErrorEvent.view = arcGisObjectRefs[viewId!];
     }
 
     if (hasValue(dotNetObject.error)) {
-        jsFeatureLayerLayerviewCreateErrorEvent.error = dotNetObject.error;
+        jsBaseTileLayerLayerviewCreateErrorEvent.error = dotNetObject.error;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerLayerviewCreateErrorEvent);
+    let jsObjectRef = DotNet.createJSObjectReference(jsBaseTileLayerLayerviewCreateErrorEvent);
     jsObjectRefs[dotNetObject.id] = jsObjectRef;
-    arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewCreateErrorEvent;
+    arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayerLayerviewCreateErrorEvent;
     
-    return jsFeatureLayerLayerviewCreateErrorEvent;
+    return jsBaseTileLayerLayerviewCreateErrorEvent;
 }
 
 

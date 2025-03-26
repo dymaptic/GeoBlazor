@@ -81,6 +81,12 @@
         <Folder Include="Documentation/" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Events\ElevationSamplerChangedEvent.cs" />
+      <Compile Remove="Results\SearchViewModelSuggestResult.gb.cs" />
+      <Compile Remove="Results\SearchViewModelSuggestResult.cs" />
+    </ItemGroup>
+
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />

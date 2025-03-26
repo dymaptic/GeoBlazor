@@ -725,6 +725,84 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the EffectiveSegmentElements property.
+    /// </summary>
+    public async Task<IReadOnlyList<ElementReference>?> GetEffectiveSegmentElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return EffectiveSegmentElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return EffectiveSegmentElements;
+        }
+
+        // get the property value
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+            CancellationTokenSource.Token, "effectiveSegmentElements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             EffectiveSegmentElements = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(EffectiveSegmentElements)] = EffectiveSegmentElements;
+        }
+         
+        return EffectiveSegmentElements;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the LabelElements property.
+    /// </summary>
+    public async Task<IReadOnlyList<ElementReference>?> GetLabelElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return LabelElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return LabelElements;
+        }
+
+        // get the property value
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+            CancellationTokenSource.Token, "labelElements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             LabelElements = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(LabelElements)] = LabelElements;
+        }
+         
+        return LabelElements;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the LabelInputsEnabled property.
     /// </summary>
     public async Task<bool?> GetLabelInputsEnabled()
@@ -881,6 +959,45 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the MaxLabelElement property.
+    /// </summary>
+    public async Task<ElementReference?> GetMaxLabelElement()
+    {
+        if (CoreJsModule is null)
+        {
+            return MaxLabelElement;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MaxLabelElement;
+        }
+
+        // get the property value
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "maxLabelElement");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             MaxLabelElement = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MaxLabelElement)] = MaxLabelElement;
+        }
+         
+        return MaxLabelElement;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Min property.
     /// </summary>
     public async Task<double?> GetMin()
@@ -917,6 +1034,45 @@ public partial class SliderWidget
         }
          
         return Min;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MinLabelElement property.
+    /// </summary>
+    public async Task<ElementReference?> GetMinLabelElement()
+    {
+        if (CoreJsModule is null)
+        {
+            return MinLabelElement;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MinLabelElement;
+        }
+
+        // get the property value
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "minLabelElement");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             MinLabelElement = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(MinLabelElement)] = MinLabelElement;
+        }
+         
+        return MinLabelElement;
     }
     
     /// <summary>
@@ -998,6 +1154,45 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the SegmentElements property.
+    /// </summary>
+    public async Task<IReadOnlyList<ElementReference>?> GetSegmentElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return SegmentElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SegmentElements;
+        }
+
+        // get the property value
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+            CancellationTokenSource.Token, "segmentElements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             SegmentElements = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(SegmentElements)] = SegmentElements;
+        }
+         
+        return SegmentElements;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the SnapOnClickEnabled property.
     /// </summary>
     public async Task<bool?> GetSnapOnClickEnabled()
@@ -1037,6 +1232,45 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the State property.
+    /// </summary>
+    public async Task<SliderState?> GetState()
+    {
+        if (CoreJsModule is null)
+        {
+            return State;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return State;
+        }
+
+        // get the property value
+        JsNullableEnumWrapper<SliderState>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SliderState>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "state");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             State = (SliderState)result.Value.Value!;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(State)] = State;
+        }
+         
+        return State;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the SyncedSegmentsEnabled property.
     /// </summary>
     public async Task<bool?> GetSyncedSegmentsEnabled()
@@ -1073,6 +1307,45 @@ public partial class SliderWidget
         }
          
         return SyncedSegmentsEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ThumbElements property.
+    /// </summary>
+    public async Task<IReadOnlyList<ElementReference>?> GetThumbElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return ThumbElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ThumbElements;
+        }
+
+        // get the property value
+        IReadOnlyList<ElementReference>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<ElementReference>?>("getProperty",
+            CancellationTokenSource.Token, "thumbElements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ThumbElements = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ThumbElements)] = ThumbElements;
+        }
+         
+        return ThumbElements;
     }
     
     /// <summary>
@@ -1151,6 +1424,84 @@ public partial class SliderWidget
         }
         
         return TickConfigs;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TickElements property.
+    /// </summary>
+    public async Task<IReadOnlyList<IReadOnlyList<TickElementGroup>>?> GetTickElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return TickElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TickElements;
+        }
+
+        // get the property value
+        IReadOnlyList<IReadOnlyList<TickElementGroup>>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IReadOnlyList<TickElementGroup>>?>("getProperty",
+            CancellationTokenSource.Token, "tickElements");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             TickElements = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(TickElements)] = TickElements;
+        }
+         
+        return TickElements;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the TrackElement property.
+    /// </summary>
+    public async Task<ElementReference?> GetTrackElement()
+    {
+        if (CoreJsModule is null)
+        {
+            return TrackElement;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TrackElement;
+        }
+
+        // get the property value
+        JsNullableElementReferenceWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableElementReferenceWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "trackElement");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             TrackElement = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(TrackElement)] = TrackElement;
+        }
+         
+        return TrackElement;
     }
     
     /// <summary>
@@ -1576,6 +1927,80 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the Max property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMax(double? value)
+    {
+#pragma warning disable BL0005
+        Max = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Max)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "max", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Min property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMin(double? value)
+    {
+#pragma warning disable BL0005
+        Min = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Min)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "min", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Precision property after render.
     /// </summary>
     /// <param name="value">
@@ -1854,6 +2279,43 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the Values property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValues(IReadOnlyList<double>? value)
+    {
+#pragma warning disable BL0005
+        Values = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Values)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "values", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the ViewModel property after render.
     /// </summary>
     /// <param name="value">
@@ -1971,6 +2433,19 @@ public partial class SliderWidget
         await SetTickConfigs(join);
     }
     
+    /// <summary>
+    ///     Asynchronously adds elements to the Values property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToValues(params double[] values)
+    {
+        double[] join = Values is null
+            ? values
+            : [..Values, ..values];
+        await SetValues(join);
+    }
     
 #endregion
 
@@ -1993,10 +2468,300 @@ public partial class SliderWidget
     }
     
     
+    /// <summary>
+    ///     Asynchronously remove an element from the Values property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromValues(params double[] values)
+    {
+        if (Values is null)
+        {
+            return;
+        }
+        await SetValues(Values.Except(values).ToArray());
+    }
+    
 #endregion
 
 #region Event Handlers
 
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsMaxChange(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderMaxChangeEvent maxChangeEvent = 
+            JsonSerializer.Deserialize<SliderMaxChangeEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnMaxChange.InvokeAsync(maxChangeEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for MaxChange.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderMaxChangeEvent> OnMaxChange { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsMaxClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderMaxClickEvent maxClickEvent = 
+            JsonSerializer.Deserialize<SliderMaxClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnMaxClick.InvokeAsync(maxClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for MaxClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderMaxClickEvent> OnMaxClick { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsMinChange(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderMinChangeEvent minChangeEvent = 
+            JsonSerializer.Deserialize<SliderMinChangeEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnMinChange.InvokeAsync(minChangeEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for MinChange.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderMinChangeEvent> OnMinChange { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsMinClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderMinClickEvent minClickEvent = 
+            JsonSerializer.Deserialize<SliderMinClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnMinClick.InvokeAsync(minClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for MinClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderMinClickEvent> OnMinClick { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsSegmentClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderSegmentClickEvent segmentClickEvent = 
+            JsonSerializer.Deserialize<SliderSegmentClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnSegmentClick.InvokeAsync(segmentClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SegmentClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderSegmentClickEvent> OnSegmentClick { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsSegmentDrag(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderSegmentDragEvent segmentDragEvent = 
+            JsonSerializer.Deserialize<SliderSegmentDragEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnSegmentDrag.InvokeAsync(segmentDragEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SegmentDrag.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderSegmentDragEvent> OnSegmentDrag { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsThumbChange(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderThumbChangeEvent thumbChangeEvent = 
+            JsonSerializer.Deserialize<SliderThumbChangeEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnThumbChange.InvokeAsync(thumbChangeEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for ThumbChange.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderThumbChangeEvent> OnThumbChange { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsThumbClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderThumbClickEvent thumbClickEvent = 
+            JsonSerializer.Deserialize<SliderThumbClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnThumbClick.InvokeAsync(thumbClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for ThumbClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderThumbClickEvent> OnThumbClick { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsThumbDrag(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderThumbDragEvent thumbDragEvent = 
+            JsonSerializer.Deserialize<SliderThumbDragEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnThumbDrag.InvokeAsync(thumbDragEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for ThumbDrag.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderThumbDragEvent> OnThumbDrag { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsTickClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderTickClickEvent tickClickEvent = 
+            JsonSerializer.Deserialize<SliderTickClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnTickClick.InvokeAsync(tickClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for TickClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderTickClickEvent> OnTickClick { get; set; }
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsTrackClick(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SliderTrackClickEvent trackClickEvent = 
+            JsonSerializer.Deserialize<SliderTrackClickEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnTrackClick.InvokeAsync(trackClickEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for TrackClick.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<SliderTrackClickEvent> OnTrackClick { get; set; }
+   
 #endregion
 
 

@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.FieldValueType.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          The types of values that can be assigned to a field.
 ///      </summary>

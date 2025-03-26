@@ -3,6 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SimpleGeometryType.html">GeoBlazor Docs</a>
 ///     <summary>
 ///          Enumeration for SimpleGeometryType
 ///      </summary>
