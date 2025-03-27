@@ -2674,11 +2674,14 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             break;
         case 'open-street-map':
-            let openStreetMapLayer: OpenStreetMapLayer;
+            let openStreetMapLayer: WebTileLayer;
             if (hasValue(layerObject.urlTemplate)) {
-                openStreetMapLayer = new OpenStreetMapLayer({
+                openStreetMapLayer = new WebTileLayer({
                     urlTemplate: layerObject.urlTemplate
                 });
+                copyValuesIfExists(new OpenStreetMapLayer(), openStreetMapLayer,
+                    'subDomains', 'blendMode', 'copyright', 'maxScale', 'minScale', 'fullExtent'
+                )
             } else if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
                 openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
