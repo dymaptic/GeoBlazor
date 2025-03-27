@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <summary>
-///          The mode of the <see cref="SliderTickConfig"/>.
+///          The mode of the <see cref="TickConfig"/>.
 ///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TickConfigMode>))]

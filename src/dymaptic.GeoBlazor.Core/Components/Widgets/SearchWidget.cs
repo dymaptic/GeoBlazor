@@ -174,6 +174,9 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public EventCallback<SearchCompleteEvent> OnSearchComplete { get; set; }
     
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
     public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
    
     /// <summary>
@@ -216,6 +219,9 @@ public partial class SearchWidget : Widget
     public EventCallback<SearchSelectResultEvent> OnSelectResult { get; set; }
     
 #pragma warning disable CS0618 // Type or member is obsolete
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
     public bool HasSelectResultListener => OnSelectResult.HasDelegate || OnSearchSelectResultEvent.HasDelegate;
 #pragma warning restore CS0618 // Type or member is obsolete
    
@@ -261,6 +267,9 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public EventCallback<SearchSuggestCompleteEvent> OnSuggestComplete { get; set; }
     
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
     public bool HasSuggestCompleteListener => OnSuggestComplete.HasDelegate;
     
     /// <summary>

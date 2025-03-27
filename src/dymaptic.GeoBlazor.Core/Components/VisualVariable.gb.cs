@@ -241,11 +241,6 @@ public abstract partial class VisualVariable
     /// </param>
     public async Task SetLegendOptions(VisualVariableLegendOptions? value)
     {
-        if (LegendOptions is not null)
-        {
-            await LegendOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

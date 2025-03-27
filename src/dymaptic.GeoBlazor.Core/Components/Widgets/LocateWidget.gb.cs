@@ -501,11 +501,6 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetGraphic(Graphic? value)
     {
-        if (Graphic is not null)
-        {
-            await Graphic.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -625,11 +620,6 @@ public partial class LocateWidget : IGoTo
     /// </param>
     public async Task SetViewModel(LocateViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -728,7 +718,11 @@ public partial class LocateWidget : IGoTo
     [JsonIgnore]
     public EventCallback<LocateEvent> OnLocate { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasLocateListener => OnLocate.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -754,7 +748,11 @@ public partial class LocateWidget : IGoTo
     [JsonIgnore]
     public EventCallback<LocateErrorEvent> OnLocateError { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasLocateErrorListener => OnLocateError.HasDelegate;
+    
 #endregion
 
 

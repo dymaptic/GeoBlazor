@@ -357,11 +357,6 @@ public partial class MeasurementViewModel : MapComponent
     /// </param>
     public async Task SetActiveViewModel(IMeasurementViewModelActiveViewModel? value)
     {
-        if (ActiveViewModel is not null)
-        {
-            await ActiveViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

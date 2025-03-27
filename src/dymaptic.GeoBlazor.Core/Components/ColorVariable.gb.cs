@@ -208,14 +208,6 @@ public partial class ColorVariable : IColorSizeSliderWidgetUpdateVisualVariables
     /// </param>
     public async Task SetStops(IReadOnlyList<ColorStop>? value)
     {
-        if (Stops is not null)
-        {
-            foreach (ColorStop item in Stops)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ColorStop item in value)

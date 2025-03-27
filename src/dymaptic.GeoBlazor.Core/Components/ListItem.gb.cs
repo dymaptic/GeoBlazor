@@ -988,11 +988,6 @@ public partial class ListItem
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (Layer is not null)
-        {
-            await Layer.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

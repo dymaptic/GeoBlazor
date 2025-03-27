@@ -538,11 +538,6 @@ public partial class RelationshipRampElement : MapComponent,
     /// </param>
     public async Task SetLabels(RelationshipLabels? value)
     {
-        if (Labels is not null)
-        {
-            await Labels.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

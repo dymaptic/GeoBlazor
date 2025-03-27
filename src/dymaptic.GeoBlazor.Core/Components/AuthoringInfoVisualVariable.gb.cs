@@ -957,14 +957,6 @@ public partial class AuthoringInfoVisualVariable
     /// </param>
     public async Task SetSizeStops(IReadOnlyList<SizeStop>? value)
     {
-        if (SizeStops is not null)
-        {
-            foreach (SizeStop item in SizeStops)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (SizeStop item in value)

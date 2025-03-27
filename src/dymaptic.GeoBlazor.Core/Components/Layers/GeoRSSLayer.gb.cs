@@ -762,11 +762,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetLineSymbol(SimpleLineSymbol? value)
     {
-        if (LineSymbol is not null)
-        {
-            await LineSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -886,11 +881,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPointSymbol(MarkerSymbol? value)
     {
-        if (PointSymbol is not null)
-        {
-            await PointSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -936,11 +926,6 @@ public partial class GeoRSSLayer : IBlendLayer,
     /// </param>
     public async Task SetPolygonSymbol(SimpleFillSymbol? value)
     {
-        if (PolygonSymbol is not null)
-        {
-            await PolygonSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1101,7 +1086,11 @@ public partial class GeoRSSLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
 #endregion
 
 

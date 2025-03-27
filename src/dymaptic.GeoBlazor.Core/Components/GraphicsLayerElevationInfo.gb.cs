@@ -264,11 +264,6 @@ public partial class GraphicsLayerElevationInfo : MapComponent
     /// </param>
     public async Task SetFeatureExpressionInfo(GraphicsLayerElevationInfoFeatureExpressionInfo? value)
     {
-        if (FeatureExpressionInfo is not null)
-        {
-            await FeatureExpressionInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

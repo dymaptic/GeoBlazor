@@ -482,14 +482,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetLods(IReadOnlyList<LOD>? value)
     {
-        if (Lods is not null)
-        {
-            foreach (LOD item in Lods)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (LOD item in value)
@@ -538,11 +530,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetOrigin(Point? value)
     {
-        if (Origin is not null)
-        {
-            await Origin.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -625,11 +612,6 @@ public partial class TileInfo
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

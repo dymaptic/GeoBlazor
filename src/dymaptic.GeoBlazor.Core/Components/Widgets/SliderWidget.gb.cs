@@ -2185,14 +2185,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetTickConfigs(IReadOnlyList<TickConfig>? value)
     {
-        if (TickConfigs is not null)
-        {
-            foreach (TickConfig item in TickConfigs)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (TickConfig item in value)
@@ -2315,11 +2307,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetViewModel(SliderViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2365,11 +2352,6 @@ public partial class SliderWidget
     /// </param>
     public async Task SetVisibleElements(SliderVisibleElements? value)
     {
-        if (VisibleElements is not null)
-        {
-            await VisibleElements.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2504,7 +2486,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMaxChangeEvent> OnMaxChange { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasMaxChangeListener => OnMaxChange.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2530,7 +2516,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMaxClickEvent> OnMaxClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasMaxClickListener => OnMaxClick.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2556,7 +2546,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMinChangeEvent> OnMinChange { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasMinChangeListener => OnMinChange.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2582,7 +2576,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMinClickEvent> OnMinClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasMinClickListener => OnMinClick.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2608,7 +2606,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderSegmentClickEvent> OnSegmentClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSegmentClickListener => OnSegmentClick.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2634,7 +2636,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderSegmentDragEvent> OnSegmentDrag { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSegmentDragListener => OnSegmentDrag.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2660,7 +2666,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbChangeEvent> OnThumbChange { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasThumbChangeListener => OnThumbChange.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2686,7 +2696,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbClickEvent> OnThumbClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasThumbClickListener => OnThumbClick.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2712,7 +2726,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbDragEvent> OnThumbDrag { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasThumbDragListener => OnThumbDrag.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2738,7 +2756,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderTickClickEvent> OnTickClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasTickClickListener => OnTickClick.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2764,7 +2786,11 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderTrackClickEvent> OnTrackClick { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasTrackClickListener => OnTrackClick.HasDelegate;
+    
 #endregion
 
 

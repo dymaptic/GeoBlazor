@@ -457,11 +457,6 @@ public partial class MeasurementWidget
     /// </param>
     public async Task SetViewModel(MeasurementViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

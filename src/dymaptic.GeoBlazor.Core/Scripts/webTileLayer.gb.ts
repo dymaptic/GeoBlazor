@@ -323,7 +323,6 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
                 let { buildDotNetWebTileLayer } = await import('./webTileLayer');
                 let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
 
-                let seenObjects = new WeakMap();
                 let dnStream = buildJsStreamReference(dnInstantiatedObject);
                 await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
                     jsObjectRef, dnStream);

@@ -311,14 +311,6 @@ public partial class MediaPopupContent
     /// </param>
     public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
     {
-        if (MediaInfos is not null)
-        {
-            foreach (MediaInfo item in MediaInfos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (MediaInfo item in value)

@@ -1204,14 +1204,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetSelectedItems(IReadOnlyList<ListItem>? value)
     {
-        if (SelectedItems is not null)
-        {
-            foreach (ListItem item in SelectedItems)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ListItem item in value)
@@ -1297,11 +1289,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetViewModel(LayerListViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1384,11 +1371,6 @@ public partial class LayerListWidget
     /// </param>
     public async Task SetVisibleElements(LayerListVisibleElements? value)
     {
-        if (VisibleElements is not null)
-        {
-            await VisibleElements.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

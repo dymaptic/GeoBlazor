@@ -333,11 +333,6 @@ public partial class DistanceMeasurement2DWidget : Widget
     /// </param>
     public async Task SetViewModel(DistanceMeasurement2DViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

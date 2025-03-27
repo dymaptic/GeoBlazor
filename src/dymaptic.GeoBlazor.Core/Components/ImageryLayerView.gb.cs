@@ -163,11 +163,6 @@ public partial class ImageryLayerView : LayerView
     /// </param>
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
-        if (HighlightOptions is not null)
-        {
-            await HighlightOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -213,11 +208,6 @@ public partial class ImageryLayerView : LayerView
     /// </param>
     public async Task SetPixelData(PixelData? value)
     {
-        if (PixelData is not null)
-        {
-            await PixelData.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

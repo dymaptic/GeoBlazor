@@ -613,11 +613,6 @@ public partial class WFSFeatureType : MapComponent
     /// </param>
     public async Task SetExtent(Extent? value)
     {
-        if (Extent is not null)
-        {
-            await Extent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

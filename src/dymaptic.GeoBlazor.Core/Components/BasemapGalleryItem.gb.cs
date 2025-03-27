@@ -204,11 +204,6 @@ public partial class BasemapGalleryItem : MapComponent
     /// </param>
     public async Task SetBasemap(Basemap? value)
     {
-        if (Basemap is not null)
-        {
-            await Basemap.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

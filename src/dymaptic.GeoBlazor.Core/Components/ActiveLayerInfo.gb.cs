@@ -773,11 +773,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (Layer is not null)
-        {
-            await Layer.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -823,11 +818,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLayerView(LayerView? value)
     {
-        if (LayerView is not null)
-        {
-            await LayerView.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -873,14 +863,6 @@ public partial class ActiveLayerInfo : MapComponent
     /// </param>
     public async Task SetLegendElements(IReadOnlyList<ILegendElement>? value)
     {
-        if (LegendElements is not null)
-        {
-            foreach (ILegendElement item in LegendElements)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ILegendElement item in value)

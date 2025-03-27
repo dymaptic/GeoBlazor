@@ -102,14 +102,6 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
     /// </param>
     public async Task SetColorRamps(IReadOnlyList<AlgorithmicColorRamp>? value)
     {
-        if (ColorRamps is not null)
-        {
-            foreach (AlgorithmicColorRamp item in ColorRamps)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (AlgorithmicColorRamp item in value)

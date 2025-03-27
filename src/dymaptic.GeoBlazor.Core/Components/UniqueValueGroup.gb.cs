@@ -156,14 +156,6 @@ public partial class UniqueValueGroup : MapComponent
     /// </param>
     public async Task SetClasses(IReadOnlyList<UniqueValueClass>? value)
     {
-        if (Classes is not null)
-        {
-            foreach (UniqueValueClass item in Classes)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (UniqueValueClass item in value)

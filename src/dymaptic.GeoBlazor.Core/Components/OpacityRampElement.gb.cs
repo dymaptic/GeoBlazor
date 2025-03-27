@@ -211,14 +211,6 @@ public partial class OpacityRampElement : MapComponent,
     /// </param>
     public async Task SetInfos(IReadOnlyList<OpacityRampStop>? value)
     {
-        if (Infos is not null)
-        {
-            foreach (OpacityRampStop item in Infos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (OpacityRampStop item in value)

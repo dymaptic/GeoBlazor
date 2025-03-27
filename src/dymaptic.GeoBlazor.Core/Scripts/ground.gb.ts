@@ -43,16 +43,8 @@ export default class GroundGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
-        let result = await this.component.createElevationSampler(jsExtent,
+        return await this.component.createElevationSampler(jsExtent,
             options);
-        try {
-            // @ts-ignore GeoBlazor Pro only
-            let { buildDotNetElevationSampler } = await import('./elevationSampler');
-            // @ts-ignore GeoBlazor Pro only
-            return await buildDotNetElevationSampler(result, this.layerId, this.viewId);
-        } catch {
-            throw new Error('Method CreateElevationSampler not available in GeoBlazor Core');
-        }
     }
 
     async loadAll(): Promise<any> {

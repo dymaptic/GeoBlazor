@@ -156,14 +156,6 @@ public partial class WFSCapabilities : MapComponent
     /// </param>
     public async Task SetFeatureTypes(IReadOnlyList<WFSFeatureType>? value)
     {
-        if (FeatureTypes is not null)
-        {
-            foreach (WFSFeatureType item in FeatureTypes)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (WFSFeatureType item in value)
@@ -212,11 +204,6 @@ public partial class WFSCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(WFSOperations? value)
     {
-        if (Operations is not null)
-        {
-            await Operations.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

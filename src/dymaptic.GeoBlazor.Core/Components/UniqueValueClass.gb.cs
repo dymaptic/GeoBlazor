@@ -247,11 +247,6 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
-        if (Symbol is not null)
-        {
-            await Symbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -297,14 +292,6 @@ public partial class UniqueValueClass : MapComponent
     /// </param>
     public async Task SetValues(IReadOnlyList<UniqueValue>? value)
     {
-        if (Values is not null)
-        {
-            foreach (UniqueValue item in Values)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (UniqueValue item in value)

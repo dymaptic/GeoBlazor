@@ -1024,11 +1024,6 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     public async Task SetInitialExtent(Extent? value)
     {
-        if (InitialExtent is not null)
-        {
-            await InitialExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1148,11 +1143,6 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1198,11 +1188,6 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1285,11 +1270,6 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (TileInfo is not null)
-        {
-            await TileInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

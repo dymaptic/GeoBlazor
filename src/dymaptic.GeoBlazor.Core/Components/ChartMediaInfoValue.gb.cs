@@ -411,14 +411,6 @@ public partial class ChartMediaInfoValue
     /// </param>
     public async Task SetSeries(IReadOnlyList<ChartMediaInfoValueSeries>? value)
     {
-        if (Series is not null)
-        {
-            foreach (ChartMediaInfoValueSeries item in Series)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ChartMediaInfoValueSeries item in value)

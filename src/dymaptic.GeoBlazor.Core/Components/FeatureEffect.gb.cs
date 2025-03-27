@@ -327,11 +327,6 @@ public partial class FeatureEffect
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
-        if (Filter is not null)
-        {
-            await Filter.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

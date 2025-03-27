@@ -244,11 +244,6 @@ public partial class ZoomWidget : Widget
     /// </param>
     public async Task SetViewModel(ZoomViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

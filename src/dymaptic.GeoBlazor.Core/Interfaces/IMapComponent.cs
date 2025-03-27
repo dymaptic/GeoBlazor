@@ -11,12 +11,24 @@ public interface IMapComponent
     /// </summary>   
     Guid Id { get; internal set; }
     
+    /// <summary>
+    ///     The parent MapComponent of this component.
+    /// </summary>
     MapComponent? Parent { get; internal set; }
     
+    /// <summary>
+    ///     The reference to the entry point arcGisJsInterop.js from .NET
+    /// </summary>
     IJSObjectReference? CoreJsModule { get; internal set; }
     
+    /// <summary>
+    ///     The parent <see cref="MapView" /> of the current component.
+    /// </summary>
     MapView? View { get; internal set; }
     
+    /// <summary>
+    ///     The relevant Layer for the MapComponent. Not always applicable to every component type.
+    /// </summary>
     Layer? Layer { get; internal set; }
 
     /// <summary>
@@ -36,5 +48,8 @@ public interface IMapComponent
     /// </summary>
     void ValidateRequiredGeneratedChildren();
     
+    /// <summary>
+    ///     Implements the `IAsyncDisposable` pattern.
+    /// </summary>
     ValueTask DisposeAsync();
 }

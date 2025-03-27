@@ -665,14 +665,6 @@ public partial class PixelBlock : MapComponent
     /// </param>
     public async Task SetStatistics(IReadOnlyList<PixelBlockStatistics>? value)
     {
-        if (Statistics is not null)
-        {
-            foreach (PixelBlockStatistics item in Statistics)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (PixelBlockStatistics item in value)

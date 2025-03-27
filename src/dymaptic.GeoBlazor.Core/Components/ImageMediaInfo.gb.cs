@@ -202,11 +202,6 @@ public partial class ImageMediaInfo
     /// </param>
     public async Task SetValue(ImageMediaInfoValue? value)
     {
-        if (Value is not null)
-        {
-            await Value.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

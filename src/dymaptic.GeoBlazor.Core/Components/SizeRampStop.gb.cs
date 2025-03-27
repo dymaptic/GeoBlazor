@@ -520,11 +520,6 @@ public partial class SizeRampStop : MapComponent
     /// </param>
     public async Task SetSymbol(Symbol? value)
     {
-        if (Symbol is not null)
-        {
-            await Symbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

@@ -211,14 +211,6 @@ public partial class ColorRampElement : MapComponent,
     /// </param>
     public async Task SetInfos(IReadOnlyList<ColorRampStop>? value)
     {
-        if (Infos is not null)
-        {
-            foreach (ColorRampStop item in Infos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ColorRampStop item in value)

@@ -373,11 +373,6 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
-        if (ActiveBasemap is not null)
-        {
-            await ActiveBasemap.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -534,11 +529,6 @@ public partial class BasemapGalleryWidget
     /// </param>
     public async Task SetViewModel(BasemapGalleryViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

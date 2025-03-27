@@ -264,14 +264,6 @@ public partial class AuthoringInfoField
     /// </param>
     public async Task SetClassBreakInfos(IReadOnlyList<AuthoringInfoField1ClassBreakInfos>? value)
     {
-        if (ClassBreakInfos is not null)
-        {
-            foreach (AuthoringInfoField1ClassBreakInfos item in ClassBreakInfos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (AuthoringInfoField1ClassBreakInfos item in value)

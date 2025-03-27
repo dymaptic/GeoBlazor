@@ -79,6 +79,9 @@ public partial class MapView : MapComponent
     }
 #pragma warning restore BL0007
     
+    /// <summary>
+    ///     The background color of the MapView. If the view's map changes, the view's background is reset to the map's background, even if the user set it previously.
+    /// </summary>
     [Parameter]
     public MapColor? BackgroundColor { get; set; }
 
@@ -1628,6 +1631,9 @@ public partial class MapView : MapComponent
         }
     }
 
+    /// <summary>
+    ///     Sets the background color of the view.
+    /// </summary>
     public async Task SetBackgroundColor(MapColor backgroundColor)
     {
         BackgroundColor = backgroundColor;

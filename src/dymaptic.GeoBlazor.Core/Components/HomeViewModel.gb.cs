@@ -159,11 +159,6 @@ public partial class HomeViewModel : IGoTo
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
-        if (Viewpoint is not null)
-        {
-            await Viewpoint.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -262,7 +257,11 @@ public partial class HomeViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<HomeViewModelGoEvent> OnGo { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasGoListener => OnGo.HasDelegate;
+    
 #endregion
 
 

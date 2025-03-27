@@ -885,11 +885,6 @@ public partial class WebTileLayer : IBlendLayer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1009,11 +1004,6 @@ public partial class WebTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (TileInfo is not null)
-        {
-            await TileInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1241,7 +1231,11 @@ public partial class WebTileLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
 #endregion
 
 

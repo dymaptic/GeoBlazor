@@ -534,11 +534,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAnalytics(CapabilitiesAnalytics? value)
     {
-        if (Analytics is not null)
-        {
-            await Analytics.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -584,11 +579,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetAttachment(CapabilitiesAttachment? value)
     {
-        if (Attachment is not null)
-        {
-            await Attachment.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -634,11 +624,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetData(CapabilitiesData? value)
     {
-        if (Data is not null)
-        {
-            await Data.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -684,11 +669,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetEditing(CapabilitiesEditing? value)
     {
-        if (Editing is not null)
-        {
-            await Editing.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -734,11 +714,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetMetadata(CapabilitiesMetadata? value)
     {
-        if (Metadata is not null)
-        {
-            await Metadata.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -784,11 +759,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetOperations(CapabilitiesOperations? value)
     {
-        if (Operations is not null)
-        {
-            await Operations.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -871,11 +841,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryRelated(CapabilitiesQueryRelated? value)
     {
-        if (QueryRelated is not null)
-        {
-            await QueryRelated.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -921,11 +886,6 @@ public partial class Capabilities : MapComponent
     /// </param>
     public async Task SetQueryTopFeatures(CapabilitiesQueryTopFeatures? value)
     {
-        if (QueryTopFeatures is not null)
-        {
-            await QueryTopFeatures.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

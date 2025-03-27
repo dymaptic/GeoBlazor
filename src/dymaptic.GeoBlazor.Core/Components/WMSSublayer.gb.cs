@@ -811,11 +811,6 @@ public partial class WMSSublayer : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
-        if (FullExtent is not null)
-        {
-            await FullExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

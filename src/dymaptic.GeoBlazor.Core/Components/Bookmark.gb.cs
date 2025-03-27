@@ -325,11 +325,6 @@ public partial class Bookmark
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (TimeExtent is not null)
-        {
-            await TimeExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -375,11 +370,6 @@ public partial class Bookmark
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
-        if (Viewpoint is not null)
-        {
-            await Viewpoint.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

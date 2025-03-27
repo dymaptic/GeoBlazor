@@ -1419,11 +1419,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetFloorInfo(LayerFloorInfo? value)
     {
-        if (FloorInfo is not null)
-        {
-            await FloorInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1469,14 +1464,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetLabelingInfo(IReadOnlyList<Label>? value)
     {
-        if (LabelingInfo is not null)
-        {
-            foreach (Label item in LabelingInfo)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Label item in value)
@@ -1784,11 +1771,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (PopupTemplate is not null)
-        {
-            await PopupTemplate.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1834,11 +1816,6 @@ public partial class Sublayer
     /// </param>
     public async Task SetRenderer(Renderer? value)
     {
-        if (Renderer is not null)
-        {
-            await Renderer.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

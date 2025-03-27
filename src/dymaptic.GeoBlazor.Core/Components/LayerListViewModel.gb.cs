@@ -389,7 +389,11 @@ public partial class LayerListViewModel : MapComponent
     [JsonIgnore]
     public EventCallback<LayerListViewModelTriggerActionEvent> OnTriggerAction { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasTriggerActionListener => OnTriggerAction.HasDelegate;
+    
 #endregion
 
 }

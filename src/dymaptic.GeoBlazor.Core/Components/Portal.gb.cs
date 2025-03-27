@@ -4307,11 +4307,6 @@ public partial class Portal
     /// </param>
     public async Task SetDefaultExtent(Extent? value)
     {
-        if (DefaultExtent is not null)
-        {
-            await DefaultExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -4468,14 +4463,6 @@ public partial class Portal
     /// </param>
     public async Task SetFeaturedGroups(IReadOnlyList<PortalFeaturedGroups>? value)
     {
-        if (FeaturedGroups is not null)
-        {
-            foreach (PortalFeaturedGroups item in FeaturedGroups)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (PortalFeaturedGroups item in value)

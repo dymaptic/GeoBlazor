@@ -1059,11 +1059,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetColorRamp(ColorRamp? value)
     {
-        if (ColorRamp is not null)
-        {
-            await ColorRamp.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1146,11 +1141,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField1(AuthoringInfoField? value)
     {
-        if (Field1 is not null)
-        {
-            await Field1.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1196,11 +1186,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetField2(AuthoringInfoField? value)
     {
-        if (Field2 is not null)
-        {
-            await Field2.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1579,11 +1564,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetStatistics(AuthoringInfoStatistics? value)
     {
-        if (Statistics is not null)
-        {
-            await Statistics.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1703,14 +1683,6 @@ public partial class AuthoringInfo
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<AuthoringInfoVisualVariable>? value)
     {
-        if (VisualVariables is not null)
-        {
-            foreach (AuthoringInfoVisualVariable item in VisualVariables)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (AuthoringInfoVisualVariable item in value)

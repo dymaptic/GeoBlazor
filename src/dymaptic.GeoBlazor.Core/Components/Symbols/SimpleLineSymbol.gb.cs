@@ -365,11 +365,6 @@ public partial class SimpleLineSymbol : IRouteSymbolsDirectionLines,
     /// </param>
     public async Task SetMarker(LineSymbolMarker? value)
     {
-        if (Marker is not null)
-        {
-            await Marker.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

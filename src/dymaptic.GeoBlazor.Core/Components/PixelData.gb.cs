@@ -166,11 +166,6 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetExtent(Extent? value)
     {
-        if (Extent is not null)
-        {
-            await Extent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -216,11 +211,6 @@ public partial class PixelData : MapComponent
     /// </param>
     public async Task SetPixelBlock(PixelBlock? value)
     {
-        if (PixelBlock is not null)
-        {
-            await PixelBlock.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

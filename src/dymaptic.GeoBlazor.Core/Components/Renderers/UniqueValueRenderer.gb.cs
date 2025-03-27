@@ -795,11 +795,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetBackgroundFillSymbol(FillSymbol? value)
     {
-        if (BackgroundFillSymbol is not null)
-        {
-            await BackgroundFillSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -882,11 +877,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetDefaultSymbol(Symbol? value)
     {
-        if (DefaultSymbol is not null)
-        {
-            await DefaultSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1080,11 +1070,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetLegendOptions(UniqueValueRendererLegendOptions? value)
     {
-        if (LegendOptions is not null)
-        {
-            await LegendOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1167,14 +1152,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueGroups(IReadOnlyList<UniqueValueGroup>? value)
     {
-        if (UniqueValueGroups is not null)
-        {
-            foreach (UniqueValueGroup item in UniqueValueGroups)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (UniqueValueGroup item in value)
@@ -1223,14 +1200,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetUniqueValueInfos(IReadOnlyList<UniqueValueInfo>? value)
     {
-        if (UniqueValueInfos is not null)
-        {
-            foreach (UniqueValueInfo item in UniqueValueInfos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (UniqueValueInfo item in value)
@@ -1353,14 +1322,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     /// </param>
     public async Task SetVisualVariables(IReadOnlyList<VisualVariable>? value)
     {
-        if (VisualVariables is not null)
-        {
-            foreach (VisualVariable item in VisualVariables)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (VisualVariable item in value)

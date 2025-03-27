@@ -333,11 +333,6 @@ public partial class PopupDockOptions
     /// </param>
     public async Task SetPopupDockOptionsBreakpoint(PopupDockOptionsBreakpoint? value)
     {
-        if (PopupDockOptionsBreakpoint is not null)
-        {
-            await PopupDockOptionsBreakpoint.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

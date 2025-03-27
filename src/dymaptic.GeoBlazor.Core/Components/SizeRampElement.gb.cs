@@ -211,14 +211,6 @@ public partial class SizeRampElement : MapComponent,
     /// </param>
     public async Task SetInfos(IReadOnlyList<SizeRampStop>? value)
     {
-        if (Infos is not null)
-        {
-            foreach (SizeRampStop item in Infos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (SizeRampStop item in value)

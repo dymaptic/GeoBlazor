@@ -110,11 +110,6 @@ public partial class GraphicsLayerView : LayerView,
     /// </param>
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
-        if (HighlightOptions is not null)
-        {
-            await HighlightOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

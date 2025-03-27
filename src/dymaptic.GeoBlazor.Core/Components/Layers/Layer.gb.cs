@@ -388,11 +388,6 @@ public abstract partial class Layer : IHitTestItem,
     /// </param>
     public async Task SetVisibilityTimeExtent(TimeExtent? value)
     {
-        if (VisibilityTimeExtent is not null)
-        {
-            await VisibilityTimeExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -505,7 +500,11 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewCreateEvent> OnCreate { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasCreateListener => OnCreate.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -532,7 +531,11 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewCreateErrorEvent> OnCreateError { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasCreateErrorListener => OnCreateError.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -558,7 +561,11 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewDestroyEvent> OnDestroy { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasDestroyListener => OnDestroy.HasDelegate;
+    
 #endregion
 
 }

@@ -610,11 +610,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// </param>
     public async Task SetGraphic(Graphic? value)
     {
-        if (Graphic is not null)
-        {
-            await Graphic.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -824,7 +819,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [JsonIgnore]
     public EventCallback<LocateViewModelLocateEvent> OnLocate { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasLocateListener => OnLocate.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -850,7 +849,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [JsonIgnore]
     public EventCallback<LocateViewModelLocateErrorEvent> OnLocateError { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasLocateErrorListener => OnLocateError.HasDelegate;
+    
 #endregion
 
 

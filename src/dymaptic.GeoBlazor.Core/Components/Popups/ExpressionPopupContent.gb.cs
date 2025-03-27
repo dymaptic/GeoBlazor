@@ -89,11 +89,6 @@ public partial class ExpressionPopupContent
     /// </param>
     public async Task SetExpressionInfo(ElementExpressionInfo? value)
     {
-        if (ExpressionInfo is not null)
-        {
-            await ExpressionInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

@@ -1481,11 +1481,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (PopupTemplate is not null)
-        {
-            await PopupTemplate.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1531,11 +1526,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetPortal(Portal? value)
     {
-        if (Portal is not null)
-        {
-            await Portal.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1655,14 +1645,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetSources(IReadOnlyList<SearchSource>? value)
     {
-        if (Sources is not null)
-        {
-            foreach (SearchSource item in Sources)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (SearchSource item in value)
@@ -1748,11 +1730,6 @@ public partial class SearchWidget : IGoTo
     /// </param>
     public async Task SetViewModel(SearchViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1903,7 +1880,11 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchBlurEvent> OnSearchBlur { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchBlurListener => OnSearchBlur.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1929,7 +1910,11 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchClearEvent> OnSearchClear { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchClearListener => OnSearchClear.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1955,7 +1940,11 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchFocusEvent> OnSearchFocus { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchFocusListener => OnSearchFocus.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1981,7 +1970,11 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchStartEvent> OnSearchStart { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchStartListener => OnSearchStart.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2007,7 +2000,11 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchSuggestStartEvent> OnSuggestStart { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSuggestStartListener => OnSuggestStart.HasDelegate;
+    
 #endregion
 
 

@@ -557,11 +557,6 @@ public partial class BaseTileLayer : IBlendLayer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -607,11 +602,6 @@ public partial class BaseTileLayer : IBlendLayer,
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (TileInfo is not null)
-        {
-            await TileInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -787,7 +777,11 @@ public partial class BaseTileLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
 #endregion
 
 

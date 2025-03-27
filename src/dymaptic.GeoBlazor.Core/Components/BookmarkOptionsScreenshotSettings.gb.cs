@@ -264,11 +264,6 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetArea(BookmarkOptionsScreenshotSettingsArea? value)
     {
-        if (Area is not null)
-        {
-            await Area.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -351,14 +346,6 @@ public partial class BookmarkOptionsScreenshotSettings
     /// </param>
     public async Task SetLayers(IReadOnlyList<Layer>? value)
     {
-        if (Layers is not null)
-        {
-            foreach (Layer item in Layers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Layer item in value)

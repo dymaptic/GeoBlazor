@@ -745,11 +745,6 @@ public partial class Label
     /// </param>
     public async Task SetLabelExpressionInfo(LabelExpressionInfo? value)
     {
-        if (LabelExpressionInfo is not null)
-        {
-            await LabelExpressionInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

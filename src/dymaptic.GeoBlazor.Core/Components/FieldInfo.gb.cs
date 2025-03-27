@@ -427,11 +427,6 @@ public partial class FieldInfo
     /// </param>
     public async Task SetFormat(FieldInfoFormat? value)
     {
-        if (Format is not null)
-        {
-            await Format.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

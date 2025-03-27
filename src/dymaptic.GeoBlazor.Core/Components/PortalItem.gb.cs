@@ -2018,11 +2018,6 @@ public partial class PortalItem
     /// </param>
     public async Task SetExtent(Extent? value)
     {
-        if (Extent is not null)
-        {
-            await Extent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2401,11 +2396,6 @@ public partial class PortalItem
     /// </param>
     public async Task SetPortal(Portal? value)
     {
-        if (Portal is not null)
-        {
-            await Portal.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

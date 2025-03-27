@@ -264,11 +264,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetActiveBasemap(Basemap? value)
     {
-        if (ActiveBasemap is not null)
-        {
-            await ActiveBasemap.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -314,14 +309,6 @@ public partial class BasemapGalleryViewModel : MapComponent
     /// </param>
     public async Task SetItems(IReadOnlyList<BasemapGalleryItem>? value)
     {
-        if (Items is not null)
-        {
-            foreach (BasemapGalleryItem item in Items)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (BasemapGalleryItem item in value)

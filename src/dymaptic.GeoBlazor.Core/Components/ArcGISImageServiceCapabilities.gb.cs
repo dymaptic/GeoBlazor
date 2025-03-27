@@ -210,11 +210,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetMensuration(ArcGISImageServiceCapabilitiesMensuration? value)
     {
-        if (Mensuration is not null)
-        {
-            await Mensuration.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -260,11 +255,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     /// </param>
     public async Task SetOperations(ArcGISImageServiceCapabilitiesOperations? value)
     {
-        if (Operations is not null)
-        {
-            await Operations.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

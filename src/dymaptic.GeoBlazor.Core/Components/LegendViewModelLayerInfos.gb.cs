@@ -152,11 +152,6 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// </param>
     public async Task SetLayer(Layer? value)
     {
-        if (Layer is not null)
-        {
-            await Layer.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

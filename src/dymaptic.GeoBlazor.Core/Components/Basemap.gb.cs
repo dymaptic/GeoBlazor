@@ -456,14 +456,6 @@ public partial class Basemap
     /// </param>
     public async Task SetBaseLayers(IReadOnlyList<Layer>? value)
     {
-        if (BaseLayers is not null)
-        {
-            foreach (Layer item in BaseLayers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Layer item in value)
@@ -549,11 +541,6 @@ public partial class Basemap
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -599,14 +586,6 @@ public partial class Basemap
     /// </param>
     public async Task SetReferenceLayers(IReadOnlyList<Layer>? value)
     {
-        if (ReferenceLayers is not null)
-        {
-            foreach (Layer item in ReferenceLayers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Layer item in value)
@@ -655,11 +634,6 @@ public partial class Basemap
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -705,11 +679,6 @@ public partial class Basemap
     /// </param>
     public async Task SetStyle(BasemapStyle? value)
     {
-        if (Style is not null)
-        {
-            await Style.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

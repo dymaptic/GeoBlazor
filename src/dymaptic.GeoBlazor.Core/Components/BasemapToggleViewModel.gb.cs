@@ -209,11 +209,6 @@ public partial class BasemapToggleViewModel : MapComponent
     /// </param>
     public async Task SetNextBasemap(Basemap? value)
     {
-        if (NextBasemap is not null)
-        {
-            await NextBasemap.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

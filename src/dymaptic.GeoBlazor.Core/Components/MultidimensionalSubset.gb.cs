@@ -252,11 +252,6 @@ public partial class MultidimensionalSubset
     /// </param>
     public async Task SetAreaOfInterest(Geometry? value)
     {
-        if (AreaOfInterest is not null)
-        {
-            await AreaOfInterest.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -302,14 +297,6 @@ public partial class MultidimensionalSubset
     /// </param>
     public async Task SetSubsetDefinitions(IReadOnlyList<DimensionalDefinition>? value)
     {
-        if (SubsetDefinitions is not null)
-        {
-            foreach (DimensionalDefinition item in SubsetDefinitions)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (DimensionalDefinition item in value)

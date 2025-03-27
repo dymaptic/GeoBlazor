@@ -210,11 +210,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPoint(Symbol? value)
     {
-        if (Point is not null)
-        {
-            await Point.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -260,11 +255,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolygon(Symbol? value)
     {
-        if (Polygon is not null)
-        {
-            await Polygon.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -310,11 +300,6 @@ public partial class SearchViewModelDefaultSymbols : MapComponent
     /// </param>
     public async Task SetPolyline(Symbol? value)
     {
-        if (Polyline is not null)
-        {
-            await Polyline.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

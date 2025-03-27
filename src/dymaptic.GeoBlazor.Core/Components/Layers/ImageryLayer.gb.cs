@@ -2445,11 +2445,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetCapabilities(ArcGISImageServiceCapabilities? value)
     {
-        if (Capabilities is not null)
-        {
-            await Capabilities.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2717,14 +2712,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetFields(IReadOnlyList<Field>? value)
     {
-        if (Fields is not null)
-        {
-            foreach (Field item in Fields)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Field item in value)
@@ -3069,11 +3056,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetMultidimensionalSubset(MultidimensionalSubset? value)
     {
-        if (MultidimensionalSubset is not null)
-        {
-            await MultidimensionalSubset.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3304,11 +3286,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (PopupTemplate is not null)
-        {
-            await PopupTemplate.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3354,11 +3331,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3404,11 +3376,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetRasterFunction(RasterFunction? value)
     {
-        if (RasterFunction is not null)
-        {
-            await RasterFunction.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3565,11 +3532,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (TimeExtent is not null)
-        {
-            await TimeExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3615,11 +3577,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
-        if (TimeInfo is not null)
-        {
-            await TimeInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3665,11 +3622,6 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
-        if (TimeOffset is not null)
-        {
-            await TimeOffset.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -4549,7 +4501,11 @@ public partial class ImageryLayer : IArcGISImageService,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
 #endregion
 
 

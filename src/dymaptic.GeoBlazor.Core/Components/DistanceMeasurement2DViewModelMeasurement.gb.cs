@@ -161,11 +161,6 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
     /// </param>
     public async Task SetGeometry(Polyline? value)
     {
-        if (Geometry is not null)
-        {
-            await Geometry.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

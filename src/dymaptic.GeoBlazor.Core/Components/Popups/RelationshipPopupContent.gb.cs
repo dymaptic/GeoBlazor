@@ -426,14 +426,6 @@ public partial class RelationshipPopupContent
     /// </param>
     public async Task SetOrderByFields(IReadOnlyList<RelatedRecordsInfoFieldOrder>? value)
     {
-        if (OrderByFields is not null)
-        {
-            foreach (RelatedRecordsInfoFieldOrder item in OrderByFields)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (RelatedRecordsInfoFieldOrder item in value)

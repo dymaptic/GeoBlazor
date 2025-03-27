@@ -288,7 +288,6 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
                 let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
                 let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer);
 
-                let seenObjects = new WeakMap();
                 let dnStream = buildJsStreamReference(dnInstantiatedObject);
                 await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
                     jsObjectRef, dnStream);

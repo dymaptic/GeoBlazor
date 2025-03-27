@@ -1857,11 +1857,6 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetDefaultSymbols(SearchViewModelDefaultSymbols? value)
     {
-        if (DefaultSymbols is not null)
-        {
-            await DefaultSymbols.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2129,11 +2124,6 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (PopupTemplate is not null)
-        {
-            await PopupTemplate.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2179,11 +2169,6 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetPortal(Portal? value)
     {
-        if (Portal is not null)
-        {
-            await Portal.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2340,14 +2325,6 @@ public partial class SearchViewModel : IGoTo
     /// </param>
     public async Task SetSources(IReadOnlyList<SearchSource>? value)
     {
-        if (Sources is not null)
-        {
-            foreach (SearchSource item in Sources)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (SearchSource item in value)
@@ -2638,7 +2615,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchClearEvent> OnSearchClear { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchClearListener => OnSearchClear.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2664,7 +2645,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchCompleteEvent> OnSearchComplete { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2690,7 +2675,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchStartEvent> OnSearchStart { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSearchStartListener => OnSearchStart.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2716,7 +2705,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSelectResultEvent> OnSelectResult { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSelectResultListener => OnSelectResult.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2742,7 +2735,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSuggestCompleteEvent> OnSuggestComplete { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSuggestCompleteListener => OnSuggestComplete.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2768,7 +2765,11 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSuggestStartEvent> OnSuggestStart { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasSuggestStartListener => OnSuggestStart.HasDelegate;
+    
 #endregion
 
 

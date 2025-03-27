@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-public class ColormapPixelConverter: JsonConverter<ColormapPixel>
+internal class ColormapPixelConverter: JsonConverter<ColormapPixel>
 {
     public override ColormapPixel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

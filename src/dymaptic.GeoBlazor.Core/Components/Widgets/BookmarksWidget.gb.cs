@@ -626,14 +626,6 @@ public partial class BookmarksWidget : IGoTo
     /// </param>
     public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
     {
-        if (Bookmarks is not null)
-        {
-            foreach (Bookmark item in Bookmarks)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Bookmark item in value)
@@ -941,11 +933,6 @@ public partial class BookmarksWidget : IGoTo
     /// </param>
     public async Task SetViewModel(BookmarksViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -991,11 +978,6 @@ public partial class BookmarksWidget : IGoTo
     /// </param>
     public async Task SetVisibleElements(BookmarksVisibleElements? value)
     {
-        if (VisibleElements is not null)
-        {
-            await VisibleElements.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1121,7 +1103,11 @@ public partial class BookmarksWidget : IGoTo
     [JsonIgnore]
     public EventCallback<BookmarksBookmarkEditEvent> OnBookmarkEdit { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
+    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1147,7 +1133,11 @@ public partial class BookmarksWidget : IGoTo
     [JsonIgnore]
     public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasBookmarkSelectListener => OnBookmarkSelect.HasDelegate;
+    
 #endregion
 
 

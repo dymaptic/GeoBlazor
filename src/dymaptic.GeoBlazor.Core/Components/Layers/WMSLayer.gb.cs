@@ -1795,14 +1795,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetAllSublayers(IReadOnlyList<WMSSublayer>? value)
     {
-        if (AllSublayers is not null)
-        {
-            foreach (WMSSublayer item in AllSublayers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (WMSSublayer item in value)
@@ -2147,14 +2139,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetFullExtents(IReadOnlyList<Extent>? value)
     {
-        if (FullExtents is not null)
-        {
-            foreach (Extent item in FullExtents)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Extent item in value)
@@ -2462,11 +2446,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2549,11 +2528,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2636,14 +2610,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<WMSSublayer>? value)
     {
-        if (Sublayers is not null)
-        {
-            foreach (WMSSublayer item in Sublayers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (WMSSublayer item in value)
@@ -2692,11 +2658,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeExtent(TimeExtent? value)
     {
-        if (TimeExtent is not null)
-        {
-            await TimeExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2742,11 +2703,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeInfo(TimeInfo? value)
     {
-        if (TimeInfo is not null)
-        {
-            await TimeInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2792,11 +2748,6 @@ public partial class WMSLayer : Layer,
     /// </param>
     public async Task SetTimeOffset(TimeInterval? value)
     {
-        if (TimeOffset is not null)
-        {
-            await TimeOffset.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -3200,7 +3151,11 @@ public partial class WMSLayer : Layer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
 #endregion
 
 

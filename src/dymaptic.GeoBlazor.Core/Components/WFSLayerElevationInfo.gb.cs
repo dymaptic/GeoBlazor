@@ -264,11 +264,6 @@ public partial class WFSLayerElevationInfo : MapComponent
     /// </param>
     public async Task SetFeatureExpressionInfo(WFSLayerElevationInfoFeatureExpressionInfo? value)
     {
-        if (FeatureExpressionInfo is not null)
-        {
-            await FeatureExpressionInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

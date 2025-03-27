@@ -887,11 +887,6 @@ public partial class WMTSLayer : Layer,
     /// </param>
     public async Task SetActiveLayer(WMTSSublayer? value)
     {
-        if (ActiveLayer is not null)
-        {
-            await ActiveLayer.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1196,11 +1191,6 @@ public partial class WMTSLayer : Layer,
     /// </param>
     public async Task SetPortalItem(PortalItem? value)
     {
-        if (PortalItem is not null)
-        {
-            await PortalItem.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1320,14 +1310,6 @@ public partial class WMTSLayer : Layer,
     /// </param>
     public async Task SetSublayers(IReadOnlyList<WMTSSublayer>? value)
     {
-        if (Sublayers is not null)
-        {
-            foreach (WMTSSublayer item in Sublayers)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (WMTSSublayer item in value)

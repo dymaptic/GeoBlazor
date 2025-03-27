@@ -474,11 +474,6 @@ public partial class GraphicsLayer : IBlendLayer,
     /// </param>
     public async Task SetElevationInfo(GraphicsLayerElevationInfo? value)
     {
-        if (ElevationInfo is not null)
-        {
-            await ElevationInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

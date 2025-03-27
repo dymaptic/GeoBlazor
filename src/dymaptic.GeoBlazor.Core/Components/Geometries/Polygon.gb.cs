@@ -164,11 +164,6 @@ public partial class Polygon
     /// </param>
     public async Task SetCentroid(Point? value)
     {
-        if (Centroid is not null)
-        {
-            await Centroid.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

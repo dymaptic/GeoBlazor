@@ -684,11 +684,6 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
-        if (FullExtent is not null)
-        {
-            await FullExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -845,14 +840,6 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetStyles(IReadOnlyList<WMTSStyle>? value)
     {
-        if (Styles is not null)
-        {
-            foreach (WMTSStyle item in Styles)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (WMTSStyle item in value)
@@ -901,11 +888,6 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetTileMatrixSet(TileMatrixSet? value)
     {
-        if (TileMatrixSet is not null)
-        {
-            await TileMatrixSet.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -988,14 +970,6 @@ public partial class WMTSSublayer : MapComponent
     /// </param>
     public async Task SetTileMatrixSets(IReadOnlyList<TileMatrixSet>? value)
     {
-        if (TileMatrixSets is not null)
-        {
-            foreach (TileMatrixSet item in TileMatrixSets)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (TileMatrixSet item in value)

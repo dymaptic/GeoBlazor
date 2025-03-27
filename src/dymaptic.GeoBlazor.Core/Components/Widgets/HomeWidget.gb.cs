@@ -299,11 +299,6 @@ public partial class HomeWidget : IGoTo
     /// </param>
     public async Task SetViewModel(HomeViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -349,11 +344,6 @@ public partial class HomeWidget : IGoTo
     /// </param>
     public async Task SetViewpoint(Viewpoint? value)
     {
-        if (Viewpoint is not null)
-        {
-            await Viewpoint.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -452,7 +442,11 @@ public partial class HomeWidget : IGoTo
     [JsonIgnore]
     public EventCallback<HomeGoEvent> OnGo { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasGoListener => OnGo.HasDelegate;
+    
 #endregion
 
 

@@ -995,11 +995,6 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetPopupTemplate(PopupTemplate? value)
     {
-        if (PopupTemplate is not null)
-        {
-            await PopupTemplate.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1119,11 +1114,6 @@ public abstract partial class SearchSource
     /// </param>
     public async Task SetResultSymbol(Symbol? value)
     {
-        if (ResultSymbol is not null)
-        {
-            await ResultSymbol.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

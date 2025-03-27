@@ -201,11 +201,6 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetDescribeFeatureType(WFSOperationsDescribeFeatureType? value)
     {
-        if (DescribeFeatureType is not null)
-        {
-            await DescribeFeatureType.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -251,11 +246,6 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetGetCapabilities(WFSOperationsGetCapabilities? value)
     {
-        if (GetCapabilities is not null)
-        {
-            await GetCapabilities.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -301,11 +291,6 @@ public partial class WFSOperations : MapComponent
     /// </param>
     public async Task SetGetFeature(WFSOperationsGetFeature? value)
     {
-        if (GetFeature is not null)
-        {
-            await GetFeature.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

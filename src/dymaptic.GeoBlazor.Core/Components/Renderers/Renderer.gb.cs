@@ -77,11 +77,6 @@ public abstract partial class Renderer
     /// </param>
     public async Task SetAuthoringInfo(AuthoringInfo? value)
     {
-        if (AuthoringInfo is not null)
-        {
-            await AuthoringInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

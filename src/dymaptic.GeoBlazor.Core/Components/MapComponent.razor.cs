@@ -51,7 +51,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     public IJSObjectReference? JsModule => CoreJsModule;
 
     /// <summary>
-    ///     The reference to arcGisJsInterop.ts from .NET
+    ///     The reference to the entry point arcGisJsInterop.js from .NET
     /// </summary>
     [JsonIgnore]
     public IJSObjectReference? CoreJsModule

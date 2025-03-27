@@ -367,14 +367,6 @@ public partial class BookmarksViewModel : IGoTo
     /// </param>
     public async Task SetBookmarks(IReadOnlyList<Bookmark>? value)
     {
-        if (Bookmarks is not null)
-        {
-            foreach (Bookmark item in Bookmarks)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Bookmark item in value)
@@ -423,11 +415,6 @@ public partial class BookmarksViewModel : IGoTo
     /// </param>
     public async Task SetCapabilities(BookmarksCapabilities? value)
     {
-        if (Capabilities is not null)
-        {
-            await Capabilities.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

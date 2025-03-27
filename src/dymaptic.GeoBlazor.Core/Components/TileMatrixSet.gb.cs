@@ -220,11 +220,6 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetFullExtent(Extent? value)
     {
-        if (FullExtent is not null)
-        {
-            await FullExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -270,11 +265,6 @@ public partial class TileMatrixSet : MapComponent
     /// </param>
     public async Task SetTileInfo(TileInfo? value)
     {
-        if (TileInfo is not null)
-        {
-            await TileInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

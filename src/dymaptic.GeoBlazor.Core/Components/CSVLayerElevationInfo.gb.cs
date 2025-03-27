@@ -264,11 +264,6 @@ public partial class CSVLayerElevationInfo : MapComponent
     /// </param>
     public async Task SetFeatureExpressionInfo(CSVLayerElevationInfoFeatureExpressionInfo? value)
     {
-        if (FeatureExpressionInfo is not null)
-        {
-            await FeatureExpressionInfo.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

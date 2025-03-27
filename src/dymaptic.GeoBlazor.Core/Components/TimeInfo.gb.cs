@@ -474,11 +474,6 @@ public partial class TimeInfo
     /// </param>
     public async Task SetFullTimeExtent(TimeExtent? value)
     {
-        if (FullTimeExtent is not null)
-        {
-            await FullTimeExtent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -524,11 +519,6 @@ public partial class TimeInfo
     /// </param>
     public async Task SetInterval(TimeInterval? value)
     {
-        if (Interval is not null)
-        {
-            await Interval.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

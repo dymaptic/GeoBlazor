@@ -198,11 +198,6 @@ public partial class Position : MapComponent
     /// </param>
     public async Task SetLocation(Point? value)
     {
-        if (Location is not null)
-        {
-            await Location.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

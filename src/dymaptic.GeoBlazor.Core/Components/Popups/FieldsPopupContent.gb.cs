@@ -229,14 +229,6 @@ public partial class FieldsPopupContent
     /// </param>
     public async Task SetFieldInfos(IReadOnlyList<FieldInfo>? value)
     {
-        if (FieldInfos is not null)
-        {
-            foreach (FieldInfo item in FieldInfos)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (FieldInfo item in value)

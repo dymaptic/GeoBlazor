@@ -572,11 +572,6 @@ public partial class GeoJSONLayerView : LayerView,
     /// </param>
     public async Task SetFeatureEffect(FeatureEffect? value)
     {
-        if (FeatureEffect is not null)
-        {
-            await FeatureEffect.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -622,11 +617,6 @@ public partial class GeoJSONLayerView : LayerView,
     /// </param>
     public async Task SetFilter(FeatureFilter? value)
     {
-        if (Filter is not null)
-        {
-            await Filter.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -672,11 +662,6 @@ public partial class GeoJSONLayerView : LayerView,
     /// </param>
     public async Task SetHighlightOptions(HighlightOptions? value)
     {
-        if (HighlightOptions is not null)
-        {
-            await HighlightOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;

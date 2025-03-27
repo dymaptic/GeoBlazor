@@ -208,14 +208,6 @@ public partial class OpacityVariable
     /// </param>
     public async Task SetStops(IReadOnlyList<OpacityStop>? value)
     {
-        if (Stops is not null)
-        {
-            foreach (OpacityStop item in Stops)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (OpacityStop item in value)

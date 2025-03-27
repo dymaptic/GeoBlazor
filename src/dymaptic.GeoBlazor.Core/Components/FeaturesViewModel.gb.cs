@@ -1601,14 +1601,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetActions(IReadOnlyList<ActionBase>? value)
     {
-        if (Actions is not null)
-        {
-            foreach (ActionBase item in Actions)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (ActionBase item in value)
@@ -1805,14 +1797,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetFeatures(IReadOnlyList<Graphic>? value)
     {
-        if (Features is not null)
-        {
-            foreach (Graphic item in Features)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Graphic item in value)
@@ -1898,11 +1882,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetFeatureViewModelAbilities(Abilities? value)
     {
-        if (FeatureViewModelAbilities is not null)
-        {
-            await FeatureViewModelAbilities.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2022,11 +2001,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetLocation(Point? value)
     {
-        if (Location is not null)
-        {
-            await Location.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2146,11 +2120,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetSpatialReference(SpatialReference? value)
     {
-        if (SpatialReference is not null)
-        {
-            await SpatialReference.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2307,11 +2276,6 @@ public partial class FeaturesViewModel : MapComponent,
     /// </param>
     public async Task SetWidgetContent(Widget? value)
     {
-        if (WidgetContent is not null)
-        {
-            await WidgetContent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -2530,7 +2494,11 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore]
     public EventCallback<FeaturesViewModelTriggerActionEvent> OnTriggerAction { get; set; }
    
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
     public bool HasTriggerActionListener => OnTriggerAction.HasDelegate;
+    
 #endregion
 
 

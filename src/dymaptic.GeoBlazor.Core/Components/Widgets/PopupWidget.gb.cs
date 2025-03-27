@@ -1280,11 +1280,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetDockOptions(PopupDockOptions? value)
     {
-        if (DockOptions is not null)
-        {
-            await DockOptions.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1330,14 +1325,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetFeatures(IReadOnlyList<Graphic>? value)
     {
-        if (Features is not null)
-        {
-            foreach (Graphic item in Features)
-            {
-                await item.DisposeAsync();
-            }
-        }
-        
         if (value is not null)
         {
             foreach (Graphic item in value)
@@ -1497,11 +1484,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetLocation(Point? value)
     {
-        if (Location is not null)
-        {
-            await Location.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1695,11 +1677,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetViewModel(PopupViewModel? value)
     {
-        if (ViewModel is not null)
-        {
-            await ViewModel.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1745,11 +1722,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetVisibleElements(PopupVisibleElements? value)
     {
-        if (VisibleElements is not null)
-        {
-            await VisibleElements.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
@@ -1795,11 +1767,6 @@ public partial class PopupWidget : IGoTo
     /// </param>
     public async Task SetWidgetContent(Widget? value)
     {
-        if (WidgetContent is not null)
-        {
-            await WidgetContent.DisposeAsync();
-        }
-        
         if (value is not null)
         {
             value.CoreJsModule  = CoreJsModule;
