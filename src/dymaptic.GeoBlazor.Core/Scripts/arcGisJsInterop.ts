@@ -580,7 +580,7 @@ function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLimit: nu
         layerRef = DotNet.createJSObjectReference(getObjectReference(evt.layer));
         // @ts-ignore
         layerViewRef = DotNet.createJSObjectReference(getObjectReference(evt.layerView));
-        
+
         let result = {
             layerObjectRef: layerRef,
             layerViewObjectRef: layerViewRef,
@@ -2674,14 +2674,11 @@ export async function createLayer(layerObject: any, wrap?: boolean | null, viewI
 
             break;
         case 'open-street-map':
-            let openStreetMapLayer: WebTileLayer;
+            let openStreetMapLayer: OpenStreetMapLayer;
             if (hasValue(layerObject.urlTemplate)) {
-                openStreetMapLayer = new WebTileLayer({
+                openStreetMapLayer = new OpenStreetMapLayer({
                     urlTemplate: layerObject.urlTemplate
                 });
-                copyValuesIfExists(new OpenStreetMapLayer(), openStreetMapLayer,
-                    'subDomains' ,'blendMode', 'copyright', 'maxScale', 'minScale','fullExtent'
-                )
             } else if (hasValue(layerObject.portalItem)) {
                 let portalItem = buildJsPortalItem(layerObject.portalItem);
                 openStreetMapLayer = new OpenStreetMapLayer({ portalItem: portalItem });
