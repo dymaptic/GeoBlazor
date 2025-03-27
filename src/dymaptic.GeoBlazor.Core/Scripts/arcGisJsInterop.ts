@@ -563,37 +563,8 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
             // return dotNetResult in small chunks to avoid memory issues in Blazor Server
             // SignalR has a maximum message size of 32KB
             // https://github.com/dotnet/aspnetcore/issues/23179
-            let seenObjects = new WeakMap();
-            const jsonLayerResult = JSON.stringify(result.layer, function (key, value) {
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in layer type ${result.layer.type} detected at path: ${key}, value: ${value}`);
-                        return null;
-                    }
-                    seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                return value;
-            });
-            
-            seenObjects = new WeakMap();
-            const jsonLayerViewResult = JSON.stringify(result.layerView, function (key, value) {
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.warn(`Circular reference in layerView type ${result.layerView.type} detected at path: ${key}, value: ${value}`);
-                        return null;
-                    }
-                    seenObjects.set(value, true);
-                }
-                if (key.startsWith('_')) {
-                    return undefined;
-                }
-                return value;
-            });
+            const jsonLayerResult = generateSerializableJson(result.layer);
+            const jsonLayerViewResult = generateSerializableJson(result.layerView);
             const chunkSize = 1000;
             let chunks = Math.ceil(jsonLayerResult.length / chunkSize);
 
@@ -2039,43 +2010,46 @@ export function sanitize(dotNetObject: any): any {
     return sanitizedDotNetObject;
 }
 
-export function removeCircularReferences(jsObject: any) {
-    let seenObjects = new WeakMap();
-    let json = JSON.stringify(jsObject, function (key, value) {
+export function generateSerializableJson(object: any): string {
+    // Create a path-based tracking for circular references
+    const ancestors: any[] = [];
+    let json = JSON.stringify(object, function(key, value) {
         if (key.startsWith('_') || key === 'jsComponentReference') {
-            return null;
+            return undefined;
         }
-        if (typeof value === 'object' && value !== null
-            && !(Array.isArray(value) && value.length === 0)) {
-            if (seenObjects.has(value)) {
-                console.debug(`Circular reference in serializing type AttachmentsViewModel detected at path: ${key}, value: ${value.declaredClass}`);
-                return null;
+
+        // If value is an object (and not null or empty array), check for circularity
+        if (typeof value === 'object' && value !== null &&
+            !(Array.isArray(value) && value.length === 0)) {
+
+            // `this` is the object that value is contained in,
+            // i.e., its direct parent.
+            while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+                // this pops us back up one level in the tree to find the actual parent
+                ancestors.pop();
             }
-            seenObjects.set(value, true);
+
+            if (ancestors.includes(value)) {
+                return undefined;
+            }
+            ancestors.push(value);
+            return value;
         }
+
         return value;
     });
+    
+    return json;
+}
 
+export function removeCircularReferences(jsObject: any) {
+    let json = generateSerializableJson(jsObject);
     return JSON.parse(json);
 }
 
 export function buildJsStreamReference(dnObject: any) {
-    let seenObjects = new WeakMap();
-    let dnJson = JSON.stringify(dnObject, function (key, value) {
-        if (key.startsWith('_') || key === 'jsComponentReference') {
-            return undefined;
-        }
-        if (typeof value === 'object' && value !== null
-            && !(Array.isArray(value) && value.length === 0)) {
-            if (seenObjects.has(value)) {
-                console.debug(`Circular reference in serializing type SearchWidget detected at path: ${key}, value: ${value.declaredClass}`);
-                return undefined;
-            }
-            seenObjects.set(value, true);
-        }
-        return value;
-    });
+    let json = generateSerializableJson(dnObject);
     let encoder = new TextEncoder();
-    let encodedArray = encoder.encode(dnJson);
+    let encodedArray = encoder.encode(json);
     return DotNet.createJSStreamReference(encodedArray);
 }

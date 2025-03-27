@@ -173,6 +173,8 @@ public partial class SearchWidget : Widget
     [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<SearchCompleteEvent> OnSearchComplete { get; set; }
+    
+    public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
@@ -212,6 +214,10 @@ public partial class SearchWidget : Widget
     [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<SearchSelectResultEvent> OnSelectResult { get; set; }
+    
+#pragma warning disable CS0618 // Type or member is obsolete
+    public bool HasSelectResultListener => OnSelectResult.HasDelegate || OnSearchSelectResultEvent.HasDelegate;
+#pragma warning restore CS0618 // Type or member is obsolete
    
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
@@ -254,6 +260,8 @@ public partial class SearchWidget : Widget
     [JsonIgnore]
     [CodeGenerationIgnore]
     public EventCallback<SearchSuggestCompleteEvent> OnSuggestComplete { get; set; }
+    
+    public bool HasSuggestCompleteListener => OnSuggestComplete.HasDelegate;
     
     /// <summary>
     ///     A delegate for a handler of search selection result events.

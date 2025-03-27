@@ -62,24 +62,7 @@ export async function buildJsISymbolsSymbol3DLayerGenerated(dotNetObject: any, l
         let { buildDotNetISymbolsSymbol3DLayer } = await import('./iSymbolsSymbol3DLayer');
         let dnInstantiatedObject = await buildDotNetISymbolsSymbol3DLayer(jssymbolsSymbol3DLayer, layerId, viewId);
 
-        let seenObjects = new WeakMap();
-        let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
-                if (key.startsWith('_') || key === 'jsComponentReference') {
-                    return undefined;
-                }
-                if (typeof value === 'object' && value !== null
-                    && !(Array.isArray(value) && value.length === 0)) {
-                    if (seenObjects.has(value)) {
-                        console.debug(`Circular reference in serializing type ISymbolsSymbol3DLayer detected at path: ${key}, value: ${value.declaredClass}`);
-                        return undefined;
-                    }
-                    seenObjects.set(value, true);
-                }
-                return value;
-            });
-        let encoder = new TextEncoder();
-        let encodedArray = encoder.encode(dnJson);
-        let dnStream = DotNet.createJSStreamReference(encodedArray);
+        let dnStream = buildJsStreamReference(dnInstantiatedObject);
         await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
             jsObjectRef, dnStream);
     } catch (e) {

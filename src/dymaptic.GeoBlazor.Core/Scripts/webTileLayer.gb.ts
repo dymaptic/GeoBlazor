@@ -324,23 +324,7 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
                 let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
 
                 let seenObjects = new WeakMap();
-                let dnJson = JSON.stringify(dnInstantiatedObject, function (key, value) {
-                        if (key.startsWith('_') || key === 'jsComponentReference') {
-                            return undefined;
-                        }
-                        if (typeof value === 'object' && value !== null
-                            && !(Array.isArray(value) && value.length === 0)) {
-                            if (seenObjects.has(value)) {
-                                console.debug(`Circular reference in serializing type WebTileLayer detected at path: ${key}, value: ${value.declaredClass}`);
-                                return undefined;
-                            }
-                            seenObjects.set(value, true);
-                        }
-                        return value;
-                    });
-                let encoder = new TextEncoder();
-                let encodedArray = encoder.encode(dnJson);
-                let dnStream = DotNet.createJSStreamReference(encodedArray);
+                let dnStream = buildJsStreamReference(dnInstantiatedObject);
                 await dotNetObject.dotNetComponentReference?.invokeMethodAsync('OnJsComponentCreated', 
                     jsObjectRef, dnStream);
             } catch (e) {
