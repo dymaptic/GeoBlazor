@@ -80,10 +80,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
             let { buildJsRenderer } = await import('./renderer');
             this.layer.renderer = await buildJsRenderer(dotNetObject.renderer, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.source) && dotNetObject.source.length > 0) {
-            let { buildJsGraphic } = await import('./graphic');
-            this.layer.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
-        }
         if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
             let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
             this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
@@ -633,10 +629,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.renderer)) {
         let { buildJsRenderer } = await import('./renderer');
         properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.source) && dotNetObject.source.length > 0) {
-        let { buildJsGraphic } = await import('./graphic');
-        properties.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
     }
     if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');

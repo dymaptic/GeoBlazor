@@ -197,15 +197,6 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         this.widget.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
-    async getSources(): Promise<any> {
-        if (!hasValue(this.widget.sources)) {
-            return null;
-        }
-        
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        return await Promise.all(this.widget.sources.map(async i => await buildDotNetSearchSource(i)));
-    }
-    
     async setSources(value: any): Promise<void> {
         let { buildJsSearchSource } = await import('./searchSource');
         this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;

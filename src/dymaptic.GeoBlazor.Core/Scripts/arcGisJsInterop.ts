@@ -102,9 +102,7 @@ export const arcGisObjectRefs: Record<string, any> = {};
 export const jsObjectRefs: Record<string, any> = {};
 export const popupTemplateRefs: Record<string, Accessor> = {};
 export const graphicsRefs: Record<string, Record<string, Graphic>> = {};
-export const graphicPopupLookupRefs: Record<string, string> = {};
 export const dotNetRefs: Record<string, any> = {};
-
 export const actionHandlers: Record<string, any> = {};
 export let queryLayer: FeatureLayer;
 export let blazorServer: boolean = false;
@@ -115,18 +113,8 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
-let Pro: any;
 
 // region functions
-
-export async function setPro(): Promise<void> {
-    try {
-        // @ts-ignore
-        Pro = await import("./arcGisPro");
-    } catch {
-        // this catch tells esbuild to ignore
-    }
-}
 
 // we have to wrap the JsObjectReference because a null will throw an error
 // https://github.com/dotnet/aspnetcore/issues/52070
@@ -754,6 +742,42 @@ export function disposeView(viewId: string): void {
     view?.destroy();
     delete arcGisObjectRefs[viewId];
     delete dotNetRefs[viewId];
+    for (const key in arcGisObjectRefs) {
+        const component = arcGisObjectRefs[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete arcGisObjectRefs[key];
+        }
+    }
+    for (const key in jsObjectRefs) {
+        const component = jsObjectRefs[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete jsObjectRefs[key];
+        }
+    }
+    for (const key in dotNetRefs) {
+        const component = dotNetRefs[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete dotNetRefs[key];
+        }
+    }
+    for (const key in popupTemplateRefs) {
+        const component = popupTemplateRefs[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete popupTemplateRefs[key];
+        }
+    }
+    for (const key in graphicsRefs) {
+        const component = graphicsRefs[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete graphicsRefs[key];
+        }
+    }
+    for (const key in actionHandlers) {
+        const component = actionHandlers[key];
+        if (!hasValue(component) || component.destroyed) {
+            delete actionHandlers[key];
+        }
+    }
     if (triggerActionHandlers.hasOwnProperty(viewId)) {
         triggerActionHandlers[viewId].remove();
         delete triggerActionHandlers[viewId];
@@ -1160,7 +1184,6 @@ export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetP
                                               layerId: string | null, viewId: string): Promise<void> {
     const graphic = lookupJsGraphicById(id, layerId, viewId);
     popupTemplate.dotNetPopupTemplateReference = dotNetRef;
-    graphicPopupLookupRefs[id] = popupTemplate.id;
     dotNetRefs[popupTemplate.id] = dotNetRef;
     let {buildJsPopupTemplate} = await import('./popupTemplate');
     const jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
@@ -2056,4 +2079,11 @@ export function buildJsStreamReference(dnObject: any) {
     let encoder = new TextEncoder();
     let encodedArray = encoder.encode(json);
     return DotNet.createJSStreamReference(encodedArray);
+}
+
+export function buildEncodedJson(object: any) {
+    let json = generateSerializableJson(object);
+    let encoder = new TextEncoder();
+    let encodedArray = encoder.encode(json);
+    return encodedArray;
 }

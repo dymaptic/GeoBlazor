@@ -449,7 +449,7 @@
         await WaitForMapToRender();
         await AssertJavaScript("assertWidgetExists", args: "esri.widgets.Search");
         await widget!.SetSearchTerm("testSearchTerm");
-        string searchTerm = await widget.GetSearchTerm();
+        string? searchTerm = await widget.GetSearchTerm();
         Assert.AreEqual("testSearchTerm", searchTerm);
         SuggestResponse suggestResponse = await widget!.Suggest("test");
         Assert.IsNotNull(suggestResponse);
@@ -457,13 +457,13 @@
         Assert.IsNotNull(searchResponse);
         IReadOnlyList<SearchResultResponse> searchResultResponse = await widget.GetResults();
         Assert.IsNotNull(searchResultResponse);
-        SuggestResult[] suggestResults = await widget.GetSuggestions();
+        IReadOnlyList<SuggestResult>? suggestResults = await widget.GetSuggestions();
         Assert.IsNotNull(suggestResults);
-        SearchMenu activeMenu = await widget.GetActiveMenu();
+        SearchMenu? activeMenu = await widget.GetActiveMenu();
         Assert.IsNotNull(activeMenu);
         SearchSource? activeSource = await widget.GetActiveSource();
         Assert.IsNotNull(activeSource);
-        int activeSourceIndex = await widget.GetActiveSourceIndex();
+        int? activeSourceIndex = await widget.GetActiveSourceIndex();
         Assert.AreEqual(0, activeSourceIndex);
         IReadOnlyList<SearchSource> allSources = (await widget.GetAllSources())!;
         Assert.AreEqual(1, allSources.Count);
@@ -537,7 +537,7 @@
         }
         AddMapRenderFragment(
             @<div>
-                <div id="external-container" />
+                <div id="external-container"></div>
                 <MapView class="map-view" OnViewRendered="renderHandler">
                     <Map>
                         <Basemap>

@@ -7,7 +7,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     FeatureType is a subset of features defined in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> that share the same attributes.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="Id">
+/// <param name="FeatureTypeId">
+///     The feature type identifier.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html#id">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Name">
 ///     The feature type name.
@@ -21,16 +23,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Domains associated with the feature type.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html#domains">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="FeatureTypeId">
-///     The feature type identifier.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html#id">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 public partial record FeatureType(
     [property:JsonConverter(typeof(NumberToStringConverter))]
-    string Id,
+    string FeatureTypeId,
     string Name,
     IReadOnlyCollection<IFeatureTemplate> Templates,
-    Dictionary<string, Domain> Domains,
-    [property:JsonConverter(typeof(NumberToStringConverter))]
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? FeatureTypeId = null);
+    Dictionary<string, Domain> Domains);

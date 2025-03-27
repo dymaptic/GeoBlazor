@@ -312,13 +312,13 @@ public partial class SearchWidget : IGoTo
 #region Property Getters
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the ActiveSource property.
+    ///     Asynchronously retrieve the current value of the ActiveMenu property.
     /// </summary>
-    public async Task<SearchSource?> GetActiveSource()
+    public async Task<SearchMenu?> GetActiveMenu()
     {
         if (CoreJsModule is null)
         {
-            return ActiveSource;
+            return ActiveMenu;
         }
         
         try 
@@ -333,21 +333,60 @@ public partial class SearchWidget : IGoTo
         
         if (JsComponentReference is null)
         {
-            return ActiveSource;
+            return ActiveMenu;
         }
 
-        SearchSource? result = await JsComponentReference.InvokeAsync<SearchSource?>(
-            "getActiveSource", CancellationTokenSource.Token);
-        
-        if (result is not null)
+        // get the property value
+        JsNullableEnumWrapper<SearchMenu>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SearchMenu>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeMenu");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-            ActiveSource = result;
+             ActiveMenu = (SearchMenu)result.Value.Value!;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+             ModifiedParameters[nameof(ActiveMenu)] = ActiveMenu;
+        }
+         
+        return ActiveMenu;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActiveSourceIndex property.
+    /// </summary>
+    public async Task<int?> GetActiveSourceIndex()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActiveSourceIndex;
         }
         
-        return ActiveSource;
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveSourceIndex;
+        }
+
+        // get the property value
+        JsNullableIntWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableIntWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "activeSourceIndex");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             ActiveSourceIndex = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ActiveSourceIndex)] = ActiveSourceIndex;
+        }
+         
+        return ActiveSourceIndex;
     }
     
     /// <summary>
@@ -387,45 +426,6 @@ public partial class SearchWidget : IGoTo
         }
          
         return AllPlaceholder;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the AllSources property.
-    /// </summary>
-    public async Task<IReadOnlyList<SearchSource>?> GetAllSources()
-    {
-        if (CoreJsModule is null)
-        {
-            return AllSources;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return AllSources;
-        }
-
-        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
-            "getAllSources", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-            AllSources = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(AllSources)] = AllSources;
-        }
-        
-        return AllSources;
     }
     
     /// <summary>
@@ -863,6 +863,50 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the ResultGraphic property.
+    /// </summary>
+    public async Task<Graphic?> GetResultGraphic()
+    {
+        if (CoreJsModule is null)
+        {
+            return ResultGraphic;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ResultGraphic;
+        }
+
+        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
+            "getResultGraphic", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+            if (ResultGraphic is not null)
+            {
+                result.Id = ResultGraphic.Id;
+            }
+            
+#pragma warning disable BL0005
+            ResultGraphic = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ResultGraphic)] = ResultGraphic;
+        }
+        
+        return ResultGraphic;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the ResultGraphicEnabled property.
     /// </summary>
     public async Task<bool?> GetResultGraphicEnabled()
@@ -941,13 +985,13 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Sources property.
+    ///     Asynchronously retrieve the current value of the SearchTerm property.
     /// </summary>
-    public async Task<IReadOnlyList<SearchSource>?> GetSources()
+    public async Task<string?> GetSearchTerm()
     {
         if (CoreJsModule is null)
         {
-            return Sources;
+            return SearchTerm;
         }
         
         try 
@@ -962,21 +1006,60 @@ public partial class SearchWidget : IGoTo
         
         if (JsComponentReference is null)
         {
-            return Sources;
+            return SearchTerm;
         }
 
-        IReadOnlyList<SearchSource>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchSource>?>(
-            "getSources", CancellationTokenSource.Token);
-        
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "searchTerm");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            Sources = result;
+             SearchTerm = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Sources)] = Sources;
+             ModifiedParameters[nameof(SearchTerm)] = SearchTerm;
+        }
+         
+        return SearchTerm;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Suggestions property.
+    /// </summary>
+    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
+    {
+        if (CoreJsModule is null)
+        {
+            return Suggestions;
         }
         
-        return Sources;
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Suggestions;
+        }
+
+        // get the property value
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SuggestResult>?>("getProperty",
+            CancellationTokenSource.Token, "suggestions");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Suggestions = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Suggestions)] = Suggestions;
+        }
+         
+        return Suggestions;
     }
     
     /// <summary>
@@ -1635,6 +1718,43 @@ public partial class SearchWidget : IGoTo
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "searchAllEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the SearchTerm property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSearchTerm(string? value)
+    {
+#pragma warning disable BL0005
+        SearchTerm = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SearchTerm)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "searchTerm", value);
     }
     
     /// <summary>

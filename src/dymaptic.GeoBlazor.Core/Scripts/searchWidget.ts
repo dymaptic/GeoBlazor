@@ -2,8 +2,7 @@ import widgetsSearch from '@arcgis/core/widgets/Search';
 import Search from '@arcgis/core/widgets/Search';
 import SearchWidgetGenerated from './searchWidget.gb';
 import {buildJsGeometry} from './geometry';
-import {buildDotNetExtent} from "./extent";
-import {buildJsStreamReference} from "./arcGisJsInterop";
+import {buildEncodedJson, hasValue} from "./arcGisJsInterop";
 
 
 export default class SearchWidgetWrapper extends SearchWidgetGenerated {
@@ -15,7 +14,9 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     async getActiveSource() {
         let jsSource = this.widget.activeSource;
         let {buildDotNetSearchSource} = await import('./searchSource');
-        return buildDotNetSearchSource(jsSource);
+        let dnSource = buildDotNetSearchSource(jsSource);
+        let encodedJson = buildEncodedJson(dnSource);
+        return encodedJson;
     }
 
     getActiveMenu() {
@@ -34,7 +35,8 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
             dotNetSources.push(buildDotNetSearchSource(jsSource));
         }
 
-        return dotNetSources;
+        let encodedJson = buildEncodedJson(dotNetSources);
+        return encodedJson;
     }
 
     async getDefaultSources() {
@@ -56,10 +58,10 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     async getResults() {
         let jsResults = this.widget.results;
         let dnResults: any[] = [];
+        let {buildDotNetSearchResult} = await import('./searchResult');
+        let {buildDotNetSearchSource} = await import('./searchSource');
         for (let jsResult of jsResults) {
             let searchResults: any[] = [];
-            let {buildDotNetSearchResult} = await import('./searchResult');
-            let {buildDotNetSearchSource} = await import('./searchSource');
             for (let jsSearchResult of jsResult.results) {
                 searchResults.push(buildDotNetSearchResult(jsSearchResult));
             }
@@ -71,12 +73,26 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
             dnResults.push(dnResult);
         }
 
-        return dnResults;
+        let encodedJson = buildEncodedJson(dnResults);
+        return encodedJson;
     }
 
     async getSelectedResult() {
         let {buildDotNetSearchResult} = await import('./searchResult');
-        return buildDotNetSearchResult(this.widget.selectedResult);
+        let dnResponse = buildDotNetSearchResult(this.widget.selectedResult);
+        let encodedJson = buildEncodedJson(dnResponse);
+        return encodedJson;
+    }
+
+    async getSources(): Promise<any> {
+        if (!hasValue(this.widget.sources)) {
+            return null;
+        }
+
+        let { buildDotNetSearchSource } = await import('./searchSource');
+        let dnSources = await Promise.all(this.widget.sources.map(async i => await buildDotNetSearchSource(i)));
+        let encodedJson = buildEncodedJson(dnSources);
+        return encodedJson;
     }
 
     setSearchTerm(term: string) {
@@ -94,13 +110,17 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         }
         let response = await this.widget.search(term);
         let {buildDotNetSearchResponse} = await import('./searchResponse');
-        let dnresponse = await buildDotNetSearchResponse(response);
-        return dnresponse;
+        let dnResponse = await buildDotNetSearchResponse(response);
+        let encodedJson = buildEncodedJson(dnResponse);
+        return encodedJson;
     }
 
     async suggest(term: string) {
         let result = await this.widget.suggest(term);
-        return result;
+        let {buildDotNetSuggestResponse} = await import('./suggestResponse');
+        let dnResponse = await buildDotNetSuggestResponse(result);
+        let encodedJson = buildEncodedJson(dnResponse);
+        return encodedJson;
     }
 
 

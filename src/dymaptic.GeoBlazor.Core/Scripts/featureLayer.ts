@@ -382,6 +382,15 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
         jsFeatureLayer.url = dotNetObject.url;
     }
 
+    if (hasValue(dotNetObject.source)) {
+        let { buildJsGraphic } = await import('./graphic');
+        jsFeatureLayer.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
+    }
+    
+    if (!hasValue(jsFeatureLayer.spatialReference)) {
+        jsFeatureLayer.spatialReference = {wkid: 4326};
+    }
+
     return jsFeatureLayer;
 }
 

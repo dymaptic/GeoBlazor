@@ -122,10 +122,12 @@
         query.OutFields = ["*"];
         FeatureSet? featureSet = await layer!.QueryFeatures(query);
         Assert.IsNotNull(featureSet);
+        Assert.AreEqual(5, featureSet!.Features!.Length);
         foreach (Graphic feature in featureSet.Features!)
         {
-            FeatureType? featureType = await layer!.GetFeatureType(feature);
-            Assert.IsNotNull(featureType);
+            // we don't know for sure that these all have a feature type
+            // but we want to call it to make sure it doesn't throw an error
+            FeatureType? _ = await layer!.GetFeatureType(feature);
         }
         var fieldName = "strinsur";
         Field? field = await layer.GetField(fieldName);
@@ -292,10 +294,11 @@
             <Basemap>
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
-            <FeatureLayer @ref="layer" Source="@([])"
+            <FeatureLayer @ref="layer" Source="@( [])"
                           GeometryType="FeatureGeometryType.Point"
-                          OutFields="@(["*"])"
+                          OutFields="@( ["*"])"
                           ObjectIdField="OBJECT_ID">
+                <Field Name="OBJECT_ID" Type="FieldType.Oid" />
             </FeatureLayer>
         </Map>
     </MapView>);

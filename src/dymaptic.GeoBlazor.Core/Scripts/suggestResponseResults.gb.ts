@@ -28,7 +28,7 @@ export async function buildJsSuggestResponseResultsGenerated(dotNetObject: any, 
 }
 
 
-export async function buildDotNetSuggestResponseResultsGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildDotNetSuggestResponseResultsGenerated(jsObject: any): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }

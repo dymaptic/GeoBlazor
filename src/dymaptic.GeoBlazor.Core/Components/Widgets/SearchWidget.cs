@@ -323,37 +323,16 @@ public partial class SearchWidget : Widget
 #endregion
 
     /// <summary>
-    ///     Set the value of the search text box programmatically.
-    /// </summary>
-    public async Task SetSearchTerm(string searchTerm)
-    {
-#pragma warning disable BL0005
-        SearchTerm = searchTerm;
-#pragma warning restore BL0005
-        await JsComponentReference!.InvokeVoidAsync("setSearchTerm", searchTerm);
-    }
-
-    /// <summary>
-    ///     Retrieves the current value of the search text box.
-    /// </summary>
-    public async Task<string> GetSearchTerm()
-    {
-#pragma warning disable BL0005
-        SearchTerm = await JsComponentReference!.InvokeAsync<string>("getSearchTerm");
-#pragma warning restore BL0005
-        return SearchTerm;
-    }
-
-    /// <summary>
     ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
     /// </summary>
     /// <param name="searchTerm">
     ///     The term to search for.
     /// </param>
     [ArcGISMethod]
-    public async Task<SearchResponse> Search(string searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(string searchTerm)
     {
-        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -362,9 +341,10 @@ public partial class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The geometry to search for.
     /// </param>
-    public async Task<SearchResponse> Search(Geometry searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(Geometry searchTerm)
     {
-        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -373,9 +353,10 @@ public partial class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The <see cref="SuggestResult"/> to search for.
     /// </param>
-    public async Task<SearchResponse> Search(SuggestResult searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(SuggestResult searchTerm)
     {
-        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -384,9 +365,26 @@ public partial class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The array of long/lat coordinate pairs to search for.
     /// </param>
-    public async Task<SearchResponse> Search(double[][] searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(double[][] searchTerm)
     {
-        return await JsComponentReference!.InvokeAsync<SearchResponse>("search", [searchTerm]);
+        return SearchImplementation(searchTerm);
+    }
+
+    private async Task<SearchResponse> SearchImplementation(object searchTerm)
+    {
+        IJSStreamReference jsStreamRef = 
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("search", searchTerm);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResponse searchResponse = JsonSerializer.Deserialize<SearchResponse>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        return searchResponse;
     }
     
     /// <summary>
@@ -399,38 +397,119 @@ public partial class SearchWidget : Widget
     ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     /// </param>
     [ArcGISMethod]
+    [CodeGenerationIgnore]
     public async Task<SuggestResponse> Suggest(string? value = null)
     {
-        return await JsComponentReference!.InvokeAsync<SuggestResponse>("suggest", value);
-    }
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("suggest", value);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SuggestResponse suggestResponse = JsonSerializer.Deserialize<SuggestResponse>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
 
+        return suggestResponse;
+    }
     
     /// <summary>
-    ///     Retrieves the current active menu of the Search widget. Default value is None.
+    ///     Asynchronously retrieve the current value of the ActiveSource property.
     /// </summary>
-    public async Task<SearchMenu> GetActiveMenu()
+    [CodeGenerationIgnore]
+    public async Task<SearchSource?> GetActiveSource()
     {
-        return await JsComponentReference!.InvokeAsync<SearchMenu>("getActiveMenu");
+        if (CoreJsModule is null)
+        {
+            return ActiveSource;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveSource;
+        }
+
+        IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
+            "getActiveSource", CancellationTokenSource.Token);
+
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSource? result = JsonSerializer.Deserialize<SearchSource>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ActiveSource = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+        }
+        
+        return ActiveSource;
     }
-
+    
     /// <summary>
-    ///     Retrieves the index of the currently selected source. This value is -1 when all sources are selected.
+    ///     Asynchronously retrieve the current value of the AllSources property.
     /// </summary>
-    public async Task<int> GetActiveSourceIndex()
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<SearchSource>?> GetAllSources()
     {
-        return await JsComponentReference!.InvokeAsync<int>("getActiveSourceIndex");
-    }
+        if (CoreJsModule is null)
+        {
+            return AllSources;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AllSources;
+        }
 
+        IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
+            "getAllSources", CancellationTokenSource.Token);
 
-    /// <summary>
-    ///     The graphic used to highlight the resulting feature or location.
-    /// </summary>
-    /// <remarks>
-    ///     A graphic will be placed in the View's graphics for layer views that do not support the highlight method.
-    /// </remarks>
-    public async Task<Graphic?> GetResultGraphic()
-    {
-        return await JsComponentReference!.InvokeAsync<Graphic?>("getResultGraphic", View?.Id);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        
+        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            AllSources = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(AllSources)] = AllSources;
+        }
+        
+        return AllSources;
     }
 
     /// <summary>
@@ -439,7 +518,18 @@ public partial class SearchWidget : Widget
     [CodeGenerationIgnore]
     public async Task<SearchResultResponse[]> GetResults()
     {
-        return await JsComponentReference!.InvokeAsync<SearchResultResponse[]>("getResults", View?.Id);
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getResults");
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResultResponse[] searchResults = JsonSerializer.Deserialize<SearchResultResponse[]>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        return searchResults;
     }
 
     /// <summary>
@@ -447,17 +537,66 @@ public partial class SearchWidget : Widget
     /// </summary>
     public async Task<SearchResult> GetSelectedResult()
     {
-        return await JsComponentReference!.InvokeAsync<SearchResult>("getSelectedResult");
-    }
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSelectedResult");
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
 
+        return searchResult;
+    }
+    
     /// <summary>
-    ///     Retrieves an array of results from the suggest method.
-    ///     This is available if working with a 10.3 or greater geocoding service that has suggest capability loaded or a 10.3 or greater feature layer that supports pagination, i.e. supportsPagination = true.
+    ///     Asynchronously retrieve the current value of the Sources property.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<SuggestResult[]> GetSuggestions()
+    public async Task<IReadOnlyList<SearchSource>?> GetSources()
     {
-        return await JsComponentReference!.InvokeAsync<SuggestResult[]>("getProperty", "suggestions");
+        if (CoreJsModule is null)
+        {
+            return Sources;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Sources;
+        }
+
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Sources = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Sources)] = Sources;
+        }
+        
+        return Sources;
     }
     
     /// <inheritdoc />
