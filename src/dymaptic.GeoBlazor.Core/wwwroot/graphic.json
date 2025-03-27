@@ -727,6 +727,10 @@
                         "value": {
                           "type": "bool",
                           "id": 9
+                        },
+                        "actionId": {
+                          "type": "string",
+                          "id": 10
                         }
                       }
                     },

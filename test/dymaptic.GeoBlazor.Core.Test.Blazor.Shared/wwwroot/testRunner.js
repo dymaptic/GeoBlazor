@@ -150,6 +150,23 @@ export function assertLayerExists(methodName, layerType) {
     throw new Error(`Expected layer of type ${layerType} but found none`);
 }
 
+export function assertGroupLayerHasLayer(methodName, layerType) {
+    let view = getView(methodName);
+    let layers = view.map.layers;
+    let groupLayer = layers.find(l => l.type === 'group');
+    if (groupLayer === undefined) {
+        throw new Error(`Expected group layer but found none`);
+    }
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+        let layer = groupLayer.layers.items[i];
+        if (layer.type === layerType) {
+            return;
+        }
+    }
+    
+    throw new Error(`Expected layer of type ${layerType} but found none`);
+}
+
 export function assertObjectHasPropertyWithValue(methodName, objectId, propertyName, expectedValue) {
     let props = propertyName.split('.');
     let obj = arcGisObjectRefs[objectId];

@@ -7,6 +7,8 @@ export function assertContentByClassName(methodName, className) {
     if (!innerWidget || innerWidget.length === 0) {
         throw new Error(`Child class ${className} does not exist`);
     }
+    
+    return 1;
 }
 
 export function assertContentById(methodName, id) {
@@ -16,6 +18,8 @@ export function assertContentById(methodName, id) {
     if (!innerWidget) {
         throw new Error(`Child element with Id ${id} does not exist`);
     }
+
+    return 1;
 }
 
 export function assertContentOrder(methodName, element1Id, element2Id) {
@@ -36,4 +40,6 @@ export function assertContentOrder(methodName, element1Id, element2Id) {
             throw new Error(`Elements are out of order`);
         }
     }
+
+    return 1;
 }

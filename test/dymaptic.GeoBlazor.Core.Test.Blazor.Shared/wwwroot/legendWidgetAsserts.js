@@ -7,4 +7,6 @@ export function assertHasContent(methodName) {
         legendWidget?.activeLayerInfos?.items.length === 0) {
         throw new Error(`No legend content`);
     }
+
+    return 1;
 }

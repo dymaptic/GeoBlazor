@@ -1,7 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 [JsonConverter(typeof(SpatialReferenceConverter))]
-public partial class SpatialReference : MapComponent
+public partial class SpatialReference : MapComponent, IEquatable<SpatialReference>
 {
     /// <summary>
     ///     Constructor for use in C# code.
@@ -109,6 +109,38 @@ public partial class SpatialReference : MapComponent
     internal SpatialReferenceSerializationRecord ToSerializationRecord()
     {
         return new SpatialReferenceSerializationRecord(Wkid, Wkt);
+    }
+
+    public bool Equals(SpatialReference? other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Wkid == other.Wkid && Wkt == other.Wkt && Wkt2 == other.Wkt2 && Equals(ImageCoordinateSystem, other.ImageCoordinateSystem);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+
+        return Equals((SpatialReference)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Wkid, Wkt, Wkt2, ImageCoordinateSystem);
+    }
+
+    public static bool operator ==(SpatialReference? left, SpatialReference? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(SpatialReference? left, SpatialReference? right)
+    {
+        return !Equals(left, right);
     }
 }
 

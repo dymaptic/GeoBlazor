@@ -151,6 +151,7 @@
 		            <FeatureLayer @ref="layer" Source="@([])"
                                   GeometryType="FeatureGeometryType.Point"
                                   ObjectIdField="OBJECT_ID"
+                                  SpatialReference="SpatialReference.Wgs84"
                                   OutFields="@(["*"])">
 		            </FeatureLayer>
 		        </Map>
@@ -181,6 +182,7 @@
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
                           OutFields="@(["*"])"
+                          SpatialReference="SpatialReference.Wgs84"
                           GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
@@ -206,6 +208,7 @@
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
                           OutFields="@(["*"])"
+                          SpatialReference="SpatialReference.Wgs84"
                           GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
@@ -244,6 +247,7 @@
             </Basemap>
             <FeatureLayer @ref="layer" Source="@([])"
                           OutFields="@(["*"])"
+                          SpatialReference="SpatialReference.Wgs84"
                           GeometryType="FeatureGeometryType.Point"
                           ObjectIdField="OBJECT_ID">
             </FeatureLayer>
@@ -295,10 +299,11 @@
                 <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
             </Basemap>
             <FeatureLayer @ref="layer" Source="@( [])"
+                          SpatialReference="SpatialReference.Wgs84"
                           GeometryType="FeatureGeometryType.Point"
                           OutFields="@( ["*"])"
                           ObjectIdField="OBJECT_ID">
-                <Field Name="OBJECT_ID" Type="FieldType.Oid" />
+                <Field Name="OBJECT_ID" Type="FieldType.Integer" />
             </FeatureLayer>
         </Map>
     </MapView>);
@@ -316,17 +321,17 @@
             graphics.Add(graphic);
         }
         FeatureEdits edits = new()
-                {
-                    AddFeatures = graphics
-                };
+        {
+            AddFeatures = graphics
+        };
         FeatureEditsResult result = await layer!.ApplyEdits(edits);
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]);
         Assert.AreEqual(2000, result.AddFeatureResults.Length);
 
         edits = new()
-                {
-                    DeleteFeatures = graphics
-                };
+        {
+            DeleteFeatures = graphics
+        };
         result = await layer!.ApplyEdits(edits);
         await Assert.ThrowsExceptionAsync<JSException>(async () =>
         await AssertJavaScript("assertGraphicExistsInLayer", args: [layer!.Id, "point", 2000]));
