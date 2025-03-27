@@ -2530,6 +2530,7 @@ public partial class FeaturesViewModel : MapComponent,
     [JsonIgnore]
     public EventCallback<FeaturesViewModelTriggerActionEvent> OnTriggerAction { get; set; }
    
+    public bool HasTriggerActionListener => OnTriggerAction.HasDelegate;
 #endregion
 
 

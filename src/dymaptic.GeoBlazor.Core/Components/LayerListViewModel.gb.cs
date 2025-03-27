@@ -389,6 +389,7 @@ public partial class LayerListViewModel : MapComponent
     [JsonIgnore]
     public EventCallback<LayerListViewModelTriggerActionEvent> OnTriggerAction { get; set; }
    
+    public bool HasTriggerActionListener => OnTriggerAction.HasDelegate;
 #endregion
 
 }

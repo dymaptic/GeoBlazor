@@ -312,12 +312,14 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         properties.id = dotNetObject.widgetId;
     }
     let jsLayerList = new LayerList(properties);
-    jsLayerList.on('trigger-action', async (evt: any) => {
-        let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
-        let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
-    });
+    if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
+        jsLayerList.on('trigger-action', async (evt: any) => {
+            let { buildDotNetLayerListTriggerActionEvent } = await import('./layerListTriggerActionEvent');
+            let dnEvent = await buildDotNetLayerListTriggerActionEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+        });
+    }
     
 
     let { default: LayerListWidgetWrapper } = await import('./layerListWidget');

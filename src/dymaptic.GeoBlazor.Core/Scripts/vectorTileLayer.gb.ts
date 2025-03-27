@@ -337,26 +337,32 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
         properties.visible = dotNetObject.visible;
     }
     let jsVectorTileLayer = new VectorTileLayer(properties);
-    jsVectorTileLayer.on('layerview-create', async (evt: any) => {
-        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
+        jsVectorTileLayer.on('layerview-create', async (evt: any) => {
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+        });
+    }
     
-    jsVectorTileLayer.on('layerview-create-error', async (evt: any) => {
-        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
+        jsVectorTileLayer.on('layerview-create-error', async (evt: any) => {
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+        });
+    }
     
-    jsVectorTileLayer.on('layerview-destroy', async (evt: any) => {
-        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-    });
+    if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
+        jsVectorTileLayer.on('layerview-destroy', async (evt: any) => {
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+        });
+    }
     
 
     let { default: VectorTileLayerWrapper } = await import('./vectorTileLayer');

@@ -323,44 +323,58 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
         properties.id = dotNetObject.widgetId;
     }
     let jswidgetsSearch = new widgetsSearch(properties);
-    jswidgetsSearch.on('search-blur', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchBlur', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSearchBlurListener) && dotNetObject.hasSearchBlurListener) {
+        jswidgetsSearch.on('search-blur', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchBlur', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('search-clear', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSearchClearListener) && dotNetObject.hasSearchClearListener) {
+        jswidgetsSearch.on('search-clear', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchClear', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('search-focus', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchFocus', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSearchFocusListener) && dotNetObject.hasSearchFocusListener) {
+        jswidgetsSearch.on('search-focus', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchFocus', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('search-start', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSearchStartListener) && dotNetObject.hasSearchStartListener) {
+        jswidgetsSearch.on('search-start', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchStart', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('select-result', async (evt: any) => {
-        let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
-        let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
+        jswidgetsSearch.on('select-result', async (evt: any) => {
+            let { buildDotNetSearchSelectResultEvent } = await import('./searchSelectResultEvent');
+            let dnEvent = await buildDotNetSearchSelectResultEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('suggest-complete', async (evt: any) => {
-        let { buildDotNetSearchSuggestCompleteEvent } = await import('./searchSuggestCompleteEvent');
-        let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
+        jswidgetsSearch.on('suggest-complete', async (evt: any) => {
+            let { buildDotNetSearchSuggestCompleteEvent } = await import('./searchSuggestCompleteEvent');
+            let dnEvent = await buildDotNetSearchSuggestCompleteEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
+        });
+    }
     
-    jswidgetsSearch.on('suggest-start', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestStart', streamRef);
-    });
+    if (hasValue(dotNetObject.hasSuggestStartListener) && dotNetObject.hasSuggestStartListener) {
+        jswidgetsSearch.on('suggest-start', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestStart', streamRef);
+        });
+    }
     
 
     let { default: SearchWidgetWrapper } = await import('./searchWidget');

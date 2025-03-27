@@ -3969,6 +3969,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<GeoJSONLayerEditsEvent> OnEdits { get; set; }
    
+    public bool HasEditsListener => OnEdits.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -3995,6 +3996,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

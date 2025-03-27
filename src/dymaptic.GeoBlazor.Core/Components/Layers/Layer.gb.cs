@@ -505,6 +505,7 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewCreateEvent> OnCreate { get; set; }
    
+    public bool HasCreateListener => OnCreate.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -531,6 +532,7 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewCreateErrorEvent> OnCreateError { get; set; }
    
+    public bool HasCreateErrorListener => OnCreateError.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -556,6 +558,7 @@ public abstract partial class Layer : IHitTestItem,
     [JsonIgnore]
     public EventCallback<LayerViewDestroyEvent> OnDestroy { get; set; }
    
+    public bool HasDestroyListener => OnDestroy.HasDelegate;
 #endregion
 
 }

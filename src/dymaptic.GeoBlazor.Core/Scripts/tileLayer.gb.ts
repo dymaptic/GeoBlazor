@@ -350,31 +350,39 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
         properties.visible = dotNetObject.visible;
     }
     let jsTileLayer = new TileLayer(properties);
-    jsTileLayer.on('layerview-create', async (evt: any) => {
-        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
+        jsTileLayer.on('layerview-create', async (evt: any) => {
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+        });
+    }
     
-    jsTileLayer.on('layerview-create-error', async (evt: any) => {
-        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
+        jsTileLayer.on('layerview-create-error', async (evt: any) => {
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+        });
+    }
     
-    jsTileLayer.on('layerview-destroy', async (evt: any) => {
-        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-    });
+    if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
+        jsTileLayer.on('layerview-destroy', async (evt: any) => {
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+        });
+    }
     
-    jsTileLayer.on('refresh', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-    });
+    if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
+        jsTileLayer.on('refresh', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+        });
+    }
     
 
     let { default: TileLayerWrapper } = await import('./tileLayer');

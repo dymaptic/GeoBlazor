@@ -2638,6 +2638,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchClearEvent> OnSearchClear { get; set; }
    
+    public bool HasSearchClearListener => OnSearchClear.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2663,6 +2664,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchCompleteEvent> OnSearchComplete { get; set; }
    
+    public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2688,6 +2690,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSearchStartEvent> OnSearchStart { get; set; }
    
+    public bool HasSearchStartListener => OnSearchStart.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2713,6 +2716,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSelectResultEvent> OnSelectResult { get; set; }
    
+    public bool HasSelectResultListener => OnSelectResult.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2738,6 +2742,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSuggestCompleteEvent> OnSuggestComplete { get; set; }
    
+    public bool HasSuggestCompleteListener => OnSuggestComplete.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2763,6 +2768,7 @@ public partial class SearchViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<SearchViewModelSuggestStartEvent> OnSuggestStart { get; set; }
    
+    public bool HasSuggestStartListener => OnSuggestStart.HasDelegate;
 #endregion
 
 

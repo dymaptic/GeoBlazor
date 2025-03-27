@@ -43,7 +43,7 @@ export async function buildDotNetElevationQueryResultGenerated(jsObject: any, la
     
     if (hasValue(jsObject.sampleInfo)) {
         let { buildDotNetElevationQueryResultSampleInfo } = await import('./elevationQueryResultSampleInfo');
-        dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i, layerId, viewId)));
+        dotNetElevationQueryResult.sampleInfo = await Promise.all(jsObject.sampleInfo.map(async i => await buildDotNetElevationQueryResultSampleInfo(i)));
     }
     
     if (hasValue(jsObject.noDataValue)) {

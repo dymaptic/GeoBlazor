@@ -40,15 +40,16 @@ public partial class Basemap : MapComponent
         switch (child)
         {
             case Layer layer:
+                // add the new layer first so that it ends up on the bottom
                 if (layer.IsBasemapReferenceLayer == true)
                 {
                     ReferenceLayers ??= [];
-                    ReferenceLayers = [..ReferenceLayers, layer];
+                    ReferenceLayers = [layer, ..ReferenceLayers];
                 }
                 else
                 {
                     BaseLayers ??= [];
-                    BaseLayers = [..BaseLayers, layer];
+                    BaseLayers = [layer, ..BaseLayers];
                 }
                 ModifiedParameters[nameof(BaseLayers)] = BaseLayers;
 

@@ -22,7 +22,6 @@ export default class GroundGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.layers) && dotNetObject.layers.length > 0) {
-            this.component.layers?.destroy();
             let { buildJsLayer } = await import('./layer');
             this.component.layers = await Promise.all(dotNetObject.layers.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
         }
@@ -46,8 +45,14 @@ export default class GroundGenerated implements IPropertyWrapper {
         let jsExtent = buildJsExtent(extent) as any;
         let result = await this.component.createElevationSampler(jsExtent,
             options);
-        let { buildDotNetElevationSampler } = await import('./elevationSampler');
-        return await buildDotNetElevationSampler(result, this.layerId, this.viewId);
+        try {
+            // @ts-ignore GeoBlazor Pro only
+            let { buildDotNetElevationSampler } = await import('./elevationSampler');
+            // @ts-ignore GeoBlazor Pro only
+            return await buildDotNetElevationSampler(result, this.layerId, this.viewId);
+        } catch {
+            throw new Error('Method CreateElevationSampler not available in GeoBlazor Core');
+        }
     }
 
     async loadAll(): Promise<any> {
@@ -84,11 +89,6 @@ export default class GroundGenerated implements IPropertyWrapper {
     }
     
     async setLayers(value: any): Promise<void> {
-        if (hasValue(this.component.layers && this.component.layers.length > 0)) {
-            for (let i = 0; i < this.component.layers.length;  i++) {  
-                this.component.layers[i]?.destroy();
-            }
-        }
         let { buildJsLayer } = await import('./layer');
         this.component.layers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }

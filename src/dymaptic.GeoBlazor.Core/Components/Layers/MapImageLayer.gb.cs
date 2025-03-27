@@ -2714,6 +2714,7 @@ public partial class MapImageLayer : IArcGISMapService,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

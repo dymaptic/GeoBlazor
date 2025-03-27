@@ -191,10 +191,12 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
         properties.id = dotNetObject.widgetId;
     }
     let jsHome = new Home(properties);
-    jsHome.on('go', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
-    });
+    if (hasValue(dotNetObject.hasGoListener) && dotNetObject.hasGoListener) {
+        jsHome.on('go', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
+        });
+    }
     
 
     let { default: HomeWidgetWrapper } = await import('./homeWidget');

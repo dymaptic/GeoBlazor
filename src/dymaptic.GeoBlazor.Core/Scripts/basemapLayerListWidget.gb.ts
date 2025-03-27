@@ -301,12 +301,14 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
         properties.id = dotNetObject.widgetId;
     }
     let jsBasemapLayerList = new BasemapLayerList(properties);
-    jsBasemapLayerList.on('trigger-action', async (evt: any) => {
-        let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
-        let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
-    });
+    if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
+        jsBasemapLayerList.on('trigger-action', async (evt: any) => {
+            let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
+            let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+        });
+    }
     
 
     let { default: BasemapLayerListWidgetWrapper } = await import('./basemapLayerListWidget');

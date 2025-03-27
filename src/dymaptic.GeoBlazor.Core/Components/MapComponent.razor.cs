@@ -1,7 +1,4 @@
-﻿using System.Text.Encodings.Web;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>

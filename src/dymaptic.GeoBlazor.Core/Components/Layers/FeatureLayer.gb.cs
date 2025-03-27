@@ -5861,6 +5861,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [JsonIgnore]
     public EventCallback<FeatureLayerEditsEvent> OnEdits { get; set; }
    
+    public bool HasEditsListener => OnEdits.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -5887,6 +5888,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

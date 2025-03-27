@@ -418,7 +418,11 @@ public abstract partial class Widget : MapComponent
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
-                if (kvp.Key is nameof(View) or nameof(MapRendered)) continue;
+                if (kvp.Key is nameof(View) or nameof(MapRendered)
+                    || (kvp.Value?.GetType().Name.Contains("EventCallback") ?? false))
+                {
+                    continue;
+                }
 
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
@@ -477,7 +481,7 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     Indicates if the widget has changed since the last render.
     /// </summary>
-    protected bool WidgetChanged;
+    protected bool WidgetChanged { get; set; }
 
     private bool _externalWidgetRegistered;
 }

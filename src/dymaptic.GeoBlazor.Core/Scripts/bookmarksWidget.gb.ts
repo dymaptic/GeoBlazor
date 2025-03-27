@@ -285,19 +285,23 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
         properties.id = dotNetObject.widgetId;
     }
     let jsBookmarks = new Bookmarks(properties);
-    jsBookmarks.on('bookmark-edit', async (evt: any) => {
-        let { buildDotNetBookmarksBookmarkEditEvent } = await import('./bookmarksBookmarkEditEvent');
-        let dnEvent = await buildDotNetBookmarksBookmarkEditEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkEdit', streamRef);
-    });
+    if (hasValue(dotNetObject.hasBookmarkEditListener) && dotNetObject.hasBookmarkEditListener) {
+        jsBookmarks.on('bookmark-edit', async (evt: any) => {
+            let { buildDotNetBookmarksBookmarkEditEvent } = await import('./bookmarksBookmarkEditEvent');
+            let dnEvent = await buildDotNetBookmarksBookmarkEditEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkEdit', streamRef);
+        });
+    }
     
-    jsBookmarks.on('bookmark-select', async (evt: any) => {
-        let { buildDotNetBookmarkSelectEvent } = await import('./bookmarkSelectEvent');
-        let dnEvent = await buildDotNetBookmarkSelectEvent(evt);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', streamRef);
-    });
+    if (hasValue(dotNetObject.hasBookmarkSelectListener) && dotNetObject.hasBookmarkSelectListener) {
+        jsBookmarks.on('bookmark-select', async (evt: any) => {
+            let { buildDotNetBookmarkSelectEvent } = await import('./bookmarkSelectEvent');
+            let dnEvent = await buildDotNetBookmarkSelectEvent(evt);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBookmarkSelect', streamRef);
+        });
+    }
     
 
     let { default: BookmarksWidgetWrapper } = await import('./bookmarksWidget');

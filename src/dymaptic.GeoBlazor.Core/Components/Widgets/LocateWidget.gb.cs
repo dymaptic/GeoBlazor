@@ -728,6 +728,7 @@ public partial class LocateWidget : IGoTo
     [JsonIgnore]
     public EventCallback<LocateEvent> OnLocate { get; set; }
    
+    public bool HasLocateListener => OnLocate.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -753,6 +754,7 @@ public partial class LocateWidget : IGoTo
     [JsonIgnore]
     public EventCallback<LocateErrorEvent> OnLocateError { get; set; }
    
+    public bool HasLocateErrorListener => OnLocateError.HasDelegate;
 #endregion
 
 

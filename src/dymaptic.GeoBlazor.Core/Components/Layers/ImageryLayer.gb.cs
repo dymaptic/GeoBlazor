@@ -4549,6 +4549,7 @@ public partial class ImageryLayer : IArcGISImageService,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

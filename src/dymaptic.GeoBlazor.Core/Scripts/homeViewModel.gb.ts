@@ -99,10 +99,12 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     }
 
     let jsHomeViewModel = new HomeViewModel(properties);
-    jsHomeViewModel.on('go', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
-    });
+    if (hasValue(dotNetObject.hasGoListener) && dotNetObject.hasGoListener) {
+        jsHomeViewModel.on('go', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGo', streamRef);
+        });
+    }
     
 
     let { default: HomeViewModelWrapper } = await import('./homeViewModel');

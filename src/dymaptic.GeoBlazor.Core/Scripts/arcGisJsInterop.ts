@@ -205,7 +205,6 @@ export async function setSublayerPopupTemplate(layerObj: any, sublayerId: number
     const sublayer = (layerObj as TileLayer)?.sublayers.find(sl => sl.id === sublayerId);
     if (hasValue(sublayer) && hasValue(popupTemplate)) {
         let {buildJsPopupTemplate} = await import('./popupTemplate');
-        sublayer.popupTemplate?.destroy();
         sublayer.popupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     }
 }
@@ -792,12 +791,17 @@ export function disposeView(viewId: string): void {
 
 export async function disposeMapComponent(componentId: string, viewId: string): Promise<void> {
     const component = arcGisObjectRefs[componentId];
+    
+    if (!hasValue(component)) {
+        return;
+    }
+    
     switch (component?.declaredClass) {
         case 'esri.Graphic':
             await disposeGraphic(componentId);
             return;
     }
-    component?.destroy();
+    
     if (arcGisObjectRefs.hasOwnProperty(componentId)) {
         delete arcGisObjectRefs[componentId];
     }
@@ -822,18 +826,6 @@ export async function disposeGraphic(graphicId: string) {
     for (const groupId in graphicsRefs) {
         const graphics = graphicsRefs[groupId];
         if (graphics.hasOwnProperty(graphicId)) {
-            const group = arcGisObjectRefs[groupId];
-            const graphic = graphics[graphicId];
-            if (group instanceof MapView) {
-                (group as MapView).graphics.remove(graphic);
-            } else if (group instanceof GraphicsLayer) {
-                (group as GraphicsLayer).remove(graphic);
-            } else if (group instanceof FeatureLayer) {
-                await (group as FeatureLayer).applyEdits({
-                    deleteFeatures: [graphic]
-                });
-            }
-            graphic.destroy();
             delete graphics[graphicId];
             return;
         }
@@ -1198,7 +1190,7 @@ export async function setGraphicPopupTemplate(id: string, popupTemplate: DotNetP
     let {buildJsPopupTemplate} = await import('./popupTemplate');
     const jsPopupTemplate = await buildJsPopupTemplate(popupTemplate, layerId, viewId) as PopupTemplate;
     if (graphic !== null && hasValue(popupTemplate) && graphic.popupTemplate !== jsPopupTemplate) {
-        graphic.popupTemplate?.destroy();
+        
         graphic.popupTemplate = jsPopupTemplate;
     }
 }
@@ -1596,7 +1588,7 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
     } else {
         view.map?.remove(layer);
     }
-    layer.destroy();
+    
     delete arcGisObjectRefs[layerId];
 }
 

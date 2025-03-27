@@ -452,6 +452,7 @@ public partial class HomeWidget : IGoTo
     [JsonIgnore]
     public EventCallback<HomeGoEvent> OnGo { get; set; }
    
+    public bool HasGoListener => OnGo.HasDelegate;
 #endregion
 
 

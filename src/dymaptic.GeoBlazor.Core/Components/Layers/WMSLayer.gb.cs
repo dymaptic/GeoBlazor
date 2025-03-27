@@ -3200,6 +3200,7 @@ public partial class WMSLayer : Layer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

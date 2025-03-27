@@ -215,15 +215,19 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
         properties.id = dotNetObject.widgetId;
     }
     let jsLocate = new Locate(properties);
-    jsLocate.on('locate', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', streamRef);
-    });
+    if (hasValue(dotNetObject.hasLocateListener) && dotNetObject.hasLocateListener) {
+        jsLocate.on('locate', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocate', streamRef);
+        });
+    }
     
-    jsLocate.on('locate-error', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', streamRef);
-    });
+    if (hasValue(dotNetObject.hasLocateErrorListener) && dotNetObject.hasLocateErrorListener) {
+        jsLocate.on('locate-error', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsLocateError', streamRef);
+        });
+    }
     
 
     let { default: LocateWidgetWrapper } = await import('./locateWidget');

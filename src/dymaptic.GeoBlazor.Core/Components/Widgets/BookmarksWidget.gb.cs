@@ -1121,6 +1121,7 @@ public partial class BookmarksWidget : IGoTo
     [JsonIgnore]
     public EventCallback<BookmarksBookmarkEditEvent> OnBookmarkEdit { get; set; }
    
+    public bool HasBookmarkEditListener => OnBookmarkEdit.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1146,6 +1147,7 @@ public partial class BookmarksWidget : IGoTo
     [JsonIgnore]
     public EventCallback<BookmarkSelectEvent> OnBookmarkSelect { get; set; }
    
+    public bool HasBookmarkSelectListener => OnBookmarkSelect.HasDelegate;
 #endregion
 
 

@@ -1903,6 +1903,7 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchBlurEvent> OnSearchBlur { get; set; }
    
+    public bool HasSearchBlurListener => OnSearchBlur.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1928,6 +1929,7 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchClearEvent> OnSearchClear { get; set; }
    
+    public bool HasSearchClearListener => OnSearchClear.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1953,6 +1955,7 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchFocusEvent> OnSearchFocus { get; set; }
    
+    public bool HasSearchFocusListener => OnSearchFocus.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -1978,6 +1981,7 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchStartEvent> OnSearchStart { get; set; }
    
+    public bool HasSearchStartListener => OnSearchStart.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2003,6 +2007,7 @@ public partial class SearchWidget : IGoTo
     [JsonIgnore]
     public EventCallback<SearchSuggestStartEvent> OnSuggestStart { get; set; }
    
+    public bool HasSuggestStartListener => OnSuggestStart.HasDelegate;
 #endregion
 
 

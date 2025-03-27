@@ -772,38 +772,48 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         properties.visible = dotNetObject.visible;
     }
     let jsFeatureLayer = new FeatureLayer(properties);
-    jsFeatureLayer.on('layerview-create', async (evt: any) => {
-        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
+        jsFeatureLayer.on('layerview-create', async (evt: any) => {
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+        });
+    }
     
-    jsFeatureLayer.on('layerview-create-error', async (evt: any) => {
-        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
+        jsFeatureLayer.on('layerview-create-error', async (evt: any) => {
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+        });
+    }
     
-    jsFeatureLayer.on('layerview-destroy', async (evt: any) => {
-        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-    });
+    if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
+        jsFeatureLayer.on('layerview-destroy', async (evt: any) => {
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+        });
+    }
     
-    jsFeatureLayer.on('edits', async (evt: any) => {
-        let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
-        let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
-    });
+    if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
+        jsFeatureLayer.on('edits', async (evt: any) => {
+            let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
+            let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
+        });
+    }
     
-    jsFeatureLayer.on('refresh', async (evt: any) => {
-        let streamRef = buildJsStreamReference(evt ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-    });
+    if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
+        jsFeatureLayer.on('refresh', async (evt: any) => {
+            let streamRef = buildJsStreamReference(evt ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+        });
+    }
     
 
     let { default: FeatureLayerWrapper } = await import('./featureLayer');

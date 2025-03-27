@@ -370,7 +370,12 @@ public abstract partial class Layer : MapComponent
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
             {
-                if (kvp.Key == nameof(View) || kvp.Key == nameof(MapRendered)) continue;
+                if (kvp.Key is nameof(View) or nameof(MapRendered)
+                    || (kvp.Value?.GetType().Name.Contains("EventCallback") ?? false))
+                {
+                    continue;
+                }
+                
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
                 {
                     LayerChanged = true;

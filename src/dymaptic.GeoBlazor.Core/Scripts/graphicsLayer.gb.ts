@@ -37,10 +37,6 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
         }
-        if (hasValue(dotNetObject.graphics) && dotNetObject.graphics.length > 0) {
-            let { buildJsGraphic } = await import('./graphic');
-            this.layer.graphics = dotNetObject.graphics.map(i => buildJsGraphic(i)) as any;
-        }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
             this.layer.visibilityTimeExtent = await buildJsTimeExtent(dotNetObject.visibilityTimeExtent) as any;
@@ -233,26 +229,32 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
         properties.visible = dotNetObject.visible;
     }
     let jsGraphicsLayer = new GraphicsLayer(properties);
-    jsGraphicsLayer.on('layerview-create', async (evt: any) => {
-        let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-        let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
+        jsGraphicsLayer.on('layerview-create', async (evt: any) => {
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+        });
+    }
     
-    jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
-        let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-        let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-    });
+    if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
+        jsGraphicsLayer.on('layerview-create-error', async (evt: any) => {
+            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+        });
+    }
     
-    jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
-        let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-        let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-    });
+    if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
+        jsGraphicsLayer.on('layerview-destroy', async (evt: any) => {
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+        });
+    }
     
 
     let { default: GraphicsLayerWrapper } = await import('./graphicsLayer');

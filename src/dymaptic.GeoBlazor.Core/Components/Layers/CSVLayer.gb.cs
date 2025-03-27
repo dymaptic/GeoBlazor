@@ -3931,6 +3931,7 @@ public partial class CSVLayer : IBlendLayer,
     [JsonIgnore]
     public EventCallback<RefreshEvent> OnRefresh { get; set; }
    
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
 #endregion
 
 

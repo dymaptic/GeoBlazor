@@ -262,6 +262,7 @@ public partial class HomeViewModel : IGoTo
     [JsonIgnore]
     public EventCallback<HomeViewModelGoEvent> OnGo { get; set; }
    
+    public bool HasGoListener => OnGo.HasDelegate;
 #endregion
 
 

@@ -2504,6 +2504,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMaxChangeEvent> OnMaxChange { get; set; }
    
+    public bool HasMaxChangeListener => OnMaxChange.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2529,6 +2530,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMaxClickEvent> OnMaxClick { get; set; }
    
+    public bool HasMaxClickListener => OnMaxClick.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2554,6 +2556,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMinChangeEvent> OnMinChange { get; set; }
    
+    public bool HasMinChangeListener => OnMinChange.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2579,6 +2582,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderMinClickEvent> OnMinClick { get; set; }
    
+    public bool HasMinClickListener => OnMinClick.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2604,6 +2608,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderSegmentClickEvent> OnSegmentClick { get; set; }
    
+    public bool HasSegmentClickListener => OnSegmentClick.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2629,6 +2634,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderSegmentDragEvent> OnSegmentDrag { get; set; }
    
+    public bool HasSegmentDragListener => OnSegmentDrag.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2654,6 +2660,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbChangeEvent> OnThumbChange { get; set; }
    
+    public bool HasThumbChangeListener => OnThumbChange.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2679,6 +2686,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbClickEvent> OnThumbClick { get; set; }
    
+    public bool HasThumbClickListener => OnThumbClick.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2704,6 +2712,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderThumbDragEvent> OnThumbDrag { get; set; }
    
+    public bool HasThumbDragListener => OnThumbDrag.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2729,6 +2738,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderTickClickEvent> OnTickClick { get; set; }
    
+    public bool HasTickClickListener => OnTickClick.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -2754,6 +2764,7 @@ public partial class SliderWidget
     [JsonIgnore]
     public EventCallback<SliderTrackClickEvent> OnTrackClick { get; set; }
    
+    public bool HasTrackClickListener => OnTrackClick.HasDelegate;
 #endregion
 
 

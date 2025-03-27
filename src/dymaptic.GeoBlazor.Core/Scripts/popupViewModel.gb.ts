@@ -294,12 +294,14 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
         properties.visible = dotNetObject.visible;
     }
     let jsPopupViewModel = new PopupViewModel(properties);
-    jsPopupViewModel.on('trigger-action', async (evt: any) => {
-        let { buildDotNetFeaturesViewModelTriggerActionEvent } = await import('./featuresViewModelTriggerActionEvent');
-        let dnEvent = await buildDotNetFeaturesViewModelTriggerActionEvent(evt, layerId, viewId);
-        let streamRef = buildJsStreamReference(dnEvent ?? {});
-        await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
-    });
+    if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
+        jsPopupViewModel.on('trigger-action', async (evt: any) => {
+            let { buildDotNetFeaturesViewModelTriggerActionEvent } = await import('./featuresViewModelTriggerActionEvent');
+            let dnEvent = await buildDotNetFeaturesViewModelTriggerActionEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
+        });
+    }
     
 
     let { default: PopupViewModelWrapper } = await import('./popupViewModel');

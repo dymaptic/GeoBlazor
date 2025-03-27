@@ -1,6 +1,6 @@
 // override generated code in this file
 
-import ExpressionInfo from "@arcgis/core/popup/ExpressionInfo";
+import ExpressionInfo from "@arcgis/core/form/ExpressionInfo";
 import {arcGisObjectRefs, hasValue, jsObjectRefs} from "./arcGisJsInterop";
 
 export function buildJsExpressionInfo(dotNetObject: any): any {

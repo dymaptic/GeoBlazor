@@ -239,31 +239,39 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
                 properties.visible = dotNetObject.visible;
             }
             let jsBaseTileLayer = new BaseTileLayer(properties);
-            jsBaseTileLayer.on('layerview-create', async (evt: any) => {
-                let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-                let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
-            });
+            if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
+                jsBaseTileLayer.on('layerview-create', async (evt: any) => {
+                    let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+                    let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+                    let streamRef = buildJsStreamReference(dnEvent ?? {});
+                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
+                });
+            }
     
-            jsBaseTileLayer.on('layerview-create-error', async (evt: any) => {
-                let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-                let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
-            });
+            if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
+                jsBaseTileLayer.on('layerview-create-error', async (evt: any) => {
+                    let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
+                    let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
+                    let streamRef = buildJsStreamReference(dnEvent ?? {});
+                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
+                });
+            }
     
-            jsBaseTileLayer.on('layerview-destroy', async (evt: any) => {
-                let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-                let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-                let streamRef = buildJsStreamReference(dnEvent ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
-            });
+            if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
+                jsBaseTileLayer.on('layerview-destroy', async (evt: any) => {
+                    let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+                    let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+                    let streamRef = buildJsStreamReference(dnEvent ?? {});
+                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
+                });
+            }
     
-            jsBaseTileLayer.on('refresh', async (evt: any) => {
-                let streamRef = buildJsStreamReference(evt ?? {});
-                await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
-            });
+            if (hasValue(dotNetObject.hasRefreshListener) && dotNetObject.hasRefreshListener) {
+                jsBaseTileLayer.on('refresh', async (evt: any) => {
+                    let streamRef = buildJsStreamReference(evt ?? {});
+                    await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsRefresh', streamRef);
+                });
+            }
     
 
             let { default: BaseTileLayerWrapper } = await import('./baseTileLayer');

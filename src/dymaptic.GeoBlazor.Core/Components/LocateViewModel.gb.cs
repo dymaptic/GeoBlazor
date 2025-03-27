@@ -824,6 +824,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [JsonIgnore]
     public EventCallback<LocateViewModelLocateEvent> OnLocate { get; set; }
    
+    public bool HasLocateListener => OnLocate.HasDelegate;
     /// <summary>
     ///     JavaScript-Invokable Method for internal use only.
     /// </summary>
@@ -849,6 +850,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [JsonIgnore]
     public EventCallback<LocateViewModelLocateErrorEvent> OnLocateError { get; set; }
    
+    public bool HasLocateErrorListener => OnLocateError.HasDelegate;
 #endregion
 
 

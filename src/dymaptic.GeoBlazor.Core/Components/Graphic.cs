@@ -571,6 +571,8 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
                 }
 
                 Attributes.OnChange ??= OnAttributesChanged;
+
+                break;
             }
         }
 
