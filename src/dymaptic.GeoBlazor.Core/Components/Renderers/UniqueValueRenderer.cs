@@ -39,6 +39,11 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
                 DefaultSymbol = defaultSymbol;
 
                 break;
+            
+            case DefaultSymbol defaultSymbol:
+                DefaultSymbol = defaultSymbol.Symbol;
+
+                break;
 
             default:
                 await base.RegisterChildComponent(child);
@@ -57,7 +62,12 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
                 UniqueValueInfos = UniqueValueInfos?.Except([uniqueValue]).ToList();
 
                 break;
-            case Symbol defaultSymbol:
+            case Symbol:
+                DefaultSymbol = null;
+
+                break;
+            
+            case DefaultSymbol _:
                 DefaultSymbol = null;
 
                 break;
@@ -84,5 +94,59 @@ public partial class UniqueValueRenderer : Renderer, IImageryRenderer
         }
         
         DefaultSymbol?.ValidateRequiredChildren();
+    }
+}
+
+/// <summary>
+///     Wrapper to identify the default (fallback) symbol for a <see cref="UniqueValueRenderer" />
+/// </summary>
+public class DefaultSymbol : MapComponent
+{
+    /// <summary>
+    ///     The symbol to set as default
+    /// </summary>
+    [RequiredProperty]
+    public Symbol? Symbol { get; set; }
+
+    /// <inheritdoc />
+    public override async Task RegisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol symbol:
+                if (!symbol.Equals(Symbol))
+                {
+                    Symbol = symbol;
+                }
+
+                break;
+            default:
+                await base.RegisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Symbol _:
+                Symbol = null;
+
+                break;
+            default:
+                await base.UnregisterChildComponent(child);
+
+                break;
+        }
+    }
+
+    /// <inheritdoc />
+    public override void ValidateRequiredChildren()
+    {
+        base.ValidateRequiredChildren();
+        Symbol?.ValidateRequiredChildren();
     }
 }

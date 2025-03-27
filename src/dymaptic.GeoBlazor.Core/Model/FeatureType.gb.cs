@@ -26,6 +26,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureType.html#id">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FeatureType(
+    [property:JsonConverter(typeof(NumberToStringConverter))]
     string Id,
     string Name,
     IReadOnlyCollection<IFeatureTemplate> Templates,

@@ -896,6 +896,10 @@ export async function queryFeatureLayer(queryObject: any, layerObject: any, symb
 export async function removeGraphics(graphicWrapperIds: string[], viewId: string): Promise<void> {
     let view = arcGisObjectRefs[viewId] as MapView;
     
+    if (!hasValue(view)) {
+        return;
+    }
+    
     if (!graphicsRefs.hasOwnProperty(viewId)) {
         view.graphics.removeAll();
         return;
@@ -915,7 +919,7 @@ export async function removeGraphics(graphicWrapperIds: string[], viewId: string
 
 export async function removeGraphic(graphicId: string, viewId: string): Promise<void> {
     let view = arcGisObjectRefs[viewId] as MapView;
-    if (!graphicsRefs.hasOwnProperty(viewId)) {
+    if (!graphicsRefs.hasOwnProperty(viewId) || !hasValue(view)) {
         return;
     }
     
