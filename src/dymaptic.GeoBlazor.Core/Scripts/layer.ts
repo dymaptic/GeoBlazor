@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, hasValue, removeCircularReferences} from './arcGisJsInterop';
+import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -554,11 +554,12 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
     }
 }
 
-export async function preloadLayerTypes(layers: any[], viewId: string | null): Promise<string[]> {
+export async function preloadLayerTypes(layers: any[], viewId: string): Promise<string[]> {
     let importedLayers: string[] = [];
     for (const layer of layers) {
         let _ = await buildJsLayer(layer, layer.id, viewId);
         importedLayers.push(layer.type);
+        await disposeMapComponent(layer.id, viewId);
     }
     
     return importedLayers;

@@ -2584,7 +2584,7 @@ public partial class MapView : MapComponent
 
             if(callback is not null)
             {
-                var hasDelegate = callback switch
+                bool hasDelegate = callback switch
                 {
                     EventCallback e => e.HasDelegate,
                     EventCallback<ClickEvent> e => e.HasDelegate,

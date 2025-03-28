@@ -605,7 +605,10 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
                     return;
                 }
 
-                await SetPopupTemplate(popupTemplate);
+                if (!popupTemplate.Equals(PopupTemplate))
+                {
+                    PopupTemplate = popupTemplate;
+                }
 
                 break;
             default:
