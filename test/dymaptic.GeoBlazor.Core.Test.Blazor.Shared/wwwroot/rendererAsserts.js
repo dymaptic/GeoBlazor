@@ -28,6 +28,4 @@ export function assertUniqueValueInfos(methodName, layerId) {
     if (shapes.length < 2) {
         throw new Error(`Expected multiple shapes`);
     }
-
-    return 1;
 }

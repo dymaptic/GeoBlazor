@@ -20,12 +20,12 @@
             </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "imagery");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
-            layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
-            layer!.Id, "opacity", 0.6);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromUrl),
-            layer!.Id, "title", "Test Layer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [layer!.Id, "opacity", 0.6]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [layer!.Id, "title", "Test Layer"]);
     }
     
     [TestMethod]
@@ -42,10 +42,10 @@
             </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "imagery");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromPortalItem),
-            layer!.Id, "portalItem.id", "fd61b9e0c69c4e14bebd50a9a968348c");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanRenderImageryLayerFromPortalItem),
-            layer!.Id, "title", "Test Layer");
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [layer!.Id, "portalItem.id", "fd61b9e0c69c4e14bebd50a9a968348c"]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", 
+            args: [layer!.Id, "title", "Test Layer"]);
     }
 
     [TestMethod]
@@ -68,22 +68,15 @@
     </MapView>);
         await WaitForMapToRender();
         await AssertJavaScript("assertLayerExists", args: "imagery");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "opacity", 0.6);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "title", "Test Layer");
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "imageMaxHeight", 4100);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "hasMultidimensions", false);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "fullExtent.xmax", 2266845);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "imageMaxWidth", 15000);
-        await AssertJavaScript("assertObjectHasPropertyWithValue", nameof(TestCanTestMultipleUserSetPropertyValuesAndBuiltInValuesInAnImageryLayer),
-            layer!.Id, "legendEnabled", true);
+        await AssertJavaScript("assertObjectHasPropertyWithValue",
+            args: [layer!.Id, "url", "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer"]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "opacity", 0.6]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "title", "Test Layer"]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "imageMaxHeight", 4100]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "hasMultidimensions", false]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "fullExtent.xmax", 2266845]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "imageMaxWidth", 15000]);
+        await AssertJavaScript("assertObjectHasPropertyWithValue", args: [layer!.Id, "legendEnabled", true]);
     }
 
 }

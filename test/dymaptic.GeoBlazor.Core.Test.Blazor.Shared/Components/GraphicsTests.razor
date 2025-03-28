@@ -142,7 +142,7 @@
         Graphic testGraphic = new(new Point(0, 0),
         new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["point", 1]);
     }
 
     [TestMethod]

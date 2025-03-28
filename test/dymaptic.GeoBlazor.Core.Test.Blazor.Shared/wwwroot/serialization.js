@@ -5,8 +5,6 @@ export async function convertPortalToArcGIS(methodName, portal) {
     if (jsPortal.url !== portal.url) {
         throw new Error(`Portal URL does not match`);
     }
-
-    return 1;
 }
 
 export async function convertSimpleRendererToArcGIS(methodName, renderer) {
@@ -20,6 +18,4 @@ export async function convertSimpleRendererToArcGIS(methodName, renderer) {
     if (jsRenderer.visualVariables[0].type !== renderer.visualVariables[0].type) {
         throw new Error(`Renderer visual variable type does not match ${jsRenderer.visualVariables[0].type} !== ${renderer.visualVariables[0].type}`);
     }
-
-    return 1;
 }

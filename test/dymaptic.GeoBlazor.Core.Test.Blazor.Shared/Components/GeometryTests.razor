@@ -28,7 +28,7 @@
             </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["point", 1]);
     }
 
     [TestMethod]
@@ -49,7 +49,7 @@
             </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polyline", 1]);
     }
 
     [TestMethod]
@@ -73,7 +73,7 @@
             </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polygon", 1]);
     }
 
     [TestMethod]
@@ -99,9 +99,9 @@
             </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["point", 1]);
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polyline", 1]);
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polygon", 1]);
     }
 
     [TestMethod]
@@ -122,7 +122,7 @@
             new SimpleMarkerSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
 
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["point", 1]);
     }
 
     [TestMethod]
@@ -143,7 +143,7 @@
             new SimpleLineSymbol(new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
         
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polyline", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polyline", 1]);
     }
 
     [TestMethod]
@@ -164,7 +164,7 @@
             new SimpleFillSymbol(color: new MapColor("purple")),
             new PopupTemplate("title", "content"), _attributes));
         
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "polygon", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["polygon", 1]);
     }
 
     private readonly AttributesDictionary _attributes = new(new Dictionary<string, object?>
@@ -174,24 +174,22 @@
     });
 
     private readonly MapPath[] _paths =
-    {
-        new()
-        {
+    [
+        [
             new MapPoint(0, 0),
             new MapPoint(0, 1),
             new MapPoint(1, 1)
-        }
-    };
+        ]
+    ];
 
     private readonly MapPath[] _rings =
-    {
-        new()
-        {
+    [
+        [
             new MapPoint(0, 0),
             new MapPoint(0, 1),
             new MapPoint(1, 1),
             new MapPoint(1, 0),
             new MapPoint(0, 0)
-        }
-    };
+        ]
+    ];
 }

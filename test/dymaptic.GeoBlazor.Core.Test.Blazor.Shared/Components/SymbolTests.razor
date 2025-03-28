@@ -31,7 +31,7 @@
     </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertSymbolOnLayer", nameof(CanRenderTextSymbol), layer!.Id, "text");
+        await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text"]);
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@
     </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertSymbolOnLayer", nameof(CanSetPropertiesOnTextSymbol), layer!.Id, "text", textSymbol!);
+        await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text", textSymbol!]);
     }
 
 }

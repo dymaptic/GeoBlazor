@@ -69,7 +69,7 @@
         await AssertJavaScript("expandWidgetAsserts.assertContentByClassName", args: "esri-legend");
         await AssertJavaScript("expandWidgetAsserts.assertContentById", args: "test-button-1");
         await AssertJavaScript("expandWidgetAsserts.assertContentOrder",
-    args: new object[] { "test-button-1", $"widget-container-{legend!.Id}" });
+    args: ["test-button-1", $"widget-container-{legend!.Id}"]);
         Assert.IsNotNull(legend);
     }
 
@@ -95,7 +95,7 @@
         await AssertJavaScript("expandWidgetAsserts.assertContentByClassName", args: "esri-legend");
         await AssertJavaScript("expandWidgetAsserts.assertContentById", args: "test-button-2");
         await AssertJavaScript("expandWidgetAsserts.assertContentOrder",
-            args: new object[] { $"widget-container-{legend!.Id}", "test-button-2" });
+            args: [$"widget-container-{legend!.Id}", "test-button-2"]);
         Assert.IsNotNull(legend);
     }
 }

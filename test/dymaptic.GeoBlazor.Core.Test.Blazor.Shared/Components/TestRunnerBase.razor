@@ -169,20 +169,37 @@
     }
 
     protected async Task AssertJavaScript(string jsAssertFunction, [CallerMemberName] string methodName = "", 
-        params object[] args)
+        int retryCount = 0, params object[] args)
     {
-        List<object> jsArgs = [methodName];
-        jsArgs.AddRange(args);
-        if (jsAssertFunction.Contains("."))
+        try
         {
-            string[] parts = jsAssertFunction.Split('.');
-            IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", 
-                $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
-            await module.InvokeVoidAsync(parts[1], jsArgs.ToArray());
+            List<object> jsArgs = [methodName];
+            jsArgs.AddRange(args);
+
+            if (jsAssertFunction.Contains("."))
+            {
+                string[] parts = jsAssertFunction.Split('.');
+
+                IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
+                    $"./_content/dymaptic.GeoBlazor.Core.Test.Blazor.Shared/{parts[0]}.js");
+                await module.InvokeVoidAsync(parts[1], jsArgs.ToArray());
+            }
+            else
+            {
+                await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());
+            }
         }
-        else
+        catch (Exception)
         {
-            await _jsObjectReference!.InvokeVoidAsync(jsAssertFunction, jsArgs.ToArray());   
+            if (retryCount < 4)
+            {
+                await Task.Delay(500);
+                await AssertJavaScript(jsAssertFunction, methodName, retryCount + 1, args);
+            }
+            else
+            {
+                throw;
+            }
         }
     }
     
