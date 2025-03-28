@@ -1,9 +1,12 @@
+import {Pro} from "./arcGisJsInterop";
+
 export async function buildJsImageryRenderer(dnRenderer: any, layerId: string | null, viewId: string | null) {
     switch (dnRenderer?.type) {
         case 'unique-value':
             let {buildJsUniqueValueRenderer} = await import('./uniqueValueRenderer');
             return await buildJsUniqueValueRenderer(dnRenderer, layerId, viewId);
         case 'raster-stretch':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsRasterStretchRenderer} = await import('./rasterStretchRenderer');

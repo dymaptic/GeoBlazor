@@ -111,6 +111,9 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
         return new SpatialReferenceSerializationRecord(Wkid, Wkt);
     }
 
+    /// <summary>
+    ///     Determines whether the specified <see cref="SpatialReference" /> is equal to the current <see cref="SpatialReference" />.
+    /// </summary>
     public bool Equals(SpatialReference? other)
     {
         if (other is null) return false;
@@ -119,6 +122,7 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
         return Wkid == other.Wkid && Wkt == other.Wkt && Wkt2 == other.Wkt2 && Equals(ImageCoordinateSystem, other.ImageCoordinateSystem);
     }
 
+    /// <inheritdoc />
     public override bool Equals(object? obj)
     {
         if (obj is null) return false;
@@ -128,16 +132,23 @@ public partial class SpatialReference : MapComponent, IEquatable<SpatialReferenc
         return Equals((SpatialReference)obj);
     }
 
+    /// <inheritdoc />
     public override int GetHashCode()
     {
         return HashCode.Combine(Wkid, Wkt, Wkt2, ImageCoordinateSystem);
     }
 
+    /// <summary>
+    ///     Override to provide custom equality
+    /// </summary>
     public static bool operator ==(SpatialReference? left, SpatialReference? right)
     {
         return Equals(left, right);
     }
 
+    /// <summary>
+    ///    Override to provide custom inequality
+    /// </summary>
     public static bool operator !=(SpatialReference? left, SpatialReference? right)
     {
         return !Equals(left, right);

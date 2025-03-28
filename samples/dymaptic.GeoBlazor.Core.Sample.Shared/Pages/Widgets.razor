@@ -1,5 +1,4 @@
 ﻿@page "/widgets"
-@using dymaptic.GeoBlazor.Core.Functions
 
 <PageTitle>Widgets</PageTitle>
 <h1>Widgets</h1>
@@ -114,7 +113,7 @@
 @code {
     private MapView? MapView { get; set; }
 
-    private void ToggleWidget(string widgetTypeName)
+    private async Task ToggleWidget(string widgetTypeName)
     {
         switch (widgetTypeName)
         {
@@ -150,15 +149,23 @@
                 break;
             case nameof(BookmarksWidget):
                 _showBookmarks = !_showBookmarks;
-                break;
-        }
-    }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (_showBookmarks)
-        {
-            await _bookmarkWidget!.SetBookmarks(_bookmarks);
+                if (_showBookmarks)
+                {
+                    while (_bookmarkWidget is null)
+                    {
+                        await Task.Delay(100);
+                    }
+
+                    await Task.Delay(500);
+                    
+                    await InvokeAsync(async () =>
+                    {
+                        await _bookmarkWidget!.SetBookmarks(_bookmarks);
+                        StateHasChanged();
+                    });
+                }
+                break;
         }
     }
 

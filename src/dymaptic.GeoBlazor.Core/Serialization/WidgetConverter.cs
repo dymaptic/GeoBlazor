@@ -64,10 +64,19 @@ internal class WidgetConverter : JsonConverter<Widget>
                     // look for the type in GeoBlazor Pro
                     string typeName = 
                         $"dymaptic.GeoBlazor.Pro.Components.Widgets.{typeValue.ToString()!.KebabToPascalCase()}Widget";
-                    Type? type = Assembly.Load("dymaptic.GeoBlazor.Pro").GetType(typeName, false, true);
-                    if (type is not null)
+
+                    try
                     {
-                        return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as Widget;
+                        Type? type = Assembly.Load("dymaptic.GeoBlazor.Pro").GetType(typeName, false, true);
+
+                        if (type is not null)
+                        {
+                            return JsonSerializer.Deserialize(ref cloneReader, type, newOptions) as Widget;
+                        }
+                    }
+                    catch
+                    {
+                        // ignore, this means we're in GeoBlazor Core
                     }
 
                     break;

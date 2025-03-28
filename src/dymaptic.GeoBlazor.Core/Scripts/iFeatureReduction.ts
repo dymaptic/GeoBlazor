@@ -1,5 +1,8 @@
+import {Pro} from './arcGisJsInterop';
+
 export async function buildJsIFeatureReduction(dotNetObject: any, layerId: string | null, viewId: string | null) {
-    try {
+    if (!Pro) return null;
+            try {
         // @ts-ignore GeoBlazor Pro only
         let { buildJsFeatureReduction } = await import('./featureReduction');
         // @ts-ignore GeoBlazor Pro only
@@ -10,7 +13,8 @@ export async function buildJsIFeatureReduction(dotNetObject: any, layerId: strin
 }
 
 export async function buildDotNetIFeatureReduction(featureReduction: any) {
-    try {
+    if (!Pro) return null;
+            try {
         // @ts-ignore GeoBlazor Pro only
         let { buildDotNetFeatureReduction } = await import('./featureReduction');
         // @ts-ignore GeoBlazor Pro only

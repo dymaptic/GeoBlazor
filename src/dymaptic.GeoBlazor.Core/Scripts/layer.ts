@@ -1,5 +1,5 @@
 // override generated code in this file
-import {arcGisObjectRefs, disposeMapComponent, hasValue, removeCircularReferences} from './arcGisJsInterop';
+import {arcGisObjectRefs, disposeMapComponent, hasValue, Pro, removeCircularReferences} from './arcGisJsInterop';
 
 export async function buildJsLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
@@ -99,6 +99,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
@@ -107,6 +108,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog-footprint':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogFootprintLayer} = await import('./catalogFootprintLayer');
@@ -115,6 +117,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'catalog':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsCatalogLayer} = await import('./catalogLayer');
@@ -131,6 +134,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'elevation':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsElevationLayer} = await import('./elevationLayer');
@@ -139,6 +143,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
                 throw e;
             }
         case 'group':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsGroupLayer} = await import('./groupLayer');
@@ -235,6 +240,7 @@ export async function buildJsLayer(dotNetObject: any, layerId: string | null, vi
         //         throw e;
         //     }
         case 'scene':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildJsSceneLayer} = await import('./sceneLayer');
@@ -374,6 +380,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
         //         throw e;
         //     }
         case 'catalog-dynamic-group':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogDynamicGroupLayer} = await import('./catalogDynamicGroupLayer');
@@ -382,6 +389,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
                 throw e;
             }
         case 'catalog-footprint':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogFootprintLayer} = await import('./catalogFootprintLayer');
@@ -390,6 +398,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
                 throw e;
             }
         case 'catalog':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetCatalogLayer} = await import('./catalogLayer');
@@ -406,6 +415,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
         //         throw e;
         //     }
         case 'elevation':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetElevationLayer} = await import('./elevationLayer');
@@ -414,6 +424,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
                 throw e;
             }
         case 'group':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetGroupLayer} = await import('./groupLayer');
@@ -510,6 +521,7 @@ export async function buildDotNetLayer(jsObject: any): Promise<any> {
         //         throw e;
         //     }
         case 'scene':
+            if (!Pro) return null;
             try {
                 // @ts-ignore GeoBlazor Pro only
                 let {buildDotNetSceneLayer} = await import('./sceneLayer');

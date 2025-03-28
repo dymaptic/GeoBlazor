@@ -116,7 +116,18 @@ let pointerDown: boolean = false;
 let loadedLayers: string[] = [];
 let loadedWidgets: string[] = [];
 
+export let Pro: any;
+
 // region functions
+
+export async function setPro(): Promise<void> {
+    try {
+        // @ts-ignore
+        Pro = await import("./arcGisPro");
+    } catch {
+        // this catch tells esbuild to ignore
+    }
+}
 
 // we have to wrap the JsObjectReference because a null will throw an error
 // https://github.com/dotnet/aspnetcore/issues/52070

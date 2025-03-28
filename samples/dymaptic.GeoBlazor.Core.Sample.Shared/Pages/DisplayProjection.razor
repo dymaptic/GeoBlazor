@@ -83,17 +83,25 @@
 
     private async Task OnViewRendered()
     {
-        if (_coordinatesSet) return;
+        if (!_coordinatesSet)
+        {
+            Point? center = await View!.GetCenter();
+            await DisplayCoordinates(center);
+        }
 
-        Point? center = await View!.GetCenter();
-        await DisplayCoordinates(center);
+        if (_jsRegistered)
+        {
+            return;
+        }
+        
+        _jsRegistered = true;
 
     // This is an example of how to extend GeoBlazor with your own custom JavaScript.
     // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),
     // the latency of the call is noticeable for a real-time event like pointer-move.
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
-        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View.CoreJsModule, PointSym, PolySym, 1000,
+        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View!.CoreJsModule, PointSym, PolySym, 1000,
             GeometryEngineLinearUnit.Kilometers, View.Id);
     }
 
@@ -113,10 +121,13 @@
     
     private async Task UpdateSpatialReference(ChangeEventArgs args)
     {
+        _coordinatesSet = false;
+        await View!.ClosePopup();
         int wkid = int.Parse(args.Value!.ToString() ?? "4326");
         SpatialReference spatialReference = new SpatialReference(wkid);
         await View!.SetSpatialReference(spatialReference);
     }
 
     private bool _coordinatesSet;
+    private bool _jsRegistered;
 }
