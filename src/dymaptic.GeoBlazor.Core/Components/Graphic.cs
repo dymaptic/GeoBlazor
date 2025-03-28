@@ -57,6 +57,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         object? aggregateGeometries = null,
         GraphicOrigin? origin = null)
     {
+        AllowRender = false;
 #pragma warning disable BL0005
         Geometry = geometry;
         Symbol = symbol;

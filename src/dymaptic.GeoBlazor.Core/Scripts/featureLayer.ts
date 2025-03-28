@@ -23,6 +23,7 @@ import {
 import Graphic from "@arcgis/core/Graphic";
 import {buildDotNetPopupTemplate} from './popupTemplate';
 import CreatePopupTemplateOptions = __esri.CreatePopupTemplateOptions;
+import {buildJsGraphic} from "./graphic";
 
 export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
@@ -180,7 +181,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return result;
     }
 
-    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any, 
+    async applyGraphicEditsSynchronously(graphicsArray: Uint8Array, editType: string, options: any,
                                          abortSignal: AbortSignal): Promise<any> {
         if (abortSignal.aborted) {
             return;
@@ -192,10 +193,19 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async applyGraphicEdits(graphics: any[], editType: string, options: any, abortSignal: AbortSignal): Promise<any> {
         let jsGraphics: Graphic[] = [];
-        let {buildJsGraphic} = await import('./graphic');
-        for (const g of graphics) {
-            let jsGraphic = buildJsGraphic(g) as Graphic;
-            jsGraphics.push(jsGraphic);
+        if (editType === 'add' || editType === 'update') {
+            // add needs built, update needs property checking
+            for (const g of graphics) {
+                let jsGraphic = buildJsGraphic(g) as Graphic;
+                jsGraphics.push(jsGraphic);
+            }
+        } else {
+            // delete can just be looked up if they exist
+            for (const g of graphics) {
+                let jsGraphic = lookupJsGraphicById(g.id, g.layerId, g.viewId)
+                    ?? buildJsGraphic(g) as Graphic;
+                jsGraphics.push(jsGraphic);
+            }
         }
         if (abortSignal.aborted) {
             return;
@@ -293,7 +303,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         let {buildDotNetFeatureType} = await import('./featureType');
         return buildDotNetFeatureType(result);
     }
-    
+
     async setSpatialReference(spatialReference: any): Promise<void> {
         let {buildJsSpatialReference} = await import('./spatialReference');
         this.layer.spatialReference = buildJsSpatialReference(spatialReference) as any;
@@ -328,7 +338,6 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
     async getFieldDomain(fieldName: string, graphic: DotNetGraphic): Promise<DotNetDomain | null> {
 
         let options: any | undefined = undefined;
-        let {buildJsGraphic} = await import('./graphic');
         if (hasValue(graphic)) {
             let featureGraphic = buildJsGraphic(graphic) as Graphic;
             options = {
@@ -376,17 +385,16 @@ export async function buildJsFeatureLayer(dotNetObject: any, layerId: string | n
     if (hasValue(dotNetObject.geometryType) && hasValue(dotNetObject.source)) {
         jsFeatureLayer.geometryType = dotNetObject.geometryType;
     }
-    
+
     // bug is erasing the end of some urls from properties
     if (hasValue(dotNetObject.url)) {
         jsFeatureLayer.url = dotNetObject.url;
     }
 
     if (hasValue(dotNetObject.source)) {
-        let { buildJsGraphic } = await import('./graphic');
         jsFeatureLayer.source = dotNetObject.source.map(i => buildJsGraphic(i)) as any;
     }
-    
+
     if (!hasValue(jsFeatureLayer.spatialReference)) {
         jsFeatureLayer.spatialReference = {wkid: 4326};
     }
