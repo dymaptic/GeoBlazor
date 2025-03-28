@@ -32,7 +32,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
             params.locationType = locationType as string;
         }
         if (hasValue(outSpatialReference)) {
-            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference);
+            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference) as any;
         }
 
         let result: AddressCandidate[];
@@ -82,7 +82,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
             params.outFields = outFields as string[];
         }
         if (hasValue(outSpatialReference)) {
-            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference);
+            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference) as any;
         }
         if (hasValue(searchExtent)) {
             params.searchExtent = buildJsExtent(searchExtent as DotNetExtent, null);
@@ -115,7 +115,7 @@ export default class LocatorWrapper extends LocationServiceGenerated {
             params.locationType = locationType as string;
         }
         if (hasValue(outSpatialReference)) {
-            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference);
+            params.outSpatialReference = buildJsSpatialReference(outSpatialReference as DotNetSpatialReference) as any;
         }
 
         let result: AddressCandidate;

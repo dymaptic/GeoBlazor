@@ -29,6 +29,6 @@ public class RequiredPropertyAttribute : Attribute
 /// </summary>
 internal class ComponentOption
 {
-    public List<string> Options { get; } = new();
+    public List<string> Options { get; } = [];
     public bool Found { get; set; }
 }

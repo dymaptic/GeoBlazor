@@ -71,7 +71,7 @@ public class Constraints : MapComponent
         switch (child)
         {
             case LOD lod:
-                Lods ??= new List<LOD>();
+                Lods ??= [];
 
                 if (!Lods.Contains(lod))
                 {

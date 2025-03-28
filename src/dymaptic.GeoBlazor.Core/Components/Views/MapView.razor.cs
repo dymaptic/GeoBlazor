@@ -20,19 +20,19 @@ public partial class MapView : MapComponent
     ///     variables, or other sources.
     /// </summary>
     [Inject]
-    public IConfiguration Configuration { get; set; } = default!;
+    public IConfiguration Configuration { get; set; } = null!;
 
     /// <summary>
     ///     Handles OAuth authentication
     /// </summary>
     [Inject]
-    public AuthenticationManager AuthenticationManager { get; set; } = default!;
+    public AuthenticationManager AuthenticationManager { get; set; } = null!;
 
     /// <summary>
     ///     Validates GeoBlazor Registration or Pro Licensing
     /// </summary>
     [Inject]
-    private IAppValidator AppValidator { get; set; } = default!;
+    private IAppValidator AppValidator { get; set; } = null!;
 #endregion
     
 
@@ -162,7 +162,7 @@ public partial class MapView : MapComponent
     public IReadOnlyCollection<Widget> Widgets
     {
         get => _widgets;
-        private set => _widgets = new HashSet<Widget>(value);
+        private set => _widgets = [..value];
     }
 
     /// <summary>
@@ -172,7 +172,7 @@ public partial class MapView : MapComponent
     public IReadOnlyCollection<Graphic> Graphics
     {
         get => _graphics;
-        private set => _graphics = new HashSet<Graphic>(value);
+        private set => _graphics = [..value];
     }
 
     /// <summary>
@@ -1363,7 +1363,7 @@ public partial class MapView : MapComponent
         }
         else
         {
-            List<Task> serializationTasks = new();
+            List<Task> serializationTasks = [];
 
             for (var index = 0; index < records.Count; index += chunkSize)
             {
@@ -2616,7 +2616,7 @@ public partial class MapView : MapComponent
     /// </summary>
     protected List<string> GetActiveEventHandlers()
     {
-        List<string> activeHandlers = new();
+        List<string> activeHandlers = [];
 
         var properties = GetType().GetProperties();
 
@@ -2702,8 +2702,8 @@ public partial class MapView : MapComponent
     private bool _shouldRender = true;
     private Dictionary<string, StringBuilder> _layerCreateData = new();
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
-    private HashSet<Graphic> _graphics = new();
-    private HashSet<Widget> _widgets = new();
+    private HashSet<Graphic> _graphics = [];
+    private HashSet<Widget> _widgets = [];
     private bool? _isPro;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;

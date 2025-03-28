@@ -11,7 +11,7 @@ public record GeographicTransformation
     /// <summary>
     ///     Geographic transformation steps.
     /// </summary>
-    public GeographicTransformationStep[] Steps { get; set; } = Array.Empty<GeographicTransformationStep>();
+    public GeographicTransformationStep[] Steps { get; set; } = [];
 
     /// <summary>
     ///     Returns the inverse of the geographic transformation calling this method or null if the transformation is not

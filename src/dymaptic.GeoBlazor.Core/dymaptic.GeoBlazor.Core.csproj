@@ -45,10 +45,10 @@
         <PackageReference Include="DefaultDocumentation" Version="0.8.2" PrivateAssets="all" />
         <PackageReference Include="protobuf-net" Version="3.2.45" />
         <!--The PublicApiAnalyzers does not honor .editorconfig for .g.cs files, so it need to be commneted out for successful builds -->
-        <!--<PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
+        <!-- <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">
 	        <PrivateAssets>all</PrivateAssets>
 	        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>-->
+        </PackageReference> -->
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />

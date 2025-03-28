@@ -1345,7 +1345,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </typeparam>
     public Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once)
     {
-        return AddReactiveListenerImplementation<T>(eventName, handler, once);
+        return AddReactiveListenerImplementation(eventName, handler, once);
     }
 
     /// <summary>
@@ -1382,10 +1382,10 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// </typeparam>
     public Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once)
     {
-        return AddReactiveListenerImplementation<T>(eventName, handler, once);
+        return AddReactiveListenerImplementation(eventName, handler, once);
     }
 
-    private async Task AddReactiveListenerImplementation<T>(string eventName, Delegate handler, bool once)
+    private async Task AddReactiveListenerImplementation(string eventName, Delegate handler, bool once)
     {
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,

@@ -18,7 +18,7 @@ public record HitTestResult(ScreenPoint ScreenPoint)
     ///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen
     ///     coordinates intersects a Graphic or media element in the view.
     /// </summary>
-    public ViewHit[] Results { get; set; } = Array.Empty<ViewHit>();
+    public ViewHit[] Results { get; set; } = [];
 }
 
 /// <summary>

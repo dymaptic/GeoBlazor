@@ -167,7 +167,7 @@ public partial class GraphicsLayer : Layer
         }
         else
         {
-            List<Task> serializationTasks = new();
+            List<Task> serializationTasks = [];
 
             for (var index = 0; index < records.Count; index += chunkSize)
             {
@@ -445,7 +445,7 @@ public partial class GraphicsLayer : Layer
         await base.UpdateFromJavaScript(renderedLayer);
     }
 
-    private HashSet<Graphic> _graphics = new();
+    private HashSet<Graphic> _graphics = [];
 }
 
 internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollection<Graphic>>
@@ -458,7 +458,7 @@ internal class GraphicsToSerializationConverter : JsonConverter<IReadOnlyCollect
             return null;
         }
 
-        List<Graphic> graphics = new();
+        List<Graphic> graphics = [];
 
         while (reader.Read())
         {

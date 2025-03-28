@@ -221,5 +221,5 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
         }
     }
     
-    private List<DimensionalDefinition> _multidimensionalDefinition = new();
+    private List<DimensionalDefinition> _multidimensionalDefinition = [];
 }

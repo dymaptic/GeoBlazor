@@ -6,6 +6,7 @@
 ///     geographic (datum) transformation for the project operation, or accept the default transformation if one is needed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class ProjectionEngine : LogicComponent
 {
     /// <summary>
@@ -14,10 +15,7 @@ public class ProjectionEngine : LogicComponent
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    /// <param name="jsModuleManager">
-    ///     Injected JavaScript Module Manager reference
-    /// </param>
-    public ProjectionEngine(AuthenticationManager authenticationManager, JsModuleManager jsModuleManager) : 
+    public ProjectionEngine(AuthenticationManager authenticationManager) : 
         base(authenticationManager)
     {
     }

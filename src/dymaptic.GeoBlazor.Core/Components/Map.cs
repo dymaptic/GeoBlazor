@@ -33,7 +33,7 @@ public class Map : MapComponent
     /// <summary>
     ///     A collection of operational <see cref="Layer" />s.
     /// </summary>
-    public List<Layer> Layers { get; set; } = new();
+    public List<Layer> Layers { get; set; } = [];
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)

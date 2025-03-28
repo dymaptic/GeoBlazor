@@ -6,6 +6,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     spatial reference for the methods to work as expected.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class GeometryEngine : LogicComponent
 {
     /// <summary>
@@ -113,9 +114,8 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers.
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
-        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
+        GeometryEngineLinearUnit? unit, bool? unionResults)
     {
         return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
     }
@@ -166,7 +166,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffer.
     /// </returns>
-    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit = null)
+    public async Task<Polygon> Buffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
     {
         return await InvokeAsync<Polygon>("buffer", geometry, distance, unit);
     }
@@ -183,7 +183,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Clipped geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry?> Clip(Geometry geometry, Extent extent)
     {
         return await InvokeAsync<Geometry?>("clip", geometry, extent);
@@ -202,7 +201,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the containerGeometry contains the insideGeometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Contains(Geometry containerGeometry, Geometry insideGeometry)
     {
         return await InvokeAsync<bool>("contains", containerGeometry, insideGeometry);
@@ -223,7 +221,6 @@ public class GeometryEngine : LogicComponent
     ///     Returns the convex hull of the input geometries. This is usually a polygon, but can also be a polyline (if the
     ///     input is a set of points or polylines forming a straight line), or a point (in degenerate cases).
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry[]> ConvexHull(IEnumerable<Geometry> geometries, bool? merge = null)
     {
         return await InvokeAsync<Geometry[]>("convexHull", geometries, merge);
@@ -258,7 +255,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 crosses geometry2.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Crosses(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("crosses", geometry1, geometry2);
@@ -282,7 +278,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an array of geometries created by cutting the input geometry with the cutter.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry[]> Cut(Geometry geometry, Polyline cutter)
     {
         return await InvokeAsync<Geometry[]>("cut", geometry, cutter);
@@ -303,7 +298,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The densified geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> Densify(Geometry geometry, double maxSegmentLength, GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
     {
         return await InvokeAsync<Geometry>("densify", geometry, maxSegmentLength, maxSegmentLengthUnit);
@@ -322,7 +316,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the geometry of inputGeometry minus the subtractor geometry.
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry[]> Difference(IEnumerable<Geometry> geometries, Geometry subtractor)
     {
         return await InvokeAsync<Geometry[]>("difference", geometries, subtractor);
@@ -358,7 +351,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if geometry1 and geometry2 are disjoint (don't intersect in any way).
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Disjoint(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("disjoint", geometry1, geometry2);
@@ -380,7 +372,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Distance between the two input geometries.
     /// </returns>
-    [ArcGISMethod]
     public async Task<double> Distance(Geometry geometry1, Geometry geometry2, GeometryEngineLinearUnit? distanceUnit = null)
     {
         return await InvokeAsync<double>("distance", geometry1, geometry2, distanceUnit);
@@ -416,7 +407,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Resolves to a <see cref = "SpatialReferenceInfo"/> object.
     /// </returns>
-    [ArcGISMethod]
     public async Task<SpatialReferenceInfo> ExtendedSpatialReferenceInfo(SpatialReference spatialReference)
     {
         return await InvokeAsync<SpatialReferenceInfo>("extendedSpatialReferenceInfo", spatialReference);
@@ -434,7 +424,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> FlipHorizontal(Geometry geometry, Point? flipOrigin = null)
     {
         return await InvokeAsync<Geometry>("flipHorizontal", geometry, flipOrigin);
@@ -452,7 +441,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The flipped geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> FlipVertical(Geometry geometry, Point? flipOrigin = null)
     {
         return await InvokeAsync<Geometry>("flipVertical", geometry, flipOrigin);
@@ -477,7 +465,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The generalized geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> Generalize(Geometry geometry, double maxDeviation, bool? removeDegenerateParts = null, GeometryEngineLinearUnit? maxDeviationUnit = null)
     {
         return await InvokeAsync<Geometry>("generalize", geometry, maxDeviation, removeDegenerateParts, maxDeviationUnit);
@@ -502,7 +489,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Area of the input geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<double> GeodesicArea(Polygon geometry, GeometryEngineAreaUnit? unit = null)
     {
         return await InvokeAsync<double>("geodesicArea", geometry, unit);
@@ -571,7 +557,7 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers
     /// </returns>
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
-        LinearUnit? unit)
+        GeometryEngineLinearUnit? unit)
     {
         return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, null);
     }
@@ -609,9 +595,8 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
-        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
+        GeometryEngineLinearUnit? unit, bool? unionResults)
     {
         return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, unionResults);
     }
@@ -668,11 +653,30 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The resulting buffers
     /// </returns>
-    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit = null)
+    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance, GeometryEngineLinearUnit? unit)
     {
         return await InvokeAsync<Polygon>("geodesicBuffer", geometry, distance, unit);
     }
 
+    /// <summary>
+    ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the
+    ///     geometry along great circles.
+    /// </summary>
+    /// <param name="geometry">
+    ///     A polyline or polygon to densify.
+    /// </param>
+    /// <param name="maxSegmentLength">
+    ///     The maximum segment length allowed (in meters if a maxSegmentLengthUnit is not provided). This must be a positive
+    ///     value.
+    /// </param>
+    /// <returns>
+    ///     Returns the densified geometry.
+    /// </returns>
+    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength)
+    {
+        return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, null);
+    }
+    
     /// <summary>
     ///     Returns a geodesically densified version of the input geometry. Use this function to draw the line(s) of the
     ///     geometry along great circles.
@@ -690,8 +694,8 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns the densified geometry.
     /// </returns>
-    [ArcGISMethod]
-    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength, GeometryEngineLinearUnit? maxSegmentLengthUnit = null)
+    public async Task<Geometry> GeodesicDensify(Geometry geometry, double maxSegmentLength, 
+        GeometryEngineLinearUnit? maxSegmentLengthUnit)
     {
         return await InvokeAsync<Geometry>("geodesicDensify", geometry, maxSegmentLength, maxSegmentLengthUnit);
     }
@@ -715,7 +719,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Length of the input geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<double> GeodesicLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
     {
         return await InvokeAsync<double>("geodesicLength", geometry, unit);
@@ -735,7 +738,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The intersections of the geometries.
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry[]> Intersect(IEnumerable<Geometry> geometries1, Geometry geometry2)
     {
         return await InvokeAsync<Geometry[]>("intersect", geometries1, geometry2);
@@ -772,7 +774,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the input geometries intersect each other.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Intersects(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("intersects", geometry1, geometry2);
@@ -788,7 +789,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the geometry is topologically simple.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> IsSimple(Geometry geometry)
     {
         return await InvokeAsync<bool>("isSimple", geometry);
@@ -806,7 +806,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest coordinate.
     /// </returns>
-    [ArcGISMethod]
     public async Task<NearestPointResult> NearestCoordinate(Geometry geometry, Point inputPoint)
     {
         return await InvokeAsync<NearestPointResult>("nearestCoordinate", geometry, inputPoint);
@@ -824,7 +823,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns an object containing the nearest vertex.
     /// </returns>
-    [ArcGISMethod]
     public async Task<NearestPointResult> NearestVertex(Geometry geometry, Point inputPoint)
     {
         return await InvokeAsync<NearestPointResult>("nearestVertex", geometry, inputPoint);
@@ -849,7 +847,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     An array of objects containing the nearest vertices within the given searchRadius.
     /// </returns>
-    [ArcGISMethod]
     public async Task<NearestPointResult[]> NearestVertices(Geometry geometry, Point inputPoint, double searchRadius, int maxVertexCountToReturn)
     {
         return await InvokeAsync<NearestPointResult[]>("nearestVertices", geometry, inputPoint, searchRadius, maxVertexCountToReturn);
@@ -999,10 +996,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometries.
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
-        double? flattenError = null)
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+        double? flattenError)
     {
         return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
     }
@@ -1152,8 +1148,8 @@ public class GeometryEngine : LogicComponent
     ///     The offset geometry.
     /// </returns>
     public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
-        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
-        double? flattenError = null)
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio,
+        double? flattenError)
     {
         return await InvokeAsync<Geometry>("offset", geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
     }
@@ -1170,12 +1166,26 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the two geometries overlap.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Overlaps(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("overlaps", geometry1, geometry2);
     }
 
+    /// <summary>
+    ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation
+    ///     using projected coordinates and does not take into account the earth's curvature. When using input geometries with
+    ///     a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to calculate areas using
+    ///     geodesicArea(). If the input geometries have a projected coordinate system other than Web Mercator, use
+    ///     planarArea() instead.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The input polygon.
+    /// </param>
+    public async Task<double> PlanarArea(Polygon geometry)
+    {
+        return await InvokeAsync<double>("planarArea", geometry, null);
+    }
+    
     /// <summary>
     ///     Calculates the area of the input geometry. As opposed to geodesicArea(), planarArea() performs this calculation
     ///     using projected coordinates and does not take into account the earth's curvature. When using input geometries with
@@ -1192,12 +1202,29 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The area of the input geometry.
     /// </returns>
-    [ArcGISMethod]
-    public async Task<double> PlanarArea(Polygon geometry, GeometryEngineAreaUnit? unit = null)
+    public async Task<double> PlanarArea(Polygon geometry, GeometryEngineAreaUnit? unit)
     {
         return await InvokeAsync<double>("planarArea", geometry, unit);
     }
 
+    /// <summary>
+    ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected
+    ///     coordinates and does not take into account the curvature of the earth when performing this calculation. When using
+    ///     input geometries with a spatial reference of either WGS84 (wkid: 4326) or Web Mercator, it is best practice to
+    ///     calculate lengths using geodesicLength(). If the input geometries have a projected coordinate system other than Web
+    ///     Mercator, use planarLength() instead.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The input geometry.
+    /// </param>
+    /// <returns>
+    ///     The length of the input geometry.
+    /// </returns>
+    public async Task<double> PlanarLength(Geometry geometry)
+    {
+        return await InvokeAsync<double>("planarLength", geometry);
+    }
+    
     /// <summary>
     ///     Calculates the length of the input geometry. As opposed to geodesicLength(), planarLength() uses projected
     ///     coordinates and does not take into account the curvature of the earth when performing this calculation. When using
@@ -1214,8 +1241,7 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The length of the input geometry.
     /// </returns>
-    [ArcGISMethod]
-    public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit = null)
+    public async Task<double> PlanarLength(Geometry geometry, GeometryEngineLinearUnit? unit)
     {
         return await InvokeAsync<double>("planarLength", geometry, unit);
     }
@@ -1247,7 +1273,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if the relation of the input geometries is accurate.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Relate(Geometry geometry1, Geometry geometry2, string relation)
     {
         return await InvokeAsync<bool>("relate", geometry1, geometry2, relation);
@@ -1269,7 +1294,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The rotated geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> Rotate(Geometry geometry, double angle, Point rotationOrigin)
     {
         return await InvokeAsync<Geometry>("rotate", geometry, angle, rotationOrigin);
@@ -1286,7 +1310,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The simplified geometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<Geometry> Simplify(Geometry geometry)
     {
         return await InvokeAsync<Geometry>("simplify", geometry);
@@ -1305,7 +1328,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The symmetric differences of the two geometries.
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry[]> SymmetricDifference(IEnumerable<Geometry> leftGeometries, Geometry rightGeometry)
     {
         return await InvokeAsync<Geometry[]>("symmetricDifference", leftGeometries, rightGeometry);
@@ -1341,7 +1363,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     When true, geometry1 touches geometry2.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Touches(Geometry geometry1, Geometry geometry2)
     {
         return await InvokeAsync<bool>("touches", geometry1, geometry2);
@@ -1356,7 +1377,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The union of the geometries
     /// </returns>
-    [CodeGenerationIgnore]
     public async Task<Geometry> Union(params Geometry[] geometries)
     {
         return await InvokeAsync<Geometry>("union", geometries.Cast<object>());
@@ -1388,7 +1408,6 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     Returns true if innerGeometry is within outerGeometry.
     /// </returns>
-    [ArcGISMethod]
     public async Task<bool> Within(Geometry innerGeometry, Geometry outerGeometry)
     {
         return await InvokeAsync<bool>("within", innerGeometry, outerGeometry);
