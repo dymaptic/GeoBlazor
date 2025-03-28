@@ -34,7 +34,7 @@
                           Url="https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLCD_2016_Land_Cover_L48_20190424/ImageServer" />
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
-        <div id="infoDiv" class="esri-widget">
+        <div id="land-cover" class="esri-widget">
             <h4 id="titleText" class="esri-widget__heading esri-editor__title">
                 Land cover types - 2016
             </h4>
@@ -44,32 +44,33 @@
                     <b>Select land type:</b>
                     <calcite-radio-button-group name="Select land type" layout="vertical"
                                                 id="landCoverTypeSelect" scale="s">
-                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("forests"))">
+                        <calcite-label layout="inline" 
+                                       @onclick="@(e => UpdateLandCoverType("forests"))">
                             <calcite-radio-button id="forests"
                                                   value="forests"
                                                   checked>
                             </calcite-radio-button>
-                            Forested Areas
+                            <span style="color: black">Forested Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("developed"))">
                             <calcite-radio-button value="developed">
                             </calcite-radio-button>
-                            Developed Areas
+                            <span style="color: black">Developed Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("crops"))">
                             <calcite-radio-button value="crops">
                             </calcite-radio-button>
-                            Cultivated Areas
+                            <span style="color: black">Cultivated Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("hay"))">
                             <calcite-radio-button value="hay">
                             </calcite-radio-button>
-                            Hay/Pasture Areas
+                            <span style="color: black">Hay/Pasture Areas</span>
                         </calcite-label>
                         <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("wetlands"))">
                             <calcite-radio-button value="wetlands">
                             </calcite-radio-button>
-                            Wetlands
+                            <span style="color: black">Wetlands</span>
                         </calcite-label>
                     </calcite-radio-button-group>
                 </calcite-label>
