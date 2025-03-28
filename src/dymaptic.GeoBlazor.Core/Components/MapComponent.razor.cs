@@ -956,16 +956,36 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="handler">
     ///     The function to call when there are changes.
     /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    // ReSharper disable once UnusedMethodReturnValue.Global
+    public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, null, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
     /// <param name="targetName">
     ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
     ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
     ///     which this method was called.
-    /// </param>
-    /// <param name="once">
-    ///     Whether to fire the callback only once.
-    /// </param>
-    /// <param name="initial">
-    ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
     /// </param>
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
@@ -978,10 +998,42 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
-    public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName = null,
-        bool once = false, bool initial = false)
+    public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName)
     {
-        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
+        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName, bool once)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, false);
     }
 
     /// <summary>
@@ -1015,13 +1067,135 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
-
-    // ReSharper disable once UnusedMethodReturnValue.Global
-    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName = null,
-        bool once = false, bool initial = false)
+    public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName, bool once, bool initial)
     {
         return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
     }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, null, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName, bool once)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>watchExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="watchExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when there are changes.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <param name="initial">
+    ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>watchExpression</code>
+    /// </remarks>
+    public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName, bool once, bool initial)
+    {
+        return AddReactiveWatcherImplementation(watchExpression, handler, targetName, once, initial);
+    }
+
 
     /// <inheritdoc />
     protected override bool ShouldRender()
@@ -1146,22 +1320,12 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="handler">
     ///     The function to call when the event triggers.
     /// </param>
-    /// <param name="once">
-    ///     Whether to fire the callback only once. Defaults to false.
-    /// </param>
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
     /// </typeparam>
-    public async Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once = false)
+    public Task AddReactiveListener<T>(string eventName, Func<T, Task> handler)
     {
-        IJSObjectReference? jsRef =
-            await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
-                DotNetComponentReference);
-
-        if (jsRef != null)
-        {
-            _listeners[eventName] = (handler, jsRef);
-        }
+        return AddReactiveListener(eventName, handler, false);
     }
 
     /// <summary>
@@ -1171,7 +1335,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The name of the event to add a listener for.
     /// </param>
     /// <param name="handler">
-    ///     The function to call when there are changes.
+    ///     The function to call when the event triggers.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once. Defaults to false.
@@ -1179,7 +1343,49 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
     /// </typeparam>
-    public async Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once = false)
+    public Task AddReactiveListener<T>(string eventName, Func<T, Task> handler, bool once)
+    {
+        return AddReactiveListenerImplementation<T>(eventName, handler, once);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>listenExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="eventName">
+    ///     The name of the event to add a listener for.
+    /// </param>
+    /// <param name="handler">
+    ///     The action to call when the event triggers.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    public Task AddReactiveListener<T>(string eventName, Action<T> handler)
+    {
+        return AddReactiveListener(eventName, handler, false);
+    }
+
+    /// <summary>
+    ///     Tracks any properties accessed in the <code>listenExpression</code> and calls the callback when any of them change.
+    /// </summary>
+    /// <param name="eventName">
+    ///     The name of the event to add a listener for.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the event triggers.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once. Defaults to false.
+    /// </param>
+    /// <typeparam name="T">
+    ///     The type of return value to expect in the handler.
+    /// </typeparam>
+    public Task AddReactiveListener<T>(string eventName, Action<T> handler, bool once)
+    {
+        return AddReactiveListenerImplementation<T>(eventName, handler, once);
+    }
+
+    private async Task AddReactiveListenerImplementation<T>(string eventName, Delegate handler, bool once)
     {
         IJSObjectReference? jsRef =
             await CoreJsModule!.InvokeAsync<IJSObjectReference?>("addReactiveListener", Id, eventName, once,
@@ -1190,6 +1396,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             _listeners[eventName] = (handler, jsRef);
         }
     }
+
 
     /// <summary>
     ///     Removes the tracker on a particular expression.
@@ -1256,16 +1463,35 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     /// <param name="handler">
     ///     The function to call when the value is truthy.
     /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+
+    // ReSharper disable once UnusedMethodReturnValue.Global
+    public Task AddReactiveWaiter(string waitExpression, Func<Task> handler)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, null, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
     /// <param name="targetName">
     ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
     ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
     ///     which this method was called.
-    /// </param>
-    /// <param name="once">
-    ///     Whether to fire the callback only once.
-    /// </param>
-    /// <param name="initial">
-    ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
     /// </param>
     /// <exception cref="UnMatchedTargetNameException">
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
@@ -1275,10 +1501,40 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
-    public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName = null,
-        bool once = false, bool initial = false)
+    public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName)
     {
-        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, initial);
+        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+    public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName, bool once)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, false);
     }
 
     /// <summary>
@@ -1310,13 +1566,127 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
-
-    // ReSharper disable once UnusedMethodReturnValue.Global
-    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName = null,
-        bool once = false, bool initial = false)
+    public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName, bool once, bool initial)
     {
         return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, initial);
     }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+    public Task AddReactiveWaiter(string waitExpression, Action handler)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, null, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, false, false);
+    }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName, bool once)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, false);
+    }
+
+    /// <summary>
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
+    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    /// </summary>
+    /// <param name="waitExpression">
+    ///     Expression used to get the current value. All accessed properties will be tracked.
+    /// </param>
+    /// <param name="handler">
+    ///     The function to call when the value is truthy.
+    /// </param>
+    /// <param name="targetName">
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
+    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
+    ///     which this method was called.
+    /// </param>
+    /// <param name="once">
+    ///     Whether to fire the callback only once.
+    /// </param>
+    /// <param name="initial">
+    ///     Whether to fire the callback immediately after initialization, if the necessary conditions are met.
+    /// </param>
+    /// <exception cref="UnMatchedTargetNameException">
+    ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
+    /// </exception>
+    /// <remarks>
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
+    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     <code>waitExpression</code>
+    /// </remarks>
+    public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName, bool once, bool initial)
+    {
+        return AddReactiveWaiterImplementation(waitExpression, handler, targetName, once, initial);
+    }
+
 
     private async Task AddReactiveWaiterImplementation(string waitExpression, Delegate handler, string? targetName,
         bool once, bool initial)

@@ -34,6 +34,23 @@ public class ProjectionEngine : LogicComponent
     /// <param name="spatialReference">
     ///     The spatial reference to which you are converting the geometries' coordinates.
     /// </param>
+    /// <returns>
+    ///     A collection of projected geometries.
+    /// </returns>
+    public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference)
+    {
+        return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference, null);
+    }
+
+    /// <summary>
+    ///     Projects an array of geometries to the specified output spatial reference.
+    /// </summary>
+    /// <param name="geometries">
+    ///     The input geometries to project
+    /// </param>
+    /// <param name="spatialReference">
+    ///     The spatial reference to which you are converting the geometries' coordinates.
+    /// </param>
     /// <param name="geographicTransformation">
     ///     The optional geographic transformation used to transform the geometries. Specify this parameter to project a
     ///     geometry when the default transformation is not appropriate for your requirements.
@@ -42,10 +59,27 @@ public class ProjectionEngine : LogicComponent
     ///     A collection of projected geometries.
     /// </returns>
     public async Task<Geometry[]?> Project(Geometry[] geometries, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation = null)
+        GeographicTransformation? geographicTransformation)
     {
         return await InvokeAsync<Geometry[]?>("project", geometries, spatialReference,
             geographicTransformation);
+    }
+
+    /// <summary>
+    ///     Projects a geometry to the specified output spatial reference.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The input geometry to project
+    /// </param>
+    /// <param name="spatialReference">
+    ///     The spatial reference to which you are converting the geometries' coordinates.
+    /// </param>
+    /// <returns>
+    ///     A projected geometry.
+    /// </returns>
+    public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference)
+    {
+        return await InvokeAsync<Geometry?>("project", geometry, spatialReference, null);
     }
 
     /// <summary>
@@ -65,7 +99,7 @@ public class ProjectionEngine : LogicComponent
     ///     A projected geometry.
     /// </returns>
     public async Task<Geometry?> Project(Geometry geometry, SpatialReference spatialReference,
-        GeographicTransformation? geographicTransformation = null)
+        GeographicTransformation? geographicTransformation)
     {
         return await InvokeAsync<Geometry?>("project", geometry, spatialReference,
             geographicTransformation);

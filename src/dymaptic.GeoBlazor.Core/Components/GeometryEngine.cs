@@ -42,6 +42,68 @@ public class GeometryEngine : LogicComponent
     ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
     ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
+    /// <returns>
+    ///     The resulting buffers.
+    /// </returns>
+    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
+    {
+        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, null, null);
+    }
+
+    /// <summary>
+    ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
+    /// </summary>
+    /// <remarks>
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
+    ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
+    ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometries">
+    ///     The buffer input geometries.
+    /// </param>
+    /// <param name="distances">
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
+    /// </param>
+    /// <param name="unit">
+    ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
+    /// </param>
+    /// <returns>
+    ///     The resulting buffers.
+    /// </returns>
+    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        GeometryEngineLinearUnit? unit)
+    {
+        return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, null);
+    }
+
+    /// <summary>
+    ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
+    /// </summary>
+    /// <remarks>
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
+    ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
+    ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometries">
+    ///     The buffer input geometries.
+    /// </param>
+    /// <param name="distances">
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
+    /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
     /// </param>
@@ -52,9 +114,34 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
+    public async Task<Polygon[]> Buffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
+        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
     {
         return await InvokeAsync<Polygon[]>("buffer", geometries, distances, unit, unionResults);
+    }
+
+    /// <summary>
+    ///     Creates planar (or Euclidean) buffer polygons at a specified distance around the input geometries.
+    /// </summary>
+    /// <remarks>
+    ///     The GeometryEngine has two methods for buffering geometries client-side: buffer and geodesicBuffer. Use caution
+    ///     when deciding which method to use. As a general rule, use geodesicBuffer if the input geometries have a spatial
+    ///     reference of either WGS84 (wkid: 4326) or Web Mercator. Only use buffer (this method) when attempting to buffer
+    ///     geometries with a projected coordinate system other than Web Mercator. If you need to buffer geometries with a
+    ///     geographic coordinate system other than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometry">
+    ///     The buffer input geometries.
+    /// </param>
+    /// <param name="distance">
+    ///     The specified distance(s) for buffering.
+    /// </param>
+    /// <returns>
+    ///     The resulting buffer.
+    /// </returns>
+    public async Task<Polygon> Buffer(Geometry geometry, double distance)
+    {
+        return await InvokeAsync<Polygon>("buffer", geometry, distance, null);
     }
 
     /// <summary>
@@ -445,6 +532,74 @@ public class GeometryEngine : LogicComponent
     ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
     ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
     /// </param>
+    /// <returns>
+    ///     The resulting buffers
+    /// </returns>
+    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances)
+    {
+        return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, null, null);
+    }
+
+    /// <summary>
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
+    /// </summary>
+    /// <remarks>
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
+    ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
+    ///     than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometries">
+    ///     The buffer input geometries
+    /// </param>
+    /// <param name="distances">
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
+    /// </param>
+    /// <param name="unit">
+    ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
+    /// </param>
+    /// <returns>
+    ///     The resulting buffers
+    /// </returns>
+    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances,
+        LinearUnit? unit)
+    {
+        return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, null);
+    }
+
+    /// <summary>
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
+    /// </summary>
+    /// <remarks>
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
+    ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
+    ///     than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometries">
+    ///     The buffer input geometries
+    /// </param>
+    /// <param name="distances">
+    ///     The specified distance(s) for buffering. The length of the geometry array does not have to equal the length of the
+    ///     distance array. For example, if you pass an array of four geometries: [g1, g2, g3, g4] and an array with one
+    ///     distance: [d1], all four geometries will be buffered by the single distance value. If instead you use an array of
+    ///     three distances: [d1, d2, d3], g1 will be buffered by d1, g2 by d2, and g3 and g4 will both be buffered by d3. The
+    ///     value of the geometry array will be matched one to one with those in the distance array until the final value of
+    ///     the distance array is reached, in which case that value will be applied to the remaining geometries.
+    /// </param>
     /// <param name="unit">
     ///     Measurement unit of the distance(s). Defaults to the units of the input geometries.
     /// </param>
@@ -455,9 +610,37 @@ public class GeometryEngine : LogicComponent
     ///     The resulting buffers
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
+    public async Task<Polygon[]> GeodesicBuffer(IEnumerable<Geometry> geometries, IEnumerable<double> distances, 
+        GeometryEngineLinearUnit? unit = null, bool? unionResults = null)
     {
         return await InvokeAsync<Polygon[]>("geodesicBuffer", geometries, distances, unit, unionResults);
+    }
+
+    /// <summary>
+    ///     Creates geodesic buffer polygons at a specified distance around the input geometries. When calculating distances,
+    ///     this method takes the curvature of the earth into account, which provides highly accurate results when dealing with
+    ///     very large geometries and/or geometries that spatially vary on a global scale where one projected coordinate system
+    ///     could not accurately plot coordinates and measure distances for all the geometries.
+    /// </summary>
+    /// <remarks>
+    ///     This method only works with WGS84 (wkid: 4326) and Web Mercator spatial references. In general, if your input
+    ///     geometries are assigned one of those two spatial references, you should always use geodesicBuffer() to obtain the
+    ///     most accurate results for those geometries. If needing to buffer points assigned a projected coordinate system
+    ///     other than Web Mercator, use buffer() instead. If the input geometries have a geographic coordinate system other
+    ///     than WGS84 (wkid: 4326), use geometryService.buffer().
+    /// </remarks>
+    /// <param name="geometry">
+    ///     The buffer input geometru
+    /// </param>
+    /// <param name="distance">
+    ///     The specified distance for buffering.
+    /// </param>
+    /// <returns>
+    ///     The resulting buffers
+    /// </returns>
+    public async Task<Polygon> GeodesicBuffer(Geometry geometry, double distance)
+    {
+        return await InvokeAsync<Polygon>("geodesicBuffer", geometry, distance, null);
     }
 
     /// <summary>
@@ -686,6 +869,119 @@ public class GeometryEngine : LogicComponent
     ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
     ///     inside.
     /// </param>
+    /// <returns>
+    ///     The offset geometries.
+    /// </returns>
+    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance)
+    {
+        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometries">
+    ///     The geometries to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <returns>
+    ///     The offset geometries.
+    /// </returns>
+    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit)
+    {
+        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
+            offsetUnit, null, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometries">
+    ///     The geometries to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <param name="joinType">
+    ///     The <see cref="JoinType" />
+    /// </param>
+    /// <returns>
+    ///     The offset geometries.
+    /// </returns>
+    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
+    {
+        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
+            offsetUnit, joinType, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometries">
+    ///     The geometries to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <param name="joinType">
+    ///     The <see cref="JoinType" />
+    /// </param>
+    /// <param name="bevelRatio">
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
+    /// </param>
+    /// <returns>
+    ///     The offset geometries.
+    /// </returns>
+    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
+    {
+        return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance,
+            offsetUnit, joinType, bevelRatio, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometries">
+    ///     The geometries to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
     /// <param name="offsetUnit">
     ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
     /// </param>
@@ -704,9 +1000,124 @@ public class GeometryEngine : LogicComponent
     ///     The offset geometries.
     /// </returns>
     [CodeGenerationIgnore]
-    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance, GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null, double? flattenError = null)
+    public async Task<Geometry[]> Offset(IEnumerable<Geometry> geometries, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
+        double? flattenError = null)
     {
         return await InvokeAsync<Geometry[]>("offset", geometries, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <returns>
+    ///     The offset geometry.
+    /// </returns>
+    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance)
+    {
+        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <returns>
+    ///     The offset geometry.
+    /// </returns>
+    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit)
+    {
+        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
+            offsetUnit, null, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <param name="joinType">
+    ///     The <see cref="JoinType" />
+    /// </param>
+    /// <returns>
+    ///     The offset geometry.
+    /// </returns>
+    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType)
+    {
+        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
+            offsetUnit, joinType, null, null);
+    }
+
+    /// <summary>
+    ///     The offset operation creates a geometry that is a constant planar distance from an input polyline or polygon. It is
+    ///     similar to buffering, but produces a one-sided result.
+    /// </summary>
+    /// <param name="geometry">
+    ///     The geometry to offset.
+    /// </param>
+    /// <param name="offsetDistance">
+    ///     The planar distance to offset from the input geometry. If offsetDistance > 0, then the offset geometry is
+    ///     constructed to the right of the oriented input geometry, if offsetDistance = 0, then there is no change in the
+    ///     geometries, otherwise it is constructed to the left. For a simple polygon, the orientation of outer rings is
+    ///     clockwise and for inner rings it is counter clockwise. So the "right side" of a simple polygon is always its
+    ///     inside.
+    /// </param>
+    /// <param name="offsetUnit">
+    ///     Measurement unit of the offset distance. Defaults to the units of the input geometries.
+    /// </param>
+    /// <param name="joinType">
+    ///     The <see cref="JoinType" />
+    /// </param>
+    /// <param name="bevelRatio">
+    ///     Applicable when joinType = 'miter'; bevelRatio is multiplied by the offset distance and the result determines how
+    ///     far a mitered offset intersection can be located before it is beveled.
+    /// </param>
+    /// <returns>
+    ///     The offset geometry.
+    /// </returns>
+    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit, JoinType? joinType, double? bevelRatio)
+    {
+        return await InvokeAsync<Geometry>("offset", geometry, offsetDistance,
+            offsetUnit, joinType, bevelRatio, null);
     }
 
     /// <summary>
@@ -740,7 +1151,9 @@ public class GeometryEngine : LogicComponent
     /// <returns>
     ///     The offset geometry.
     /// </returns>
-    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance, GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null, double? flattenError = null)
+    public async Task<Geometry> Offset(Geometry geometry, double offsetDistance,
+        GeometryEngineLinearUnit? offsetUnit = null, JoinType? joinType = null, double? bevelRatio = null,
+        double? flattenError = null)
     {
         return await InvokeAsync<Geometry>("offset", geometry, offsetDistance, offsetUnit, joinType, bevelRatio, flattenError);
     }
