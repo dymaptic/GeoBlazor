@@ -42,6 +42,112 @@ public class Locator : LogicComponent
     ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
+    {
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Uses the default ESRI geolocation service.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode)
+    {
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Uses the default ESRI geolocation service.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>ions to be used for the data request
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
+        List<string>? categories)
+    {
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Uses the default ESRI geolocation service.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
+        List<string>? categories, LocationType? locationType)
+    {
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Uses the default ESRI geolocation service.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
+        List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference)
+    {
+        return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
+            outSpatialReference);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Uses the default ESRI geolocation service.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
     /// <param name="countryCode">
     ///     Limits the results to only search in the country provided. For example US for United States
     ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
@@ -63,12 +169,89 @@ public class Locator : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
-    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode = null,
-        List<string>? categories = null, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses, string? countryCode,
+        List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses, countryCode, categories, locationType,
             outSpatialReference, requestOptions);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
+            null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
+            categories, null, null, null);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
+            categories, locationType, null, null);
     }
 
     /// <summary>
@@ -95,16 +278,346 @@ public class Locator : LogicComponent
     ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
     ///     default spatial reference returned by the service if finding locations by address.
     /// </param>
-    /// <returns></returns>
+    public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
+            categories, locationType, outSpatialReference, null);
+    }
+
+    /// <summary>
+    ///     Find address candidates for multiple input addresses.
+    ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    /// <param name="countryCode">
+    ///     Limits the results to only search in the country provided. For example US for United States
+    ///     or SE for Sweden. Only applies to the World Geocode Service. See the World Geocoding Service documentation for more
+    ///     information.
+    /// </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request
     /// </param>
     public async Task<List<AddressCandidate>> AddressesToLocations(string url, List<Address> addresses,
-        string? countryCode = null, List<string>? categories = null, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
+        string? countryCode, List<string>? categories, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
     {
         return await InvokeAsync<List<AddressCandidate>>("addressesToLocations", url, addresses, countryCode,
             categories, locationType, outSpatialReference, requestOptions);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType, magicKey);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations, List<string>? outFields)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations, outFields);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations, List<string>? outFields,
+        SpatialReference? outSpatialReference)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations, outFields, outSpatialReference);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    /// <param name="searchExtent">
+    ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server
+    ///     version 10.1 or greater.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations, List<string>? outFields,
+        SpatialReference? outSpatialReference, Extent? searchExtent)
+    {
+        return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
+            locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent);
     }
 
     /// <summary>
@@ -147,13 +660,320 @@ public class Locator : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
-    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories = null,
-        string? countryCode = null, bool? forStorage = null, Point? location = null, LocationType? locationType = null,
-        string? magicKey = null, int? maxLocations = null, List<string>? outFields = null,
-        SpatialReference? outSpatialReference = null, Extent? searchExtent = null, RequestOptions? requestOptions = null)
+    public async Task<List<AddressCandidate>> AddressToLocations(Address address, List<string>? categories,
+        string? countryCode, bool? forStorage, Point? location, LocationType? locationType,
+        string? magicKey, int? maxLocations, List<string>? outFields,
+        SpatialReference? outSpatialReference, Extent? searchExtent, RequestOptions? requestOptions)
     {
         return await AddressToLocations(ESRIGeoLocationUrl, address, categories, countryCode, forStorage, location,
             locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, requestOptions);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, null, null, null, 
+            null, null, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, null,
+            null, null, null, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            null, null, null, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, null, null, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, null, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, null, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, magicKey, null, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, magicKey, maxLocations, null, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations,
+        List<string>? outFields)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, magicKey, maxLocations, outFields, null, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations,
+        List<string>? outFields, SpatialReference? outSpatialReference)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, null, null);
+    }
+
+    /// <summary>
+    ///     Sends a request to the ArcGIS REST geocode resource to find candidates for a single address specified in the
+    ///     address parameter.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
+    /// <param name="categories">
+    ///     Limit result to one or more categories. For example, "Populated Place" or "Scandinavian Food".
+    ///     Only applies to the World Geocode Service. See Category filtering (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="countryCode">
+    ///     Limit result to a specific country. For example, "US" for United States or "SE" for Sweden.
+    ///     Only applies to the World Geocode Service. See Geocode coverage (World Geocoding Service) for more information.
+    /// </param>
+    /// <param name="forStorage">Allows the results of single geocode transactions to be persisted.</param>
+    /// <param name="location">Used to weight returned results for a specified area.</param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="magicKey">A suggestLocations result ID (magicKey). Used to query for a specific results information.</param>
+    /// <param name="maxLocations">Maximum results to return from the query.</param>
+    /// <param name="outFields">
+    ///     The list of fields included in the returned result set. This list is a comma delimited list of
+    ///     field names. If you specify the shape field in the list of return fields, it is ignored. For non-intersection
+    ///     addresses you can specify the candidate fields as defined in the geocode service. For intersection addresses you
+    ///     can specify the intersection candidate fields.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    /// <param name="searchExtent">
+    ///     Defines the extent within which the geocode server will search. Requires ArcGIS Server
+    ///     version 10.1 or greater.
+    /// </param>
+    public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations,
+        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent)
+    {
+        return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
+            forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent, null);
     }
 
     /// <summary>
@@ -197,14 +1017,67 @@ public class Locator : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
-        List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
-        LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
-        List<string>? outFields = null, SpatialReference? outSpatialReference = null, Extent? searchExtent = null,
-        RequestOptions? requestOptions = null)
+        List<string>? categories, string? countryCode, bool? forStorage, Point? location,
+        LocationType? locationType, string? magicKey, int? maxLocations,
+        List<string>? outFields, SpatialReference? outSpatialReference, Extent? searchExtent,
+        RequestOptions? requestOptions)
     {
         return await InvokeAsync<List<AddressCandidate>>("addressToLocations", url, address, categories, countryCode,
             forStorage, location, locationType, magicKey, maxLocations, outFields, outSpatialReference, searchExtent,
             requestOptions);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(Point location)
+    {
+        return await LocationToAddress(ESRIGeoLocationUrl, location);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType)
+    {
+        return await LocationToAddress(ESRIGeoLocationUrl, location, locationType);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output
+    ///     geometries are in the spatial reference of the input geometries when performing a reverse geocode and in the
+    ///     default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType,
+        SpatialReference? outSpatialReference)
+    {
+        return await LocationToAddress(ESRIGeoLocationUrl, location, locationType, outSpatialReference);
     }
 
     /// <summary>
@@ -227,10 +1100,64 @@ public class Locator : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
-    public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
+    public async Task<AddressCandidate> LocationToAddress(Point location, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
     {
         return await LocationToAddress(ESRIGeoLocationUrl, location, locationType, outSpatialReference, requestOptions);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(string url, Point location)
+    {
+        return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, null, null, null);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType)
+    {
+        return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType, null, null);
+    }
+
+    /// <summary>
+    ///     Locates an address based on a given point.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="location">
+    ///     The point at which to search for the closest address. The location should be in the same spatial
+    ///     reference as that of the geocode service.
+    /// </param>
+    /// <param name="locationType">
+    ///     Define the type of location, either "street" or "rooftop", of the point returned from the
+    ///     World Geocoding Service.
+    /// </param>
+    /// <param name="outSpatialReference">
+    ///     The spatial reference of the output geometries. If not specified, the output geometries are in the spatial
+    ///     reference of the input geometries when performing a
+    ///     reverse geocode and in the default spatial reference returned by the service if finding locations by address.
+    /// </param>
+    public async Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType,
+        SpatialReference? outSpatialReference)
+    {
+        return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType,
+            outSpatialReference, null);
     }
 
     /// <summary>
@@ -253,11 +1180,50 @@ public class Locator : LogicComponent
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
-    public async Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType = null,
-        SpatialReference? outSpatialReference = null, RequestOptions? requestOptions = null)
+    public async Task<AddressCandidate> LocationToAddress(string url, Point location, LocationType? locationType,
+        SpatialReference? outSpatialReference, RequestOptions? requestOptions)
     {
         return await InvokeAsync<AddressCandidate>("locationToAddress", url, location, locationType,
             outSpatialReference, requestOptions);
+    }
+
+    /// <summary>
+    ///     Get character by character auto complete suggestions.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="location">
+    ///     Defines a normalized location point that is used to sort geocoding candidates based upon their
+    ///     proximity to the given location.
+    /// </param>
+    /// <param name="text">
+    ///     The input text entered by a user which is used by the suggest operation to generate a list of
+    ///     possible matches.
+    /// </param>
+    public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text)
+    {
+        return await SuggestLocations(ESRIGeoLocationUrl, location, text);
+    }
+
+    /// <summary>
+    ///     Get character by character auto complete suggestions.
+    ///     Uses the default ESRI geolocation service.
+    /// </summary>
+    /// <param name="location">
+    ///     Defines a normalized location point that is used to sort geocoding candidates based upon their
+    ///     proximity to the given location.
+    /// </param>
+    /// <param name="text">
+    ///     The input text entered by a user which is used by the suggest operation to generate a list of
+    ///     possible matches.
+    /// </param>
+    /// <param name="categories">
+    ///     A place or address type which can be used to filter suggest results. The parameter supports
+    ///     input of single category values or multiple comma-separated values.
+    /// </param>
+    public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
+        List<string>? categories)
+    {
+        return await SuggestLocations(ESRIGeoLocationUrl, location, text, categories);
     }
 
     /// <summary>
@@ -280,9 +1246,49 @@ public class Locator : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text,
-        List<string>? categories = null, RequestOptions? requestOptions = null)
+        List<string>? categories, RequestOptions? requestOptions)
     {
         return await SuggestLocations(ESRIGeoLocationUrl, location, text, categories, requestOptions);
+    }
+
+    /// <summary>
+    ///     Get character by character auto complete suggestions.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="location">
+    ///     Defines a normalized location point that is used to sort geocoding candidates based upon their
+    ///     proximity to the given location.
+    /// </param>
+    /// <param name="text">
+    ///     The input text entered by a user which is used by the suggest operation to generate a list of
+    ///     possible matches.
+    /// </param>
+    public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text)
+    {
+        return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text, null, null);
+    }
+
+    /// <summary>
+    ///     Get character by character auto complete suggestions.
+    /// </summary>
+    /// <param name="url">URL to the ArcGIS Server REST resource that represents a locator service.</param>
+    /// <param name="location">
+    ///     Defines a normalized location point that is used to sort geocoding candidates based upon their
+    ///     proximity to the given location.
+    /// </param>
+    /// <param name="text">
+    ///     The input text entered by a user which is used by the suggest operation to generate a list of
+    ///     possible matches.
+    /// </param>
+    /// <param name="categories">
+    ///     A place or address type which can be used to filter suggest results. The parameter supports
+    ///     input of single category values or multiple comma-separated values.
+    /// </param>
+    public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text,
+        List<string>? categories)
+    {
+        return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text,
+            categories, null);
     }
 
     /// <summary>
@@ -305,7 +1311,7 @@ public class Locator : LogicComponent
     ///     Additional options to be used for the data request 
     /// </param>
     public async Task<List<SuggestionResult>> SuggestLocations(string url, Point location, string text,
-        List<string>? categories = null, RequestOptions? requestOptions = null)
+        List<string>? categories, RequestOptions? requestOptions)
     {
         return await InvokeAsync<List<SuggestionResult>>("suggestLocations", url, location, text,
             categories, requestOptions);

@@ -98,7 +98,7 @@
 
     private async Task AddressToLocations()
     {
-        _locations1 = await Locator.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), outFields: new() { "*" });
+        _locations1 = await Locator.AddressToLocations(new Address("380 New York Street", "Redlands", "CA", "92373"), null, null, null, null, null, null, null, outFields:["*"]);
     }
 
     private async Task SuggestLocations()

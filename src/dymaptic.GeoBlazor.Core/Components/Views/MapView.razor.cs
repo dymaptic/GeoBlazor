@@ -1817,12 +1817,36 @@ public partial class MapView : MapComponent
     /// <param name="clickEvent">
     ///     The click event to test for hits.
     /// </param>
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent)
+    {
+        return await HitTest(clickEvent, null);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="clickEvent">
+    ///     The click event to test for hits.
+    /// </param>
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ClickEvent clickEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(clickEvent.X, clickEvent.Y), options);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="pointerEvent">
+    ///     The pointer event to test for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent)
+    {
+        return await HitTest(pointerEvent, null);
     }
 
     /// <summary>
@@ -1835,9 +1859,21 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(PointerEvent pointerEvent, HitTestOptions? options)
     {
         return await HitTestImplementation(new ScreenPoint(pointerEvent.X, pointerEvent.Y), options);
+    }
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="screenPoint">
+    ///     The screen point to check for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint)
+    {
+        return await HitTest(screenPoint, null);
     }
 
     /// <summary>
@@ -1850,11 +1886,23 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(ScreenPoint screenPoint, HitTestOptions? options)
     {
         return await HitTestImplementation(screenPoint, options);
     }
-    
+
+    /// <summary>
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
+    ///     are organized as an array of objects containing different result types.
+    /// </summary>
+    /// <param name="mapPoint">
+    ///     The map point, in the same projection as the map, to check for hits.
+    /// </param>
+    public async Task<HitTestResult> HitTest(Point mapPoint)
+    {
+        return await HitTest(mapPoint, null);
+    }
+
     /// <summary>
     ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
     ///     are organized as an array of objects containing different result types.
@@ -1865,7 +1913,7 @@ public partial class MapView : MapComponent
     /// <param name="options">
     ///     Options to specify what is included in or excluded from the hitTest.
     /// </param>
-    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options = null)
+    public async Task<HitTestResult> HitTest(Point mapPoint, HitTestOptions? options)
     {
         ScreenPoint screenPoint = await ToScreen(mapPoint);
         return await HitTestImplementation(screenPoint, options);
