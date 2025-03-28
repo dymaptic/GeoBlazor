@@ -62,7 +62,7 @@ import {load} from "protobufjs";
 import {buildDotNetExtent, buildJsExtent} from './extent';
 import {buildJsPortalItem} from './portalItem';
 import {buildJsGraphic} from './graphic';
-import {buildDotNetLayer, buildJsLayer} from './layer';
+import {buildDotNetLayer, buildJsLayer, preloadLayerTypes} from './layer';
 import {buildDotNetPoint, buildJsPoint} from './point';
 import {buildDotNetLayerView} from './layerView';
 import {buildDotNetSpatialReference} from './spatialReference';
@@ -74,7 +74,7 @@ import {buildJsAttributes} from './attributes';
 import HitTestResult = __esri.HitTestResult;
 import MapViewHitTestOptions = __esri.MapViewHitTestOptions;
 import ScreenPoint = __esri.ScreenPoint;
-import {buildJsWidget} from "./widget";
+import {buildJsWidget, preloadWidgetTypes} from "./widget";
 import ColorBackground from "@arcgis/core/webmap/background/ColorBackground";
 import { buildJsColor } from './mapColor';
 import {buildJsBasemap} from "./basemap";
@@ -113,6 +113,8 @@ let notifyExtentChanged: boolean = true;
 const uploadingLayers: Array<string> = [];
 let userChangedViewExtent: boolean = false;
 let pointerDown: boolean = false;
+let loadedLayers: string[] = [];
+let loadedWidgets: string[] = [];
 
 // region functions
 
@@ -238,6 +240,18 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
     userChangedViewExtent = false;
     blazorServer = isServer;
     const dotNetRef = dotNetReference;
+
+    let newLayers = await preloadLayerTypes(
+        mapObject.layers.concat(mapObject.basemap?.layers ?? [])
+            .filter(l => !loadedLayers.includes(l.type)), id);
+    loadedLayers = loadedLayers.concat(newLayers);
+    let newWidgets = await preloadWidgetTypes(widgets
+        .filter(w => !loadedWidgets.includes(w.type)), id);
+    loadedWidgets = loadedWidgets.concat(newWidgets);
+    if (newLayers.length > 0 || newWidgets.length > 0){
+        await delayTask(200);
+    }
+    
     if (!projection.isLoaded()) {
         await projection.load();
     }
@@ -1248,6 +1262,10 @@ export function lookupJsGraphicById(graphicId: string, layerId: string | null, v
 
 export function lookupGeoBlazorId(jsObject: any): string | null {
     for (const key in arcGisObjectRefs) {
+        if (key === 'undefined') {
+            delete arcGisObjectRefs[key];
+            continue;
+        }
         let item = arcGisObjectRefs[key];
         if (!hasValue(item)) {
             delete arcGisObjectRefs[key];
@@ -2086,4 +2104,8 @@ export function buildEncodedJson(object: any) {
     let encoder = new TextEncoder();
     let encodedArray = encoder.encode(json);
     return encodedArray;
+}
+
+export function delayTask(milliseconds: number = 0) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
 }

@@ -14,7 +14,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
     async getActiveSource() {
         let jsSource = this.widget.activeSource;
         let {buildDotNetSearchSource} = await import('./searchSource');
-        let dnSource = buildDotNetSearchSource(jsSource);
+        let dnSource = await buildDotNetSearchSource(jsSource);
         let encodedJson = buildEncodedJson(dnSource);
         return encodedJson;
     }
@@ -32,7 +32,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         let dotNetSources: any[] = [];
         let {buildDotNetSearchSource} = await import('./searchSource');
         for (let jsSource of jsSources) {
-            dotNetSources.push(buildDotNetSearchSource(jsSource));
+            dotNetSources.push(await buildDotNetSearchSource(jsSource));
         }
 
         let encodedJson = buildEncodedJson(dotNetSources);
@@ -44,7 +44,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
         let dotNetSources: any[] = [];
         let {buildDotNetSearchSource} = await import('./searchSource');
         for (let jsSource of jsSources) {
-            dotNetSources.push(buildDotNetSearchSource(jsSource));
+            dotNetSources.push(await buildDotNetSearchSource(jsSource));
         }
 
         return dotNetSources;
@@ -52,7 +52,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
 
     async getResultGraphic() {
         let {buildDotNetGraphic} = await import('./graphic');
-        return buildDotNetGraphic(this.widget.resultGraphic, null, null);
+        return buildDotNetGraphic(this.widget.resultGraphic, null, this.viewId);
     }
 
     async getResults() {
@@ -67,7 +67,7 @@ export default class SearchWidgetWrapper extends SearchWidgetGenerated {
             }
             let dnResult = {
                 results: searchResults,
-                source: buildDotNetSearchSource(jsResult.source),
+                source: await buildDotNetSearchSource(jsResult.source),
                 sourceIndex: jsResult.sourceIndex
             }
             dnResults.push(dnResult);

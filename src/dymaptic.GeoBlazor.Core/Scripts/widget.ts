@@ -158,3 +158,13 @@ export async function buildJsWidget(dotNetObject: any, layerId: string | null, v
 export async function buildDotNetWidget(jsObject: any): Promise<any> {
     return removeCircularReferences(jsObject);
 }
+
+export async function preloadWidgetTypes(widgets: any[], viewId: string | null): Promise<string[]> {
+    let importedWidgets: string[] = [];
+    for (const widget of widgets) {
+        let _ = await buildJsWidget(widget, widget.layerId, viewId);
+        importedWidgets.push(widget.type);
+    }
+    
+    return importedWidgets;
+}

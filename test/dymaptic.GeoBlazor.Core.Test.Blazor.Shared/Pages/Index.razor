@@ -103,30 +103,25 @@
     private async Task<bool> RunTests(bool onlyFailedTests = false, CancellationToken token = default)
     {
         _running = true;
-        ParallelOptions options = new()
+        foreach (var kvp in _testClasses)
         {
-            CancellationToken = token,
-            MaxDegreeOfParallelism = 8
-        };
-        await Parallel.ForEachAsync(_testClasses, options, async (kvp, cToken) =>
-        {
-            if (cToken.IsCancellationRequested)
+            if (token.IsCancellationRequested)
             {
-                return;
+                break;
             }
             
             if (_results.TryGetValue(kvp.Key, out TestResult? results))
             {
                 if (onlyFailedTests && results.Failed.Count == 0)
                 {
-                    return;
+                    break;
                 }
             }
             if (kvp.Value != null)
             {
                 await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests, true);
             }
-        });
+        }
         
         _running = false;
         await InvokeAsync(StateHasChanged);

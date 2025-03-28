@@ -1487,7 +1487,7 @@ public partial class MapView : MapComponent
         
         layer.View ??= this;
 
-        if (CoreJsModule is null) return;
+        if (CoreJsModule is null || !MapRendered) return;
 
         await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
             (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
@@ -2110,12 +2110,7 @@ public partial class MapView : MapComponent
             widget.CoreJsModule ??= CoreJsModule;
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget) return;
-
-        while (Rendering)
-        {
-            await Task.Delay(100);
-        }
+        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return;
 
         await InvokeAsync(async () =>
         {

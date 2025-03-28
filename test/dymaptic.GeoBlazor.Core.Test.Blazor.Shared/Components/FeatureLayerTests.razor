@@ -10,14 +10,9 @@
     public async Task TestCanSetFeatureLayerVisibility(Action renderHandler)
     {
         MapView? mapView = null;
-        async Task OnViewInitialized()
-        {
-            await mapView!.AddLayer(
-    new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
-        title: "Test"));
-        }
+        
         AddMapRenderFragment(
-		    @<MapView OnViewInitialized="@OnViewInitialized" @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+		    @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
 		        <Map>
 		            <Basemap>
                         <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
@@ -25,6 +20,11 @@
 		        </Map>
 		    </MapView>);
         await WaitForMapToRender();
+        
+        await mapView!.AddLayer(
+            new FeatureLayer("https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0",
+                title: "Test"));
+        await Task.Delay(100);
         await AssertJavaScript("assertLayerExists", args: "feature");
 
         FeatureLayer? featureLayer = mapView!.Map!.Layers.OfType<FeatureLayer>().SingleOrDefault();

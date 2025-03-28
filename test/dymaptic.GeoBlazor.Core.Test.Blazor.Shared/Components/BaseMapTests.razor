@@ -60,16 +60,10 @@
     public async Task TestCanSetBaseMapLayerVisibility(Action renderHandler)
     {
         MapView? mapView = null;
-        async Task OnViewInitialized()
-        {
-            await mapView!.AddLayer(new ImageryTileLayer(
-            "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"),
-            isBasemapLayer: true);
-        }
+        
         AddMapRenderFragment(
-    @<MapView OnViewInitialized="@OnViewInitialized"
-                          @ref="@mapView" class="map-view"
-                          OnViewRendered="renderHandler">
+    @<MapView @ref="@mapView" class="map-view"
+              OnViewRendered="renderHandler">
         <Map>
             <Basemap>
                 <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
@@ -78,6 +72,10 @@
     </MapView>);
 
         await WaitForMapToRender();
+        await mapView!.AddLayer(new ImageryTileLayer(
+                "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"),
+            isBasemapLayer: true);
+        await Task.Delay(1000);
 
         ImageryTileLayer? imageryTileLayer = mapView!.Map!.Basemap!.BaseLayers?.OfType<ImageryTileLayer>().SingleOrDefault();
 

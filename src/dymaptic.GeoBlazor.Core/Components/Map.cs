@@ -48,8 +48,7 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                _layersToRender.Add(layer);
-                StateHasChanged();
+                await View!.AddLayer(layer);
 
                 break;
             default:
@@ -69,7 +68,6 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                _layersToRender.Remove(layer);
                 await View!.RemoveLayer(layer);
 
                 break;
@@ -91,27 +89,4 @@ public class Map : MapComponent
             layer.ValidateRequiredChildren();
         }
     }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender && _layersToRender.Any() && !_rendering)
-        {
-            List<Layer> newLayers = _layersToRender.ToList();
-            _rendering = true;
-            AllowRender = false;
-
-            foreach (Layer layer in newLayers)
-            {
-                await View!.AddLayer(layer);
-            }
-
-            _layersToRender.Clear();
-            AllowRender = true;
-            _rendering = false;
-        }
-    }
-
-    private List<Layer> _layersToRender = new();
-    private bool _rendering;
 }
