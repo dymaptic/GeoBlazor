@@ -1,10 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Model;
-using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-
-namespace dymaptic.GeoBlazor.Core;
+﻿namespace dymaptic.GeoBlazor.Core;
 
 /// <summary>
 ///     Static extension class for injecting GeoBlazor types
@@ -12,7 +6,7 @@ namespace dymaptic.GeoBlazor.Core;
 public static class DependencyExtension
 {
     /// <summary>
-    ///     Adds the Logic components <see cref="GeometryEngine" /> and <see cref="Projection" /> to your dependency
+    ///     Adds the Logic components <see cref="GeometryEngine" /> and <see cref="ProjectionEngine" /> to your dependency
     ///     injection collection.
     /// </summary>
     /// <remarks>
@@ -23,13 +17,14 @@ public static class DependencyExtension
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection,
         IConfiguration? configuration = null)
     {
-        GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>() ?? new();
-        serviceCollection.AddHttpClient<IAppValidator, RegistrationValidator>();
+        GeoBlazorSettings settings = configuration?.GetSection("GeoBlazor").Get<GeoBlazorSettings>() 
+            ?? new GeoBlazorSettings();
         return serviceCollection
             .AddSingleton<GeoBlazorSettings>(_ => settings)
+            .AddScoped<JsModuleManager>()
             .AddScoped<GeometryEngine>()
-            .AddScoped<Locator>()
-            .AddScoped<Projection>()
+            .AddScoped<LocationService>()
+            .AddScoped<ProjectionEngine>()
             .AddScoped<AbortManager>()
             .AddScoped<AuthenticationManager>()
             .AddScoped<IAppValidator, RegistrationValidator>();

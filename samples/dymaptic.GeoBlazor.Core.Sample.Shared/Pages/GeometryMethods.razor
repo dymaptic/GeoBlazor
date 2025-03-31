@@ -163,7 +163,7 @@
 
     private async Task AddPath()
     {
-        PolyLine newLine = await GeometryEngine.AddPath(_polyLine, new MapPath
+        Polyline newLine = await GeometryEngine.AddPath(_polyline, new MapPath
         {
             new(11, 52),
             new(11.5, 53),
@@ -176,7 +176,7 @@
 
     private async Task GetLinePoint()
     {
-        Point point = await GeometryEngine.GetPoint(_polyLine, 0, 2);
+        Point point = await GeometryEngine.GetPoint(_polyline, 0, 2);
         _linePoint = $"X: {point.X}, Y: {point.Y}";
     }
 
@@ -213,7 +213,7 @@
     private string? _insertPoint;
     private bool? _isClockwise;
     private readonly Extent _extent = new(4120960.074670904, -3412935.278412999, 8963926.222211033, 6049459.93475111);
-    private readonly PolyLine _polyLine = new(new[]
+    private readonly Polyline _polyline = new(new[]
     {
         new MapPath(new MapPoint(11, 52),
             new MapPoint(11.5, 53),

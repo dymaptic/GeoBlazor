@@ -1,76 +1,117 @@
-﻿import Graphic from "@arcgis/core/Graphic";
-import {DotNetGeometry, DotNetPopupTemplate, IPropertyWrapper} from "./definitions";
-import {buildJsGeometry, buildJsPopupTemplate, buildJsSymbol} from "./jsBuilder";
-import {buildDotNetGeometry, buildDotNetPopupTemplate} from "./dotNetBuilder";
+import Graphic from "@arcgis/core/Graphic";
+import {
+    arcGisObjectRefs,
+    copyValuesIfExists, dotNetRefs,
+    graphicsRefs,
+    hasValue,
+    jsObjectRefs, lookupGeoBlazorGraphicId, lookupGeoBlazorId,
+    lookupJsGraphicById
+} from "./arcGisJsInterop";
+import Geometry from "@arcgis/core/geometry/Geometry";
+import Symbol from "@arcgis/core/symbols/Symbol";
+import PopupTemplate from "@arcgis/core/PopupTemplate";
+import {buildDotNetGeometry, buildJsGeometry} from './geometry';
+import {buildJsPopupTemplate} from './popupTemplate';
+import {buildDotNetSymbol, buildJsSymbol} from './symbol';
+import {buildJsAttributes} from './attributes';
 
-export default class GraphicWrapper implements IPropertyWrapper {
-    public graphic: Graphic;
+export function buildJsGraphic(graphicObject: any): Graphic {
+    let graphic: Graphic | null = lookupJsGraphicById(graphicObject.id, graphicObject.layerId, graphicObject.viewId);
+    if (graphic !== null) {
+        graphic.geometry = buildJsGeometry(graphicObject.geometry) as Geometry ?? graphic.geometry;
+        graphic.symbol = buildJsSymbol(graphicObject.symbol) as Symbol ?? graphic.symbol;
+    } else {
+        graphic = new Graphic({
+            geometry: buildJsGeometry(graphicObject.geometry) as Geometry ?? null,
+            symbol: buildJsSymbol(graphicObject.symbol) as Symbol ?? null,
+        });
+    }
 
-    constructor(graphic: Graphic) {
-        this.graphic = graphic;
-        // set all properties from graphic
-        for (let prop in graphic) {
-            if (graphic.hasOwnProperty(prop)) {
-                this[prop] = graphic[prop];
-            }
+    if (hasValue(graphicObject.attributes)) {
+        graphic.attributes = buildJsAttributes(graphicObject.attributes);
+    }
+
+    if (hasValue(graphicObject.popupTemplate)) {
+        graphic.popupTemplate = buildJsPopupTemplate(graphicObject.popupTemplate, graphicObject.layerId, graphicObject.viewId) as PopupTemplate;
+    }
+
+    if (hasValue(graphicObject.origin)) {
+        let layer: any | undefined = undefined;
+        if (arcGisObjectRefs.hasOwnProperty(graphicObject.origin.layerId)) {
+            layer = arcGisObjectRefs[graphicObject.origin.layerId] as any;
+        }
+        graphic.origin = {
+            type: 'vector-tile',
+            layer: layer,
+            layerId: graphicObject.origin.arcGISLayerId,
+            layerIndex: graphicObject.origin.layerIndex
         }
     }
+    
+    if (hasValue(graphicObject.layerId) && arcGisObjectRefs.hasOwnProperty(graphicObject.layerId)) {
+        graphic.layer = arcGisObjectRefs[graphicObject.layerId] as any;
+    }
+    
+    if (hasValue(graphicObject.aggregateGeometries)) {
+        graphic.aggregateGeometries = JSON.parse(graphicObject.aggregateGeometries);
+    }
 
-    setAttribute(name: string, value: any): void {
-        if (this.graphic.attributes[name] !== value) {
-            this.graphic.attributes[name] = value;
+    copyValuesIfExists(graphicObject, graphic, 'visible');
+
+    let groupId = graphicObject.layerId 
+        ?? graphicObject.layer?.id 
+        ?? graphicObject.viewId;
+    if (hasValue(groupId)) {
+        if (!graphicsRefs.hasOwnProperty(groupId!)) {
+            graphicsRefs[groupId!] = {};
         }
+        graphicsRefs[groupId!][graphicObject.id] = graphic;
     }
 
-    getAttribute(name: string): any {
-        return this.graphic.attributes[name];
+    let jsObjectRef = DotNet.createJSObjectReference(graphic);
+    jsObjectRefs[graphicObject.id] = jsObjectRef;
+    arcGisObjectRefs[graphicObject.id] = graphic;
+
+    return graphic;
+}
+
+export function buildDotNetGraphic(graphic: Graphic, layerId: string | null, viewId: string | null): any {
+    if (graphic === undefined || graphic === null) return null;
+    let dotNetGraphic: any = {};
+    
+    if (layerId === null && hasValue(graphic.layer)) {
+        layerId = lookupGeoBlazorId(graphic.layer);
     }
 
-    removeAttribute(name: string): void {
-        delete this.graphic.attributes[name];
+    let groupId = layerId ?? viewId;
+    dotNetGraphic.id = lookupGeoBlazorGraphicId(graphic);
+
+    copyValuesIfExists(graphic, dotNetGraphic, 'visible', 'aggregateGeometries', 'uid');
+
+    dotNetGraphic.attributes = graphic.attributes ?? {};
+    dotNetGraphic.layerId = layerId;
+    dotNetGraphic.viewId = viewId;
+
+    if (hasValue(graphic.symbol)) {
+        dotNetGraphic.symbol = buildDotNetSymbol(graphic.symbol);
     }
 
-    setGeometry(geometry: DotNetGeometry): void {
-        let jsGeometry = buildJsGeometry(geometry);
-        if (jsGeometry !== null && this.graphic.geometry !== jsGeometry) {
-            this.graphic.geometry = jsGeometry;
+    if (hasValue(graphic.geometry)) {
+        dotNetGraphic.geometry = buildDotNetGeometry(graphic.geometry);
+    }
+
+    if (hasValue(groupId)) {
+        if (!graphicsRefs.hasOwnProperty(groupId!)) {
+            graphicsRefs[groupId!] = {};
         }
-    }
-
-    getGeometry(): DotNetGeometry | null {
-        return buildDotNetGeometry(this.graphic.geometry);
-    }
-
-    setSymbol(symbol: any): void {
-        if (this.graphic.symbol !== symbol) {
-            this.graphic.symbol = buildJsSymbol(symbol) as any;
+        
+        if (!hasValue(dotNetGraphic.id)) {
+            dotNetGraphic.id = crypto.randomUUID();
+            graphicsRefs[groupId!][dotNetGraphic.id] = graphic;
         }
+    } else if (!hasValue(dotNetGraphic.id)) {
+        dotNetGraphic.id = crypto.randomUUID();
     }
-
-    getSymbol(): any {
-        return this.graphic.symbol;
-    }
-
-    setVisibility(visible: boolean): void {
-        this.graphic.visible = visible;
-    }
-
-    getVisibility(): boolean {
-        return this.graphic.visible;
-    }
-
-    setPopupTemplate(popupTemplate: DotNetPopupTemplate, viewId: string): void {
-        let jsPopupTemplate = buildJsPopupTemplate(popupTemplate, viewId);
-        if (jsPopupTemplate !== null && this.graphic.popupTemplate !== jsPopupTemplate) {
-            this.graphic.popupTemplate = jsPopupTemplate;
-        }
-    }
-
-    getPopupTemplate(): DotNetPopupTemplate | null {
-        return buildDotNetPopupTemplate(this.graphic.popupTemplate);
-    }
-
-    setProperty(prop: string, value: any): void {
-        this.graphic[prop] = value;
-    }
+    
+    return dotNetGraphic;
 }

@@ -1,4 +1,13 @@
-﻿import Layer from "@arcgis/core/layers/Layer";
+﻿declare global {
+    interface DotNet {
+        invokeMethodAsync(assembly: string, method: string, ...args: any[]): Promise<any>;
+        createJSObjectReference(obj: any): any;
+        createJSStreamReference(data: Uint8Array): any;
+        disposeJSObjectReference(obj: any): void;
+    }
+
+    let DotNet: DotNet;
+}
 
 export interface MapObject {
     declaredClass: string;
@@ -17,6 +26,10 @@ export interface DotNetGraphic {
     uid: string;
     geometry: any;
     attributes: any;
+    visible: boolean | null;
+    legendLabel: string | null;
+    aggregateGeometries: string | null;
+    origin: any;
     layerId: string | null;
     dotNetGraphicReference: any;
     symbol: DotNetSymbol;
@@ -100,8 +113,8 @@ export interface DotNetSimpleMarkerSymbol extends DotNetSymbol {
     path: string;
     size: number;
     style: string;
-    xOffset: number;
-    yOffset: number;
+    xoffset: number;
+    yoffset: number;
 }
 
 export interface DotNetSimpleLineSymbol extends DotNetSymbol {
@@ -116,8 +129,8 @@ export interface DotNetSimpleLineSymbol extends DotNetSymbol {
 
 export interface DotNetPictureMarkerSymbol extends DotNetSymbol {
     angle: number;
-    xOffset: number;
-    yOffset: number;
+    xoffset: number;
+    yoffset: number;
 
     height: number;
 
@@ -130,8 +143,8 @@ export interface DotNetPictureFillSymbol extends DotNetSymbol {
     height: number;
     width: number;
     url: string;
-    xOffset: number;
-    yOffset: number;
+    xoffset: number;
+    yoffset: number;
     xScale: number;
     yScale: number;
     outline: DotNetSimpleLineSymbol;
@@ -157,8 +170,8 @@ export interface DotNetTextSymbol extends DotNetSymbol {
     rotated: boolean;
     text: string;
     verticalAlignment: string;
-    xOffset: number;
-    yOffset: number;
+    xoffset: number;
+    yoffset: number;
 }
 
 export interface DotNetSpatialReference {
@@ -202,6 +215,7 @@ export interface DotNetLayerView {
     suspended: boolean;
     updating: boolean;
     visible: boolean;
+    type: string;
 }
 
 export interface DotNetHitTestResult {
@@ -589,6 +603,7 @@ export interface DotNetRangeDomain extends DotNetDomain {
 export interface DotNetInheritedDomain extends DotNetDomain {
     name: string;
 }
+
 export interface DotNetDimensionalDefinition {
     dimensionName: string;
     isSlice: boolean;
@@ -765,10 +780,11 @@ export interface DotNetUniqueValueClass {
     symbol: DotNetSymbol;
     values: object[];
 }
+
 export interface DotNetUniqueValueInfo {
     label: string;
     symbol: DotNetSymbol;
-    values: object[];
+    value: any;
 }
 
 export interface DotNetUniqueValueGroup {
@@ -804,5 +820,10 @@ export interface DotNetAddressCandidate {
 
 export interface IPropertyWrapper {
     setProperty(prop: string, value: any): void;
+
+    getProperty(prop: string): any;
+
     unwrap(): any;
 }
+
+export {}

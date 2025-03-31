@@ -1,9 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     Specifies constraints to scale, zoom, and rotation that may be applied to the MapView. The constraints.lods should
@@ -76,7 +71,7 @@ public class Constraints : MapComponent
         switch (child)
         {
             case LOD lod:
-                Lods ??= new List<LOD>();
+                Lods ??= [];
 
                 if (!Lods.Contains(lod))
                 {
@@ -124,7 +119,7 @@ public class Constraints : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Geometry?.ValidateRequiredChildren();

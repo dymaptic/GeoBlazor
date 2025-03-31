@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-
-
 namespace dymaptic.GeoBlazor.Core.Events;
-
 /// <summary>
 ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer
 ///     is removed from the map of the view.
@@ -13,4 +9,5 @@ namespace dymaptic.GeoBlazor.Core.Events;
 /// <param name="LayerView">
 ///     The LayerView that was destroyed in the view.
 /// </param>
+[CodeGenerationIgnore]
 public record LayerViewDestroyEvent(Layer Layer, LayerView LayerView);

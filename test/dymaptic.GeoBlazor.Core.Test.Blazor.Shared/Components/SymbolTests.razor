@@ -31,7 +31,7 @@
     </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertSymbolOnLayer", nameof(CanRenderTextSymbol), layer!.Id, "text");
+        await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text"]);
     }
 
     [TestMethod]
@@ -65,8 +65,8 @@
                                 LineHeight="2.3"
                                 LineWidth="@(new Dimension("120px"))"
                                 Rotated="true"
-                                XOffset="@("23pt")"
-                                YOffset="@("23pt")">
+                                Xoffset="@("23pt")"
+                                Yoffset="@("23pt")">
                         <MapFont Family="San Serif" />
                     </TextSymbol>
                 </SimpleRenderer>
@@ -75,7 +75,7 @@
     </MapView>);
 
         await WaitForMapToRender();
-        await AssertJavaScript("assertSymbolOnLayer", nameof(CanSetPropertiesOnTextSymbol), layer!.Id, "text", textSymbol!);
+        await AssertJavaScript("assertSymbolOnLayer", args: [layer!.Id, "text", textSymbol!]);
     }
 
 }

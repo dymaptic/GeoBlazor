@@ -12,16 +12,16 @@
 
 <MapView Center="@(new Point(-116.925, 34.2501))" Zoom="12" Class="map-view"> 
     <WebMap>
-        <PortalItem Id="372b7caa8fe340b0a6300df93ef18a7e" />
+        <PortalItem PortalItemId="372b7caa8fe340b0a6300df93ef18a7e" />
         <FeatureLayer>
-            <PortalItem Id="6012738cd1c74582a5f98ea30ae9876f" />
+            <PortalItem PortalItemId="6012738cd1c74582a5f98ea30ae9876f" />
             <Label LabelPlacement="LabelPlacement.AboveCenter">
                 <TextSymbol Color="@(new MapColor("green"))" 
                             BackgroundColor="@(new MapColor(213, 184, 255, 0.75))"
                             BorderLineColor="@(new MapColor("green"))"
                             BorderLineSize="1"
-                            YOffset="5">
-                    <MapFont Family="Playfair Display" Size="12" Weight="bold" />
+                            Yoffset="5">
+                    <MapFont Family="Playfair Display" Size="12" Weight="FontWeight.Bold" />
                 </TextSymbol>
                 <LabelExpressionInfo Expression="$feature.MARKER_ACTIVITY" />
             </Label>

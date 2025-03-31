@@ -1,7 +1,3 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-using Microsoft.JSInterop;
-
-
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
@@ -9,6 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     bookmarks of your webmap, and it can be shared across multiple ArcGIS web and desktop applications.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+[CodeGenerationIgnore]
 public class WebMap : Map
 {
     /// <summary>
@@ -18,6 +15,7 @@ public class WebMap : Map
     [RequiredProperty(nameof(Basemap), nameof(ArcGISDefaultBasemap))]
 #pragma warning restore CS0618 // Type or member is obsolete
     [RequiredProperty] // the extra required here is for WebMap only, whereas the previous allows a check against the Map base type
+    [CodeGenerationIgnore]
     public PortalItem? PortalItem { get; set; }
 
     /// <inheritdoc />
@@ -56,7 +54,7 @@ public class WebMap : Map
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         PortalItem?.ValidateRequiredChildren();
@@ -66,14 +64,15 @@ public class WebMap : Map
     /// Gets the bookmarks defined in the WebMap from layers
     /// </summary>
     /// <returns>A list of bookmarks or null</returns>
-    public async Task<List<Bookmark>> GetBookmarks()
+    public async Task<Bookmark[]?> GetBookmarks()
     {
-        var bookmarks = new List<Bookmark>();
+        Bookmark[]? bookmarks = null;
 
-        if (JsModule != null)
+        if (CoreJsModule != null)
         {
             bookmarks =
-                await JsModule!.InvokeAsync<List<Bookmark>>("getWebMapBookmarks", CancellationTokenSource.Token, this.View?.Id);
+                await CoreJsModule!.InvokeAsync<Bookmark[]>("getWebMapBookmarks", 
+                    CancellationTokenSource.Token, this.View?.Id);
         }
         return bookmarks;
     }

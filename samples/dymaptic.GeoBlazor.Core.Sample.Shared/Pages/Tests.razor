@@ -104,7 +104,7 @@
             <BasemapStyle Name="BasemapStyleName.ArcgisTopographic" />
         </Basemap>
         <FeatureLayer>
-            <PortalItem Id="a07b8cd0b3514285ab1ff001befd2288">
+            <PortalItem PortalItemId="a07b8cd0b3514285ab1ff001befd2288">
                 <Portal Url="https://arcgis.dymaptic.com/portal/" />
             </PortalItem>
             <PopupTemplate Title="Details" StringContent="<p>State: {state}</p><p><a href='{image_url}'>Image</a></p>" />
@@ -162,7 +162,7 @@
         new Graphic(new Point(11.888650, 52.451825),
             new SimpleMarkerSymbol(new Outline(new MapColor("white")),
                 new MapColor("green"), 6)),
-        new Graphic(new PolyLine(new[]
+        new Graphic(new Polyline(new[]
         {
             new MapPath(new MapPoint(11, 52),
                 new MapPoint(11.5, 53),

@@ -1,24 +1,12 @@
-﻿using dymaptic.GeoBlazor.Core.Objects;
-using Microsoft.AspNetCore.Components;
-using ProtoBuf;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
-/// <summary>
-///     Symbol is the abstract base class for all symbols. Symbols represent point, line, polygon, and mesh geometries as
-///     vector graphics within a View. Symbols can only be set directly on individual graphics in a GraphicsLayer or in
-///     View.graphics. Otherwise they are assigned to a Renderer that is applied to a Layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
 [JsonConverter(typeof(SymbolJsonConverter))]
-public abstract class Symbol : MapComponent
+public abstract partial class Symbol : MapComponent
 {
     /// <summary>
     ///     The color of the symbol.
     /// </summary>
+    [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MapColor? Color { get; set; }
@@ -26,7 +14,7 @@ public abstract class Symbol : MapComponent
     /// <summary>
     ///     The symbol type
     /// </summary>
-    public virtual string Type => default!;
+    public abstract SymbolType Type { get; }
 
     internal abstract SymbolSerializationRecord ToSerializationRecord();
 }
@@ -59,6 +47,8 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
                     return JsonSerializer.Deserialize<SimpleLineSymbol>(ref cloneReader, newOptions);
                 case "simple-fill":
                     return JsonSerializer.Deserialize<SimpleFillSymbol>(ref cloneReader, newOptions);
+                case "picture-fill":
+                    return JsonSerializer.Deserialize<PictureFillSymbol>(ref cloneReader, newOptions);
                 case "picture-marker":
                     return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
                 case "text":
@@ -70,6 +60,48 @@ internal class SymbolJsonConverter : JsonConverter<Symbol>
     }
 
     public override void Write(Utf8JsonWriter writer, Symbol value, JsonSerializerOptions options)
+    {
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), newOptions));
+    }
+}
+
+internal class MarkerSymbolJsonConverter : JsonConverter<MarkerSymbol>
+{
+    public override MarkerSymbol? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        // deserialize based on the subclass type
+        var newOptions = new JsonSerializerOptions(options)
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString
+        };
+        Utf8JsonReader cloneReader = reader;
+
+        if (JsonSerializer.Deserialize<Dictionary<string, object?>>(ref reader, newOptions) is not
+            IDictionary<string, object?> temp)
+        {
+            return null;
+        }
+
+        if (temp.TryGetValue("type", out object? typeValue))
+        {
+            switch (typeValue?.ToString())
+            {
+                case "simple-marker":
+                    return JsonSerializer.Deserialize<SimpleMarkerSymbol>(ref cloneReader, newOptions);
+                case "picture-marker":
+                    return JsonSerializer.Deserialize<PictureMarkerSymbol>(ref cloneReader, newOptions);
+            }
+        }
+
+        return null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, MarkerSymbol value, JsonSerializerOptions options)
     {
         var newOptions = new JsonSerializerOptions(options)
         {
@@ -113,10 +145,10 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public double? Angle { get; init; }
 
     [ProtoMember(7)]
-    public double? XOffset { get; init; }
+    public double? Xoffset { get; init; }
 
     [ProtoMember(8)]
-    public double? YOffset { get; init; }
+    public double? Yoffset { get; init; }
 
     [ProtoMember(9)]
     public double? Width { get; init; }
@@ -170,32 +202,32 @@ internal record SymbolSerializationRecord : MapComponentSerializationRecord
     public string? VerticalAlignment { get; init; }
     
     [ProtoMember(26)]
-    public int? XScale { get; init; }
+    public double? XScale { get; init; }
     
     [ProtoMember(27)]
-    public int? YScale { get; init; }
+    public double? YScale { get; init; }
 
     public Symbol FromSerializationRecord(bool isOutline = false)
     {
         return Type switch
         {
-            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
+            "outline" => new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
             "simple-marker" => new SimpleMarkerSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, Size, 
-                Style is null ? null : Enum.Parse<SimpleMarkerStyle>(Style!, true), Angle, XOffset, YOffset),
+                Style is null ? null : Enum.Parse<SimpleMarkerSymbolStyle>(Style!, true), Angle, Xoffset, Yoffset),
             "simple-line" => isOutline 
-                ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true))
-                : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<LineStyle>(LineStyle!, true)),
+                ? new Outline(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true))
+                : new SimpleLineSymbol(Color, Width, LineStyle is null ? null : Enum.Parse<SimpleLineSymbolStyle>(LineStyle!, true)),
             "simple-fill" => new SimpleFillSymbol(Outline?.FromSerializationRecord(true) as Outline, Color, 
-                Style is null ? null : Enum.Parse<FillStyle>(Style!, true)),
-            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, XOffset, YOffset),
-            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, XOffset, YOffset, XScale, YScale, 
+                Style is null ? null : Enum.Parse<SimpleFillSymbolStyle>(Style!, true)),
+            "picture-marker" => new PictureMarkerSymbol(Url!, Width, Height, Angle, Xoffset, Yoffset),
+            "picture-fill" => new PictureFillSymbol(Url!, Width, Height, Xoffset, Yoffset, XScale, YScale, 
                 Outline?.FromSerializationRecord(true) as Outline),
             "text" => new TextSymbol(Text ?? string.Empty, Color, HaloColor, HaloSize, 
                 MapFont?.FromSerializationRecord(), Angle, BackgroundColor, BorderLineColor,
                 BorderLineSize, HorizontalAlignment is null ? null : Enum.Parse<HorizontalAlignment>(HorizontalAlignment!, true),
                 Kerning, LineHeight, LineWidth, Rotated, 
                 VerticalAlignment is null ? null : Enum.Parse<VerticalAlignment>(VerticalAlignment!, true),
-                XOffset, YOffset),
+                Xoffset, Yoffset),
             _ => throw new ArgumentException($"Unknown symbol type: {Type}")
         };
     }

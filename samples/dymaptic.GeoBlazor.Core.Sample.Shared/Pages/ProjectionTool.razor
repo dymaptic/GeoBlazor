@@ -1,5 +1,5 @@
 ﻿@page "/projection-tool"
-@inject Projection Projection
+@inject ProjectionEngine ProjectionEngine
 
 <h1>Projection</h1>
 <div class="links-div">
@@ -29,7 +29,7 @@
 <div class="map-row">
     <div class="map-section">
         <div style="margin-bottom: 0.5rem;">
-            Wkid: <input type="number" step="1" @bind="Wkid1" />
+            Wkid: <input type="number" step="1" value="@_wkid1" @onchange="UpdateWkid1" />
         </div>
         @if (_startX.HasValue && _startY.HasValue)
         {
@@ -38,7 +38,7 @@
         }
         <MapView @ref="_view1" Longitude="_startingLong" Latitude="_startingLat" Zoom="10" Class="map-view"
                  OnViewRendered="View1Rendered" Style="background-color: lightblue; height: 300px;">
-            <SpatialReference Wkid="@Wkid1" />
+            <SpatialReference Wkid="@_wkid1" />
             <Map>
                 <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
                     <SpatialReference Wkid="103002" />
@@ -59,7 +59,7 @@
     </div>
     <div class="map-section">
         <div>
-            Wkid: <input type="number" step="1" @bind="Wkid2" />
+            Wkid: <input type="number" step="1" value="@_wkid2" @onchange="UpdateWkid2" />
         </div>
         @if (_endX.HasValue && _endY.HasValue)
         {
@@ -68,7 +68,7 @@
         }
         <MapView @ref="_view2" Longitude="_startingLong" Latitude="_startingLat" Zoom="3" Class="map-view"
                  OnViewRendered="View2Rendered" Style="background-color: lightblue; height: 300px;">
-            <SpatialReference Wkid="@Wkid2" />
+            <SpatialReference Wkid="@_wkid2" />
             <Map>
                 <GeoJSONLayer Url="https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/World_Countries_(Generalized)/FeatureServer/0/query?where=1%3D1&outFields=*&f=geojson">
                     <SpatialReference Wkid="4326" />
@@ -130,27 +130,22 @@ else
             InvokeAsync(Project);
         }
     }
-    private int Wkid1
+    
+    private async Task UpdateWkid1(ChangeEventArgs args)
     {
-        get => _wkid1;
-        set
-        {
-            _wkid1 = value;
-            _allRendered = false;
-            _view1!.Refresh();
-        }
+        _allRendered = false;
+        _wkid1 = int.Parse(args.Value!.ToString() ?? "103002");
+        await _view1!.SetSpatialReference(new SpatialReference(_wkid1));
     }
+    
+    private async Task UpdateWkid2(ChangeEventArgs args)
+    {
+        _allRendered = false;
+        _wkid2 = int.Parse(args.Value!.ToString() ?? "4326");
+        await _view2!.SetSpatialReference(new SpatialReference(_wkid2));
+    }
+    
     private int _wkid1 = 103002;
-    private int Wkid2
-    {
-        get => _wkid2;
-        set
-        {
-            _wkid2 = value;
-            _allRendered = false;
-            _view2!.Refresh();
-        }
-    }
     private int _wkid2 = 4326;
     private double _startingLat = 74.795766;
     private double _startingLong = -32.507603;
@@ -189,14 +184,14 @@ else
     {
         _allRendered = true;
         Geometry? renderedPoint = await _graphic1!.GetGeometry();
-        var startPoint = await Projection.Project(renderedPoint!, _view1SpatialReference!) as Point;
+        var startPoint = await ProjectionEngine.Project(renderedPoint!, _view1SpatialReference!) as Point;
         _startX = startPoint!.X;
         _startY = startPoint.Y;
-        var endPoint = await Projection.Project(renderedPoint!, _view2SpatialReference!) as Point;
+        var endPoint = await ProjectionEngine.Project(renderedPoint!, _view2SpatialReference!) as Point;
         _endX = endPoint!.X;
         _endY = endPoint.Y;
         Extent? view1Extent = await _view1!.GetExtent();
-        _transformation = await Projection.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
+        _transformation = await ProjectionEngine.GetTransformation(_view1SpatialReference!, _view2SpatialReference!, view1Extent!);
         StateHasChanged();
     }
 

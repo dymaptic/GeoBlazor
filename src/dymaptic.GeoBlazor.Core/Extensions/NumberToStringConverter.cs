@@ -1,8 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
-namespace dymaptic.GeoBlazor.Core.Extensions;
+﻿namespace dymaptic.GeoBlazor.Core.Extensions;
 
 internal class NumberToStringConverter: JsonConverter<string>
 {
@@ -14,6 +10,6 @@ internal class NumberToStringConverter: JsonConverter<string>
 
     public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
     {
-        writer.WriteRawValue($"\"{value}\"");
+        writer.WriteStringValue(value);
     }
 }

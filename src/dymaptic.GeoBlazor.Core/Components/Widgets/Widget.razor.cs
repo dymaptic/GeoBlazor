@@ -1,18 +1,14 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Views;
-using dymaptic.GeoBlazor.Core.Extensions;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">
+///         ArcGIS
+///         Maps SDK for JavaScript
+///     </a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
+[CodeGenerationIgnore]
 public abstract partial class Widget : MapComponent
 {
     /// <summary>
@@ -31,7 +27,7 @@ public abstract partial class Widget : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ContainerId { get; set; }
-    
+
     /// <summary>
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </summary>
@@ -42,22 +38,31 @@ public abstract partial class Widget : MapComponent
     /// <summary>
     ///     The type of widget
     /// </summary>
-    [JsonPropertyName("type")]
-    public abstract string WidgetType { get; }
-    
+    public abstract WidgetType Type { get; }
+
     /// <summary>
-    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
+    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the
+    ///     Expand widget).
     ///     Default Value:null
     /// </summary>
     [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Icon { get; set; }
-    
+
     /// <summary>
-    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
+    ///     The widget's label.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public virtual string? Label { get; set; }
+
+    /// <summary>
+    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to
+    ///     the container ID, or if that is not present then it will be automatically generated.
     /// </summary>
     [Parameter]
     public string? WidgetId { get; set; }
-    
+
     /// <summary>
     ///     Event handler to know when the widget has been created.
     /// </summary>
@@ -65,69 +70,385 @@ public abstract partial class Widget : MapComponent
     public EventCallback OnWidgetCreated { get; set; }
 
     /// <summary>
-    ///     DotNet Object Reference to the widget
-    /// </summary>
-    public DotNetObjectReference<Widget> DotNetWidgetReference => DotNetObjectReference.Create(this);
-
-    /// <summary>
     ///     Indicates if the widget is hidden. For internal use only.
     /// </summary>
     protected virtual bool Hidden => false;
-    
+
     /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render.
+    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return
+    ///     false.
     /// </summary>
-    protected internal virtual bool ArcGisWidget => true;
-    
-    /// <summary>
-    ///     JS-invokable callback to register a JS Object Reference
-    /// </summary>
+    protected internal virtual bool ArcGISWidget => true;
+
+    /// <inheritdoc />
     [JSInvokable]
-    public async Task OnJsWidgetCreated(IJSObjectReference jsObjectReference)
+    public override async ValueTask<MapComponent?> OnJsComponentCreated(IJSObjectReference jsComponentReference,
+        IJSStreamReference jsonStreamReference)
     {
-        JsWidgetReference = jsObjectReference;
-        await OnWidgetCreated.InvokeAsync();
+        var renderedWidget = await base.OnJsComponentCreated(jsComponentReference, jsonStreamReference) as Widget;
+        await OnWidgetCreated.InvokeAsync(this);
+
+        return renderedWidget;
     }
-    
+
     /// <summary>
-    ///     Sets any property to a new value after initial render. Supports all basic types (strings, numbers, booleans, dictionaries) and properties.
+    ///     Asynchronously retrieve the current value of the ContainerId property.
     /// </summary>
-    /// <param name="propertyName">
-    ///     The name of the property to set.
-    /// </param>
-    /// <param name="value">
-    ///     The new value.
-    /// </param>
-    public async Task SetProperty(string propertyName, object? value)
+    public async Task<string?> GetContainerId()
     {
-        ModifiedParameters[propertyName] = value;
-        
-        if (JsModule is null) return;
-        await JsModule!.InvokeVoidAsync("setProperty", JsWidgetReference, 
-            propertyName.ToLowerFirstChar(), value);
+        if (CoreJsModule is null) return ContainerId;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return ContainerId;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "containerId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ContainerId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ContainerId)] = result;
+        }
+
+        return ContainerId;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Icon property.
+    /// </summary>
+    public async Task<string?> GetIcon()
+    {
+        if (CoreJsModule is null) return Icon;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return Icon;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "icon");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Icon = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Icon)] = result;
+        }
+
+        return Icon;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Label property.
+    /// </summary>
+    public async Task<string?> GetLabel()
+    {
+        if (CoreJsModule is null) return Label;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return Label;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "label");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Label = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Label)] = result;
+        }
+
+        return Label;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Position property.
+    /// </summary>
+    public async Task<OverlayPosition?> GetPosition()
+    {
+        if (CoreJsModule is null) return Position;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return Position;
+
+        // get the property value
+        JsNullableEnumWrapper<OverlayPosition>? result =
+            await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OverlayPosition>?>("getProperty",
+                CancellationTokenSource.Token, JsComponentReference, "position");
+
+        if (result?.Value is not null)
+        {
+#pragma warning disable BL0005
+            Position = result.Value.Value;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Position)] = result;
+        }
+
+        return Position;
+    }
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the WidgetId property.
+    /// </summary>
+    public async Task<string?> GetWidgetId()
+    {
+        if (CoreJsModule is null) return WidgetId;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return WidgetId;
+
+        // get the property value
+        string? result = await CoreJsModule!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, JsComponentReference, "widgetId");
+
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            WidgetId = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(WidgetId)] = result;
+        }
+
+        return WidgetId;
+    }
+
+    /// <summary>
+    ///     Asynchronously set the value of the ContainerId property after render.
+    /// </summary>
+    public async Task SetContainerId(string? containerId)
+    {
+#pragma warning disable BL0005
+        ContainerId = containerId;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ContainerId)] = containerId;
+
+        if (CoreJsModule is null) return;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "containerId", containerId);
+    }
+
+    /// <summary>
+    ///     Asynchronously set the value of the Icon property after render.
+    /// </summary>
+    public async Task SetIcon(string? icon)
+    {
+#pragma warning disable BL0005
+        Icon = icon;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Icon)] = icon;
+
+        if (CoreJsModule is null) return;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "icon", icon);
+    }
+
+    /// <summary>
+    ///     Asynchronously set the value of the Label property after render.
+    /// </summary>
+    public async Task SetLabel(string? label)
+    {
+#pragma warning disable BL0005
+        Label = label;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Label)] = label;
+
+        if (CoreJsModule is null) return;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "label", label);
+    }
+
+    /// <summary>
+    ///     Asynchronously set the value of the Position property after render.
+    /// </summary>
+    public async Task SetPosition(OverlayPosition? position)
+    {
+#pragma warning disable BL0005
+        Position = position;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Position)] = position;
+
+        if (CoreJsModule is null || View is null) return;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setWidgetPosition", CancellationTokenSource.Token, View.Id, Id,
+            position);
+    }
+
+    /// <summary>
+    ///     Asynchronously set the value of the WidgetId property after render.
+    /// </summary>
+    public async Task SetWidgetId(string? widgetId)
+    {
+#pragma warning disable BL0005
+        WidgetId = widgetId;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(WidgetId)] = widgetId;
+
+        if (CoreJsModule is null) return;
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+
+        if (JsComponentReference is null) return;
+
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token, JsComponentReference,
+            "widgetId", widgetId);
     }
 
     /// <inheritdoc />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
-#if NET8_0_OR_GREATER
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
-#else
-        IReadOnlyDictionary<string, object> dictionary = parameters.ToDictionary();
-#endif
+        await base.SetParametersAsync(parameters);
 
         if (!dictionary.ContainsKey(nameof(View)) && !dictionary.ContainsKey(nameof(MapView)))
         {
-            throw new MissingMapViewReferenceException("Widgets outside the MapView must have the MapView parameter set.");
+            throw new MissingMapViewReferenceException(
+                "Widgets outside the MapView must have the MapView parameter set.");
         }
-        await base.SetParametersAsync(parameters);
+
+        if (PreviousParameters is not null && MapRendered)
+        {
+            foreach (KeyValuePair<string, object?> kvp in dictionary)
+            {
+                if (kvp.Key is nameof(View) or nameof(MapRendered)
+                    || (kvp.Value?.GetType().Name.Contains("EventCallback") ?? false))
+                {
+                    continue;
+                }
+
+                if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
+                    || (!kvp.Value?.Equals(previousValue) ?? true))
+                {
+                    WidgetChanged = true;
+
+                    break;
+                }
+            }
+        }
+
+        PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
     /// <inheritdoc />
-    protected override void OnParametersSet()
+    public override async Task RegisterChildComponent(MapComponent child)
     {
-        base.OnParametersSet();
-        WidgetChanged = true;
+        await base.RegisterChildComponent(child);
+        WidgetChanged = MapRendered;
+    }
+
+    /// <inheritdoc />
+    public override async Task UnregisterChildComponent(MapComponent child)
+    {
+        await base.UnregisterChildComponent(child);
+        WidgetChanged = MapRendered;
     }
 
     /// <inheritdoc />
@@ -135,62 +456,43 @@ public abstract partial class Widget : MapComponent
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (WidgetChanged && MapRendered)
+        if (WidgetChanged)
         {
             await UpdateWidget();
         }
-        
+
         if (View is null && MapView is not null && !_externalWidgetRegistered)
         {
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
     }
-    
+
     private async Task UpdateWidget()
     {
         WidgetChanged = false;
 
-        if (JsModule is null) return;
+        if (JsComponentReference is null) return;
 
         // ReSharper disable once RedundantCast
-        await JsModule!.InvokeVoidAsync("updateWidget", CancellationTokenSource.Token,
-            (object)this, View!.Id);
+        await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
 
     /// <summary>
     ///     Indicates if the widget has changed since the last render.
     /// </summary>
-    public bool WidgetChanged;
-
-    /// <summary>
-    ///     JS Object Reference to the widget
-    /// </summary>
-    public IJSObjectReference? JsWidgetReference;
+    protected bool WidgetChanged { get; set; }
 
     private bool _externalWidgetRegistered;
 }
 
-internal class WidgetConverter : JsonConverter<Widget>
-{
-    public override Widget Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Write(Utf8JsonWriter writer, Widget value, JsonSerializerOptions options)
-    {
-        writer.WriteRawValue(JsonSerializer.Serialize(value, typeof(object), options));
-    }
-}
-
 /// <summary>
-///     Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
 /// </summary>
-public class MissingMapViewReferenceException: Exception
+public class MissingMapViewReferenceException : Exception
 {
     /// <summary>
-    ///    Exception raised if an external component is missing a required reference to a <see cref="MapView"/>
+    ///     Exception raised if an external component is missing a required reference to a <see cref="MapView" />
     /// </summary>
     public MissingMapViewReferenceException(string message) : base(message)
     {

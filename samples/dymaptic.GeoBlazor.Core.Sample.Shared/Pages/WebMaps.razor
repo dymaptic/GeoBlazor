@@ -10,7 +10,7 @@
 </p>
 <MapView OnLayerViewCreate="StateHasChanged" Class="map-view">
     <WebMap @ref="_webMap">
-        <PortalItem Id="31cfc5b138e24dee866c457948773ac4" />
+        <PortalItem PortalItemId="31cfc5b138e24dee866c457948773ac4" />
     </WebMap>
     <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
     <LegendWidget Position="OverlayPosition.TopRight" />
@@ -66,7 +66,7 @@
             return;
         }
 
-        FeatureSet? featureSet = await featureLayer.QueryFeatures(new Query());
+        FeatureSet? featureSet = await featureLayer.QueryFeatures(new Query(Where: "1=1"));
         if (featureSet?.Features is null)
         {
             return;
