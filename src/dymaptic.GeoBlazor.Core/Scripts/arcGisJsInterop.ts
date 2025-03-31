@@ -1700,13 +1700,14 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
-                if (!zoomWidgetListenerAdded) {
-                    const zoomWidgetButtons = document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
-                    for (let i = 0; i < zoomWidgetButtons.length; i++) {
-                        zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
-                        zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                if (!widgetListenerAdded) {
+                    let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
+                    let widgetButtons = document.querySelectorAll(widgetQuery);
+                    for (let i = 0; i < widgetButtons.length; i++) {
+                        widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                        widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
                     }
-                    zoomWidgetListenerAdded = true;
+                    widgetListenerAdded = true;
                 }
 
                 console.debug(new Date() + " - View Render Complete");
@@ -1725,7 +1726,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
     })
 }
 
-let zoomWidgetListenerAdded = false;
+let widgetListenerAdded = false;
 
 function setUserChangedViewExtent() {
     userChangedViewExtent = true;
