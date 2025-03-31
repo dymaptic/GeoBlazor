@@ -1,5 +1,5 @@
 ﻿@page "/reverse-geolocator"
-@inject Locator Locator
+@inject LocationService LocationService
 
 <PageTitle>Reverse Geolocator</PageTitle>
 <h1>Reverse Geolocator</h1>
@@ -26,7 +26,7 @@
          OnClick="OnClick">
     <Map>
         <Basemap>
-            <PortalItem Id="8dda0e7b5e2d4fafa80132d59122268c" />
+            <PortalItem PortalItemId="8dda0e7b5e2d4fafa80132d59122268c" />
         </Basemap>
     </Map>
 </MapView>
@@ -47,7 +47,7 @@
         Point mapPoint = clickEvent.MapPoint;
         _latitude = mapPoint.Latitude!.Value;
         _longitude = mapPoint.Longitude!.Value;
-        _address = (await Locator.LocationToAddress(_serviceUrl, mapPoint)).Address ?? string.Empty;
+        _address = (await LocationService.LocationToAddress(_serviceUrl, mapPoint)).Address ?? string.Empty;
         StateHasChanged();
         await View!.ShowPopup(Popup!, mapPoint);
     }

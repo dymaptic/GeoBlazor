@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 
 
-namespace dymaptic.GeoBlazor.Coreges;
+namespace dymaptic.GeoBlazor.Core.Sample.Server.Pages;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 [IgnoreAntiforgeryToken]

@@ -44,7 +44,7 @@
 <MapView @ref="MapView" Longitude="-118.80543" Latitude="34.02700" Zoom="13" Class="map-view">
     <Map>
         <Basemap>
-            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+            <PortalItem PortalItemId="f35ef07c9ed24020aadd65c8a65d3754" />
         </Basemap>
         @if (_showPopupOption == 1)
         {
@@ -75,13 +75,13 @@
                 <PopupTemplate Title="{PARK_NAME}">
                     <FieldsPopupContent>
                         <FieldInfo FieldName="AGNCY_NAME" Label="Agency" IsEditable="true" Tooltip="" Visible="true"
-                                   StringFieldOption="text-box" />
+                                   StringFieldOption="StringFieldOption.TextBox" />
                         <FieldInfo FieldName="TYPE" Label="Type" IsEditable="true" Tooltip="" Visible="true"
-                                   StringFieldOption="text-box" />
+                                   StringFieldOption="StringFieldOption.TextBox" />
                         <FieldInfo FieldName="ACCESS_TYP" Label="Access" IsEditable="true" Tooltip="" Visible="true"
-                                   StringFieldOption="text-box" />
+                                   StringFieldOption="StringFieldOption.TextBox" />
                         <FieldInfo FieldName="GIS_ACRES" Label="Acres" IsEditable="true" Tooltip="" Visible="true"
-                                   StringFieldOption="text-box">
+                                   StringFieldOption="StringFieldOption.TextBox">
                             <FieldInfoFormat Places="2" DigitSeparator="true" />
                         </FieldInfo>
                     </FieldsPopupContent>

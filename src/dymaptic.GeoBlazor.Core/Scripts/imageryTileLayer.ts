@@ -1,33 +1,26 @@
-﻿import ImageryTileLayer from "@arcgis/core/layers/ImageryTileLayer";
-import {buildDotNetExtent, buildDotNetFeatureSet, buildDotNetSpatialReference} from "./dotNetBuilder";
-import {hasValue} from "./arcGisJsInterop";
-import {buildJsImageryRenderer} from "./jsBuilder";
-import {IPropertyWrapper} from "./definitions";
+import ImageryTileLayerGenerated from './imageryTileLayer.gb';
+import ImageryTileLayer from '@arcgis/core/layers/ImageryTileLayer';
+import {hasValue} from './arcGisJsInterop';
+import {buildDotNetSpatialReference} from './spatialReference';
+import {buildDotNetExtent} from './extent';
 
-export default class ImageryTileLayerWrapper implements IPropertyWrapper {
-    public layer: ImageryTileLayer;
+export default class ImageryTileLayerWrapper extends ImageryTileLayerGenerated {
 
     constructor(layer: ImageryTileLayer) {
-        this.layer = layer;
-        // set all properties from layer
-        for (let prop in layer) {
-            if (layer.hasOwnProperty(prop)) {
-                this[prop] = layer[prop];
-            }
-        }
+        super(layer);
     }
 
-    unwrap() {
-        return this.layer;
-    }
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
-
-    getServiceRasterInfo(viewId: string) {
+    async getServiceRasterInfo() {
         let jsInfo = this.layer.serviceRasterInfo;
+
+        if (!hasValue(jsInfo)) {
+            return null;
+        }
+        let {buildDotNetFeatureSet} = await import('./featureSet');
         return {
-            attributeTable: hasValue(jsInfo.attributeTable) ? buildDotNetFeatureSet(jsInfo.attributeTable, null, viewId) : null,
+            attributeTable: hasValue(jsInfo.attributeTable)
+                ? await buildDotNetFeatureSet(jsInfo.attributeTable, null, this.viewId)
+                : null,
             bandCount: jsInfo.bandCount,
             bandInfos: jsInfo.bandInfos,
             colormap: jsInfo.colormap,
@@ -47,12 +40,34 @@ export default class ImageryTileLayerWrapper implements IPropertyWrapper {
             width: jsInfo.width
         };
     }
-    
-    setRenderer(renderer: any) {
-        this.layer.renderer = buildJsImageryRenderer(renderer) as any;
+
+    async setRenderer(renderer: any) {
+        let {buildJsImageryRenderer} = await import('./imageryRenderer');
+        this.layer.renderer = await buildJsImageryRenderer(renderer, this.layerId, this.viewId) as any;
     }
 
-    setProperty(prop, value) {
-        this.layer[prop] = value;
+}
+
+export async function buildJsImageryTileLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+    let {buildJsImageryTileLayerGenerated} = await import('./imageryTileLayer.gb');
+    let jsObject = await buildJsImageryTileLayerGenerated(dotNetObject, layerId, viewId);
+    
+    if (hasValue(dotNetObject.renderer)) {
+        let {buildJsImageryRenderer} = await import('./imageryRenderer');
+        jsObject.renderer = await buildJsImageryRenderer(dotNetObject.renderer, layerId, viewId);
     }
+    
+    return jsObject;
+}
+
+export async function buildDotNetImageryTileLayer(jsObject: any): Promise<any> {
+    let {buildDotNetImageryTileLayerGenerated} = await import('./imageryTileLayer.gb');
+    let dnObject = await buildDotNetImageryTileLayerGenerated(jsObject);
+    
+    if (hasValue(jsObject.renderer)) {
+        let {buildDotNetImageryRenderer} = await import('./imageryRenderer');
+        dnObject.renderer = await buildDotNetImageryRenderer(jsObject.renderer);
+    }
+    
+    return dnObject;
 }

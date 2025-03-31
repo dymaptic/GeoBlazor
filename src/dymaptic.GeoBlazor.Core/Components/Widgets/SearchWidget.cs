@@ -1,27 +1,9 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-using dymaptic.GeoBlazor.Core.Components.Layers;
-using dymaptic.GeoBlazor.Core.Components.Popups;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The Search widget provides a way to perform search operations on locator service(s), map/feature service feature
-///     layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer,
-///     GeoJSONLayer, CSVLayer, OGCFeatureLayer, and/or table(s). If using a locator with a geocoding service, the
-///     findAddressCandidates operation is used, whereas queries are used on feature layers.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class SearchWidget : Widget
+public partial class SearchWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "search";
+    public override WidgetType Type => WidgetType.Search;
 
     /// <summary>
     ///     Sets the current active menu of the Search widget. Default value is None.
@@ -66,13 +48,6 @@ public class SearchWidget : Widget
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IncludeDefaultSources { get; set; }
-    
-    /// <summary>
-    ///     The widget's default label.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Label { get; set; }
     
     /// <summary>
     ///     Enables location services within the widget. Default value is True.
@@ -151,69 +126,201 @@ public class SearchWidget : Widget
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? SuggestionsEnabled { get; set; }
     
+#region Event Handlers
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSearchComplete(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef
+            .OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+
+        SearchCompleteEvent searchCompleteEvent = JsonSerializer.Deserialize<SearchCompleteEvent>(json,
+            GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        if (searchCompleteEvent.Results is { Count: > 0 })
+        {
+            foreach (SearchCompleteEventResults results in searchCompleteEvent.Results)
+            {
+                if (results.Source is LayerSearchSource layerSearchSource)
+                {
+                    if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id)
+                        is LayerSearchSource matchingSource)
+                    {
+#pragma warning disable BL0005
+                        layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+                    }
+                }
+            }
+        }
+
+        await OnSearchComplete.InvokeAsync(searchCompleteEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SearchComplete.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchCompleteEvent> OnSearchComplete { get; set; }
+    
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
+    public bool HasSearchCompleteListener => OnSearchComplete.HasDelegate;
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSelectResult(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSelectResultEvent selectResultEvent = JsonSerializer.Deserialize<SearchSelectResultEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (selectResultEvent.Source is LayerSearchSource layerSearchSource)
+        {
+            if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id) 
+                is LayerSearchSource matchingSource)
+            {
+#pragma warning disable BL0005
+                layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+            }
+        }
+        await OnSelectResult.InvokeAsync(selectResultEvent);
+#pragma warning disable CS0618 // Type or member is obsolete
+        await OnSearchSelectResultEvent.InvokeAsync(selectResultEvent.Result);
+#pragma warning restore CS0618 // Type or member is obsolete
+    }
+    
+    /// <summary>
+    ///     Event Listener for SelectResult.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchSelectResultEvent> OnSelectResult { get; set; }
+    
+#pragma warning disable CS0618 // Type or member is obsolete
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
+    public bool HasSelectResultListener => OnSelectResult.HasDelegate || OnSearchSelectResultEvent.HasDelegate;
+#pragma warning restore CS0618 // Type or member is obsolete
+   
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsSuggestComplete(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSuggestCompleteEvent suggestCompleteEvent = JsonSerializer.Deserialize<SearchSuggestCompleteEvent>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (suggestCompleteEvent.Results is { Count: > 0 })
+        {
+            foreach (SearchSuggestCompleteEventResults results in suggestCompleteEvent.Results)
+            {
+                if (results.Source is LayerSearchSource layerSearchSource)
+                {
+                    if (Sources?.FirstOrDefault(s => s.Id == layerSearchSource.Id) 
+                        is LayerSearchSource matchingSource)
+                    {
+#pragma warning disable BL0005
+                        layerSearchSource.Layer = matchingSource.Layer;
+#pragma warning restore BL0005
+                    }
+                }
+            }
+        }
+        await OnSuggestComplete.InvokeAsync(suggestCompleteEvent);
+    }
+    
+    /// <summary>
+    ///     Event Listener for SuggestComplete.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<SearchSuggestCompleteEvent> OnSuggestComplete { get; set; }
+    
+    /// <summary>
+    ///     Used in JavaScript to determine if the event listener is set.
+    /// </summary>
+    public bool HasSuggestCompleteListener => OnSuggestComplete.HasDelegate;
+    
     /// <summary>
     ///     A delegate for a handler of search selection result events.
     ///     Function must take in a <see cref="SearchResult" /> parameter, and return a <see cref="Task" />
     /// </summary>
     [Parameter]
     [JsonIgnore]
+    [Obsolete("Use OnSelectResult instead")]
     public EventCallback<SearchResult> OnSearchSelectResultEvent { get; set; }
+
     
     /// <summary>
-    ///     This function provides the ability to override either the MapView goTo() or SceneView goTo() methods with your own implementation.
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
+    [ArcGISProperty]
     [Parameter]
     [JsonIgnore]
-    public Action<GoToOverrideParameters>? GoToOverride { get; set; }
-
+    [CodeGenerationIgnore]
+    public GoToOverride? GoToOverride { get; set; }
+    
     /// <summary>
-    ///     Identifies whether a custom <see cref="GoToOverride" /> was registered.
+    ///    JS-invokable method that triggers the <see cref="GoToOverride"/> function.
+    ///     Should not be called by consuming code.
     /// </summary>
+    [JSInvokable]
+    [CodeGenerationIgnore]
+    public async Task OnJsGoToOverride(IJSStreamReference jsStreamRef)
+    {
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        GoToOverrideParameters goToParameters = JsonSerializer.Deserialize<GoToOverrideParameters>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+        if (GoToOverride is not null)
+        {
+            await GoToOverride.Invoke(goToParameters);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="GoToOverride" /> function was registered.
+    /// </summary>
+    [CodeGenerationIgnore]
     public bool HasGoToOverride => GoToOverride is not null;
     
-    /// <summary>
-    ///     The Search widget may be used to search features in a map/feature service feature layer(s), SceneLayers with an associated feature layer, BuildingComponentSublayer with an associated feature layer, GeoJSONLayer, CSVLayer or OGCFeatureLayer, or table, or geocode locations with a locator. The sources property defines the sources from which to search for the view specified by the Search widget instance.
-    ///     There are two types of sources: <see cref="LayerSearchSource"/> and <see cref="LocatorSearchSource"/>. Any combination of these sources may be used together in the same instance of the Search widget. 
-    /// </summary>
-    /// <remarks>
-    ///     Feature layers created from client-side graphics are not supported.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<SearchSource>? Sources { get; set; }
-    
-    /// <summary>
-    ///     A customized PopupTemplate for the selected feature. Note that any templates defined on allSources take precedence over those defined directly on the template.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PopupTemplate? PopupTemplate { get; set; }
-    
-    /// <summary>
-    ///     It is possible to search a specified portal instance's locator services Use this property to set this ArcGIS Portal instance to search.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
-
-    /// <summary>
-    ///     Set the value of the search text box programmatically.
-    /// </summary>
-    public async Task SetSearchTerm(string searchTerm)
-    {
-#pragma warning disable BL0005
-        SearchTerm = searchTerm;
-#pragma warning restore BL0005
-        await JsWidgetReference!.InvokeVoidAsync("setSearchTerm", searchTerm);
-    }
-
-    /// <summary>
-    ///     Retrieves the current value of the search text box.
-    /// </summary>
-    public async Task<string> GetSearchTerm()
-    {
-#pragma warning disable BL0005
-        SearchTerm = await JsWidgetReference!.InvokeAsync<string>("getSearchTerm");
-#pragma warning restore BL0005
-        return SearchTerm;
-    }
+#endregion
 
     /// <summary>
     ///     Depending on the sources specified, search() queries the feature layer(s) and/or performs address matching using any specified locator(s) and returns any applicable results.
@@ -221,9 +328,11 @@ public class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The term to search for.
     /// </param>
-    public async Task<SearchResponse> Search(string searchTerm)
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(string searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -232,9 +341,10 @@ public class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The geometry to search for.
     /// </param>
-    public async Task<SearchResponse> Search(Geometry searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(Geometry searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -243,9 +353,10 @@ public class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The <see cref="SuggestResult"/> to search for.
     /// </param>
-    public async Task<SearchResponse> Search(SuggestResult searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(SuggestResult searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", searchTerm);
+        return SearchImplementation(searchTerm);
     }
     
     /// <summary>
@@ -254,9 +365,26 @@ public class SearchWidget : Widget
     /// <param name="searchTerm">
     ///     The array of long/lat coordinate pairs to search for.
     /// </param>
-    public async Task<SearchResponse> Search(double[][] searchTerm)
+    [CodeGenerationIgnore]
+    public Task<SearchResponse> Search(double[][] searchTerm)
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResponse>("search", new object[]{searchTerm});
+        return SearchImplementation(searchTerm);
+    }
+
+    private async Task<SearchResponse> SearchImplementation(object searchTerm)
+    {
+        IJSStreamReference jsStreamRef = 
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("search", searchTerm);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResponse searchResponse = JsonSerializer.Deserialize<SearchResponse>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        return searchResponse;
     }
     
     /// <summary>
@@ -268,68 +396,140 @@ public class SearchWidget : Widget
     /// <param name="value">
     ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     /// </param>
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
     public async Task<SuggestResponse> Suggest(string? value = null)
     {
-        return await JsWidgetReference!.InvokeAsync<SuggestResponse>("suggest", value);
-    }
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("suggest", value);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SuggestResponse suggestResponse = JsonSerializer.Deserialize<SuggestResponse>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
 
-    /// <summary>
-    ///     Retrieves the source object currently selected. Can be either a LayerSearchSource or a LocatorSearchSource.
-    /// </summary>
-    public async Task<SearchSource?> GetActiveSource()
-    {
-        return await JsWidgetReference!.InvokeAsync<SearchSource?>("getActiveSource");
+        return suggestResponse;
     }
     
     /// <summary>
-    ///     Retrieves the current active menu of the Search widget. Default value is None.
+    ///     Asynchronously retrieve the current value of the ActiveSource property.
     /// </summary>
-    public async Task<SearchMenu> GetActiveMenu()
+    [CodeGenerationIgnore]
+    public async Task<SearchSource?> GetActiveSource()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchMenu>("getActiveMenu");
-    }
+        if (CoreJsModule is null)
+        {
+            return ActiveSource;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActiveSource;
+        }
 
-    /// <summary>
-    ///     Retrieves the index of the currently selected source. This value is -1 when all sources are selected.
-    /// </summary>
-    public async Task<int> GetActiveSourceIndex()
-    {
-        return await JsWidgetReference!.InvokeAsync<int>("getActiveSourceIndex");
-    }
+        IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
+            "getActiveSource", CancellationTokenSource.Token);
 
-    /// <summary>
-    ///     Retrieves the combined collection of defaultSources and sources. The defaultSources displays first in the Search UI.
-    /// </summary>
-    public async Task<IReadOnlyList<SearchSource>> GetAllSources()
-    {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getAllSources");
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchSource? result = JsonSerializer.Deserialize<SearchSource>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            ActiveSource = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(ActiveSource)] = ActiveSource;
+        }
+        
+        return ActiveSource;
     }
-
+    
     /// <summary>
-    ///     Retrieves a Collection of LayerSearchSource and/or LocatorSearchSource. This may contain ArcGIS Portal locators and any web map or web scene configurable search sources. Web maps or web scenes may contain map/feature service feature layer(s), and/or table(s) as sources.
+    ///     Asynchronously retrieve the current value of the AllSources property.
     /// </summary>
-    public async Task<IReadOnlyList<SearchSource>> GetDefaultSources()
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<SearchSource>?> GetAllSources()
     {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchSource>>("getDefaultSources");
-    }
+        if (CoreJsModule is null)
+        {
+            return AllSources;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AllSources;
+        }
 
-    /// <summary>
-    ///     The graphic used to highlight the resulting feature or location.
-    /// </summary>
-    /// <remarks>
-    ///     A graphic will be placed in the View's graphics for layer views that do not support the highlight method.
-    /// </remarks>
-    public async Task<Graphic?> GetResultGraphic()
-    {
-        return await JsWidgetReference!.InvokeAsync<Graphic?>("getResultGraphic");
+        IJSStreamReference jsStreamRef = await JsComponentReference.InvokeAsync<IJSStreamReference>(
+            "getAllSources", CancellationTokenSource.Token);
+
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        
+        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            AllSources = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(AllSources)] = AllSources;
+        }
+        
+        return AllSources;
     }
 
     /// <summary>
     ///     Retrieves an array of objects, each containing a SearchResult from the search.
     /// </summary>
-    public async Task<IReadOnlyList<SearchResultResponse>> GetResults()
+    [CodeGenerationIgnore]
+    public async Task<SearchResultResponse[]> GetResults()
     {
-        return await JsWidgetReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>>("getResults");
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getResults");
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResultResponse[] searchResults = JsonSerializer.Deserialize<SearchResultResponse[]>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
+
+        return searchResults;
     }
 
     /// <summary>
@@ -337,42 +537,66 @@ public class SearchWidget : Widget
     /// </summary>
     public async Task<SearchResult> GetSelectedResult()
     {
-        return await JsWidgetReference!.InvokeAsync<SearchResult>("getSelectedResult");
-    }
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSelectedResult");
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(
+            json, GeoBlazorSerialization.JsonSerializerOptions)!;
 
-    /// <summary>
-    ///     Retrieves an array of results from the suggest method.
-    ///     This is available if working with a 10.3 or greater geocoding service that has suggest capability loaded or a 10.3 or greater feature layer that supports pagination, i.e. supportsPagination = true.
-    /// </summary>
-    public async Task<SuggestResult[]> GetSuggestions()
-    {
-        return await JsWidgetReference!.InvokeAsync<SuggestResult[]>("getSuggestions");
+        return searchResult;
     }
     
     /// <summary>
-    ///     A .NET object reference for calling this class from JavaScript.
+    ///     Asynchronously retrieve the current value of the Sources property.
     /// </summary>
-    public DotNetObjectReference<SearchWidget> SearchWidgetObjectReference => DotNetObjectReference.Create(this);
+    [CodeGenerationIgnore]
+    public async Task<IReadOnlyList<SearchSource>?> GetSources()
+    {
+        if (CoreJsModule is null)
+        {
+            return Sources;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Sources;
+        }
 
-    /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a "select-result" event is fired by the search widget.
-    /// </summary>
-    /// <param name="searchResult">
-    ///     The result selected in the search widget.
-    /// </param>
-    [JSInvokable]
-    public async Task OnJavaScriptSearchSelectResult(SearchResult searchResult)
-    {
-        await OnSearchSelectResultEvent.InvokeAsync(searchResult);
-    }
-    
-    /// <summary>
-    ///     JavaScript-invokable method for internal use
-    /// </summary>
-    [JSInvokable]
-    public void OnJavaScriptGoToOverride(GoToOverrideParameters goToOverrideParams)
-    {
-        GoToOverride?.Invoke(goToOverrideParams);
+        IJSStreamReference jsStreamRef =
+            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getSources", CancellationTokenSource.Token);
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        IReadOnlyList<SearchSource>? result = JsonSerializer.Deserialize<IReadOnlyList<SearchSource>>(
+            json, GeoBlazorSerialization.JsonSerializerOptions);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Sources = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Sources)] = Sources;
+        }
+        
+        return Sources;
     }
     
     /// <inheritdoc />
@@ -382,25 +606,10 @@ public class SearchWidget : Widget
         {
             case SearchSource source:
                 Sources ??= new List<SearchSource>();
-                Sources.Add(source);
-                WidgetChanged = true;
+                Sources = [..Sources, source];
+                WidgetChanged = MapRendered;
                 break;
-            case PopupTemplate popupTemplate:
-                if (!popupTemplate.Equals(PopupTemplate))
-                {
-                    PopupTemplate = popupTemplate;
-                    WidgetChanged = true;
-                }
 
-                break;
-            case Portal portal:
-                if (!portal.Equals(Portal))
-                {
-                    Portal = portal;
-                    WidgetChanged = true;
-                }
-
-                break;
             default:
                 await base.RegisterChildComponent(child);
 
@@ -414,48 +623,14 @@ public class SearchWidget : Widget
         switch (child)
         {
             case SearchSource source:
-                Sources?.Remove(source);
+                Sources = Sources?.Except([source]).ToList();
                 break;
-            case PopupTemplate _:
-                PopupTemplate = null;
 
-                break;
-            case Portal _:
-                Portal = null;
-
-                break;
             default:
                 await base.UnregisterChildComponent(child);
 
                 break;
         }
     }
-    
-    internal override void ValidateRequiredChildren()
-    {
-        if (Sources is not null)
-        {
-            foreach (SearchSource source in Sources)
-            {
-                source.ValidateRequiredChildren();
-            }
-        }
-        PopupTemplate?.ValidateRequiredChildren();
-        Portal?.ValidateRequiredChildren();
-        base.ValidateRequiredChildren();
-    }
-}
 
-/// <summary>
-///     The active menu of the search widget.
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<SearchMenu>))]
-public enum SearchMenu
-{
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    None,
-    Suggestion,
-    Source,
-    Warning
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

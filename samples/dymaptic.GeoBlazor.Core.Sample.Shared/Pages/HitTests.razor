@@ -1,4 +1,5 @@
 ﻿@page "/hit-tests"
+@using dymaptic.GeoBlazor.Core.Options
 
 <PageTitle>Hit Tests</PageTitle>
 <h1>Hit Tests</h1>
@@ -97,13 +98,13 @@
 
                 Query layerQuery = await _layerView!.CreateQuery();
                 layerQuery.Where = $"YEAR = {newYear} AND NAME = '{newName}'";
-                int[] ids = await _layerView.QueryObjectIds(layerQuery);
+                long[]? ids = await _layerView.QueryObjectIds(layerQuery);
                 if (_highlightHandle is not null)
                 {
                     await _highlightHandle.Remove();
                     _highlightHandle = null;
                 }
-                _highlightHandle = await _layerView!.Highlight(ids);
+                _highlightHandle = await _layerView!.Highlight(ids!);
                 _year = newYear;
                 _name = newName;
             }

@@ -1,25 +1,12 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using ProtoBuf;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
-/// <summary>
-///     A PopupTemplate formats and defines the content of a Popup for a specific Layer or Graphic. The user can also use
-///     the PopupTemplate to access values from feature attributes and values returned from Arcade expressions when a
-///     feature in the view is selected.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class PopupTemplate : MapComponent
+public partial class PopupTemplate : MapComponent
 {
     /// <summary>
     ///     Parameterless constructor for using as a razor component
     /// </summary>
     [ActivatorUtilitiesConstructor]
+    [CodeGenerationIgnore]
     public PopupTemplate()
     {
     }
@@ -40,7 +27,7 @@ public class PopupTemplate : MapComponent
     ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
     ///     popup.
     /// </param>
-    /// <param name="contents">
+    /// <param name="content">
     ///     Pass advanced <see cref="PopupContent" /> parameters
     /// </param>
     /// <param name="expressionInfos">
@@ -56,9 +43,10 @@ public class PopupTemplate : MapComponent
     /// <param name="actions">
     ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
     /// </param>
-    public PopupTemplate(string? title = null, string? stringContent = null, IEnumerable<string>? outFields = null,
-        IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? contents = null,
-        IReadOnlyList<ExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
+    [CodeGenerationIgnore]
+    public PopupTemplate(string? title = null, string? stringContent = null, IReadOnlyList<string>? outFields = null,
+        IReadOnlyList<FieldInfo>? fieldInfos = null, IReadOnlyList<PopupContent>? content = null,
+        IReadOnlyList<PopupExpressionInfo>? expressionInfos = null, bool? overwriteActions = null,
         bool? returnGeometry = null, IReadOnlyList<ActionBase>? actions = null)
     {
 #pragma warning disable BL0005
@@ -68,9 +56,9 @@ public class PopupTemplate : MapComponent
         OverwriteActions = overwriteActions;
         ReturnGeometry = returnGeometry;
 
-        if (contents is not null)
+        if (content is not null)
         {
-            Content = contents.ToList();
+            Content = content.ToList();
         }
 
         if (fieldInfos is not null)
@@ -106,19 +94,6 @@ public class PopupTemplate : MapComponent
     [Parameter]
     public string? Title { get; set; }
 
-    /// <summary>
-    ///     An array of field names used in the PopupTemplate. Use this property to indicate what fields are required to fully
-    ///     render the PopupTemplate. This is important if setting content via a function since any fields needed for
-    ///     successful rendering should be specified here.
-    ///     Generally speaking, it is good practice to always set this property when instantiating a new popup template.
-    ///     To fetch the values from all fields, use ["*"].
-    /// </summary>
-    /// <remarks>
-    ///     This will not fetch fields from related tables. If related features are needed, set this using FieldInfo.
-    /// </remarks>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IEnumerable<string>? OutFields { get; set; }
 
     /// <summary>
     ///     Indicates whether actions should replace existing popup actions.
@@ -146,6 +121,11 @@ public class PopupTemplate : MapComponent
     [JsonIgnore]
     [RequiredProperty(nameof(Content), nameof(StringContent))]
     public Func<Graphic, ValueTask<PopupContent[]?>>? ContentFunction { get; set; }
+    
+    /// <summary>
+    ///     Identifies that the <see cref="ContentFunction"/> is defined.
+    /// </summary>
+    public bool HasContentFunction => ContentFunction is not null;
 
     /// <summary>
     ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
@@ -155,64 +135,37 @@ public class PopupTemplate : MapComponent
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.
     /// </remarks>
     [RequiredProperty(nameof(StringContent), nameof(ContentFunction))]
-    public List<PopupContent> Content { get; set; } = new();
-
-    /// <summary>
-    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
-    ///     popup. If no FieldInfo are specified, nothing will display since the popup will only display the fields that are
-    ///     defined by this array. Each FieldInfo contains properties for a single field or expression. This property can be
-    ///     set directly within the PopupTemplate or within the fields content element. If this is not set within the fields
-    ///     content element, it will default to whatever is specified directly within the PopupTemplate.fieldInfos. The image
-    ///     on the left is a result of using the first example snippet below, whereas the image on the right is a result of the
-    ///     second snippet.
-    /// </summary>
-    /// <remarks>
-    ///     Use this fieldInfos property to specify any formatting options for numbers displayed in chart or text elements.
-    /// </remarks>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<FieldInfo>? FieldInfos { get; set; }
-
-    /// <summary>
-    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by
-    ///     the Arcade Popup Profile.
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<ExpressionInfo>? ExpressionInfos { get; set; }
-
-    /// <summary>
-    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup
-    /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public List<ActionBase>? Actions { get; set; }
-
-    /// <summary>
-    ///     Object reference for callbacks from JavaScript.
-    /// </summary>
-    public DotNetObjectReference<PopupTemplate> DotNetPopupTemplateReference => DotNetObjectReference.Create(this);
+    [CodeGenerationIgnore]
+    [Parameter]
+    public IReadOnlyList<PopupContent>? Content { get; set; }
 
     /// <summary>
     ///     JS-invokable method for triggering actions.
     /// </summary>
-    /// <param name="actionId">
-    ///     The action ID.
+    /// <param name="triggerActionEvent">
+    ///     The event that contains the action to be triggered.
     /// </param>
     [JSInvokable]
-    public async Task OnTriggerAction(string actionId)
+    [CodeGenerationIgnore]
+    public async Task OnJsTriggerAction(PopupTriggerActionEvent triggerActionEvent)
     {
-        ActionBase? action = Actions?.FirstOrDefault(a => a.Id == actionId);
-
-        if (action is not null)
-        {
-            await action.CallbackFunction!.Invoke();
-        }
+        await OnTriggerAction.InvokeAsync(triggerActionEvent);
     }
+    
+    /// <summary>
+    ///     Event Listener for TriggerAction.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    [CodeGenerationIgnore]
+    public EventCallback<PopupTriggerActionEvent> OnTriggerAction { get; set; }
     
     /// <summary>
     ///     JS-invokable method that triggers a custom <see cref="ContentFunction"/> for building the popup content.
     ///     Should not be called by consuming code.
     /// </summary>
     [JSInvokable]
-    public async Task<PopupContent[]?> OnContentFunction(Graphic graphic)
+    public async Task<PopupContent[]?> OnJsContentFunction(Graphic graphic)
     {
         PopupContent[]? content = null;
 
@@ -230,25 +183,18 @@ public class PopupTemplate : MapComponent
         switch (child)
         {
             case PopupContent popupContent:
-                Content.Add(popupContent);
+                Content ??= [];
+                Content = [..Content, popupContent];
 
                 break;
             case FieldInfo fieldInfo:
-                FieldInfos ??= new List<FieldInfo>();
-
-                FieldInfos.Add(fieldInfo);
-
-                break;
-            case ExpressionInfo expressionInfo:
-                ExpressionInfos ??= new List<ExpressionInfo>();
-
-                ExpressionInfos.Add(expressionInfo);
+                FieldInfos ??= [];
+                FieldInfos = [..FieldInfos, fieldInfo];
 
                 break;
             case ActionBase action:
-                Actions ??= new List<ActionBase>();
-
-                Actions.Add(action);
+                Actions ??= [];
+                Actions = [..Actions, action];
 
                 break;
             default:
@@ -264,22 +210,15 @@ public class PopupTemplate : MapComponent
         switch (child)
         {
             case PopupContent popupContent:
-                if (Content.Contains(popupContent))
-                {
-                    Content.Remove(popupContent);
-                }
+                Content = Content?.Except([popupContent]).ToList();
 
                 break;
             case FieldInfo fieldInfo:
-                FieldInfos?.Remove(fieldInfo);
-
-                break;
-            case ExpressionInfo expressionInfo:
-                ExpressionInfos?.Remove(expressionInfo);
+                FieldInfos = FieldInfos?.Except([fieldInfo]).ToList();
 
                 break;
             case ActionBase action:
-                Actions?.Remove(action);
+                Actions = Actions?.Except([action]).ToList();
 
                 break;
             default:
@@ -290,45 +229,25 @@ public class PopupTemplate : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
 
-        foreach (PopupContent item in Content)
+        if (Content is not null)
         {
-            item.ValidateRequiredChildren();
-        }
-
-        if (FieldInfos != null)
-        {
-            foreach (FieldInfo fieldInfo in FieldInfos)
+            foreach (PopupContent item in Content)
             {
-                fieldInfo.ValidateRequiredChildren();
+                item.ValidateRequiredChildren();
             }
         }
 
-        if (ExpressionInfos != null)
-        {
-            foreach (ExpressionInfo expressionInfo in ExpressionInfos)
-            {
-                expressionInfo.ValidateRequiredChildren();
-            }
-        }
-
-        if (Actions != null)
-        {
-            foreach (ActionBase action in Actions)
-            {
-                action.ValidateRequiredChildren();
-            }
-        }
     }
 
     internal PopupTemplateSerializationRecord ToSerializationRecord()
     {
         return new PopupTemplateSerializationRecord(Title, StringContent, OutFields,
             FieldInfos?.Select(f => f.ToSerializationRecord()),
-            Content.Select(c => c.ToSerializationRecord()),
+            Content?.Select(c => c.ToSerializationRecord()),
             ExpressionInfos?.Select(e => e.ToSerializationRecord()), OverwriteActions,
             ReturnGeometry, Actions?.Select(a => a.ToSerializationRecord()), Id.ToString());
     }
@@ -346,7 +265,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
         IEnumerable<string>? OutFields = null,
         IEnumerable<FieldInfoSerializationRecord>? FieldInfos = null,
         IEnumerable<PopupContentSerializationRecord>? Content = null,
-        IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos = null,
+        IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos = null,
         bool? OverwriteActions = null,
         bool? ReturnGeometry = null,
         IEnumerable<ActionBaseSerializationRecord>? Actions = null,
@@ -366,7 +285,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
 
     public PopupTemplate FromSerializationRecord()
     {
-        return new PopupTemplate(Title, StringContent, OutFields,
+        return new PopupTemplate(Title, StringContent, OutFields?.ToList(),
             FieldInfos?.Select(f => f.FromSerializationRecord()).ToList(),
             Content?.Select(c => c.FromSerializationRecord()).ToList(),
             ExpressionInfos?.Select(e => e.FromSerializationRecord()).ToList(), 
@@ -396,7 +315,7 @@ internal record PopupTemplateSerializationRecord : MapComponentSerializationReco
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(6)]
-    public IEnumerable<ExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
+    public IEnumerable<PopupExpressionInfoSerializationRecord>? ExpressionInfos { get; init; }
     
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [ProtoMember(7)]

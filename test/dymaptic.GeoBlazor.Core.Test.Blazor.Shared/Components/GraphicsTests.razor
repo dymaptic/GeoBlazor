@@ -19,7 +19,7 @@
     @<MapView OnViewInitialized="@OnViewInitialized" @ref="mapView" class="map-view" OnViewRendered="renderHandler">
         <Map>
             <Basemap>
-                <PortalItem Id="55ebf90799fa4a3fa57562700a68c405" />
+                <PortalItem PortalItemId="55ebf90799fa4a3fa57562700a68c405" />
             </Basemap>
         </Map>
     </MapView>);
@@ -39,19 +39,18 @@
         GraphicsLayer? graphicsLayer = null;
 
         AddMapRenderFragment(
-    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-            <GraphicsLayer @ref="graphicsLayer">
-                <Graphic @ref="graphic">
-                    <Point X="0" Y="0" />
-                </Graphic>
-            </GraphicsLayer>
-        </Map>
-    </MapView>
-        );
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                    <GraphicsLayer @ref="graphicsLayer">
+                        <Graphic @ref="graphic">
+                            <Point X="0" Y="0" />
+                        </Graphic>
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
@@ -81,20 +80,20 @@
     {
         MapView? mapView = null;
         AddMapRenderFragment(
-    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-    </MapView>);
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
 
         Graphic testGraphic = new(new Point(0, 0),
-    new SimpleMarkerSymbol(color: new("red"), size: 10));
+        new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
-        await testGraphic.SetGeometry(new Point(1, 1));
+        await testGraphic.SetGeometry(new Point(90, 90));
         await mapView.RemoveGraphic(testGraphic);
     }
 
@@ -106,23 +105,23 @@
         GraphicsLayer? graphicsLayer = null;
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-            <GraphicsLayer @ref="graphicsLayer">
-                <Graphic @ref="graphic">
-                    <Point X="0" Y="0" />
-                </Graphic>
-            </GraphicsLayer>
-        </Map>
-    </MapView>);
+            @<MapView class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                    <GraphicsLayer @ref="graphicsLayer">
+                        <Graphic @ref="graphic">
+                            <Point X="0" Y="0" />
+                        </Graphic>
+                    </GraphicsLayer>
+                </Map>
+            </MapView>);
 
         await WaitForMapToRender();
         Assert.AreEqual(1, graphicsLayer!.Graphics.Count);
-        graphic!.Refresh();
-        await AssertJavaScript("assertGraphicExistsInLayer", args: new object[] { graphicsLayer.Id, "point", 1 });
+        await graphic!.Refresh();
+        await AssertJavaScript("assertGraphicExistsInLayer", args: [graphicsLayer.Id, "point", 1]);
     }
 
     [TestMethod]
@@ -143,7 +142,7 @@
         Graphic testGraphic = new(new Point(0, 0),
         new SimpleMarkerSymbol(color: new("red"), size: 10));
         await mapView!.AddGraphic(testGraphic);
-        await AssertJavaScript("assertGraphicExistsInView", args: new object[] { "point", 1 });
+        await AssertJavaScript("assertGraphicExistsInView", args: ["point", 1]);
     }
 
     [TestMethod]
@@ -229,10 +228,10 @@
         await WaitForMapToRender();
 
         Point point = new(0, 0);
-        Graphic graphic = new(point);
-        TextSymbol symbol = new("Hello", color: new("red"),
-            backgroundColor: new("transparent"),
-            font: new(12, "Arial", "normal", "bold"));
+        Graphic graphic = new Graphic(point);
+        TextSymbol symbol = new("Hello", color: new MapColor("red"),
+            backgroundColor: new MapColor("transparent"),
+            font: new MapFont(12, "Arial", MapFontStyle.Normal, FontWeight.Bold) );
         await graphic.SetSymbol(symbol);
 
         await layer!.Add(graphic);

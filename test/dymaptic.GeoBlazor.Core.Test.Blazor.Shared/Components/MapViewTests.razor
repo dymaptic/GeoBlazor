@@ -1,4 +1,5 @@
-﻿@inherits TestRunnerBase
+﻿@using dymaptic.GeoBlazor.Core.Results
+@inherits TestRunnerBase
 
 @{
     base.BuildRenderTree(__builder);
@@ -37,7 +38,7 @@
             @<MapView @ref="view" class="map-view" OnViewRendered="renderHandler">
                 <Map>
                     <FeatureLayer @ref="countriesLayer" Title="Countries">
-                        <PortalItem Id="ac80670eb213440ea5899bbf92a04998"/>
+                        <PortalItem PortalItemId="ac80670eb213440ea5899bbf92a04998"/>
                     </FeatureLayer>
                 </Map>
             </MapView>);
@@ -87,7 +88,7 @@
                         <BasemapStyle Name="BasemapStyleName.ArcgisNavigation" />
                     </Basemap>
                     <FeatureLayer @ref="layer" Title="Countries">
-                        <PortalItem Id="ac80670eb213440ea5899bbf92a04998"/>
+                        <PortalItem PortalItemId="ac80670eb213440ea5899bbf92a04998"/>
                     </FeatureLayer>
                 </Map>
             </MapView>);

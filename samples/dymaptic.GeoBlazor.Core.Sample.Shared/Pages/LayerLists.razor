@@ -19,7 +19,7 @@
     {
         <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
+                <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
             </WebScene>
             <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
         </SceneView>
@@ -29,7 +29,7 @@
         <div id="widget-holder" />
         <SceneView Class="map-view">
             <WebScene>
-                <PortalItem Id="adfad6ee6c6043238ea64e121bb6429a" />
+                <PortalItem PortalItemId="adfad6ee6c6043238ea64e121bb6429a" />
             </WebScene>
             <LayerListWidget ContainerId="widget-holder" OnListItemCreatedHandler="OnListItemCreated" />
         </SceneView>
@@ -50,14 +50,14 @@
 
     private int? _windowWidth;
 
-    private Task<ListItem> OnListItemCreated(ListItem item)
+    private async Task<ListItem> OnListItemCreated(ListItem item)
     {
-        item.Visible = true;
+        await item.SetVisibility(true);
         if (item.Title?.StartsWith("Transit") ?? false)
         {
-            item.Title = $"Mass {item.Title}";
+            await item.SetTitle($"Mass {item.Title}");
         }
-        return Task.Run(() => item);
+        return item;
     }
 
 }

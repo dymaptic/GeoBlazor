@@ -18,7 +18,7 @@
     <CustomOverlay @ref="Overlay" Position="OverlayPosition.BottomLeft">
         <div id="sr-div" class="esri-widget">view.spatialReference.wkid = <b>@_spatialReference.Wkid</b></div>
     </CustomOverlay>
-    <ExpandWidget Position="OverlayPosition.TopRight" ExpandIcon="esri-icon-basemap">
+    <ExpandWidget Position="OverlayPosition.TopRight" ExpandIcon="basemap">
         <BasemapGalleryWidget>
             <PortalBasemapsSource
                 QueryParams="@(new Dictionary<string, string> { { "id", "bdb9d65e0b5c480c8dcc6916e7f4e099" } })" />
@@ -26,7 +26,7 @@
     </ExpandWidget>
     <Map>
         <Basemap>
-            <PortalItem Id="8d91bd39e873417ea21673e0fee87604" />
+            <PortalItem PortalItemId="8d91bd39e873417ea21673e0fee87604" />
         </Basemap>
     </Map>
 </MapView>

@@ -122,9 +122,9 @@
         return new Point(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0);
     }
 
-    private PolyLine GeneratePolyline()
+    private Polyline GeneratePolyline()
     {
-        return new PolyLine(new MapPath[]
+        return new Polyline(new MapPath[]
         {
             new(new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0), new MapPoint(_random.NextDouble() * 40 + -10.0, _random.NextDouble() * 20 + 40.0))
         });
@@ -146,7 +146,7 @@
 
     private Symbol GenerateSimpleLine()
     {
-        return new SimpleLineSymbol(new MapColor("blue"), 2, LineStyle.Solid);
+        return new SimpleLineSymbol(new MapColor("blue"), 2, SimpleLineSymbolStyle.Solid);
     }
 
     private Symbol GenerateSimpleFill()

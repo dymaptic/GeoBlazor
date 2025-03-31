@@ -1,6 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Widgets;
-
-namespace dymaptic.GeoBlazor.Core.Events;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 /// Event object for a a bookmark select event from the BookmarksWidget.

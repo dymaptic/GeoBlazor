@@ -68,6 +68,26 @@
                           "rule": "repeated",
                           "type": "Attribute",
                           "id": 5
+                        },
+                        "visible": {
+                          "type": "bool",
+                          "id": 6
+                        },
+                        "aggregateGeometries": {
+                          "type": "string",
+                          "id": 7
+                        },
+                        "origin": {
+                          "type": "GraphicOrigin",
+                          "id": 8
+                        },
+                        "layerId": {
+                          "type": "string",
+                          "id": 9
+                        },
+                        "viewId": {
+                          "type": "string",
+                          "id": 10
                         }
                       }
                     },
@@ -162,6 +182,46 @@
                         "mmin": {
                           "type": "double",
                           "id": 18
+                        },
+                        "hasM": {
+                          "type": "bool",
+                          "id": 19
+                        },
+                        "hasZ": {
+                          "type": "bool",
+                          "id": 20
+                        },
+                        "m": {
+                          "type": "double",
+                          "id": 21
+                        },
+                        "centroid": {
+                          "type": "Geometry",
+                          "id": 22
+                        },
+                        "isSelfIntersecting": {
+                          "type": "bool",
+                          "id": 23
+                        },
+                        "center": {
+                          "type": "Geometry",
+                          "id": 24
+                        },
+                        "geodesic": {
+                          "type": "bool",
+                          "id": 25
+                        },
+                        "numberOfPoints": {
+                          "type": "int32",
+                          "id": 26
+                        },
+                        "radius": {
+                          "type": "double",
+                          "id": 27
+                        },
+                        "radiusUnit": {
+                          "type": "string",
+                          "id": 28
                         }
                       }
                     },
@@ -221,11 +281,11 @@
                           "type": "double",
                           "id": 6
                         },
-                        "xOffset": {
+                        "xoffset": {
                           "type": "double",
                           "id": 7
                         },
-                        "yOffset": {
+                        "yoffset": {
                           "type": "double",
                           "id": 8
                         },
@@ -337,6 +397,10 @@
                         "weight": {
                           "type": "string",
                           "id": 4
+                        },
+                        "decoration": {
+                          "type": "string",
+                          "id": 5
                         }
                       }
                     },
@@ -465,7 +529,7 @@
                           "id": 6
                         },
                         "activeMediaInfoIndex": {
-                          "type": "string",
+                          "type": "int32",
                           "id": 7
                         },
                         "mediaInfos": {
@@ -483,7 +547,7 @@
                           "id": 10
                         },
                         "relationshipId": {
-                          "type": "int32",
+                          "type": "int64",
                           "id": 11
                         },
                         "text": {
@@ -663,6 +727,26 @@
                         "value": {
                           "type": "bool",
                           "id": 9
+                        },
+                        "actionId": {
+                          "type": "string",
+                          "id": 10
+                        }
+                      }
+                    },
+                    "GraphicOrigin": {
+                      "fields": {
+                        "layerId": {
+                          "type": "string",
+                          "id": 1
+                        },
+                        "arcGISLayerId": {
+                          "type": "string",
+                          "id": 2
+                        },
+                        "layerIndex": {
+                          "type": "int32",
+                          "id": 3
                         }
                       }
                     }

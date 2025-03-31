@@ -1,11 +1,3 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Renderers.ColorRamps;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
@@ -59,7 +51,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     /// </param>
     public RasterStretchRenderer(ColorRamp? colorRamp = null, bool? computeGamma = null, 
         bool? dynamicRangeAdjustment = null, List<int>? gamma = null, int? outputMax = null, int? outputMin = null,
-        StretchType? stretchType = null, RasterStatistics[]? statistics = null, bool? useGamma = null, 
+        StretchType? stretchType = null, RasterBandStatistics[]? statistics = null, bool? useGamma = null, 
         int? numberOfStandardDeviations = null)
     {
 #pragma warning disable BL0005
@@ -77,12 +69,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     }
 
     /// <inheritdoc />
-    public string ImageryRendererType => "raster-stretch";
-
-    /// <summary>
-    ///     Type for compatibility with other renderers.
-    /// </summary>
-    public string Type => "raster-stretch";
+    public ImageryRendererType Type => ImageryRendererType.RasterStretch;
 
     /// <summary>
     ///     The stretched values are mapped to this specified color ramp.
@@ -135,7 +122,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     ///     The input statistics can be specified through the statistics property.
     /// </summary>
     [Parameter]
-    public RasterStatistics[]? Statistics { get;  set; }
+    public RasterBandStatistics[]? Statistics { get;  set; }
 
     /// <summary>
     ///     Denotes whether the gamma value should be used.
@@ -158,11 +145,9 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
 #pragma warning disable BL0005
         StretchType = stretchType;
 #pragma warning restore BL0005
-        JsModule ??= Parent?.JsModule;
-
-        if (JsModule is null) return;
+        if (CoreJsModule is null) return;
         
-        await JsModule.InvokeVoidAsync("setStretchTypeForRenderer", Id, stretchType);
+        await CoreJsModule.InvokeVoidAsync("setStretchTypeForRenderer", Id, stretchType);
     }
 
     /// <inheritdoc />
@@ -197,45 +182,10 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
         }
     }
 /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+public override void ValidateRequiredChildren()
     {
         ColorRamp?.ValidateRequiredChildren();
         base.ValidateRequiredChildren();
     }
 
 }
-
-/// <summary>
-/// The stretch type defines a histogram stretch that will be applied to the rasters to enhance their appearance. Stretching improves the appearance of the data by spreading the
-/// pixel values along a histogram from the minimum and maximum values defined by their bit depth. 
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<StretchType>))]
-public enum StretchType
-{
-#pragma warning disable CS1591
-    None,
-    StandardDeviation,
-    HistogramEqualization,
-    MinMax,
-    PercentClip,
-    Sigmoid
-#pragma warning restore CS1591
-}
-
-/// <summary>
-///     The input statistics for rasters
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-RasterStretchRenderer.html#statistics">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-/// <param name="Min">
-///     The minimum pixel value.
-/// </param>
-/// <param name="Max">
-///     The maximum pixel value.
-/// </param>
-/// <param name="Avg">
-///     The average pixel value.
-/// </param>
-/// <param name="Stddev">
-///     The standard deviation of the pixel value.
-/// </param>
-public record RasterStatistics(double Min, double Max, double? Avg = null, double? Stddev = null);

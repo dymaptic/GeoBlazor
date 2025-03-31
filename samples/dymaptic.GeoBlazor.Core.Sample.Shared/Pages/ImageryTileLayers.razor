@@ -1,163 +1,159 @@
 ﻿@page "/imagery-tile-layer"
-@using dymaptic.GeoBlazor.Core.Extensions
 
-<h3>Imagery Tile Layers</h3>
+<h3>Imagery Layers</h3>
 
 <div class="links-div">
-    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-imagerytilelayer/">ArcGIS API for JavaScript</a>
-    <a class="btn btn-primary" target="_blank" href="https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer">World Elevation Terrain 3D</a>
+    <a class="btn btn-secondary" target="_blank" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-hosted-imagerytilelayer-landcover/">ArcGIS API for JavaScript</a>
+    <a class="btn btn-primary" target="_blank" href="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2">States Feature Layer</a>
+    <a class="btn btn-outline-primary" target="_blank" href="https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLCD_2016_Land_Cover_L48_20190424/ImageServer">Land Cover Imagery Tile Layer</a>
 </div>
-<p class="instructions">
-    Demonstrates an <code>ImageryTileLayer</code> blended with an <code>ImageryLayer</code>
+<p>
+    This sample shows how to add an instance of a hosted ImageryTileLayer to a Map in a MapView. The ImageryTileLayer in this sample shows the National Land Cover Database (NLCD) 2016 land cover types for the United States.
 </p>
 
-<MapView class="map-view" @ref="_mapView"
-         Center="@(new Point(84, 31))"
-         Zoom="4">
-    <Constraints SnapToZoom="false" />
+<MapView @ref="_mapView"
+         class="map-view"
+         Center="@(new Point(-100, 40))"
+         Zoom="4"
+         OnLayerViewCreate="OnLayerViewCreated"
+         BackgroundColor="@(new MapColor("#F5F5F5"))">
+    <SpatialReference Wkid="102003" />
     <Map>
+        <Basemap>
+            <FeatureLayer @ref="_states"
+                          Url="https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/2"
+                          Effect="@(new Effect("drop-shadow(-10px, 10px, 6px gray)"))">
+                <SimpleRenderer>
+                    <SimpleFillSymbol Color="@(new MapColor("#505050"))">
+                        <Outline Color="@(new MapColor("#DCDCDC"))" Width="@("0.5px")" />
+                    </SimpleFillSymbol>
+                </SimpleRenderer>
+            </FeatureLayer>
+        </Basemap>
         <ImageryTileLayer @ref="_layer"
-                          Url="https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
-                          Title="World Elevation ImageryTileLayer"
-                          BlendMode="BlendMode.DestinationIn" />
-        <TileLayer Url="https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer"
-                   ListMode="ListMode.HideChildren" />
+                          Url="https://tiledimageservices.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NLCD_2016_Land_Cover_L48_20190424/ImageServer" />
     </Map>
-    <LayerListWidget OnListItemCreatedHandler="OnListItemCreated"
-                     Position="OverlayPosition.TopRight" />
+    <CustomOverlay Position="OverlayPosition.TopRight">
+        <div id="land-cover" class="esri-widget">
+            <h4 id="titleText" class="esri-widget__heading esri-editor__title">
+                Land cover types - 2016
+            </h4>
+            <br>
+            <div class="esri-widget">
+                <calcite-label>
+                    <b>Select land type:</b>
+                    <calcite-radio-button-group name="Select land type" layout="vertical"
+                                                id="landCoverTypeSelect" scale="s">
+                        <calcite-label layout="inline" 
+                                       @onclick="@(e => UpdateLandCoverType("forests"))">
+                            <calcite-radio-button id="forests"
+                                                  value="forests"
+                                                  checked>
+                            </calcite-radio-button>
+                            <span style="color: black">Forested Areas</span>
+                        </calcite-label>
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("developed"))">
+                            <calcite-radio-button value="developed">
+                            </calcite-radio-button>
+                            <span style="color: black">Developed Areas</span>
+                        </calcite-label>
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("crops"))">
+                            <calcite-radio-button value="crops">
+                            </calcite-radio-button>
+                            <span style="color: black">Cultivated Areas</span>
+                        </calcite-label>
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("hay"))">
+                            <calcite-radio-button value="hay">
+                            </calcite-radio-button>
+                            <span style="color: black">Hay/Pasture Areas</span>
+                        </calcite-label>
+                        <calcite-label layout="inline" @onclick="@(e => UpdateLandCoverType("wetlands"))">
+                            <calcite-radio-button value="wetlands">
+                            </calcite-radio-button>
+                            <span style="color: black">Wetlands</span>
+                        </calcite-label>
+                    </calcite-radio-button-group>
+                </calcite-label>
+
+            </div>
+            <div id="projectionDiv" class="esri-widget">
+                <p><b>Change view's projection:</b></p>
+                <select id="projectWKID" class="esri-input esri-select"
+                        @onchange="UpdateSpatialReference">
+                    <option value="102003" selected>Albers Equal Area</option>
+                    <option value="102100">Web Mercator</option>
+                    <option value="4326">WGS 84</option>
+                </select>
+            </div>
+        </div>
+    </CustomOverlay>
 </MapView>
-<SliderWidget ContainerId="value-slider"
-              Min="0"
-              Max="5000"
-              Values="@([120, 3068])"
-              StepInterval="10"
-              SnapOnClickEnabled="false"
-              @ref="_slider"
-              ValueChanged="OnSliderChanged"
-              MapView="_mapView">
-    <SliderVisibleElements Labels="true" RangeLabels="true" />
-</SliderWidget>
-
-<div id="rendererDiv" class="esri-widget" style="display: block;">
-    <h3 class="esri-widget__heading">Stretch Rendering Parameters</h3>
-
-    <label class="esri-feature-form__label">Select stretch type</label>
-    <select id="stretchType" @onchange="ToggleStretchType" class="esri-input esri-select">
-        <option value="@StretchType.MinMax" selected>min-max</option>
-        <option value="@StretchType.StandardDeviation">standard deviation</option>
-    </select>
-    <br />
-    <label id="sliderLabel" class="esri-feature-form__label">
-        @_stretchType.ToString().ToKebabCase() value:
-    </label>
-    <div id="value-slider" class="slider"></div>
-    <input type="checkbox" checked @onchange="ToggleBlendMode" />
-    <label>Toggle blendMode</label>
-</div>
 
 
 @code {
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task OnLayerViewCreated(LayerViewCreateEvent createEvent)
     {
-        if (_layer!.Renderer == null)
+        if (createEvent.Layer?.Id == _layer?.Id)
         {
-            await _layer.Load();
-            _layer.Renderer = new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
-                new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
-                stretchType: _stretchType, 
-                statistics: [new RasterStatistics(120, 3068, 400, 700)]);
-            _layer.LayerChanged = true;
-            _rasterInfo = await _layer.GetServiceRasterInfo();
-            StateHasChanged();
+            await UpdateSpatialReference(new ChangeEventArgs{Value = "102003"});
+            await UpdateLandCoverType("forests");
         }
     }
 
-    private async Task OnSliderChanged(double[] values)
+    private async Task UpdateSpatialReference(ChangeEventArgs args)
     {
-        await UpdateRenderer(values);
+        SpatialReference spatialReference = new SpatialReference(int.Parse(args.Value!.ToString() ?? "102003"));
+        await _states!.SetSpatialReference(spatialReference);
+        await _mapView!.SetSpatialReference(spatialReference);
     }
 
-    private async Task UpdateRenderer(double[] values)
+    private async Task UpdateLandCoverType(string type)
     {
-        var bandStat = _rasterInfo!.Statistics[0];
-        RasterStretchRenderer newRenderer;
-        switch (_stretchType)
+        if (_layer is null || _layer.Loaded != true)
         {
-            case StretchType.MinMax:
-                newRenderer = new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
-                        new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
-                    stretchType: _stretchType, 
-                    statistics: [bandStat with { Min = values[0], Max = values[1] }]);
-
-                break;
-            default:
-                newRenderer = new RasterStretchRenderer(new AlgorithmicColorRamp(Algorithm.CieLab,
-                        new MapColor(0, 0, 0, 0), new MapColor(0, 0, 0, 1)),
-                    stretchType: _stretchType, 
-                    statistics: [bandStat],
-                numberOfStandardDeviations: (int)values[0]);
-
-                break;
+            return;
         }
         
-        await _layer!.SetRenderer(newRenderer);
-    }
+        LandType? landType = _landTypes.FirstOrDefault(t => t.Name == type);
+        List<UniqueValueInfo> infos = [];
 
-    private async Task ToggleBlendMode(ChangeEventArgs e)
-    {
-        if (e.Value is true)
+        if (landType is not null)
         {
-            await _layer!.SetProperty(nameof(ImageryTileLayer.BlendMode), BlendMode.DestinationIn);
-        }
-        else
-        {
-            await _layer!.SetProperty(nameof(ImageryTileLayer.BlendMode), BlendMode.Normal);
-        }
-    }
-    
-    private async Task ToggleStretchType(ChangeEventArgs e)
-    {
-        _stretchType = (StretchType)Enum.Parse(typeof(StretchType), e.Value?.ToString()!);
-
-        switch (_stretchType)
-        {
-            case StretchType.MinMax:
-                await _slider!.SetMax(5000);
-                await _slider.SetMin(0);
-                await _slider.SetStepInterval(10);
-                await _slider.SetValues([120, 3068]);
-
-                break;
-            case StretchType.StandardDeviation:
-                await _slider!.SetMax(3);
-                await _slider.SetMin(1);
-                await _slider.SetStepInterval(1);
-                await _slider.SetValues([1]);
-
-                break;
-        }
-        
-        await UpdateRenderer(_slider!.Values!.ToArray());
-    }
-    
-    private Task<ListItem> OnListItemCreated(ListItem listItem)
-    {
-        if (listItem.LayerId == _layer?.Id)
-        {
-            listItem.Panel = new ListItemPanel
+            for (int i = 0; i < landType.Categories.Length; i++)
             {
-                ContentDivId = "rendererDiv", 
-                Open = true, 
-                ClassName = "esri-icon-maps"
-            };
+                infos.Add(new UniqueValueInfo(
+                    symbol: new SimpleFillSymbol(color: new MapColor(landType.Colors[i])),
+                    value: landType.Categories[i]));
+            }
         }
-        return Task.FromResult(listItem);
+        
+        await _layer.SetRenderer(new UniqueValueRenderer(field: "NLCD_Land",
+            uniqueValueInfos: infos));
     }
 
     private ImageryTileLayer? _layer;
-    private StretchType _stretchType = StretchType.MinMax;
-    private SliderWidget? _slider;
-    private RasterInfo? _rasterInfo;
+    private FeatureLayer? _states;
     private MapView? _mapView;
+    
+    private readonly LandType[] _landTypes =
+    [
+        new("forests", 
+            ["Deciduous Forest", "Evergreen Forest", "Mixed Forest"], 
+            ["#006622", "#006622", "#006622", "#006622"]),
+        new("developed", 
+            ["Developed, Open Space", "Developed, Low Intensity", "Developed, Medium Intensity", "Developed, High Intensity"], 
+            ["#E5D0DD", "#E08B88", "#FF0000", "#A70000"]),
+        new("crops", 
+            ["Cultivated Crops"], 
+            ["#A56400"]),
+        new("hay", 
+            ["Hay/Pasture"], 
+            ["#D3F40E"]),
+        new("wetlands", 
+            ["Woody Wetlands", "Emergent Herbaceuous Wetlands"], 
+            ["#0073e6", "#0073e6"])
+    ];
+    
+    private record LandType(string Name, string[] Categories, string[] Colors);
 }

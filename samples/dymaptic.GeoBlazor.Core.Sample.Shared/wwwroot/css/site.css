@@ -176,6 +176,10 @@ input[type="text"]:not(.esri-search__input), input[type="number"]:not(.esri-sear
     width: 8rem;
 }
 
+#land-cover {
+    padding: 1rem;
+}
+
 :root {
     --geoblazor-primary: #512e84;
     --geoblazor-secondary: #cae9fb;
