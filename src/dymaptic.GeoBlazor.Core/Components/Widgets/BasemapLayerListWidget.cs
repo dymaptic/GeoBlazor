@@ -171,7 +171,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since 4.29. Use SelectionMode, VisibleElements.EditTitleButton, and DragEnabled instead.")]
+    [Obsolete("Deprecated since GeoBlazor V4. Use SelectionMode, VisibleElements.EditTitleButton, and DragEnabled instead.")]
     [CodeGenerationIgnore]
     public bool? EditingEnabled { get; set; }
     
@@ -190,7 +190,7 @@ public partial class BasemapLayerListWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since 4.29. Use SelectionMode instead.")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use SelectionMode instead.")]
     [CodeGenerationIgnore]
     public bool? MultipleSelectionEnabled { get; set; }
 

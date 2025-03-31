@@ -45,7 +45,7 @@ public partial class PopupWidget : Widget
     ///     DefaultValue: true
     /// </summary>
     [Parameter]
-    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.CollapseButton instead.")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use PopupVisibleElements.CollapseButton instead.")]
     public bool? CollapseEnabled { get; set; }
 
     /// <summary>
@@ -102,7 +102,7 @@ public partial class PopupWidget : Widget
     ///     Indicates whether to display a spinner at the popup location prior to its display when it has pending promises.
     /// </summary>
     [Parameter]
-    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.Spinner instead.")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use PopupVisibleElements.Spinner instead.")]
     public bool? SpinnerEnabled { get; set; }
 
     /// <summary>

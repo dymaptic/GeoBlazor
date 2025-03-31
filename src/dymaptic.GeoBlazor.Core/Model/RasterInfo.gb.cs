@@ -89,7 +89,7 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<ColormapPixel>? Colormap = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    DataType? DataType = null,
+    RasterDataType? DataType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Extent? Extent = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -97,9 +97,9 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Height = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<object>? Histograms = null,
+    IReadOnlyCollection<Dictionary<string, object?>>? Histograms = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? KeyProperties = null,
+    Dictionary<string, object?>? KeyProperties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterMultidimensionalInfo? MultidimensionalInfo = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

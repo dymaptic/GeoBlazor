@@ -17,7 +17,6 @@ global using dymaptic.GeoBlazor.Core.Model;
 global using dymaptic.GeoBlazor.Core.Options;
 global using dymaptic.GeoBlazor.Core.Results;
 global using dymaptic.GeoBlazor.Core.Serialization;
-global using dymaptic.GeoBlazor.Core;
 global using Microsoft.AspNetCore.Components;  
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
