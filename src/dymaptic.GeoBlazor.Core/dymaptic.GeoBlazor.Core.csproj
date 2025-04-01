@@ -99,7 +99,7 @@
 
     <Target Name="Copy Assets Debug" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <Message Importance="high" Text="Copying Asset files" />
-        <ExecAsync FilePath="pwsh" Arguments="./assetCopy.ps1" />
+        <Exec Command="pwsh ./assetCopy.ps1" />
     </Target>
 
     <Target Name="Copy Assets Release" AfterTargets="NPM Install" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
@@ -110,28 +110,11 @@
     <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs asynchronously to speed up build during development -->
         <Message Importance="high" Text="Launching Async NPM Build Script" />
-        <ExecAsync FilePath="pwsh" Arguments="./npmDebugBuild.ps1" />
+        <Exec Command="pwsh ./npmDebugBuild.ps1" />
     </Target>
 
     <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
         <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>
-
-    <!--Launch a Process in Parallel-->
-    <UsingTask TaskName="ExecAsync" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
-        <ParameterGroup>
-            <FilePath ParameterType="System.String" Required="true" />
-            <Arguments ParameterType="System.String" Required="true" />
-        </ParameterGroup>
-        <Task>
-            <Code Type="Fragment" Language="cs">
-                <![CDATA[ 
-  System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(FilePath, Arguments);
-  processStartInfo.UseShellExecute = true;
-  System.Diagnostics.Process.Start(processStartInfo);
-  ]]>
-            </Code>
-        </Task>
-    </UsingTask>
 </Project>
