@@ -92,7 +92,6 @@
     </ItemGroup>
 
     <Target Name="NPM Install" BeforeTargets="PreBuildEvent" Condition="'$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Message Importance="high" Text="Running NPM Install" />
         <Exec Command="npm install" />
     </Target>
@@ -108,13 +107,11 @@
     </Target>
 
     <Target Name="NPM Debug Build" AfterTargets="NPM Install" Condition="$(Configuration) == 'DEBUG' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs asynchronously to speed up build during development -->
-        <Message Importance="high" Text="Launching Async NPM Build Script" />
+        <Message Importance="high" Text="Launching NPM Build Script" />
         <Exec Command="pwsh ./npmDebugBuild.ps1" />
     </Target>
 
     <Target Name="NPM Release Build" AfterTargets="Copy Assets Release" Condition="$(Configuration) == 'RELEASE' AND '$(OptOutFromCoreEsBuild)' != 'true'">
-        <!-- Runs synchronously to ensure all files are ready for nuget packaging in release mode -->
         <Exec Command="npm run releaseBuild" ContinueOnError="false" />
     </Target>
 </Project>
