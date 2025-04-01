@@ -507,6 +507,15 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         this.layer.mosaicRule = await  buildJsMosaicRule(value);
     }
     
+    async getMultidimensionalInfo(): Promise<any> {
+        if (!hasValue(this.layer.multidimensionalInfo)) {
+            return null;
+        }
+        
+        let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        return await buildDotNetRasterMultidimensionalInfo(this.layer.multidimensionalInfo);
+    }
+    
     async getMultidimensionalSubset(): Promise<any> {
         if (!hasValue(this.layer.multidimensionalSubset)) {
             return null;
@@ -922,6 +931,11 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
         dotNetImageryLayer.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        dotNetImageryLayer.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo);
+    }
+    
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetImageryLayer.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
@@ -1042,10 +1056,6 @@ export async function buildDotNetImageryLayerGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.minScale)) {
         dotNetImageryLayer.minScale = jsObject.minScale;
-    }
-    
-    if (hasValue(jsObject.multidimensionalInfo)) {
-        dotNetImageryLayer.multidimensionalInfo = removeCircularReferences(jsObject.multidimensionalInfo);
     }
     
     if (hasValue(jsObject.noData)) {

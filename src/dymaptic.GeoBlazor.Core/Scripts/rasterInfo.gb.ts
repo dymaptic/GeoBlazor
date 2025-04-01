@@ -3,7 +3,7 @@ import RasterInfo from '@arcgis/core/layers/support/RasterInfo';
 import { arcGisObjectRefs, jsObjectRefs, hasValue, sanitize, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetRasterInfo } from './rasterInfo';
 
-export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsRasterInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -16,6 +16,10 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     if (hasValue(dotNetObject.extent)) {
         let { buildJsExtent } = await import('./extent');
         properties.extent = buildJsExtent(dotNetObject.extent) as any;
+    }
+    if (hasValue(dotNetObject.multidimensionalInfo)) {
+        let { buildJsRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        properties.multidimensionalInfo = await buildJsRasterMultidimensionalInfo(dotNetObject.multidimensionalInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sensorInfo)) {
         let { buildJsRasterSensorInfo } = await import('./rasterSensorInfo');
@@ -45,9 +49,6 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     }
     if (hasValue(dotNetObject.keyProperties)) {
         properties.keyProperties = dotNetObject.keyProperties;
-    }
-    if (hasValue(dotNetObject.multidimensionalInfo)) {
-        properties.multidimensionalInfo = dotNetObject.multidimensionalInfo;
     }
     if (hasValue(dotNetObject.noDataValue)) {
         properties.noDataValue = dotNetObject.noDataValue;
@@ -88,6 +89,11 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
         dotNetRasterInfo.extent = buildDotNetExtent(jsObject.extent);
     }
     
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        dotNetRasterInfo.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo);
+    }
+    
     if (hasValue(jsObject.sensorInfo)) {
         let { buildDotNetRasterSensorInfo } = await import('./rasterSensorInfo');
         dotNetRasterInfo.sensorInfo = await buildDotNetRasterSensorInfo(jsObject.sensorInfo);
@@ -123,10 +129,6 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     
     if (hasValue(jsObject.keyProperties)) {
         dotNetRasterInfo.keyProperties = removeCircularReferences(jsObject.keyProperties);
-    }
-    
-    if (hasValue(jsObject.multidimensionalInfo)) {
-        dotNetRasterInfo.multidimensionalInfo = removeCircularReferences(jsObject.multidimensionalInfo);
     }
     
     if (hasValue(jsObject.noDataValue)) {

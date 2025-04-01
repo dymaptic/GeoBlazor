@@ -2,7 +2,7 @@
 import { arcGisObjectRefs, jsObjectRefs, hasValue, removeCircularReferences } from './arcGisJsInterop';
 import { buildDotNetCoverageInfo } from './coverageInfo';
 
-export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<any> {
+export async function buildJsCoverageInfoGenerated(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(dotNetObject)) {
         return null;
     }
@@ -17,7 +17,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<a
     }
     if (hasValue(dotNetObject.rasterInfo)) {
         let { buildJsRasterInfo } = await import('./rasterInfo');
-        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo) as any;
+        jsCoverageInfo.rasterInfo = await buildJsRasterInfo(dotNetObject.rasterInfo, layerId, viewId) as any;
     }
 
     if (hasValue(dotNetObject.bandNames) && dotNetObject.bandNames.length > 0) {

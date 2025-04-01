@@ -129,6 +129,11 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
         dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        dotNetIArcGISImageService.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo);
+    }
+    
     if (hasValue(jsObject.multidimensionalSubset)) {
         let { buildDotNetMultidimensionalSubset } = await import('./multidimensionalSubset');
         dotNetIArcGISImageService.multidimensionalSubset = await buildDotNetMultidimensionalSubset(jsObject.multidimensionalSubset);
@@ -187,10 +192,6 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.interpolation)) {
         dotNetIArcGISImageService.interpolation = removeCircularReferences(jsObject.interpolation);
-    }
-    
-    if (hasValue(jsObject.multidimensionalInfo)) {
-        dotNetIArcGISImageService.multidimensionalInfo = removeCircularReferences(jsObject.multidimensionalInfo);
     }
     
     if (hasValue(jsObject.noData)) {
