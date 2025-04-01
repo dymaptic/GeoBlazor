@@ -1,5 +1,4 @@
 ﻿@page "/calculate-geometries"
-
 @inject GeometryEngine GeometryEngine
 
 <PageTitle>Calculate Geometries</PageTitle>
@@ -22,7 +21,7 @@
          Zoom="13">
     <Map>
         <Basemap>
-            <PortalItem Id="d582a9e953c44c09bb998c7d9b66f8d4" />
+            <PortalItem PortalItemId="d582a9e953c44c09bb998c7d9b66f8d4" />
         </Basemap>
         <GraphicsLayer @ref="ResultsLayer" />
         <GraphicsLayer @ref="GraphicsLayer">
@@ -33,7 +32,7 @@
                 </SimpleMarkerSymbol>
             </Graphic>
             <Graphic>
-                <PolyLine Paths="@(new[] { _mapPath })" />
+                <Polyline Paths="@(new[] { _mapPath })" />
                 <SimpleLineSymbol Color="@(new MapColor(81, 46, 132))" Width="2" />
             </Graphic>
             <Graphic>
@@ -60,7 +59,7 @@
     {
         if (_bufferPolygon is not null) return;
 
-        _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, LinearUnit.Kilometers);
+        _bufferPolygon = await GeometryEngine.GeodesicBuffer(PointGeometry!, 1, GeometryEngineLinearUnit.Kilometers);
         _bufferGraphic = new Graphic(_bufferPolygon, _bufferGraphicFill);
         await GraphicsLayer!.Add(_bufferGraphic);
     }
@@ -129,7 +128,7 @@
     private Polygon? _bufferPolygon;
 
     private readonly Symbol _highlightFill = new SimpleFillSymbol(new Outline(new MapColor(255, 255, 255)), 
-        new MapColor(255, 255, 255), FillStyle.Cross);
+        new MapColor(255, 255, 255), SimpleFillSymbolStyle.Cross);
     private Polygon? _highlightPolygon;
     private Graphic? _highlightGraphic;
 }

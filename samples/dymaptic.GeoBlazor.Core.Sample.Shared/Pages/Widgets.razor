@@ -59,7 +59,7 @@
     </Map>
     @if (_showLocate)
     {
-        <LocateWidget RotationEnabled="false" Scale="1500" 
+        <LocateWidget Scale="1500" 
                       Position="OverlayPosition.TopLeft" />
     }
     @if (_showSearch)
@@ -93,15 +93,19 @@
     }
     @if (_showDistanceMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="LengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
+        <MeasurementWidget ActiveTool="ActiveTool.Distance" Label="asdasdasdsds" LinearUnit="SystemOrLengthUnit.NauticalMiles" Position="OverlayPosition.TopLeft" />
     }
     @if (_showAreaMeasurement)
     {
-        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="AreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
+        <MeasurementWidget ActiveTool="ActiveTool.Area" Label="Test Area" AreaUnit="SystemOrAreaUnit.SquareMeters" Position="OverlayPosition.TopLeft"/>
     }
     @if (_showBookmarks)
     {
-        <BookmarksWidget Position="OverlayPosition.TopRight" @ref="_bookmarkWidget" EditingEnabled="true">
+        <BookmarksWidget Position="OverlayPosition.TopRight" 
+                         @ref="_bookmarkWidget"
+                         DragEnabled="true">
+            <BookmarksVisibleElements EditBookmarkButton="true"
+                                      AddBookmarkButton="true" />
         </BookmarksWidget>
     }
 </MapView>
@@ -109,7 +113,7 @@
 @code {
     private MapView? MapView { get; set; }
 
-    private void ToggleWidget(string widgetTypeName)
+    private async Task ToggleWidget(string widgetTypeName)
     {
         switch (widgetTypeName)
         {
@@ -145,31 +149,41 @@
                 break;
             case nameof(BookmarksWidget):
                 _showBookmarks = !_showBookmarks;
+
+                if (_showBookmarks)
+                {
+                    while (_bookmarkWidget is null)
+                    {
+                        await Task.Delay(100);
+                    }
+
+                    await Task.Delay(500);
+                    
+                    await InvokeAsync(async () =>
+                    {
+                        await _bookmarkWidget!.SetBookmarks(_bookmarks);
+                        StateHasChanged();
+                    });
+                }
                 break;
         }
     }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (_showBookmarks)
-        {
-            _bookmarkWidget!.Bookmarks = _bookmarks;
-        }
-    }
-
-    private readonly List<Bookmark> _bookmarks = new List<Bookmark>()
-    {
-        new Bookmark("Angeles National Forest",
-            thumbnail: "/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png",
-            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678, 
+    private readonly List<Bookmark> _bookmarks =
+    [
+        new("Angeles National Forest",
+            thumbnail: new BookmarkThumbnail("/_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Blazor-API-60px.png"),
+            viewpoint: new Viewpoint(new Extent(-13092887.54677721, -13139131.948889678,
                 4090610.189673263, 4047767.23531948, spatialReference: new SpatialReference(102100)))),
-        new Bookmark("Crystal Lake",
+
+        new("Crystal Lake",
             viewpoint: new Viewpoint(new Extent(-13114291.451169826, -13125852.551697943,
                 4077614.8487296384, 4066904.1101411926, spatialReference: new SpatialReference(102100)))),
-        new Bookmark("Mt. Waterman",
+
+        new("Mt. Waterman",
             viewpoint: new Viewpoint(new Extent(-13183855.195875114, -13185668.186639601,
                 4067515.260976006, 4066176.418652561, spatialReference: new SpatialReference(102100))))
-    };
+    ];
 
     private bool _showSearch;
     private bool _showLocate;

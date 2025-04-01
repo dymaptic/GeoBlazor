@@ -1,15 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components;
 
-/// <summary>
-///     The PortalBasemapsSource class is a Portal-driven Basemap source in the BasemapGalleryViewModel or BasemapGallery
-///     widget.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class PortalBasemapsSource : MapComponent
+public partial class PortalBasemapsSource : LocalBasemapsSource, IBasemapGalleryWidgetSource
 {
     /// <summary>
     ///     An query string used to create a custom basemap gallery group query.
@@ -31,52 +22,26 @@ public class PortalBasemapsSource : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, string>? QueryParams { get; set; }
 
+#region Public Methods
+
     /// <summary>
-    ///     The Portal from which to fetch basemaps.
+    ///     Refreshes basemaps by fetching them from the Portal.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-PortalBasemapsSource.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Portal? Portal { get; set; }
-
-    /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
+    [ArcGISMethod]
+    [CodeGenerationIgnore]
+    public override async ValueTask Refresh()
     {
-        switch (child)
+        if (JsComponentReference is null)
         {
-            case Portal portal:
-                // ReSharper disable once RedundantCast
-                if (!((object)portal).Equals(Portal))
-                {
-                    Portal = portal;
-                }
-
-                break;
-            default:
-                await base.RegisterChildComponent(child);
-
-                break;
+            return;
         }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
+            CancellationTokenSource.Token);
+        await base.Refresh();
     }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Portal _:
-                Portal = null;
-
-                break;
-            default:
-                await base.UnregisterChildComponent(child);
-
-                break;
-        }
-    }
-
-    /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
-    {
-        base.ValidateRequiredChildren();
-        Portal?.ValidateRequiredChildren();
-    }
+    
+#endregion
 }

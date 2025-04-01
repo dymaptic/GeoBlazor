@@ -1,10 +1,6 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Serialization;
 
-public class LongConverter: JsonConverter<long>
+internal class LongConverter: JsonConverter<long>
 {
     public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

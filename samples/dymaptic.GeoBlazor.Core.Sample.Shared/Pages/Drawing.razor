@@ -111,7 +111,7 @@
 <MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Class="map-view">
     <Map>
         <Basemap>
-            <PortalItem Id="716b600dbbac433faa4bec9220c76b3a" />
+            <PortalItem PortalItemId="716b600dbbac433faa4bec9220c76b3a" />
         </Basemap>
         <GraphicsLayer @ref="_graphicsLayer" />
     </Map>
@@ -140,17 +140,17 @@
         }
     }
 
-    private void DrawLine()
+    private async Task DrawLine()
     {
         _showLine = !_showLine;
         
         if (_showLine)
         {
-            _graphicsLayer!.Add(_polylineGraphic);
+            await _graphicsLayer!.Add(_polylineGraphic);
         }
         else
         {
-            _graphicsLayer!.Remove(_polylineGraphic);
+            await _graphicsLayer!.Remove(_polylineGraphic);
         }
     }
 
@@ -164,17 +164,17 @@
         mapPath.RemoveAt(mapPath.Count - 1);
     }
 
-    private void DrawPolygon()
+    private async Task DrawPolygon()
     {
         _showPolygon = !_showPolygon;
         
         if (_showPolygon)
         {
-            _graphicsLayer!.Add(_polygonGraphic);
+            await _graphicsLayer!.Add(_polygonGraphic);
         }
         else
         {
-            _graphicsLayer!.Remove(_polygonGraphic);
+            await _graphicsLayer!.Remove(_polygonGraphic);
         }
     }
 
@@ -190,24 +190,18 @@
 
     private async Task GetPoint()
     {
-        if (_pointGraphic is null) return;
-
         Geometry? geometry = await _pointGraphic.GetGeometry();
         _geometry = JsonSerializer.Serialize(geometry);
     }
 
     private async Task GetPolyLine()
     {
-        if (_polylineGraphic is null) return;
-
         Geometry? geometry = await _polylineGraphic.GetGeometry();
         _geometry = JsonSerializer.Serialize(geometry);
     }
 
     private async Task GetPolygon()
     {
-        if (_polygonGraphic is null) return;
-
         Geometry? geometry = await _polygonGraphic.GetGeometry();
         _geometry = JsonSerializer.Serialize(geometry);
     }
@@ -227,7 +221,7 @@
     private async Task SetLinePath(ChangeEventArgs args, int i, int j)
     {
         mapPath[i][j] = Convert.ToDouble(args.Value);
-        await _polylineGraphic.SetGeometry(new PolyLine([mapPath]));
+        await _polylineGraphic.SetGeometry(new Polyline([mapPath]));
     }
     
     private async Task SetRingPath(ChangeEventArgs args, int i, int j)
@@ -239,13 +233,13 @@
     private bool _showPointSection;
     private bool _showLineSection;
     private bool _showPolygonSection;
-    private Graphic _polygonGraphic = new(new Polygon([ mapRings ]),
+    private readonly Graphic _polygonGraphic = new(new Polygon([ mapRings ]),
         new SimpleFillSymbol(new Outline(new MapColor(255, 255, 255), 1),
             new MapColor(81, 46, 132, 0.8)));
-    private Graphic _pointGraphic = new(new Point(_pointLong, _pointLat),
+    private readonly Graphic _pointGraphic = new(new Point(_pointLong, _pointLat),
         new SimpleMarkerSymbol(new Outline(new MapColor(255, 255, 255), 1), 
             new MapColor(81, 46, 132)));
-    private Graphic _polylineGraphic = new(new PolyLine([mapPath]), 
+    private readonly Graphic _polylineGraphic = new(new Polyline([mapPath]), 
         new SimpleLineSymbol(new MapColor("white"), 2));
     private GraphicsLayer? _graphicsLayer;
     private string? _geometry;
@@ -266,10 +260,5 @@
         new MapPoint(-118.791432890735, 34.0163883241613),
         new MapPoint(-118.79596686535, 34.008564864635),
         new MapPoint(-118.808558110679, 34.0035027131376));
-    private readonly AttributesDictionary _graphicAttributes = new(new Dictionary<string, object?>
-    {
-        { "Name", "Sample Polygon" },
-        { "Description", "This is where you can describe the polygon." }
-    });
-
+   
 }

@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Layers;
-using Microsoft.AspNetCore.Components;
-
-
-namespace dymaptic.GeoBlazor.Core.Components;
+﻿namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     The Map class contains properties and methods for storing, managing, and overlaying layers common to both 2D and 3D
@@ -37,7 +33,7 @@ public class Map : MapComponent
     /// <summary>
     ///     A collection of operational <see cref="Layer" />s.
     /// </summary>
-    public List<Layer> Layers { get; set; } = new();
+    public List<Layer> Layers { get; set; } = [];
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -52,8 +48,7 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                _layersToRender.Add(layer);
-                StateHasChanged();
+                await View!.AddLayer(layer);
 
                 break;
             default:
@@ -73,7 +68,6 @@ public class Map : MapComponent
 
                 break;
             case Layer layer:
-                _layersToRender.Remove(layer);
                 await View!.RemoveLayer(layer);
 
                 break;
@@ -85,7 +79,7 @@ public class Map : MapComponent
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
         base.ValidateRequiredChildren();
         Basemap?.ValidateRequiredChildren();
@@ -95,26 +89,4 @@ public class Map : MapComponent
             layer.ValidateRequiredChildren();
         }
     }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender && _layersToRender.Any() && !_rendering)
-        {
-            _rendering = true;
-            AllowRender = false;
-
-            foreach (Layer layer in _layersToRender)
-            {
-                await View!.AddLayer(layer);
-            }
-
-            _layersToRender.Clear();
-            AllowRender = true;
-            _rendering = false;
-        }
-    }
-
-    private List<Layer> _layersToRender = new();
-    private bool _rendering;
 }

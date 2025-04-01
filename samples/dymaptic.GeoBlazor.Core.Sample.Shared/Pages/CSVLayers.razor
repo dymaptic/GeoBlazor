@@ -15,11 +15,8 @@
 
 
 <SceneView @ref="_view" class="map-view" OnViewRendered="OnViewRendered">
-    <Extent Xmin="-41525513" Ymin="4969181" Xmax="-36687355" Ymax="9024624">
-        <SpatialReference Wkid="102100" />
-    </Extent>
     <WebScene>
-        <PortalItem Id="a467ef1140de4e88acf34d38df9fb869" />
+        <PortalItem PortalItemId="a467ef1140de4e88acf34d38df9fb869" />
         <CSVLayer Url="https://developers.arcgis.com/javascript/latest//sample-code/layers-csv/live/earthquakes.csv" Title="Earth Quakes" Copyright="USGS Earthquakes">
             <PopupTemplate Title="Earthquake Info" StringContent="Magnitude {mag} {type} hit {place} on {time}." />
             <SimpleRenderer>

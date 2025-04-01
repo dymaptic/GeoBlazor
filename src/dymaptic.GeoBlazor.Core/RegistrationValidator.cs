@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using System.Diagnostics;
-using System.Text;
-using System.Text.Json;
-
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace dymaptic.GeoBlazor.Core;
 
@@ -15,15 +8,8 @@ public interface IAppValidator
     public Task ValidateLicense();
 }
 
-internal class RegistrationValidator: IAppValidator
+internal class RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime) : IAppValidator
 {
-    public RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime, NavigationManager navigationManager)
-    {
-        _settings = settings;
-        _jsRuntime = jsRuntime;
-        _navigationManager = navigationManager;
-    }
-
     public async Task ValidateLicense()
     {
         // if we've already shown the message or validated, there's no need to check again
@@ -36,10 +22,10 @@ internal class RegistrationValidator: IAppValidator
 
         _validating = true;
 
-        BlazorMode blazorMode = _jsRuntime.GetType().Name.Contains("Remote") ? BlazorMode.Server :
+        BlazorMode blazorMode = jsRuntime.GetType().Name.Contains("Remote") ? BlazorMode.Server :
             OperatingSystem.IsBrowser() ? BlazorMode.WebAssembly : BlazorMode.Maui;
 
-        string? registration = _settings.RegistrationKey;
+        string? registration = settings.RegistrationKey;
         bool valid = registration is not null;
 
         if (valid)
@@ -50,7 +36,7 @@ internal class RegistrationValidator: IAppValidator
 
                 RegistrationObject registrationObject =
                     JsonSerializer.Deserialize<RegistrationObject>(registrationText)!;
-                if (valid && registrationObject!.LicenseVersion != 1)
+                if (valid && registrationObject.LicenseVersion != 1)
                 {
                     valid = false;
                 }
@@ -77,7 +63,7 @@ internal class RegistrationValidator: IAppValidator
                 Debug.WriteLine(_registrationMessage);
                 if (blazorMode == BlazorMode.Server)
                 {
-                    await _jsRuntime.InvokeVoidAsync("console.log", _registrationMessage);
+                    await jsRuntime.InvokeVoidAsync("console.log", _registrationMessage);
                 }
 
                 _messageShown = true;
@@ -90,9 +76,6 @@ internal class RegistrationValidator: IAppValidator
     }
 
     private static bool _isValidated;
-    private readonly GeoBlazorSettings _settings;
-    private readonly IJSRuntime _jsRuntime;
-    private readonly NavigationManager _navigationManager;
     private readonly string _registrationMessage =
         "Thank you for using GeoBlazor! Please visit https://licensing.dymaptic.com/geoblazor-core to register.";
     private static bool _messageShown;

@@ -1,4 +1,5 @@
 @page "/Bookmarks"
+@using dymaptic.GeoBlazor.Core.Functions
 
 <PageTitle>Bookmarks and Bookmarks Widget</PageTitle>
 <h1>Bookmarks Widget</h1>
@@ -14,10 +15,13 @@
 </p>
 <MapView Class="map-view" OnLayerViewCreate="OnLayerViewCreate">
     <WebMap>
-        <PortalItem Id="70b726074af04a7e9839d8a07f64c039" />
+        <PortalItem PortalItemId="70b726074af04a7e9839d8a07f64c039" />
     </WebMap>
     <ExpandWidget Expanded="true" Position="OverlayPosition.TopRight">
-        <BookmarksWidget OnBookmarkSelect="OnBookmarkClick" EditingEnabled="true">
+        <BookmarksWidget OnBookmarkSelect="OnBookmarkClick"
+                         DragEnabled="true">
+            <BookmarksVisibleElements EditBookmarkButton="true"
+                                      AddBookmarkButton="true" />
         </BookmarksWidget>
     </ExpandWidget>
 
@@ -39,14 +43,8 @@
 
         var hurricaneName = eventArgs.Bookmark.Name;
 
-        var featureEffect = new FeatureEffect
-            {
-                Filter = new FeatureFilter()
-                {
-                    Where = $"Name = '{hurricaneName!.ToUpper()}'"
-                },
-                ExcludedEffect = new() { new Effect("grayscale(100%) opacity(30%)") }
-            };
+        var featureEffect = new FeatureEffect([new Effect("grayscale(100%) opacity(30%)")],
+            null, new FeatureFilter(where: $"Name = '{hurricaneName!.ToUpper()}'"));
         _ = _layerView.SetFeatureEffect(featureEffect);
     }
 

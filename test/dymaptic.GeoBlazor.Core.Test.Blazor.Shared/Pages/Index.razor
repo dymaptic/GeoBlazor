@@ -18,17 +18,21 @@
 <div class="result-section">
     @if (_running)
     {
-        <span style="color: orange; font-weight: bold">Running...&nbsp;</span>
+        <span style="color: orange; font-weight: bold">Running... @Remaining tests pending</span>
     }
     else if (_results.Any())
     {
         <span style="color: orange; font-weight: bold">Complete</span>
+        <span>, </span>
+        <span style="color: green;">Passed: @Passed</span>
+        <span>, </span>
+        <span style="color: red;">Failed: @Failed</span>
     }
     @foreach (KeyValuePair<string, TestResult> result in _results.OrderBy(kvp => kvp.Key))
     {
         <p style="cursor: pointer;" @onclick="@(() => ScrollAndOpenClass(result.Key))">
             <a>
-                <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count},</span> <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
+                <b>@Extensions.CamelCaseToSpaces(result.Key) - @((MarkupString)$"<span style=\"color: green;\">Passed: {result.Value.Passed.Count}</span>, <span style=\"color: red;\">Failed: {result.Value.Failed.Count}</span>")</b>
             </a>
         </p>
     }
@@ -81,12 +85,16 @@
         {
             //ignore if not running pro
         }
-        foreach (Type type in types)
+        foreach (Type type in types.Where(t => !t.Name.EndsWith("GeneratedTests")))
         {
             if (type.IsDefined(typeof(TestClassAttribute), true) && (type.Name != nameof(TestRunnerBase)))
             {
                 _testClassTypes.Add(type);
                 _testClasses[type.Name] = null;
+
+                int testCount = type.GetMethods()
+                    .Count(m => m.GetCustomAttribute(typeof(TestMethodAttribute), false) != null);
+                _results[type.Name] = new TestResult(type.Name, testCount, [], []);
             }
         }
         StateHasChanged();
@@ -95,29 +103,25 @@
     private async Task<bool> RunTests(bool onlyFailedTests = false, CancellationToken token = default)
     {
         _running = true;
-        ParallelOptions options = new()
+        foreach (var kvp in _testClasses)
         {
-            CancellationToken = token
-        };
-        await Parallel.ForEachAsync(_testClasses, options, async (kvp, cToken) =>
-        {
-            if (cToken.IsCancellationRequested)
+            if (token.IsCancellationRequested)
             {
-                return;
+                break;
             }
             
             if (_results.TryGetValue(kvp.Key, out TestResult? results))
             {
                 if (onlyFailedTests && results.Failed.Count == 0)
                 {
-                    return;
+                    break;
                 }
             }
             if (kvp.Value != null)
             {
                 await (kvp.Value!.Instance as TestRunnerBase)!.RunTests(onlyFailedTests, true);
             }
-        });
+        }
         
         _running = false;
         await InvokeAsync(StateHasChanged);
@@ -178,6 +182,10 @@ Failed: {result.Value.Failed.Count}");
         _cts = new CancellationTokenSource();
     }
 
+    private int Remaining => _results.Sum(r => 
+        r.Value.TestCount - (r.Value.Passed.Count + r.Value.Failed.Count));
+    private int Passed => _results.Sum(r => r.Value.Passed.Count);
+    private int Failed => _results.Sum(r => r.Value.Failed.Count);
     private IJSObjectReference? _jsObjectReference;
     private bool _running;
     private readonly List<Type> _testClassTypes = new();

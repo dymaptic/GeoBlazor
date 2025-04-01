@@ -1,89 +1,64 @@
-﻿using dymaptic.GeoBlazor.Core.Extensions;
-using dymaptic.GeoBlazor.Core.Objects;
-using dymaptic.GeoBlazor.Core.Serialization;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
-/// <summary>
-///     SimpleLineSymbol is used for rendering 2D polyline geometries in a 2D MapView. SimpleLineSymbol is also used for
-///     rendering outlines for marker symbols and fill symbols.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class SimpleLineSymbol : LineSymbol
+public partial class SimpleLineSymbol : LineSymbol
 {
-    /// <summary>
-    ///     Parameterless constructor for using as a razor component
-    /// </summary>
-    [ActivatorUtilitiesConstructor]
-    public SimpleLineSymbol()
-    {
-    }
 
-    /// <summary>
-    ///     Constructs a new SimpleLineSymbol in code with parameters
-    /// </summary>
-    /// <param name="color">
-    ///     The color of the line symbol.
-    /// </param>
-    /// <param name="width">
-    ///     The width of the line symbol in points.
-    /// </param>
-    /// <param name="lineStyle">
-    ///     The line style.
-    /// </param>
-    public SimpleLineSymbol(MapColor? color = null, double? width = null, LineStyle? lineStyle = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        Color = color;
-        Width = width;
-        LineStyle = lineStyle;
-#pragma warning restore BL0005
-    }
     
     /// <inheritdoc />
-    public override string Type => "simple-line";
+    public override SymbolType Type => SymbolType.SimpleLine;
 
+    /// <summary>
+    ///     Specifies the cap style.
+    ///     default round
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#cap">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Cap? Cap { get; set; }
+    
+    /// <summary>
+    ///     Specifies the join style.
+    ///     default round
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#join">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Join? Join { get; set; }
+    
+    /// <summary>
+    ///     Specifies the color, style, and placement of a symbol marker on the line.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#marker">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public LineSymbolMarker? Marker { get; set; }
+    
+    /// <summary>
+    ///     Maximum allowed ratio of the width of a miter join to the line width.
+    ///     default 2
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleLineSymbol.html#miterLimit">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? MiterLimit { get; set; }
+    
     /// <summary>
     ///     Specifies the line style.
     /// </summary>
-    [JsonPropertyName("style")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Parameter]
-    public LineStyle? LineStyle { get; set; }
+    public SimpleLineSymbolStyle? Style { get; set; }
 
     internal override SymbolSerializationRecord ToSerializationRecord()
     {
-        return new SymbolSerializationRecord(Type, Color)
+        return new SymbolSerializationRecord(Type.ToString().ToKebabCase(), Color)
         {
             Width = Width?.Points, 
-            Style = LineStyle?.ToString().ToKebabCase()
+            Style = Style?.ToString().ToKebabCase()
         };
     }
-}
-
-/// <summary>
-///     Possible line style values for <see cref="SimpleLineSymbol" />
-/// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<LineStyle>))]
-public enum LineStyle
-{
-#pragma warning disable CS1591
-    Solid,
-    Dash,
-    DashDot,
-    Dot,
-    LongDash,
-    LongDashDot,
-    LongDashDotDot,
-    ShortDash,
-    ShortDashDot,
-    ShortDashDotDot,
-    ShortDot,
-    None
-#pragma warning restore CS1591
 }

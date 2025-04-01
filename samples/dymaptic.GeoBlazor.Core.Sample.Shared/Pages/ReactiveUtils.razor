@@ -1,4 +1,5 @@
 ﻿@page "/reactive-utils"
+@using dymaptic.GeoBlazor.Core.Functions
 @using System.Text.Json.Serialization
 <PageTitle>Reactive Utils</PageTitle>
 <h1>Reactive Utils</h1>
@@ -181,9 +182,10 @@ else
     </div>
 }
 
-<SceneView @ref="_view" Class="map-view" OnViewRendered="OnViewRendered">
+<SceneView @ref="_view" Class="map-view" OnViewRendered="OnViewRendered"
+           OnLayerViewCreate="OnLayerViewCreate">
     <WebScene>
-        <PortalItem Id="0614ea1f9dd043e9ba157b9c20d3c538" />
+        <PortalItem PortalItemId="0614ea1f9dd043e9ba157b9c20d3c538" />
     </WebScene>
     <LayerListWidget Position="OverlayPosition.TopRight" OnListItemCreatedHandler="OnListItemCreated" />
     <HomeWidget @ref="_homeWidget" Position="OverlayPosition.TopLeft" />
@@ -262,6 +264,23 @@ else
         {
             await _view!.RemoveReactiveWatcher(expression);
         }
+    }
+    
+    // hook to `MapView.OnLayerViewCreate`
+    private async Task OnLayerViewCreate(LayerViewCreateEvent createEvent)
+    {
+        Layer? layer = createEvent.Layer;
+
+        if (layer is not FeatureLayer)
+        {
+            return;
+        }
+        
+        await layer.AddReactiveWatcher<bool>($"{layer.Title}?.visible", 
+            v => 
+        {
+            Console.WriteLine($"Layer {layer.Title} visibility = {v}");
+        }, layer.Title);
     }
 
     private void PopupWatchHandler(bool value)
@@ -356,10 +375,11 @@ else
         _homeWidgetVisible = true;
     }
 
-    private Task<ListItem> OnListItemCreated(ListItem item)
+    private async Task<ListItem> OnListItemCreated(ListItem item)
     {
-        item.Visible = false;
-        return Task.Run(() => item);
+        await item.SetVisibility(false);
+
+        return item;
     }
 
     private async Task AttachZoomWatcher()

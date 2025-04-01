@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-
-
-namespace dymaptic.GeoBlazor.Core.Events;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Result of the view.on('drag') event.

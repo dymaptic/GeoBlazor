@@ -61,7 +61,7 @@
                           Opacity="0.75">
                 <SimpleRenderer>
                     <SimpleLineSymbol Color="@(new MapColor("#BA55D3"))"
-                                      LineStyle="LineStyle.Solid" />
+                                      Style="SimpleLineSymbolStyle.Solid" />
                     <SizeVariable Field="ELEV_GAIN"
                                   MinDataValue="0"
                                   MaxDataValue="2300"
@@ -76,7 +76,7 @@
                           DefinitionExpression="USE_BIKE = 'YES'">
                 <SimpleRenderer>
                     <SimpleLineSymbol Color="@(new MapColor("#FF91FF"))"
-                                      LineStyle="LineStyle.ShortDot"
+                                      Style="SimpleLineSymbolStyle.ShortDot"
                                       Width="1" />
                 </SimpleRenderer>
             </FeatureLayer>
@@ -87,7 +87,7 @@
         }
         @if (_showGraphics)
         {
-            <FeatureLayer ObjectIdField="ObjectID" GeometryType="GeometryType.Point">
+            <FeatureLayer ObjectIdField="ObjectID" GeometryType="FeatureGeometryType.Point">
                 <SpatialReference Wkid="4326" />
                 <PopupTemplate Title="Custom Point {ObjectID}" StringContent="<img src='{url}' />" />
                 <SimpleRenderer>

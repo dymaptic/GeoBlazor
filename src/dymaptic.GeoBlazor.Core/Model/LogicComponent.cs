@@ -1,8 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Exceptions;
-using Microsoft.JSInterop;
-
-
-namespace dymaptic.GeoBlazor.Core.Model;
+﻿namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     A base class for non-map components, such as GeometryEngine, Projection, etc.
@@ -12,15 +8,11 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     Default constructor
     /// </summary>
-    /// <param name="jsRuntime">
-    ///     Injected JavaScript Runtime reference
-    /// </param>
     /// <param name="authenticationManager">
     ///     Injected Identity Manager reference
     /// </param>
-    public LogicComponent(IJSRuntime jsRuntime, AuthenticationManager authenticationManager)
+    protected LogicComponent(AuthenticationManager authenticationManager)
     {
-        JsRuntime = jsRuntime;
         AuthenticationManager = authenticationManager;
     }
 
@@ -37,8 +29,9 @@ public abstract class LogicComponent : IDisposable
     /// <summary>
     ///     A .NET Object reference to this class for use in JavaScript.
     /// </summary>
-    protected DotNetObjectReference<LogicComponent> DotNetObjectReference =>
-        Microsoft.JSInterop.DotNetObjectReference.Create(this);
+    [JsonConverter(typeof(DotNetObjectReferenceJsonConverter))]
+    protected DotNetObjectReference<LogicComponent> DotNetComponentReference =>
+        DotNetObjectReference.Create(this);
 
     /// <summary>
     ///     The project library which houses this particular logic component.
@@ -80,7 +73,7 @@ public abstract class LogicComponent : IDisposable
             IJSObjectReference module = await AuthenticationManager.GetArcGisJsInterop();
 
             Component = await module.InvokeAsync<IJSObjectReference>($"get{ComponentName}Wrapper",
-                CancellationTokenSource.Token, DotNetObjectReference);
+                CancellationTokenSource.Token, DotNetComponentReference);
         }
     }
 
@@ -115,11 +108,6 @@ public abstract class LogicComponent : IDisposable
 
         return await Component!.InvokeAsync<T>(method, CancellationTokenSource.Token, parameters);
     }
-
-    /// <summary>
-    ///     The reference to the JS Runtime.
-    /// </summary>
-    protected readonly IJSRuntime JsRuntime;
     
     /// <summary>
     ///    The reference to the Authentication Manager.

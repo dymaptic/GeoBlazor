@@ -19,10 +19,10 @@
          Scale="150000000"
          Class="map-view"
          Style="background-color: lightblue;">
-    <SpatialReference Wkid="@Wkid" />
+    <SpatialReference Wkid="4326" />
     <Graphic>
         <SimpleFillSymbol Color="@(new MapColor("transparent"))">
-            <Outline Width="0.5" Color="@(new MapColor(50, 50, 50, 0.75))" LineStyle="LineStyle.Dash" />
+            <Outline Width="0.5" Color="@(new MapColor(50, 50, 50, 0.75))" Style="SimpleLineSymbolStyle.Dash" />
         </SimpleFillSymbol>
         <Extent Xmin="-180" Xmax="180" Ymin="-90" Ymax="90">
             <SpatialReference Wkid="4326" />
@@ -41,7 +41,7 @@
         </GeoJSONLayer>
     </Map>
     <CustomOverlay Position="OverlayPosition.TopRight">
-        <select id="wkid" class="esri-widget esri-select" @bind="Wkid">
+        <select id="wkid" class="esri-widget esri-select" @onchange="UpdateSpatialReference">
             <option value="3857" disabled>Select a projection</option>
             <optgroup label="Equidistant (maintain length)">
                 <option value="4326" selected>WGS84 (GCS) -> pseudo Plate Carrée (Cylindrical)</option>
@@ -81,40 +81,34 @@
     private Symbol? PointSym { get; set; }
     private MapView? View { get; set; }
 
-    private int Wkid
-    {
-        get => _wkid;
-        set
-        {
-            if (_wkid != value)
-            {
-                _wkid = value;
-                _coordinatesSet = false;
-                View!.Refresh();
-            }
-        }
-    }
-
     private async Task OnViewRendered()
     {
-        if (_coordinatesSet) return;
+        if (!_coordinatesSet)
+        {
+            Point? center = await View!.GetCenter();
+            await DisplayCoordinates(center);
+        }
 
-        Point? center = await View!.GetCenter();
-        await DisplayCoordinates(center);
+        if (_jsRegistered)
+        {
+            return;
+        }
+        
+        _jsRegistered = true;
 
     // This is an example of how to extend GeoBlazor with your own custom JavaScript.
     // In this case, this was chosen over handling the event in C# because in some scenarios (e.g., Blazor Server),
     // the latency of the call is noticeable for a real-time event like pointer-move.
         IJSObjectReference module = await JsRuntime.InvokeAsync<IJSObjectReference>("import",
             "./_content/dymaptic.GeoBlazor.Core.Sample.Shared/js/extensions.js");
-        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View.JsModule, PointSym, PolySym, 1000,
-            LinearUnit.Kilometers, View.Id);
+        await module.InvokeVoidAsync("drawWithGeodesicBufferOnPointer", View!.CoreJsModule, PointSym, PolySym, 1000,
+            GeometryEngineLinearUnit.Kilometers, View.Id);
     }
 
     private async Task DisplayCoordinates(Point? center)
     {
         var popupOptions = new PopupOptions(new PopupDockOptions(buttonEnabled: false),
-            new PopupVisibleElements { CloseButton = false, FeatureNavigation = false });
+            new PopupVisibleElements(false, false));
 
         var popupTemplate = new PopupTemplate($"WKID: {center!.SpatialReference!.Wkid}",
             $"<b>X:</b> {center.X!.Value.ToString("N5", CultureInfo.CurrentCulture)} | <b>Y:</b> {center.Y!.Value.ToString("N5", CultureInfo.CurrentCulture)}");
@@ -124,7 +118,16 @@
         _coordinatesSet = true;
         await InvokeAsync(async () => await View!.ShowPopupWithGraphic(graphic, popupOptions));
     }
+    
+    private async Task UpdateSpatialReference(ChangeEventArgs args)
+    {
+        _coordinatesSet = false;
+        await View!.ClosePopup();
+        int wkid = int.Parse(args.Value!.ToString() ?? "4326");
+        SpatialReference spatialReference = new SpatialReference(wkid);
+        await View!.SetSpatialReference(spatialReference);
+    }
 
-    private int _wkid = 4326;
     private bool _coordinatesSet;
+    private bool _jsRegistered;
 }

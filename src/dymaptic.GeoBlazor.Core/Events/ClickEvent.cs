@@ -1,7 +1,4 @@
-﻿using dymaptic.GeoBlazor.Core.Components.Geometries;
-
-
-namespace dymaptic.GeoBlazor.Core.Events;
+﻿namespace dymaptic.GeoBlazor.Core.Events;
 
 /// <summary>
 ///     Event object for all click (single, double, immediate) and hold events.

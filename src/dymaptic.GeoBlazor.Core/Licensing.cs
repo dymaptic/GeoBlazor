@@ -1,6 +1,3 @@
-using System.Reflection;
-
-
 namespace dymaptic.GeoBlazor.Core;
 
 internal static class Licensing

@@ -16,13 +16,13 @@
          Center="new Point(-117.08, 34.1)" Zoom="11" Class="map-view">
     <Map>
         <Basemap>
-            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
+            <PortalItem PortalItemId="f35ef07c9ed24020aadd65c8a65d3754" />
         </Basemap>
         <FeatureLayer Url="https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/TrailRuns/FeatureServer/0">
             <PopupTemplate Title="Trail Run" StringContent="{name}">
                 <ActionButton Image="_content/dymaptic.GeoBlazor.Core.Sample.Shared/images/Measure_Distance16.png"
                               Title="Measure Length"
-                              Id="measure-this"
+                              ActionId="measure-this"
                               CallbackFunction="MeasureThis" />
             </PopupTemplate>
         </FeatureLayer>
@@ -41,7 +41,7 @@
     {
         Graphic selectedFeature = (await _popup!.GetSelectedFeature())!;
         Geometry geom = selectedFeature.Geometry!;
-        double initDistance = await GeometryEngine.GeodesicLength(geom, LinearUnit.Miles);
+        double initDistance = await GeometryEngine.GeodesicLength(geom, GeometryEngineLinearUnit.Miles);
         var distance = (Math.Round(initDistance * 100) / 100).ToString("F2");
         await _popup.SetContent($"{selectedFeature.Attributes["name"]}<div style='background-color:DarkGray;color:white'>{distance} miles.</div>");
     }

@@ -1,19 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Text.Json.Serialization;
-
-
 namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
-/// <summary>
-///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps. The toggled basemap is
-///     set inside the view's map object.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS Maps SDK for JavaScript</a>
-/// </summary>
-public class BasemapToggleWidget : Widget
+public partial class BasemapToggleWidget : Widget
 {
     /// <inheritdoc />
-    [JsonPropertyName("type")]
-    public override string WidgetType => "basemapToggle";
+    public override WidgetType Type => WidgetType.BasemapToggle;
 
     /// <summary>
     ///     The name of the next basemap for toggling.
@@ -23,7 +13,7 @@ public class BasemapToggleWidget : Widget
     /// </remarks>
     [Parameter]
     [Obsolete("Use NextBasemapStyle instead")]
-    [RequiredProperty(nameof(NextBasemap), nameof(NextBasemapStyle))]
+    [CodeGenerationIgnore]
     public string? NextBasemapName { get; set; }
     
     /// <summary>
@@ -31,20 +21,24 @@ public class BasemapToggleWidget : Widget
     /// </summary>
     [Parameter]
 #pragma warning disable CS0618 // Type or member is obsolete
-    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemap))]
+    [RequiredProperty(nameof(NextBasemap))]
 #pragma warning restore CS0618 // Type or member is obsolete
+    [CodeGenerationIgnore]
     public BasemapStyleName? NextBasemapStyle { get; set; }
-
+    
     /// <summary>
-    ///     The next <see cref="Basemap" /> for toggling.
+    ///     The next basemap for toggling.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    /// <remarks>
-    ///     Set either <see cref="NextBasemapName" /> or <see cref="NextBasemap" />
-    /// </remarks>
+    [ArcGISProperty]
+    [Parameter]
 #pragma warning disable CS0618 // Type or member is obsolete
-    [RequiredProperty(nameof(NextBasemapName), nameof(NextBasemapStyle))]
+    [RequiredProperty(nameof(NextBasemapStyle))]
 #pragma warning restore CS0618 // Type or member is obsolete
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [CodeGenerationIgnore]
     public Basemap? NextBasemap { get; set; }
+
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -79,9 +73,16 @@ public class BasemapToggleWidget : Widget
     }
 
     /// <inheritdoc />
-    internal override void ValidateRequiredChildren()
+    public override void ValidateRequiredChildren()
     {
+#pragma warning disable CS0618 // Type or member is obsolete
+        if (NextBasemap is null && NextBasemapName is null && NextBasemapStyle is null)
+        {
+            throw new MissingRequiredOptionsChildElementException(nameof(BasemapToggleWidget), [nameof(NextBasemap), nameof(NextBasemapName), nameof(NextBasemapStyle)]);
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
+        
         base.ValidateRequiredChildren();
-        NextBasemap?.ValidateRequiredChildren();
     }
+
 }

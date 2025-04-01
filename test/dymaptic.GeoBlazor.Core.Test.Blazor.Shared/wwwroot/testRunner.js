@@ -1,13 +1,35 @@
-﻿let Core;
+﻿export let Core;
 export let arcGisObjectRefs;
 let Color;
+export let Portal;
+export let SimpleRenderer;
 
 export function initialize(core) {
     Core = core;
     arcGisObjectRefs = Core.arcGisObjectRefs;
     Color = Core.Color;
+    Portal = Core.Portal;
+    SimpleRenderer = Core.SimpleRenderer;
 }
 
+export function setJsTimeout(time, methodName) {
+    delete timeouts[methodName];
+    setTimeout(() => {
+        timeouts[methodName] = true;
+    }, time);
+}
+
+export function timeoutComplete(methodName) {
+    return timeouts[methodName] === true;
+}
+
+let timeouts = {};
+
+export async function dispatchEvent(methodName, objectId, eventName) {
+    let obj = arcGisObjectRefs[objectId];
+    let event = new Event(eventName);
+    obj.dispatchEvent(event);
+}
 export function assertBasemapHasTwoLayers(methodName) {
     let view = getView(methodName);
     if (view.map.basemap.baseLayers.length !== 2) {
@@ -94,16 +116,17 @@ export function assertSymbolOnLayer(methodName, layerId, symbolType, dnSymbol) {
                     break;
                 case "font":
                     let dnFont = dnSymbol[propertyName];
-                    isMatch = layer.renderer.symbol[propertyName].family === dnFont.family;
+                    isMatch = layer.renderer.symbol[propertyName]?.family === dnFont.family;
                     break;
                 case "id":
-                    isMatch = true;
-                    break;
+                case "layerId":
+                case "viewId":
                 case "proProperties":
+                case "dotNetComponentReference":
                     isMatch = true;
                     break;
                 default:
-                    isMatch = layer.renderer.symbol[propertyName].toString() === dnSymbol[propertyName].toString();
+                    isMatch = layer.renderer.symbol[propertyName]?.toString() === dnSymbol[propertyName]?.toString();
                     break;
             }
 
@@ -124,6 +147,23 @@ export function assertLayerExists(methodName, layerType) {
         }
     }
 
+    throw new Error(`Expected layer of type ${layerType} but found none`);
+}
+
+export function assertGroupLayerHasLayer(methodName, layerType) {
+    let view = getView(methodName);
+    let layers = view.map.layers;
+    let groupLayer = layers.find(l => l.type === 'group');
+    if (groupLayer === undefined) {
+        throw new Error(`Expected group layer but found none`);
+    }
+    for (let i = 0; i < groupLayer.layers.items.length; i++) {
+        let layer = groupLayer.layers.items[i];
+        if (layer.type === layerType) {
+            return;
+        }
+    }
+    
     throw new Error(`Expected layer of type ${layerType} but found none`);
 }
 

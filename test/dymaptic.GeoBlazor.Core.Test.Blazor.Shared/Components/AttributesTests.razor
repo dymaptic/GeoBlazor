@@ -10,24 +10,24 @@
     {
         MapView? mapView = null;
         AddMapRenderFragment(
-    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-        </Map>
-    </MapView>);
+		    @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+		            </Basemap>
+		        </Map>
+		    </MapView>);
 
         await WaitForMapToRender();
 
         Point point = new(0, 0);
         Guid testGuid = Guid.NewGuid();
         Graphic testGraphic = new Graphic(point,
-    new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
-    attributes: new AttributesDictionary(new Dictionary<string, object?>
-                            {
-                {"GUID_ID", testGuid}
-                            }));
+	        new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+	        attributes: new AttributesDictionary(new Dictionary<string, object?>
+            {
+				{"GUID_ID", testGuid}
+            }));
         await mapView!.AddGraphic(testGraphic);
         await Task.Delay(1);
         ScreenPoint screenPoint = await mapView.ToScreen(point);
@@ -44,8 +44,8 @@
 
         Graphic[] features =
         [
-    new Graphic(new Point(0, 0),
-    attributes: new AttributesDictionary(new Dictionary<string, object?>
+		    new(new Point(0, 0),
+		    attributes: new AttributesDictionary(new Dictionary<string, object?>
                 {
                     {"OBJECTID", 1},
                     {"GUID", Guid.NewGuid()},
@@ -60,7 +60,7 @@
                 }))
         ];
 
-        void onLayerCreated(LayerViewCreateEvent evt)
+        void OnLayerCreated(LayerViewCreateEvent evt)
         {
             if (evt.Layer is FeatureLayer)
             {
@@ -69,28 +69,28 @@
         }
 
         AddMapRenderFragment(
-    @<MapView class="map-view" OnViewRendered="renderHandler"
-                  OnLayerViewCreate="onLayerCreated">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
-            </Basemap>
-            <FeatureLayer @ref="layer" Source="features"
-                          GeometryType="GeometryType.Point"
-                          ObjectIdField="OBJECTID">
-                <Field Name="OBJECTID" Type="FieldType.Oid" />
-                <Field Name="GUID" Type="FieldType.Guid" />
-                <Field Name="INT" Type="FieldType.Integer" />
-                <Field Name="DOUBLE" Type="FieldType.Double" />
-                <Field Name="STRING" Type="FieldType.String" />
-                <Field Name="DATETIME" Type="FieldType.Date" />
-                <Field Name="DATE" Type="FieldType.DateOnly" />
-                <Field Name="TIME" Type="FieldType.TimeOnly" />
-                <Field Name="TIMESTAMP" Type="FieldType.TimestampOffset" />
-                <Field Name="DATETIMESTAMP" Type="FieldType.Date" />
-            </FeatureLayer>
-        </Map>
-    </MapView>);
+		    @<MapView class="map-view" OnViewRendered="renderHandler"
+                  OnLayerViewCreate="OnLayerCreated">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisTopographicBase" />
+		            </Basemap>
+		            <FeatureLayer @ref="layer" Source="features"
+                          GeometryType="FeatureGeometryType.Point"
+		                          ObjectIdField="OBJECTID">
+		                <Field Name="OBJECTID" Type="FieldType.Oid" />
+		                <Field Name="GUID" Type="FieldType.Guid" />
+		                <Field Name="INT" Type="FieldType.Integer" />
+		                <Field Name="DOUBLE" Type="FieldType.Double" />
+		                <Field Name="STRING" Type="FieldType.String" />
+		                <Field Name="DATETIME" Type="FieldType.Date" />
+		                <Field Name="DATE" Type="FieldType.DateOnly" />
+		                <Field Name="TIME" Type="FieldType.TimeOnly" />
+		                <Field Name="TIMESTAMP" Type="FieldType.TimestampOffset" />
+		                <Field Name="DATETIMESTAMP" Type="FieldType.Date" />
+		            </FeatureLayer>
+		        </Map>
+		    </MapView>);
 
         await WaitForMapToRender();
         int tries = 100;
@@ -104,7 +104,7 @@
         query.Where = "OBJECTID=1";
         FeatureSet? result = await layer.QueryFeatures(query);
         Assert.AreEqual(1, result!.Features!.Length);
-        Graphic queriedFeature = result.Features[0];
+        Graphic queriedFeature = result.Features![0];
         Assert.IsInstanceOfType<Guid>(queriedFeature.Attributes["GUID"]);
         Assert.AreEqual(features[0].Attributes["GUID"], queriedFeature.Attributes["GUID"]);
         Assert.IsInstanceOfType<int>(queriedFeature.Attributes["INT"]);
@@ -131,16 +131,16 @@
         MapView? view = null;
         GraphicsLayer? layer = null;
         AddMapRenderFragment(
-    @<MapView @ref="view"
-                  class="map-view"
-                  OnViewRendered="renderHandler">
-        <Map>
-            <Basemap>
-                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
-            </Basemap>
-            <GraphicsLayer @ref="layer" />
-        </Map>
-    </MapView>);
+		    @<MapView @ref="view"
+		                  class="map-view"
+		                  OnViewRendered="renderHandler">
+		        <Map>
+		            <Basemap>
+		                <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+		            </Basemap>
+		            <GraphicsLayer @ref="layer" />
+		        </Map>
+		    </MapView>);
 
         await WaitForMapToRender();
         Graphic[] features =
@@ -162,8 +162,10 @@
         ];
         await layer!.Add(features);
         HitTestResult hitTestResult = await view!.HitTest((Point)features[0].Geometry!);
-        Graphic hitGraphic = hitTestResult.Results.OfType<GraphicHit>()
-            .First(gh => gh.Graphic.Attributes.ContainsKey("OBJECTID")).Graphic;
+        Graphic hitGraphic = hitTestResult.Results
+            .OfType<GraphicHit>()
+            .First(g => g.LayerId == layer.Id)
+            .Graphic;
         Assert.AreEqual(features[0].Attributes["OBJECTID"], hitGraphic.Attributes["OBJECTID"]!);
         Assert.AreEqual(features[0].Attributes["GUID"], hitGraphic.Attributes["GUID"]);
         Assert.AreEqual(features[0].Attributes["INT"], hitGraphic.Attributes["INT"]!);
@@ -174,5 +176,40 @@
         Assert.AreEqual(features[0].Attributes["TIME"], TimeOnly.FromDateTime((DateTime)hitGraphic.Attributes["TIME"]!));
         Assert.AreEqual(features[0].Attributes["TIMESTAMP"], hitGraphic.Attributes["TIMESTAMP"]);
         Assert.AreEqual(features[0].Attributes["DATETIMESTAMP"], hitGraphic.Attributes["DATETIMESTAMP"]);
+    }
+
+    [TestMethod]
+    public async Task TestCanUpdateAttributesOnRenderedGraphic(Action renderHandler)
+    {
+        MapView? mapView = null;
+        AddMapRenderFragment( 
+            @<MapView @ref="mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle Name="BasemapStyleName.ArcgisImagery" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Point point = new(0, 0);
+        Guid testGuid = Guid.NewGuid();
+        Graphic testGraphic = new Graphic(point,
+            new SimpleMarkerSymbol(color: new MapColor("red"), size: 10),
+            attributes: new AttributesDictionary(new Dictionary<string, object?>
+            {
+                {"GUID_ID", testGuid}
+            }));
+        
+        await mapView!.AddGraphic(testGraphic);
+
+        await testGraphic.Attributes.AddOrUpdate("NEW_KEY", "NEW_VALUE");
+        ScreenPoint screenPoint = await mapView.ToScreen(point);
+        await WaitForJsTimeout(100);
+        HitTestResult result = await mapView.HitTest(screenPoint);
+        GraphicHit graphicHit = (GraphicHit)result.Results[0];
+        Assert.AreEqual(testGuid, graphicHit.Graphic.Attributes["GUID_ID"]);
+        Assert.AreEqual("NEW_VALUE", graphicHit.Graphic.Attributes["NEW_KEY"]);
     }
 }
