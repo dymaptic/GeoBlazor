@@ -90,8 +90,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.url = dotNetObject.url;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageService);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsArcGISImageService;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageService;
     
     return jsArcGISImageService;

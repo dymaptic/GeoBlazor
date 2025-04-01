@@ -32,8 +32,7 @@ export async function buildJsColorVariableGenerated(dotNetObject: any): Promise<
     }
     let jsColorVariable = new ColorVariable(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsColorVariable);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsColorVariable;
     arcGisObjectRefs[dotNetObject.id] = jsColorVariable;
     
     return jsColorVariable;

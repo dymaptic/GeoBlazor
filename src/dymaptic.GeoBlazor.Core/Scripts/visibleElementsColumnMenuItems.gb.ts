@@ -16,8 +16,7 @@ export async function buildJsVisibleElementsColumnMenuItemsGenerated(dotNetObjec
         jsVisibleElementsColumnMenuItems.sortDescending = dotNetObject.sortDescending;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsColumnMenuItems);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElementsColumnMenuItems;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsColumnMenuItems;
     
     return jsVisibleElementsColumnMenuItems;

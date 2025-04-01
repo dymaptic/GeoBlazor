@@ -55,7 +55,7 @@ public abstract partial class Layer : IHitTestItem,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "arcGISLayerId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -266,7 +266,7 @@ public abstract partial class Layer : IHitTestItem,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "arcGISLayerId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

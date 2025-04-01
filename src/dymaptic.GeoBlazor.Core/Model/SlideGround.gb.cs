@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Ground properties for this slide.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#ground">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideGround.html">GeoBlazor Docs</a>
+///     Ground properties for this slide.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#ground">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Opacity">
 ///     Ground opacity

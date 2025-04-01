@@ -16,8 +16,7 @@ export async function buildJsSliderVisibleElementsGenerated(dotNetObject: any): 
         jsSliderVisibleElements.rangeLabels = dotNetObject.rangeLabels;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSliderVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSliderVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsSliderVisibleElements;
     
     return jsSliderVisibleElements;

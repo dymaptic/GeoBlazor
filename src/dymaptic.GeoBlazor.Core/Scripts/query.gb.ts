@@ -129,8 +129,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     }
     let jsQuery = new Query(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsQuery);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsQuery;
     arcGisObjectRefs[dotNetObject.id] = jsQuery;
     
     return jsQuery;

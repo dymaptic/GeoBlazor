@@ -33,8 +33,7 @@ export async function buildJsFeaturesViewModelOpenOptionsGenerated(dotNetObject:
         jsFeaturesViewModelOpenOptions.updateLocationEnabled = dotNetObject.updateLocationEnabled;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesViewModelOpenOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeaturesViewModelOpenOptions;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelOpenOptions;
     
     return jsFeaturesViewModelOpenOptions;

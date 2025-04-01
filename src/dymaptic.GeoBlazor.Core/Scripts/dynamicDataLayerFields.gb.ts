@@ -16,8 +16,7 @@ export async function buildJsDynamicDataLayerFieldsGenerated(dotNetObject: any, 
         jsDynamicDataLayerFields.name = dotNetObject.name;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsDynamicDataLayerFields);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsDynamicDataLayerFields;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicDataLayerFields;
     
     return jsDynamicDataLayerFields;

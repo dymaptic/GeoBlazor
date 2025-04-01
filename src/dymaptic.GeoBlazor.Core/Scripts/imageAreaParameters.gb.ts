@@ -32,8 +32,7 @@ export async function buildJsImageAreaParametersGenerated(dotNetObject: any, lay
     }
     let jsImageAreaParameters = new ImageAreaParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageAreaParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageAreaParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageAreaParameters;
     
     return jsImageAreaParameters;

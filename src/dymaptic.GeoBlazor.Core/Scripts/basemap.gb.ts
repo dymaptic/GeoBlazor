@@ -169,7 +169,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     basemapWrapper.viewId = viewId;
     basemapWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     

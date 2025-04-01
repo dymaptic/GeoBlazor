@@ -17,8 +17,7 @@ export async function buildJsSearchSourceFilterGenerated(dotNetObject: any): Pro
         jsSearchSourceFilter.where = dotNetObject.where;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchSourceFilter);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchSourceFilter;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSourceFilter;
     
     return jsSearchSourceFilter;

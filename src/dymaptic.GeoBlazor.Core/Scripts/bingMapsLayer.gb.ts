@@ -304,11 +304,11 @@ export async function buildJsBingMapsLayerGenerated(dotNetObject: any, layerId: 
     bingMapsLayerWrapper.viewId = viewId;
     bingMapsLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = bingMapsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBingMapsLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(bingMapsLayerWrapper);
         let { buildDotNetBingMapsLayer } = await import('./bingMapsLayer');
         let dnInstantiatedObject = await buildDotNetBingMapsLayer(jsBingMapsLayer);
 

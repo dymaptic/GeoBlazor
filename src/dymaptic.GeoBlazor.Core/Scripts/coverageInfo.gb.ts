@@ -45,8 +45,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<a
         jsCoverageInfo.version = dotNetObject.version;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageInfo;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageInfo;
     
     return jsCoverageInfo;

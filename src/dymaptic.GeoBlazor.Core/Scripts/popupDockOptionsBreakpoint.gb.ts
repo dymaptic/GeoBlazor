@@ -16,8 +16,7 @@ export async function buildJsPopupDockOptionsBreakpointGenerated(dotNetObject: a
         jsPopupDockOptionsBreakpoint.width = dotNetObject.width;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPopupDockOptionsBreakpoint);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPopupDockOptionsBreakpoint;
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptionsBreakpoint;
     
     return jsPopupDockOptionsBreakpoint;

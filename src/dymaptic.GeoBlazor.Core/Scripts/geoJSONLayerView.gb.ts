@@ -199,7 +199,6 @@ export async function buildJsGeoJSONLayerViewGenerated(dotNetObject: any, layerI
     geoJSONLayerViewWrapper.viewId = viewId;
     geoJSONLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerView;
     

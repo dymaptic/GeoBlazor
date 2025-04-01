@@ -18,8 +18,7 @@ export async function buildJsSearchTableFieldGenerated(dotNetObject: any, layerI
     }
     let jsSearchTableField = new SearchTableField(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchTableField);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchTableField;
     arcGisObjectRefs[dotNetObject.id] = jsSearchTableField;
     
     return jsSearchTableField;

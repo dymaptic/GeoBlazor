@@ -861,11 +861,11 @@ export async function buildJsImageryLayerGenerated(dotNetObject: any, layerId: s
     imageryLayerWrapper.viewId = viewId;
     imageryLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(imageryLayerWrapper);
         let { buildDotNetImageryLayer } = await import('./imageryLayer');
         let dnInstantiatedObject = await buildDotNetImageryLayer(jsImageryLayer);
 

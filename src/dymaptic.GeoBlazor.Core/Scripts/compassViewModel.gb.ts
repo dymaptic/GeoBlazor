@@ -89,7 +89,6 @@ export async function buildJsCompassViewModelGenerated(dotNetObject: any, layerI
     compassViewModelWrapper.viewId = viewId;
     compassViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(compassViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = compassViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompassViewModel;
     

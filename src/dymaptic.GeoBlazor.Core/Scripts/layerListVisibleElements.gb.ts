@@ -37,8 +37,7 @@ export async function buildJsLayerListVisibleElementsGenerated(dotNetObject: any
         jsLayerListVisibleElements.temporaryLayerIndicators = dotNetObject.temporaryLayerIndicators;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListVisibleElements;
     
     return jsLayerListVisibleElements;

@@ -147,7 +147,6 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     locateViewModelWrapper.viewId = viewId;
     locateViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(locateViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = locateViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocateViewModel;
     

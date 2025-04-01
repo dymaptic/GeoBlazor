@@ -14,8 +14,7 @@ export async function buildJsPopupTriggerActionEventGenerated(dotNetObject: any)
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPopupTriggerActionEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPopupTriggerActionEvent;
     arcGisObjectRefs[dotNetObject.id] = jsPopupTriggerActionEvent;
     
     return jsPopupTriggerActionEvent;

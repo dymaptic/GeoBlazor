@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The visible layers of the scene.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#visibleLayers">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideVisibleLayers.html">GeoBlazor Docs</a>
+///     The visible layers of the scene.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#visibleLayers">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="SlideVisibleLayersId">
 ///     The ID of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">layer</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#layers">WebScene</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#layers">Ground</a> that is made `visible` in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> when the slide is applied to the view.

@@ -17,8 +17,7 @@ export async function buildJsWebSceneSaveAsOptionsGenerated(dotNetObject: any, l
         jsWebSceneSaveAsOptions.ignoreUnsupported = dotNetObject.ignoreUnsupported;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWebSceneSaveAsOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWebSceneSaveAsOptions;
     arcGisObjectRefs[dotNetObject.id] = jsWebSceneSaveAsOptions;
     
     return jsWebSceneSaveAsOptions;

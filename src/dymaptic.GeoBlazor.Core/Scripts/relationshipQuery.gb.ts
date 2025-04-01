@@ -60,8 +60,7 @@ export async function buildJsRelationshipQueryGenerated(dotNetObject: any): Prom
     }
     let jsRelationshipQuery = new RelationshipQuery(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipQuery);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRelationshipQuery;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipQuery;
     
     return jsRelationshipQuery;

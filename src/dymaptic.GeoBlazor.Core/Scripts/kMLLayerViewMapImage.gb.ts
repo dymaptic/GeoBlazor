@@ -23,8 +23,7 @@ export async function buildJsKMLLayerViewMapImageGenerated(dotNetObject: any): P
         jsKMLLayerViewMapImage.rotation = dotNetObject.rotation;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsKMLLayerViewMapImage);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerViewMapImage;
     
     return jsKMLLayerViewMapImage;

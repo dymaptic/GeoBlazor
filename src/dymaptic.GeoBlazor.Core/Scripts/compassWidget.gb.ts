@@ -166,11 +166,11 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     compassWidgetWrapper.viewId = viewId;
     compassWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
         let { buildDotNetCompassWidget } = await import('./compassWidget');
         let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
 

@@ -14,8 +14,7 @@ export async function buildJsFeaturesViewModelTriggerActionEventGenerated(dotNet
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesViewModelTriggerActionEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeaturesViewModelTriggerActionEvent;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelTriggerActionEvent;
     
     return jsFeaturesViewModelTriggerActionEvent;

@@ -151,6 +151,4 @@ public partial class OpenStreetMapLayer
         VisibilityTimeExtent = visibilityTimeExtent;
 #pragma warning restore BL0005    
     }
-    
-    
 }

@@ -78,4 +78,17 @@ public partial class BasemapStyle : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ServiceUrl { get; set; }
+
+    public async Task SetName(BasemapStyleName name)
+    {
+        Name = name;
+        ModifiedParameters[nameof(Name)] = name;
+        if (CoreJsModule is null || Parent is not Basemap basemap)
+        {
+            return;
+        }
+        
+        BasemapStyle newStyle = new(name, Language, Places, ServiceUrl, Worldview);
+        await basemap.SetStyle(newStyle);
+    }
 }

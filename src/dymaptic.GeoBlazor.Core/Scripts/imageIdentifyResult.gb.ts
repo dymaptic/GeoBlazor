@@ -35,8 +35,7 @@ export async function buildJsImageIdentifyResultGenerated(dotNetObject: any, lay
     }
     let jsImageIdentifyResult = new ImageIdentifyResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageIdentifyResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageIdentifyResult;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyResult;
     
     return jsImageIdentifyResult;

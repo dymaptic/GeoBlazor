@@ -18,8 +18,7 @@ export async function buildJsPixelDataGenerated(dotNetObject: any, layerId: stri
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPixelData);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPixelData;
     arcGisObjectRefs[dotNetObject.id] = jsPixelData;
     
     return jsPixelData;

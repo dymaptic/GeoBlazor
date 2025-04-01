@@ -20,8 +20,7 @@ export async function buildJsThemeGenerated(dotNetObject: any): Promise<any> {
 
     let jsTheme = new Theme(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTheme);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTheme;
     arcGisObjectRefs[dotNetObject.id] = jsTheme;
     
     return jsTheme;

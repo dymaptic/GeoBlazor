@@ -82,7 +82,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
             let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
+            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -632,7 +632,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, layerId, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -814,11 +814,11 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     featureLayerWrapper.viewId = viewId;
     featureLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(featureLayerWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(featureLayerWrapper);
         let { buildDotNetFeatureLayer } = await import('./featureLayer');
         let dnInstantiatedObject = await buildDotNetFeatureLayer(jsFeatureLayer);
 

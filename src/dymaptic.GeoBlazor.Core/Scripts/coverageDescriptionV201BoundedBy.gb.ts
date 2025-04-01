@@ -32,8 +32,7 @@ export async function buildJsCoverageDescriptionV201BoundedByGenerated(dotNetObj
         jsCoverageDescriptionV201BoundedBy.uomLabels = dotNetObject.uomLabels;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV201BoundedBy);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201BoundedBy;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201BoundedBy;
     
     return jsCoverageDescriptionV201BoundedBy;

@@ -32,8 +32,7 @@ export async function buildJsLegendViewModelGenerated(dotNetObject: any, layerId
     }
     let jsLegendViewModel = new LegendViewModel(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLegendViewModel);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLegendViewModel;
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModel;
     
     return jsLegendViewModel;

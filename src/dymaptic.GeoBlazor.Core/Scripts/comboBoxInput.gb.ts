@@ -18,8 +18,7 @@ export async function buildJsComboBoxInputGenerated(dotNetObject: any, layerId: 
     }
     let jsComboBoxInput = new ComboBoxInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsComboBoxInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsComboBoxInput;
     arcGisObjectRefs[dotNetObject.id] = jsComboBoxInput;
     
     return jsComboBoxInput;

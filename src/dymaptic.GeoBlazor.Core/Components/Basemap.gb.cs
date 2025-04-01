@@ -193,7 +193,7 @@ public partial class Basemap
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "basemapId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -530,7 +530,7 @@ public partial class Basemap
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "basemapId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

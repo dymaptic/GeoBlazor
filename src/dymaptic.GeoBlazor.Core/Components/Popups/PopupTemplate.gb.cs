@@ -322,7 +322,7 @@ public partial class PopupTemplate
 
         // get the property value
         object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "objectTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -478,7 +478,7 @@ public partial class PopupTemplate
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -517,7 +517,7 @@ public partial class PopupTemplate
 
         // get the property value
         Func<Task>? result = await JsComponentReference!.InvokeAsync<Func<Task>?>("getProperty",
-            CancellationTokenSource.Token, "taskCollectionTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -793,7 +793,7 @@ public partial class PopupTemplate
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -941,7 +941,7 @@ public partial class PopupTemplate
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -978,7 +978,7 @@ public partial class PopupTemplate
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "taskCollectionTitle", value);
+            JsComponentReference, "title", value);
     }
     
 #endregion

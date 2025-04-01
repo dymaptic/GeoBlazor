@@ -21,8 +21,7 @@ export async function buildJsImageAngleResultGenerated(dotNetObject: any, layerI
     }
     let jsImageAngleResult = new ImageAngleResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageAngleResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageAngleResult;
     arcGisObjectRefs[dotNetObject.id] = jsImageAngleResult;
     
     return jsImageAngleResult;

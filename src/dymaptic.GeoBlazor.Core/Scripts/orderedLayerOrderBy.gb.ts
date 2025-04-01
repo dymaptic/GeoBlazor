@@ -19,8 +19,7 @@ export async function buildJsOrderedLayerOrderByGenerated(dotNetObject: any): Pr
         jsOrderedLayerOrderBy.valueExpression = dotNetObject.valueExpression;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOrderedLayerOrderBy);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     arcGisObjectRefs[dotNetObject.id] = jsOrderedLayerOrderBy;
     
     return jsOrderedLayerOrderBy;

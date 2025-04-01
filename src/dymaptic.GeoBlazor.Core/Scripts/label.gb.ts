@@ -53,8 +53,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
     }
     let jsLabelClass = new LabelClass(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLabelClass);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLabelClass;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClass;
     
     return jsLabelClass;

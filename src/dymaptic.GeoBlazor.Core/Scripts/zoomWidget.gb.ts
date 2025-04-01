@@ -154,11 +154,11 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     zoomWidgetWrapper.viewId = viewId;
     zoomWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
         let { buildDotNetZoomWidget } = await import('./zoomWidget');
         let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom, layerId, viewId);
 

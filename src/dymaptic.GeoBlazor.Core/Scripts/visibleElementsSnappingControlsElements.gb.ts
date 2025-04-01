@@ -28,8 +28,7 @@ export async function buildJsVisibleElementsSnappingControlsElementsGenerated(do
         jsVisibleElementsSnappingControlsElements.selfEnabledToggle = dotNetObject.selfEnabledToggle;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsSnappingControlsElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElementsSnappingControlsElements;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsSnappingControlsElements;
     
     return jsVisibleElementsSnappingControlsElements;

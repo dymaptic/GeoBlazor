@@ -391,7 +391,7 @@ public partial class KMLSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "kMLSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

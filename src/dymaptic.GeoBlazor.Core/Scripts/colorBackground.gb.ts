@@ -16,8 +16,7 @@ export async function buildJsColorBackgroundGenerated(dotNetObject: any, layerId
 
     let jsColorBackground = new ColorBackground(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsColorBackground);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsColorBackground;
     arcGisObjectRefs[dotNetObject.id] = jsColorBackground;
     
     return jsColorBackground;

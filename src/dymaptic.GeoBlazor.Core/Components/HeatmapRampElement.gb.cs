@@ -148,7 +148,7 @@ public partial class HeatmapRampElement : MapComponent,
 
         // get the property value
         RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
-            CancellationTokenSource.Token, "rampTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -187,7 +187,7 @@ public partial class HeatmapRampElement : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -285,7 +285,7 @@ public partial class HeatmapRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rampTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -322,7 +322,7 @@ public partial class HeatmapRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringTitle", value);
+            JsComponentReference, "title", value);
     }
     
 #endregion

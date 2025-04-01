@@ -303,7 +303,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
+            JsComponentReference, "Extent", value);
     }
     
     /// <summary>
@@ -377,7 +377,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "kMLLayerViewMapImageId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

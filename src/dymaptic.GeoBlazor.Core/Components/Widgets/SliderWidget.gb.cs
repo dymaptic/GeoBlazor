@@ -548,7 +548,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
-            CancellationTokenSource.Token, "doubleCollectionSteps");
+            CancellationTokenSource.Token, "steps");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1693,7 +1693,7 @@ public partial class SliderWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleCollectionSteps", value);
+            JsComponentReference, "steps", value);
     }
     
     /// <summary>
@@ -1730,7 +1730,7 @@ public partial class SliderWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleSteps", value);
+            JsComponentReference, "steps", value);
     }
     
     /// <summary>

@@ -354,7 +354,6 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     searchViewModelWrapper.viewId = viewId;
     searchViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(searchViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = searchViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModel;
     

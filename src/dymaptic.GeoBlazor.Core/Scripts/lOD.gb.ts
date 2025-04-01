@@ -24,8 +24,7 @@ export async function buildJsLODGenerated(dotNetObject: any): Promise<any> {
     }
     let jsLOD = new LOD(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLOD);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLOD;
     arcGisObjectRefs[dotNetObject.id] = jsLOD;
     
     return jsLOD;

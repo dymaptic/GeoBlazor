@@ -29,8 +29,7 @@ export async function buildJsBookmarkOptionsGenerated(dotNetObject: any, layerId
         jsBookmarkOptions.takeScreenshot = dotNetObject.takeScreenshot;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBookmarkOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBookmarkOptions;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptions;
     
     return jsBookmarkOptions;

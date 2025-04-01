@@ -40,8 +40,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any):
         jsCapabilitiesOperations.supportsValidateSql = dotNetObject.supportsValidateSql;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesOperations);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
     
     return jsCapabilitiesOperations;

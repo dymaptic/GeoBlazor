@@ -166,11 +166,11 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     measurementWidgetWrapper.viewId = viewId;
     measurementWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
         let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
         let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
 

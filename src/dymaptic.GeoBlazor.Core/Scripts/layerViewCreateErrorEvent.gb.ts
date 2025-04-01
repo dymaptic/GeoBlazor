@@ -16,8 +16,7 @@ export async function buildJsLayerViewCreateErrorEventGenerated(dotNetObject: an
         jsBaseTileLayerLayerviewCreateErrorEvent.error = dotNetObject.error;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBaseTileLayerLayerviewCreateErrorEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBaseTileLayerLayerviewCreateErrorEvent;
     arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayerLayerviewCreateErrorEvent;
     
     return jsBaseTileLayerLayerviewCreateErrorEvent;

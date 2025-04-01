@@ -36,8 +36,7 @@ export async function buildJsRasterSensorInfoGenerated(dotNetObject: any): Promi
     }
     let jsRasterSensorInfo = new RasterSensorInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterSensorInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSensorInfo;
     
     return jsRasterSensorInfo;

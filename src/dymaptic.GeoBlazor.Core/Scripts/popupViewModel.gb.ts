@@ -310,7 +310,6 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     popupViewModelWrapper.viewId = viewId;
     popupViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(popupViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = popupViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopupViewModel;
     

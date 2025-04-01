@@ -366,7 +366,6 @@ export async function buildJsSublayerGenerated(dotNetObject: any, layerId: strin
     sublayerWrapper.viewId = viewId;
     sublayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(sublayerWrapper);
     jsObjectRefs[dotNetObject.id] = sublayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSublayer;
     

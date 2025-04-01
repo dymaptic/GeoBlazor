@@ -22,8 +22,7 @@ export async function buildJsWFSOperationsGenerated(dotNetObject: any): Promise<
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWFSOperations);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWFSOperations;
     arcGisObjectRefs[dotNetObject.id] = jsWFSOperations;
     
     return jsWFSOperations;

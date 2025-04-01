@@ -202,7 +202,7 @@ public partial class SymbolTableElement : MapComponent,
 
         // get the property value
         RendererTitle? result = await JsComponentReference!.InvokeAsync<RendererTitle?>("getProperty",
-            CancellationTokenSource.Token, "rendererTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -241,7 +241,7 @@ public partial class SymbolTableElement : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -365,7 +365,7 @@ public partial class SymbolTableElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rendererTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -402,7 +402,7 @@ public partial class SymbolTableElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringTitle", value);
+            JsComponentReference, "title", value);
     }
     
 #endregion

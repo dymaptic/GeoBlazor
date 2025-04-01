@@ -623,7 +623,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "wMTSSublayerId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1081,7 +1081,7 @@ public partial class WMTSSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMTSSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

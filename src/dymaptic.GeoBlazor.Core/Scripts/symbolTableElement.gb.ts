@@ -19,8 +19,7 @@ export async function buildJsSymbolTableElementGenerated(dotNetObject: any, laye
         jsSymbolTableElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSymbolTableElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSymbolTableElement;
     arcGisObjectRefs[dotNetObject.id] = jsSymbolTableElement;
     
     return jsSymbolTableElement;

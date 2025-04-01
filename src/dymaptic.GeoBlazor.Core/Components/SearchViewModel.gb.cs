@@ -1646,7 +1646,7 @@ public partial class SearchViewModel : IGoTo
 
         // get the property value
         Func<Task>? result = await JsComponentReference!.InvokeAsync<Func<Task>?>("getProperty",
-            CancellationTokenSource.Token, "taskCollectionIncludeDefaultSources");
+            CancellationTokenSource.Token, "includeDefaultSources");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1846,7 +1846,7 @@ public partial class SearchViewModel : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "boolIncludeDefaultSources", value);
+            JsComponentReference, "includeDefaultSources", value);
     }
     
     /// <summary>
@@ -2473,7 +2473,7 @@ public partial class SearchViewModel : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "taskCollectionIncludeDefaultSources", value);
+            JsComponentReference, "includeDefaultSources", value);
     }
     
 #endregion

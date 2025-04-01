@@ -2765,7 +2765,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "portalId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -5129,7 +5129,7 @@ public partial class Portal
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "portalId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

@@ -69,8 +69,7 @@ export async function buildJsRasterInfoGenerated(dotNetObject: any): Promise<any
     }
     let jsRasterInfo = new RasterInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterInfo;
     arcGisObjectRefs[dotNetObject.id] = jsRasterInfo;
     
     return jsRasterInfo;
@@ -119,11 +118,11 @@ export async function buildDotNetRasterInfoGenerated(jsObject: any): Promise<any
     }
     
     if (hasValue(jsObject.histograms)) {
-        dotNetRasterInfo.histograms = jsObject.histograms;
+        dotNetRasterInfo.histograms = removeCircularReferences(jsObject.histograms);
     }
     
     if (hasValue(jsObject.keyProperties)) {
-        dotNetRasterInfo.keyProperties = jsObject.keyProperties;
+        dotNetRasterInfo.keyProperties = removeCircularReferences(jsObject.keyProperties);
     }
     
     if (hasValue(jsObject.multidimensionalInfo)) {

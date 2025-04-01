@@ -23,8 +23,7 @@ export async function buildJsTileMatrixSetGenerated(dotNetObject: any, layerId: 
     }
     let jsTileMatrixSet = new TileMatrixSet(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTileMatrixSet);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTileMatrixSet;
     arcGisObjectRefs[dotNetObject.id] = jsTileMatrixSet;
     
     return jsTileMatrixSet;

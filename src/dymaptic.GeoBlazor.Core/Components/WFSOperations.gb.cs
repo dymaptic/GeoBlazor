@@ -235,7 +235,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "describeFeatureType", value);
+            JsComponentReference, "DescribeFeatureType", value);
     }
     
     /// <summary>
@@ -280,7 +280,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "getCapabilities", value);
+            JsComponentReference, "GetCapabilities", value);
     }
     
     /// <summary>
@@ -325,7 +325,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "getFeature", value);
+            JsComponentReference, "GetFeature", value);
     }
     
 #endregion

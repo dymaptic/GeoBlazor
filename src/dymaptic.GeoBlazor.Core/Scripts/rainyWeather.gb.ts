@@ -18,8 +18,7 @@ export async function buildJsRainyWeatherGenerated(dotNetObject: any, layerId: s
     }
     let jsRainyWeather = new RainyWeather(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRainyWeather);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRainyWeather;
     arcGisObjectRefs[dotNetObject.id] = jsRainyWeather;
     
     return jsRainyWeather;

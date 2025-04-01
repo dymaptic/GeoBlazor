@@ -20,8 +20,7 @@ export async function buildJsDeleteItemsResultGenerated(dotNetObject: any, layer
         jsDeleteItemsResult.success = dotNetObject.success;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsDeleteItemsResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsDeleteItemsResult;
     arcGisObjectRefs[dotNetObject.id] = jsDeleteItemsResult;
     
     return jsDeleteItemsResult;

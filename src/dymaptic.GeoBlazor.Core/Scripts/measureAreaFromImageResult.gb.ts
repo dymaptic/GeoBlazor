@@ -26,8 +26,7 @@ export async function buildJsMeasureAreaFromImageResultGenerated(dotNetObject: a
     }
     let jsMeasureAreaFromImageResult = new MeasureAreaFromImageResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMeasureAreaFromImageResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMeasureAreaFromImageResult;
     arcGisObjectRefs[dotNetObject.id] = jsMeasureAreaFromImageResult;
     
     return jsMeasureAreaFromImageResult;

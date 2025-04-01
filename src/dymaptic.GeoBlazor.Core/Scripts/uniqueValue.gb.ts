@@ -21,8 +21,7 @@ export async function buildJsUniqueValueGenerated(dotNetObject: any): Promise<an
     }
     let jsUniqueValue = new UniqueValue(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValue);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsUniqueValue;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValue;
     
     return jsUniqueValue;

@@ -514,11 +514,11 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     wCSLayerWrapper.viewId = viewId;
     wCSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
         let { buildDotNetWCSLayer } = await import('./wCSLayer');
         let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer);
 

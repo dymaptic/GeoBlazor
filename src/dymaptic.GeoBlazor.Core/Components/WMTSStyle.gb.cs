@@ -240,7 +240,7 @@ public partial class WMTSStyle : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "wMTSStyleId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -401,7 +401,7 @@ public partial class WMTSStyle : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMTSStyleId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

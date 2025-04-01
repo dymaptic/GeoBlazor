@@ -18,8 +18,7 @@ export async function buildJsBasemapLayerListTriggerActionEventGenerated(dotNetO
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBasemapLayerListTriggerActionEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBasemapLayerListTriggerActionEvent;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListTriggerActionEvent;
     
     return jsBasemapLayerListTriggerActionEvent;

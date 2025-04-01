@@ -21,8 +21,7 @@ export async function buildJsOpacityStopGenerated(dotNetObject: any): Promise<an
     }
     let jsOpacityStop = new OpacityStop(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOpacityStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOpacityStop;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityStop;
     
     return jsOpacityStop;

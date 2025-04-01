@@ -17,8 +17,7 @@ export async function buildJsFeatureLayerBaseSaveAsOptionsGenerated(dotNetObject
         jsFeatureLayerBaseSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseSaveAsOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerBaseSaveAsOptions;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseSaveAsOptions;
     
     return jsFeatureLayerBaseSaveAsOptions;

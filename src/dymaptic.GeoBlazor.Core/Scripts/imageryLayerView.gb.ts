@@ -118,7 +118,6 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     imageryLayerViewWrapper.viewId = viewId;
     imageryLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(imageryLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayerView;
     

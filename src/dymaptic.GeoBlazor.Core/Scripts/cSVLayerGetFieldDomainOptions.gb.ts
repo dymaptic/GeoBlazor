@@ -14,8 +14,7 @@ export async function buildJsCSVLayerGetFieldDomainOptionsGenerated(dotNetObject
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCSVLayerGetFieldDomainOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCSVLayerGetFieldDomainOptions;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerGetFieldDomainOptions;
     
     return jsCSVLayerGetFieldDomainOptions;

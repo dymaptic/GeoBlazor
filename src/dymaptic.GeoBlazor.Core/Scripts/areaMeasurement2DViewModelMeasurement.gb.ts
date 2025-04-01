@@ -19,8 +19,7 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotN
         jsAreaMeasurement2DViewModelMeasurement.perimeter = dotNetObject.perimeter;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAreaMeasurement2DViewModelMeasurement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurement;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurement;
     
     return jsAreaMeasurement2DViewModelMeasurement;

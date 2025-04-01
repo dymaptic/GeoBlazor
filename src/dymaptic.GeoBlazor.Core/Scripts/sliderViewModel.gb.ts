@@ -170,7 +170,6 @@ export async function buildJsSliderViewModelGenerated(dotNetObject: any, layerId
     sliderViewModelWrapper.viewId = viewId;
     sliderViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(sliderViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = sliderViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSliderViewModel;
     

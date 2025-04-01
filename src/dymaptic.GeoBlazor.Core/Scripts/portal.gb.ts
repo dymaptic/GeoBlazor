@@ -563,7 +563,6 @@ export async function buildJsPortalGenerated(dotNetObject: any, layerId: string 
     portalWrapper.viewId = viewId;
     portalWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(portalWrapper);
     jsObjectRefs[dotNetObject.id] = portalWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortal;
     

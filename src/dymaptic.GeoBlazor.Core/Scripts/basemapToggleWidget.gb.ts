@@ -197,11 +197,11 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     basemapToggleWidgetWrapper.viewId = viewId;
     basemapToggleWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
         let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
         let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle);
 

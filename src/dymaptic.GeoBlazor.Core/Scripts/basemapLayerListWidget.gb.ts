@@ -317,11 +317,11 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     basemapLayerListWidgetWrapper.viewId = viewId;
     basemapLayerListWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
         let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
         let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
 

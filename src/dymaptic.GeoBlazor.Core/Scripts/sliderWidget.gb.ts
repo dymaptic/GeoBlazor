@@ -415,11 +415,11 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     sliderWidgetWrapper.viewId = viewId;
     sliderWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
         let { buildDotNetSliderWidget } = await import('./sliderWidget');
         let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
 

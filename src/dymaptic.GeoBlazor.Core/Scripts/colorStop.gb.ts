@@ -22,8 +22,7 @@ export async function buildJsColorStopGenerated(dotNetObject: any): Promise<any>
     }
     let jsColorStop = new ColorStop(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsColorStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsColorStop;
     arcGisObjectRefs[dotNetObject.id] = jsColorStop;
     
     return jsColorStop;

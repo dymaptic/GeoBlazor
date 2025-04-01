@@ -31,8 +31,7 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
         jsVisibleElementsMenuItems.zoomToSelection = dotNetObject.zoomToSelection;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsMenuItems);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     
     return jsVisibleElementsMenuItems;
