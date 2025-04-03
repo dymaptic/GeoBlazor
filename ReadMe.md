@@ -1,151 +1,162 @@
-﻿# GeoBlazor
+﻿<p align="center">
+  <img src="https://docs.geoblazor.com/assets/images/gb_white_text_300px.png" alt="GeoBlazor" width="300" style="background-color: #5D2E8E; padding: 1rem; border-radius: 1rem;">
+</p>
 
-[Home Page](https://www.geoblazor.com)
+<p align="center">
+  <b>The premier mapping solution for Asp.NET Core Blazor applications.</b>
+</p>
 
-[View the live demo site!](https://samples.geoblazor.com)
+GeoBlazor brings the power of the ArcGIS Maps SDK for JavaScript into your Blazor applications with 100% C# code - no JavaScript required. Create beautiful, interactive maps with industry-leading geospatial capabilities while maintaining a pure .NET development experience.
 
-[Read the Docs](https://docs.geoblazor.com)
+[![Build](https://img.shields.io/github/actions/workflow/status/dymaptic/GeoBlazor/main-release-build.yml?logo=github)](https://github.com/dymaptic/GeoBlazor/actions/workflows/main-release-build.yml)
+[![Issues](https://img.shields.io/github/issues/dymaptic/GeoBlazor?logo=github)](https://github.com/dymaptic/GeoBlazor/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/dymaptic/GeoBlazor?logo=github&color=)](https://github.com/dymaptic/GeoBlazor/pulls)
 
-[Join our Discord Server!](https://discord.gg/hcmbPzn4VW)
+**CORE**
 
-## Using GeoBlazor
+[![NuGet](https://img.shields.io/nuget/v/dymaptic.GeoBlazor.Core.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/dymaptic.GeoBlazor.Core/)
+[![Downloads](https://img.shields.io/nuget/dt/dymaptic.GeoBlazor.Core?logo=nuget&label=downloads)](https://www.nuget.org/stats/packages/dymaptic.GeoBlazor.Core?groupby=Version)
 
-Please read the [Getting Started](https://docs.geoblazor.com/pages/gettingStarted.html) page in the documentation on how
-to get started using the GeoBlazor nuget package. The following sections are for developers who want to build the code from source.
+**PRO**
 
-## Build Requirements
+[![NuGet](https://img.shields.io/nuget/v/dymaptic.GeoBlazor.Pro.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/dymaptic.GeoBlazor.Pro/)
+[![Downloads](https://img.shields.io/nuget/dt/dymaptic.GeoBlazor.Pro?logo=nuget&label=downloads)](https://www.nuget.org/stats/packages/dymaptic.GeoBlazor.Pro?groupby=Version)
 
-For the Asp.NET projects, including the core library, you can run on the
-latest [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download)
-or [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download).
+[![Discord](https://img.shields.io/discord/1027907220949717033?color=%235865F2&label=chat&logo=discord&logoColor=white)](https://discord.gg/hcmbPzn4VW)
 
-For the Maui sample project, you need the latest Visual Studio 2022
-and/or [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download).
+## ✨ Key Features
 
-If you have not installed node.js on your system, you will need to download and install it in order for the npm scripts
-to run. Please [select
-the appropriate installer for your system](https://nodejs.org/en/download/).
+- **Pure C# Development**: Access the complete ArcGIS Maps SDK without writing a single line of JavaScript
+- **Rich Component Library**: Includes maps, layers, widgets, geometries, and more
+- **Interactive Maps**: Build responsive, interactive maps with minimal code
+- **Flexible Architecture**: Works with Blazor Server, WebAssembly, and Hybrid MAUI apps
+- **Enterprise-Ready**: Supports [ArcGIS Enterprise](https://docs.geoblazor.com/pages/authentication.html) for organizations with internal GIS infrastructure
 
-You will need to install Powershell 7 on your machine to run the powershell script as part of the build process.
--Complete installation instructions for Powershell [can be found here]
-(https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.2).
+## 🚀 Quick Links
 
-**Note** A reboot is required after installing the above components.
+- [Home Page](https://www.geoblazor.com)
+- [Live Demo Site](https://samples.geoblazor.com)
+- [Documentation](https://docs.geoblazor.com)
+- [GitHub Repository](https://github.com/dymaptic/GeoBlazor)
+- [Join our Discord Server](https://discord.gg/hcmbPzn4VW)
+- [Repository Contributions](docs/DeveloperGuide)
 
-Because GeoBlazor uses an unsigned, local powershell script to copy files in the `Sample.Shared` project, you need to
-allow unsigned scripts to be run in Powershell.
--The procedure to change the "execution policies" and set them to `RemoteSigned` are found here:
-https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.2#change-the-execution-policy
+<p align="center">
+  <img src="https://docs.geoblazor.com/assets/images/webmap.png" alt="GeoBlazor Map Example" width="800">
+</p>
 
-**Note** If you receive an unsigned error even after you set the above execution policy, try setting it again in the
-older version of PowerShell (the one that comes with Windows).
+## 🧰 Installation
 
-On the first build, the Core project needs to download a large number of files from `npm` to `node_modules`, and then
-copy them into `wwwroot/assets`. If this process fails, or you get an error on running the samples of "Cannot load
-ArcGIS Assets", usually re-building the project will fix the errors.
-
-## Projects
-
-### dymaptic.GeoBlazor.Core
-
-- The core logic library
-
-### dymaptic.GeoBlazor.Core.Sample.Shared
-
-- A razor class library for sample applications
-- All sample pages are based on
-  the [ArcGIS for Javascript API Tutorials](https://developers.arcgis.com/javascript/latest/).
-
-### dymaptic.GeoBlazor.Core.Sample.Server
-
-- Asp.NET Core Blazor Server application sample
-- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Server\dymaptic.GeoBlazor.Core.Sample.Server.csproj`
-- Runs on kestrel or via IIS
-- Serves pages via SignalR/Websockets
-- Can be loaded with a `usersecrets` file to provide the ArcGIS Api Key.
-
-### dymaptic.GeoBlazor.Core.Sample.Wasm
-
-- `dotnet run --project .\samples\dymaptic.GeoBlazor.Core.Sample.Wasm\dymaptic.GeoBlazor.Core.Sample.Wasm.csproj`
-- Runs Blazor in Web Assembly on the client browser
-- No safe storage for API key, users must input an api key or sign in from the browser
-
-### dymaptic.GeoBlazor.Core.Sample.Maui
-
-- Cross-platform mobile and desktop application
-- Should be run from Visual Studio Preview. Command Line support appears to be limited at this time.
-- Android and Windows versions tested
-
-### dymaptic.GeoBlazor.pro (not included in open source repo)
-
-- Extended application features - coming soon!
-- Please contact info@dymaptic.com to discuss licensing these advanced features!
-
-This project wraps the [ArcGIS Javascript API](https://developers.arcgis.com/javascript/latest/) in a Blazor templating
-framework.
-It generates a nuget package that can be imported and consumed from any Blazor application, without directly interacting
-with javascript.
-
-In addition to "hiding" the javascript implementation, the goal is also to make a simple, component-based system for
-declaring a map and view. For example:
-
-```html
-<MapView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 600px; width: 100%;">
-    <Map ArcGISDefaultBasemap="arcgis-topographic">
-        <GraphicsLayer>
-            <Graphic>
-                <Point Longitude="_longitude" Latitude="_latitude"/>
-                <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
-                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1"/>
-                </SimpleMarkerSymbol>
-            </Graphic>
-            <Graphic>
-                <PolyLine Paths="@_mapPaths"/>
-                <SimpleLineSymbol Color="@(new MapColor(226, 119, 40))" Width="2"/>
-            </Graphic>
-            <Graphic>
-                <Polygon Rings="@_mapRings"/>
-                <SimpleFillSymbol Color="@(new MapColor(227, 139, 79, 0.8))">
-                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1"/>
-                </SimpleFillSymbol>
-                <Attributes Name="This is a Title" Description="And a Description"/>
-                <PopupTemplate Title="{Name}" Content="{Description}"/>
-            </Graphic>
-        </GraphicsLayer>
-    </Map>
-</MapView>
+```bash
+    dotnet add package dymaptic.GeoBlazor.Core
 ```
 
-for a 2D map with a default ArcGIS basemap, or
+Or for the Pro version with additional features:
 
-```html
-<SceneView Longitude="_longitude" Latitude="_latitude" Zoom="11" Style="height: 600px; width: 100%;" ZIndex="2000" Tilt="76">
-    <Map Ground="world-elevation">
-        <Basemap>
-            <PortalItem Id="f35ef07c9ed24020aadd65c8a65d3754" />
-        </Basemap>
-        <GraphicsLayer>            <Graphic>
-                <Point Longitude="_longitude" Latitude="_latitude"/>
-                <SimpleMarkerSymbol Color="@(new MapColor(226, 119, 40))">
-                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1"/>
-                </SimpleMarkerSymbol>
-            </Graphic>
-            <Graphic>
-                <PolyLine Paths="@_mapPaths"/>
-                <SimpleLineSymbol Color="@(new MapColor(226, 119, 40))" Width="2"/>
-            </Graphic>
-            <Graphic>
-                <Polygon Rings="@_mapRings"/>
-                <SimpleFillSymbol Color="@(new MapColor(227, 139, 79, 0.8))">
-                    <Outline Color="@(new MapColor(255, 255, 255))" Width="1"/>
-                </SimpleFillSymbol>
-                <Attributes Name="This is a Title" Description="And a Description"/>
-                <PopupTemplate Title="{Name}" Content="{Description}"/>
-            </Graphic>
-        </GraphicsLayer>
-    </Map>
-</SceneView>
+```bash
+    dotnet add package dymaptic.GeoBlazor.Pro
 ```
 
-for a 3D map with a basemap loaded from a `PortalId`.
+> **Note:** *.NET 9 can cause __very slow__ build times due to its new static asset compression. If you need faster builds, we recommend staying on .NET 8 for now, and using a global.json file to pin your SDK build version to .NET 8. See our [open request for a fix here](https://github.com/dotnet/aspnetcore/issues/59014).*
+
+## 🏁 Getting Started
+
+(from https://docs.geoblazor.com/pages/gettingStarted.html)
+
+1. Create a new Blazor Web App (.NET 8), Blazor Server, Blazor Wasm, or Blazor Hybrid (MAUI) project.
+
+2. Add a `PackageReference` to the latest version of the `dymaptic.GeoBlazor.Core` package via your IDE's Nuget Package
+   Manager or `dotnet add package dymaptic.GeoBlazor.Core`.
+
+3. Get an API Key from the [ArcGIS Portal](https://developers.arcgis.com/documentation/security-and-authentication/api-key-authentication/). For Blazor Server, place it in your
+   appsettings.json:
+
+   ```json
+   {
+       "ArcGISApiKey": "YourArcGISApiKey"
+   }
+   ```
+
+4. Register at [licensing.dymaptic.com](https://licensing.dymaptic.com) for a free GeoBlazor Core Registration key.
+   Add the key to `appsettings.json`:
+
+```json
+    {
+        "ArcGISApiKey": "YourArcGISApiKey",
+        "GeoBlazor": {
+            "RegistrationKey": "YourGeoBlazorRegistrationKey"
+        }
+    }
+```
+
+5In the root file that defines your html (`_Layout.cshtml`, `index.html`, or `App.razor`), add the following to the `<head>` section:
+
+    ```html
+    <link href="_content/dymaptic.GeoBlazor.Core"/>
+    <link href="_content/dymaptic.GeoBlazor.Core/assets/esri/themes/light/main.css" rel="stylesheet" />
+    <link href="YourProject.styles.css" rel="stylesheet" />
+    ```
+
+6. In `_Imports.razor`, add the GeoBlazor namespaces:
+
+   ```csharp
+   @using dymaptic.GeoBlazor.Core
+   @using dymaptic.GeoBlazor.Core.Attributes
+   @using dymaptic.GeoBlazor.Core.Components
+   @using dymaptic.GeoBlazor.Core.Components.Geometries
+   @using dymaptic.GeoBlazor.Core.Components.Layers
+   @using dymaptic.GeoBlazor.Core.Components.Popups
+   @using dymaptic.GeoBlazor.Core.Components.Renderers
+   @using dymaptic.GeoBlazor.Core.Components.Symbols
+   @using dymaptic.GeoBlazor.Core.Components.Views
+   @using dymaptic.GeoBlazor.Core.Components.Widgets
+   @using dymaptic.GeoBlazor.Core.Enums
+   @using dymaptic.GeoBlazor.Core.Events
+   @using dymaptic.GeoBlazor.Core.Exceptions
+   @using dymaptic.GeoBlazor.Core.Extensions
+   @using dymaptic.GeoBlazor.Core.Functions
+   @using dymaptic.GeoBlazor.Core.Interfaces
+   @using dymaptic.GeoBlazor.Core.Model
+   @using dymaptic.GeoBlazor.Core.Options
+   @using dymaptic.GeoBlazor.Core.Results
+   ```
+
+7. In `Program.cs`, register the GeoBlazor services:
+
+   ```csharp
+   builder.Services.AddGeoBlazor(builder.Configuration);
+   ```
+
+8. Create a Razor Component page with a map:
+
+   ```html
+   @page "/"
+
+   <MapView Longitude="-118.805" Latitude="34.027" Zoom="11" Style="height: 400px; width: 100%;"> 
+       <WebMap>
+           <PortalItem Id="4a6cb60ebbe3483a805999d481c2daa5" />
+       </WebMap>
+       <ScaleBarWidget Position="OverlayPosition.BottomLeft" />
+   </MapView>
+   ```
+
+8. Run your application and see your map!
+
+For complete documentation, please visit [https://docs.geoblazor.com](https://docs.geoblazor.com)
+
+## 🔄 Versions
+
+GeoBlazor comes in two editions:
+
+- **GeoBlazor Core** - Free, open-source edition with essential mapping capabilities
+- **[GeoBlazor Pro](https://docs.geoblazor.com/pages/pro.html)** - Commercial edition with advanced features, 3D support, and priority support
+
+Check out our [features comparison](https://docs.geoblazor.com/pages/features.html) to see which edition is right for you.
+
+## 📝 License
+
+GeoBlazor Core is licensed under the [MIT License](https://docs.geoblazor.com/pages/coreLicense.html).
+
+GeoBlazor Pro is licensed under a [Commercial License](https://docs.geoblazor.com/pages/license.html) with a yearly subscription fee.
+
 
