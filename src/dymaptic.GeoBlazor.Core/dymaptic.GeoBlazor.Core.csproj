@@ -31,7 +31,7 @@
     </PropertyGroup>
 
     <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
-        Must be commented out for successful builds -->
+        Must be commented out for successful builds. Also comment out the <NoWarn> below. -->
     <!--    <ItemGroup>-->
     <!--        <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">-->
     <!--	        <PrivateAssets>all</PrivateAssets>-->
@@ -76,6 +76,8 @@
 
     <ItemGroup>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
+        <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
+        <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
