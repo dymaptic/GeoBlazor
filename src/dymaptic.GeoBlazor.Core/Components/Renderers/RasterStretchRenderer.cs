@@ -62,7 +62,7 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
         OutputMax = outputMax;
         OutputMin = outputMin;
         StretchType = stretchType;
-        Statistics = statistics;
+        CustomStatistics = statistics;
         UseGamma = useGamma;
         NumberOfStandardDeviations = numberOfStandardDeviations;
 #pragma warning restore BL0005
@@ -119,9 +119,16 @@ public class RasterStretchRenderer : MapComponent, IImageryRenderer
     public StretchType? StretchType { get; set; }
 
     /// <summary>
-    ///     The input statistics can be specified through the statistics property.
+    ///     The input statistics can be specified through the CustomStatistics property.
     /// </summary>
     [Parameter]
+    public RasterBandStatistics[]? CustomStatistics { get;  set; }
+    
+    /// <summary>
+    ///     The input statistics can be specified through the Statistics property.
+    /// </summary>
+    [Parameter]
+    [Obsolete("Deprecated since version 4.31. Use CustomStatistics instead.")]
     public RasterBandStatistics[]? Statistics { get;  set; }
 
     /// <summary>
