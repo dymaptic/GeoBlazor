@@ -14,6 +14,11 @@ public partial class RasterStretchRenderer : MapComponent, IImageryRenderer
     public ImageryRendererType Type => ImageryRendererType.RasterStretch;
 
     /// <summary>
+    ///     The stretched values are mapped to this specified color ramp.
+    /// </summary>
+    public ColorRamp? ColorRamp { get; set; }
+
+    /// <summary>
     ///     The computeGamma automatically calculates best gamma value to render exported image based on empirical model. This is applicable to any stretch type when useGamma is true.
     /// </summary>
     [Parameter]
