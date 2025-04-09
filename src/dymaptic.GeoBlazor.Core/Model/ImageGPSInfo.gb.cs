@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageGPSInfo.html">GeoBlazor Docs</a>
-///     Image GPS information for images returned as a result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryGPSInfo">ImageryLayer.queryGPSInfo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryGPSInfo">imageService.queryGPSInfo()</a> methods.
+///     Image GPS information for images returned as a result of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryGPSInfo">ImageryLayer.queryGPSInfo()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryGPSInfo">imageService.queryGPSInfo()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AcquisitionDate">
@@ -43,10 +44,10 @@ public partial record ImageGPSInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Point? Center = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? Gps = null,
+    string? Gps = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     long? ImageGPSInfoId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Name = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    object? Orientation = null);
+    string? Orientation = null);

@@ -9,12 +9,15 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class CSVLayer : IBlendLayer,
+    IDisplayFilteredLayer,
     IFeatureEffectLayer,
+    IFeatureSetLayer,
     IFeatureTableWidgetLayers,
     IOrderedLayer,
     IPortalLayer,
     IScaleRangeLayer,
-    ITemporalLayer
+    ITemporalLayer,
+    ITrackableLayer
 {
 
     /// <summary>
@@ -68,6 +71,10 @@ public partial class CSVLayer : IBlendLayer,
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="attributeTableTemplate">
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="customParameters">
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
@@ -84,10 +91,15 @@ public partial class CSVLayer : IBlendLayer,
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="displayFilterEnabled">
+    /// </param>
+    /// <param name="displayFilterInfo">
+    /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="elevationInfo">
     ///     Specifies how features are placed on the vertical axis (z).
@@ -95,11 +107,11 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     /// <param name="featureEffect">
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
-    ///     Configures the method for reducing the number of point features in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
+    ///     Configures the method for reducing the number of features in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fields">
     ///     An array of fields in the layer.
@@ -117,7 +129,8 @@ public partial class CSVLayer : IBlendLayer,
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelsVisible">
@@ -149,22 +162,18 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">field</a> containing
+    ///     a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="orderBy">
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="outFields">
     ///     An array of field names to include in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -173,7 +182,7 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -197,17 +206,25 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="timeExtent">
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="trackInfo">
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
     ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
@@ -215,7 +232,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -229,10 +246,13 @@ public partial class CSVLayer : IBlendLayer,
         BlendMode? blendMode = null,
         PopupTemplate? popupTemplate = null,
         string? arcGISLayerId = null,
+        AttributeTableTemplate? attributeTableTemplate = null,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
         CSVDelimiter? delimiter = null,
         string? displayField = null,
+        bool? displayFilterEnabled = null,
+        DisplayFilterInfo? displayFilterInfo = null,
         Effect? effect = null,
         CSVLayerElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
@@ -249,9 +269,8 @@ public partial class CSVLayer : IBlendLayer,
         double? maxScale = null,
         double? minScale = null,
         string? objectIdField = null,
-        IReadOnlyList<OrderedLayerOrderBy>? orderBy = null,
+        IReadOnlyList<OrderByInfo>? orderBy = null,
         IReadOnlyList<string>? outFields = null,
-        bool? persistenceEnabled = null,
         bool? popupEnabled = null,
         PortalItem? portalItem = null,
         double? refreshInterval = null,
@@ -261,6 +280,7 @@ public partial class CSVLayer : IBlendLayer,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
+        TrackInfo? trackInfo = null,
         bool? useViewTime = null,
         TimeExtent? visibilityTimeExtent = null)
     {
@@ -275,10 +295,13 @@ public partial class CSVLayer : IBlendLayer,
         BlendMode = blendMode;
         PopupTemplate = popupTemplate;
         ArcGISLayerId = arcGISLayerId;
+        AttributeTableTemplate = attributeTableTemplate;
         CustomParameters = customParameters;
         DefinitionExpression = definitionExpression;
         Delimiter = delimiter;
         DisplayField = displayField;
+        DisplayFilterEnabled = displayFilterEnabled;
+        DisplayFilterInfo = displayFilterInfo;
         Effect = effect;
         ElevationInfo = elevationInfo;
         FeatureEffect = featureEffect;
@@ -297,7 +320,6 @@ public partial class CSVLayer : IBlendLayer,
         ObjectIdField = objectIdField;
         OrderBy = orderBy;
         OutFields = outFields;
-        PersistenceEnabled = persistenceEnabled;
         PopupEnabled = popupEnabled;
         PortalItem = portalItem;
         RefreshInterval = refreshInterval;
@@ -307,6 +329,7 @@ public partial class CSVLayer : IBlendLayer,
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
         TimeOffset = timeOffset;
+        TrackInfo = trackInfo;
         UseViewTime = useViewTime;
         VisibilityTimeExtent = visibilityTimeExtent;
 #pragma warning restore BL0005    
@@ -316,6 +339,17 @@ public partial class CSVLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerattributetabletemplate-property">GeoBlazor Docs</a>
+    ///     This property is used to configure the associated layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html">FeatureTable</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#attributeTableTemplate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public AttributeTableTemplate? AttributeTableTemplate { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -325,6 +359,7 @@ public partial class CSVLayer : IBlendLayer,
     public CSVLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -334,6 +369,7 @@ public partial class CSVLayer : IBlendLayer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -343,6 +379,7 @@ public partial class CSVLayer : IBlendLayer,
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter features on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -352,9 +389,29 @@ public partial class CSVLayer : IBlendLayer,
     public string? DefinitionExpression { get; set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdisplayfilterenabled-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? DisplayFilterEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerdisplayfilterinfo-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DisplayFilterInfo? DisplayFilterInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -362,6 +419,7 @@ public partial class CSVLayer : IBlendLayer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerelevationinfo-property">GeoBlazor Docs</a>
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -371,8 +429,9 @@ public partial class CSVLayer : IBlendLayer,
     public CSVLayerElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -380,6 +439,7 @@ public partial class CSVLayer : IBlendLayer,
     public FeatureEffect? FeatureEffect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -389,6 +449,7 @@ public partial class CSVLayer : IBlendLayer,
     public IReadOnlyList<Field>? Fields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -398,6 +459,7 @@ public partial class CSVLayer : IBlendLayer,
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayergeometrytype-property">GeoBlazor Docs</a>
     ///     The geometry type of features in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -407,6 +469,7 @@ public partial class CSVLayer : IBlendLayer,
     public string? GeometryType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayeristable-property">GeoBlazor Docs</a>
     ///     Returns `true` if the layer is loaded from a non-spatial table in a service.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#isTable">ArcGIS Maps SDK for JavaScript</a>
@@ -417,7 +480,9 @@ public partial class CSVLayer : IBlendLayer,
     public bool? IsTable { get; protected set; }
     
     /// <summary>
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerlabelinginfo-property">GeoBlazor Docs</a>
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -426,6 +491,7 @@ public partial class CSVLayer : IBlendLayer,
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerlabelsvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to display labels for this layer.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#labelsVisible">ArcGIS Maps SDK for JavaScript</a>
@@ -436,6 +502,7 @@ public partial class CSVLayer : IBlendLayer,
     public bool? LabelsVisible { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerlatitudefield-property">GeoBlazor Docs</a>
     ///     The latitude field name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#latitudeField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -445,6 +512,7 @@ public partial class CSVLayer : IBlendLayer,
     public string? LatitudeField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -455,6 +523,7 @@ public partial class CSVLayer : IBlendLayer,
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerlongitudefield-property">GeoBlazor Docs</a>
     ///     The longitude field name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#longitudeField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -464,6 +533,7 @@ public partial class CSVLayer : IBlendLayer,
     public string? LongitudeField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -474,6 +544,7 @@ public partial class CSVLayer : IBlendLayer,
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -484,7 +555,9 @@ public partial class CSVLayer : IBlendLayer,
     public double? MinScale { get; set; }
     
     /// <summary>
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerobjectidfield-property">GeoBlazor Docs</a>
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#fields">field</a> containing
+    ///     a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -493,16 +566,18 @@ public partial class CSVLayer : IBlendLayer,
     public string? ObjectIdField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayeroutfields-property">GeoBlazor Docs</a>
     ///     An array of field names to include in the CSVLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -512,6 +587,7 @@ public partial class CSVLayer : IBlendLayer,
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -522,6 +598,7 @@ public partial class CSVLayer : IBlendLayer,
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -531,8 +608,9 @@ public partial class CSVLayer : IBlendLayer,
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -540,6 +618,7 @@ public partial class CSVLayer : IBlendLayer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
@@ -550,6 +629,7 @@ public partial class CSVLayer : IBlendLayer,
     public double? RefreshInterval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -559,6 +639,7 @@ public partial class CSVLayer : IBlendLayer,
     public Renderer? Renderer { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
     ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -569,6 +650,7 @@ public partial class CSVLayer : IBlendLayer,
     public bool? ScreenSizePerspectiveEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     default SpatialReference.WGS84
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
@@ -579,9 +661,10 @@ public partial class CSVLayer : IBlendLayer,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -589,9 +672,14 @@ public partial class CSVLayer : IBlendLayer,
     public TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayertimeinfo-property">GeoBlazor Docs</a>
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -599,9 +687,10 @@ public partial class CSVLayer : IBlendLayer,
     public TimeInfo? TimeInfo { get; set; }
     
     /// <summary>
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayertimeoffset-property">GeoBlazor Docs</a>
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -609,6 +698,17 @@ public partial class CSVLayer : IBlendLayer,
     public TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayertrackinfo-property">GeoBlazor Docs</a>
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TrackInfo? TrackInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the CSV file.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -619,6 +719,7 @@ public partial class CSVLayer : IBlendLayer,
     public string Url { get; set; } = null!;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayeruseviewtime-property">GeoBlazor Docs</a>
     ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
@@ -632,6 +733,45 @@ public partial class CSVLayer : IBlendLayer,
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
+    /// </summary>
+    public async Task<AttributeTableTemplate?> GetAttributeTableTemplate()
+    {
+        if (CoreJsModule is null)
+        {
+            return AttributeTableTemplate;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return AttributeTableTemplate;
+        }
+
+        AttributeTableTemplate? result = await JsComponentReference.InvokeAsync<AttributeTableTemplate?>(
+            "getAttributeTableTemplate", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            AttributeTableTemplate = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+        }
+        
+        return AttributeTableTemplate;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BlendMode property.
     /// </summary>
@@ -942,6 +1082,84 @@ public partial class CSVLayer : IBlendLayer,
         }
          
         return DisplayField;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDisplayFilterEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             DisplayFilterEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+        }
+         
+        return DisplayFilterEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
+    /// </summary>
+    public async Task<DisplayFilterInfo?> GetDisplayFilterInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterInfo;
+        }
+
+        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
+            "getDisplayFilterInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            DisplayFilterInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+        }
+        
+        return DisplayFilterInfo;
     }
     
     /// <summary>
@@ -1571,7 +1789,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
-    public async Task<IReadOnlyList<OrderedLayerOrderBy>?> GetOrderBy()
+    public async Task<IReadOnlyList<OrderByInfo>?> GetOrderBy()
     {
         if (CoreJsModule is null)
         {
@@ -1593,7 +1811,7 @@ public partial class CSVLayer : IBlendLayer,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>(
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
             "getOrderBy", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -1954,11 +2172,6 @@ public partial class CSVLayer : IBlendLayer,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -2047,6 +2260,45 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the TrackInfo property.
+    /// </summary>
+    public async Task<TrackInfo?> GetTrackInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return TrackInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TrackInfo;
+        }
+
+        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
+            "getTrackInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            TrackInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+        }
+        
+        return TrackInfo;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
     public async Task<string?> GetUrl()
@@ -2128,6 +2380,51 @@ public partial class CSVLayer : IBlendLayer,
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the AttributeTableTemplate property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetAttributeTableTemplate(AttributeTableTemplate? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        AttributeTableTemplate = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(AttributeTableTemplate)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setAttributeTableTemplate", 
+            CancellationTokenSource.Token, value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the BlendMode property after render.
     /// </summary>
@@ -2348,6 +2645,88 @@ public partial class CSVLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DisplayFilterEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "displayFilterEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        DisplayFilterInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2912,11 +3291,11 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
+    public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
         if (value is not null)
         {
-            foreach (OrderedLayerOrderBy item in value)
+            foreach (OrderByInfo item in value)
             {
                 item.CoreJsModule = CoreJsModule;
                 item.Parent = this;
@@ -3418,6 +3797,51 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the TrackInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTrackInfo(TrackInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        TrackInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TrackInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
     /// <param name="value">
@@ -3529,9 +3953,9 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task AddToOrderBy(params OrderByInfo[] values)
     {
-        OrderedLayerOrderBy[] join = OrderBy is null
+        OrderByInfo[] join = OrderBy is null
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
@@ -3594,7 +4018,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task RemoveFromOrderBy(params OrderByInfo[] values)
     {
         if (OrderBy is null)
         {
@@ -3624,7 +4048,9 @@ public partial class CSVLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a popup template for the layer, populated with all the fields of the layer.
+    ///     param options Options for creating the popup template.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -3642,7 +4068,9 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Creates query parameters that can be used to fetch features that satisfy the layer's current filters, and definitions.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercreatequery-method">GeoBlazor Docs</a>
+    ///     Creates query parameters that can be used to fetch features that
+    ///     satisfy the layer's current filters, and definitions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -3656,7 +4084,9 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayergetfield-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> instance for a field name (case-insensitive).
+    ///     param fieldName Name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#getField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
@@ -3674,7 +4104,11 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayergetfielddomain-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
+    ///     param fieldName Name of the field.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     param options.feature The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
@@ -3698,7 +4132,45 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryattributebins-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html">AttributeBinsQuery</a> against a CSVLayer, which groups features into bins based on ranges in numeric or date fields, and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> containing the series of bins.
+    ///     param binsQuery Specifies the parameters of the `queryAttributeBins()` operation. The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryAttributeBins">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="binsQuery">
+    ///     Specifies the parameters of the <code>queryAttributeBins()</code> operation. The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
+        CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
+            "queryAttributeBins", 
+            CancellationTokenSource.Token,
+            binsQuery,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryextent-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and
+    ///     returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3728,7 +4200,12 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns the number of features that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryfeaturecount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and
+    ///     returns the number of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3758,7 +4235,12 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryfeatures-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3788,7 +4270,12 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns an array of Object IDs for features that satisfy the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns an
+    ///     array of Object IDs for features that satisfy the input query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3818,6 +4305,7 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -3855,6 +4343,7 @@ public partial class CSVLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
@@ -3875,6 +4364,24 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
+            case AttributeTableTemplate attributeTableTemplate:
+                if (attributeTableTemplate != AttributeTableTemplate)
+                {
+                    AttributeTableTemplate = attributeTableTemplate;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                }
+                
+                return true;
+            case DisplayFilterInfo displayFilterInfo:
+                if (displayFilterInfo != DisplayFilterInfo)
+                {
+                    DisplayFilterInfo = displayFilterInfo;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                }
+                
+                return true;
             case CSVLayerElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -3913,7 +4420,7 @@ public partial class CSVLayer : IBlendLayer,
                 }
                 
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy ??= [];
                 if (!OrderBy.Contains(orderBy))
                 {
@@ -3986,6 +4493,15 @@ public partial class CSVLayer : IBlendLayer,
                 }
                 
                 return true;
+            case TrackInfo trackInfo:
+                if (trackInfo != TrackInfo)
+                {
+                    TrackInfo = trackInfo;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                }
+                
+                return true;
             default:
                 return await base.RegisterGeneratedChildComponent(child);
         }
@@ -3996,6 +4512,16 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
+            case AttributeTableTemplate _:
+                AttributeTableTemplate = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                return true;
+            case DisplayFilterInfo _:
+                DisplayFilterInfo = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                return true;
             case CSVLayerElevationInfo _:
                 ElevationInfo = null;
                 LayerChanged = MapRendered;
@@ -4016,7 +4542,7 @@ public partial class CSVLayer : IBlendLayer,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
@@ -4056,6 +4582,11 @@ public partial class CSVLayer : IBlendLayer,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
+            case TrackInfo _:
+                TrackInfo = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);
         }
@@ -4069,6 +4600,8 @@ public partial class CSVLayer : IBlendLayer,
         {
             throw new MissingRequiredChildElementException(nameof(CSVLayer), nameof(Url));
         }
+        AttributeTableTemplate?.ValidateRequiredGeneratedChildren();
+        DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)
@@ -4087,7 +4620,7 @@ public partial class CSVLayer : IBlendLayer,
         }
         if (OrderBy is not null)
         {
-            foreach (OrderedLayerOrderBy child in OrderBy)
+            foreach (OrderByInfo child in OrderBy)
             {
                 child.ValidateRequiredGeneratedChildren();
             }
@@ -4099,6 +4632,7 @@ public partial class CSVLayer : IBlendLayer,
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();
+        TrackInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

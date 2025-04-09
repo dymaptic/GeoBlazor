@@ -30,17 +30,8 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.hideLayersNotInCurrentView)) {
         properties.hideLayersNotInCurrentView = dotNetObject.hideLayersNotInCurrentView;
     }
-    if (hasValue(dotNetObject.isScaleDriven)) {
-        properties.isScaleDriven = dotNetObject.isScaleDriven;
-    }
-    if (hasValue(dotNetObject.ready)) {
-        properties.ready = dotNetObject.ready;
-    }
     if (hasValue(dotNetObject.respectLayerVisibility)) {
         properties.respectLayerVisibility = dotNetObject.respectLayerVisibility;
-    }
-    if (hasValue(dotNetObject.scale)) {
-        properties.scale = dotNetObject.scale;
     }
     if (hasValue(dotNetObject.sublayerIds) && dotNetObject.sublayerIds.length > 0) {
         properties.sublayerIds = dotNetObject.sublayerIds;
@@ -48,13 +39,9 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
     }
-    if (hasValue(dotNetObject.version)) {
-        properties.version = dotNetObject.version;
-    }
     let jsActiveLayerInfo = new ActiveLayerInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsActiveLayerInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
     return jsActiveLayerInfo;

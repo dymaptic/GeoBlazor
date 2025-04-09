@@ -51,6 +51,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html#arcgisimageservicecapabilitiesmensuration-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/enterprise/measure.htm">mensuration operations</a> supported by the ImageryLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     public ArcGISImageServiceCapabilitiesMensuration? Mensuration { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html#arcgisimageservicecapabilitiesoperations-property">GeoBlazor Docs</a>
     ///     Describes operations supported by the ImageryLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
     public ArcGISImageServiceCapabilitiesOperations? Operations { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilities.html#arcgisimageservicecapabilitiesquery-property">GeoBlazor Docs</a>
     ///     Describes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">query</a> operations supported by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

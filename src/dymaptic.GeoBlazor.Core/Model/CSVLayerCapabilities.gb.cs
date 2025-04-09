@@ -7,6 +7,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Describes the layer's supported capabilities.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="Attachment">
+/// </param>
 /// <param name="Data">
 ///     Describes characteristics of the data in the layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -28,6 +30,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record CSVLayerCapabilities(
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    CSVLayerCapabilitiesAttachment? Attachment = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     CSVLayerCapabilitiesData? Data = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

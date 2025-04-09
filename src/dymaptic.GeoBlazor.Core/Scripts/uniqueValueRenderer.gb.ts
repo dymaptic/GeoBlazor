@@ -76,22 +76,6 @@ export default class UniqueValueRendererGenerated implements IPropertyWrapper {
         }
     }
     
-    async addUniqueValueInfo(valueOrInfo: any,
-        symbol: any): Promise<void> {
-        let jsSymbol: any; 
-        try {
-            // @ts-ignore GeoBlazor Pro only
-            let { buildJsSymbol } = await import('./symbol');
-            // @ts-ignore GeoBlazor Pro only
-            jsSymbol = buildJsSymbol(symbol) as any;
-        } catch (e) {
-            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
-            jsSymbol = null;
-        }
-        this.component.addUniqueValueInfo(valueOrInfo,
-            jsSymbol);
-    }
-
     async getUniqueValueInfo(graphic: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
         let jsGraphic = buildJsGraphic(graphic) as any;
@@ -279,7 +263,6 @@ export async function buildJsUniqueValueRendererGenerated(dotNetObject: any, lay
     uniqueValueRendererWrapper.viewId = viewId;
     uniqueValueRendererWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(uniqueValueRendererWrapper);
     jsObjectRefs[dotNetObject.id] = uniqueValueRendererWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRenderer;
     

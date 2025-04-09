@@ -8,19 +8,19 @@ export async function buildJsAreaMeasurement2DViewModelMeasurementGenerated(dotN
     }
 
     let jsAreaMeasurement2DViewModelMeasurement: any = {};
+    if (hasValue(dotNetObject.geometry)) {
+        let { buildJsPolygon } = await import('./polygon');
+        jsAreaMeasurement2DViewModelMeasurement.geometry = buildJsPolygon(dotNetObject.geometry) as any;
+    }
 
     if (hasValue(dotNetObject.area)) {
         jsAreaMeasurement2DViewModelMeasurement.area = dotNetObject.area;
-    }
-    if (hasValue(dotNetObject.geometry)) {
-        jsAreaMeasurement2DViewModelMeasurement.geometry = dotNetObject.geometry;
     }
     if (hasValue(dotNetObject.perimeter)) {
         jsAreaMeasurement2DViewModelMeasurement.perimeter = dotNetObject.perimeter;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAreaMeasurement2DViewModelMeasurement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurement;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModelMeasurement;
     
     return jsAreaMeasurement2DViewModelMeasurement;
@@ -34,12 +34,13 @@ export async function buildDotNetAreaMeasurement2DViewModelMeasurementGenerated(
     
     let dotNetAreaMeasurement2DViewModelMeasurement: any = {};
     
-    if (hasValue(jsObject.area)) {
-        dotNetAreaMeasurement2DViewModelMeasurement.area = jsObject.area;
+    if (hasValue(jsObject.geometry)) {
+        let { buildDotNetPolygon } = await import('./polygon');
+        dotNetAreaMeasurement2DViewModelMeasurement.geometry = buildDotNetPolygon(jsObject.geometry);
     }
     
-    if (hasValue(jsObject.geometry)) {
-        dotNetAreaMeasurement2DViewModelMeasurement.geometry = jsObject.geometry;
+    if (hasValue(jsObject.area)) {
+        dotNetAreaMeasurement2DViewModelMeasurement.area = jsObject.area;
     }
     
     if (hasValue(jsObject.perimeter)) {

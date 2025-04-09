@@ -20,7 +20,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#filter">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Num">
-///     The maximum number of results to be included in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html#results">result</a> set response.
+///     The maximum number of results to be included in the
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html#results">result</a> set response.
 ///     default 10
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#num">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -34,7 +35,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="SortOrder">
 ///     The order in which to sort the results.
-///     default asc
+///     default "asc"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#sortOrder">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Start">
@@ -71,7 +72,8 @@ public partial record PortalQueryParams(
     public string? Filter { get; set; } = Filter;
     
     /// <summary>
-    ///     The maximum number of results to be included in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html#results">result</a> set response.
+    ///     The maximum number of results to be included in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryResult.html#results">result</a> set response.
     ///     default 10
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#num">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -91,7 +93,7 @@ public partial record PortalQueryParams(
     
     /// <summary>
     ///     The order in which to sort the results.
-    ///     default asc
+    ///     default "asc"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html#sortOrder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public PortalQuerySortOrder? SortOrder { get; set; } = SortOrder;

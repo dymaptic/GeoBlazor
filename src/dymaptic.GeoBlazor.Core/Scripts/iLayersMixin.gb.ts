@@ -14,8 +14,7 @@ export async function buildJsILayersMixinGenerated(dotNetObject: any, layerId: s
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayersMixin);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayersMixin;
     arcGisObjectRefs[dotNetObject.id] = jsLayersMixin;
     
     return jsLayersMixin;

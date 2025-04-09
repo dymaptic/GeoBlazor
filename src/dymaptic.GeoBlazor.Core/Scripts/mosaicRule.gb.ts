@@ -13,10 +13,6 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
         let { buildJsRasterFunction } = await import('./rasterFunction');
         properties.itemRasterFunction = await buildJsRasterFunction(dotNetObject.itemRasterFunction) as any;
     }
-    if (hasValue(dotNetObject.itemRenderingRule)) {
-        let { buildJsRasterFunction } = await import('./rasterFunction');
-        properties.itemRenderingRule = await buildJsRasterFunction(dotNetObject.itemRenderingRule) as any;
-    }
     if (hasValue(dotNetObject.multidimensionalDefinition) && dotNetObject.multidimensionalDefinition.length > 0) {
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         properties.multidimensionalDefinition = await Promise.all(dotNetObject.multidimensionalDefinition.map(async i => await buildJsDimensionalDefinition(i))) as any;
@@ -52,8 +48,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
     }
     let jsMosaicRule = new MosaicRule(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMosaicRule);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMosaicRule;
     arcGisObjectRefs[dotNetObject.id] = jsMosaicRule;
     
     return jsMosaicRule;

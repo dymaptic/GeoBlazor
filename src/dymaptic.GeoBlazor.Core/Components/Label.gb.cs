@@ -37,6 +37,10 @@ public partial class Label
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="symbol">
+    ///     Defines the symbol used for rendering the label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="allowOverrun">
     ///     Specifies whether or not a polyline label can overrun the feature being labeled.
     ///     default false
@@ -44,11 +48,11 @@ public partial class Label
     /// </param>
     /// <param name="deconflictionStrategy">
     ///     Defines how labels should be placed relative to one another.
-    ///     default static
+    ///     default "static"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#deconflictionStrategy">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelPosition">
-    ///     Specifies the orientation of the label position of a polyline label.
+    ///     Specifies the orientation of the label position of a single line polyline label.
     ///     default "curved"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelPosition">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -72,12 +76,9 @@ public partial class Label
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#repeatLabelDistance">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="symbol">
-    ///     Defines the symbol used for rendering the label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="useCodedValues">
-    ///     Indicates whether to use domain names if the fields in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpression">labelExpression</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">labelExpressionInfo</a> have domains.
+    ///     Indicates whether to use domain names if the fields in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpression">labelExpression</a>
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">labelExpressionInfo</a> have domains.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#useCodedValues">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="where">
@@ -89,6 +90,7 @@ public partial class Label
         LabelPlacement? labelPlacement = null,
         string? labelExpression = null,
         LabelExpressionInfo? labelExpressionInfo = null,
+        Symbol? symbol = null,
         bool? allowOverrun = null,
         DeconflictionStrategy? deconflictionStrategy = null,
         LabelPosition? labelPosition = null,
@@ -96,7 +98,6 @@ public partial class Label
         double? minScale = null,
         bool? repeatLabel = null,
         Dimension? repeatLabelDistance = null,
-        Symbol? symbol = null,
         bool? useCodedValues = null,
         string? where = null)
     {
@@ -105,6 +106,10 @@ public partial class Label
         LabelPlacement = labelPlacement;
         LabelExpression = labelExpression;
         LabelExpressionInfo = labelExpressionInfo;
+        if (symbol is not null)
+        {
+            Symbol = symbol;
+        }
         AllowOverrun = allowOverrun;
         DeconflictionStrategy = deconflictionStrategy;
         LabelPosition = labelPosition;
@@ -112,7 +117,6 @@ public partial class Label
         MinScale = minScale;
         RepeatLabel = repeatLabel;
         RepeatLabelDistance = repeatLabelDistance;
-        Symbol = symbol;
         UseCodedValues = useCodedValues;
         Where = where;
 #pragma warning restore BL0005    
@@ -122,6 +126,7 @@ public partial class Label
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html#labelallowoverrun-property">GeoBlazor Docs</a>
     ///     Specifies whether or not a polyline label can overrun the feature being labeled.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#allowOverrun">ArcGIS Maps SDK for JavaScript</a>
@@ -132,6 +137,7 @@ public partial class Label
     public bool? AllowOverrun { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html#labellabelexpressioninfo-property">GeoBlazor Docs</a>
     ///     Defines the labels for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#labelExpressionInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -142,6 +148,7 @@ public partial class Label
     public LabelExpressionInfo? LabelExpressionInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Label.html#labelsymbol-property">GeoBlazor Docs</a>
     ///     Defines the symbol used for rendering the label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

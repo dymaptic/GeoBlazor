@@ -6,17 +6,14 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Options.ImageryTileLayerSaveOptions.html">GeoBlazor Docs</a>
 ///     
 /// </summary>
-/// <param name="ValidationOptions">
-///     Options for validating the save operation.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
+/// <param name="IgnoreUnsupported">
 /// </param>
 public partial record ImageryTileLayerSaveOptions(
-    ImageryTileLayerSaveOptionsValidationOptions? ValidationOptions = null)
+    bool? IgnoreUnsupported = null)
 {
     /// <summary>
-    ///     Options for validating the save operation.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
-    public ImageryTileLayerSaveOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
+    public bool? IgnoreUnsupported { get; set; } = IgnoreUnsupported;
     
 }

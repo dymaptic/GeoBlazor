@@ -22,8 +22,7 @@ export async function buildJsCapabilitiesQueryRelatedGenerated(dotNetObject: any
         jsCapabilitiesQueryRelated.supportsPagination = dotNetObject.supportsPagination;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesQueryRelated);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryRelated;
     
     return jsCapabilitiesQueryRelated;

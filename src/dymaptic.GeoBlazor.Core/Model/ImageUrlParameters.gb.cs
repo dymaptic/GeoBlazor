@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageUrlParameters.html">GeoBlazor Docs</a>
-///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getImageUrl">ImageryLayer.getImageUrl()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#getImageUrl">imageService.getImageUrl()</a> methods.
+///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getImageUrl">ImageryLayer.getImageUrl()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#getImageUrl">imageService.getImageUrl()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageUrlParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="RasterId">

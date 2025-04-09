@@ -4,8 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    This class is used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to define the base colors used by widgets and components to render temporary graphics and labels.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-Theme.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Theme.html">GeoBlazor Docs</a>
+///     This class is used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to define the base colors used by widgets and components
+///     to render temporary graphics and labels.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-Theme.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Theme : MapComponent
 {
@@ -44,6 +46,7 @@ public partial class Theme : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Theme.html#themeaccentcolor-property">GeoBlazor Docs</a>
     ///     The base color used to render temporary graphics in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-Theme.html#accentColor">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -53,6 +56,7 @@ public partial class Theme : MapComponent
     public MapColor? AccentColor { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Theme.html#themetextcolor-property">GeoBlazor Docs</a>
     ///     The base color used to render temporary labels in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-Theme.html#textColor">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -74,8 +78,17 @@ public partial class Theme : MapComponent
         {
             return AccentColor;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return AccentColor;
@@ -104,8 +117,17 @@ public partial class Theme : MapComponent
         {
             return TextColor;
         }
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-            "getJsComponent", CancellationTokenSource.Token, Id);
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
         if (JsComponentReference is null)
         {
             return TextColor;
@@ -147,8 +169,15 @@ public partial class Theme : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {
@@ -177,8 +206,15 @@ public partial class Theme : MapComponent
             return;
         }
     
-        JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>("getJsComponent",
-            CancellationTokenSource.Token, Id);
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
     
         if (JsComponentReference is null)
         {

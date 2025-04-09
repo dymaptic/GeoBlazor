@@ -4,15 +4,19 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html">GeoBlazor Docs</a>
-///     The Ground class contains properties that specify how the ground surface is displayed in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+///     The Ground class contains properties that specify how the ground surface is
+///     displayed in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Layers">
-///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a> that define the elevation or terrain that makes up the ground surface.
+///     A collection of
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ElevationLayer.html">ElevationLayers</a>
+///     that define the elevation or terrain that makes up the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#layers">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="NavigationConstraint">
-///     Specifies the user navigation constraints relative to the ground surface.
+///     Specifies the user navigation constraints relative to
+///     the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#navigationConstraint">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Opacity">
@@ -29,7 +33,7 @@ public partial record Ground(
     IReadOnlyCollection<Layer>? Layers = null,
     GroundNavigationConstraint? NavigationConstraint = null,
     double? Opacity = null,
-    MapColor? SurfaceColor = null) : IMeshUtilsSource
+    MapColor? SurfaceColor = null) : IIntersectItem, ILayerParent, IMeshUtilsSource
 {
     internal IJSObjectReference? JsComponentReference { get; set; }
     internal AbortManager? AbortManager { get; set; }
@@ -41,7 +45,29 @@ public partial record Ground(
 #region Public Methods
 
     /// <summary>
-    ///     Creates an elevation sampler for the given extent by querying the ground layers for elevation data and caching it so values may be sampled quickly afterwards.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundcancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (JsComponentReference is null) return;
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundcreateelevationsampler-method">GeoBlazor Docs</a>
+    ///     Creates an elevation sampler for the given extent by querying the ground layers
+    ///     for elevation data and caching it so values may be sampled quickly afterwards.
+    ///     param extent The extent for which to create the sampler.
+    ///     param options Additional sampler options.
+    ///     param options.demResolution Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">Ground</a> for more details.
+    ///     param options.noDataValue The value to use when there is no data available.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#createElevationSampler">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -73,6 +99,78 @@ public partial record Ground(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundload-method">GeoBlazor Docs</a>
+    ///     Loads the resources referenced by this class.
+    ///     param options Additional options.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> Load(CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "load", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundloadall-method">GeoBlazor Docs</a>
     ///     Loads all the externally loadable resources associated with the ground.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,7 +185,20 @@ public partial record Ground(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundqueryelevation-method">GeoBlazor Docs</a>
     ///     Query the ground layer services for elevation values for the given geometry.
+    ///     param geometry The geometry to sample.
+    ///     param options Additional query options.
+    ///     param options.demResolution
+    ///     Controls the horizontal resolution (cell size) in meters from which elevation data is sampled (defaults to `auto`). See the table below for more details on the different settings.
+    ///     demResolution          | Description
+    ///     -----------------------|-------------
+    ///     `auto`                 | Automatically chooses an appropriate resolution for each coordinate of the input geometry. The current implementation will try to use the finest available resolution given that the total required number of tile requests does not exceed a certain maximum amount (currently 20). Note that this may result in values being sampled from different resolutions.
+    ///     `finest-contiguous`    | Sample elevation from the finest available resolution (cell size) across the entire geometry.
+    ///     `{number}`             | Sample elevation from the resolution closest to the specified resolution (in meters).
+    ///     param options.returnSampleInfo Indicates whether to return additional sample information for each sampled coordinate.
+    ///     param options.noDataValue The value that appears in the resulting geometry when there is no data available.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#queryElevation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="geometry">
@@ -116,6 +227,32 @@ public partial record Ground(
         await AbortManager.DisposeAbortController(cancellationToken);
         
         return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.Ground.html#groundwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param callback The function to call when the promise resolves.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
     }
     
 #endregion

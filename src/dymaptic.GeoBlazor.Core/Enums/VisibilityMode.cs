@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VisibilityMode.html">GeoBlazor Docs</a>
-///     Enumeration for VisibilityMode
+///     Indicates how to manage the visibility of the children layers.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GroupLayer.html#visibilityMode">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VisibilityMode>))]
 public enum VisibilityMode

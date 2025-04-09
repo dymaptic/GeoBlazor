@@ -45,12 +45,38 @@ export default class FeatureLayerViewGenerated implements IPropertyWrapper {
         }
     }
     
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
     async queryAggregates(query: any,
         options: any): Promise<any> {
         let { buildJsQuery } = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryAggregates(jsQuery,
             options);
+    }
+
+    async queryAttributeBins(binsQuery: any,
+        options: any): Promise<any> {
+        let { buildJsAttributeBinsQuery } = await import('./attributeBinsQuery');
+        let jsBinsQuery = await buildJsAttributeBinsQuery(binsQuery, this.layerId, this.viewId) as any;
+        return await this.component.queryAttributeBins(jsBinsQuery,
+            options);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -142,7 +168,6 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     featureLayerViewWrapper.viewId = viewId;
     featureLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
     

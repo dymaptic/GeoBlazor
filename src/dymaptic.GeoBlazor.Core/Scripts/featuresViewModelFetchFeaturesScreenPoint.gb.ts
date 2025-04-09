@@ -16,8 +16,7 @@ export async function buildJsFeaturesViewModelFetchFeaturesScreenPointGenerated(
         jsFeaturesViewModelFetchFeaturesScreenPoint.y = dotNetObject.y;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeaturesViewModelFetchFeaturesScreenPoint);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeaturesViewModelFetchFeaturesScreenPoint;
     arcGisObjectRefs[dotNetObject.id] = jsFeaturesViewModelFetchFeaturesScreenPoint;
     
     return jsFeaturesViewModelFetchFeaturesScreenPoint;

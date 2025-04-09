@@ -21,10 +21,11 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-
-        if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-            this.component.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+        if (hasValue(dotNetObject.snappingOptions)) {
+            let { buildJsSnappingOptions } = await import('./snappingOptions');
+            this.component.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, this.layerId, this.viewId) as any;
         }
+
         if (hasValue(dotNetObject.unit)) {
             this.component.unit = dotNetObject.unit;
         }
@@ -52,6 +53,20 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
         return await buildDotNetDistanceMeasurement2DViewModelMeasurement(this.component.measurement);
     }
     
+    async getSnappingOptions(): Promise<any> {
+        if (!hasValue(this.component.snappingOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        return await buildDotNetSnappingOptions(this.component.snappingOptions);
+    }
+    
+    async setSnappingOptions(value: any): Promise<void> {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        this.component.snappingOptions = await  buildJsSnappingOptions(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -71,10 +86,11 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-
-    if (hasValue(dotNetObject.geodesicDistanceThreshold)) {
-        properties.geodesicDistanceThreshold = dotNetObject.geodesicDistanceThreshold;
+    if (hasValue(dotNetObject.snappingOptions)) {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        properties.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
     }
+
     if (hasValue(dotNetObject.unit)) {
         properties.unit = dotNetObject.unit;
     }
@@ -89,7 +105,6 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     distanceMeasurement2DViewModelWrapper.viewId = viewId;
     distanceMeasurement2DViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModel;
     
@@ -107,6 +122,11 @@ export async function buildDotNetDistanceMeasurement2DViewModelGenerated(jsObjec
     if (hasValue(jsObject.measurement)) {
         let { buildDotNetDistanceMeasurement2DViewModelMeasurement } = await import('./distanceMeasurement2DViewModelMeasurement');
         dotNetDistanceMeasurement2DViewModel.measurement = await buildDotNetDistanceMeasurement2DViewModelMeasurement(jsObject.measurement);
+    }
+    
+    if (hasValue(jsObject.snappingOptions)) {
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        dotNetDistanceMeasurement2DViewModel.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
     }
     
     if (hasValue(jsObject.measurementLabel)) {

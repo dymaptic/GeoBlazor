@@ -20,10 +20,6 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         return this.layer;
     }
     
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
-
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.effect)) {
@@ -61,9 +57,6 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.opacity)) {
             this.layer.opacity = dotNetObject.opacity;
         }
-        if (hasValue(dotNetObject.persistenceEnabled)) {
-            this.layer.persistenceEnabled = dotNetObject.persistenceEnabled;
-        }
         if (hasValue(dotNetObject.refreshInterval)) {
             this.layer.refreshInterval = dotNetObject.refreshInterval;
         }
@@ -78,8 +71,12 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
         }
     }
     
-    async addResolvingPromise(promiseToLoad: any): Promise<any> {
-        return await this.layer.addResolvingPromise(promiseToLoad);
+    async addResolvingPromise(promiseToLoad: any): Promise<void> {
+        this.layer.addResolvingPromise(promiseToLoad);
+    }
+
+    async cancelLoad(): Promise<void> {
+        this.layer.cancelLoad();
     }
 
     async createLayerView(view: any,
@@ -110,8 +107,30 @@ export default class BaseTileLayerGenerated implements IPropertyWrapper {
             col);
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.layer.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.layer.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.layer.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.layer.load(options);
+    }
+
     async refresh(): Promise<void> {
         this.layer.refresh();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -223,9 +242,6 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             if (hasValue(dotNetObject.opacity)) {
                 properties.opacity = dotNetObject.opacity;
             }
-            if (hasValue(dotNetObject.persistenceEnabled)) {
-                properties.persistenceEnabled = dotNetObject.persistenceEnabled;
-            }
             if (hasValue(dotNetObject.refreshInterval)) {
                 properties.refreshInterval = dotNetObject.refreshInterval;
             }
@@ -280,11 +296,11 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             baseTileLayerWrapper.viewId = viewId;
             baseTileLayerWrapper.layerId = layerId;
     
-            let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
             jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
     
             try {
+                let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
                 let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
                 let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer);
 

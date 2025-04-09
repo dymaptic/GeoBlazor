@@ -23,7 +23,8 @@ public partial class UniqueValueClass : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="label">
-    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="symbol">
@@ -51,7 +52,9 @@ public partial class UniqueValueClass : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasslabel-property">GeoBlazor Docs</a>
+    ///     Describes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a> represented by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">symbol</a> in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -60,6 +63,7 @@ public partial class UniqueValueClass : MapComponent
     public string? Label { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclasssymbol-property">GeoBlazor Docs</a>
     ///     Defines the symbol used to represent features containing the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">values</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#symbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +73,7 @@ public partial class UniqueValueClass : MapComponent
     public Symbol? Symbol { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.UniqueValueClass.html#uniquevalueclassvalues-property">GeoBlazor Docs</a>
     ///     An array of unique values that should be rendered with the same symbol.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-UniqueValueClass.html#values">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

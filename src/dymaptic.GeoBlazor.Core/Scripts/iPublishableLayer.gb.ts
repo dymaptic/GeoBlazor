@@ -10,11 +10,11 @@ export async function buildJsIPublishableLayerGenerated(dotNetObject: any, layer
     let jsPublishableLayer: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPublishableLayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPublishableLayer;
     arcGisObjectRefs[dotNetObject.id] = jsPublishableLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(jsPublishableLayer);
         let { buildDotNetIPublishableLayer } = await import('./iPublishableLayer');
         let dnInstantiatedObject = await buildDotNetIPublishableLayer(jsPublishableLayer, layerId, viewId);
 

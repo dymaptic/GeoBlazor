@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html">GeoBlazor Docs</a>
-///     The camera defines the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">position</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">tilt</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">heading</a> of the point from which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView's</a> visible extent is observed.
+///     The camera defines the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">position</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">tilt</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">heading</a>
+///     of the point from which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView's</a> visible extent
+///     is observed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Camera : MapComponent
@@ -41,7 +43,8 @@ public partial class Camera : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tilt">
-    ///     The tilt of the camera in degrees with respect to the surface as projected down from the camera position.
+    ///     The tilt of the camera in degrees with respect to the surface as projected
+    ///     down from the camera position.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -66,6 +69,7 @@ public partial class Camera : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#camerafov-property">GeoBlazor Docs</a>
     ///     The diagonal field of view (fov) angle for the camera.
     ///     default 55
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#fov">ArcGIS Maps SDK for JavaScript</a>
@@ -76,6 +80,7 @@ public partial class Camera : MapComponent
     public double? Fov { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameraheading-property">GeoBlazor Docs</a>
     ///     The compass heading of the camera in degrees.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#heading">ArcGIS Maps SDK for JavaScript</a>
@@ -86,6 +91,7 @@ public partial class Camera : MapComponent
     public double? Heading { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameralayout-property">GeoBlazor Docs</a>
     ///     The layout defines which sub-region of the camera is rendered.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#layout">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -95,6 +101,7 @@ public partial class Camera : MapComponent
     public CameraLayout? Layout { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameraposition-property">GeoBlazor Docs</a>
     ///     The position of the camera defined by a map point.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#position">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -104,7 +111,9 @@ public partial class Camera : MapComponent
     public Point? Position { get; set; }
     
     /// <summary>
-    ///     The tilt of the camera in degrees with respect to the surface as projected down from the camera position.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Camera.html#cameratilt-property">GeoBlazor Docs</a>
+    ///     The tilt of the camera in degrees with respect to the surface as projected
+    ///     down from the camera position.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Camera.html#tilt">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

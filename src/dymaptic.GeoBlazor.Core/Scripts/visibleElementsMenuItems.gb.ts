@@ -15,6 +15,9 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
     if (hasValue(dotNetObject.deleteSelection)) {
         jsVisibleElementsMenuItems.deleteSelection = dotNetObject.deleteSelection;
     }
+    if (hasValue(dotNetObject.exportSelectionToCSV)) {
+        jsVisibleElementsMenuItems.exportSelectionToCSV = dotNetObject.exportSelectionToCSV;
+    }
     if (hasValue(dotNetObject.refreshData)) {
         jsVisibleElementsMenuItems.refreshData = dotNetObject.refreshData;
     }
@@ -31,8 +34,7 @@ export async function buildJsVisibleElementsMenuItemsGenerated(dotNetObject: any
         jsVisibleElementsMenuItems.zoomToSelection = dotNetObject.zoomToSelection;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsMenuItems);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsMenuItems;
     
     return jsVisibleElementsMenuItems;
@@ -52,6 +54,10 @@ export async function buildDotNetVisibleElementsMenuItemsGenerated(jsObject: any
     
     if (hasValue(jsObject.deleteSelection)) {
         dotNetVisibleElementsMenuItems.deleteSelection = jsObject.deleteSelection;
+    }
+    
+    if (hasValue(jsObject.exportSelectionToCSV)) {
+        dotNetVisibleElementsMenuItems.exportSelectionToCSV = jsObject.exportSelectionToCSV;
     }
     
     if (hasValue(jsObject.refreshData)) {

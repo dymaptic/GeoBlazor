@@ -5,12 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleFillSymbol.html">GeoBlazor Docs</a>
-///     SimpleFillSymbol is used for rendering 2D polygons in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+///     SimpleFillSymbol is used for rendering 2D polygons in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>
+///     or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
-    ISketchViewModelPolygonSymbol,
-    ISymbol2D,
+public partial class SimpleFillSymbol : ISymbol2D,
     ISymbolsFillSymbol
 {
 
@@ -31,12 +30,12 @@ public partial class SimpleFillSymbol : IRouteSymbolsPolygonBarriers,
     /// </param>
     /// <param name="color">
     ///     The color of the symbol.
-    ///     default black
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html#color">ArcGIS Maps SDK for JavaScript</a>
+    ///     default [0, 0, 0, 0.25] - black, semitransparent
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="style">
     ///     The fill style.
-    ///     default solid
+    ///     default "solid"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleFillSymbol.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SimpleFillSymbol(

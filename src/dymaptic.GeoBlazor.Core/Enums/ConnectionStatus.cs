@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ConnectionStatus.html">GeoBlazor Docs</a>
-///     Enumeration for ConnectionStatus
+///     Only valid when the list item represents a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html">StreamLayer</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html#connectionStatus">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ConnectionStatus>))]
 public enum ConnectionStatus

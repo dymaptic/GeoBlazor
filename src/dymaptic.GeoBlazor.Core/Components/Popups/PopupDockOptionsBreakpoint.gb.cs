@@ -46,6 +46,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptionsBreakpoint.html#popupdockoptionsbreakpointheight-property">GeoBlazor Docs</a>
     ///     The maximum height of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which the popup will be set to dockEnabled automatically.
     ///     default 544
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -56,6 +57,7 @@ public partial class PopupDockOptionsBreakpoint : MapComponent
     public int? Height { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptionsBreakpoint.html#popupdockoptionsbreakpointwidth-property">GeoBlazor Docs</a>
     ///     The maximum width of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which the popup will be set to dockEnabled automatically.
     ///     default 544
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>

@@ -4,8 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 
 /// <summary>
-///    The `ExpressionInfo` class references an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SupportExpressionInfo.html">GeoBlazor Docs</a>
+///     The `ExpressionInfo` class references an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following
+///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SupportExpressionInfo : MapComponent
 {
@@ -22,7 +24,8 @@ public partial class SupportExpressionInfo : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="expression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following
+    ///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="returnType">
@@ -50,7 +53,9 @@ public partial class SupportExpressionInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SupportExpressionInfo.html#supportexpressioninfoexpression-property">GeoBlazor Docs</a>
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following
+    ///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -59,6 +64,7 @@ public partial class SupportExpressionInfo : MapComponent
     public string? Expression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SupportExpressionInfo.html#supportexpressioninforeturntype-property">GeoBlazor Docs</a>
     ///     Indicates the return type of the Arcade expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html#returnType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -68,6 +74,7 @@ public partial class SupportExpressionInfo : MapComponent
     public SupportExpressionInfoReturnType? ReturnType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SupportExpressionInfo.html#supportexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     The title used to describe the value returned by the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-ExpressionInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -145,12 +152,12 @@ public partial class SupportExpressionInfo : MapComponent
         }
 
         // get the property value
-        SupportExpressionInfoReturnType? result = await JsComponentReference!.InvokeAsync<SupportExpressionInfoReturnType?>("getProperty",
-            CancellationTokenSource.Token, "returnType");
-        if (result is not null)
+        JsNullableEnumWrapper<SupportExpressionInfoReturnType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<SupportExpressionInfoReturnType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "returnType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             ReturnType = result;
+             ReturnType = (SupportExpressionInfoReturnType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(ReturnType)] = ReturnType;
         }

@@ -75,19 +75,22 @@ public partial record PortalGroup(
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupfetchcategoryschema-method">GeoBlazor Docs</a>
     ///     If present, fetches the group's category schema.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#fetchCategorySchema">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
+    public async Task<string[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
+        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "fetchCategorySchema", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -98,19 +101,22 @@ public partial record PortalGroup(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupfetchmembers-method">GeoBlazor Docs</a>
     ///     Fetches the current members of the group.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#fetchMembers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> FetchMembers(CancellationToken cancellationToken = default)
+    public async Task<Members?> FetchMembers(CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        Members? result = await JsComponentReference!.InvokeAsync<Members?>(
             "fetchMembers", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -121,7 +127,9 @@ public partial record PortalGroup(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupgetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the group.
+    ///     param width The desired image width.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#getThumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="width">
@@ -139,7 +147,12 @@ public partial record PortalGroup(
     }
     
     /// <summary>
-    ///     Executes a query against the group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a> objects that match the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalGroup.html#portalgroupqueryitems-method">GeoBlazor Docs</a>
+    ///     Executes a query against the group to return an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html">PortalItem</a> objects
+    ///     that match the input query.
+    ///     param queryParams The input query parameters defined in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">

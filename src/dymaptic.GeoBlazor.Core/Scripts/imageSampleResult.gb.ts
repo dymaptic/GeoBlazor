@@ -16,8 +16,7 @@ export async function buildJsImageSampleResultGenerated(dotNetObject: any, layer
 
     let jsImageSampleResult = new ImageSampleResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageSampleResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageSampleResult;
     arcGisObjectRefs[dotNetObject.id] = jsImageSampleResult;
     
     return jsImageSampleResult;

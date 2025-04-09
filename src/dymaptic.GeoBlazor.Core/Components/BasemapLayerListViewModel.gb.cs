@@ -22,6 +22,7 @@ public partial class BasemapLayerListViewModel
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodelbaseitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">baseLayers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#baseItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -31,6 +32,7 @@ public partial class BasemapLayerListViewModel
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodelbasemaptitle-property">GeoBlazor Docs</a>
     ///     The current basemap's title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#basemapTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -40,7 +42,9 @@ public partial class BasemapLayerListViewModel
     public string? BasemapTitle { get; set; }
     
     /// <summary>
-    ///     Whether to provide an indication if a layer is being published in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodelcheckpublishstatusenabled-property">GeoBlazor Docs</a>
+    ///     Whether to provide an indication if a layer is being published in the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html">BasemapLayerList</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#checkPublishStatusEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -50,6 +54,7 @@ public partial class BasemapLayerListViewModel
     public bool? CheckPublishStatusEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodellistmodedisabled-property">GeoBlazor Docs</a>
     ///     Specifies whether to ignore the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#listMode">listMode</a> property of the layers to display all layers.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#listModeDisabled">ArcGIS Maps SDK for JavaScript</a>
@@ -60,6 +65,7 @@ public partial class BasemapLayerListViewModel
     public bool? ListModeDisabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodelreferenceitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">referenceLayers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#referenceItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,8 +75,9 @@ public partial class BasemapLayerListViewModel
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -436,7 +443,11 @@ public partial class BasemapLayerListViewModel
 #region Public Methods
 
     /// <summary>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#event-trigger-action">trigger-action</a> event and executes the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapLayerListViewModel.html#basemaplayerlistviewmodeltriggeraction-method">GeoBlazor Docs</a>
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#event-trigger-action">trigger-action</a> event and executes
+    ///     the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     param action The action to execute.
+    ///     param item An item associated with the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList-BasemapLayerListViewModel.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="action">

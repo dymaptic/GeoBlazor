@@ -22,8 +22,7 @@ export async function buildJsCoordinateConversionVisibleElementsGenerated(dotNet
         jsCoordinateConversionVisibleElements.settingsButton = dotNetObject.settingsButton;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoordinateConversionVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoordinateConversionVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateConversionVisibleElements;
     
     return jsCoordinateConversionVisibleElements;

@@ -17,17 +17,17 @@ export async function buildJsImagePointParametersGenerated(dotNetObject: any, la
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
 
     if (hasValue(dotNetObject.is3D)) {
         properties.is3D = dotNetObject.is3D;
     }
-    if (hasValue(dotNetObject.pixelSize)) {
-        properties.pixelSize = dotNetObject.pixelSize;
-    }
     let jsImagePointParameters = new ImagePointParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImagePointParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImagePointParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImagePointParameters;
     
     return jsImagePointParameters;
@@ -51,12 +51,13 @@ export async function buildDotNetImagePointParametersGenerated(jsObject: any, la
         dotNetImagePointParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
-    if (hasValue(jsObject.is3D)) {
-        dotNetImagePointParameters.is3D = jsObject.is3D;
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImagePointParameters.pixelSize = buildDotNetPoint(jsObject.pixelSize);
     }
     
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetImagePointParameters.pixelSize = removeCircularReferences(jsObject.pixelSize);
+    if (hasValue(jsObject.is3D)) {
+        dotNetImagePointParameters.is3D = jsObject.is3D;
     }
     
     if (hasValue(jsObject.type)) {

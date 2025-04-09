@@ -4,11 +4,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageAreaParameters.html">GeoBlazor Docs</a>
-///     Input parameters used by  the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods to perform imagery area and perimeter mensuration.
+///     Input parameters used by  the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a>
+///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods to perform imagery
+///     area and perimeter mensuration.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MosaicRule">
-///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked when the measure is computed.
+///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked
+///     when the measure is computed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-BaseImageMeasureParameters.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="PixelSize">
@@ -29,18 +32,24 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default false
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html#is3D">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="LinearUnit">
+/// <param name="LengthUnitLinearUnit">
+///     Linear unit used for a perimeter calculation.
+///     default "meters"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringLinearUnit">
 ///     Linear unit used for a perimeter calculation.
 ///     default "meters"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ImageAreaParameters(
     MosaicRule MosaicRule,
-    PixelSize PixelSize,
+    Point PixelSize,
     ImageAreaUnit? AreaUnit = null,
     Geometry? Geometry = null,
     bool? Is3D = null,
-    LengthUnit? LinearUnit = null) : BaseImageMeasureParameters(
+    LengthUnit? LengthUnitLinearUnit = null,
+    string? StringLinearUnit = null) : BaseImageMeasureParameters(
     MosaicRule,
     PixelSize)
 {
@@ -69,6 +78,13 @@ public partial record ImageAreaParameters(
     ///     default "meters"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public LengthUnit? LinearUnit { get; set; } = LinearUnit;
+    public LengthUnit? LengthUnitLinearUnit { get; set; } = LengthUnitLinearUnit;
+    
+    /// <summary>
+    ///     Linear unit used for a perimeter calculation.
+    ///     default "meters"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public string? StringLinearUnit { get; set; } = StringLinearUnit;
     
 }

@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.FindImagesParameters.html">GeoBlazor Docs</a>
-///     Input parameter for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods.
+///     Input parameter for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="FromGeometry">
@@ -30,7 +31,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record FindImagesParameters(
     Point? FromGeometry = null,
     int? MaxCount = null,
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<string>? ObjectIds = null,
     Point? ToGeometry = null,
     string? Where = null)
 {
@@ -50,7 +51,7 @@ public partial record FindImagesParameters(
     ///     An array of ObjectIDs to filter images.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<string>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value that defines the target geometry's location.

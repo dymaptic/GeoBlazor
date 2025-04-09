@@ -19,16 +19,11 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     An array of successfully deleted features.
 /// </param>
 /// <param name="EditedFeatures">
-///     Edited features as result of editing a feature that participates in
-///     composite relationships in a database.
-///     This parameter is returned only when the <code>returnServiceEditsOption</code>
-///     parameter of the <a href="#applyEdits">applyEdits()</a> method is
-///     set to <code>original-and-current-features</code>. This parameter
-///     was added at 4.20.
+///     Edited features as result of editing a feature that participates in composite relationships in a database.
+///     This parameter is returned only when the <code>returnServiceEditsOption</code> parameter of the <a href="#applyEdits">applyEdits()</a> method is set to <code>original-and-current-features</code>. This parameter was added at 4.20.
 /// </param>
 /// <param name="ExceededTransferLimit">
-///     Returns <code>true</code> when the number of records returned exceeds
-///     the maximum number configured on the service.
+///     Returns <code>true</code> when the number of records returned exceeds the maximum number configured on the service.
 /// </param>
 /// <param name="UpdatedAttachments">
 ///     An array of successfully updated attachments.

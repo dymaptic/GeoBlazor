@@ -26,8 +26,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObjec
         jsLayerListKnowledgeGraphOptions.selectionMode = dotNetObject.selectionMode;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListKnowledgeGraphOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptions;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptions;
     
     return jsLayerListKnowledgeGraphOptions;
@@ -59,7 +58,7 @@ export async function buildDotNetLayerListKnowledgeGraphOptionsGenerated(jsObjec
     }
     
     if (hasValue(jsObject.selectionMode)) {
-        dotNetLayerListKnowledgeGraphOptions.selectionMode = jsObject.selectionMode;
+        dotNetLayerListKnowledgeGraphOptions.selectionMode = removeCircularReferences(jsObject.selectionMode);
     }
     
 

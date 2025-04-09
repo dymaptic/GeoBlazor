@@ -35,8 +35,6 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
@@ -49,7 +47,7 @@ public partial class WCSLayer : IBlendLayer,
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
@@ -81,17 +79,16 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="interpolation">
-    ///     Defines how to interpolate pixel values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
@@ -118,40 +115,45 @@ public partial class WCSLayer : IBlendLayer,
     /// </param>
     /// <param name="multidimensionalSubset">
     ///     Represents a multidimensional subset of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="noData">
+    ///     The specified noData value applies when neither the service metadata nor the coverage contains noData information.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#noData">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
     ///     The popup template for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="rasterFields">
-    ///     An array of raster fields in the layer that consists of service pixel value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeExtent">
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
     ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
@@ -163,7 +165,7 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -175,7 +177,7 @@ public partial class WCSLayer : IBlendLayer,
     public WCSLayer(
         string? url = null,
         IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null,
-        IImageryRenderer? renderer = null,
+        RasterStretchRenderer? renderer = null,
         double? opacity = null,
         string? title = null,
         PortalItem? portalItem = null,
@@ -195,10 +197,10 @@ public partial class WCSLayer : IBlendLayer,
         double? maxScale = null,
         double? minScale = null,
         MultidimensionalSubset? multidimensionalSubset = null,
+        double? noData = null,
         bool? persistenceEnabled = null,
         bool? popupEnabled = null,
         PopupTemplate? popupTemplate = null,
-        IReadOnlyList<Field>? rasterFields = null,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
         TimeInterval? timeOffset = null,
@@ -231,10 +233,10 @@ public partial class WCSLayer : IBlendLayer,
         MaxScale = maxScale;
         MinScale = minScale;
         MultidimensionalSubset = multidimensionalSubset;
+        NoData = noData;
         PersistenceEnabled = persistenceEnabled;
         PopupEnabled = popupEnabled;
         PopupTemplate = popupTemplate;
-        RasterFields = rasterFields;
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
         TimeOffset = timeOffset;
@@ -249,6 +251,7 @@ public partial class WCSLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -258,6 +261,7 @@ public partial class WCSLayer : IBlendLayer,
     public IReadOnlyList<long>? BandIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -268,6 +272,7 @@ public partial class WCSLayer : IBlendLayer,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -277,6 +282,7 @@ public partial class WCSLayer : IBlendLayer,
     public string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercoverageid-property">GeoBlazor Docs</a>
     ///     The coverage identifier for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#coverageId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -286,6 +292,7 @@ public partial class WCSLayer : IBlendLayer,
     public string? CoverageId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercoverageinfo-property">GeoBlazor Docs</a>
     ///     Coverage information retrieved from the WCS Server.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#coverageInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -295,6 +302,7 @@ public partial class WCSLayer : IBlendLayer,
     public CoverageInfo? CoverageInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercustomparameters-property">GeoBlazor Docs</a>
     ///     Use this property to append custom parameters to all WCS requests.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -304,9 +312,11 @@ public partial class WCSLayer : IBlendLayer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -314,8 +324,8 @@ public partial class WCSLayer : IBlendLayer,
     public Effect? Effect { get; set; }
     
     /// <summary>
-    ///     Defines how to interpolate pixel values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerinterpolation-property">GeoBlazor Docs</a>
+    ///     
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -323,6 +333,7 @@ public partial class WCSLayer : IBlendLayer,
     public Interpolation? Interpolation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -333,6 +344,7 @@ public partial class WCSLayer : IBlendLayer,
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -343,6 +355,7 @@ public partial class WCSLayer : IBlendLayer,
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -353,6 +366,7 @@ public partial class WCSLayer : IBlendLayer,
     public double? MinScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermultidimensionaldefinition-property">GeoBlazor Docs</a>
     ///     The multidimensional definitions associated with the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -362,8 +376,9 @@ public partial class WCSLayer : IBlendLayer,
     public IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayermultidimensionalsubset-property">GeoBlazor Docs</a>
     ///     Represents a multidimensional subset of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -371,9 +386,21 @@ public partial class WCSLayer : IBlendLayer,
     public MultidimensionalSubset? MultidimensionalSubset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayernodata-property">GeoBlazor Docs</a>
+    ///     The specified noData value applies when neither the service metadata nor the coverage contains noData information.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#noData">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? NoData { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -381,8 +408,9 @@ public partial class WCSLayer : IBlendLayer,
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -390,8 +418,9 @@ public partial class WCSLayer : IBlendLayer,
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -400,24 +429,17 @@ public partial class WCSLayer : IBlendLayer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerrasterfields-property">GeoBlazor Docs</a>
     ///     An array of raster fields in the layer that consists of service pixel value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Field>? RasterFields { get; set; }
+    [JsonInclude]
+    public IReadOnlyList<Field>? RasterFields { get; protected set; }
     
     /// <summary>
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IImageryRenderer? Renderer { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Raster information retrieved from tiled imagery data source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -427,9 +449,10 @@ public partial class WCSLayer : IBlendLayer,
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -437,9 +460,14 @@ public partial class WCSLayer : IBlendLayer,
     public TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeinfo-property">GeoBlazor Docs</a>
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -447,9 +475,10 @@ public partial class WCSLayer : IBlendLayer,
     public TimeInfo? TimeInfo { get; set; }
     
     /// <summary>
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayertimeoffset-property">GeoBlazor Docs</a>
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -457,6 +486,7 @@ public partial class WCSLayer : IBlendLayer,
     public TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the WCS service endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -467,6 +497,7 @@ public partial class WCSLayer : IBlendLayer,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayeruseviewtime-property">GeoBlazor Docs</a>
     ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
@@ -477,6 +508,7 @@ public partial class WCSLayer : IBlendLayer,
     public bool? UseViewTime { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerversion-property">GeoBlazor Docs</a>
     ///     The version of Web Coverage Service currently being used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -997,6 +1029,45 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the NoData property.
+    /// </summary>
+    public async Task<double?> GetNoData()
+    {
+        if (CoreJsModule is null)
+        {
+            return NoData;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return NoData;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "noData");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             NoData = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(NoData)] = NoData;
+        }
+         
+        return NoData;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the PopupEnabled property.
     /// </summary>
     public async Task<bool?> GetPopupEnabled()
@@ -1158,45 +1229,6 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Renderer property.
-    /// </summary>
-    public async Task<IImageryRenderer?> GetRenderer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Renderer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Renderer;
-        }
-
-        // get the property value
-        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
-            CancellationTokenSource.Token, "renderer");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Renderer = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
-        }
-         
-        return Renderer;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
     /// </summary>
     public async Task<RasterInfo?> GetServiceRasterInfo()
@@ -1265,11 +1297,6 @@ public partial class WCSLayer : IBlendLayer,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -1979,6 +2006,43 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the NoData property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetNoData(double? value)
+    {
+#pragma warning disable BL0005
+        NoData = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(NoData)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "noData", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
     /// <param name="value">
@@ -2103,91 +2167,6 @@ public partial class WCSLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the RasterFields property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRasterFields(IReadOnlyList<Field>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Field item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        RasterFields = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(RasterFields)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setRasterFields", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Renderer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRenderer(IImageryRenderer? value)
-    {
-#pragma warning disable BL0005
-        Renderer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Renderer)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
     }
     
     /// <summary>
@@ -2468,20 +2447,6 @@ public partial class WCSLayer : IBlendLayer,
         await SetMultidimensionalDefinition(join);
     }
     
-    /// <summary>
-    ///     Asynchronously adds elements to the RasterFields property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to add.
-    /// </param>
-    public async Task AddToRasterFields(params Field[] values)
-    {
-        Field[] join = RasterFields is null
-            ? values
-            : [..RasterFields, ..values];
-        await SetRasterFields(join);
-    }
-    
 #endregion
 
 #region Remove From Collection Methods
@@ -2518,28 +2483,14 @@ public partial class WCSLayer : IBlendLayer,
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
     }
     
-    
-    /// <summary>
-    ///     Asynchronously remove an element from the RasterFields property.
-    /// </summary>
-    /// <param name="values">
-    ///    The elements to remove.
-    /// </param>
-    public async Task RemoveFromRasterFields(params Field[] values)
-    {
-        if (RasterFields is null)
-        {
-            return;
-        }
-        await SetRasterFields(RasterFields.Except(values).ToArray());
-    }
-    
 #endregion
 
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a default popup template for the layer, populated with all the fields of the layer.
+    ///     param options Options for creating the popup template.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -2557,22 +2508,33 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerfetchpixels-method">GeoBlazor Docs</a>
     ///     Fetches pixels for a given extent.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
+    ///     param extent The extent of the image to export.
+    ///     param width The width of the image in pixels.
+    ///     param height The height of the image in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.interpolation Added at version 4.23. Defines how to interpolate pixel values.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
+    ///     The extent of the image to export.
     /// </param>
     /// <param name="width">
+    ///     The width of the image in pixels.
     /// </param>
     /// <param name="height">
+    ///     The height of the image in pixels.
     /// </param>
     /// <param name="options">
+    ///     The parameter options is an object with the following properties.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PixelData?> FetchPixels(Extent extent,
+    public async Task<string?> FetchPixels(Extent extent,
         int width,
         int height,
         ImageryTileMixinFetchPixelsOptions options,
@@ -2581,7 +2543,7 @@ public partial class WCSLayer : IBlendLayer,
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchPixels", 
             CancellationTokenSource.Token,
             extent,
@@ -2595,12 +2557,21 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayeridentify-method">GeoBlazor Docs</a>
     ///     Identify pixel values at a given location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#identify">ArcGIS Maps SDK for JavaScript</a>
+    ///     param point Input point that defines the location to be identified.
+    ///     param options Optional settings for the identify request. At version 4.25, the `transposedVariableName` was added to get pixel values from specific dimensional definitions if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> references a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service. Set the `transposedVariableName` and `multidimensionalDefinition` get pixel values for the specified dimensional definitions from a transposed multidimensional service. If `multidimensionalDefinition` is not specified, pixel values will be returned from all the dimensional slices.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">
+    ///     Input point that defines the location to be identified.
     /// </param>
     /// <param name="options">
+    ///     Optional settings for the identify request.
+    ///     At version 4.25, the <code>transposedVariableName</code> was added to get pixel values from specific dimensional definitions if the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a>
+    ///     references a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service.
+    ///     Set the <code>transposedVariableName</code> and <code>multidimensionalDefinition</code> get pixel values for the specified dimensional definitions from a transposed multidimensional service.
+    ///     If <code>multidimensionalDefinition</code> is not specified, pixel values will be returned from all the dimensional slices.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2622,6 +2593,56 @@ public partial class WCSLayer : IBlendLayer,
         await AbortManager.DisposeAbortController(cancellationToken);
         
         return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayersave-method">GeoBlazor Docs</a>
+    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>
+    ///     authenticated within the user's current session.
+    ///     param options Various options for saving the layer.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="options">
+    ///     Various options for saving the layer.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<PortalItem?> Save(WCSLayerSaveOptions options)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<PortalItem?>(
+            "save", 
+            CancellationTokenSource.Token,
+            options);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayersaveas-method">GeoBlazor Docs</a>
+    ///     Saves the layer to a new portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
+    ///     param portalItem The portal item to which the layer will be saved.
+    ///     param options Various options for saving the layer.
+    ///     param options.folder The portal folder where the layer's portal item will be saved.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="portalItem">
+    ///     The portal item to which the layer will be saved.
+    /// </param>
+    /// <param name="options">
+    ///     Various options for saving the layer.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<PortalItem?> SaveAs(PortalItem portalItem,
+        WCSLayerSaveAsOptions options)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<PortalItem?>(
+            "saveAs", 
+            CancellationTokenSource.Token,
+            portalItem,
+            options);
     }
     
 #endregion
@@ -2666,16 +2687,6 @@ public partial class WCSLayer : IBlendLayer,
                     PortalItem = portalItem;
                     LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                }
-                
-                return true;
-            case Field rasterFields:
-                RasterFields ??= [];
-                if (!RasterFields.Contains(rasterFields))
-                {
-                    RasterFields = [..RasterFields, rasterFields];
-                    LayerChanged = MapRendered;
-                    ModifiedParameters[nameof(RasterFields)] = RasterFields;
                 }
                 
                 return true;
@@ -2736,11 +2747,6 @@ public partial class WCSLayer : IBlendLayer,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
-            case Field rasterFields:
-                RasterFields = RasterFields?.Where(r => r != rasterFields).ToList();
-                LayerChanged = MapRendered;
-                ModifiedParameters[nameof(RasterFields)] = RasterFields;
-                return true;
             case TimeExtent _:
                 TimeExtent = null;
                 LayerChanged = MapRendered;
@@ -2778,13 +2784,6 @@ public partial class WCSLayer : IBlendLayer,
         }
         MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
         PopupTemplate?.ValidateRequiredGeneratedChildren();
-        if (RasterFields is not null)
-        {
-            foreach (Field child in RasterFields)
-            {
-                child.ValidateRequiredGeneratedChildren();
-            }
-        }
         TimeExtent?.ValidateRequiredGeneratedChildren();
         TimeInfo?.ValidateRequiredGeneratedChildren();
         TimeOffset?.ValidateRequiredGeneratedChildren();

@@ -50,7 +50,9 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     }
     
     async addData(planeData: any): Promise<void> {
-        this.component.addData(planeData);
+        let { buildJsPixelBlockAddDataPlaneData } = await import('./pixelBlockAddDataPlaneData');
+        let jsPlaneData = await buildJsPixelBlockAddDataPlaneData(planeData, this.layerId, this.viewId) as any;
+        this.component.addData(jsPlaneData);
     }
 
     async getAsRGBA(): Promise<any> {
@@ -131,7 +133,6 @@ export async function buildJsPixelBlockGenerated(dotNetObject: any, layerId: str
     pixelBlockWrapper.viewId = viewId;
     pixelBlockWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(pixelBlockWrapper);
     jsObjectRefs[dotNetObject.id] = pixelBlockWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlock;
     

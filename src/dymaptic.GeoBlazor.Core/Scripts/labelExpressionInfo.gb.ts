@@ -16,8 +16,7 @@ export async function buildJsLabelExpressionInfoGenerated(dotNetObject: any, lay
         jsLabelClassLabelExpressionInfo.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLabelClassLabelExpressionInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLabelClassLabelExpressionInfo;
     arcGisObjectRefs[dotNetObject.id] = jsLabelClassLabelExpressionInfo;
     
     return jsLabelClassLabelExpressionInfo;

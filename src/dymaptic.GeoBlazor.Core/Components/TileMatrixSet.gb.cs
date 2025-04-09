@@ -51,6 +51,7 @@ public partial class TileMatrixSet : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsetfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the TileMatrixSet.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class TileMatrixSet : MapComponent
     public Extent? FullExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class TileMatrixSet : MapComponent
     public TileInfo? TileInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TileMatrixSet.html#tilematrixsettilematrixsetid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the TileMatrixSet.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TileMatrixSet.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -196,7 +199,7 @@ public partial class TileMatrixSet : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "tileMatrixSetId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -336,7 +339,7 @@ public partial class TileMatrixSet : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "tileMatrixSetId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

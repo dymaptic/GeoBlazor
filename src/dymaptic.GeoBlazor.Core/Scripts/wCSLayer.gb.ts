@@ -19,10 +19,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         return this.layer;
     }
     
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
-
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.coverageInfo)) {
@@ -52,10 +48,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.rasterFields) && dotNetObject.rasterFields.length > 0) {
-            let { buildJsField } = await import('./field');
-            this.layer.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -107,6 +99,9 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.minScale)) {
             this.layer.minScale = dotNetObject.minScale;
         }
+        if (hasValue(dotNetObject.noData)) {
+            this.layer.noData = dotNetObject.noData;
+        }
         if (hasValue(dotNetObject.opacity)) {
             this.layer.opacity = dotNetObject.opacity;
         }
@@ -133,6 +128,10 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
     }
     
+    async cancelLoad(): Promise<void> {
+        this.layer.cancelLoad();
+    }
+
     async createLayerView(view: any,
         options: any): Promise<any> {
         return await this.layer.createLayerView(view,
@@ -167,6 +166,46 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         let jsOptions = await buildJsRasterIdentifyOptions(options, this.layerId, this.viewId) as any;
         return await this.layer.identify(jsPoint,
             jsOptions);
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.layer.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.layer.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.layer.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.layer.load(options);
+    }
+
+    async save(options: any): Promise<any> {
+        let result = await this.layer.save(options);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(result);
+    }
+
+    async saveAs(portalItem: any,
+        options: any): Promise<any> {
+        let { buildJsPortalItem } = await import('./portalItem');
+        let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
+        let { buildJsWCSLayerSaveAsOptions } = await import('./wCSLayerSaveAsOptions');
+        let jsOptions = await buildJsWCSLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
+        let result = await this.layer.saveAs(jsPortalItem,
+            jsOptions);
+        let { buildDotNetPortalItem } = await import('./portalItem');
+        return await buildDotNetPortalItem(result);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -278,20 +317,6 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         return this.layer.rasterFields!.map(i => buildDotNetField(i));
     }
     
-    async setRasterFields(value: any): Promise<void> {
-        let { buildJsField } = await import('./field');
-        this.layer.rasterFields = value.map(i => buildJsField(i)) as any;
-    }
-    
-    async getRasterInfo(): Promise<any> {
-        if (!hasValue(this.layer.rasterInfo)) {
-            return null;
-        }
-        
-        let { buildDotNetRasterInfo } = await import('./rasterInfo');
-        return await buildDotNetRasterInfo(this.layer.rasterInfo);
-    }
-    
     async getServiceRasterInfo(): Promise<any> {
         if (!hasValue(this.layer.serviceRasterInfo)) {
             return null;
@@ -401,10 +426,6 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.rasterFields) && dotNetObject.rasterFields.length > 0) {
-        let { buildJsField } = await import('./field');
-        properties.rasterFields = dotNetObject.rasterFields.map(i => buildJsField(i)) as any;
-    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
@@ -454,6 +475,9 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.minScale)) {
         properties.minScale = dotNetObject.minScale;
+    }
+    if (hasValue(dotNetObject.noData)) {
+        properties.noData = dotNetObject.noData;
     }
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
@@ -514,11 +538,11 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     wCSLayerWrapper.viewId = viewId;
     wCSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
         let { buildDotNetWCSLayer } = await import('./wCSLayer');
         let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer);
 
@@ -621,7 +645,7 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     }
     
     if (hasValue(jsObject.customParameters)) {
-        dotNetWCSLayer.customParameters = jsObject.customParameters;
+        dotNetWCSLayer.customParameters = removeCircularReferences(jsObject.customParameters);
     }
     
     if (hasValue(jsObject.interpolation)) {
@@ -646,6 +670,10 @@ export async function buildDotNetWCSLayerGenerated(jsObject: any): Promise<any> 
     
     if (hasValue(jsObject.minScale)) {
         dotNetWCSLayer.minScale = jsObject.minScale;
+    }
+    
+    if (hasValue(jsObject.noData)) {
+        dotNetWCSLayer.noData = jsObject.noData;
     }
     
     if (hasValue(jsObject.opacity)) {

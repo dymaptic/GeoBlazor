@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.BaseImageMeasureResult.html">GeoBlazor Docs</a>
-///     
+///     Base class for image service measure result.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-BaseImageMeasureResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Name">
 ///     Name of the raster dataset used in the area and height measurement.

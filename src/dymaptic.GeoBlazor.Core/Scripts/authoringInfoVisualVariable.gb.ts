@@ -49,8 +49,7 @@ export async function buildJsAuthoringInfoVisualVariableGenerated(dotNetObject: 
     }
     let jsAuthoringInfoVisualVariable = new AuthoringInfoVisualVariable(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoVisualVariable);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoVisualVariable;
     
     return jsAuthoringInfoVisualVariable;

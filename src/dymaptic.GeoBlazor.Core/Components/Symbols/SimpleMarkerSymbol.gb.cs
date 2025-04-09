@@ -5,19 +5,12 @@ namespace dymaptic.GeoBlazor.Core.Components.Symbols;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html">GeoBlazor Docs</a>
-///     SimpleMarkerSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> geometries with a simple shape and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#color">color</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+///     SimpleMarkerSymbol is used for rendering 2D <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">Point</a> geometries
+///     with a simple shape and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#color">color</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>
+///     or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
-    IRouteStopSymbolsFirst,
-    IRouteStopSymbolsLast,
-    IRouteStopSymbolsMiddle,
-    IRouteStopSymbolsUnlocated,
-    IRouteStopSymbolsWaypoint,
-    IRouteSymbolsDirectionPoints,
-    IRouteSymbolsPointBarriers,
-    ISketchViewModelPointSymbol,
-    ISymbol2D,
+public partial class SimpleMarkerSymbol : ISymbol2D,
     ISymbolsMarkerSymbol
 {
 
@@ -38,8 +31,8 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// </param>
     /// <param name="color">
     ///     The color of the symbol.
-    ///     default black
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html#color">ArcGIS Maps SDK for JavaScript</a>
+    ///     default [255, 255, 255, 0.25] - white, semitransparent
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#color">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="size">
     ///     The size of the marker in points.
@@ -48,7 +41,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     /// </param>
     /// <param name="style">
     ///     The marker style.
-    ///     default circle
+    ///     default "circle"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="angle">
@@ -97,6 +90,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html#simplemarkersymboloutline-property">GeoBlazor Docs</a>
     ///     The outline of the marker symbol.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#outline">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -106,6 +100,7 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
     public Outline? Outline { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Symbols.SimpleMarkerSymbol.html#simplemarkersymbolpath-property">GeoBlazor Docs</a>
     ///     The SVG path of the icon.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-SimpleMarkerSymbol.html#path">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -72,6 +72,9 @@ export async function buildJsPortalPropertiesGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.customBaseUrl)) {
         jsPortalProperties.customBaseUrl = dotNetObject.customBaseUrl;
     }
+    if (hasValue(dotNetObject.default3DBasemapQuery)) {
+        jsPortalProperties.default3DBasemapQuery = dotNetObject.default3DBasemapQuery;
+    }
     if (hasValue(dotNetObject.defaultBasemap)) {
         jsPortalProperties.defaultBasemap = dotNetObject.defaultBasemap;
     }
@@ -104,6 +107,9 @@ export async function buildJsPortalPropertiesGenerated(dotNetObject: any, layerI
     }
     if (hasValue(dotNetObject.hasCategorySchema)) {
         jsPortalProperties.hasCategorySchema = dotNetObject.hasCategorySchema;
+    }
+    if (hasValue(dotNetObject.hasClassificationSchema)) {
+        jsPortalProperties.hasClassificationSchema = dotNetObject.hasClassificationSchema;
     }
     if (hasValue(dotNetObject.helperServices)) {
         jsPortalProperties.helperServices = dotNetObject.helperServices;
@@ -189,6 +195,9 @@ export async function buildJsPortalPropertiesGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.use3dBasemaps)) {
         jsPortalProperties.use3dBasemaps = dotNetObject.use3dBasemaps;
     }
+    if (hasValue(dotNetObject.useDefault3dBasemap)) {
+        jsPortalProperties.useDefault3dBasemap = dotNetObject.useDefault3dBasemap;
+    }
     if (hasValue(dotNetObject.user)) {
         jsPortalProperties.user = dotNetObject.user;
     }
@@ -202,8 +211,7 @@ export async function buildJsPortalPropertiesGenerated(dotNetObject: any, layerI
         jsPortalProperties.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPortalProperties);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPortalProperties;
     arcGisObjectRefs[dotNetObject.id] = jsPortalProperties;
     
     return jsPortalProperties;
@@ -301,6 +309,10 @@ export async function buildDotNetPortalPropertiesGenerated(jsObject: any): Promi
         dotNetPortalProperties.customBaseUrl = removeCircularReferences(jsObject.customBaseUrl);
     }
     
+    if (hasValue(jsObject.default3DBasemapQuery)) {
+        dotNetPortalProperties.default3DBasemapQuery = removeCircularReferences(jsObject.default3DBasemapQuery);
+    }
+    
     if (hasValue(jsObject.defaultBasemap)) {
         dotNetPortalProperties.defaultBasemap = removeCircularReferences(jsObject.defaultBasemap);
     }
@@ -343,6 +355,10 @@ export async function buildDotNetPortalPropertiesGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.hasCategorySchema)) {
         dotNetPortalProperties.hasCategorySchema = removeCircularReferences(jsObject.hasCategorySchema);
+    }
+    
+    if (hasValue(jsObject.hasClassificationSchema)) {
+        dotNetPortalProperties.hasClassificationSchema = removeCircularReferences(jsObject.hasClassificationSchema);
     }
     
     if (hasValue(jsObject.helperServices)) {
@@ -451,6 +467,10 @@ export async function buildDotNetPortalPropertiesGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.use3dBasemaps)) {
         dotNetPortalProperties.use3dBasemaps = removeCircularReferences(jsObject.use3dBasemaps);
+    }
+    
+    if (hasValue(jsObject.useDefault3dBasemap)) {
+        dotNetPortalProperties.useDefault3dBasemap = removeCircularReferences(jsObject.useDefault3dBasemap);
     }
     
     if (hasValue(jsObject.user)) {

@@ -11,6 +11,7 @@ public partial interface IPortalLayer : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IPortalLayer.html#iportallayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

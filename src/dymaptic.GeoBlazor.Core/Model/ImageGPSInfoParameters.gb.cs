@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageGPSInfoParameters.html">GeoBlazor Docs</a>
-///     Image GPS info parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryGPSInfo">ImageryLayer.queryGPSInfo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryGPSInfo">imageService.queryGPSInfo()</a> methods.
+///     Image GPS info parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryGPSInfo">ImageryLayer.queryGPSInfo()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryGPSInfo">imageService.queryGPSInfo()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometry">
@@ -16,8 +17,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SpatialRelationship">
-///     For spatial queries, this parameter defines the spatial relationship to query image footprints in the layer against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#geometry">geometry</a>.
-///     default intersects
+///     For spatial queries, this parameter defines the spatial relationship to query image footprints
+///     in the layer against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#geometry">geometry</a>.
+///     default "intersects"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="TimeExtent">
@@ -30,7 +32,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ImageGPSInfoParameters(
     Geometry? Geometry = null,
-    IReadOnlyCollection<long>? ObjectIds = null,
+    IReadOnlyCollection<string>? ObjectIds = null,
     SpatialRelationship? SpatialRelationship = null,
     TimeExtent? TimeExtent = null,
     string? Where = null)
@@ -45,11 +47,12 @@ public partial record ImageGPSInfoParameters(
     ///     An array of ObjectIDs to be used to query images.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<long>? ObjectIds { get; set; } = ObjectIds;
+    public IReadOnlyCollection<string>? ObjectIds { get; set; } = ObjectIds;
     
     /// <summary>
-    ///     For spatial queries, this parameter defines the spatial relationship to query image footprints in the layer against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#geometry">geometry</a>.
-    ///     default intersects
+    ///     For spatial queries, this parameter defines the spatial relationship to query image footprints
+    ///     in the layer against the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#geometry">geometry</a>.
+    ///     default "intersects"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html#spatialRelationship">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;

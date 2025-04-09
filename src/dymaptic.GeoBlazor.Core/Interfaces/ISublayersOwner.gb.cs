@@ -11,6 +11,7 @@ public partial interface ISublayersOwner : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISublayersOwner.html#isublayersownersubtables-property">GeoBlazor Docs</a>
     ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#subtables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -57,14 +58,18 @@ public partial interface ISublayersOwner : IMapComponent
 #region Public Methods
 
     /// <summary>
-    ///     Returns a deep clone of a map service's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">sublayers</a> as defined by the service.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISublayersOwner.html#isublayersownercreateservicesublayers-method">GeoBlazor Docs</a>
+    ///     Returns a deep clone of a map service's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">sublayers</a> as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#createServiceSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     Task<Sublayer[]?> CreateServiceSublayers();
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ISublayersOwner.html#isublayersownerfindsublayerbyid-method">GeoBlazor Docs</a>
     ///     Returns the sublayer with the given layerId.
+    ///     param id The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#id">id</a> of the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="id">

@@ -19,8 +19,7 @@ export async function buildJsPopupDockOptionsGenerated(dotNetObject: any): Promi
         jsPopupDockOptions.position = dotNetObject.position;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPopupDockOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPopupDockOptions;
     arcGisObjectRefs[dotNetObject.id] = jsPopupDockOptions;
     
     return jsPopupDockOptions;

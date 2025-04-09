@@ -75,6 +75,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Indicates if the number of features returned by the query operation can be controlled.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SupportsReturnMesh">
+/// </param>
 /// <param name="SupportsSqlExpression">
 ///     Indicates if the query operation supports SQL expressions.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
@@ -86,6 +88,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="SupportsStatistics">
 ///     Indicates if the layer supports field-based statistical functions.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="SupportsTrueCurve">
 /// </param>
 public partial record SceneLayerCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -123,8 +127,12 @@ public partial record SceneLayerCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsResultType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsReturnMesh = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsSqlExpression = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStandardizedQueriesOnly = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? SupportsStatistics = null);
+    bool? SupportsStatistics = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsTrueCurve = null);

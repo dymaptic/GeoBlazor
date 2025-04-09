@@ -22,6 +22,7 @@ public partial class LayerListWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetcataloglayerlist-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CatalogLayerList.html">CatalogLayerList</a> widget instance that displays a catalog layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html#dynamicGroupLayer">dynamic group layer</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">ArcGIS Maps SDK for JavaScript</a>
@@ -32,6 +33,7 @@ public partial class LayerListWidget
     public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetcatalogoptions-property">GeoBlazor Docs</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -42,6 +44,7 @@ public partial class LayerListWidget
     public LayerListCatalogOptions? CatalogOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetcollapsed-property">GeoBlazor Docs</a>
     ///     Indicates whether the widget is collapsed.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
@@ -52,6 +55,7 @@ public partial class LayerListWidget
     public bool? Collapsed { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetdragenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -62,6 +66,7 @@ public partial class LayerListWidget
     public bool? DragEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetfilterplaceholder-property">GeoBlazor Docs</a>
     ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#visibleElements">visibleElements.filter</a> is true.
     ///     default ""
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
@@ -72,6 +77,36 @@ public partial class LayerListWidget
     public string? FilterPlaceholder { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetfilterpredicate-property">GeoBlazor Docs</a>
+    ///     Specifies a function to handle filtering <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#filterPredicate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public LayerListFilterPredicate? FilterPredicate { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="FilterPredicate"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsFilterPredicate(ListItem item)
+    {
+        if (FilterPredicate is not null)
+        {
+            await FilterPredicate.Invoke(item);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="FilterPredicate" /> function was registered.
+    /// </summary>
+    public bool HasFilterPredicate => FilterPredicate is not null;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetfiltertext-property">GeoBlazor Docs</a>
     ///     The value of the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#visibleElements">visibleElements.filter</a> is true.
     ///     default ""
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#filterText">ArcGIS Maps SDK for JavaScript</a>
@@ -82,6 +117,7 @@ public partial class LayerListWidget
     public string? FilterText { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetheadinglevel-property">GeoBlazor Docs</a>
     ///     Indicates the heading level to use for the heading of the widget.
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
@@ -92,6 +128,7 @@ public partial class LayerListWidget
     public double? HeadingLevel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetknowledgegraphoptions-property">GeoBlazor Docs</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KnowledgeGraphLayer.html">KnowledgeGraphLayer</a> specific properties.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#knowledgeGraphOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -102,6 +139,7 @@ public partial class LayerListWidget
     public LayerListKnowledgeGraphOptions? KnowledgeGraphOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetmindragenableditems-property">GeoBlazor Docs</a>
     ///     The minimum number of list items required to enable drag and drop reordering with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#dragEnabled">dragEnabled</a>.
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#minDragEnabledItems">ArcGIS Maps SDK for JavaScript</a>
@@ -112,6 +150,7 @@ public partial class LayerListWidget
     public double? MinDragEnabledItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetminfilteritems-property">GeoBlazor Docs</a>
     ///     The minimum number of list items required to display the visibleElements.filter input box.
     ///     default 10
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
@@ -122,6 +161,19 @@ public partial class LayerListWidget
     public double? MinFilterItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetopenedlayers-property">GeoBlazor Docs</a>
+    ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>s that are opened
+    ///     in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">catalogLayerList</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#tableList">tableList</a> flow item.
+    ///     default []
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#openedLayers">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [JsonInclude]
+    public IReadOnlyList<Layer>? OpenedLayers { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetoperationalitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing operational layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#operationalItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -131,7 +183,9 @@ public partial class LayerListWidget
     public IReadOnlyList<ListItem>? OperationalItems { get; protected set; }
     
     /// <summary>
-    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing operational layers selected by the user.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetselecteditems-property">GeoBlazor Docs</a>
+    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing operational layers
+    ///     selected by the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -140,6 +194,7 @@ public partial class LayerListWidget
     public IReadOnlyList<ListItem>? SelectedItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetselectionmode-property">GeoBlazor Docs</a>
     ///     Specifies the selection mode.
     ///     default "none"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
@@ -150,6 +205,7 @@ public partial class LayerListWidget
     public SelectionMode? SelectionMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgettablelist-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-TableList.html">TableList</a> widget instance that displays the tables associated with a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-KnowledgeGraphLayer.html">KnowledgeGraphLayer</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#tableList">ArcGIS Maps SDK for JavaScript</a>
@@ -160,6 +216,7 @@ public partial class LayerListWidget
     public ITableListWidget? TableList { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -169,6 +226,7 @@ public partial class LayerListWidget
     public LayerListViewModel? ViewModel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetvisibilityappearance-property">GeoBlazor Docs</a>
     ///     Determines the icons used to indicate visibility.
     ///     default "default"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
@@ -179,6 +237,7 @@ public partial class LayerListWidget
     public VisibilityAppearance? VisibilityAppearance { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -579,6 +638,45 @@ public partial class LayerListWidget
         }
          
         return MinFilterItems;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OpenedLayers property.
+    /// </summary>
+    public async Task<IReadOnlyList<Layer>?> GetOpenedLayers()
+    {
+        if (CoreJsModule is null)
+        {
+            return OpenedLayers;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return OpenedLayers;
+        }
+
+        IReadOnlyList<Layer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<Layer>?>(
+            "getOpenedLayers", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OpenedLayers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OpenedLayers)] = OpenedLayers;
+        }
+        
+        return OpenedLayers;
     }
     
     /// <summary>
@@ -1451,7 +1549,11 @@ public partial class LayerListWidget
 #region Public Methods
 
     /// <summary>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#event-trigger-action">trigger-action</a> event and executes the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.LayerListWidget.html#layerlistwidgettriggeraction-method">GeoBlazor Docs</a>
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#event-trigger-action">trigger-action</a> event and executes
+    ///     the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     param action The action to execute.
+    ///     param item An item associated with the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="action">

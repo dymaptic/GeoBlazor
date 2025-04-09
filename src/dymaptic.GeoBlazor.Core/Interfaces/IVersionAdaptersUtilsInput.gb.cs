@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IVersionAdaptersUtilsInput.html">GeoBlazor Docs</a>
-///     Interface for types FeatureLayer, Network, UtilityNetwork
+///     Used to generate an instance of VersionsAdapter.
+///     param input Input used to generate VersionAdapter.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-versionManagement-versionAdapters-utils.html#createVersionAdapter">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial interface IVersionAdaptersUtilsInput : IMapComponent
 {

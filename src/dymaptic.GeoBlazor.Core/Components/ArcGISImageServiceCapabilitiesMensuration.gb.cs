@@ -75,6 +75,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupports3d-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports 3D mensuration operations.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +85,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? Supports3D { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportsareaandperimeter-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports area and perimeter mensuration operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,6 +95,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? SupportsAreaAndPerimeter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportsdistanceandangle-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports distance and angle mensuration operation.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,6 +105,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? SupportsDistanceAndAngle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportsheightfrombaseandtop-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports a mensuration operation for calculating a height of a ground feature by measuring from the base of the object to the top of the object.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -111,6 +115,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? SupportsHeightFromBaseAndTop { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportsheightfrombaseandtopshadow-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports a mensuration operation for calculating a height of a feature by measuring from the base of the object to the top of the object's shadow on the ground.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -120,6 +125,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? SupportsHeightFromBaseAndTopShadow { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportsheightfromtopandtopshadow-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports mensuration operation for calculating a height from the top of the object to the top of the objects's shadow on the ground.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -129,6 +135,7 @@ public partial class ArcGISImageServiceCapabilitiesMensuration : MapComponent
     public bool? SupportsHeightFromTopAndTopShadow { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ArcGISImageServiceCapabilitiesMensuration.html#arcgisimageservicecapabilitiesmensurationsupportspointorcentroid-property">GeoBlazor Docs</a>
     ///     Indicates if the layer supports point or centroid mensuration operations.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -39,12 +39,32 @@ export default class GroundGenerated implements IPropertyWrapper {
         }
     }
     
+    async cancelLoad(): Promise<void> {
+        this.component.cancelLoad();
+    }
+
     async createElevationSampler(extent: any,
         options: any): Promise<any> {
         let { buildJsExtent } = await import('./extent');
         let jsExtent = buildJsExtent(extent) as any;
         return await this.component.createElevationSampler(jsExtent,
             options);
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.component.load(options);
     }
 
     async loadAll(): Promise<any> {
@@ -55,19 +75,27 @@ export default class GroundGenerated implements IPropertyWrapper {
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-        let jsGeometry: any; 
-        if (!Pro) return null;
-            try {
-            // @ts-ignore GeoBlazor Pro only
-            let { buildJsGeometry } = await import('./geometry');
-            // @ts-ignore GeoBlazor Pro only
-            jsGeometry = buildJsGeometry(geometry) as any;
-        } catch (e) {
-            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+        let jsGeometry: any;
+        if (!Pro) {
             jsGeometry = null;
+        } else {
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let { buildJsGeometry } = await import('./geometry');
+                jsGeometry = buildJsGeometry(geometry) as any;
+            } catch (e) {
+                console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+                jsGeometry = null;
+            }
         }
         return await this.component.queryElevation(jsGeometry,
             options);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -154,7 +182,6 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     groundWrapper.viewId = viewId;
     groundWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(groundWrapper);
     jsObjectRefs[dotNetObject.id] = groundWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGround;
     

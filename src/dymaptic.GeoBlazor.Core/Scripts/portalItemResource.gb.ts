@@ -91,7 +91,6 @@ export async function buildJsPortalItemResourceGenerated(dotNetObject: any, laye
     portalItemResourceWrapper.viewId = viewId;
     portalItemResourceWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(portalItemResourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalItemResourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalItemResource;
     

@@ -4,11 +4,14 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageDistanceParameters.html">GeoBlazor Docs</a>
-///     Input parameters used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureDistanceAndAngle">ImageryLayer.measureDistanceAndAngle()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureDistanceAndAngle">imageService.measureDistanceAndAngle()</a> methods to perform imagery distance and angle mensuration.
+///     Input parameters used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureDistanceAndAngle">ImageryLayer.measureDistanceAndAngle()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureDistanceAndAngle">imageService.measureDistanceAndAngle()</a> methods to perform imagery
+///     distance and angle mensuration.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageDistanceParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MosaicRule">
-///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked when the measure is computed.
+///     Specifies the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-MosaicRule.html">mosaic rule</a> on how individual images should be mosaicked
+///     when the measure is computed.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-BaseImageMeasureParameters.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="PixelSize">
@@ -40,7 +43,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record ImageDistanceParameters(
     MosaicRule MosaicRule,
-    PixelSize PixelSize,
+    Point PixelSize,
     AngularUnit? AngularUnit = null,
     Point? FromGeometry = null,
     bool? Is3D = null,

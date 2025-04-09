@@ -78,12 +78,6 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -220,11 +214,11 @@ export async function buildJsLegendWidgetGenerated(dotNetObject: any, layerId: s
     legendWidgetWrapper.viewId = viewId;
     legendWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = legendWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLegend;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(legendWidgetWrapper);
         let { buildDotNetLegendWidget } = await import('./legendWidget');
         let dnInstantiatedObject = await buildDotNetLegendWidget(jsLegend);
 

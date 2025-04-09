@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.html">GeoBlazor Docs</a>
-///     An `AttachmentsContent` popup element represents an attachment element associated with a feature.
+///     An `AttachmentsContent` popup element represents an attachment element associated with a
+///     feature.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AttachmentsPopupContent
@@ -35,20 +36,40 @@ public partial class AttachmentsPopupContent
     ///     default "auto"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html#displayType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="orderByFields">
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-AttachmentsOrderByInfo.html">AttachmentsOrderByInfo</a> indicating the display order for the attachments, and whether they should be sorted in ascending or descending order.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public AttachmentsPopupContent(
         string? title = null,
         string? description = null,
-        AttachmentsPopupContentDisplayType? displayType = null)
+        AttachmentsPopupContentDisplayType? displayType = null,
+        IReadOnlyList<AttachmentsOrderByInfo>? orderByFields = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Title = title;
         Description = description;
         DisplayType = displayType;
+        OrderByFields = orderByFields;
 #pragma warning restore BL0005    
     }
     
     
+#region Public Properties / Blazor Parameters
+
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.AttachmentsPopupContent.html#attachmentspopupcontentorderbyfields-property">GeoBlazor Docs</a>
+    ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-AttachmentsOrderByInfo.html">AttachmentsOrderByInfo</a> indicating the display order for the attachments, and whether they should be sorted in ascending or descending order.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-AttachmentsContent.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<AttachmentsOrderByInfo>? OrderByFields { get; set; }
+    
+#endregion
+
 #region Property Getters
 
     /// <summary>
@@ -127,6 +148,45 @@ public partial class AttachmentsPopupContent
         }
          
         return DisplayType;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the OrderByFields property.
+    /// </summary>
+    public async Task<IReadOnlyList<AttachmentsOrderByInfo>?> GetOrderByFields()
+    {
+        if (CoreJsModule is null)
+        {
+            return OrderByFields;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return OrderByFields;
+        }
+
+        IReadOnlyList<AttachmentsOrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<AttachmentsOrderByInfo>?>(
+            "getOrderByFields", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            OrderByFields = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+        }
+        
+        return OrderByFields;
     }
     
     /// <summary>
@@ -247,6 +307,54 @@ public partial class AttachmentsPopupContent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the OrderByFields property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetOrderByFields(IReadOnlyList<AttachmentsOrderByInfo>? value)
+    {
+        if (value is not null)
+        {
+            foreach (AttachmentsOrderByInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
+#pragma warning disable BL0005
+        OrderByFields = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(OrderByFields)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "orderByFields", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
     /// <param name="value">
@@ -285,4 +393,92 @@ public partial class AttachmentsPopupContent
     
 #endregion
 
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the OrderByFields property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToOrderByFields(params AttachmentsOrderByInfo[] values)
+    {
+        AttachmentsOrderByInfo[] join = OrderByFields is null
+            ? values
+            : [..OrderByFields, ..values];
+        await SetOrderByFields(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the OrderByFields property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromOrderByFields(params AttachmentsOrderByInfo[] values)
+    {
+        if (OrderByFields is null)
+        {
+            return;
+        }
+        await SetOrderByFields(OrderByFields.Except(values).ToArray());
+    }
+    
+#endregion
+
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AttachmentsOrderByInfo orderByFields:
+                OrderByFields ??= [];
+                if (!OrderByFields.Contains(orderByFields))
+                {
+                    OrderByFields = [..OrderByFields, orderByFields];
+                    
+                    ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case AttachmentsOrderByInfo orderByFields:
+                OrderByFields = OrderByFields?.Where(o => o != orderByFields).ToList();
+                
+                ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        if (OrderByFields is not null)
+        {
+            foreach (AttachmentsOrderByInfo child in OrderByFields)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

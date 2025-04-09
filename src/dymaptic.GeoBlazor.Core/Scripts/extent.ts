@@ -24,7 +24,7 @@ export function buildJsExtent(dotNetExtent, currentSpatialReference: any | null 
     return extent;
 }
 
-export function buildDotNetExtent(extent: Extent): DotNetExtent | null {
+export function buildDotNetExtent(extent: Extent | null | undefined): DotNetExtent | null {
     if (extent === undefined || extent === null) return null;
     return {
         type: 'extent',

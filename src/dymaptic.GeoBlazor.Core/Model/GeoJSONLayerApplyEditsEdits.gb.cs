@@ -14,7 +14,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="ObjectCollectionDeleteFeatures">
+/// <param name="StringCollectionDeleteFeatures">
 ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -25,7 +25,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record GeoJSONLayerApplyEditsEdits(
     IReadOnlyCollection<Graphic>? AddFeatures = null,
     IReadOnlyCollection<Graphic>? GraphicCollectionDeleteFeatures = null,
-    IReadOnlyCollection<object>? ObjectCollectionDeleteFeatures = null,
+    IReadOnlyCollection<string>? StringCollectionDeleteFeatures = null,
     IReadOnlyCollection<Graphic>? UpdateFeatures = null)
 {
     /// <summary>
@@ -44,7 +44,7 @@ public partial record GeoJSONLayerApplyEditsEdits(
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<object>? ObjectCollectionDeleteFeatures { get; set; } = ObjectCollectionDeleteFeatures;
+    public IReadOnlyCollection<string>? StringCollectionDeleteFeatures { get; set; } = StringCollectionDeleteFeatures;
     
     /// <summary>
     ///     An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be updated.

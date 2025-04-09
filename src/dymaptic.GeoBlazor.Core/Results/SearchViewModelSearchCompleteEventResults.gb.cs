@@ -17,6 +17,6 @@ public partial record SearchViewModelSearchCompleteEventResults(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<SearchResult>? Results = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<object>? Source = null,
+    IReadOnlyCollection<string>? Source = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? SourceIndex = null);

@@ -17,6 +17,10 @@ export async function buildJsImageDistanceParametersGenerated(dotNetObject: any,
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
         properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
@@ -31,13 +35,9 @@ export async function buildJsImageDistanceParametersGenerated(dotNetObject: any,
     if (hasValue(dotNetObject.linearUnit)) {
         properties.linearUnit = dotNetObject.linearUnit;
     }
-    if (hasValue(dotNetObject.pixelSize)) {
-        properties.pixelSize = dotNetObject.pixelSize;
-    }
     let jsImageDistanceParameters = new ImageDistanceParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageDistanceParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageDistanceParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageDistanceParameters;
     
     return jsImageDistanceParameters;
@@ -61,6 +61,11 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any,
         dotNetImageDistanceParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageDistanceParameters.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
+    
     if (hasValue(jsObject.toGeometry)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetImageDistanceParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
@@ -76,10 +81,6 @@ export async function buildDotNetImageDistanceParametersGenerated(jsObject: any,
     
     if (hasValue(jsObject.linearUnit)) {
         dotNetImageDistanceParameters.linearUnit = removeCircularReferences(jsObject.linearUnit);
-    }
-    
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetImageDistanceParameters.pixelSize = removeCircularReferences(jsObject.pixelSize);
     }
     
     if (hasValue(jsObject.type)) {

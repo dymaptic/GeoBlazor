@@ -21,8 +21,7 @@ export async function buildJsArcGISImageServiceCapabilitiesGenerated(dotNetObjec
         jsArcGISImageServiceCapabilities.query = dotNetObject.query;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageServiceCapabilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilities;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilities;
     
     return jsArcGISImageServiceCapabilities;

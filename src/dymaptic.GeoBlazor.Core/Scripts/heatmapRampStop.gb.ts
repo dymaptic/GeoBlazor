@@ -16,15 +16,11 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.label)) {
         jsHeatmapRampStop.label = dotNetObject.label;
     }
-    if (hasValue(dotNetObject.offset)) {
-        jsHeatmapRampStop.offset = dotNetObject.offset;
-    }
     if (hasValue(dotNetObject.ratio)) {
         jsHeatmapRampStop.ratio = dotNetObject.ratio;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
     
     return jsHeatmapRampStop;
@@ -45,10 +41,6 @@ export async function buildDotNetHeatmapRampStopGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.label)) {
         dotNetHeatmapRampStop.label = jsObject.label;
-    }
-    
-    if (hasValue(jsObject.offset)) {
-        dotNetHeatmapRampStop.offset = jsObject.offset;
     }
     
     if (hasValue(jsObject.ratio)) {

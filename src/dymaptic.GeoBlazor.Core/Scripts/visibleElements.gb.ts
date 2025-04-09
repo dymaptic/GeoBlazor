@@ -49,8 +49,7 @@ export async function buildJsVisibleElementsGenerated(dotNetObject: any): Promis
         jsVisibleElements.totalLength = dotNetObject.totalLength;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElements;
     
     return jsVisibleElements;

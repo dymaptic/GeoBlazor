@@ -21,6 +21,10 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.snappingOptions)) {
+            let { buildJsSnappingOptions } = await import('./snappingOptions');
+            this.widget.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, this.layerId, this.viewId) as any;
+        }
 
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
@@ -58,12 +62,6 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -87,6 +85,20 @@ export default class DistanceMeasurement2DWidgetGenerated implements IPropertyWr
     }
 
     // region properties
+    
+    async getSnappingOptions(): Promise<any> {
+        if (!hasValue(this.widget.snappingOptions)) {
+            return null;
+        }
+        
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        return await buildDotNetSnappingOptions(this.widget.snappingOptions);
+    }
+    
+    async setSnappingOptions(value: any): Promise<void> {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        this.widget.snappingOptions = await  buildJsSnappingOptions(value, this.layerId, this.viewId);
+    }
     
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
@@ -121,6 +133,10 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
+    if (hasValue(dotNetObject.snappingOptions)) {
+        let { buildJsSnappingOptions } = await import('./snappingOptions');
+        properties.snappingOptions = await buildJsSnappingOptions(dotNetObject.snappingOptions, layerId, viewId) as any;
+    }
     if (hasValue(dotNetObject.viewModel)) {
         let { buildJsDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');
         properties.viewModel = await buildJsDistanceMeasurement2DViewModel(dotNetObject.viewModel, layerId, viewId) as any;
@@ -152,11 +168,11 @@ export async function buildJsDistanceMeasurement2DWidgetGenerated(dotNetObject: 
     distanceMeasurement2DWidgetWrapper.viewId = viewId;
     distanceMeasurement2DWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2D;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DWidgetWrapper);
         let { buildDotNetDistanceMeasurement2DWidget } = await import('./distanceMeasurement2DWidget');
         let dnInstantiatedObject = await buildDotNetDistanceMeasurement2DWidget(jsDistanceMeasurement2D);
 
@@ -177,6 +193,11 @@ export async function buildDotNetDistanceMeasurement2DWidgetGenerated(jsObject: 
     }
     
     let dotNetDistanceMeasurement2DWidget: any = {};
+    
+    if (hasValue(jsObject.snappingOptions)) {
+        let { buildDotNetSnappingOptions } = await import('./snappingOptions');
+        dotNetDistanceMeasurement2DWidget.snappingOptions = await buildDotNetSnappingOptions(jsObject.snappingOptions);
+    }
     
     if (hasValue(jsObject.viewModel)) {
         let { buildDotNetDistanceMeasurement2DViewModel } = await import('./distanceMeasurement2DViewModel');

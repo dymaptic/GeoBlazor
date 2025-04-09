@@ -87,6 +87,7 @@ public partial class WFSFeatureType : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypedefaultspatialreference-property">GeoBlazor Docs</a>
     ///     the default spatialReference wkid used when not explicitely specified in the GetFeature call.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +97,7 @@ public partial class WFSFeatureType : MapComponent
     public double? DefaultSpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypedescription-property">GeoBlazor Docs</a>
     ///     The description of the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +107,7 @@ public partial class WFSFeatureType : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypeextent-property">GeoBlazor Docs</a>
     ///     The extent of the features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +117,7 @@ public partial class WFSFeatureType : MapComponent
     public Extent? Extent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypename-property">GeoBlazor Docs</a>
     ///     The name of the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +127,7 @@ public partial class WFSFeatureType : MapComponent
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypenamespaceprefix-property">GeoBlazor Docs</a>
     ///     The prefix of the namespace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +137,7 @@ public partial class WFSFeatureType : MapComponent
     public string? NamespacePrefix { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypenamespaceuri-property">GeoBlazor Docs</a>
     ///     The namespaceUri of the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +147,7 @@ public partial class WFSFeatureType : MapComponent
     public string? NamespaceUri { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypesupportedspatialreferences-property">GeoBlazor Docs</a>
     ///     An array of spatialReference wkids that are supported on the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +157,7 @@ public partial class WFSFeatureType : MapComponent
     public IReadOnlyList<double>? SupportedSpatialReferences { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypetitle-property">GeoBlazor Docs</a>
     ///     The title of the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +167,7 @@ public partial class WFSFeatureType : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSFeatureType.html#wfsfeaturetypetypename-property">GeoBlazor Docs</a>
     ///     The type name of the featureType.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSFeatureType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

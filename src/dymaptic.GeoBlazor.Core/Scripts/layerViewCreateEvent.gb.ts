@@ -17,8 +17,7 @@ export async function buildJsLayerViewCreateEventGenerated(dotNetObject: any, la
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerLayerviewCreateEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewCreateEvent;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewCreateEvent;
     
     return jsFeatureLayerLayerviewCreateEvent;

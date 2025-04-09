@@ -19,10 +19,6 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         return this.layer;
     }
     
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
-
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.effect)) {
@@ -83,6 +79,10 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
         this.layer.addMany(jsGraphics);
     }
 
+    async cancelLoad(): Promise<void> {
+        this.layer.cancelLoad();
+    }
+
     async createLayerView(view: any,
         options: any): Promise<any> {
         return await this.layer.createLayerView(view,
@@ -91,6 +91,28 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
 
     async fetchAttributionData(): Promise<any> {
         return await this.layer.fetchAttributionData();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.layer.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.layer.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.layer.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.layer.load(options);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -216,9 +238,6 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     if (hasValue(dotNetObject.opacity)) {
         properties.opacity = dotNetObject.opacity;
     }
-    if (hasValue(dotNetObject.persistenceEnabled)) {
-        properties.persistenceEnabled = dotNetObject.persistenceEnabled;
-    }
     if (hasValue(dotNetObject.screenSizePerspectiveEnabled)) {
         properties.screenSizePerspectiveEnabled = dotNetObject.screenSizePerspectiveEnabled;
     }
@@ -263,11 +282,11 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     graphicsLayerWrapper.viewId = viewId;
     graphicsLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
         let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
         let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
 

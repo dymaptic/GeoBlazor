@@ -11,6 +11,7 @@ public partial interface IFeatureEffectLayer : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureEffectLayer.html#ifeatureeffectlayerfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

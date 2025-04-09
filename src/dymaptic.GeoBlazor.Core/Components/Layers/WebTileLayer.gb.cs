@@ -40,9 +40,10 @@ public partial class WebTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fullExtent">
     ///     The full extent of the layer.
@@ -72,13 +73,13 @@ public partial class WebTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -102,7 +103,7 @@ public partial class WebTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#urlTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -160,9 +161,11 @@ public partial class WebTileLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -170,8 +173,9 @@ public partial class WebTileLayer : IBlendLayer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -179,8 +183,9 @@ public partial class WebTileLayer : IBlendLayer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
-    ///     default Web Mercator Auxiliary Sphere (wkid: 3857)
+    ///     default SpatialReference.WebMercator // wkid: 3857
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -189,6 +194,7 @@ public partial class WebTileLayer : IBlendLayer,
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -198,6 +204,7 @@ public partial class WebTileLayer : IBlendLayer,
     public TileInfo? TileInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayertileservers-property">GeoBlazor Docs</a>
     ///     The list of tile server urls for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#tileServers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1121,7 +1128,13 @@ public partial class WebTileLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerfetchtile-method">GeoBlazor Docs</a>
     ///     This method fetches a tile for the given level, row and column present in the view.
+    ///     param level Level of detail of the tile to fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param row The row(y) position of the tile fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param col The column(x) position of the tile to fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param options Optional settings for the tile request. The options have the following properties.
+    ///     param options.signal <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> allows for cancelable requests. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="level">
@@ -1159,7 +1172,11 @@ public partial class WebTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayergettileurl-method">GeoBlazor Docs</a>
     ///     This method returns a URL to a tile for a given level, row and column.
+    ///     param level The requested tile's level.
+    ///     param row The requested tile's row.
+    ///     param col The requested tile's column.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#getTileUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="level">
@@ -1187,8 +1204,9 @@ public partial class WebTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -1224,6 +1242,7 @@ public partial class WebTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WebTileLayer.html#webtilelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>

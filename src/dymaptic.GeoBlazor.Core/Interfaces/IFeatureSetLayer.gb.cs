@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IFeatureSetLayer.html">GeoBlazor Docs</a>
-///     Interface for types CatalogFootprintLayer, CatalogLayer, FeatureLayer, SubtypeSublayer
+///     Interface for types CatalogFootprintLayer, CatalogLayer, CSVLayer, FeatureLayer, GeoJSONLayer, SubtypeSublayer, WFSLayer
 /// </summary>
 public partial interface IFeatureSetLayer : IMapComponent
 {

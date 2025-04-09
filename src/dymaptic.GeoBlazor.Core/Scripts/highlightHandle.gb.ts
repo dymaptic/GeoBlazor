@@ -54,7 +54,6 @@ export async function buildJsHighlightHandleGenerated(dotNetObject: any, layerId
     highlightHandleWrapper.viewId = viewId;
     highlightHandleWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(highlightHandleWrapper);
     jsObjectRefs[dotNetObject.id] = highlightHandleWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHandle;
     

@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">BasemapToggle</a> widget.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-basemap-toggle/">Basemap Toggle</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">BasemapToggle</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapToggleViewModel : MapComponent
@@ -39,6 +39,7 @@ public partial class BasemapToggleViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelactivebasemap-property">GeoBlazor Docs</a>
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -48,6 +49,7 @@ public partial class BasemapToggleViewModel : MapComponent
     public Basemap? ActiveBasemap { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelnextbasemap-property">GeoBlazor Docs</a>
     ///     The next basemap for toggling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#nextBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -57,8 +59,9 @@ public partial class BasemapToggleViewModel : MapComponent
     public Basemap? NextBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -251,33 +254,16 @@ public partial class BasemapToggleViewModel : MapComponent
 #region Public Methods
 
     /// <summary>
-    ///     Helper method to find a basemap's thumbnail URL.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#getThumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="basemap">
-    ///     The basemap used to retrieve the thumbnail URL.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<string?> GetThumbnailUrl(Basemap basemap)
-    {
-        if (JsComponentReference is null) return null;
-        
-        return await JsComponentReference!.InvokeAsync<string?>(
-            "getThumbnailUrl", 
-            CancellationTokenSource.Token,
-            basemap);
-    }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BasemapToggleViewModel.html#basemaptoggleviewmodeltoggle-method">GeoBlazor Docs</a>
     ///     Toggles to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#nextBasemap">next basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle-BasemapToggleViewModel.html#toggle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> Toggle()
+    public async Task<string?> Toggle()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "toggle", 
             CancellationTokenSource.Token);
     }

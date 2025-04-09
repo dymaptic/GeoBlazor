@@ -45,9 +45,6 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
-        if (hasValue(dotNetObject.editingEnabled)) {
-            this.widget.editingEnabled = dotNetObject.editingEnabled;
-        }
         if (hasValue(dotNetObject.editingTitle)) {
             this.widget.editingTitle = dotNetObject.editingTitle;
         }
@@ -65,9 +62,6 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
         }
         if (hasValue(dotNetObject.minFilterItems)) {
             this.widget.minFilterItems = dotNetObject.minFilterItems;
-        }
-        if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-            this.widget.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
         }
         if (hasValue(dotNetObject.referenceFilterText)) {
             this.widget.referenceFilterText = dotNetObject.referenceFilterText;
@@ -100,12 +94,6 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 
     async isResolved(): Promise<any> {
         return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -221,10 +209,26 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
+    if (hasValue(dotNetObject.hasBaseFilterPredicate) && dotNetObject.hasBaseFilterPredicate) {
+        properties.baseFilterPredicate = async (item) => {
+            let { buildDotNetListItem } = await import('./listItem');
+            let dnItem = await buildDotNetListItem(item);
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseFilterPredicate', dnItem);
+        };
+    }
     if (hasValue(dotNetObject.hasBaseListItemCreatedFunction) && dotNetObject.hasBaseListItemCreatedFunction) {
         properties.baseListItemCreatedFunction = async (event) => {
 
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsBaseListItemCreatedFunction', event);
+        };
+    }
+    if (hasValue(dotNetObject.hasReferenceFilterPredicate) && dotNetObject.hasReferenceFilterPredicate) {
+        properties.referenceFilterPredicate = async (item) => {
+            let { buildDotNetListItem } = await import('./listItem');
+            let dnItem = await buildDotNetListItem(item);
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsReferenceFilterPredicate', dnItem);
         };
     }
     if (hasValue(dotNetObject.hasReferenceListItemCreatedFunction) && dotNetObject.hasReferenceListItemCreatedFunction) {
@@ -261,9 +265,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
-    if (hasValue(dotNetObject.editingEnabled)) {
-        properties.editingEnabled = dotNetObject.editingEnabled;
-    }
     if (hasValue(dotNetObject.editingTitle)) {
         properties.editingTitle = dotNetObject.editingTitle;
     }
@@ -281,9 +282,6 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     }
     if (hasValue(dotNetObject.minFilterItems)) {
         properties.minFilterItems = dotNetObject.minFilterItems;
-    }
-    if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
     }
     if (hasValue(dotNetObject.referenceFilterText)) {
         properties.referenceFilterText = dotNetObject.referenceFilterText;
@@ -317,11 +315,11 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     basemapLayerListWidgetWrapper.viewId = viewId;
     basemapLayerListWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapLayerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerList;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(basemapLayerListWidgetWrapper);
         let { buildDotNetBasemapLayerListWidget } = await import('./basemapLayerListWidget');
         let dnInstantiatedObject = await buildDotNetBasemapLayerListWidget(jsBasemapLayerList, layerId, viewId);
 

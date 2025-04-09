@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html">GeoBlazor Docs</a>
-///     The BasemapGallery widget displays a collection of images representing basemaps from ArcGIS.com or a user-defined set of map or image services.
+///     The BasemapGallery widget displays a collection of images representing basemaps from ArcGIS.com or a user-defined set
+///     of map or image services.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapGalleryWidget
@@ -35,18 +36,19 @@ public partial class BasemapGalleryWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#disabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="headingLevel">
-    ///     Indicates the heading level to use for the message "No basemaps available" when no basemaps are available in the BasemapGallery.
+    ///     Indicates the heading level to use for the message "No basemaps available" when no basemaps
+    ///     are available in the BasemapGallery.
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "basemap"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
@@ -106,6 +108,7 @@ public partial class BasemapGalleryWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html#basemapgallerywidgetactivebasemap-property">GeoBlazor Docs</a>
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -115,6 +118,7 @@ public partial class BasemapGalleryWidget
     public Basemap? ActiveBasemap { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html#basemapgallerywidgetdisabled-property">GeoBlazor Docs</a>
     ///     When `true`, sets the widget to a disabled state so the user cannot interact with it.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#disabled">ArcGIS Maps SDK for JavaScript</a>
@@ -125,7 +129,9 @@ public partial class BasemapGalleryWidget
     public bool? Disabled { get; set; }
     
     /// <summary>
-    ///     Indicates the heading level to use for the message "No basemaps available" when no basemaps are available in the BasemapGallery.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html#basemapgallerywidgetheadinglevel-property">GeoBlazor Docs</a>
+    ///     Indicates the heading level to use for the message "No basemaps available" when no basemaps
+    ///     are available in the BasemapGallery.
     ///     default 2
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,6 +141,7 @@ public partial class BasemapGalleryWidget
     public double? HeadingLevel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html#basemapgallerywidgetsource-property">GeoBlazor Docs</a>
     ///     The source for basemaps that the widget will display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -144,6 +151,7 @@ public partial class BasemapGalleryWidget
     public IBasemapGalleryWidgetSource? Source { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapGalleryWidget.html#basemapgallerywidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

@@ -51,12 +51,6 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MultidimensionalSubset? MultidimensionalSubset { get; set; }
 
-    /// <summary>
-    ///    Defines how to interpolate pixel values. By default, this will be set to the service's resampling method, if it has one. If the service does not have a default resampling method, the bilinear resampling will be used in most cases. However, if the image service's cacheType is Raster and the data source is thematic (as declared in the service's keyProperties), and the service does not have a default resampling method, then the nearest interpolation type will be used.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public PixelInterpolation? Interpolation { get; set; }
 
     /// <summary>
     ///     Indicates whether the layer will be included in the legend.

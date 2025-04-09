@@ -1,3 +1,4 @@
+import ViewDragEventGenerated from './viewDragEvent.gb';
 
 export async function buildJsViewDragEvent(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildJsViewDragEventGenerated } = await import('./viewDragEvent.gb');
@@ -8,3 +9,12 @@ export async function buildDotNetViewDragEvent(jsObject: any, layerId: string | 
     let { buildDotNetViewDragEventGenerated } = await import('./viewDragEvent.gb');
     return await buildDotNetViewDragEventGenerated(jsObject, layerId, viewId);
 }
+
+export default class ViewDragEventWrapper extends ViewDragEventGenerated {
+
+    constructor(component: ViewDragEvent) {
+        super(component);
+    }
+    
+}
+

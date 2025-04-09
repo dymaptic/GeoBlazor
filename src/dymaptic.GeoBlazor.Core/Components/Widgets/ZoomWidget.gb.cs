@@ -27,16 +27,16 @@ public partial class ZoomWidget : Widget
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "magnifying-glass-plus"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layout">
     ///     Determines the layout/orientation of the Zoom widget.
-    ///     default vertical
+    ///     default "vertical"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#layout">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
@@ -90,8 +90,9 @@ public partial class ZoomWidget : Widget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ZoomWidget.html#zoomwidgetlayout-property">GeoBlazor Docs</a>
     ///     Determines the layout/orientation of the Zoom widget.
-    ///     default vertical
+    ///     default "vertical"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#layout">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -100,6 +101,7 @@ public partial class ZoomWidget : Widget
     public WidgetLayout? Layout { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ZoomWidget.html#zoomwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -286,6 +288,7 @@ public partial class ZoomWidget : Widget
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ZoomWidget.html#zoomwidgetzoomin-method">GeoBlazor Docs</a>
     ///     Zooms the view in by an LOD factor of 0.5.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#zoomIn">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -300,6 +303,7 @@ public partial class ZoomWidget : Widget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.ZoomWidget.html#zoomwidgetzoomout-method">GeoBlazor Docs</a>
     ///     Zooms the view out by an LOD factor of 2.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html#zoomOut">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

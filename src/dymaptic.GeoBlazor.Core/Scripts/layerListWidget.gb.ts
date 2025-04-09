@@ -65,12 +65,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.minFilterItems)) {
             this.widget.minFilterItems = dotNetObject.minFilterItems;
         }
-        if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-            this.widget.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
-        }
-        if (hasValue(dotNetObject.selectionEnabled)) {
-            this.widget.selectionEnabled = dotNetObject.selectionEnabled;
-        }
         if (hasValue(dotNetObject.selectionMode)) {
             this.widget.selectionMode = dotNetObject.selectionMode;
         }
@@ -99,12 +93,6 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -167,6 +155,15 @@ export default class LayerListWidgetGenerated implements IPropertyWrapper {
     async setKnowledgeGraphOptions(value: any): Promise<void> {
         let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
         this.widget.knowledgeGraphOptions = await  buildJsLayerListKnowledgeGraphOptions(value);
+    }
+    
+    async getOpenedLayers(): Promise<any> {
+        if (!hasValue(this.widget.openedLayers)) {
+            return null;
+        }
+        
+        let { buildDotNetLayer } = await import('./layer');
+        return await Promise.all(this.widget.openedLayers.map(async i => await buildDotNetLayer(i)));
     }
     
     async getOperationalItems(): Promise<any> {
@@ -243,6 +240,14 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
         let { buildJsLayerListCatalogOptions } = await import('./layerListCatalogOptions');
         properties.catalogOptions = await buildJsLayerListCatalogOptions(dotNetObject.catalogOptions) as any;
     }
+    if (hasValue(dotNetObject.hasFilterPredicate) && dotNetObject.hasFilterPredicate) {
+        properties.filterPredicate = async (item) => {
+            let { buildDotNetListItem } = await import('./listItem');
+            let dnItem = await buildDotNetListItem(item);
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsFilterPredicate', dnItem);
+        };
+    }
     if (hasValue(dotNetObject.knowledgeGraphOptions)) {
         let { buildJsLayerListKnowledgeGraphOptions } = await import('./layerListKnowledgeGraphOptions');
         properties.knowledgeGraphOptions = await buildJsLayerListKnowledgeGraphOptions(dotNetObject.knowledgeGraphOptions) as any;
@@ -293,12 +298,6 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.minFilterItems)) {
         properties.minFilterItems = dotNetObject.minFilterItems;
     }
-    if (hasValue(dotNetObject.multipleSelectionEnabled)) {
-        properties.multipleSelectionEnabled = dotNetObject.multipleSelectionEnabled;
-    }
-    if (hasValue(dotNetObject.selectionEnabled)) {
-        properties.selectionEnabled = dotNetObject.selectionEnabled;
-    }
     if (hasValue(dotNetObject.selectionMode)) {
         properties.selectionMode = dotNetObject.selectionMode;
     }
@@ -328,11 +327,11 @@ export async function buildJsLayerListWidgetGenerated(dotNetObject: any, layerId
     layerListWidgetWrapper.viewId = viewId;
     layerListWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = layerListWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerList;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(layerListWidgetWrapper);
         let { buildDotNetLayerListWidget } = await import('./layerListWidget');
         let dnInstantiatedObject = await buildDotNetLayerListWidget(jsLayerList);
 

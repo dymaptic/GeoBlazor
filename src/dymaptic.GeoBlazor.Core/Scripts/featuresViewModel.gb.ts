@@ -25,6 +25,10 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             let { buildJsActionBase } = await import('./actionBase');
             this.component.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
+        if (hasValue(dotNetObject.activeFeature)) {
+            let { buildJsGraphic } = await import('./graphic');
+            this.component.activeFeature = buildJsGraphic(dotNetObject.activeFeature) as any;
+        }
         if (hasValue(dotNetObject.features) && dotNetObject.features.length > 0) {
             let { buildJsGraphic } = await import('./graphic');
             this.component.features = dotNetObject.features.map(i => buildJsGraphic(i)) as any;
@@ -33,13 +37,17 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             let { buildJsAbilities } = await import('./abilities');
             this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
             this.component.location = buildJsPoint(dotNetObject.location) as any;
+        }
+        if (hasValue(dotNetObject.promises) && dotNetObject.promises.length > 0) {
+            let { buildJsGraphic } = await import('./graphic');
+            this.component.promises = dotNetObject.promises.map(i => buildJsGraphic(i)) as any;
+        }
+        if (hasValue(dotNetObject.screenLocation)) {
+            let { buildJsFeaturesViewModelScreenPoint } = await import('./featuresViewModelScreenPoint');
+            this.component.screenLocation = await buildJsFeaturesViewModelScreenPoint(dotNetObject.screenLocation, this.layerId, this.viewId) as any;
         }
 
         if (hasValue(dotNetObject.autoCloseEnabled)) {
@@ -51,6 +59,15 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
             this.component.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
         }
+        if (hasValue(dotNetObject.featureMenuOpen)) {
+            this.component.featureMenuOpen = dotNetObject.featureMenuOpen;
+        }
+        if (hasValue(dotNetObject.featureMenuTitle)) {
+            this.component.featureMenuTitle = dotNetObject.featureMenuTitle;
+        }
+        if (hasValue(dotNetObject.featurePage)) {
+            this.component.featurePage = dotNetObject.featurePage;
+        }
         if (hasValue(dotNetObject.featuresPerPage)) {
             this.component.featuresPerPage = dotNetObject.featuresPerPage;
         }
@@ -60,8 +77,11 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.includeDefaultActions)) {
             this.component.includeDefaultActions = dotNetObject.includeDefaultActions;
         }
-        if (hasValue(dotNetObject.promises)) {
-            this.component.promises = dotNetObject.promises;
+        if (hasValue(dotNetObject.initialDisplayMode)) {
+            this.component.initialDisplayMode = dotNetObject.initialDisplayMode;
+        }
+        if (hasValue(dotNetObject.screenLocationEnabled)) {
+            this.component.screenLocationEnabled = dotNetObject.screenLocationEnabled;
         }
         if (hasValue(dotNetObject.selectedFeatureIndex)) {
             this.component.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
@@ -74,6 +94,9 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.title)) {
             this.component.title = dotNetObject.title;
+        }
+        if (hasValue(dotNetObject.updateLocationEnabled)) {
+            this.component.updateLocationEnabled = dotNetObject.updateLocationEnabled;
         }
         if (hasValue(dotNetObject.visible)) {
             this.component.visible = dotNetObject.visible;
@@ -97,9 +120,7 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     }
 
     async open(options: any): Promise<void> {
-        let { buildJsFeaturesViewModelOpenOptions } = await import('./featuresViewModelOpenOptions');
-        let jsOptions = await buildJsFeaturesViewModelOpenOptions(options, this.layerId, this.viewId) as any;
-        this.component.open(jsOptions);
+        this.component.open(options);
     }
 
     async previous(): Promise<any> {
@@ -110,6 +131,10 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 
     async triggerAction(actionIndex: any): Promise<void> {
         this.component.triggerAction(actionIndex);
+    }
+
+    async zoomTo(parameters: any): Promise<any> {
+        return await this.component.zoomTo(parameters);
     }
 
     // region properties
@@ -126,6 +151,20 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async setActions(value: any): Promise<void> {
         let { buildJsActionBase } = await import('./actionBase');
         this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
+    }
+    
+    async getActiveFeature(): Promise<any> {
+        if (!hasValue(this.component.activeFeature)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return buildDotNetGraphic(this.component.activeFeature, this.layerId, this.viewId);
+    }
+    
+    async setActiveFeature(value: any): Promise<void> {
+        let { buildJsGraphic } = await import('./graphic');
+        this.component.activeFeature =  buildJsGraphic(value);
     }
     
     async getAllActions(): Promise<any> {
@@ -174,20 +213,6 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
-    
     async getLocation(): Promise<any> {
         if (!hasValue(this.component.location)) {
             return null;
@@ -200,6 +225,34 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async setLocation(value: any): Promise<void> {
         let { buildJsPoint } = await import('./point');
         this.component.location =  buildJsPoint(value);
+    }
+    
+    async getPromises(): Promise<any> {
+        if (!hasValue(this.component.promises)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return this.component.promises!.map(i => buildDotNetGraphic(i, this.layerId, this.viewId));
+    }
+    
+    async setPromises(value: any): Promise<void> {
+        let { buildJsGraphic } = await import('./graphic');
+        this.component.promises = value.map(i => buildJsGraphic(i)) as any;
+    }
+    
+    async getScreenLocation(): Promise<any> {
+        if (!hasValue(this.component.screenLocation)) {
+            return null;
+        }
+        
+        let { buildDotNetFeaturesViewModelScreenPoint } = await import('./featuresViewModelScreenPoint');
+        return await buildDotNetFeaturesViewModelScreenPoint(this.component.screenLocation);
+    }
+    
+    async setScreenLocation(value: any): Promise<void> {
+        let { buildJsFeaturesViewModelScreenPoint } = await import('./featuresViewModelScreenPoint');
+        this.component.screenLocation = await  buildJsFeaturesViewModelScreenPoint(value, this.layerId, this.viewId);
     }
     
     async getSelectedClusterBoundaryFeature(): Promise<any> {

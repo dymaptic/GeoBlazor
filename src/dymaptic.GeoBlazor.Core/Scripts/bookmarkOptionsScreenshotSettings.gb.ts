@@ -24,8 +24,7 @@ export async function buildJsBookmarkOptionsScreenshotSettingsGenerated(dotNetOb
         jsBookmarkOptionsScreenshotSettings.width = dotNetObject.width;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBookmarkOptionsScreenshotSettings);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarkOptionsScreenshotSettings;
     
     return jsBookmarkOptionsScreenshotSettings;

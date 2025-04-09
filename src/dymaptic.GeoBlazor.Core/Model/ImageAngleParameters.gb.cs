@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageAngleParameters.html">GeoBlazor Docs</a>
-///     Input parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> methods.
+///     Input parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AngleNames">
@@ -13,7 +14,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleParameters.html#angleNames">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Point">
-///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry that defines the reference point of rotation to compute the angle direction.
+///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry that defines the reference point of rotation to
+///     compute the angle direction.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleParameters.html#point">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="RasterId">
@@ -38,7 +40,8 @@ public partial record ImageAngleParameters(
     public IReadOnlyCollection<string>? AngleNames { get; set; } = AngleNames;
     
     /// <summary>
-    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry that defines the reference point of rotation to compute the angle direction.
+    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry that defines the reference point of rotation to
+    ///     compute the angle direction.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleParameters.html#point">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Point? Point { get; set; } = Point;

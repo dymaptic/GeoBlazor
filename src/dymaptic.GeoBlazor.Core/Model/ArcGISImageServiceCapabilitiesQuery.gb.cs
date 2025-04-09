@@ -31,6 +31,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Indicates if the layer supports field-based statistical functions.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SupportsTrueCurve">
+/// </param>
 public partial record ArcGISImageServiceCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? MaxRecordCount = null,
@@ -43,4 +45,6 @@ public partial record ArcGISImageServiceCapabilitiesQuery(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     bool? SupportsStandardizedQueriesOnly = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    bool? SupportsStatistics = null);
+    bool? SupportsStatistics = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    bool? SupportsTrueCurve = null);

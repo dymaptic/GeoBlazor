@@ -782,13 +782,13 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     A cancellation token that can be used to cancel the query operation.
     /// </param>
     [CodeGenerationIgnore]
-    public async Task<long[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
+    public async Task<string[]> QueryObjectIds(Query query, CancellationToken cancellationToken = default)
     {
         JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
             "getJsComponent", CancellationTokenSource.Token, Id);
         if (JsComponentReference is null) return [];
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[] queryResult = await JsComponentReference!.InvokeAsync<long[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
+        string[] queryResult = await JsComponentReference!.InvokeAsync<string[]>("queryObjectIds", cancellationToken, query, new { signal = abortSignal });
         await AbortManager.DisposeAbortController(cancellationToken);
 
         return queryResult;

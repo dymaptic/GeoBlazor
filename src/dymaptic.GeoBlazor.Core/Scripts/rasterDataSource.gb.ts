@@ -16,8 +16,7 @@ export async function buildJsRasterDataSourceGenerated(dotNetObject: any, layerI
         jsRasterDataSource.workspaceId = dotNetObject.workspaceId;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterDataSource);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterDataSource;
     arcGisObjectRefs[dotNetObject.id] = jsRasterDataSource;
     
     return jsRasterDataSource;

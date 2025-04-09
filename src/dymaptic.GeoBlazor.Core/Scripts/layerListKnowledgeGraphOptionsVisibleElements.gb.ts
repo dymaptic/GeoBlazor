@@ -19,8 +19,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsVisibleElementsGenera
         jsLayerListKnowledgeGraphOptionsVisibleElements.statusIndicators = dotNetObject.statusIndicators;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListKnowledgeGraphOptionsVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptionsVisibleElements;
     
     return jsLayerListKnowledgeGraphOptionsVisibleElements;

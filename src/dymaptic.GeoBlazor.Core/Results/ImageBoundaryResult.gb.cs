@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImageBoundaryResult.html">GeoBlazor Docs</a>
-///     Image boundary query result for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryBoundary">ImageryLayer.queryBoundary()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryBoundary">imageService.queryBoundary()</a> methods containing boundary geometry of an image service.
+///     Image boundary query result for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryBoundary">ImageryLayer.queryBoundary()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryBoundary">imageService.queryBoundary()</a> methods containing boundary geometry of an image service.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageBoundaryResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Area">

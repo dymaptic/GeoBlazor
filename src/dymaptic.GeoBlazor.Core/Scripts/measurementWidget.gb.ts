@@ -65,12 +65,6 @@ export default class MeasurementWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -166,11 +160,11 @@ export async function buildJsMeasurementWidgetGenerated(dotNetObject: any, layer
     measurementWidgetWrapper.viewId = viewId;
     measurementWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = measurementWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurement;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(measurementWidgetWrapper);
         let { buildDotNetMeasurementWidget } = await import('./measurementWidget');
         let dnInstantiatedObject = await buildDotNetMeasurementWidget(jsMeasurement);
 

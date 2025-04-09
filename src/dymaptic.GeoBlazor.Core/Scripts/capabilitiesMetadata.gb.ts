@@ -13,8 +13,7 @@ export async function buildJsCapabilitiesMetadataGenerated(dotNetObject: any): P
         jsCapabilitiesMetadata.supportsAdvancedFieldProperties = dotNetObject.supportsAdvancedFieldProperties;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesMetadata);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesMetadata;
     
     return jsCapabilitiesMetadata;

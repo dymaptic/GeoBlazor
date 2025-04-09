@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageInspectionInfo.html">GeoBlazor Docs</a>
-///     Image information for images returned as a result of running <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods.
+///     Image information for images returned as a result of running <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageInspectionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AcquisitionDate">

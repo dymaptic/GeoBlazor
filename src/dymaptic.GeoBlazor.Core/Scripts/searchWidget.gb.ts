@@ -125,12 +125,6 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -200,6 +194,15 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     async setSources(value: any): Promise<void> {
         let { buildJsSearchSource } = await import('./searchSource');
         this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
+    }
+    
+    async getSuggestions(): Promise<any> {
+        if (!hasValue(this.widget.suggestions)) {
+            return null;
+        }
+        
+        let { buildDotNetSearchResultsSuggestions } = await import('./searchResultsSuggestions');
+        return await Promise.all(this.widget.suggestions.map(async i => await buildDotNetSearchResultsSuggestions(i)));
     }
     
     async getViewModel(): Promise<any> {
@@ -374,11 +377,11 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     searchWidgetWrapper.viewId = viewId;
     searchWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
         let { buildDotNetSearchWidget } = await import('./searchWidget');
         let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
 
@@ -438,6 +441,11 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     if (hasValue(jsObject.sources)) {
         let { buildDotNetSearchSource } = await import('./searchSource');
         dotNetSearchWidget.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
+    }
+    
+    if (hasValue(jsObject.suggestions)) {
+        let { buildDotNetSearchResultsSuggestions } = await import('./searchResultsSuggestions');
+        dotNetSearchWidget.suggestions = await Promise.all(jsObject.suggestions.map(async i => await buildDotNetSearchResultsSuggestions(i)));
     }
     
     if (hasValue(jsObject.viewModel)) {
@@ -511,10 +519,6 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.searchTerm)) {
         dotNetSearchWidget.searchTerm = jsObject.searchTerm;
-    }
-    
-    if (hasValue(jsObject.suggestions)) {
-        dotNetSearchWidget.suggestions = removeCircularReferences(jsObject.suggestions);
     }
     
     if (hasValue(jsObject.suggestionsEnabled)) {

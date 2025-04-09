@@ -48,9 +48,6 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.dragEnabled)) {
             this.widget.dragEnabled = dotNetObject.dragEnabled;
         }
-        if (hasValue(dotNetObject.editingEnabled)) {
-            this.widget.editingEnabled = dotNetObject.editingEnabled;
-        }
         if (hasValue(dotNetObject.filterPlaceholder)) {
             this.widget.filterPlaceholder = dotNetObject.filterPlaceholder;
         }
@@ -94,12 +91,6 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -260,9 +251,6 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.dragEnabled)) {
         properties.dragEnabled = dotNetObject.dragEnabled;
     }
-    if (hasValue(dotNetObject.editingEnabled)) {
-        properties.editingEnabled = dotNetObject.editingEnabled;
-    }
     if (hasValue(dotNetObject.filterPlaceholder)) {
         properties.filterPlaceholder = dotNetObject.filterPlaceholder;
     }
@@ -310,11 +298,11 @@ export async function buildJsBookmarksWidgetGenerated(dotNetObject: any, layerId
     bookmarksWidgetWrapper.viewId = viewId;
     bookmarksWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarks;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(bookmarksWidgetWrapper);
         let { buildDotNetBookmarksWidget } = await import('./bookmarksWidget');
         let dnInstantiatedObject = await buildDotNetBookmarksWidget(jsBookmarks);
 

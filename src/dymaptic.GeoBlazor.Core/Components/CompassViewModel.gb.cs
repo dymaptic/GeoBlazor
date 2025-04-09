@@ -20,26 +20,10 @@ public partial class CompassViewModel : MapComponent,
     {
     }
 
-    /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
-    /// </summary>
-    /// <param name="goToOverride">
-    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    public CompassViewModel(
-        GoToOverride? goToOverride = null)
-    {
-        AllowRender = false;
-#pragma warning disable BL0005
-        GoToOverride = goToOverride;
-#pragma warning restore BL0005    
-    }
-    
-    
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelorientation-property">GeoBlazor Docs</a>
     ///     The z axis orientation.
     ///     default { z: 0 }
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#orientation">ArcGIS Maps SDK for JavaScript</a>
@@ -50,8 +34,9 @@ public partial class CompassViewModel : MapComponent,
     public Orientation? Orientation { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelstate-property">GeoBlazor Docs</a>
     ///     The view model's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -146,7 +131,9 @@ public partial class CompassViewModel : MapComponent,
 #region Public Methods
 
     /// <summary>
-    ///     If working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>, sets the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> is to `0`.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CompassViewModel.html#compassviewmodelreset-method">GeoBlazor Docs</a>
+    ///     If working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>, sets the view's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#rotation">rotation</a> is to `0`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Compass-CompassViewModel.html#reset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]

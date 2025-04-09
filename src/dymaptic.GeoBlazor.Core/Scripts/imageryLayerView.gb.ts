@@ -35,12 +35,36 @@ export default class ImageryLayerViewGenerated implements IPropertyWrapper {
         }
     }
     
-    async highlight(target: any): Promise<any> {
+    async getSourceScale(): Promise<any> {
+        return await this.component.getSourceScale();
+    }
+
+    async highlight(target: any,
+        options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
-        let result = this.component.highlight(jsTarget);
+        let result = this.component.highlight(jsTarget,
+            options);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -118,7 +142,6 @@ export async function buildJsImageryLayerViewGenerated(dotNetObject: any, layerI
     imageryLayerViewWrapper.viewId = viewId;
     imageryLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(imageryLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = imageryLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayerView;
     

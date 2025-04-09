@@ -21,6 +21,10 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
@@ -31,9 +35,6 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
     }
     if (hasValue(dotNetObject.outFields) && dotNetObject.outFields.length > 0) {
         properties.outFields = dotNetObject.outFields;
-    }
-    if (hasValue(dotNetObject.pixelSize)) {
-        properties.pixelSize = dotNetObject.pixelSize;
     }
     if (hasValue(dotNetObject.returnFirstValueOnly)) {
         properties.returnFirstValueOnly = dotNetObject.returnFirstValueOnly;
@@ -49,8 +50,7 @@ export async function buildJsImageSampleParametersGenerated(dotNetObject: any, l
     }
     let jsImageSampleParameters = new ImageSampleParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageSampleParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageSampleParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageSampleParameters;
     
     return jsImageSampleParameters;
@@ -79,6 +79,11 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any, l
         dotNetImageSampleParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageSampleParameters.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
+    
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetImageSampleParameters.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
@@ -90,10 +95,6 @@ export async function buildDotNetImageSampleParametersGenerated(jsObject: any, l
     
     if (hasValue(jsObject.outFields)) {
         dotNetImageSampleParameters.outFields = jsObject.outFields;
-    }
-    
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetImageSampleParameters.pixelSize = removeCircularReferences(jsObject.pixelSize);
     }
     
     if (hasValue(jsObject.returnFirstValueOnly)) {

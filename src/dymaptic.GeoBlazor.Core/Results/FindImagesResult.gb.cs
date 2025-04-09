@@ -4,11 +4,13 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.FindImagesResult.html">GeoBlazor Docs</a>
-///     Results for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods containing images that meet the search requirements.
+///     Results for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ImageryLayer.findImages()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#findImages">imageService.findImages()</a> methods containing images that meet the search requirements.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Images">
-///     An array of image inspection information found between <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">fromGeometry</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#toGeometry">toGeometry</a>.
+///     An array of image inspection information found between <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">fromGeometry</a> and
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#toGeometry">toGeometry</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesResult.html#images">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FindImagesResult(

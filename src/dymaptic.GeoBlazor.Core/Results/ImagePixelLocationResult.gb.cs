@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImagePixelLocationResult.html">GeoBlazor Docs</a>
-///     The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computePixelSpaceLocations">imageService.computePixelSpaceLocations()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computePixelSpaceLocations">ImageryLayer.computePixelSpaceLocations()</a> method.
+///     The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computePixelSpaceLocations">imageService.computePixelSpaceLocations()</a> or
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computePixelSpaceLocations">ImageryLayer.computePixelSpaceLocations()</a> method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometries">
@@ -13,4 +14,4 @@ namespace dymaptic.GeoBlazor.Core.Results;
 /// </param>
 public partial record ImagePixelLocationResult(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<object>? Geometries = null);
+    IReadOnlyCollection<string>? Geometries = null);

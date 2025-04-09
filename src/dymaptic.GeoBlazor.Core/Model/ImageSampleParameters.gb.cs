@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageSampleParameters.html">GeoBlazor Docs</a>
-///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getSamples">getSamples()</a> method on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
+///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getSamples">getSamples()</a>
+///     method on <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometry">
@@ -13,11 +14,12 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 /// <param name="Interpolation">
 ///     Defines how to interpolate pixel values.
-///     default nearest
+///     default "nearest"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Locations">
-///     When sampling multiple locations, you can use an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> instead of providing a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">multipoint</a> for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#geometry">geometry</a> property.
+///     When sampling multiple locations, you can use an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> instead of providing
+///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">multipoint</a> for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#geometry">geometry</a> property.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#locations">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MosaicRule">
@@ -39,7 +41,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#returnFirstValueOnly">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SampleCount">
-///     Specifies the approximate number of locations to sample from the provided geometry when the input geometry is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a>.
+///     Specifies the approximate number of locations to sample from the provided geometry when the input geometry is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#sampleCount">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="SampleDistance">
@@ -51,7 +54,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#sliceId">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="TimeExtent">
-///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> for which to perform sampling.
+///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> for which to perform sampling.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ImageSampleParameters(
@@ -60,7 +63,7 @@ public partial record ImageSampleParameters(
     IReadOnlyCollection<Point>? Locations = null,
     MosaicRule? MosaicRule = null,
     IReadOnlyCollection<string>? OutFields = null,
-    PixelSize? PixelSize = null,
+    Point? PixelSize = null,
     bool? ReturnFirstValueOnly = null,
     int? SampleCount = null,
     double? SampleDistance = null,
@@ -75,13 +78,14 @@ public partial record ImageSampleParameters(
     
     /// <summary>
     ///     Defines how to interpolate pixel values.
-    ///     default nearest
+    ///     default "nearest"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Interpolation? Interpolation { get; set; } = Interpolation;
     
     /// <summary>
-    ///     When sampling multiple locations, you can use an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> instead of providing a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">multipoint</a> for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#geometry">geometry</a> property.
+    ///     When sampling multiple locations, you can use an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> instead of providing
+    ///     a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Multipoint.html">multipoint</a> for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#geometry">geometry</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#locations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<Point>? Locations { get; set; } = Locations;
@@ -103,7 +107,7 @@ public partial record ImageSampleParameters(
     ///     Specifies the pixel size (or the resolution) that will be used for the sampling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#pixelSize">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public PixelSize? PixelSize { get; set; } = PixelSize;
+    public Point? PixelSize { get; set; } = PixelSize;
     
     /// <summary>
     ///     When `true`, returns the first valid pixel value that meets specified conditions at each sampling point location.
@@ -113,7 +117,8 @@ public partial record ImageSampleParameters(
     public bool? ReturnFirstValueOnly { get; set; } = ReturnFirstValueOnly;
     
     /// <summary>
-    ///     Specifies the approximate number of locations to sample from the provided geometry when the input geometry is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a>.
+    ///     Specifies the approximate number of locations to sample from the provided geometry when the input geometry is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html">polyline</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#sampleCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? SampleCount { get; set; } = SampleCount;
@@ -131,7 +136,7 @@ public partial record ImageSampleParameters(
     public long? SliceId { get; set; } = SliceId;
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> for which to perform sampling.
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> for which to perform sampling.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageSampleParameters.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;

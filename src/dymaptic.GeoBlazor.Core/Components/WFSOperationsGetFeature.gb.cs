@@ -50,6 +50,7 @@ public partial class WFSOperationsGetFeature : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.html#wfsoperationsgetfeatureoutputformat-property">GeoBlazor Docs</a>
     ///     Value of the output format parameter to send with the GetFeature call.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSOperations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -59,6 +60,7 @@ public partial class WFSOperationsGetFeature : MapComponent
     public string? OutputFormat { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.html#wfsoperationsgetfeaturesupportspagination-property">GeoBlazor Docs</a>
     ///     Indicates if the GetFeature request supports pagination.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSOperations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -68,6 +70,7 @@ public partial class WFSOperationsGetFeature : MapComponent
     public bool? SupportsPagination { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSOperationsGetFeature.html#wfsoperationsgetfeatureurl-property">GeoBlazor Docs</a>
     ///     The URL to the GetFeature endpoint.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ogc-wfsUtils.html#WFSOperations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

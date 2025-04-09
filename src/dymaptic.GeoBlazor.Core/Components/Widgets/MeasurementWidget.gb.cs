@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html">GeoBlazor Docs</a>
-///     The Measurement widget groups and manages multiple measurement tools and allows you to easily switch between them using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeTool">activeTool</a> property.
+///     The Measurement widget groups and manages multiple measurement tools and allows you to easily switch between them using
+///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeTool">activeTool</a> property.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MeasurementWidget
@@ -36,12 +37,12 @@ public partial class MeasurementWidget
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "measure"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="linearUnit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
@@ -99,6 +100,7 @@ public partial class MeasurementWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetactivewidget-property">GeoBlazor Docs</a>
     ///     The measurement widget that is currently being used.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#activeWidget">ArcGIS Maps SDK for JavaScript</a>
@@ -109,6 +111,7 @@ public partial class MeasurementWidget
     public IMeasurementWidgetActiveWidget? ActiveWidget { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetareaunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -118,6 +121,7 @@ public partial class MeasurementWidget
     public SystemOrAreaUnit? AreaUnit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetlinearunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -127,6 +131,7 @@ public partial class MeasurementWidget
     public SystemOrLengthUnit? LinearUnit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -499,6 +504,7 @@ public partial class MeasurementWidget
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetclear-method">GeoBlazor Docs</a>
     ///     Removes all measurement widgets and associated graphics.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#clear">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -513,6 +519,7 @@ public partial class MeasurementWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.MeasurementWidget.html#measurementwidgetstartmeasurement-method">GeoBlazor Docs</a>
     ///     Starts a new measurement for the active measurement widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement.html#startMeasurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

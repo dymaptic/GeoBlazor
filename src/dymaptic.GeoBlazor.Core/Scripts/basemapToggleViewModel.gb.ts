@@ -28,12 +28,6 @@ export default class BasemapToggleViewModelGenerated implements IPropertyWrapper
 
     }
     
-    async getThumbnailUrl(basemap: any): Promise<any> {
-        let { buildJsBasemap } = await import('./basemap');
-        let jsBasemap = await buildJsBasemap(basemap, this.layerId, this.viewId) as any;
-        return this.component.getThumbnailUrl(jsBasemap);
-    }
-
     async toggle(): Promise<any> {
         return await this.component.toggle();
     }
@@ -95,7 +89,6 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     basemapToggleViewModelWrapper.viewId = viewId;
     basemapToggleViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
     

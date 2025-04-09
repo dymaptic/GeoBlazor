@@ -5,7 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html">Zoom</a> widget.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-zoom/">Zoom</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom.html">Zoom</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ZoomViewModel : MapComponent
@@ -45,6 +45,7 @@ public partial class ZoomViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html#zoomviewmodelcanzoomin-property">GeoBlazor Docs</a>
     ///     Indicates if the view can zoom in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html#canZoomIn">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class ZoomViewModel : MapComponent
     public bool? CanZoomIn { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html#zoomviewmodelcanzoomout-property">GeoBlazor Docs</a>
     ///     Indicates if the view can zoom out.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html#canZoomOut">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -63,8 +65,9 @@ public partial class ZoomViewModel : MapComponent
     public bool? CanZoomOut { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html#zoomviewmodelstate-property">GeoBlazor Docs</a>
     ///     The current state of the widget.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -276,6 +279,7 @@ public partial class ZoomViewModel : MapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html#zoomviewmodelzoomin-method">GeoBlazor Docs</a>
     ///     Zooms the view in by an LOD factor of 0.5.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html#zoomIn">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -290,6 +294,7 @@ public partial class ZoomViewModel : MapComponent
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ZoomViewModel.html#zoomviewmodelzoomout-method">GeoBlazor Docs</a>
     ///     Zooms the view out by an LOD factor of 2.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Zoom-ZoomViewModel.html#zoomOut">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

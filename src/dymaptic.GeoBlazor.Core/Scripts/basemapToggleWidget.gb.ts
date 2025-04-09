@@ -60,12 +60,6 @@ export default class BasemapToggleWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -197,11 +191,11 @@ export async function buildJsBasemapToggleWidgetGenerated(dotNetObject: any, lay
     basemapToggleWidgetWrapper.viewId = viewId;
     basemapToggleWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggle;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(basemapToggleWidgetWrapper);
         let { buildDotNetBasemapToggleWidget } = await import('./basemapToggleWidget');
         let dnInstantiatedObject = await buildDotNetBasemapToggleWidget(jsBasemapToggle);
 

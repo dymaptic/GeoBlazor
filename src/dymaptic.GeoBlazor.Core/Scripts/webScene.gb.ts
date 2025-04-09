@@ -51,8 +51,7 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     }
     let jsWebScene = new WebScene(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWebScene);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWebScene;
     arcGisObjectRefs[dotNetObject.id] = jsWebScene;
     
     return jsWebScene;

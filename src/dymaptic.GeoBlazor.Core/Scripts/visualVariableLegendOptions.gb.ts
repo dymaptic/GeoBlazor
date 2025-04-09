@@ -16,8 +16,7 @@ export async function buildJsVisualVariableLegendOptionsGenerated(dotNetObject: 
         jsVisualVariableLegendOptions.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisualVariableLegendOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
     arcGisObjectRefs[dotNetObject.id] = jsVisualVariableLegendOptions;
     
     return jsVisualVariableLegendOptions;

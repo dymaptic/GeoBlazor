@@ -19,8 +19,7 @@ export async function buildJsBasemapGalleryItemGenerated(dotNetObject: any, laye
 
     let jsBasemapGalleryItem = new BasemapGalleryItem(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBasemapGalleryItem);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBasemapGalleryItem;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryItem;
     
     return jsBasemapGalleryItem;

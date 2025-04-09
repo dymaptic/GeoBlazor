@@ -52,9 +52,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.autoCloseEnabled)) {
             this.widget.autoCloseEnabled = dotNetObject.autoCloseEnabled;
         }
-        if (hasValue(dotNetObject.collapseEnabled)) {
-            this.widget.collapseEnabled = dotNetObject.collapseEnabled;
-        }
         if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
             this.widget.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
         }
@@ -70,6 +67,9 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.icon)) {
             this.widget.icon = dotNetObject.icon;
         }
+        if (hasValue(dotNetObject.initialDisplayMode)) {
+            this.widget.initialDisplayMode = dotNetObject.initialDisplayMode;
+        }
         if (hasValue(dotNetObject.label)) {
             this.widget.label = dotNetObject.label;
         }
@@ -78,9 +78,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.selectedFeatureIndex)) {
             this.widget.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
-        }
-        if (hasValue(dotNetObject.spinnerEnabled)) {
-            this.widget.spinnerEnabled = dotNetObject.spinnerEnabled;
         }
         if (hasValue(dotNetObject.title)) {
             this.widget.title = dotNetObject.title;
@@ -121,12 +118,6 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         let result = this.widget.next();
         let { buildDotNetPopupViewModel } = await import('./popupViewModel');
         return await buildDotNetPopupViewModel(result, this.layerId, this.viewId);
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -237,6 +228,15 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         this.widget.location =  buildJsPoint(value);
     }
     
+    async getSelectedDrillInFeature(): Promise<any> {
+        if (!hasValue(this.widget.selectedDrillInFeature)) {
+            return null;
+        }
+        
+        let { buildDotNetGraphic } = await import('./graphic');
+        return buildDotNetGraphic(this.widget.selectedDrillInFeature, this.layerId, this.viewId);
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -319,9 +319,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.autoCloseEnabled)) {
         properties.autoCloseEnabled = dotNetObject.autoCloseEnabled;
     }
-    if (hasValue(dotNetObject.collapseEnabled)) {
-        properties.collapseEnabled = dotNetObject.collapseEnabled;
-    }
     if (hasValue(dotNetObject.defaultPopupTemplateEnabled)) {
         properties.defaultPopupTemplateEnabled = dotNetObject.defaultPopupTemplateEnabled;
     }
@@ -337,6 +334,9 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     if (hasValue(dotNetObject.icon)) {
         properties.icon = dotNetObject.icon;
     }
+    if (hasValue(dotNetObject.initialDisplayMode)) {
+        properties.initialDisplayMode = dotNetObject.initialDisplayMode;
+    }
     if (hasValue(dotNetObject.label)) {
         properties.label = dotNetObject.label;
     }
@@ -345,9 +345,6 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     }
     if (hasValue(dotNetObject.selectedFeatureIndex)) {
         properties.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
-    }
-    if (hasValue(dotNetObject.spinnerEnabled)) {
-        properties.spinnerEnabled = dotNetObject.spinnerEnabled;
     }
     if (hasValue(dotNetObject.title)) {
         properties.title = dotNetObject.title;
@@ -375,11 +372,11 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     popupWidgetWrapper.viewId = viewId;
     popupWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = popupWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopup;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
         let { buildDotNetPopupWidget } = await import('./popupWidget');
         let dnInstantiatedObject = await buildDotNetPopupWidget(jsPopup, layerId, viewId);
 
@@ -419,6 +416,11 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     if (hasValue(jsObject.location)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetPopupWidget.location = buildDotNetPoint(jsObject.location);
+    }
+    
+    if (hasValue(jsObject.selectedDrillInFeature)) {
+        let { buildDotNetGraphic } = await import('./graphic');
+        dotNetPopupWidget.selectedDrillInFeature = buildDotNetGraphic(jsObject.selectedDrillInFeature, layerId, viewId);
     }
     
     if (hasValue(jsObject.selectedFeature)) {
@@ -482,6 +484,10 @@ export async function buildDotNetPopupWidgetGenerated(jsObject: any, layerId: st
     
     if (hasValue(jsObject.icon)) {
         dotNetPopupWidget.icon = jsObject.icon;
+    }
+    
+    if (hasValue(jsObject.initialDisplayMode)) {
+        dotNetPopupWidget.initialDisplayMode = removeCircularReferences(jsObject.initialDisplayMode);
     }
     
     if (hasValue(jsObject.label)) {

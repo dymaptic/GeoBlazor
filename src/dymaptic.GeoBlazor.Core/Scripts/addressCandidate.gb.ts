@@ -29,8 +29,7 @@ export async function buildJsAddressCandidateGenerated(dotNetObject: any): Promi
     }
     let jsAddressCandidate = new AddressCandidate(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAddressCandidate);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAddressCandidate;
     arcGisObjectRefs[dotNetObject.id] = jsAddressCandidate;
     
     return jsAddressCandidate;

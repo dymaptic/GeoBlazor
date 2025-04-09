@@ -22,15 +22,19 @@ public partial class SpatialReference
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     An <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> defines the spatial reference used to display the image in its original coordinates without distortion, map transformations or ortho-rectification.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SpatialReference.html#spatialreferenceimagecoordinatesystem-property">GeoBlazor Docs</a>
+    ///     An <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> defines the
+    ///     spatial reference used to display the image in its original coordinates
+    ///     without distortion, map transformations or ortho-rectification.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#imageCoordinateSystem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? ImageCoordinateSystem { get; set; }
+    public string? ImageCoordinateSystem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SpatialReference.html#spatialreferencemetersperunit-property">GeoBlazor Docs</a>
     ///     The factor to convert one unit value in the spatial reference's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#unit">unit</a> to meters.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#metersPerUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -40,6 +44,7 @@ public partial class SpatialReference
     public double? MetersPerUnit { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SpatialReference.html#spatialreferenceunit-property">GeoBlazor Docs</a>
     ///     The unit of the spatial reference.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-SpatialReference.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -55,7 +60,7 @@ public partial class SpatialReference
     /// <summary>
     ///     Asynchronously retrieve the current value of the ImageCoordinateSystem property.
     /// </summary>
-    public async Task<object?> GetImageCoordinateSystem()
+    public async Task<string?> GetImageCoordinateSystem()
     {
         if (CoreJsModule is null)
         {
@@ -78,7 +83,7 @@ public partial class SpatialReference
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "imageCoordinateSystem");
         if (result is not null)
         {
@@ -296,7 +301,7 @@ public partial class SpatialReference
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetImageCoordinateSystem(object? value)
+    public async Task SetImageCoordinateSystem(string? value)
     {
 #pragma warning disable BL0005
         ImageCoordinateSystem = value;

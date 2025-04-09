@@ -52,10 +52,36 @@ export default class BasemapGenerated implements IPropertyWrapper {
         }
     }
     
+    async cancelLoad(): Promise<void> {
+        this.component.cancelLoad();
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.component.load(options);
+    }
+
     async loadAll(): Promise<any> {
         let result = await this.component.loadAll();
         let { buildDotNetBasemap } = await import('./basemap');
         return await buildDotNetBasemap(result);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -169,7 +195,6 @@ export async function buildJsBasemapGenerated(dotNetObject: any, layerId: string
     basemapWrapper.viewId = viewId;
     basemapWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapWrapper);
     jsObjectRefs[dotNetObject.id] = basemapWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemap;
     

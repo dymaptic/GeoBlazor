@@ -24,8 +24,7 @@ export async function buildJsWMTSStyleGenerated(dotNetObject: any): Promise<any>
     }
     let jsWMTSStyle = new WMTSStyle(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWMTSStyle);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWMTSStyle;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSStyle;
     
     return jsWMTSStyle;

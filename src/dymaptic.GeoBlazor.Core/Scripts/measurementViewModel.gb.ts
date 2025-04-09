@@ -12,10 +12,6 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.activeViewModel)) {
-        let { buildJsIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
-        properties.activeViewModel = buildJsIMeasurementViewModelActiveViewModel(dotNetObject.activeViewModel) as any;
-    }
 
     if (hasValue(dotNetObject.activeTool)) {
         properties.activeTool = dotNetObject.activeTool;
@@ -28,8 +24,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     }
     let jsMeasurementViewModel = new MeasurementViewModel(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMeasurementViewModel);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     
     return jsMeasurementViewModel;

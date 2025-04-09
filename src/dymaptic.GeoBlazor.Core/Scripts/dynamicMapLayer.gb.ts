@@ -16,8 +16,7 @@ export async function buildJsDynamicMapLayerGenerated(dotNetObject: any, layerId
         jsDynamicMapLayer.mapLayerId = dotNetObject.mapLayerId;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsDynamicMapLayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsDynamicMapLayer;
     arcGisObjectRefs[dotNetObject.id] = jsDynamicMapLayer;
     
     return jsDynamicMapLayer;

@@ -22,6 +22,36 @@ public partial class BasemapLayerListWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefilterpredicate-property">GeoBlazor Docs</a>
+    ///     Specifies a function to handle filtering base layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public BaseFilterPredicate? BaseFilterPredicate { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="BaseFilterPredicate"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsBaseFilterPredicate(ListItem item)
+    {
+        if (BaseFilterPredicate is not null)
+        {
+            await BaseFilterPredicate.Invoke(item);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="BaseFilterPredicate" /> function was registered.
+    /// </summary>
+    public bool HasBaseFilterPredicate => BaseFilterPredicate is not null;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbasefiltertext-property">GeoBlazor Docs</a>
     ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
     ///     default ""
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseFilterText">ArcGIS Maps SDK for JavaScript</a>
@@ -32,6 +62,7 @@ public partial class BasemapLayerListWidget
     public string? BaseFilterText { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetbaseitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">baseLayers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#baseItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -41,6 +72,7 @@ public partial class BasemapLayerListWidget
     public IReadOnlyList<ListItem>? BaseItems { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcataloglayerlist-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-CatalogLayerList.html">CatalogLayerList</a> widget instance that displays a catalog layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html#dynamicGroupLayer">dynamic group layer</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogLayerList">ArcGIS Maps SDK for JavaScript</a>
@@ -51,6 +83,7 @@ public partial class BasemapLayerListWidget
     public ICatalogLayerListWidget? CatalogLayerList { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcatalogoptions-property">GeoBlazor Docs</a>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CatalogLayer.html">CatalogLayer</a> specific properties.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#catalogOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -61,6 +94,7 @@ public partial class BasemapLayerListWidget
     public BasemapLayerListCatalogOptions? CatalogOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetcollapsed-property">GeoBlazor Docs</a>
     ///     Indicates whether the widget is collapsed.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#collapsed">ArcGIS Maps SDK for JavaScript</a>
@@ -71,6 +105,7 @@ public partial class BasemapLayerListWidget
     public bool? Collapsed { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetdragenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a> may be reordered within the list by dragging and dropping.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#dragEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -81,6 +116,7 @@ public partial class BasemapLayerListWidget
     public bool? DragEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgeteditingtitle-property">GeoBlazor Docs</a>
     ///     Indicates whether the form to edit the basemap's title is currently visible.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#editingTitle">ArcGIS Maps SDK for JavaScript</a>
@@ -91,6 +127,7 @@ public partial class BasemapLayerListWidget
     public bool? EditingTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetfilterplaceholder-property">GeoBlazor Docs</a>
     ///     Placeholder text used in the filter input if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
     ///     default ""
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#filterPlaceholder">ArcGIS Maps SDK for JavaScript</a>
@@ -101,6 +138,7 @@ public partial class BasemapLayerListWidget
     public string? FilterPlaceholder { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetminfilteritems-property">GeoBlazor Docs</a>
     ///     The minimum number of list items required to display the visibleElements.filter input box.
     ///     default 10
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#minFilterItems">ArcGIS Maps SDK for JavaScript</a>
@@ -111,6 +149,36 @@ public partial class BasemapLayerListWidget
     public double? MinFilterItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefilterpredicate-property">GeoBlazor Docs</a>
+    ///     Specifies a function to handle filtering reference layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">list items</a>.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterPredicate">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore]
+    public ReferenceFilterPredicate? ReferenceFilterPredicate { get; set; }
+    
+    /// <summary>
+    ///    JS-invokable method that triggers the <see cref="ReferenceFilterPredicate"/> function.
+    ///     Should not be called by consuming code.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsReferenceFilterPredicate(ListItem item)
+    {
+        if (ReferenceFilterPredicate is not null)
+        {
+            await ReferenceFilterPredicate.Invoke(item);
+        }
+    }
+    
+    /// <summary>
+    ///     A convenience property that signifies whether a custom <see cref="ReferenceFilterPredicate" /> function was registered.
+    /// </summary>
+    public bool HasReferenceFilterPredicate => ReferenceFilterPredicate is not null;
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferencefiltertext-property">GeoBlazor Docs</a>
     ///     The value of the filter input text string if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">visibleElements.filter</a> is true.
     ///     default ""
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceFilterText">ArcGIS Maps SDK for JavaScript</a>
@@ -121,6 +189,7 @@ public partial class BasemapLayerListWidget
     public string? ReferenceFilterText { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetreferenceitems-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">referenceLayers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#referenceItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -130,7 +199,9 @@ public partial class BasemapLayerListWidget
     public IReadOnlyList<ListItem>? ReferenceItems { get; protected set; }
     
     /// <summary>
-    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers selected by the user.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselecteditems-property">GeoBlazor Docs</a>
+    ///     A collection of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList-ListItem.html">ListItem</a>s representing basemap layers
+    ///     selected by the user.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectedItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -139,6 +210,7 @@ public partial class BasemapLayerListWidget
     public IReadOnlyList<ListItem>? SelectedItems { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetselectionmode-property">GeoBlazor Docs</a>
     ///     Specifies the selection mode.
     ///     default "none"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#selectionMode">ArcGIS Maps SDK for JavaScript</a>
@@ -149,6 +221,7 @@ public partial class BasemapLayerListWidget
     public SelectionMode? SelectionMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -158,6 +231,7 @@ public partial class BasemapLayerListWidget
     public BasemapLayerListViewModel? ViewModel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibilityappearance-property">GeoBlazor Docs</a>
     ///     Determines the icons used to indicate visibility.
     ///     default "default"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibilityAppearance">ArcGIS Maps SDK for JavaScript</a>
@@ -168,6 +242,7 @@ public partial class BasemapLayerListWidget
     public VisibilityAppearance? VisibilityAppearance { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1364,7 +1439,11 @@ public partial class BasemapLayerListWidget
 #region Public Methods
 
     /// <summary>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#event-trigger-action">trigger-action</a> event and executes the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapLayerListWidget.html#basemaplayerlistwidgettriggeraction-method">GeoBlazor Docs</a>
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#event-trigger-action">trigger-action</a> event and executes
+    ///     the given <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a>.
+    ///     param action The action to execute.
+    ///     param item An item associated with the action.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapLayerList.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="action">

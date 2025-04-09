@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImageAreaResult.html">GeoBlazor Docs</a>
-///     Image service area and perimeter measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods resolve successfully.
+///     Image service area and perimeter measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods resolve successfully.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Name">

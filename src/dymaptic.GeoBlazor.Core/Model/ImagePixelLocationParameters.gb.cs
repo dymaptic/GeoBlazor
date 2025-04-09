@@ -4,26 +4,27 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImagePixelLocationParameters.html">GeoBlazor Docs</a>
-///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computePixelSpaceLocations">ImageryLayer.computePixelSpaceLocations()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computePixelSpaceLocations">imageService.computePixelSpaceLocations()</a> methods.
+///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computePixelSpaceLocations">ImageryLayer.computePixelSpaceLocations()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computePixelSpaceLocations">imageService.computePixelSpaceLocations()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="Point">
+/// <param name="Geometries">
 ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> that defines pixel locations.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html#point">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html#geometries">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="RasterId">
 ///     The rasterId of a raster catalog in the image service.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html#rasterId">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ImagePixelLocationParameters(
-    IReadOnlyCollection<Point>? Point = null,
+    IReadOnlyCollection<Point>? Geometries = null,
     long? RasterId = null)
 {
     /// <summary>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">points</a> that defines pixel locations.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html#point">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePixelLocationParameters.html#geometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public IReadOnlyCollection<Point>? Point { get; set; } = Point;
+    public IReadOnlyCollection<Point>? Geometries { get; set; } = Geometries;
     
     /// <summary>
     ///     The rasterId of a raster catalog in the image service.

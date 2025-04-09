@@ -11,6 +11,7 @@ public partial interface IArcGISImageService : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicebandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
@@ -18,18 +19,21 @@ public partial interface IArcGISImageService : IMapComponent
     IReadOnlyList<long>? BandIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    ArcGISImageServiceCapabilities? Capabilities { get; set; }
+    ArcGISImageServiceCapabilities? Capabilities { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecompressionquality-property">GeoBlazor Docs</a>
     ///     The compression quality value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     double? CompressionQuality { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecompressiontolerance-property">GeoBlazor Docs</a>
     ///     Controls the tolerance of the lerc compression algorithm.
     ///     default 0.01
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionTolerance">ArcGIS Maps SDK for JavaScript</a>
@@ -37,48 +41,56 @@ public partial interface IArcGISImageService : IMapComponent
     double? CompressionTolerance { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicedefaultmosaicrule-property">GeoBlazor Docs</a>
     ///     Default mosaic rule of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#defaultMosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     MosaicRule? DefaultMosaicRule { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicedefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter rasters.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? DefinitionExpression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicefields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    IReadOnlyList<Field>? Fields { get; set; }
+    IReadOnlyList<Field>? Fields { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicefieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     FieldsIndex? FieldsIndex { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceformat-property">GeoBlazor Docs</a>
     ///     The format of the exported image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     ImageFormat? Format { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicehasmultidimensions-property">GeoBlazor Docs</a>
     ///     Indicates if the layer has <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">multidimensionalInfo</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     bool? HasMultidimensions { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceimagemaxheight-property">GeoBlazor Docs</a>
     ///     Indicates the maximum height of the image exported by the service.
     ///     default 4100
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageMaxHeight">ArcGIS Maps SDK for JavaScript</a>
@@ -86,6 +98,7 @@ public partial interface IArcGISImageService : IMapComponent
     int? ImageMaxHeight { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceimagemaxwidth-property">GeoBlazor Docs</a>
     ///     Indicates the maximum width of the image exported by the service.
     ///     default 15000
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageMaxWidth">ArcGIS Maps SDK for JavaScript</a>
@@ -93,18 +106,21 @@ public partial interface IArcGISImageService : IMapComponent
     int? ImageMaxWidth { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceinterpolation-property">GeoBlazor Docs</a>
     ///     Defines how to interpolate pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Interpolation? Interpolation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemosaicrule-property">GeoBlazor Docs</a>
     ///     Defines how overlapping images should be mosaicked.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     MosaicRule? MosaicRule { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemultidimensionalinfo-property">GeoBlazor Docs</a>
     ///     The multidimensional information associated with the layer if the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">hasMultidimensions</a> property is `true`.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -112,54 +128,63 @@ public partial interface IArcGISImageService : IMapComponent
     RasterMultidimensionalInfo? MultidimensionalInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemultidimensionalsubset-property">GeoBlazor Docs</a>
     ///     Represents a multidimensional subset of raster data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     MultidimensionalSubset? MultidimensionalSubset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicenodata-property">GeoBlazor Docs</a>
     ///     The pixel value representing no available information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     NoData? NoData { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicenodatainterpretation-property">GeoBlazor Docs</a>
     ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     NoDataInterpretation? NoDataInterpretation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceobjectidfield-property">GeoBlazor Docs</a>
     ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> containing a unique value or identifier for each raster in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    string? ObjectIdField { get; set; }
+    string? ObjectIdField { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicepixelfilter-property">GeoBlazor Docs</a>
     ///     A function that processes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">pixelData</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     PixelFilterFunction? PixelFilter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicepixeltype-property">GeoBlazor Docs</a>
     ///     Raster source pixel type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     PixelType? PixelType { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicerasterfields-property">GeoBlazor Docs</a>
     ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<Field>? RasterFields { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicerasterfunction-property">GeoBlazor Docs</a>
     ///     Specifies the rule for how the requested image should be processed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     RasterFunction? RasterFunction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicerasterfunctioninfos-property">GeoBlazor Docs</a>
     ///     Returns raster function information for the image services, including the name, description, help, function type, and a thumbnail of pre-configured raster function templates.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunctionInfos">ArcGIS Maps SDK for JavaScript</a>
@@ -167,42 +192,42 @@ public partial interface IArcGISImageService : IMapComponent
     IReadOnlyList<RasterFunctionInfo>? RasterFunctionInfos { get; }
     
     /// <summary>
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#renderer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    IImageryRenderer? Renderer { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Source raster information of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     RasterInfo? ServiceRasterInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicesourcejson-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    object? SourceJSON { get; set; }
+    string? SourceJSON { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicesourcetype-property">GeoBlazor Docs</a>
     ///     Image service data source type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SourceType? SourceType { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicespatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     SpatialReference? SpatialReference { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the image service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -216,11 +241,6 @@ public partial interface IArcGISImageService : IMapComponent
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
     Task SetBandIds(IReadOnlyList<long>? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Capabilities property after render.
-    /// </summary>
-    Task SetCapabilities(ArcGISImageServiceCapabilities? value);
     
     /// <summary>
     ///    Asynchronously set the value of the CompressionQuality property after render.
@@ -241,11 +261,6 @@ public partial interface IArcGISImageService : IMapComponent
     ///    Asynchronously set the value of the DefinitionExpression property after render.
     /// </summary>
     Task SetDefinitionExpression(string? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Fields property after render.
-    /// </summary>
-    Task SetFields(IReadOnlyList<Field>? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Format property after render.
@@ -270,7 +285,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the MosaicRule property after render.
     /// </summary>
-    Task SetMosaicRule(MosaicRule? value);
+    Task SetMosaicRule(MosaicRule value);
     
     /// <summary>
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
@@ -288,11 +303,6 @@ public partial interface IArcGISImageService : IMapComponent
     Task SetNoDataInterpretation(NoDataInterpretation? value);
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    Task SetObjectIdField(string? value);
-    
-    /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
     Task SetPixelType(PixelType? value);
@@ -303,14 +313,9 @@ public partial interface IArcGISImageService : IMapComponent
     Task SetRasterFunction(RasterFunction? value);
     
     /// <summary>
-    ///    Asynchronously set the value of the Renderer property after render.
-    /// </summary>
-    Task SetRenderer(IImageryRenderer? value);
-    
-    /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
-    Task SetSourceJSON(object? value);
+    Task SetSourceJSON(string? value);
     
     /// <summary>
     ///    Asynchronously set the value of the Url property after render.
@@ -442,11 +447,6 @@ public partial interface IArcGISImageService : IMapComponent
     Task<IReadOnlyList<RasterFunctionInfo>?> GetRasterFunctionInfos();
 
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Renderer property.
-    /// </summary>
-    Task<IImageryRenderer?> GetRenderer();
-
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
     /// </summary>
     Task<RasterInfo?> GetServiceRasterInfo();
@@ -454,7 +454,7 @@ public partial interface IArcGISImageService : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    Task<object?> GetSourceJSON();
+    Task<string?> GetSourceJSON();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceType property.
@@ -485,11 +485,6 @@ public partial interface IArcGISImageService : IMapComponent
     /// </summary>
     Task AddToBandIds(params long[] values);
     
-    /// <summary>
-    ///     Asynchronously add elements to the Fields property.
-    /// </summary>
-    Task AddToFields(params Field[] values);
-    
 #endregion
 
 #region Collection Property Removers
@@ -499,65 +494,117 @@ public partial interface IArcGISImageService : IMapComponent
     /// </summary>
     Task RemoveFromBandIds(params long[] values);
     
-    /// <summary>
-    ///     Asynchronously remove elements from the Fields property.
-    /// </summary>
-    Task RemoveFromFields(params Field[] values);
-    
 #endregion
 
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecalculatevolume-method">GeoBlazor Docs</a>
+    ///     Calculates volume on the elevation data for the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageVolumeParameters.html#mosaicRule">mosaicRule</a>, base surface type
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a> geometries.
+    ///     param parameters Specifies parameters for calculating volume.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#calculateVolume">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="parameters">
+    /// </param>
+    /// <param name="requestOptions">
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    Task<ImageVolumeResult?> CalculateVolume(ImageVolumeParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecomputeangles-method">GeoBlazor Docs</a>
     ///     Computes the rotation angle of a ImageryLayer at a given location.
+    ///     param parameters Specifies parameters for computing angles.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeAngles">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageAngleResult?> ComputeAngles(ImageAngleParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecomputehistograms-method">GeoBlazor Docs</a>
     ///     Computes histograms based on the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     param parameters Specifies parameters for computing histograms.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeHistograms">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<HistogramsResult?> ComputeHistograms(ImageHistogramParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecomputepixelspacelocations-method">GeoBlazor Docs</a>
     ///     Computes the corresponding pixel location in columns and rows for an image based on input geometry.
+    ///     param parameters Specifies parameters for computing image space pixel location.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computePixelSpaceLocations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImagePixelLocationResult?> ComputePixelSpaceLocations(ImagePixelLocationParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a> for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicecomputestatisticshistograms-method">GeoBlazor Docs</a>
+    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a>
+    ///     for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     param parameters Specifies parameters for computing statistics and histograms.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeStatisticsHistograms">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
-    Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        object requestOptions);
+    Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Returns an image using the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export REST operation</a> that displays data from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicefetchimage-method">GeoBlazor Docs</a>
+    ///     Returns an image using the
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export REST operation</a> that displays
+    ///     data from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
+    ///     param extent The extent of the image to export.
+    ///     param width The width of the image in pixels.
+    ///     param height The height of the image in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -570,25 +617,36 @@ public partial interface IArcGISImageService : IMapComponent
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    Task<object?> FetchImage(Extent extent,
+    Task<string?> FetchImage(Extent extent,
         int width,
         int height,
         CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicefindimages-method">GeoBlazor Docs</a>
     ///     Finds images based on the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html">FindImagesParameters</a>.
+    ///     param parameters Specifies the find images parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#findImages">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<FindImagesResult?> FindImages(FindImagesParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicegeneraterasterinfo-method">GeoBlazor Docs</a>
     ///     Generates raster info for the specified raster function.
+    ///     param rasterFunction Raster function for the requested raster info.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#generateRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterFunction">
@@ -601,7 +659,12 @@ public partial interface IArcGISImageService : IMapComponent
         CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Gets the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> information of a catalog item in an image service.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicegetcatalogitemicsinfo-method">GeoBlazor Docs</a>
+    ///     Gets the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a>
+    ///     information of a catalog item in an image service.
+    ///     param rasterId Raster catalog id.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getCatalogItemICSInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterId">
@@ -610,11 +673,16 @@ public partial interface IArcGISImageService : IMapComponent
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    Task<object?> GetCatalogItemICSInfo(long rasterId,
+    Task<string?> GetCatalogItemICSInfo(long rasterId,
         CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Get the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html">raster info</a> of a <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-catalog-item.htm">catalog item</a> in an image service.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicegetcatalogitemrasterinfo-method">GeoBlazor Docs</a>
+    ///     Get the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html">raster info</a> of a
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-catalog-item.htm">catalog item</a> in an image service.
+    ///     param rasterId Raster catalog id.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getCatalogItemRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterId">
@@ -627,208 +695,333 @@ public partial interface IArcGISImageService : IMapComponent
         CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicegetimageurl-method">GeoBlazor Docs</a>
     ///     Retrieves an image's url using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageUrlParameters.html">ImageUrlParameters</a>.
+    ///     param parameters Specifies the image url parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getImageUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageUrlResult?> GetImageUrl(ImageUrlParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicegetsamples-method">GeoBlazor Docs</a>
     ///     Returns sample point locations, pixel values and corresponding resolutions of the source data for a given geometry.
+    ///     param parameters The parameters used in the getSamples operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getSamples">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageSampleResult?> GetSamples(ImageSampleParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Sends a request to the ArcGIS REST image service to identify content based on the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html">ImageIdentifyParameters</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceidentify-method">GeoBlazor Docs</a>
+    ///     Sends a request to the ArcGIS REST image service to identify content based on the
+    ///     specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html">ImageIdentifyParameters</a>.
+    ///     param parameters The identify parameters used in the identify operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageIdentifyResult?> Identify(ImageIdentifyParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceimagetomap-method">GeoBlazor Docs</a>
     ///     Converts a geometry from an image space to a map space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html">ImageToMapParameters</a>.
+    ///     param parameters Specifies the image to map parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageToMap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<Geometry?> ImageToMap(ImageToMapParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageserviceimagetomapmultiray-method">GeoBlazor Docs</a>
     ///     Creates a map space geometry from multiray image space geometries using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapMultirayParameters.html">ImageToMapMultirayParameters</a>.
+    ///     param parameters Specifies the image to map multiray parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageToMapMultiray">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<Geometry?> ImageToMapMultiray(ImageToMapMultirayParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemaptoimage-method">GeoBlazor Docs</a>
     ///     Converts a given geometry from a map space to an image space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MapToImageParameters.html">MapToImageParameters</a>.
+    ///     param parameters Specifies the map to image parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#mapToImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<Geometry?> MapToImage(MapToImageParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasureareaandperimeter-method">GeoBlazor Docs</a>
     ///     Calculates the area and perimeter of a given geometry on an image service.
+    ///     param parameters Specifies parameters for measuring the area and perimeter for a given geometry on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaAndPerimeter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageAreaResult?> MeasureAreaAndPerimeter(ImageAreaParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasureareafromimage-method">GeoBlazor Docs</a>
     ///     Measures the area and the perimeter of a polygon in an image space on a selected raster when the following conditions are met:
+    ///     Image service must be published from a mosaic dataset.
+    ///     param parameters Specifies parameters for measuring the area and the perimeter.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<MeasureAreaFromImageResult?> MeasureAreaFromImage(MeasureFromImageParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasuredistanceandangle-method">GeoBlazor Docs</a>
     ///     Calculates the distance and angle between two points on an image service.
+    ///     param parameters Specifies parameters for measuring the distance and angle between two points on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureDistanceAndAngle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageDistanceResult?> MeasureDistanceAndAngle(ImageDistanceParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasureheight-method">GeoBlazor Docs</a>
     ///     Calculates the height of an object between two points on an image service if the sensor info is available.
+    ///     param parameters Specifies parameters for measuring the height of an object between two points on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureHeight">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageHeightResult?> MeasureHeight(ImageHeightParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasurelengthfromimage-method">GeoBlazor Docs</a>
     ///     Measures the length of a polyline in an image space on a selected raster when the following conditions are met:
+    ///     Image service must be published from a mosaic dataset.
+    ///     param parameters Specifies parameters for measuring the length of a polyline.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureLengthFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<MeasureLengthFromImageResult?> MeasureLengthFromImage(MeasureFromImageParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicemeasurepointorcentroid-method">GeoBlazor Docs</a>
     ///     Returns the location for a given point or centroid of a given area on an image service.
+    ///     param parameters Specifies parameters for determining a point location or a centroid of a given area on the image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measurePointOrCentroid">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImagePointResult?> MeasurePointOrCentroid(ImagePointParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicequeryboundary-method">GeoBlazor Docs</a>
     ///     Returns the boundary of an image for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageBoundaryParameters.html">ImageBoundaryParameters</a>.
+    ///     param parameters Specifies the imagery boundary parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryBoundary">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageBoundaryResult?> QueryBoundary(ImageBoundaryParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicequerygpsinfo-method">GeoBlazor Docs</a>
     ///     Returns GPS information for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html">ImageGPSInfoParameters</a>.
+    ///     param parameters Specifies the parameters for query GPS info operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryGPSInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<ImageGPSInfoResult?> QueryGPSInfo(ImageGPSInfoParameters parameters,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns an array of Object IDs for the rasters.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicequeryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns an
+    ///     array of Object IDs for the rasters.
+    ///     param query Specifies the query parameters. If no parameters are specified, then all Object IDs satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<long[]?> QueryObjectIds(Query query,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns the number of rasters that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicequeryrastercount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and
+    ///     returns the number of rasters that satisfy the query.
+    ///     param query Specifies the query parameters. If no parameters are specified, then count of all rasters satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryRasterCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<int?> QueryRasterCount(Query query,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against an image service and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IArcGISImageService.html#iarcgisimageservicequeryrasters-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against an image service and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
+    ///     param query Specifies the query parameters. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryRasters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
     /// </param>
     /// <param name="requestOptions">
     /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
     [ArcGISMethod]
     Task<FeatureSet?> QueryRasters(Query query,
-        object requestOptions);
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default);
     
 #endregion
 

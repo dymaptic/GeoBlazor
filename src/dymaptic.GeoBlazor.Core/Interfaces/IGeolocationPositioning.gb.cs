@@ -15,7 +15,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    object? GeolocationOptions { get; set; }
+    GeolocationOptions? GeolocationOptions { get; set; }
     
     /// <summary>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.

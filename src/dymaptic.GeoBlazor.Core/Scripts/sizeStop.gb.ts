@@ -21,8 +21,7 @@ export async function buildJsSizeStopGenerated(dotNetObject: any): Promise<any> 
     }
     let jsSizeStop = new SizeStop(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSizeStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSizeStop;
     arcGisObjectRefs[dotNetObject.id] = jsSizeStop;
     
     return jsSizeStop;

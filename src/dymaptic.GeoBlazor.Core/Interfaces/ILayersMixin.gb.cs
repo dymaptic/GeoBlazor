@@ -11,6 +11,7 @@ public partial interface ILayersMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinlayers-property">GeoBlazor Docs</a>
     ///     A collection of operational <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">layers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,7 +24,7 @@ public partial interface ILayersMixin : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the Layers property after render.
     /// </summary>
-    Task SetLayers(IReadOnlyList<Layer>? value);
+    Task SetLayers(IReadOnlyList<Layer> value);
     
 #endregion
 
@@ -57,7 +58,10 @@ public partial interface ILayersMixin : IMapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinadd-method">GeoBlazor Docs</a>
     ///     Adds a layer to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param layer Layer or a promise that resolves to a layer to add to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param index A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#add">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
@@ -69,7 +73,10 @@ public partial interface ILayersMixin : IMapComponent
         int index);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinaddmany-method">GeoBlazor Docs</a>
     ///     Adds a layer or an array of layers to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param layers Layer(s) to be added to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>.
+    ///     param index A layer can be added at a specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a>. If no index is specified or the index specified is greater than the current number of layers, the layer is automatically appended to the list of layers in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#layers">layers collection</a> and the index is normalized.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#addMany">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layers">
@@ -81,7 +88,9 @@ public partial interface ILayersMixin : IMapComponent
         int index);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinfindlayerbyid-method">GeoBlazor Docs</a>
     ///     Returns a layer based on the given layer ID.
+    ///     param layerId The ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#findLayerById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -90,7 +99,9 @@ public partial interface ILayersMixin : IMapComponent
     Task<Layer?> FindLayerById(string layerId);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinremove-method">GeoBlazor Docs</a>
     ///     Removes the specified layer from the layers collection.
+    ///     param layer Layer to remove from the layers collection.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#remove">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
@@ -99,6 +110,7 @@ public partial interface ILayersMixin : IMapComponent
     Task<Layer?> Remove(Layer layer);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinremoveall-method">GeoBlazor Docs</a>
     ///     Removes all layers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#removeAll">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -106,7 +118,9 @@ public partial interface ILayersMixin : IMapComponent
     Task<Layer[]?> RemoveAll();
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinremovemany-method">GeoBlazor Docs</a>
     ///     Removes the specified layers.
+    ///     param layers Array of layers to remove from the layers collection.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#removeMany">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layers">
@@ -115,7 +129,10 @@ public partial interface ILayersMixin : IMapComponent
     Task<Layer[]?> RemoveMany(IReadOnlyCollection<Layer> layers);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ILayersMixin.html#ilayersmixinreorder-method">GeoBlazor Docs</a>
     ///     Changes the layer order.
+    ///     param layer The layer to be moved.
+    ///     param index The index location for placing the layer. The bottom-most layer has an index of `0`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-LayersMixin.html#reorder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">

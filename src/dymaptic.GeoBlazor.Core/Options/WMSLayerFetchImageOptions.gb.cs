@@ -21,7 +21,7 @@ namespace dymaptic.GeoBlazor.Core.Options;
 public partial record WMSLayerFetchImageOptions(
     double? PixelRatio = null,
     double? Rotation = null,
-    object? TimeExent = null)
+    string? TimeExent = null)
 {
     /// <summary>
     ///     The ratio of the resolution in physical pixels of the image to the resolution it will be displayed at.
@@ -39,6 +39,6 @@ public partial record WMSLayerFetchImageOptions(
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">TimeExtent</a> of the exported image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public object? TimeExent { get; set; } = TimeExent;
+    public string? TimeExent { get; set; } = TimeExent;
     
 }

@@ -30,6 +30,12 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     ///     Indicates whether to display the `featureEnabledToggle` (Feature to feature).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="gridControls">
+    /// </param>
+    /// <param name="gridControlsElements">
+    /// </param>
+    /// <param name="gridEnabledToggle">
+    /// </param>
     /// <param name="header">
     ///     Indicates whether to display the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
@@ -49,6 +55,9 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public VisibleElementsSnappingControlsElements(
         bool? enabledToggle = null,
         bool? featureEnabledToggle = null,
+        bool? gridControls = null,
+        VisibleElementsSnappingControlsElementsGridControlsElements? gridControlsElements = null,
+        bool? gridEnabledToggle = null,
         bool? header = null,
         bool? layerList = null,
         bool? layerListToggleLayersButton = null,
@@ -58,6 +67,9 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
 #pragma warning disable BL0005
         EnabledToggle = enabledToggle;
         FeatureEnabledToggle = featureEnabledToggle;
+        GridControls = gridControls;
+        GridControlsElements = gridControlsElements;
+        GridEnabledToggle = gridEnabledToggle;
         Header = header;
         LayerList = layerList;
         LayerListToggleLayersButton = layerListToggleLayersButton;
@@ -69,6 +81,7 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsenabledtoggle-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `enabledToggle` (Enable snapping).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +91,7 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public bool? EnabledToggle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsfeatureenabledtoggle-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `featureEnabledToggle` (Feature to feature).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,6 +101,34 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public bool? FeatureEnabledToggle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsgridcontrols-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? GridControls { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsgridcontrolselements-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public VisibleElementsSnappingControlsElementsGridControlsElements? GridControlsElements { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsgridenabledtoggle-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? GridEnabledToggle { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsheader-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +138,7 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public bool? Header { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementslayerlist-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-FeatureSnappingLayerSource.html">FeatureSnappingLayerSource</a> layerList.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +148,7 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public bool? LayerList { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementslayerlisttogglelayersbutton-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the “Enable all” or “Disable all” button to enable / disable snapping for all the layers in the list.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +158,7 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     public bool? LayerListToggleLayersButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsSnappingControlsElements.html#visibleelementssnappingcontrolselementsselfenabledtoggle-property">GeoBlazor Docs</a>
     ///     Indicates whether to display the `selfEnabledToggle` (Geometry guides).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -202,6 +247,123 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
         }
          
         return FeatureEnabledToggle;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GridControls property.
+    /// </summary>
+    public async Task<bool?> GetGridControls()
+    {
+        if (CoreJsModule is null)
+        {
+            return GridControls;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GridControls;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "gridControls");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             GridControls = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(GridControls)] = GridControls;
+        }
+         
+        return GridControls;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GridControlsElements property.
+    /// </summary>
+    public async Task<VisibleElementsSnappingControlsElementsGridControlsElements?> GetGridControlsElements()
+    {
+        if (CoreJsModule is null)
+        {
+            return GridControlsElements;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GridControlsElements;
+        }
+
+        VisibleElementsSnappingControlsElementsGridControlsElements? result = await JsComponentReference.InvokeAsync<VisibleElementsSnappingControlsElementsGridControlsElements?>(
+            "getGridControlsElements", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            GridControlsElements = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(GridControlsElements)] = GridControlsElements;
+        }
+        
+        return GridControlsElements;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the GridEnabledToggle property.
+    /// </summary>
+    public async Task<bool?> GetGridEnabledToggle()
+    {
+        if (CoreJsModule is null)
+        {
+            return GridEnabledToggle;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return GridEnabledToggle;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "gridEnabledToggle");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             GridEnabledToggle = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(GridEnabledToggle)] = GridEnabledToggle;
+        }
+         
+        return GridEnabledToggle;
     }
     
     /// <summary>
@@ -439,6 +601,125 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the GridControls property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGridControls(bool? value)
+    {
+#pragma warning disable BL0005
+        GridControls = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GridControls)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "gridControls", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GridControlsElements property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGridControlsElements(VisibleElementsSnappingControlsElementsGridControlsElements? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        GridControlsElements = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GridControlsElements)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "gridControlsElements", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the GridEnabledToggle property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetGridEnabledToggle(bool? value)
+    {
+#pragma warning disable BL0005
+        GridEnabledToggle = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(GridEnabledToggle)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "gridEnabledToggle", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Header property after render.
     /// </summary>
     /// <param name="value">
@@ -588,4 +869,47 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case VisibleElementsSnappingControlsElementsGridControlsElements gridControlsElements:
+                if (gridControlsElements != GridControlsElements)
+                {
+                    GridControlsElements = gridControlsElements;
+                    
+                    ModifiedParameters[nameof(GridControlsElements)] = GridControlsElements;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case VisibleElementsSnappingControlsElementsGridControlsElements _:
+                GridControlsElements = null;
+                
+                ModifiedParameters[nameof(GridControlsElements)] = GridControlsElements;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        GridControlsElements?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

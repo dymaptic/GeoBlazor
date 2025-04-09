@@ -45,6 +45,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsColumnMenuItems.html#visibleelementscolumnmenuitemssortascending-property">GeoBlazor Docs</a>
     ///     _(Since 4.30)_ Indicates whether to display the `Sort Ascending` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -54,6 +55,7 @@ public partial class VisibleElementsColumnMenuItems : MapComponent
     public bool? SortAscending { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisibleElementsColumnMenuItems.html#visibleelementscolumnmenuitemssortdescending-property">GeoBlazor Docs</a>
     ///     _(Since 4.30)_ Indicates whether to display the `Sort Descending` menu item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

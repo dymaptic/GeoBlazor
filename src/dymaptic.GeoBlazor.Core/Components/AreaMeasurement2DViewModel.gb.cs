@@ -23,6 +23,10 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="snappingOptions">
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="unit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#unit">ArcGIS Maps SDK for JavaScript</a>
@@ -32,11 +36,13 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public AreaMeasurement2DViewModel(
+        SnappingOptions snappingOptions,
         SystemOrAreaUnit? unit = null,
         IReadOnlyList<SystemOrAreaUnit>? unitOptions = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
 #pragma warning restore BL0005    
@@ -46,6 +52,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelmeasurement-property">GeoBlazor Docs</a>
     ///     The area and perimeter of the measurement polygon in square meters and meters respectively.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -55,6 +62,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     public AreaMeasurement2DViewModelMeasurement? Measurement { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelmeasurementlabel-property">GeoBlazor Docs</a>
     ///     This property returns the locale specific representation of the area and perimeter.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurementLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -64,8 +72,19 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     public AreaMeasurement2DViewModelMeasurementLabel? MeasurementLabel { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelsnappingoptions-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SnappingOptions? SnappingOptions { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelstate-property">GeoBlazor Docs</a>
     ///     The ViewModel's state.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -74,6 +93,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     public MeasurementViewModelState? State { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -83,6 +103,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     public SystemOrAreaUnit? Unit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelunitoptions-property">GeoBlazor Docs</a>
     ///     List of available units and unit systems (imperial, metric) for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -171,6 +192,45 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
         }
         
         return MeasurementLabel;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SnappingOptions property.
+    /// </summary>
+    public async Task<SnappingOptions?> GetSnappingOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return SnappingOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SnappingOptions;
+        }
+
+        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
+            "getSnappingOptions", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SnappingOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+        }
+        
+        return SnappingOptions;
     }
     
     /// <summary>
@@ -295,6 +355,48 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
 #region Property Setters
 
     /// <summary>
+    ///    Asynchronously set the value of the SnappingOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSnappingOptions(SnappingOptions value)
+    {
+        value.CoreJsModule  = CoreJsModule;
+        value.Parent = this;
+        value.Layer = Layer;
+        value.View = View;
+        
+#pragma warning disable BL0005
+        SnappingOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SnappingOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
     /// <param name="value">
@@ -411,6 +513,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelclear-method">GeoBlazor Docs</a>
     ///     Clears the current measurement.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#clear">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -425,6 +528,7 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModel.html#areameasurement2dviewmodelstart-method">GeoBlazor Docs</a>
     ///     Starts a new measurement.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -440,4 +544,47 @@ public partial class AreaMeasurement2DViewModel : MapComponent,
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SnappingOptions snappingOptions:
+                if (snappingOptions != SnappingOptions)
+                {
+                    SnappingOptions = snappingOptions;
+                    
+                    ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case SnappingOptions _:
+                SnappingOptions = null;
+                
+                ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        SnappingOptions?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

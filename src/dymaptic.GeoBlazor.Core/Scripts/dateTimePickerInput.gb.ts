@@ -21,8 +21,7 @@ export async function buildJsDateTimePickerInputGenerated(dotNetObject: any, lay
     }
     let jsDateTimePickerInput = new DateTimePickerInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsDateTimePickerInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsDateTimePickerInput;
     arcGisObjectRefs[dotNetObject.id] = jsDateTimePickerInput;
     
     return jsDateTimePickerInput;

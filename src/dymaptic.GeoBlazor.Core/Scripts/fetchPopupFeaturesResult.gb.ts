@@ -18,8 +18,7 @@ export async function buildJsFetchPopupFeaturesResultGenerated(dotNetObject: any
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFetchPopupFeaturesResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFetchPopupFeaturesResult;
     arcGisObjectRefs[dotNetObject.id] = jsFetchPopupFeaturesResult;
     
     return jsFetchPopupFeaturesResult;

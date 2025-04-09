@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.BasemapGalleryItemState.html">GeoBlazor Docs</a>
-///     Enumeration for BasemapGalleryItemState
+///     The item's state.
+///     default "loading"
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapGallery-support-BasemapGalleryItem.html#state">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BasemapGalleryItemState>))]
 public enum BasemapGalleryItemState

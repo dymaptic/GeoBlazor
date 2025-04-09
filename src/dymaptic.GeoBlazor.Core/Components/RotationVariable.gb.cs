@@ -5,7 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RotationVariable.html">GeoBlazor Docs</a>
-///     The rotation visual variable defines how features rendered with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">marker symbols</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">text symbols</a> in a MapView are rotated.
+///     The rotation visual variable, determined by mapping the values to data in a field or
+///     by other arithmetic means with an Arcade expression, controls how features rendered with
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">marker symbols</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-TextSymbol.html">text symbols</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> ,
+///     as well as with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-MarkerSymbol.html">marker symbols</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html">ObjectSymbol3DLayer</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a> in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>,
+///     are rotated.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class RotationVariable
@@ -23,29 +27,34 @@ public partial class RotationVariable
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="field">
-    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    ///     The name of the numeric attribute field that contains the data
+    ///     values used to determine the color/opacity/size/rotation of each feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="axis">
-    ///     Only applicable when working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
-    ///     default heading
+    ///     Only applicable when working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html">ObjectSymbol3DLayer</a>.
+    ///     default "heading"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html#axis">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="rotationType">
-    ///     Defines the origin and direction of rotation depending on how the angle of rotation was measured.
-    ///     default geographic
+    ///     Defines the origin and direction of rotation depending
+    ///     on how the angle of rotation was measured.
+    ///     default "geographic"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html#rotationType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendOptions">
-    ///     An object providing options for displaying the visual variable in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     An object providing options for displaying the visual variable in
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
+    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpressionTitle">
-    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
+    ///     The title identifying and describing the associated
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public RotationVariable(
@@ -71,8 +80,9 @@ public partial class RotationVariable
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Only applicable when working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
-    ///     default heading
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RotationVariable.html#rotationvariableaxis-property">GeoBlazor Docs</a>
+    ///     Only applicable when working in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a> with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-ObjectSymbol3DLayer.html">ObjectSymbol3DLayer</a>.
+    ///     default "heading"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-RotationVariable.html#axis">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

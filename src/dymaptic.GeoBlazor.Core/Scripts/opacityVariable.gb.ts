@@ -32,8 +32,7 @@ export async function buildJsOpacityVariableGenerated(dotNetObject: any): Promis
     }
     let jsOpacityVariable = new OpacityVariable(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOpacityVariable);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOpacityVariable;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityVariable;
     
     return jsOpacityVariable;

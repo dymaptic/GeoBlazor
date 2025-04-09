@@ -23,11 +23,13 @@ public partial class SliderViewModel
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="effectiveMax">
-    ///     When set, the user is restricted from moving slider thumbs to positions higher than this value.
+    ///     When set, the user is restricted from moving slider thumbs to positions higher than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#effectiveMax">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effectiveMin">
-    ///     When set, the user is restricted from moving slider thumbs to positions less than this value.
+    ///     When set, the user is restricted from moving slider thumbs to positions less than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#effectiveMin">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="inputFormatFunction">
@@ -56,7 +58,8 @@ public partial class SliderViewModel
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#precision">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="thumbsConstrained">
-    ///     When `false`, the user can freely move any slider thumb to any position along the track.
+    ///     When `false`, the user can freely move any slider thumb to any
+    ///     position along the track.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#thumbsConstrained">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -95,7 +98,9 @@ public partial class SliderViewModel
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     When set, the user is restricted from moving slider thumbs to positions higher than this value.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeleffectivemax-property">GeoBlazor Docs</a>
+    ///     When set, the user is restricted from moving slider thumbs to positions higher than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#effectiveMax">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -104,7 +109,9 @@ public partial class SliderViewModel
     public double? EffectiveMax { get; set; }
     
     /// <summary>
-    ///     When set, the user is restricted from moving slider thumbs to positions less than this value.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeleffectivemin-property">GeoBlazor Docs</a>
+    ///     When set, the user is restricted from moving slider thumbs to positions less than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#effectiveMin">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -113,6 +120,7 @@ public partial class SliderViewModel
     public double? EffectiveMin { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelinputformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format user inputs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#inputFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +134,7 @@ public partial class SliderViewModel
     public bool HasInputFormatFunction => InputFormatFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelinputparsefunction-property">GeoBlazor Docs</a>
     ///     Function used to parse slider inputs formatted by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#inputFormatFunction">inputFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#inputParseFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -139,6 +148,7 @@ public partial class SliderViewModel
     public bool HasInputParseFunction => InputParseFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodellabelformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labelFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -152,7 +162,9 @@ public partial class SliderViewModel
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
     
     /// <summary>
-    ///     An array of strings associated with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> generated using an internal label formatter or the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labelFormatFunction">labelFormatFunction</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodellabels-property">GeoBlazor Docs</a>
+    ///     An array of strings associated with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> generated using an internal label formatter or
+    ///     the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labelFormatFunction">labelFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#labels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -161,6 +173,7 @@ public partial class SliderViewModel
     public LabelInfos? Labels { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelmax-property">GeoBlazor Docs</a>
     ///     The maximum possible data/thumb value of the slider.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#max">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -170,6 +183,7 @@ public partial class SliderViewModel
     public double? Max { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelmin-property">GeoBlazor Docs</a>
     ///     The minimum possible data/thumb value of the slider.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#min">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -179,6 +193,7 @@ public partial class SliderViewModel
     public double? Min { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelprecision-property">GeoBlazor Docs</a>
     ///     Defines how slider values should be rounded.
     ///     default 4
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#precision">ArcGIS Maps SDK for JavaScript</a>
@@ -189,6 +204,7 @@ public partial class SliderViewModel
     public double? Precision { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelstate-property">GeoBlazor Docs</a>
     ///     The state of the view model.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -198,7 +214,9 @@ public partial class SliderViewModel
     public ViewModelState? State { get; protected set; }
     
     /// <summary>
-    ///     When `false`, the user can freely move any slider thumb to any position along the track.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelthumbsconstrained-property">GeoBlazor Docs</a>
+    ///     When `false`, the user can freely move any slider thumb to any
+    ///     position along the track.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#thumbsConstrained">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -208,6 +226,7 @@ public partial class SliderViewModel
     public bool? ThumbsConstrained { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelvalues-property">GeoBlazor Docs</a>
     ///     An array of numbers representing absolute thumb positions on the slider.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -877,7 +896,9 @@ public partial class SliderViewModel
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultinputformatfunction-method">GeoBlazor Docs</a>
     ///     The default input format function available for use as a fallback in custom formatting implementations.
+    ///     param value The input value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultInputFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -895,7 +916,9 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultinputparsefunction-method">GeoBlazor Docs</a>
     ///     The default input parsing function available for use as a fallback in custom parsing implementations.
+    ///     param value The thumb value to parse.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultInputParseFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -913,7 +936,9 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeldefaultlabelformatfunction-method">GeoBlazor Docs</a>
     ///     The default label format function, available for use as a fallback in custom formatting implementations.
+    ///     param value The thumb value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#defaultLabelFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -931,6 +956,7 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetbounds-method">GeoBlazor Docs</a>
     ///     Returns the effective bounds of the slider.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getBounds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -945,25 +971,31 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetboundsforvalueatindex-method">GeoBlazor Docs</a>
     ///     Returns the min and max bounds for a 'value' at the provided index.
+    ///     param index The index of the associated value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getBoundsForValueAtIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
     ///     The index of the associated value.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GetBoundsForValueAtIndex(int index)
+    public async Task<string?> GetBoundsForValueAtIndex(int index)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "getBoundsForValueAtIndex", 
             CancellationTokenSource.Token,
             index);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelgetlabelforvalue-method">GeoBlazor Docs</a>
     ///     Returns the formatted label for a provided value.
+    ///     param value The value from which to retrieve a formatted label.
+    ///     param type The label type.
+    ///     param index The index of the label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#getLabelForValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -991,7 +1023,10 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodelsetvalue-method">GeoBlazor Docs</a>
     ///     Updates a thumb <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">value</a> based on the provided index.
+    ///     param index The index of the thumb value in the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#values">values</a> array.
+    ///     param value The new value to replace with the old value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#setValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
@@ -1014,18 +1049,20 @@ public partial class SliderViewModel
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SliderViewModel.html#sliderviewmodeltoprecision-method">GeoBlazor Docs</a>
     ///     Rounds the given value to the number of decimal places specified in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#precision">precision</a> property set on the view model.
+    ///     param value The thumb value to format.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider-SliderViewModel.html#toPrecision">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
     ///     The thumb value to format.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> ToPrecision(double value)
+    public async Task<double?> ToPrecision(double value)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<string?>(
+        return await JsComponentReference!.InvokeAsync<double?>(
             "toPrecision", 
             CancellationTokenSource.Token,
             value);

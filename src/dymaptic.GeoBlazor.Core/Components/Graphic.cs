@@ -54,7 +54,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
         AttributesDictionary? attributes = null,
         bool? visible = null,
         string? legendLabel = null,
-        object? aggregateGeometries = null,
+        string? aggregateGeometries = null,
         GraphicOrigin? origin = null)
     {
         AllowRender = false;
@@ -496,11 +496,11 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     /// </summary>
     [ArcGISMethod]
     [CodeGenerationIgnore]
-    public async Task<long?> GetObjectId()
+    public async Task<string?> GetObjectId()
     {
         if (CoreJsModule is null) return null;
         
-        return await CoreJsModule!.InvokeAsync<long?>(
+        return await CoreJsModule!.InvokeAsync<string?>(
             "getObjectIdForGraphic", 
             CancellationTokenSource.Token,
             Id, LayerId, ViewId);

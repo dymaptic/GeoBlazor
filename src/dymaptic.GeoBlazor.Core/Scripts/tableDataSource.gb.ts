@@ -19,8 +19,7 @@ export async function buildJsTableDataSourceGenerated(dotNetObject: any, layerId
         jsTableDataSource.workspaceId = dotNetObject.workspaceId;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTableDataSource);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTableDataSource;
     arcGisObjectRefs[dotNetObject.id] = jsTableDataSource;
     
     return jsTableDataSource;

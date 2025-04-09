@@ -26,8 +26,7 @@ export async function buildJsSearchCompleteEventGenerated(dotNetObject: any, lay
         jsSearchSearchCompleteEvent.searchTerm = dotNetObject.searchTerm;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchSearchCompleteEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchSearchCompleteEvent;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSearchCompleteEvent;
     
     return jsSearchSearchCompleteEvent;

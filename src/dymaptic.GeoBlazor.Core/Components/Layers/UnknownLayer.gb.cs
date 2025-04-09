@@ -43,17 +43,12 @@ public partial class UnknownLayer : Layer
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="title">
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -68,7 +63,6 @@ public partial class UnknownLayer : Layer
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? opacity = null,
-        bool? persistenceEnabled = null,
         string? title = null,
         TimeExtent? visibilityTimeExtent = null,
         bool? visible = null)
@@ -80,7 +74,6 @@ public partial class UnknownLayer : Layer
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         Opacity = opacity;
-        PersistenceEnabled = persistenceEnabled;
         Title = title;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;

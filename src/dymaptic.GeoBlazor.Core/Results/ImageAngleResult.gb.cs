@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImageAngleResult.html">GeoBlazor Docs</a>
-///     The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a> method.
+///     The results from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#computeAngles">imageService.computeAngles()</a> or
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ImageryLayer.computeAngles()</a> method.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAngleResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="North">

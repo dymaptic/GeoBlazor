@@ -29,8 +29,7 @@ export async function buildJsCoverageDescriptionV201EoMetadataObservationGenerat
         jsCoverageDescriptionV201EoMetadataObservation.status = dotNetObject.status;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV201EoMetadataObservation);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201EoMetadataObservation;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201EoMetadataObservation;
     
     return jsCoverageDescriptionV201EoMetadataObservation;

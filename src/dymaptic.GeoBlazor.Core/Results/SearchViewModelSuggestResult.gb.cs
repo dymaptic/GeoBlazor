@@ -20,6 +20,7 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#SuggestResult">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record SearchViewModelSuggestResult(
+    [property:JsonConverter(typeof(NumberToStringConverter))]
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Key = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

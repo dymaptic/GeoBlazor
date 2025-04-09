@@ -40,8 +40,7 @@ export async function buildJsCapabilitiesOperationsGenerated(dotNetObject: any):
         jsCapabilitiesOperations.supportsValidateSql = dotNetObject.supportsValidateSql;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesOperations);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesOperations;
     
     return jsCapabilitiesOperations;
@@ -81,6 +80,10 @@ export async function buildDotNetCapabilitiesOperationsGenerated(jsObject: any):
     
     if (hasValue(jsObject.supportsQueryTopFeatures)) {
         dotNetCapabilitiesOperations.supportsQueryTopFeatures = jsObject.supportsQueryTopFeatures;
+    }
+    
+    if (hasValue(jsObject.supportsResizeAttachments)) {
+        dotNetCapabilitiesOperations.supportsResizeAttachments = jsObject.supportsResizeAttachments;
     }
     
     if (hasValue(jsObject.supportsUpdate)) {

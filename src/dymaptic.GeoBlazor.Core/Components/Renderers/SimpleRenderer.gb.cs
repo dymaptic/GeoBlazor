@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html">GeoBlazor Docs</a>
-///     SimpleRenderer renders all features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> with one <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">Symbol</a>.
+///     SimpleRenderer renders all features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> with one
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-Symbol.html">Symbol</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SimpleRenderer : IRendererWithVisualVariables,
@@ -33,10 +34,13 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     /// </param>
     /// <param name="visualVariables">
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="authoringInfo">
-    ///     Authoring metadata only included in renderers generated from one of the Smart Mapping creator methods, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
+    ///     Authoring metadata only included in renderers generated from one of the
+    ///     Smart Mapping creator methods, such as
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html#authoringInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public SimpleRenderer(
@@ -58,6 +62,7 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderersymbol-property">GeoBlazor Docs</a>
     ///     The symbol used by the renderer to visualize all features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#symbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -67,8 +72,9 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
     public Symbol? Symbol { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.SimpleRenderer.html#simplerenderervisualvariables-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-SimpleRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

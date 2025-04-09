@@ -11,16 +11,20 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The height of the image in pixels.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="Label">
-///     The label of the category corresponding to the given image.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Opacity">
 ///     The opacity of the image (`0` to `1`).
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Src">
 ///     The data URI of the image representing a colored pixel in the renderer.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StretchMultibandTitleLabel">
+///     The label of the category corresponding to the given image.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="StringLabel">
+///     The label of the category corresponding to the given image.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ImageSymbolTableElementInfo">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Width">
@@ -31,10 +35,12 @@ public partial record ImageSymbolTableElementInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Height = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    string? Label = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Opacity = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? Src = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    StretchMultibandTitle? StretchMultibandTitleLabel = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    string? StringLabel = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Width = null) : ISymbolTableElementType;

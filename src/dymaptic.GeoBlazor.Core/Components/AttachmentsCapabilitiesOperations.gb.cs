@@ -51,6 +51,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsCapabilitiesOperations.html#attachmentscapabilitiesoperationsadd-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow adding attachments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments-AttachmentsViewModel.html#AttachmentsCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
     public bool? Add { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsCapabilitiesOperations.html#attachmentscapabilitiesoperationsdelete-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow deleting an existing attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments-AttachmentsViewModel.html#AttachmentsCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class AttachmentsCapabilitiesOperations : MapComponent
     public bool? Delete { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AttachmentsCapabilitiesOperations.html#attachmentscapabilitiesoperationsupdate-property">GeoBlazor Docs</a>
     ///     Indicates whether to allow updating an existing attachment.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Attachments-AttachmentsViewModel.html#AttachmentsCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

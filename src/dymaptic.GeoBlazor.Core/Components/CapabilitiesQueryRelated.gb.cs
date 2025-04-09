@@ -57,6 +57,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryRelated.html#capabilitiesqueryrelatedsupportscachehint-property">GeoBlazor Docs</a>
     ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-RelationshipQuery.html">relationship query operation</a> supports a cache hint.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     public bool? SupportsCacheHint { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryRelated.html#capabilitiesqueryrelatedsupportscount-property">GeoBlazor Docs</a>
     ///     Indicates if the layer's query response includes the number of features or records related to features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     public bool? SupportsCount { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryRelated.html#capabilitiesqueryrelatedsupportsorderby-property">GeoBlazor Docs</a>
     ///     Indicates if the related features or records returned in the query response can be ordered by one or more fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class CapabilitiesQueryRelated : MapComponent
     public bool? SupportsOrderBy { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.CapabilitiesQueryRelated.html#capabilitiesqueryrelatedsupportspagination-property">GeoBlazor Docs</a>
     ///     Indicates if the query response supports pagination for related features or records.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#Capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

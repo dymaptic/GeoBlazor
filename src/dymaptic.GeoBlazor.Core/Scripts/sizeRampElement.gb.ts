@@ -17,8 +17,7 @@ export async function buildJsSizeRampElementGenerated(dotNetObject: any, layerId
         jsSizeRampElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSizeRampElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSizeRampElement;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampElement;
     
     return jsSizeRampElement;

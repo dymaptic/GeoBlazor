@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html">GeoBlazor Docs</a>
-///     The `FieldInfo` class defines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> participates, or in some cases, does not participate, in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     The `FieldInfo` class defines how a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> participates,
+///     or in some cases, does not participate, in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FieldInfo
@@ -23,7 +24,9 @@ public partial class FieldInfo
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="fieldName">
-    ///     The field name as defined by the service or the name of an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression.
+    ///     The field name as defined by the service or the name of
+    ///     an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a>
+    ///     expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#fieldName">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
@@ -35,13 +38,15 @@ public partial class FieldInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#tooltip">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="stringFieldOption">
-    ///     A string determining what type of input box editors see when editing the field.
-    ///     default text-box
+    ///     A string determining what type of input box editors see
+    ///     when editing the field.
+    ///     default "text-box"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#stringFieldOption">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="format">
-    ///     Class which provides formatting options for numerical or date fields and how they should display within a popup.
-    ///     If displaying a `timestamp-offset` or `date` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#type">type</a> field in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html">Features</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> widget and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> has a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#timeZone">timezone</a> set other than `unknown`, the abbreviated time zone suffix will be omitted from the attribute value. For example, the attribute value will display as `9/28/2014, 7:58 PM`. To display an abbreviated time zone suffix, see the `Read more` section. >>>esri-read-more<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
+    ///     Class which provides formatting options for numerical or date fields and how they should display within
+    ///     a popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isEditable">
     ///     A Boolean determining whether users can edit this field.
@@ -54,7 +59,8 @@ public partial class FieldInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#visible">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="statisticType">
-    ///     Used in a `one:many` or `many:many` relationship to compute the statistics on the field to show in the popup.
+    ///     Used in a `one:many` or `many:many` relationship to compute the statistics
+    ///     on the field to show in the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#statisticType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public FieldInfo(
@@ -84,8 +90,10 @@ public partial class FieldInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Class which provides formatting options for numerical or date fields and how they should display within a popup.
-    ///     If displaying a `timestamp-offset` or `date` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#type">type</a> field in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html">Features</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> widget and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> has a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#timeZone">timezone</a> set other than `unknown`, the abbreviated time zone suffix will be omitted from the attribute value. For example, the attribute value will display as `9/28/2014, 7:58 PM`. To display an abbreviated time zone suffix, see the `Read more` section. >>>esri-read-more<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html#fieldinfoformat-property">GeoBlazor Docs</a>
+    ///     Class which provides formatting options for numerical or date fields and how they should display within
+    ///     a popup.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#format">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -93,7 +101,9 @@ public partial class FieldInfo
     public FieldInfoFormat? Format { get; set; }
     
     /// <summary>
-    ///     Used in a `one:many` or `many:many` relationship to compute the statistics on the field to show in the popup.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfo.html#fieldinfostatistictype-property">GeoBlazor Docs</a>
+    ///     Used in a `one:many` or `many:many` relationship to compute the statistics
+    ///     on the field to show in the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html#statisticType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

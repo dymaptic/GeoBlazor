@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.html">GeoBlazor Docs</a>
-///     A `FieldsContent` popup element represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> associated with a feature.
+///     A `FieldsContent` popup element represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">FieldInfo</a> associated with a
+///     feature.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FieldsPopupContent
@@ -51,6 +52,7 @@ public partial class FieldsPopupContent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.FieldsPopupContent.html#fieldspopupcontentfieldinfos-property">GeoBlazor Docs</a>
     ///     Array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-FieldInfo.html">fieldInfos</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-FieldsContent.html#fieldInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

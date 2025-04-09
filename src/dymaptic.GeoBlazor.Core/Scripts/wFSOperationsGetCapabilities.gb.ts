@@ -13,8 +13,7 @@ export async function buildJsWFSOperationsGetCapabilitiesGenerated(dotNetObject:
         jsWFSOperationsGetCapabilities.url = dotNetObject.url;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWFSOperationsGetCapabilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWFSOperationsGetCapabilities;
     arcGisObjectRefs[dotNetObject.id] = jsWFSOperationsGetCapabilities;
     
     return jsWFSOperationsGetCapabilities;

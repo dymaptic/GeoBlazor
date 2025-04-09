@@ -69,6 +69,7 @@ public partial class TickConfig
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfigdoublecollectionvalues-property">GeoBlazor Docs</a>
     ///     Indicates where ticks will be rendered below the track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +79,7 @@ public partial class TickConfig
     public IReadOnlyList<double>? DoubleCollectionValues { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfigdoublevalues-property">GeoBlazor Docs</a>
     ///     Indicates where ticks will be rendered below the track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,6 +89,7 @@ public partial class TickConfig
     public double? DoubleValues { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfiglabelformatfunction-property">GeoBlazor Docs</a>
     ///     Callback for formatting tick labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -100,6 +103,7 @@ public partial class TickConfig
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.TickConfig.html#tickconfigtickcreatedfunction-property">GeoBlazor Docs</a>
     ///     Callback that fires for each tick.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -161,7 +165,7 @@ public partial class TickConfig
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
-            CancellationTokenSource.Token, "doubleCollectionValues");
+            CancellationTokenSource.Token, "values");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -328,7 +332,7 @@ public partial class TickConfig
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleCollectionValues", value);
+            JsComponentReference, "values", value);
     }
     
     /// <summary>
@@ -365,7 +369,7 @@ public partial class TickConfig
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleValues", value);
+            JsComponentReference, "values", value);
     }
     
     /// <summary>

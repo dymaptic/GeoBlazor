@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.AttachmentInfo.html">GeoBlazor Docs</a>
-///     The `AttachmentInfo` class returns information about attachments associated with a feature.
+///     The `AttachmentInfo` class returns information about attachments associated with a
+///     feature.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-query-support-AttachmentInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="ContentType">
@@ -61,8 +62,9 @@ public partial record AttachmentInfo(
     string Keywords,
     string Name,
     OrientationInfo OrientationInfo,
-    long ParentGlobalId,
-    long ParentObjectId,
+    string ParentGlobalId,
+    [property:JsonConverter(typeof(NumberToStringConverter))]
+    string ParentObjectId,
     int Size,
     string Url,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

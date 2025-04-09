@@ -78,9 +78,6 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.thumbsConstrained)) {
             this.widget.thumbsConstrained = dotNetObject.thumbsConstrained;
         }
-        if (hasValue(dotNetObject.trackElement)) {
-            this.widget.trackElement = dotNetObject.trackElement;
-        }
         if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
             this.widget.values = dotNetObject.values;
         }
@@ -106,12 +103,6 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -318,9 +309,6 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.thumbsConstrained)) {
         properties.thumbsConstrained = dotNetObject.thumbsConstrained;
     }
-    if (hasValue(dotNetObject.trackElement)) {
-        properties.trackElement = dotNetObject.trackElement;
-    }
     if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         properties.values = dotNetObject.values;
     }
@@ -415,11 +403,11 @@ export async function buildJsSliderWidgetGenerated(dotNetObject: any, layerId: s
     sliderWidgetWrapper.viewId = viewId;
     sliderWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = sliderWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSlider;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(sliderWidgetWrapper);
         let { buildDotNetSliderWidget } = await import('./sliderWidget');
         let dnInstantiatedObject = await buildDotNetSliderWidget(jsSlider);
 

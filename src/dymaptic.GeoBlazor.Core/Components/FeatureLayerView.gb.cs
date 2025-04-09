@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html">GeoBlazor Docs</a>
-///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a> after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html">FeatureLayer</a>
+///     after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FeatureLayerView : IFeatureLayerViewMixin,
@@ -15,6 +17,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewavailablefields-property">GeoBlazor Docs</a>
     ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -24,6 +27,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public IReadOnlyList<string>? AvailableFields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewdataupdating-property">GeoBlazor Docs</a>
     ///     Indicates if the layer view is updating its data and new features are being fetched.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -33,8 +37,9 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public bool? DataUpdating { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -42,8 +47,12 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public FeatureEffect? FeatureEffect { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a> filter.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#filter">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewfilter-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>,
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a>
+    ///     filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -51,6 +60,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public FeatureFilter? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeatures-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view contains all available features from the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +70,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public bool? HasAllFeatures { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has all the features available in the current view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +80,7 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public bool? HasAllFeaturesInView { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewhasfullgeometries-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has geometries at full resolution.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -604,8 +616,10 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
 #region Public Methods
 
     /// <summary>
-    ///     Creates query parameter object that can be used to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryAggregates">fetch aggregate features</a> as they are being displayed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#createAggregateQuery">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewcreateaggregatequery-method">GeoBlazor Docs</a>
+    ///     Creates query parameter object that can be used to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#queryAggregates">fetch aggregate features</a> as they are being
+    ///     displayed.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#createAggregateQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<Query?> CreateAggregateQuery()
@@ -618,10 +632,16 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewqueryaggregates-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against aggregate features (i.e.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryAggregates">ArcGIS Maps SDK for JavaScript</a>
+    ///     param query Specifies the parameters of the query. Leave this parameter empty to query all aggregates in the view.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#queryAggregates">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the parameters of the query. Leave this parameter empty
+    ///     to query all aggregates in the view.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -637,6 +657,39 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
             "queryAggregates", 
             CancellationTokenSource.Token,
             query,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewqueryattributebins-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html">AttributeBinsQuery</a> against features available for drawing, which groups features into bins based on ranges in numeric or date fields, and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> containing the series of bins.
+    ///     param binsQuery Specifies the parameters of the `queryAttributeBins()` operation. The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#queryAttributeBins">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="binsQuery">
+    ///     Specifies the parameters of the <code>queryAttributeBins()</code> operation. The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
+        CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
+            "queryAttributeBins", 
+            CancellationTokenSource.Token,
+            binsQuery,
             new { signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);

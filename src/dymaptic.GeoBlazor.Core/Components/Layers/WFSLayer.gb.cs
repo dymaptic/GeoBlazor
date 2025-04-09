@@ -10,14 +10,17 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 /// </summary>
 public partial class WFSLayer : Layer,
     IBlendLayer,
+    IDisplayFilteredLayer,
     IFeatureEffectLayer,
     IFeatureReductionLayer,
+    IFeatureSetLayer,
     IFeatureTableWidgetLayers,
     IOperationalLayer,
     IOrderedLayer,
     IPortalLayer,
     IRefreshableLayer,
-    IScaleRangeLayer
+    IScaleRangeLayer,
+    ITrackableLayer
 {
 
     /// <summary>
@@ -56,10 +59,15 @@ public partial class WFSLayer : Layer,
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="displayFilterEnabled">
+    /// </param>
+    /// <param name="displayFilterInfo">
+    /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="elevationInfo">
     ///     Specifies how features are placed on the vertical axis (z).
@@ -67,11 +75,11 @@ public partial class WFSLayer : Layer,
     /// </param>
     /// <param name="featureEffect">
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="featureReduction">
-    ///     Configures the method for reducing the number of point features in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
+    ///     Configures the method for reducing the number of features in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fields">
     ///     An array of fields in the layer.
@@ -89,7 +97,8 @@ public partial class WFSLayer : Layer,
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="labelingInfo">
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelsVisible">
@@ -136,7 +145,8 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#namespaceUri">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="objectIdField">
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fields">field</a> containing
+    ///     a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
@@ -147,7 +157,7 @@ public partial class WFSLayer : Layer,
     /// <param name="orderBy">
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="outFields">
     ///     An array of field names from the WFS layer to include with each feature.
@@ -155,9 +165,9 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
@@ -170,7 +180,7 @@ public partial class WFSLayer : Layer,
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -192,15 +202,19 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widgets.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="trackInfo">
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
     ///     The url to the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -220,6 +234,8 @@ public partial class WFSLayer : Layer,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
         string? displayField = null,
+        bool? displayFilterEnabled = null,
+        DisplayFilterInfo? displayFilterInfo = null,
         Effect? effect = null,
         WFSLayerElevationInfo? elevationInfo = null,
         FeatureEffect? featureEffect = null,
@@ -240,7 +256,7 @@ public partial class WFSLayer : Layer,
         string? namespaceUri = null,
         string? objectIdField = null,
         double? opacity = null,
-        IReadOnlyList<OrderedLayerOrderBy>? orderBy = null,
+        IReadOnlyList<OrderByInfo>? orderBy = null,
         IReadOnlyList<string>? outFields = null,
         bool? persistenceEnabled = null,
         bool? popupEnabled = null,
@@ -251,6 +267,7 @@ public partial class WFSLayer : Layer,
         bool? screenSizePerspectiveEnabled = null,
         SpatialReference? spatialReference = null,
         string? title = null,
+        TrackInfo? trackInfo = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
         bool? visible = null,
@@ -264,6 +281,8 @@ public partial class WFSLayer : Layer,
         CustomParameters = customParameters;
         DefinitionExpression = definitionExpression;
         DisplayField = displayField;
+        DisplayFilterEnabled = displayFilterEnabled;
+        DisplayFilterInfo = displayFilterInfo;
         Effect = effect;
         ElevationInfo = elevationInfo;
         FeatureEffect = featureEffect;
@@ -295,6 +314,7 @@ public partial class WFSLayer : Layer,
         ScreenSizePerspectiveEnabled = screenSizePerspectiveEnabled;
         SpatialReference = spatialReference;
         Title = title;
+        TrackInfo = trackInfo;
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
         Visible = visible;
@@ -309,6 +329,7 @@ public partial class WFSLayer : Layer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -319,6 +340,7 @@ public partial class WFSLayer : Layer,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -328,6 +350,7 @@ public partial class WFSLayer : Layer,
     public WFSLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercopyright-property">GeoBlazor Docs</a>
     ///     Copyright information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -337,6 +360,7 @@ public partial class WFSLayer : Layer,
     public string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -346,6 +370,7 @@ public partial class WFSLayer : Layer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -355,6 +380,7 @@ public partial class WFSLayer : Layer,
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdefinitionexpression-property">GeoBlazor Docs</a>
     ///     The SQL where clause used to filter features on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -364,6 +390,7 @@ public partial class WFSLayer : Layer,
     public string? DefinitionExpression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdisplayfield-property">GeoBlazor Docs</a>
     ///     The name of the layer's primary display field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -373,9 +400,29 @@ public partial class WFSLayer : Layer,
     public string? DisplayField { get; set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdisplayfilterenabled-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? DisplayFilterEnabled { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerdisplayfilterinfo-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DisplayFilterInfo? DisplayFilterInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -383,6 +430,7 @@ public partial class WFSLayer : Layer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerelevationinfo-property">GeoBlazor Docs</a>
     ///     Specifies how features are placed on the vertical axis (z).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -392,8 +440,9 @@ public partial class WFSLayer : Layer,
     public WFSLayerElevationInfo? ElevationInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureEffectLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -401,8 +450,9 @@ public partial class WFSLayer : Layer,
     public FeatureEffect? FeatureEffect { get; set; }
     
     /// <summary>
-    ///     Configures the method for reducing the number of point features in the view.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-FeatureReductionLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfeaturereduction-property">GeoBlazor Docs</a>
+    ///     Configures the method for reducing the number of features in the view.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#featureReduction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -410,6 +460,7 @@ public partial class WFSLayer : Layer,
     public IFeatureReduction? FeatureReduction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -419,6 +470,7 @@ public partial class WFSLayer : Layer,
     public IReadOnlyList<Field>? Fields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a field by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -428,6 +480,7 @@ public partial class WFSLayer : Layer,
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayergeometrytype-property">GeoBlazor Docs</a>
     ///     The geometry type of features in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#geometryType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -437,7 +490,9 @@ public partial class WFSLayer : Layer,
     public SimpleGeometryType? GeometryType { get; set; }
     
     /// <summary>
-    ///     The label definition for this layer, specified as an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerlabelinginfo-property">GeoBlazor Docs</a>
+    ///     The label definition for this layer, specified as an array of
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-LabelClass.html">LabelClass</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#labelingInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -446,6 +501,7 @@ public partial class WFSLayer : Layer,
     public IReadOnlyList<Label>? LabelingInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerlabelsvisible-property">GeoBlazor Docs</a>
     ///     Indicates whether to display labels for this layer.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#labelsVisible">ArcGIS Maps SDK for JavaScript</a>
@@ -456,6 +512,7 @@ public partial class WFSLayer : Layer,
     public bool? LabelsVisible { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -466,6 +523,7 @@ public partial class WFSLayer : Layer,
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayermaxpagecount-property">GeoBlazor Docs</a>
     ///     The maximum number of queries allowed to fetch the whole dataset from the service.
     ///     default 10
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#maxPageCount">ArcGIS Maps SDK for JavaScript</a>
@@ -476,6 +534,7 @@ public partial class WFSLayer : Layer,
     public int? MaxPageCount { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayermaxrecordcount-property">GeoBlazor Docs</a>
     ///     The maximum number of features that can be returned in a single request.
     ///     default 3000
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#maxRecordCount">ArcGIS Maps SDK for JavaScript</a>
@@ -486,6 +545,7 @@ public partial class WFSLayer : Layer,
     public int? MaxRecordCount { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -496,6 +556,7 @@ public partial class WFSLayer : Layer,
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -506,6 +567,7 @@ public partial class WFSLayer : Layer,
     public double? MinScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayername-property">GeoBlazor Docs</a>
     ///     The name of the layer in the WFS service to display, excluding the namespace.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -515,6 +577,7 @@ public partial class WFSLayer : Layer,
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayernamespaceuri-property">GeoBlazor Docs</a>
     ///     The namespace URI for the layer name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#namespaceUri">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -524,7 +587,9 @@ public partial class WFSLayer : Layer,
     public string? NamespaceUri { get; set; }
     
     /// <summary>
-    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fields">field</a> containing a unique value or identifier for each feature in the layer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerobjectidfield-property">GeoBlazor Docs</a>
+    ///     The name of an `oid` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#fields">field</a> containing
+    ///     a unique value or identifier for each feature in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -533,16 +598,18 @@ public partial class WFSLayer : Layer,
     public string? ObjectIdField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerorderby-property">GeoBlazor Docs</a>
     ///     Determines the order in which features are drawn in the view.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OrderedLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#orderBy">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<OrderedLayerOrderBy>? OrderBy { get; set; }
+    public IReadOnlyList<OrderByInfo>? OrderBy { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayeroutfields-property">GeoBlazor Docs</a>
     ///     An array of field names from the WFS layer to include with each feature.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#outFields">ArcGIS Maps SDK for JavaScript</a>
@@ -553,6 +620,7 @@ public partial class WFSLayer : Layer,
     public IReadOnlyList<string>? OutFields { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -563,6 +631,7 @@ public partial class WFSLayer : Layer,
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -572,8 +641,9 @@ public partial class WFSLayer : Layer,
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -581,6 +651,7 @@ public partial class WFSLayer : Layer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerrefreshinterval-property">GeoBlazor Docs</a>
     ///     Refresh interval of the layer in minutes.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
@@ -591,6 +662,7 @@ public partial class WFSLayer : Layer,
     public double? RefreshInterval { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerrenderer-property">GeoBlazor Docs</a>
     ///     The renderer assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -600,6 +672,7 @@ public partial class WFSLayer : Layer,
     public Renderer? Renderer { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerscreensizeperspectiveenabled-property">GeoBlazor Docs</a>
     ///     Apply perspective scaling to screen-size point symbols in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#screenSizePerspectiveEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -610,6 +683,7 @@ public partial class WFSLayer : Layer,
     public bool? ScreenSizePerspectiveEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer.
     ///     default SpatialReference.WGS84
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
@@ -620,6 +694,17 @@ public partial class WFSLayer : Layer,
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayertrackinfo-property">GeoBlazor Docs</a>
+    ///     Allows you to render track data for a layer, including a track line, previous observations, and latest observations.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#trackInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public TrackInfo? TrackInfo { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerurl-property">GeoBlazor Docs</a>
     ///     The url to the WFS service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -629,6 +714,7 @@ public partial class WFSLayer : Layer,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerwfscapabilities-property">GeoBlazor Docs</a>
     ///     WFS service information about the available layers and operations.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#wfsCapabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -912,6 +998,84 @@ public partial class WFSLayer : Layer,
         }
          
         return DisplayField;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterEnabled property.
+    /// </summary>
+    public async Task<bool?> GetDisplayFilterEnabled()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterEnabled;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterEnabled;
+        }
+
+        // get the property value
+        JsNullableBoolWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableBoolWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "displayFilterEnabled");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             DisplayFilterEnabled = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(DisplayFilterEnabled)] = DisplayFilterEnabled;
+        }
+         
+        return DisplayFilterEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DisplayFilterInfo property.
+    /// </summary>
+    public async Task<DisplayFilterInfo?> GetDisplayFilterInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return DisplayFilterInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return DisplayFilterInfo;
+        }
+
+        DisplayFilterInfo? result = await JsComponentReference.InvokeAsync<DisplayFilterInfo?>(
+            "getDisplayFilterInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            DisplayFilterInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+        }
+        
+        return DisplayFilterInfo;
     }
     
     /// <summary>
@@ -1580,7 +1744,7 @@ public partial class WFSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the OrderBy property.
     /// </summary>
-    public async Task<IReadOnlyList<OrderedLayerOrderBy>?> GetOrderBy()
+    public async Task<IReadOnlyList<OrderByInfo>?> GetOrderBy()
     {
         if (CoreJsModule is null)
         {
@@ -1602,7 +1766,7 @@ public partial class WFSLayer : Layer,
             return OrderBy;
         }
 
-        IReadOnlyList<OrderedLayerOrderBy>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderedLayerOrderBy>?>(
+        IReadOnlyList<OrderByInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<OrderByInfo>?>(
             "getOrderBy", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -1934,6 +2098,45 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the TrackInfo property.
+    /// </summary>
+    public async Task<TrackInfo?> GetTrackInfo()
+    {
+        if (CoreJsModule is null)
+        {
+            return TrackInfo;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return TrackInfo;
+        }
+
+        TrackInfo? result = await JsComponentReference.InvokeAsync<TrackInfo?>(
+            "getTrackInfo", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            TrackInfo = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+        }
+        
+        return TrackInfo;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the Url property.
     /// </summary>
     public async Task<string?> GetUrl()
@@ -2198,6 +2401,88 @@ public partial class WFSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "displayField", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        DisplayFilterEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "displayFilterEnabled", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the DisplayFilterInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetDisplayFilterInfo(DisplayFilterInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        DisplayFilterInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(DisplayFilterInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setDisplayFilterInfo", 
+            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2836,11 +3121,11 @@ public partial class WFSLayer : Layer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOrderBy(IReadOnlyList<OrderedLayerOrderBy>? value)
+    public async Task SetOrderBy(IReadOnlyList<OrderByInfo>? value)
     {
         if (value is not null)
         {
-            foreach (OrderedLayerOrderBy item in value)
+            foreach (OrderByInfo item in value)
             {
                 item.CoreJsModule = CoreJsModule;
                 item.Parent = this;
@@ -3207,6 +3492,51 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the TrackInfo property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetTrackInfo(TrackInfo? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        TrackInfo = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(TrackInfo)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setTrackInfo", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Url property after render.
     /// </summary>
     /// <param name="value">
@@ -3326,9 +3656,9 @@ public partial class WFSLayer : Layer,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task AddToOrderBy(params OrderByInfo[] values)
     {
-        OrderedLayerOrderBy[] join = OrderBy is null
+        OrderByInfo[] join = OrderBy is null
             ? values
             : [..OrderBy, ..values];
         await SetOrderBy(join);
@@ -3391,7 +3721,7 @@ public partial class WFSLayer : Layer,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromOrderBy(params OrderedLayerOrderBy[] values)
+    public async Task RemoveFromOrderBy(params OrderByInfo[] values)
     {
         if (OrderBy is null)
         {
@@ -3421,7 +3751,9 @@ public partial class WFSLayer : Layer,
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a popup template for the layer, populated with all the fields of the layer.
+    ///     param options Options for creating the popup template.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -3439,6 +3771,7 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayercreatequery-method">GeoBlazor Docs</a>
     ///     Creates query parameter object that can be used to fetch features that satisfy the layer's configurations.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -3453,7 +3786,9 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayergetfield-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> instance for a field name (case-insensitive).
+    ///     param fieldName Name of the field.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#getField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
@@ -3471,7 +3806,11 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayergetfielddomain-method">GeoBlazor Docs</a>
     ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
+    ///     param fieldName Name of the field.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     param options.feature The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="fieldName">
@@ -3495,7 +3834,12 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerqueryextent-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and
+    ///     returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3525,7 +3869,12 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns the number of features that satisfy the query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerqueryfeaturecount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and
+    ///     returns the number of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3555,7 +3904,12 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerqueryfeatures-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
+    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3585,7 +3939,12 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns an array of Object IDs for features that satisfy the input query.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerqueryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns an
+    ///     array of Object IDs for features that satisfy the input query.
+    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
@@ -3615,8 +3974,9 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -3652,6 +4012,7 @@ public partial class WFSLayer : Layer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WFSLayer.html#wfslayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
@@ -3672,6 +4033,15 @@ public partial class WFSLayer : Layer,
     {
         switch (child)
         {
+            case DisplayFilterInfo displayFilterInfo:
+                if (displayFilterInfo != DisplayFilterInfo)
+                {
+                    DisplayFilterInfo = displayFilterInfo;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                }
+                
+                return true;
             case WFSLayerElevationInfo elevationInfo:
                 if (elevationInfo != ElevationInfo)
                 {
@@ -3710,7 +4080,7 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy ??= [];
                 if (!OrderBy.Contains(orderBy))
                 {
@@ -3756,6 +4126,15 @@ public partial class WFSLayer : Layer,
                 }
                 
                 return true;
+            case TrackInfo trackInfo:
+                if (trackInfo != TrackInfo)
+                {
+                    TrackInfo = trackInfo;
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                }
+                
+                return true;
             case WFSCapabilities wfsCapabilities:
                 if (wfsCapabilities != WfsCapabilities)
                 {
@@ -3775,6 +4154,11 @@ public partial class WFSLayer : Layer,
     {
         switch (child)
         {
+            case DisplayFilterInfo _:
+                DisplayFilterInfo = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                return true;
             case WFSLayerElevationInfo _:
                 ElevationInfo = null;
                 LayerChanged = MapRendered;
@@ -3795,7 +4179,7 @@ public partial class WFSLayer : Layer,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
-            case OrderedLayerOrderBy orderBy:
+            case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
@@ -3820,6 +4204,11 @@ public partial class WFSLayer : Layer,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
+            case TrackInfo _:
+                TrackInfo = null;
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                return true;
             case WFSCapabilities _:
                 WfsCapabilities = null;
                 LayerChanged = MapRendered;
@@ -3834,6 +4223,7 @@ public partial class WFSLayer : Layer,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();
         if (Fields is not null)
@@ -3852,7 +4242,7 @@ public partial class WFSLayer : Layer,
         }
         if (OrderBy is not null)
         {
-            foreach (OrderedLayerOrderBy child in OrderBy)
+            foreach (OrderByInfo child in OrderBy)
             {
                 child.ValidateRequiredGeneratedChildren();
             }
@@ -3861,6 +4251,7 @@ public partial class WFSLayer : Layer,
         PortalItem?.ValidateRequiredGeneratedChildren();
         Renderer?.ValidateRequiredGeneratedChildren();
         SpatialReference?.ValidateRequiredGeneratedChildren();
+        TrackInfo?.ValidateRequiredGeneratedChildren();
         WfsCapabilities?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

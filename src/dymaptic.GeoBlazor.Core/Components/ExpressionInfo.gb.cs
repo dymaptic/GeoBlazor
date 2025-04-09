@@ -23,7 +23,8 @@ public partial class ExpressionInfo
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="expression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#forms">Form Constraint</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#form-calculation">Form Calculation</a> profiles.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
+    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#forms">Form Constraint</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#form-calculation">Form Calculation</a> profiles.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-ExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">

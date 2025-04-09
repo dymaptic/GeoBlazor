@@ -36,7 +36,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// </param>
     public AreaMeasurement2DViewModelMeasurement(
         double? area = null,
-        object? geometry = null,
+        Polygon? geometry = null,
         double? perimeter = null)
     {
         AllowRender = false;
@@ -51,6 +51,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurement.html#areameasurement2dviewmodelmeasurementarea-property">GeoBlazor Docs</a>
     ///     The area (m²).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,15 +61,17 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     public double? Area { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurement.html#areameasurement2dviewmodelmeasurementgeometry-property">GeoBlazor Docs</a>
     ///     Measurement area.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Geometry { get; set; }
+    public Polygon? Geometry { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AreaMeasurement2DViewModelMeasurement.html#areameasurement2dviewmodelmeasurementperimeter-property">GeoBlazor Docs</a>
     ///     The perimeter (m).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D-AreaMeasurement2DViewModel.html#measurement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,7 +126,7 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Geometry property.
     /// </summary>
-    public async Task<object?> GetGeometry()
+    public async Task<Polygon?> GetGeometry()
     {
         if (CoreJsModule is null)
         {
@@ -145,17 +148,22 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
             return Geometry;
         }
 
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "geometry");
+        Polygon? result = await JsComponentReference.InvokeAsync<Polygon?>(
+            "getGeometry", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Geometry is not null)
+            {
+                result.Id = Geometry.Id;
+            }
+            
 #pragma warning disable BL0005
-             Geometry = result;
+            Geometry = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Geometry)] = Geometry;
+            ModifiedParameters[nameof(Geometry)] = Geometry;
         }
-         
+        
         return Geometry;
     }
     
@@ -245,8 +253,16 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeometry(object? value)
+    public async Task SetGeometry(Polygon? value)
     {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Geometry = value;
 #pragma warning restore BL0005
@@ -315,4 +331,47 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Polygon geometry:
+                if (geometry != Geometry)
+                {
+                    Geometry = geometry;
+                    
+                    ModifiedParameters[nameof(Geometry)] = Geometry;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Polygon _:
+                Geometry = null;
+                
+                ModifiedParameters[nameof(Geometry)] = Geometry;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Geometry?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

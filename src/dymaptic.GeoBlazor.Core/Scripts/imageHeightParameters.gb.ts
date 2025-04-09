@@ -17,6 +17,10 @@ export async function buildJsImageHeightParametersGenerated(dotNetObject: any, l
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
     if (hasValue(dotNetObject.toGeometry)) {
         let { buildJsPoint } = await import('./point');
         properties.toGeometry = buildJsPoint(dotNetObject.toGeometry) as any;
@@ -28,13 +32,9 @@ export async function buildJsImageHeightParametersGenerated(dotNetObject: any, l
     if (hasValue(dotNetObject.operationType)) {
         properties.operationType = dotNetObject.operationType;
     }
-    if (hasValue(dotNetObject.pixelSize)) {
-        properties.pixelSize = dotNetObject.pixelSize;
-    }
     let jsImageHeightParameters = new ImageHeightParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageHeightParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageHeightParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageHeightParameters;
     
     return jsImageHeightParameters;
@@ -58,6 +58,11 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any, l
         dotNetImageHeightParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageHeightParameters.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
+    
     if (hasValue(jsObject.toGeometry)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetImageHeightParameters.toGeometry = buildDotNetPoint(jsObject.toGeometry);
@@ -69,10 +74,6 @@ export async function buildDotNetImageHeightParametersGenerated(jsObject: any, l
     
     if (hasValue(jsObject.operationType)) {
         dotNetImageHeightParameters.operationType = removeCircularReferences(jsObject.operationType);
-    }
-    
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetImageHeightParameters.pixelSize = removeCircularReferences(jsObject.pixelSize);
     }
     
     if (hasValue(jsObject.type)) {

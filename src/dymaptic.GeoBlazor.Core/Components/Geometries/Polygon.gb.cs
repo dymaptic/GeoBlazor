@@ -28,7 +28,7 @@ public partial class Polygon
     /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the geometry.
-    ///     default WGS84 (wkid: 4326)
+    ///     default SpatialReference.WGS84 // wkid: 4326
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="centroid">
@@ -44,7 +44,8 @@ public partial class Polygon
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Geometry.html#hasZ">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isSelfIntersecting">
-    ///     Checks to see if polygon rings cross each other and indicates if the polygon is self-intersecting, which means the ring of the polygon crosses itself.
+    ///     Checks to see if polygon rings cross each other and indicates if the polygon is
+    ///     self-intersecting, which means the ring of the polygon crosses itself.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isSelfIntersecting">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public Polygon(
@@ -154,96 +155,12 @@ public partial class Polygon
     
 #endregion
 
-#region Property Setters
-
-    /// <summary>
-    ///    Asynchronously set the value of the Centroid property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCentroid(Point? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        Centroid = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Centroid)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "centroid", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the IsSelfIntersecting property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetIsSelfIntersecting(bool? value)
-    {
-#pragma warning disable BL0005
-        IsSelfIntersecting = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(IsSelfIntersecting)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "isSelfIntersecting", value);
-    }
-    
-#endregion
-
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonaddring-method">GeoBlazor Docs</a>
     ///     Adds a ring to the Polygon.
+    ///     param points A polygon ring. The first and last coordinates/points in the ring must be the same. This can either be defined as an array of Point geometries or an array of XY coordinates.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#addRing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="points">
@@ -263,7 +180,9 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygoncontains-method">GeoBlazor Docs</a>
     ///     Checks on the client if the input point is inside the polygon.
+    ///     param point The point to test whether it is contained within the testing polygon.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#contains">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">
@@ -281,7 +200,10 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygongetpoint-method">GeoBlazor Docs</a>
     ///     Returns a point specified by a ring and point in the path.
+    ///     param ringIndex The index of the ring containing the desired point.
+    ///     param pointIndex The index of the desired point within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#getPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -304,7 +226,11 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygoninsertpoint-method">GeoBlazor Docs</a>
     ///     Inserts a new point into the polygon.
+    ///     param ringIndex The index of the ring in which to insert the point.
+    ///     param pointIndex The index of the point to insert within the ring.
+    ///     param point The point to insert.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#insertPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -332,7 +258,9 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonisclockwise-method">GeoBlazor Docs</a>
     ///     Checks if a Polygon ring is clockwise.
+    ///     param ring A polygon ring. It can either be defined as an array of Point geometries or an array of XY coordinates.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isClockwise">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ring">
@@ -351,7 +279,10 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonremovepoint-method">GeoBlazor Docs</a>
     ///     Removes a point from the polygon at the given `pointIndex` within the ring identified by `ringIndex`.
+    ///     param ringIndex The index of the ring containing the point to remove.
+    ///     param pointIndex The index of the point to remove within the ring.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#removePoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">
@@ -361,12 +292,12 @@ public partial class Polygon
     ///     The index of the point to remove within the ring.
     /// </param>
     [ArcGISMethod]
-    public async Task<Point[]?> RemovePoint(int ringIndex,
+    public async Task<Point?> RemovePoint(int ringIndex,
         int pointIndex)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<Point[]?>(
+        return await JsComponentReference!.InvokeAsync<Point?>(
             "removePoint", 
             CancellationTokenSource.Token,
             ringIndex,
@@ -374,7 +305,9 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonremovering-method">GeoBlazor Docs</a>
     ///     Removes a ring from the Polygon.
+    ///     param index The index of the ring to remove.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#removeRing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
@@ -392,7 +325,11 @@ public partial class Polygon
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Geometries.Polygon.html#polygonsetpoint-method">GeoBlazor Docs</a>
     ///     Updates a point in the polygon.
+    ///     param ringIndex The index of the ring containing the point to update.
+    ///     param pointIndex The index of the point to update within the ring.
+    ///     param point The new point geometry.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#setPoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ringIndex">

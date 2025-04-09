@@ -52,7 +52,7 @@ public partial class SizeRampStop : MapComponent
         ElementReference? preview = null,
         int? size = null,
         Symbol? symbol = null,
-        object? value = null)
+        string? value = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -69,6 +69,7 @@ public partial class SizeRampStop : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstoplabel-property">GeoBlazor Docs</a>
     ///     The label in the legend describing features with the given `symbol` and `value`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -78,6 +79,7 @@ public partial class SizeRampStop : MapComponent
     public string? Label { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopoutlinesize-property">GeoBlazor Docs</a>
     ///     The width of the outline in points.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -87,6 +89,7 @@ public partial class SizeRampStop : MapComponent
     public int? OutlineSize { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstoppreview-property">GeoBlazor Docs</a>
     ///     The HTML element rendered in the legend representing features with the given value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +99,7 @@ public partial class SizeRampStop : MapComponent
     public ElementReference? Preview { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopsize-property">GeoBlazor Docs</a>
     ///     The size of the visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-ColorVariable.html#stops">stop</a> in points.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +109,7 @@ public partial class SizeRampStop : MapComponent
     public int? Size { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopsymbol-property">GeoBlazor Docs</a>
     ///     The symbol corresponding to the value of the stop in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,13 +119,14 @@ public partial class SizeRampStop : MapComponent
     public Symbol? Symbol { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SizeRampStop.html#sizerampstopvalue-property">GeoBlazor Docs</a>
     ///     The value of the size visual variable <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html#stops">stop</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#SizeRampStop">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? Value { get; set; }
+    public string? Value { get; set; }
     
 #endregion
 
@@ -324,7 +330,7 @@ public partial class SizeRampStop : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Value property.
     /// </summary>
-    public async Task<object?> GetValue()
+    public async Task<string?> GetValue()
     {
         if (CoreJsModule is null)
         {
@@ -347,7 +353,7 @@ public partial class SizeRampStop : MapComponent
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "value");
         if (result is not null)
         {
@@ -563,7 +569,7 @@ public partial class SizeRampStop : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetValue(object? value)
+    public async Task SetValue(string? value)
     {
 #pragma warning disable BL0005
         Value = value;

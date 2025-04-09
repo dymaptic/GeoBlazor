@@ -12,12 +12,12 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#FetchFeaturesOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record PopupFetchFeaturesOptions(
-    object? Event = null)
+    string? Event = null)
 {
     /// <summary>
     ///     The `click` event for either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#FetchFeaturesOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public object? Event { get; set; } = Event;
+    public string? Event { get; set; } = Event;
     
 }

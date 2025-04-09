@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.html">GeoBlazor Docs</a>
-///     The AreaMeasurement2D widget calculates and displays the area and perimeter of a polygon in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
+///     The AreaMeasurement2D widget calculates and displays the area and perimeter of a polygon in a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AreaMeasurement2DWidget
@@ -27,18 +28,22 @@ public partial class AreaMeasurement2DWidget
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "measure-area"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </param>
     /// <param name="position">
     ///     The position of the widget in relation to the map view.
+    /// </param>
+    /// <param name="snappingOptions">
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="unit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
@@ -67,6 +72,7 @@ public partial class AreaMeasurement2DWidget
         string? label = null,
         MapView? mapView = null,
         OverlayPosition? position = null,
+        SnappingOptions? snappingOptions = null,
         SystemOrAreaUnit? unit = null,
         IReadOnlyList<SystemOrAreaUnit>? unitOptions = null,
         AreaMeasurement2DViewModel? viewModel = null,
@@ -80,6 +86,7 @@ public partial class AreaMeasurement2DWidget
         Label = label;
         MapView = mapView;
         Position = position;
+        SnappingOptions = snappingOptions;
         Unit = unit;
         UnitOptions = unitOptions;
         ViewModel = viewModel;
@@ -92,6 +99,17 @@ public partial class AreaMeasurement2DWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.html#areameasurement2dwidgetsnappingoptions-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-interactive-snapping-SnappingOptions.html">SnappingOptions</a> for sketching.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#snappingOptions">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public SnappingOptions? SnappingOptions { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.html#areameasurement2dwidgetunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -101,6 +119,7 @@ public partial class AreaMeasurement2DWidget
     public SystemOrAreaUnit? Unit { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.html#areameasurement2dwidgetunitoptions-property">GeoBlazor Docs</a>
     ///     List of available units and unit systems (imperial, metric) for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#unitOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -110,6 +129,7 @@ public partial class AreaMeasurement2DWidget
     public IReadOnlyList<SystemOrAreaUnit>? UnitOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.AreaMeasurement2DWidget.html#areameasurement2dwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-AreaMeasurement2D.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -122,6 +142,45 @@ public partial class AreaMeasurement2DWidget
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the SnappingOptions property.
+    /// </summary>
+    public async Task<SnappingOptions?> GetSnappingOptions()
+    {
+        if (CoreJsModule is null)
+        {
+            return SnappingOptions;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return SnappingOptions;
+        }
+
+        SnappingOptions? result = await JsComponentReference.InvokeAsync<SnappingOptions?>(
+            "getSnappingOptions", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            SnappingOptions = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+        }
+        
+        return SnappingOptions;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the Unit property.
     /// </summary>
@@ -248,6 +307,51 @@ public partial class AreaMeasurement2DWidget
 
 #region Property Setters
 
+    /// <summary>
+    ///    Asynchronously set the value of the SnappingOptions property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetSnappingOptions(SnappingOptions? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        SnappingOptions = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(SnappingOptions)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setSnappingOptions", 
+            CancellationTokenSource.Token, value);
+    }
+    
     /// <summary>
     ///    Asynchronously set the value of the Unit property after render.
     /// </summary>
@@ -413,6 +517,15 @@ public partial class AreaMeasurement2DWidget
     {
         switch (child)
         {
+            case SnappingOptions snappingOptions:
+                if (snappingOptions != SnappingOptions)
+                {
+                    SnappingOptions = snappingOptions;
+                    WidgetChanged = MapRendered;
+                    ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                }
+                
+                return true;
             case AreaMeasurement2DViewModel viewModel:
                 if (viewModel != ViewModel)
                 {
@@ -432,6 +545,11 @@ public partial class AreaMeasurement2DWidget
     {
         switch (child)
         {
+            case SnappingOptions _:
+                SnappingOptions = null;
+                WidgetChanged = MapRendered;
+                ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                return true;
             case AreaMeasurement2DViewModel _:
                 ViewModel = null;
                 WidgetChanged = MapRendered;
@@ -446,6 +564,7 @@ public partial class AreaMeasurement2DWidget
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        SnappingOptions?.ValidateRequiredGeneratedChildren();
         ViewModel?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

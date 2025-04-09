@@ -43,6 +43,9 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.expandTooltip)) {
             this.widget.expandTooltip = dotNetObject.expandTooltip;
         }
+        if (hasValue(dotNetObject.focusTrapDisabled)) {
+            this.widget.focusTrapDisabled = dotNetObject.focusTrapDisabled;
+        }
         if (hasValue(dotNetObject.group)) {
             this.widget.group = dotNetObject.group;
         }
@@ -91,12 +94,6 @@ export default class ExpandWidgetGenerated implements IPropertyWrapper {
 
     async isResolved(): Promise<any> {
         return this.widget.isResolved();
-    }
-
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
     }
 
     async postInitialize(): Promise<void> {
@@ -186,6 +183,9 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.expandTooltip)) {
         properties.expandTooltip = dotNetObject.expandTooltip;
     }
+    if (hasValue(dotNetObject.focusTrapDisabled)) {
+        properties.focusTrapDisabled = dotNetObject.focusTrapDisabled;
+    }
     if (hasValue(dotNetObject.group)) {
         properties.group = dotNetObject.group;
     }
@@ -218,11 +218,11 @@ export async function buildJsExpandWidgetGenerated(dotNetObject: any, layerId: s
     expandWidgetWrapper.viewId = viewId;
     expandWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = expandWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsExpand;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(expandWidgetWrapper);
         let { buildDotNetExpandWidget } = await import('./expandWidget');
         let dnInstantiatedObject = await buildDotNetExpandWidget(jsExpand);
 
@@ -266,7 +266,7 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     }
     
     if (hasValue(jsObject.content)) {
-        dotNetExpandWidget.content = removeCircularReferences(jsObject.content);
+        dotNetExpandWidget.content = jsObject.content;
     }
     
     if (hasValue(jsObject.expanded)) {
@@ -279,6 +279,10 @@ export async function buildDotNetExpandWidgetGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.expandTooltip)) {
         dotNetExpandWidget.expandTooltip = jsObject.expandTooltip;
+    }
+    
+    if (hasValue(jsObject.focusTrapDisabled)) {
+        dotNetExpandWidget.focusTrapDisabled = jsObject.focusTrapDisabled;
     }
     
     if (hasValue(jsObject.group)) {

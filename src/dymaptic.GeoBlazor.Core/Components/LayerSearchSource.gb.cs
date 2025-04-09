@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html">GeoBlazor Docs</a>
-///     The following properties define a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>-based <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> whose features may be searched by a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget instance.
+///     The following properties define a
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a>-based <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html#sources">source</a> whose
+///     features may be searched by a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search.html">Search</a> widget instance.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LayerSearchSource
@@ -23,7 +25,8 @@ public partial class LayerSearchSource
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="autoNavigate">
-    ///     Indicates whether to automatically navigate to the selected result once selected.
+    ///     Indicates whether to automatically navigate to the
+    ///     selected result once selected.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#autoNavigate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -32,7 +35,8 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#displayField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="exactMatch">
-    ///     Indicates to only return results that match the search value exactly.
+    ///     Indicates to only return results that match the
+    ///     search value exactly.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#exactMatch">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -60,12 +64,14 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxResults">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxSuggestions">
-    ///     Indicates the maximum number of suggestions to return for the widget's input.
+    ///     Indicates the maximum number of suggestions
+    ///     to return for the widget's input.
     ///     default 6
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#maxSuggestions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minSuggestCharacters">
-    ///     Indicates the minimum number of characters required before querying for a suggestion.
+    ///     Indicates the minimum number of characters
+    ///     required before querying for a suggestion.
     ///     default 1
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#minSuggestCharacters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -86,7 +92,8 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#placeholder">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
-    ///     Indicates whether to display a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> when a selected result is clicked.
+    ///     Indicates whether to display a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> when a selected result is clicked.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
@@ -98,7 +105,8 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#prefix">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="resultGraphicEnabled">
-    ///     Indicates whether to show a graphic on the map for the selected source using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">resultSymbol</a>.
+    ///     Indicates whether to show a graphic on the
+    ///     map for the selected source using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">resultSymbol</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultGraphicEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="resultSymbol">
@@ -106,11 +114,13 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#resultSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="searchFields">
-    ///     An array of string values representing the names of fields in the feature layer to search.
+    ///     An array of string values representing the
+    ///     names of fields in the feature layer to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#searchFields">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="searchTemplate">
-    ///     A template string used to display multiple fields in a defined order when results are displayed.
+    ///     A template string used to display multiple
+    ///     fields in a defined order when results are displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#searchTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suffix">
@@ -118,16 +128,20 @@ public partial class LayerSearchSource
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#suffix">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suggestionsEnabled">
-    ///     Indicates whether to display suggestions as the user enters input text in the widget.
+    ///     Indicates whether to display suggestions
+    ///     as the user enters input text in the widget.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#suggestionsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suggestionTemplate">
-    ///     A template string used to display multiple fields in a defined order when suggestions are displayed.
+    ///     A template string used to display multiple
+    ///     fields in a defined order
+    ///     when suggestions are displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#suggestionTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="withinViewEnabled">
-    ///     Indicates whether to constrain the search results to the view's extent.
+    ///     Indicates whether to constrain the search
+    ///     results to the view's extent.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchSource.html#withinViewEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -199,6 +213,7 @@ public partial class LayerSearchSource
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourcename-property">GeoBlazor Docs</a>
     ///     The name of the source for display.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -208,6 +223,7 @@ public partial class LayerSearchSource
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourceorderbyfields-property">GeoBlazor Docs</a>
     ///     One or more field names used to order the query results.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#orderByFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -217,7 +233,9 @@ public partial class LayerSearchSource
     public IReadOnlyList<string>? OrderByFields { get; set; }
     
     /// <summary>
-    ///     An array of string values representing the names of fields in the feature layer to search.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourcesearchfields-property">GeoBlazor Docs</a>
+    ///     An array of string values representing the
+    ///     names of fields in the feature layer to search.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#searchFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -226,7 +244,9 @@ public partial class LayerSearchSource
     public IReadOnlyList<string>? SearchFields { get; set; }
     
     /// <summary>
-    ///     A template string used to display multiple fields in a defined order when results are displayed.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerSearchSource.html#layersearchsourcesearchtemplate-property">GeoBlazor Docs</a>
+    ///     A template string used to display multiple
+    ///     fields in a defined order when results are displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-LayerSearchSource.html#searchTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

@@ -68,7 +68,8 @@ public partial class WMSSublayer : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#spatialReferences">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title of the WMS sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     The title of the WMS sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -116,6 +117,7 @@ public partial class WMSSublayer : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdescription-property">GeoBlazor Docs</a>
     ///     Description for the WMS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -125,15 +127,17 @@ public partial class WMSSublayer : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerdimensions-property">GeoBlazor Docs</a>
     ///     An array of time, elevation and other dimensions for the sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#dimensions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<IWMSSublayerDimensions>? Dimensions { get; protected set; }
+    public IReadOnlyList<Object>? Dimensions { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerfullextent-property">GeoBlazor Docs</a>
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -143,6 +147,7 @@ public partial class WMSSublayer : MapComponent
     public Extent? FullExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -153,6 +158,7 @@ public partial class WMSSublayer : MapComponent
     public bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerlegendurl-property">GeoBlazor Docs</a>
     ///     A string url pointing to a legend image for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -162,6 +168,7 @@ public partial class WMSSublayer : MapComponent
     public string? LegendUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayermaxscale-property">GeoBlazor Docs</a>
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#maxScale">ArcGIS Maps SDK for JavaScript</a>
@@ -172,6 +179,7 @@ public partial class WMSSublayer : MapComponent
     public double? MaxScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerminscale-property">GeoBlazor Docs</a>
     ///     The minimum scale (most zoomed out) at which the layer is visible in the view.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
@@ -182,6 +190,7 @@ public partial class WMSSublayer : MapComponent
     public double? MinScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayername-property">GeoBlazor Docs</a>
     ///     Name of the WMS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -191,6 +200,7 @@ public partial class WMSSublayer : MapComponent
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerpopupenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -201,6 +211,7 @@ public partial class WMSSublayer : MapComponent
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerqueryable-property">GeoBlazor Docs</a>
     ///     Indicates if the layer can be queried, i.e.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#queryable">ArcGIS Maps SDK for JavaScript</a>
@@ -211,6 +222,7 @@ public partial class WMSSublayer : MapComponent
     public bool? Queryable { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerspatialreferences-property">GeoBlazor Docs</a>
     ///     List of spatialReferences (WKID) derived from the CRS elements of the first layer in the GetCapabilities request.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#spatialReferences">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -220,6 +232,7 @@ public partial class WMSSublayer : MapComponent
     public IReadOnlyList<double>? SpatialReferences { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayersublayers-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a>s.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -229,7 +242,9 @@ public partial class WMSSublayer : MapComponent
     public IReadOnlyList<WMSSublayer>? Sublayers { get; set; }
     
     /// <summary>
-    ///     The title of the WMS sublayer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayertitle-property">GeoBlazor Docs</a>
+    ///     The title of the WMS sublayer used to identify it in places such as the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widgets.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -238,6 +253,7 @@ public partial class WMSSublayer : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMSSublayer.html#wmssublayerwmssublayerid-property">GeoBlazor Docs</a>
     ///     The id for the WMS sublayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -292,7 +308,7 @@ public partial class WMSSublayer : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
-    public async Task<IReadOnlyList<IWMSSublayerDimensions>?> GetDimensions()
+    public async Task<IReadOnlyList<Object>?> GetDimensions()
     {
         if (CoreJsModule is null)
         {
@@ -315,7 +331,7 @@ public partial class WMSSublayer : MapComponent
         }
 
         // get the property value
-        IReadOnlyList<IWMSSublayerDimensions>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSSublayerDimensions>?>("getProperty",
+        IReadOnlyList<Object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Object>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -1215,7 +1231,7 @@ public partial class WMSSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMSSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

@@ -4,7 +4,11 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.MeasureFromImageParameters.html">GeoBlazor Docs</a>
-///     Input parameters used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureLengthFromImage">ImageryLayer.measureLengthFromImage()</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaFromImage">ImageryLayer.measureAreaFromImage()</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureLengthFromImage">imageService.measureLengthFromImage()</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaFromImage">imageService.measureAreaFromImage()</a> methods to perform imagery area, perimeter and length mensuration.
+///     Input parameters used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureLengthFromImage">ImageryLayer.measureLengthFromImage()</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaFromImage">ImageryLayer.measureAreaFromImage()</a>,
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureLengthFromImage">imageService.measureLengthFromImage()</a>
+///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaFromImage">imageService.measureAreaFromImage()</a> methods to perform imagery
+///     area, perimeter and length mensuration.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MeasureFromImageParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Geometry">

@@ -42,17 +42,14 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fullExtent">
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="initialExtent">
-    ///     The initial extent of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#initialExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
@@ -78,36 +75,34 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="spatialReference">
-    ///     The spatial reference of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
+    /// <param name="refreshInterval">
+    ///     Refresh interval of the layer in minutes.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="style">
     ///     A style JSON object of vector tiles that will be used to render the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="tileInfo">
-    ///     The tiling scheme information for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="url">
-    ///     The URL to the vector tile service, or the URL to the style resource of vector tiles that will be used to render the layer.
+    ///     The URL to the vector tile service, or the URL to the style resource of vector tiles that
+    ///     will be used to render the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -123,7 +118,6 @@ public partial class VectorTileLayer : IBlendLayer,
         Dictionary<string, object>? customParameters = null,
         Effect? effect = null,
         Extent? fullExtent = null,
-        Extent? initialExtent = null,
         bool? isBasemapReferenceLayer = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -131,9 +125,8 @@ public partial class VectorTileLayer : IBlendLayer,
         double? opacity = null,
         bool? persistenceEnabled = null,
         PortalItem? portalItem = null,
-        SpatialReference? spatialReference = null,
+        double? refreshInterval = null,
         string? style = null,
-        TileInfo? tileInfo = null,
         string? title = null,
         string? url = null,
         TimeExtent? visibilityTimeExtent = null,
@@ -147,7 +140,6 @@ public partial class VectorTileLayer : IBlendLayer,
         CustomParameters = customParameters;
         Effect = effect;
         FullExtent = fullExtent;
-        InitialExtent = initialExtent;
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         ListMode = listMode;
         MaxScale = maxScale;
@@ -155,9 +147,8 @@ public partial class VectorTileLayer : IBlendLayer,
         Opacity = opacity;
         PersistenceEnabled = persistenceEnabled;
         PortalItem = portalItem;
-        SpatialReference = spatialReference;
+        RefreshInterval = refreshInterval;
         Style = style;
-        TileInfo = tileInfo;
         Title = title;
         Url = url;
         VisibilityTimeExtent = visibilityTimeExtent;
@@ -169,6 +160,7 @@ public partial class VectorTileLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerapikey-property">GeoBlazor Docs</a>
     ///     An authorization string used to access a resource or service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#apiKey">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -178,6 +170,7 @@ public partial class VectorTileLayer : IBlendLayer,
     public string? ApiKey { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerattributiondataurl-property">GeoBlazor Docs</a>
     ///     The URL that points to the location of the layer's attribution data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#attributionDataUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -187,6 +180,7 @@ public partial class VectorTileLayer : IBlendLayer,
     public string? AttributionDataUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerblendmode-property">GeoBlazor Docs</a>
     ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     ///     default normal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
@@ -197,6 +191,7 @@ public partial class VectorTileLayer : IBlendLayer,
     public BlendMode? BlendMode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercapabilities-property">GeoBlazor Docs</a>
     ///     Indicates the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -206,6 +201,7 @@ public partial class VectorTileLayer : IBlendLayer,
     public VectorTileLayerCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercurrentstyleinfo-property">GeoBlazor Docs</a>
     ///     The current style information of the VectorTileLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -215,6 +211,7 @@ public partial class VectorTileLayer : IBlendLayer,
     public VectorTileLayerCurrentStyleInfo? CurrentStyleInfo { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayercustomparameters-property">GeoBlazor Docs</a>
     ///     A list of custom parameters appended to the URL of all resources fetched by the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#customParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -224,9 +221,11 @@ public partial class VectorTileLayer : IBlendLayer,
     public Dictionary<string, object>? CustomParameters { get; set; }
     
     /// <summary>
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayereffect-property">GeoBlazor Docs</a>
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -234,15 +233,28 @@ public partial class VectorTileLayer : IBlendLayer,
     public Effect? Effect { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerinitialextent-property">GeoBlazor Docs</a>
     ///     The initial extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#initialExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Extent? InitialExtent { get; set; }
+    [JsonInclude]
+    public Extent? InitialExtent { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerrefreshinterval-property">GeoBlazor Docs</a>
+    ///     Refresh interval of the layer in minutes.
+    ///     default 0
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#refreshInterval">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public double? RefreshInterval { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerstyle-property">GeoBlazor Docs</a>
     ///     A style JSON object of vector tiles that will be used to render the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -252,13 +264,14 @@ public partial class VectorTileLayer : IBlendLayer,
     public string? Style { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayertileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public TileInfo? TileInfo { get; set; }
+    [JsonInclude]
+    public TileInfo? TileInfo { get; protected set; }
     
 #endregion
 
@@ -704,6 +717,45 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the RefreshInterval property.
+    /// </summary>
+    public async Task<double?> GetRefreshInterval()
+    {
+        if (CoreJsModule is null)
+        {
+            return RefreshInterval;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return RefreshInterval;
+        }
+
+        // get the property value
+        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "refreshInterval");
+        if (result is { Value: not null })
+        {
+#pragma warning disable BL0005
+             RefreshInterval = result.Value.Value;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(RefreshInterval)] = RefreshInterval;
+        }
+         
+        return RefreshInterval;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the SpatialReference property.
     /// </summary>
     public async Task<SpatialReference?> GetSpatialReference()
@@ -1017,51 +1069,6 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the InitialExtent property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInitialExtent(Extent? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        InitialExtent = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InitialExtent)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setInitialExtent", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the MaxScale property after render.
     /// </summary>
     /// <param name="value">
@@ -1181,25 +1188,17 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the SpatialReference property after render.
+    ///    Asynchronously set the value of the RefreshInterval property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSpatialReference(SpatialReference? value)
+    public async Task SetRefreshInterval(double? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
-        SpatialReference = value;
+        RefreshInterval = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(SpatialReference)] = value;
+        ModifiedParameters[nameof(RefreshInterval)] = value;
         
         if (CoreJsModule is null)
         {
@@ -1221,8 +1220,8 @@ public partial class VectorTileLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setSpatialReference", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "refreshInterval", value);
     }
     
     /// <summary>
@@ -1260,51 +1259,6 @@ public partial class VectorTileLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "style", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the TileInfo property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTileInfo(TileInfo? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        TileInfo = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TileInfo)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setTileInfo", 
-            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -1349,7 +1303,10 @@ public partial class VectorTileLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
-    ///     Deletes the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> from the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerdeletestylelayer-method">GeoBlazor Docs</a>
+    ///     Deletes the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> from the
+    ///     VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#deleteStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1368,7 +1325,10 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Returns an instance of <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#layout-property">layout</a> properties for the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetlayoutproperties-method">GeoBlazor Docs</a>
+    ///     Returns an instance of <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#layout-property">layout</a>
+    ///     properties for the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getLayoutProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1376,18 +1336,21 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GetLayoutProperties(string layerId)
+    public async Task<string?> GetLayoutProperties(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "getLayoutProperties", 
             CancellationTokenSource.Token,
             layerId);
     }
     
     /// <summary>
-    ///     Returns an instance of <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#paint">paint</a> properties for the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetpaintproperties-method">GeoBlazor Docs</a>
+    ///     Returns an instance of <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#paint">paint</a> properties for the specified
+    ///     <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getPaintProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1395,18 +1358,21 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GetPaintProperties(string layerId)
+    public async Task<string?> GetPaintProperties(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "getPaintProperties", 
             CancellationTokenSource.Token,
             layerId);
     }
     
     /// <summary>
-    ///     Returns an instance of a <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a> from the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetstylelayer-method">GeoBlazor Docs</a>
+    ///     Returns an instance of a <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a>
+    ///     from the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1414,18 +1380,22 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GetStyleLayer(string layerId)
+    public async Task<string?> GetStyleLayer(string layerId)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "getStyleLayer", 
             CancellationTokenSource.Token,
             layerId);
     }
     
     /// <summary>
-    ///     Returns the layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> of the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a> based on its index.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetstylelayerid-method">GeoBlazor Docs</a>
+    ///     Returns the layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
+    ///     of the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a>
+    ///     based on its index.
+    ///     param index Index of the style layer in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayerId">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="index">
@@ -1443,7 +1413,10 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Returns the index of the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a> from the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetstylelayerindex-method">GeoBlazor Docs</a>
+    ///     Returns the index of the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a> from the VectorTileLayer's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layerId The <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">style layer id</a> as specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayerIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1462,7 +1435,10 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Gets the visibility of the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> from the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayergetstylelayervisibility-method">GeoBlazor Docs</a>
+    ///     Gets the visibility of the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> from the
+    ///     VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1481,7 +1457,11 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerloadstyle-method">GeoBlazor Docs</a>
     ///     Loads a style to render a layer from the specified URL to a style resource or style JSON object.
+    ///     param style The URL to a style of vector tiles or style JSON object.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#loadStyle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="style">
@@ -1491,13 +1471,13 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> LoadStyle(string style,
+    public async Task<string?> LoadStyle(string style,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "loadStyle", 
             CancellationTokenSource.Token,
             style,
@@ -1509,7 +1489,27 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Updates the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#layout-property">layout</a> properties to the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayerrefresh-method">GeoBlazor Docs</a>
+    ///     Fetches all the data for the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public override async ValueTask Refresh()
+    {
+        await base.Refresh();
+        if (JsComponentReference is null) return;
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "refresh", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayersetlayoutproperties-method">GeoBlazor Docs</a>
+    ///     Updates the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#layout-property">layout</a> properties to the specified
+    ///     <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layout An instance of layout properties to assign to the style layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setLayoutProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1521,7 +1521,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     [ArcGISMethod]
     public async Task SetLayoutProperties(string layerId,
-        object layout)
+        string layout)
     {
         if (JsComponentReference is null) return;
         
@@ -1533,7 +1533,11 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Updates the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#paint">paint</a> properties to the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayersetpaintproperties-method">GeoBlazor Docs</a>
+    ///     Updates the <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#paint">paint</a> properties to the specified
+    ///     <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers">style layer</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param painter An instance of paint properties to assign to the specified style layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setPaintProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1545,7 +1549,7 @@ public partial class VectorTileLayer : IBlendLayer,
     /// </param>
     [ArcGISMethod]
     public async Task SetPaintProperties(string layerId,
-        object painter)
+        string painter)
     {
         if (JsComponentReference is null) return;
         
@@ -1557,7 +1561,9 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayersetspritesource-method">GeoBlazor Docs</a>
     ///     Changes the sprite source associated with the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">current style</a>.
+    ///     param spriteSourceInfo The sprite source info is used to set the sprites in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>. The user can set the sprite source from a URL to fetch the sprite resources or from the image info to set the sprite resources directly on the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setSpriteSource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="spriteSourceInfo">
@@ -1566,7 +1572,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     to set the sprite resources directly on the layer.
     /// </param>
     [ArcGISMethod]
-    public async Task<SpriteSource?> SetSpriteSource(IVectorTileLayerSpriteSourceInfo spriteSourceInfo)
+    public async Task<SpriteSource?> SetSpriteSource(Object spriteSourceInfo)
     {
         if (JsComponentReference is null) return null;
         
@@ -1577,7 +1583,10 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayersetstylelayer-method">GeoBlazor Docs</a>
     ///     Changes the layer properties of the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a>.
+    ///     param layer The <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>. Get an instance of a style layer from a loaded style using <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayer">getStyleLayer</a> method.
+    ///     param index Index of the style layer in the style. Set this parameter when adding a new style layer or re-ordering a style layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
@@ -1589,7 +1598,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     Index of the style layer in the style. Set this parameter when adding a new style layer or re-ordering a style layer.
     /// </param>
     [ArcGISMethod]
-    public async Task SetStyleLayer(object layer,
+    public async Task SetStyleLayer(string layer,
         int index)
     {
         if (JsComponentReference is null) return;
@@ -1602,7 +1611,11 @@ public partial class VectorTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Toggles the visibility of the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayersetstylelayervisibility-method">GeoBlazor Docs</a>
+    ///     Toggles the visibility of the specified <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/">style layer</a> in the
+    ///     VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param layerId The style layer <a target="_blank" href="https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     param visibility Set this parameter to `"none"` to hide the style layer or to `"visible"` to show the style layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setStyleLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
@@ -1627,55 +1640,42 @@ public partial class VectorTileLayer : IBlendLayer,
     
 #endregion
 
+#region Event Handlers
 
-    /// <inheritdoc />
-    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    /// <summary>
+    ///     JavaScript-Invokable Method for internal use only.
+    /// </summary>
+    [JSInvokable]
+    public async Task OnJsRefresh(IJSStreamReference jsStreamRef)
     {
-        switch (child)
-        {
-            case Extent initialExtent:
-                if (initialExtent != InitialExtent)
-                {
-                    InitialExtent = initialExtent;
-                    LayerChanged = MapRendered;
-                    ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
-                }
-                
-                return true;
-            case TileInfo tileInfo:
-                if (tileInfo != TileInfo)
-                {
-                    TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
-                    ModifiedParameters[nameof(TileInfo)] = TileInfo;
-                }
-                
-                return true;
-            default:
-                return await base.RegisterGeneratedChildComponent(child);
-        }
-    }
-
-    /// <inheritdoc />
-    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
-    {
-        switch (child)
-        {
-            case Extent _:
-                InitialExtent = null;
-                LayerChanged = MapRendered;
-                ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
-                return true;
-            case TileInfo _:
-                TileInfo = null;
-                LayerChanged = MapRendered;
-                ModifiedParameters[nameof(TileInfo)] = TileInfo;
-                return true;
-            default:
-                return await base.UnregisterGeneratedChildComponent(child);
-        }
+        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
+        await using MemoryStream ms = new();
+        await stream.CopyToAsync(ms);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] encodedJson = ms.ToArray();
+        string json = Encoding.UTF8.GetString(encodedJson);
+        RefreshEvent refreshEvent = 
+            JsonSerializer.Deserialize<RefreshEvent>(json, 
+                GeoBlazorSerialization.JsonSerializerOptions)!;
+        await OnRefresh.InvokeAsync(refreshEvent);
     }
     
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.VectorTileLayer.html#vectortilelayeronrefresh-property">GeoBlazor Docs</a>
+    ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> is called.
+    ///     The event payload indicates if the layer's data has changed.
+    /// </summary>
+    [Parameter]
+    [JsonIgnore]
+    public EventCallback<RefreshEvent> OnRefresh { get; set; }
+   
+    /// <summary>
+    ///     Used in JavaScript layer to determine if the event listener is registered.
+    /// </summary>
+    public bool HasRefreshListener => OnRefresh.HasDelegate;
+    
+#endregion
+
     /// <inheritdoc />
     public override void ValidateRequiredGeneratedChildren()
     {
@@ -1684,8 +1684,6 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(VectorTileLayer), [nameof(PortalItem), nameof(Url)]);
         }
-        InitialExtent?.ValidateRequiredGeneratedChildren();
-        TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }
       

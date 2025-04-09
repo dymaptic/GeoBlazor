@@ -53,8 +53,8 @@ public partial class RelationshipRampElement : MapComponent,
     /// </param>
     public RelationshipRampElement(
         IReadOnlyList<MapColor>? colors = null,
-        string? focus = null,
-        IReadOnlyList<object>? infos = null,
+        Focus? focus = null,
+        IReadOnlyList<string>? infos = null,
         RelationshipLabels? labels = null,
         double? numClasses = null,
         double? rotation = null,
@@ -76,6 +76,7 @@ public partial class RelationshipRampElement : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementcolors-property">GeoBlazor Docs</a>
     ///     A 2-dimensional array of colors as displayed in the legend grid.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -85,24 +86,27 @@ public partial class RelationshipRampElement : MapComponent,
     public IReadOnlyList<MapColor>? Colors { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementfocus-property">GeoBlazor Docs</a>
     ///     Determines the orientation of the Legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Focus { get; set; }
+    public Focus? Focus { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementinfos-property">GeoBlazor Docs</a>
     ///     Info objects associated with the relationship renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<object>? Infos { get; set; }
+    public IReadOnlyList<string>? Infos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementlabels-property">GeoBlazor Docs</a>
     ///     The labels for each corner of the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -112,6 +116,7 @@ public partial class RelationshipRampElement : MapComponent,
     public RelationshipLabels? Labels { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementnumclasses-property">GeoBlazor Docs</a>
     ///     The number of classes for each field comprising the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -121,6 +126,7 @@ public partial class RelationshipRampElement : MapComponent,
     public double? NumClasses { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementrotation-property">GeoBlazor Docs</a>
     ///     The rotation of the legend in degrees (0-360).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -130,6 +136,7 @@ public partial class RelationshipRampElement : MapComponent,
     public double? Rotation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RelationshipRampElement.html#relationshiprampelementtitle-property">GeoBlazor Docs</a>
     ///     The title of the renderer as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#RelationshipRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -184,7 +191,7 @@ public partial class RelationshipRampElement : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Focus property.
     /// </summary>
-    public async Task<string?> GetFocus()
+    public async Task<Focus?> GetFocus()
     {
         if (CoreJsModule is null)
         {
@@ -207,12 +214,12 @@ public partial class RelationshipRampElement : MapComponent,
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "focus");
-        if (result is not null)
+        JsNullableEnumWrapper<Focus>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Focus>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "focus");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Focus = result;
+             Focus = (Focus)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Focus)] = Focus;
         }
@@ -223,7 +230,7 @@ public partial class RelationshipRampElement : MapComponent,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Infos property.
     /// </summary>
-    public async Task<IReadOnlyList<object>?> GetInfos()
+    public async Task<IReadOnlyList<string>?> GetInfos()
     {
         if (CoreJsModule is null)
         {
@@ -246,7 +253,7 @@ public partial class RelationshipRampElement : MapComponent,
         }
 
         // get the property value
-        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
+        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
             CancellationTokenSource.Token, "infos");
         if (result is not null)
         {
@@ -462,7 +469,7 @@ public partial class RelationshipRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetFocus(string? value)
+    public async Task SetFocus(Focus? value)
     {
 #pragma warning disable BL0005
         Focus = value;
@@ -499,7 +506,7 @@ public partial class RelationshipRampElement : MapComponent,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInfos(IReadOnlyList<object>? value)
+    public async Task SetInfos(IReadOnlyList<string>? value)
     {
 #pragma warning disable BL0005
         Infos = value;
@@ -710,9 +717,9 @@ public partial class RelationshipRampElement : MapComponent,
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToInfos(params object[] values)
+    public async Task AddToInfos(params string[] values)
     {
-        object[] join = Infos is null
+        string[] join = Infos is null
             ? values
             : [..Infos, ..values];
         await SetInfos(join);
@@ -745,7 +752,7 @@ public partial class RelationshipRampElement : MapComponent,
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromInfos(params object[] values)
+    public async Task RemoveFromInfos(params string[] values)
     {
         if (Infos is null)
         {

@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElementExpressionInfo.html">GeoBlazor Docs</a>
-///     Defines an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression used to create an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ExpressionContent</a> element in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+///     Defines an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression used to create an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-ExpressionContent.html">ExpressionContent</a>
+///     element in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ElementExpressionInfo : MapComponent
@@ -23,12 +24,9 @@ public partial class ElementExpressionInfo : MapComponent
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="expression">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression evaluating to a dictionary.
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression evaluating to
+    ///     a dictionary.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="returnType">
-    ///     The return type of the expression.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html#returnType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title used to describe the popup element returned by the expression.
@@ -36,13 +34,11 @@ public partial class ElementExpressionInfo : MapComponent
     /// </param>
     public ElementExpressionInfo(
         string? expression = null,
-        string? returnType = null,
         string? title = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Expression = expression;
-        ReturnType = returnType;
         Title = title;
 #pragma warning restore BL0005    
     }
@@ -51,7 +47,9 @@ public partial class ElementExpressionInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression evaluating to a dictionary.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElementExpressionInfo.html#elementexpressioninfoexpression-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression evaluating to
+    ///     a dictionary.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -60,15 +58,17 @@ public partial class ElementExpressionInfo : MapComponent
     public string? Expression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElementExpressionInfo.html#elementexpressioninforeturntype-property">GeoBlazor Docs</a>
     ///     The return type of the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html#returnType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? ReturnType { get; set; }
+    [JsonInclude]
+    public string? ReturnType { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ElementExpressionInfo.html#elementexpressioninfotitle-property">GeoBlazor Docs</a>
     ///     The title used to describe the popup element returned by the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ElementExpressionInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -237,43 +237,6 @@ public partial class ElementExpressionInfo : MapComponent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "expression", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the ReturnType property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetReturnType(string? value)
-    {
-#pragma warning disable BL0005
-        ReturnType = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ReturnType)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "returnType", value);
     }
     
     /// <summary>

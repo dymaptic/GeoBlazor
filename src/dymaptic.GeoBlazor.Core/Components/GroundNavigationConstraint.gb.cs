@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.GroundNavigationConstraint.html">GeoBlazor Docs</a>
-///     Specifies the user navigation constraints relative to the ground surface.
+///     Specifies the user navigation constraints relative to
+///     the ground surface.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Ground.html#navigationConstraint">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class GroundNavigationConstraint

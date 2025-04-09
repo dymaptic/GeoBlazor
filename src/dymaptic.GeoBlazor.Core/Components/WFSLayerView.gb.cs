@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html">GeoBlazor Docs</a>
-///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html">WFSLayer</a> after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+///     Represents the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> of a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html">WFSLayer</a>
+///     after it has been added to a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> in either a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class WFSLayerView : LayerView,
@@ -26,15 +28,18 @@ public partial class WFSLayerView : LayerView,
     /// </summary>
     /// <param name="featureEffect">
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="filter">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a> filter.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#filter">ArcGIS Maps SDK for JavaScript</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>,
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a>
+    ///     filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightOptions">
     ///     Options for configuring the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maximumNumberOfFeatures">
     ///     The maximum number of features that can be displayed at a time.
@@ -72,6 +77,7 @@ public partial class WFSLayerView : LayerView,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewavailablefields-property">GeoBlazor Docs</a>
     ///     A list of attribute fields fetched for each feature including fields required for layer's `renderer` `labelingInfo`, `elevationInfo`, and additional fields defined on the `outFields` properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#availableFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -81,6 +87,7 @@ public partial class WFSLayerView : LayerView,
     public IReadOnlyList<string>? AvailableFields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewdataupdating-property">GeoBlazor Docs</a>
     ///     Indicates if the layer view is updating its data and new features are being fetched.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#dataUpdating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,8 +97,9 @@ public partial class WFSLayerView : LayerView,
     public bool? DataUpdating { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewfeatureeffect-property">GeoBlazor Docs</a>
     ///     The featureEffect can be used to draw attention features of interest.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#featureEffect">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -99,8 +107,12 @@ public partial class WFSLayerView : LayerView,
     public FeatureEffect? FeatureEffect { get; set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a> filter.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#filter">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewfilter-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#where">attribute</a>,
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#geometry">geometry</a>,
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FeatureFilter.html#timeExtent">time extent</a>
+    ///     filter.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#filter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -108,6 +120,7 @@ public partial class WFSLayerView : LayerView,
     public FeatureFilter? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasallfeatures-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view contains all available features from the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -117,6 +130,7 @@ public partial class WFSLayerView : LayerView,
     public bool? HasAllFeatures { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasallfeaturesinview-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has all the features available in the current view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasAllFeaturesInView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -126,6 +140,7 @@ public partial class WFSLayerView : LayerView,
     public bool? HasAllFeaturesInView { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhasfullgeometries-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer view has geometries at full resolution.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#hasFullGeometries">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -135,8 +150,9 @@ public partial class WFSLayerView : LayerView,
     public bool? HasFullGeometries { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewhighlightoptions-property">GeoBlazor Docs</a>
     ///     Options for configuring the highlight.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-HighlightLayerViewMixin.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#highlightOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -144,6 +160,7 @@ public partial class WFSLayerView : LayerView,
     public HighlightOptions? HighlightOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewmaximumnumberoffeatures-property">GeoBlazor Docs</a>
     ///     The maximum number of features that can be displayed at a time.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -153,6 +170,7 @@ public partial class WFSLayerView : LayerView,
     public double? MaximumNumberOfFeatures { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewmaximumnumberoffeaturesexceeded-property">GeoBlazor Docs</a>
     ///     Signifies whether the maximum number of features has been exceeded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#maximumNumberOfFeaturesExceeded">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -778,8 +796,10 @@ public partial class WFSLayerView : LayerView,
 #region Public Methods
 
     /// <summary>
-    ///     Creates query parameter object that can be used to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryAggregates">fetch aggregate features</a> as they are being displayed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#createAggregateQuery">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewcreateaggregatequery-method">GeoBlazor Docs</a>
+    ///     Creates query parameter object that can be used to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryAggregates">fetch aggregate features</a> as they are being
+    ///     displayed.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#createAggregateQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<Query?> CreateAggregateQuery()
@@ -792,8 +812,10 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Creates a query parameter object that can be used to fetch features as they are being displayed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewcreatequery-method">GeoBlazor Docs</a>
+    ///     Creates a query parameter object that can be used to fetch features as they are being
+    ///     displayed.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<Query?> CreateQuery()
@@ -806,10 +828,16 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryaggregates-method">GeoBlazor Docs</a>
     ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against aggregate features (i.e.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryAggregates">ArcGIS Maps SDK for JavaScript</a>
+    ///     param query Specifies the parameters of the query. Leave this parameter empty to query all aggregates in the view.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryAggregates">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the parameters of the query. Leave this parameter empty
+    ///     to query all aggregates in the view.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -833,10 +861,51 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView and returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryattributebins-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html">AttributeBinsQuery</a> against features available for drawing, which groups features into bins based on ranges in numeric or date fields, and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> containing the series of bins.
+    ///     param binsQuery Specifies the parameters of the `queryAttributeBins()` operation. The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryAttributeBins">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="binsQuery">
+    ///     Specifies the parameters of the <code>queryAttributeBins()</code> operation. The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
+        CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
+            "queryAttributeBins", 
+            CancellationTokenSource.Token,
+            binsQuery,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryextent-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView and
+    ///     returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query.
+    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
+    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -860,10 +929,18 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView and returns the number of features that satisfy the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryfeaturecount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView
+    ///     and returns the number of features that satisfy the query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query.
+    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
+    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -887,10 +964,20 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryfeatures-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView
+    ///     and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>.
+    ///     param query Specifies the attributes and spatial filter of the query. When this parameter is not passed to `queryFeatures()` method, then a default query is created using <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#createQuery">createQuery()</a> method and all features that pass the layer view <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#filter">filter</a> are returned along with their attributes that are <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#availableFields">available on the client</a>. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query.
+    ///     When this parameter is not passed to <code>queryFeatures()</code> method, then a default query is created using <a href="#createQuery">createQuery()</a>
+    ///     method and all features that pass the layer view <a href="#filter">filter</a> are returned along with their attributes
+    ///     that are <a href="#availableFields">available on the client</a>. To only return features
+    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -914,22 +1001,30 @@ public partial class WFSLayerView : LayerView,
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in the layerView and returns array of the ObjectIDs of features that satisfy the input query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerViewMixin.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WFSLayerView.html#wfslayerviewqueryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against features available for drawing in
+    ///     the layerView and returns array of the ObjectIDs of features that satisfy the input query.
+    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-WFSLayerView.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the attributes and spatial filter of the query.
+    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
+    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
+    public async Task<string[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
+        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,

@@ -66,12 +66,6 @@ export default class BasemapGalleryWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -196,11 +190,11 @@ export async function buildJsBasemapGalleryWidgetGenerated(dotNetObject: any, la
     basemapGalleryWidgetWrapper.viewId = viewId;
     basemapGalleryWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = basemapGalleryWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGallery;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryWidgetWrapper);
         let { buildDotNetBasemapGalleryWidget } = await import('./basemapGalleryWidget');
         let dnInstantiatedObject = await buildDotNetBasemapGalleryWidget(jsBasemapGallery);
 

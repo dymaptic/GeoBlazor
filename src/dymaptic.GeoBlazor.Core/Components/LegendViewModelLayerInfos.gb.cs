@@ -31,7 +31,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LegendViewModelLayerInfos(
-        Layer? layer = null,
+        MapComponent? layer = null,
         string? title = null)
     {
         AllowRender = false;
@@ -45,6 +45,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LegendViewModelLayerInfos.html#legendviewmodellayerinfostitle-property">GeoBlazor Docs</a>
     ///     Specify a title for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,7 +61,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
-    public async Task<Layer?> GetLayer()
+    public async Task<MapComponent?> GetLayer()
     {
         if (CoreJsModule is null)
         {
@@ -82,22 +83,17 @@ public partial class LegendViewModelLayerInfos : MapComponent
             return Layer;
         }
 
-        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
-            "getLayer", CancellationTokenSource.Token);
-        
+        // get the property value
+        MapComponent? result = await JsComponentReference!.InvokeAsync<MapComponent?>("getProperty",
+            CancellationTokenSource.Token, "layer");
         if (result is not null)
         {
-            if (Layer is not null)
-            {
-                result.Id = Layer.Id;
-            }
-            
 #pragma warning disable BL0005
-            Layer = result;
+             Layer = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(Layer)] = Layer;
+             ModifiedParameters[nameof(Layer)] = Layer;
         }
-        
+         
         return Layer;
     }
     
@@ -150,16 +146,8 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayer(Layer? value)
+    public async Task SetLayer(MapComponent? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005

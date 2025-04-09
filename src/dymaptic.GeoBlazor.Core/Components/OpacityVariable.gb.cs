@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityVariable.html">GeoBlazor Docs</a>
-///     The opacity visual variable defines the opacity of each feature's symbol based on a numeric <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#field">field</a> value or number returned from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#valueExpression">expression</a>.
+///     The opacity visual variable defines the opacity of each feature's symbol based on a numeric
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#field">field</a> value or number returned from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#valueExpression">expression</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class OpacityVariable
@@ -23,11 +24,13 @@ public partial class OpacityVariable
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="field">
-    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    ///     The name of the numeric attribute field that contains the data
+    ///     values used to determine the color/opacity/size/rotation of each feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="normalizationField">
-    ///     Name of the numeric attribute field by which to normalize the data.
+    ///     Name of the numeric attribute field by which to normalize
+    ///     the data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#normalizationField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="stops">
@@ -35,15 +38,18 @@ public partial class OpacityVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#stops">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendOptions">
-    ///     An object providing options for displaying the visual variable in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     An object providing options for displaying the visual variable in
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
+    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpressionTitle">
-    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
+    ///     The title identifying and describing the associated
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public OpacityVariable(
@@ -69,6 +75,7 @@ public partial class OpacityVariable
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.OpacityVariable.html#opacityvariablestops-property">GeoBlazor Docs</a>
     ///     An array of objects that defines the opacity to apply to features in a layer in a sequence of stops.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-OpacityVariable.html#stops">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

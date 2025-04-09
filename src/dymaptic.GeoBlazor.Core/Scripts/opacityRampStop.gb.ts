@@ -16,15 +16,11 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.label)) {
         jsOpacityRampStop.label = dotNetObject.label;
     }
-    if (hasValue(dotNetObject.offset)) {
-        jsOpacityRampStop.offset = dotNetObject.offset;
-    }
     if (hasValue(dotNetObject.value)) {
         jsOpacityRampStop.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOpacityRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     
     return jsOpacityRampStop;
@@ -45,10 +41,6 @@ export async function buildDotNetOpacityRampStopGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.label)) {
         dotNetOpacityRampStop.label = jsObject.label;
-    }
-    
-    if (hasValue(jsObject.offset)) {
-        dotNetOpacityRampStop.offset = jsObject.offset;
     }
     
     if (hasValue(jsObject.value)) {

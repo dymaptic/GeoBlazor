@@ -21,10 +21,6 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
             this.component.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -33,17 +29,8 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.error)) {
             this.component.error = dotNetObject.error;
         }
-        if (hasValue(dotNetObject.geolocationOptions)) {
-            this.component.geolocationOptions = dotNetObject.geolocationOptions;
-        }
-        if (hasValue(dotNetObject.goToLocationEnabled)) {
-            this.component.goToLocationEnabled = dotNetObject.goToLocationEnabled;
-        }
         if (hasValue(dotNetObject.popupEnabled)) {
             this.component.popupEnabled = dotNetObject.popupEnabled;
-        }
-        if (hasValue(dotNetObject.scale)) {
-            this.component.scale = dotNetObject.scale;
         }
     }
     
@@ -56,20 +43,6 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
@@ -101,10 +74,6 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');
         properties.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -113,17 +82,8 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     if (hasValue(dotNetObject.error)) {
         properties.error = dotNetObject.error;
     }
-    if (hasValue(dotNetObject.geolocationOptions)) {
-        properties.geolocationOptions = dotNetObject.geolocationOptions;
-    }
-    if (hasValue(dotNetObject.goToLocationEnabled)) {
-        properties.goToLocationEnabled = dotNetObject.goToLocationEnabled;
-    }
     if (hasValue(dotNetObject.popupEnabled)) {
         properties.popupEnabled = dotNetObject.popupEnabled;
-    }
-    if (hasValue(dotNetObject.scale)) {
-        properties.scale = dotNetObject.scale;
     }
     let jsLocateViewModel = new LocateViewModel(properties);
     if (hasValue(dotNetObject.hasLocateListener) && dotNetObject.hasLocateListener) {
@@ -147,7 +107,6 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     locateViewModelWrapper.viewId = viewId;
     locateViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(locateViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = locateViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocateViewModel;
     

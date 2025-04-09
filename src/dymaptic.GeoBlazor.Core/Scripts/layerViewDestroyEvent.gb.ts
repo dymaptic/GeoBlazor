@@ -17,8 +17,7 @@ export async function buildJsLayerViewDestroyEventGenerated(dotNetObject: any, l
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerLayerviewDestroyEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewDestroyEvent;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerLayerviewDestroyEvent;
     
     return jsFeatureLayerLayerviewDestroyEvent;

@@ -10,13 +10,11 @@ namespace dymaptic.GeoBlazor.Core.Options;
 ///     The portal folder where the layer's portal item will be saved.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="ValidationOptions">
-///     Options for validating the save operation.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
+/// <param name="IgnoreUnsupported">
 /// </param>
 public partial record ImageryLayerSaveAsOptions(
     PortalFolder? Folder = null,
-    ImageryLayerSaveAsOptionsValidationOptions? ValidationOptions = null)
+    bool? IgnoreUnsupported = null)
 {
     /// <summary>
     ///     The portal folder where the layer's portal item will be saved.
@@ -25,9 +23,8 @@ public partial record ImageryLayerSaveAsOptions(
     public PortalFolder? Folder { get; set; } = Folder;
     
     /// <summary>
-    ///     Options for validating the save operation.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
+    ///     
     /// </summary>
-    public ImageryLayerSaveAsOptionsValidationOptions? ValidationOptions { get; set; } = ValidationOptions;
+    public bool? IgnoreUnsupported { get; set; } = IgnoreUnsupported;
     
 }

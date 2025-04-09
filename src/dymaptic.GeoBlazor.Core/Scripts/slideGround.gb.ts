@@ -13,8 +13,7 @@ export async function buildJsSlideGroundGenerated(dotNetObject: any, layerId: st
         jsSlideGround.opacity = dotNetObject.opacity;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSlideGround);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSlideGround;
     arcGisObjectRefs[dotNetObject.id] = jsSlideGround;
     
     return jsSlideGround;

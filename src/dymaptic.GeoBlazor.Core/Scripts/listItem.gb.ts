@@ -180,7 +180,6 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     listItemWrapper.viewId = viewId;
     listItemWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(listItemWrapper);
     jsObjectRefs[dotNetObject.id] = listItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItem;
     
@@ -223,6 +222,10 @@ export async function buildDotNetListItemGenerated(jsObject: any): Promise<any> 
     
     if (hasValue(jsObject.hidden)) {
         dotNetListItem.hidden = jsObject.hidden;
+    }
+    
+    if (hasValue(jsObject.incompatible)) {
+        dotNetListItem.incompatible = jsObject.incompatible;
     }
     
     if (hasValue(jsObject.listModeDisabled)) {

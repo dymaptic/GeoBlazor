@@ -71,8 +71,7 @@ export async function buildJsAuthoringInfoGenerated(dotNetObject: any): Promise<
     }
     let jsAuthoringInfo = new AuthoringInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfo;
     
     return jsAuthoringInfo;

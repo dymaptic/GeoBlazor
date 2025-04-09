@@ -14,7 +14,9 @@ public abstract partial class VisualVariable
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     The name of the numeric attribute field that contains the data values used to determine the color/opacity/size/rotation of each feature.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablefield-property">GeoBlazor Docs</a>
+    ///     The name of the numeric attribute field that contains the data
+    ///     values used to determine the color/opacity/size/rotation of each feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -24,7 +26,9 @@ public abstract partial class VisualVariable
     public string Field { get; set; } = null!;
     
     /// <summary>
-    ///     An object providing options for displaying the visual variable in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.VisualVariable.html#visualvariablelegendoptions-property">GeoBlazor Docs</a>
+    ///     An object providing options for displaying the visual variable in
+    ///     the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

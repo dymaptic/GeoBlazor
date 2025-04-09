@@ -14,8 +14,7 @@ export async function buildJsITablesMixinGenerated(dotNetObject: any, layerId: s
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTablesMixin);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTablesMixin;
     arcGisObjectRefs[dotNetObject.id] = jsTablesMixin;
     
     return jsTablesMixin;

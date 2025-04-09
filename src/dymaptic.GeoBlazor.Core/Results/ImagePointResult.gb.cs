@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Results.ImagePointResult.html">GeoBlazor Docs</a>
-///     Image service point or centroid measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measurePointOrCentroid">ImageryLayer.measurePointOrCentroid()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measurePointOrCentroid">imageService.measurePointOrCentroid()</a> methods resolve successfully.
+///     Image service point or centroid measurement result returned when the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measurePointOrCentroid">ImageryLayer.measurePointOrCentroid()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measurePointOrCentroid">imageService.measurePointOrCentroid()</a> methods resolve successfully.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImagePointResult.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Name">

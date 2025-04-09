@@ -55,12 +55,6 @@ export default class ZoomWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -154,11 +148,11 @@ export async function buildJsZoomWidgetGenerated(dotNetObject: any, layerId: str
     zoomWidgetWrapper.viewId = viewId;
     zoomWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = zoomWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoom;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(zoomWidgetWrapper);
         let { buildDotNetZoomWidget } = await import('./zoomWidget');
         let dnInstantiatedObject = await buildDotNetZoomWidget(jsZoom, layerId, viewId);
 

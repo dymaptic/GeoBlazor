@@ -42,8 +42,7 @@ export async function buildJsPopupOpenOptionsGenerated(dotNetObject: any, layerI
         jsPopupOpenOptions.updateLocationEnabled = dotNetObject.updateLocationEnabled;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPopupOpenOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPopupOpenOptions;
     arcGisObjectRefs[dotNetObject.id] = jsPopupOpenOptions;
     
     return jsPopupOpenOptions;

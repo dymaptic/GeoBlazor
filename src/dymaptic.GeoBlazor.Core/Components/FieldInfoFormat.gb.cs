@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FieldInfoFormat.html">GeoBlazor Docs</a>
-///     The `FieldInfoFormat` class is used with numerical or date fields to provide more detail about how the value should be displayed in a popup.
+///     The `FieldInfoFormat` class is used with numerical or date fields to provide more detail
+///     about how the value should be displayed in a popup.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class FieldInfoFormat
@@ -23,7 +24,8 @@ public partial class FieldInfoFormat
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="places">
-    ///     Used only with `Number` fields to specify the number of supported decimal places that should appear in popups.
+    ///     Used only with `Number` fields to specify the number of supported decimal places
+    ///     that should appear in popups.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html#places">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="digitSeparator">
@@ -33,7 +35,7 @@ public partial class FieldInfoFormat
     /// </param>
     /// <param name="dateFormat">
     ///     Used only with `Date` fields.
-    ///     If displaying a `timestamp-offset` or `date` <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#type">type</a> field in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html">Features</a>, or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> widget and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> has a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#timeZone">timezone</a> set other than `unknown`, the abbreviated time zone suffix will be omitted from the attribute value. For example, the attribute value will display as `9/28/2014, 7:58 PM`. To display an abbreviated time zone suffix, see the `Read more` section. >>>esri-read-more<a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html#dateFormat">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-support-FieldInfoFormat.html#dateFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public FieldInfoFormat(
         int? places = null,

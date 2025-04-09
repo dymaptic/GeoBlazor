@@ -27,6 +27,24 @@ export default class GeoRSSLayerViewGenerated implements IPropertyWrapper {
         }
     }
     
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getLayer(): Promise<any> {
@@ -65,7 +83,6 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
     geoRSSLayerViewWrapper.viewId = viewId;
     geoRSSLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = geoRSSLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayerView;
     

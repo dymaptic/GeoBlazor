@@ -51,6 +51,7 @@ public partial class SceneLayerElevationInfo : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SceneLayerElevationInfo.html#scenelayerelevationinfomode-property">GeoBlazor Docs</a>
     ///     Defines how the feature is placed with respect to the terrain surface.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -60,6 +61,7 @@ public partial class SceneLayerElevationInfo : MapComponent
     public ElevationInfoMode? Mode { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SceneLayerElevationInfo.html#scenelayerelevationinfooffset-property">GeoBlazor Docs</a>
     ///     An elevation offset which is added to the vertical position of the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html#elevationInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -69,6 +71,7 @@ public partial class SceneLayerElevationInfo : MapComponent
     public double? Offset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SceneLayerElevationInfo.html#scenelayerelevationinfounit-property">GeoBlazor Docs</a>
     ///     The unit for `offset` values.
     ///     <a target="_blank" href="global.html#unit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

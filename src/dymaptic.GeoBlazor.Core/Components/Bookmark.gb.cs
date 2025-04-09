@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Bookmark.html">GeoBlazor Docs</a>
-///     A bookmark is a saved map extent that allows end users to quickly navigate to a particular area of interest using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">Bookmarks</a> widget.
+///     A bookmark is a saved map extent that allows end users to quickly navigate to a particular area of interest
+///     using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks.html">Bookmarks</a> widget.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class Bookmark
@@ -57,6 +58,7 @@ public partial class Bookmark
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Bookmark.html#bookmarkthumbnail-property">GeoBlazor Docs</a>
     ///     The URL for a thumbnail image.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#thumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +68,7 @@ public partial class Bookmark
     public BookmarkThumbnail? Thumbnail { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Bookmark.html#bookmarkviewpoint-property">GeoBlazor Docs</a>
     ///     The viewpoint of the bookmark item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webmap-Bookmark.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -186,11 +189,6 @@ public partial class Bookmark
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005

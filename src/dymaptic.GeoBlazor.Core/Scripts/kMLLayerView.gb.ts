@@ -27,6 +27,24 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
     }
     
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
+    }
+
     // region properties
     
     async getAllVisibleMapImages(): Promise<any> {
@@ -101,7 +119,6 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     kMLLayerViewWrapper.viewId = viewId;
     kMLLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(kMLLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = kMLLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;
     

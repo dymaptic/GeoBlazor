@@ -11,18 +11,27 @@ public partial interface IImageryTileMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<long>? BandIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixincopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixininterpolation-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    Interpolation? Interpolation { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinlegendenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether the layer will be included in the legend.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#legendEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -30,43 +39,28 @@ public partial interface IImageryTileMixin : IMapComponent
     bool? LegendEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinmultidimensionaldefinition-property">GeoBlazor Docs</a>
     ///     The multidimensional definitions associated with the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinmultidimensionalsubset-property">GeoBlazor Docs</a>
     ///     Represents a multidimensional subset of raster data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     MultidimensionalSubset? MultidimensionalSubset { get; set; }
     
     /// <summary>
-    ///     Indicates whether to display popups when features in the layer are clicked.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    bool? PopupEnabled { get; set; }
-    
-    /// <summary>
-    ///     The popup template for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    PopupTemplate? PopupTemplate { get; set; }
-    
-    /// <summary>
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#renderer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    IImageryRenderer? Renderer { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Raster information retrieved from tiled imagery data source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     RasterInfo? ServiceRasterInfo { get; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixintimeextent-property">GeoBlazor Docs</a>
     ///     The layer's time extent.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
@@ -74,6 +68,7 @@ public partial interface IImageryTileMixin : IMapComponent
     TimeExtent? TimeExtent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixintimeinfo-property">GeoBlazor Docs</a>
     ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -81,6 +76,7 @@ public partial interface IImageryTileMixin : IMapComponent
     TimeInfo? TimeInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixintimeoffset-property">GeoBlazor Docs</a>
     ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
@@ -88,6 +84,7 @@ public partial interface IImageryTileMixin : IMapComponent
     TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinuseviewtime-property">GeoBlazor Docs</a>
     ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
@@ -109,6 +106,11 @@ public partial interface IImageryTileMixin : IMapComponent
     Task SetCopyright(string? value);
     
     /// <summary>
+    ///    Asynchronously set the value of the Interpolation property after render.
+    /// </summary>
+    Task SetInterpolation(Interpolation? value);
+    
+    /// <summary>
     ///    Asynchronously set the value of the LegendEnabled property after render.
     /// </summary>
     Task SetLegendEnabled(bool? value);
@@ -122,21 +124,6 @@ public partial interface IImageryTileMixin : IMapComponent
     ///    Asynchronously set the value of the MultidimensionalSubset property after render.
     /// </summary>
     Task SetMultidimensionalSubset(MultidimensionalSubset? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PopupEnabled property after render.
-    /// </summary>
-    Task SetPopupEnabled(bool? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PopupTemplate property after render.
-    /// </summary>
-    Task SetPopupTemplate(PopupTemplate? value);
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Renderer property after render.
-    /// </summary>
-    Task SetRenderer(IImageryRenderer? value);
     
     /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
@@ -173,6 +160,11 @@ public partial interface IImageryTileMixin : IMapComponent
     Task<string?> GetCopyright();
 
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Interpolation property.
+    /// </summary>
+    Task<Interpolation?> GetInterpolation();
+
+    /// <summary>
     ///     Asynchronously retrieve the current value of the LegendEnabled property.
     /// </summary>
     Task<bool?> GetLegendEnabled();
@@ -186,21 +178,6 @@ public partial interface IImageryTileMixin : IMapComponent
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
     Task<MultidimensionalSubset?> GetMultidimensionalSubset();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PopupEnabled property.
-    /// </summary>
-    Task<bool?> GetPopupEnabled();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the PopupTemplate property.
-    /// </summary>
-    Task<PopupTemplate?> GetPopupTemplate();
-
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the Renderer property.
-    /// </summary>
-    Task<IImageryRenderer?> GetRenderer();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
@@ -260,7 +237,14 @@ public partial interface IImageryTileMixin : IMapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinfetchpixels-method">GeoBlazor Docs</a>
     ///     Fetches pixels for a given extent.
+    ///     param extent The extent of the image to export.
+    ///     param width The width of the image in pixels.
+    ///     param height The height of the image in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.interpolation Added at version 4.23. Defines how to interpolate pixel values.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -282,7 +266,10 @@ public partial interface IImageryTileMixin : IMapComponent
         CancellationToken cancellationToken = default);
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinidentify-method">GeoBlazor Docs</a>
     ///     Identify pixel values at a given location.
+    ///     param point Input point that defines the location to be identified.
+    ///     param options Optional settings for the identify request. At version 4.25, the `transposedVariableName` was added to get pixel values from specific dimensional definitions if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> references a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service. Set the `transposedVariableName` and `multidimensionalDefinition` get pixel values for the specified dimensional definitions from a transposed multidimensional service. If `multidimensionalDefinition` is not specified, pixel values will be returned from all the dimensional slices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">

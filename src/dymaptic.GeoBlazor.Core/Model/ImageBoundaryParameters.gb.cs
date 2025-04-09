@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageBoundaryParameters.html">GeoBlazor Docs</a>
-///     Image boundary query parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryBoundary">ImageryLayer.queryBoundary()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryBoundary">imageService.queryBoundary()</a> methods.
+///     Image boundary query parameters for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryBoundary">ImageryLayer.queryBoundary()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#queryBoundary">imageService.queryBoundary()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageBoundaryParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="OutSpatialReference">

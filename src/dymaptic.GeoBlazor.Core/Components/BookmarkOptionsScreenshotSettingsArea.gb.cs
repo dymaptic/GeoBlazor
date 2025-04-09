@@ -57,6 +57,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettingsArea.html#bookmarkoptionsscreenshotsettingsareaheight-property">GeoBlazor Docs</a>
     ///     The height of the screenshot area.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     public int? Height { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettingsArea.html#bookmarkoptionsscreenshotsettingsareawidth-property">GeoBlazor Docs</a>
     ///     The width of the screenshot area.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     public int? Width { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettingsArea.html#bookmarkoptionsscreenshotsettingsareax-property">GeoBlazor Docs</a>
     ///     The x value of the screenshot area.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class BookmarkOptionsScreenshotSettingsArea : MapComponent
     public double? X { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.BookmarkOptionsScreenshotSettingsArea.html#bookmarkoptionsscreenshotsettingsareay-property">GeoBlazor Docs</a>
     ///     The y value of the screenshot area.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#BookmarkOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

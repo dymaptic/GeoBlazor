@@ -21,9 +21,11 @@ export async function buildJsGraphicHitGenerated(dotNetObject: any, layerId: str
         jsGraphicHit.mapPoint = buildJsPoint(dotNetObject.mapPoint) as any;
     }
 
+    if (hasValue(dotNetObject.distance)) {
+        jsGraphicHit.distance = dotNetObject.distance;
+    }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGraphicHit);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGraphicHit;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicHit;
     
     return jsGraphicHit;
@@ -45,6 +47,10 @@ export async function buildDotNetGraphicHitGenerated(jsObject: any, layerId: str
     if (hasValue(jsObject.mapPoint)) {
         let { buildDotNetPoint } = await import('./point');
         dotNetGraphicHit.mapPoint = buildDotNetPoint(jsObject.mapPoint);
+    }
+    
+    if (hasValue(jsObject.distance)) {
+        dotNetGraphicHit.distance = jsObject.distance;
     }
     
     if (hasValue(jsObject.type)) {

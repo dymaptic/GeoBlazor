@@ -15,8 +15,7 @@ export async function buildJsImageBoundaryParametersGenerated(dotNetObject: any,
     }
     let jsImageBoundaryParameters = new ImageBoundaryParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageBoundaryParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageBoundaryParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageBoundaryParameters;
     
     return jsImageBoundaryParameters;

@@ -53,12 +53,26 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         return this.component.createQuery();
     }
 
-    async highlight(target: any): Promise<any> {
+    async highlight(target: any,
+        options: any): Promise<any> {
         let { buildJsGraphic } = await import('./graphic');
         let jsTarget = buildJsGraphic(target) as any;
-        let result = this.component.highlight(jsTarget);
+        let result = this.component.highlight(jsTarget,
+            options);
         let { buildDotNetHighlightHandle } = await import('./highlightHandle');
         return await buildDotNetHighlightHandle(result, this.layerId, this.viewId);
+    }
+
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
     }
 
     async queryAggregates(query: any,
@@ -66,6 +80,14 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         let { buildJsQuery } = await import('./query');
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryAggregates(jsQuery,
+            options);
+    }
+
+    async queryAttributeBins(binsQuery: any,
+        options: any): Promise<any> {
+        let { buildJsAttributeBinsQuery } = await import('./attributeBinsQuery');
+        let jsBinsQuery = await buildJsAttributeBinsQuery(binsQuery, this.layerId, this.viewId) as any;
+        return await this.component.queryAttributeBins(jsBinsQuery,
             options);
     }
 
@@ -99,6 +121,12 @@ export default class CSVLayerViewGenerated implements IPropertyWrapper {
         let jsQuery = await buildJsQuery(query, this.layerId, this.viewId) as any;
         return await this.component.queryObjectIds(jsQuery,
             options);
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
     }
 
     // region properties
@@ -199,7 +227,6 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     cSVLayerViewWrapper.viewId = viewId;
     cSVLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(cSVLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerView;
     

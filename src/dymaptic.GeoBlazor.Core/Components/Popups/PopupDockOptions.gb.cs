@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptions.html">GeoBlazor Docs</a>
-///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
+///     Docking the popup allows for a better user experience, particularly when opening
+///     popups in apps on mobile devices.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PopupDockOptions
@@ -55,10 +56,7 @@ public partial class PopupDockOptions
 #pragma warning disable BL0005
         Position = position;
         ButtonEnabled = buttonEnabled;
-        if (breakPoint is not null)
-        {
-            BreakPoint = breakPoint;
-        }
+        BreakPoint = breakPoint;
         BoolBreakpoint = boolBreakpoint;
         PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
 #pragma warning restore BL0005    
@@ -68,6 +66,7 @@ public partial class PopupDockOptions
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptions.html#popupdockoptionsboolbreakpoint-property">GeoBlazor Docs</a>
     ///     Defines the dimensions of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which to dock the popup.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -78,6 +77,7 @@ public partial class PopupDockOptions
     public bool? BoolBreakpoint { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupDockOptions.html#popupdockoptionspopupdockoptionsbreakpoint-property">GeoBlazor Docs</a>
     ///     Defines the dimensions of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> at which to dock the popup.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -285,7 +285,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "boolBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>
@@ -367,7 +367,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupDockOptionsBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>

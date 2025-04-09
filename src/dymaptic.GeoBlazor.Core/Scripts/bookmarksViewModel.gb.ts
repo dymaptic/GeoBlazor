@@ -37,10 +37,6 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
             let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
             this.component.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
 
     }
     
@@ -133,20 +129,6 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         this.component.defaultEditOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -182,10 +164,6 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
 
     let jsBookmarksViewModel = new BookmarksViewModel(properties);
 
@@ -195,7 +173,6 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     bookmarksViewModelWrapper.viewId = viewId;
     bookmarksViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(bookmarksViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
     

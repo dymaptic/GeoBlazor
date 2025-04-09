@@ -57,6 +57,7 @@ public partial class WMTSStyle : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstyledescription-property">GeoBlazor Docs</a>
     ///     Description for the WMTS style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -66,6 +67,7 @@ public partial class WMTSStyle : MapComponent
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstylelegendurl-property">GeoBlazor Docs</a>
     ///     The URL to the legend which gets used in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#legendUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +77,7 @@ public partial class WMTSStyle : MapComponent
     public string? LegendUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstyletitle-property">GeoBlazor Docs</a>
     ///     The title of the WMTS style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,6 +87,7 @@ public partial class WMTSStyle : MapComponent
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.WMTSStyle.html#wmtsstylewmtsstyleid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the style.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMTSStyle.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -240,7 +244,7 @@ public partial class WMTSStyle : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "wMTSStyleId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -401,7 +405,7 @@ public partial class WMTSStyle : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMTSStyleId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

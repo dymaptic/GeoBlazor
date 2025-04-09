@@ -25,14 +25,8 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.aggregateIds) && dotNetObject.aggregateIds.length > 0) {
         properties.aggregateIds = dotNetObject.aggregateIds;
     }
-    if (hasValue(dotNetObject.cacheHint)) {
-        properties.cacheHint = dotNetObject.cacheHint;
-    }
     if (hasValue(dotNetObject.datumTransformation)) {
         properties.datumTransformation = dotNetObject.datumTransformation;
-    }
-    if (hasValue(dotNetObject.distance)) {
-        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -76,7 +70,7 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.outStatistics) && dotNetObject.outStatistics.length > 0) {
         properties.outStatistics = dotNetObject.outStatistics;
     }
-    if (hasValue(dotNetObject.parameterValues) && dotNetObject.parameterValues.length > 0) {
+    if (hasValue(dotNetObject.parameterValues)) {
         properties.parameterValues = dotNetObject.parameterValues;
     }
     if (hasValue(dotNetObject.quantizationParameters)) {
@@ -109,9 +103,6 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.returnZ)) {
         properties.returnZ = dotNetObject.returnZ;
     }
-    if (hasValue(dotNetObject.spatialRelationship)) {
-        properties.spatialRelationship = dotNetObject.spatialRelationship;
-    }
     if (hasValue(dotNetObject.sqlFormat)) {
         properties.sqlFormat = dotNetObject.sqlFormat;
     }
@@ -121,16 +112,9 @@ export async function buildJsQueryGenerated(dotNetObject: any, layerId: string |
     if (hasValue(dotNetObject.text)) {
         properties.text = dotNetObject.text;
     }
-    if (hasValue(dotNetObject.units)) {
-        properties.units = dotNetObject.units;
-    }
-    if (hasValue(dotNetObject.where)) {
-        properties.where = dotNetObject.where;
-    }
     let jsQuery = new Query(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsQuery);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsQuery;
     arcGisObjectRefs[dotNetObject.id] = jsQuery;
     
     return jsQuery;
@@ -163,16 +147,8 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
         dotNetQuery.aggregateIds = jsObject.aggregateIds;
     }
     
-    if (hasValue(jsObject.cacheHint)) {
-        dotNetQuery.cacheHint = jsObject.cacheHint;
-    }
-    
     if (hasValue(jsObject.datumTransformation)) {
         dotNetQuery.datumTransformation = jsObject.datumTransformation;
-    }
-    
-    if (hasValue(jsObject.distance)) {
-        dotNetQuery.distance = jsObject.distance;
     }
     
     if (hasValue(jsObject.gdbVersion)) {
@@ -232,7 +208,7 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
     }
     
     if (hasValue(jsObject.parameterValues)) {
-        dotNetQuery.parameterValues = removeCircularReferences(jsObject.parameterValues);
+        dotNetQuery.parameterValues = jsObject.parameterValues;
     }
     
     if (hasValue(jsObject.quantizationParameters)) {
@@ -275,10 +251,6 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
         dotNetQuery.returnZ = jsObject.returnZ;
     }
     
-    if (hasValue(jsObject.spatialRelationship)) {
-        dotNetQuery.spatialRelationship = removeCircularReferences(jsObject.spatialRelationship);
-    }
-    
     if (hasValue(jsObject.sqlFormat)) {
         dotNetQuery.sqlFormat = removeCircularReferences(jsObject.sqlFormat);
     }
@@ -289,14 +261,6 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
     
     if (hasValue(jsObject.text)) {
         dotNetQuery.text = jsObject.text;
-    }
-    
-    if (hasValue(jsObject.units)) {
-        dotNetQuery.units = removeCircularReferences(jsObject.units);
-    }
-    
-    if (hasValue(jsObject.where)) {
-        dotNetQuery.where = jsObject.where;
     }
     
 

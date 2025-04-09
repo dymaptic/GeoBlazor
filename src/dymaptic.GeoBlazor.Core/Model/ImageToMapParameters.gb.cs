@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageToMapParameters.html">GeoBlazor Docs</a>
-///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMap">ImageryLayer.imageToMap()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#imageToMap">imageService.imageToMap()</a> methods.
+///     Input parameters for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMap">ImageryLayer.imageToMap()</a>
+///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#imageToMap">imageService.imageToMap()</a> methods.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Adjust">
@@ -21,9 +22,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The geometry in an image space.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#geometry">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="InSpatialReference">
+/// <param name="OutSpatialReference">
 ///     The spatial reference for the output geometry.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#inSpatialReference">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#outSpatialReference">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="RasterId">
 ///     The corresponding raster id for the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#geometry">geometry</a>.
@@ -33,7 +34,7 @@ public partial record ImageToMapParameters(
     bool? Adjust = null,
     double? DepthOffset = null,
     Geometry? Geometry = null,
-    SpatialReference? InSpatialReference = null,
+    SpatialReference? OutSpatialReference = null,
     long? RasterId = null)
 {
     /// <summary>
@@ -58,9 +59,9 @@ public partial record ImageToMapParameters(
     
     /// <summary>
     ///     The spatial reference for the output geometry.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#inSpatialReference">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#outSpatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public SpatialReference? InSpatialReference { get; set; } = InSpatialReference;
+    public SpatialReference? OutSpatialReference { get; set; } = OutSpatialReference;
     
     /// <summary>
     ///     The corresponding raster id for the input <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html#geometry">geometry</a>.

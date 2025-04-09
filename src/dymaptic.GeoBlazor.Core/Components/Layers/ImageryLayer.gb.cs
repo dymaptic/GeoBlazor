@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html">GeoBlazor Docs</a>
-///     Represents a dynamic <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service resource</a> as a layer.
+///     Represents a dynamic <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service resource</a>
+///     as a layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class ImageryLayer : IArcGISImageService,
@@ -13,6 +14,7 @@ public partial class ImageryLayer : IArcGISImageService,
     IFeatureTableWidgetLayers,
     IOperationalLayer,
     IPortalLayer,
+    IRasterPresetRendererMixin,
     IRefreshableLayer,
     IScaleRangeLayer,
     ITemporalLayer
@@ -35,11 +37,10 @@ public partial class ImageryLayer : IArcGISImageService,
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    ///     An interface that implements the various imagery renderers.
     /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
@@ -69,9 +70,10 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#definitionExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="format">
     ///     The format of the exported image.
@@ -123,9 +125,9 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#objectIdField">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="pixelType">
     ///     Raster source pixel type.
@@ -152,17 +154,21 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <param name="timeExtent">
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
@@ -191,28 +197,22 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     The full extent of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="activePresetRendererName">
+    /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="capabilities">
-    ///     Describes the layer's supported capabilities.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="fields">
-    ///     An array of fields in the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="mosaicRule">
     ///     Defines how overlapping images should be mosaicked.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="multidimensionalSubset">
     ///     Represents a multidimensional subset of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="pixelFilter">
     ///     A function that processes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">pixelData</a>.
@@ -222,16 +222,18 @@ public partial class ImageryLayer : IArcGISImageService,
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="presetRenderers">
+    /// </param>
     /// <param name="rasterFunction">
     ///     Specifies the rule for how the requested image should be processed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sourceJSON">
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -272,16 +274,16 @@ public partial class ImageryLayer : IArcGISImageService,
         bool? visible = null,
         Dictionary<string, object>? customParameters = null,
         Extent? fullExtent = null,
+        string? activePresetRendererName = null,
         string? arcGISLayerId = null,
-        ArcGISImageServiceCapabilities? capabilities = null,
-        IReadOnlyList<Field>? fields = null,
         bool? isBasemapReferenceLayer = null,
         MosaicRule? mosaicRule = null,
         MultidimensionalSubset? multidimensionalSubset = null,
         PixelFilterFunction? pixelFilter = null,
         PopupTemplate? popupTemplate = null,
+        IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
-        object? sourceJSON = null,
+        string? sourceJSON = null,
         TimeExtent? visibilityTimeExtent = null)
     {
         AllowRender = false;
@@ -312,10 +314,7 @@ public partial class ImageryLayer : IArcGISImageService,
         PopupEnabled = popupEnabled;
         RefreshInterval = refreshInterval;
         UseViewTime = useViewTime;
-        if (tileInfo is not null)
-        {
-            TileInfo = tileInfo;
-        }
+        TileInfo = tileInfo;
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
         TimeOffset = timeOffset;
@@ -325,14 +324,14 @@ public partial class ImageryLayer : IArcGISImageService,
         Visible = visible;
         CustomParameters = customParameters;
         FullExtent = fullExtent;
+        ActivePresetRendererName = activePresetRendererName;
         ArcGISLayerId = arcGISLayerId;
-        Capabilities = capabilities;
-        Fields = fields;
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
         MosaicRule = mosaicRule;
         MultidimensionalSubset = multidimensionalSubset;
         PixelFilter = pixelFilter;
         PopupTemplate = popupTemplate;
+        PresetRenderers = presetRenderers;
         RasterFunction = rasterFunction;
         SourceJSON = sourceJSON;
         VisibilityTimeExtent = visibilityTimeExtent;
@@ -343,6 +342,16 @@ public partial class ImageryLayer : IArcGISImageService,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayeractivepresetrenderername-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ActivePresetRendererName { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
@@ -353,15 +362,17 @@ public partial class ImageryLayer : IArcGISImageService,
     public IReadOnlyList<long>? BandIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercapabilities-property">GeoBlazor Docs</a>
     ///     Describes the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ArcGISImageServiceCapabilities? Capabilities { get; set; }
+    [JsonInclude]
+    public ArcGISImageServiceCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercompressionquality-property">GeoBlazor Docs</a>
     ///     The compression quality value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#compressionQuality">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -371,6 +382,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public double? CompressionQuality { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerdefaultmosaicrule-property">GeoBlazor Docs</a>
     ///     Default mosaic rule of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#defaultMosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -380,15 +392,17 @@ public partial class ImageryLayer : IArcGISImageService,
     public MosaicRule? DefaultMosaicRule { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfields-property">GeoBlazor Docs</a>
     ///     An array of fields in the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<Field>? Fields { get; set; }
+    [JsonInclude]
+    public IReadOnlyList<Field>? Fields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfieldsindex-property">GeoBlazor Docs</a>
     ///     A convenient property that can be used to make case-insensitive lookups for a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fields">field</a> by name.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fieldsIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -398,6 +412,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public FieldsIndex? FieldsIndex { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerinterpolation-property">GeoBlazor Docs</a>
     ///     Defines how to interpolate pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -407,8 +422,9 @@ public partial class ImageryLayer : IArcGISImageService,
     public Interpolation? Interpolation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermosaicrule-property">GeoBlazor Docs</a>
     ///     Defines how overlapping images should be mosaicked.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#mosaicRule">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -416,6 +432,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public MosaicRule? MosaicRule { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermultidimensionalinfo-property">GeoBlazor Docs</a>
     ///     The multidimensional information associated with the layer if the layer's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#hasMultidimensions">hasMultidimensions</a> property is `true`.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -426,8 +443,9 @@ public partial class ImageryLayer : IArcGISImageService,
     public RasterMultidimensionalInfo? MultidimensionalInfo { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermultidimensionalsubset-property">GeoBlazor Docs</a>
     ///     Represents a multidimensional subset of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -435,6 +453,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public MultidimensionalSubset? MultidimensionalSubset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayernodata-property">GeoBlazor Docs</a>
     ///     The pixel value representing no available information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -444,6 +463,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public NoData? NoData { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayernodatainterpretation-property">GeoBlazor Docs</a>
     ///     Interpretation of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noData">noData</a> setting.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#noDataInterpretation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -453,6 +473,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public NoDataInterpretation? NoDataInterpretation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpixelfilter-property">GeoBlazor Docs</a>
     ///     A function that processes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#pixelData">pixelData</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#pixelFilter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -480,6 +501,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public bool HasPixelFilter => PixelFilter is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpopuptemplate-property">GeoBlazor Docs</a>
     ///     The popup template for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -489,8 +511,9 @@ public partial class ImageryLayer : IArcGISImageService,
     public PopupTemplate? PopupTemplate { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -499,6 +522,16 @@ public partial class ImageryLayer : IArcGISImageService,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerpresetrenderers-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<RasterPresetRenderer>? PresetRenderers { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrasterfields-property">GeoBlazor Docs</a>
     ///     A complete list of fields that consists of raster attribute table fields, item pixel value, service pixel value, service pixel value with various server defined function templates, and raster attribute table fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -508,8 +541,9 @@ public partial class ImageryLayer : IArcGISImageService,
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrasterfunction-property">GeoBlazor Docs</a>
     ///     Specifies the rule for how the requested image should be processed.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -517,6 +551,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public RasterFunction? RasterFunction { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrasterfunctioninfos-property">GeoBlazor Docs</a>
     ///     Returns raster function information for the image services, including the name, description, help, function type, and a thumbnail of pre-configured raster function templates.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#rasterFunctionInfos">ArcGIS Maps SDK for JavaScript</a>
@@ -527,15 +562,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public IReadOnlyList<RasterFunctionInfo>? RasterFunctionInfos { get; protected set; }
     
     /// <summary>
-    ///     The renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#renderer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IImageryRenderer? Renderer { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Source raster information of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -545,15 +572,17 @@ public partial class ImageryLayer : IArcGISImageService,
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersourcejson-property">GeoBlazor Docs</a>
     ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">image service's metadata JSON</a> exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? SourceJSON { get; set; }
+    public string? SourceJSON { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersourcetype-property">GeoBlazor Docs</a>
     ///     Image service data source type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#sourceType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -563,6 +592,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public SourceType? SourceType { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the image service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -572,6 +602,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -582,6 +613,7 @@ public partial class ImageryLayer : IArcGISImageService,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the image service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -594,6 +626,45 @@ public partial class ImageryLayer : IArcGISImageService,
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActivePresetRendererName property.
+    /// </summary>
+    public async Task<string?> GetActivePresetRendererName()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActivePresetRendererName;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActivePresetRendererName;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "activePresetRendererName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ActivePresetRendererName = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ActivePresetRendererName)] = ActivePresetRendererName;
+        }
+         
+        return ActivePresetRendererName;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BandIds property.
     /// </summary>
@@ -1770,6 +1841,45 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the PresetRenderers property.
+    /// </summary>
+    public async Task<IReadOnlyList<RasterPresetRenderer>?> GetPresetRenderers()
+    {
+        if (CoreJsModule is null)
+        {
+            return PresetRenderers;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PresetRenderers;
+        }
+
+        IReadOnlyList<RasterPresetRenderer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<RasterPresetRenderer>?>(
+            "getPresetRenderers", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            PresetRenderers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+        }
+        
+        return PresetRenderers;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
     public async Task<IReadOnlyList<Field>?> GetRasterFields()
@@ -1926,45 +2036,6 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Renderer property.
-    /// </summary>
-    public async Task<IImageryRenderer?> GetRenderer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Renderer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Renderer;
-        }
-
-        // get the property value
-        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
-            CancellationTokenSource.Token, "renderer");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Renderer = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
-        }
-         
-        return Renderer;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.
     /// </summary>
     public async Task<RasterInfo?> GetServiceRasterInfo()
@@ -2006,7 +2077,7 @@ public partial class ImageryLayer : IArcGISImageService,
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -2029,7 +2100,7 @@ public partial class ImageryLayer : IArcGISImageService,
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -2150,11 +2221,6 @@ public partial class ImageryLayer : IArcGISImageService,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -2364,6 +2430,43 @@ public partial class ImageryLayer : IArcGISImageService,
 #region Property Setters
 
     /// <summary>
+    ///    Asynchronously set the value of the ActivePresetRendererName property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActivePresetRendererName(string? value)
+    {
+#pragma warning disable BL0005
+        ActivePresetRendererName = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActivePresetRendererName)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activePresetRendererName", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
     /// <param name="value">
@@ -2435,51 +2538,6 @@ public partial class ImageryLayer : IArcGISImageService,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "blendMode", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Capabilities property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetCapabilities(ArcGISImageServiceCapabilities? value)
-    {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
-#pragma warning disable BL0005
-        Capabilities = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Capabilities)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setCapabilities", 
-            CancellationTokenSource.Token, value);
     }
     
     /// <summary>
@@ -2701,54 +2759,6 @@ public partial class ImageryLayer : IArcGISImageService,
         }
         
         await JsComponentReference.InvokeVoidAsync("setEffect", 
-            CancellationTokenSource.Token, value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the Fields property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFields(IReadOnlyList<Field>? value)
-    {
-        if (value is not null)
-        {
-            foreach (Field item in value)
-            {
-                item.CoreJsModule = CoreJsModule;
-                item.Parent = this;
-                item.Layer = Layer;
-                item.View = View;
-            }
-        }
-        
-#pragma warning disable BL0005
-        Fields = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Fields)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await JsComponentReference.InvokeVoidAsync("setFields", 
             CancellationTokenSource.Token, value);
     }
     
@@ -3168,43 +3178,6 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectIdField property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectIdField(string? value)
-    {
-#pragma warning disable BL0005
-        ObjectIdField = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectIdField)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectIdField", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the PixelType property after render.
     /// </summary>
     /// <param name="value">
@@ -3369,6 +3342,54 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PresetRenderers property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPresetRenderers(IReadOnlyList<RasterPresetRenderer>? value)
+    {
+        if (value is not null)
+        {
+            foreach (RasterPresetRenderer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
+#pragma warning disable BL0005
+        PresetRenderers = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PresetRenderers)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setPresetRenderers", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the RasterFunction property after render.
     /// </summary>
     /// <param name="value">
@@ -3451,49 +3472,12 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the Renderer property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetRenderer(IImageryRenderer? value)
-    {
-#pragma warning disable BL0005
-        Renderer = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(Renderer)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "renderer", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the SourceJSON property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetSourceJSON(object? value)
+    public async Task SetSourceJSON(string? value)
     {
 #pragma warning disable BL0005
         SourceJSON = value;
@@ -3752,17 +3736,17 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Asynchronously adds elements to the Fields property.
+    ///     Asynchronously adds elements to the PresetRenderers property.
     /// </summary>
     /// <param name="values">
     ///    The elements to add.
     /// </param>
-    public async Task AddToFields(params Field[] values)
+    public async Task AddToPresetRenderers(params RasterPresetRenderer[] values)
     {
-        Field[] join = Fields is null
+        RasterPresetRenderer[] join = PresetRenderers is null
             ? values
-            : [..Fields, ..values];
-        await SetFields(join);
+            : [..PresetRenderers, ..values];
+        await SetPresetRenderers(join);
     }
     
 #endregion
@@ -3787,18 +3771,18 @@ public partial class ImageryLayer : IArcGISImageService,
     
     
     /// <summary>
-    ///     Asynchronously remove an element from the Fields property.
+    ///     Asynchronously remove an element from the PresetRenderers property.
     /// </summary>
     /// <param name="values">
     ///    The elements to remove.
     /// </param>
-    public async Task RemoveFromFields(params Field[] values)
+    public async Task RemoveFromPresetRenderers(params RasterPresetRenderer[] values)
     {
-        if (Fields is null)
+        if (PresetRenderers is null)
         {
             return;
         }
-        await SetFields(Fields.Except(values).ToArray());
+        await SetPresetRenderers(PresetRenderers.Except(values).ToArray());
     }
     
 #endregion
@@ -3806,91 +3790,191 @@ public partial class ImageryLayer : IArcGISImageService,
 #region Public Methods
 
     /// <summary>
-    ///     Computes the rotation angle of a ImageryLayer at a given location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeAngles">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercalculatevolume-method">GeoBlazor Docs</a>
+    ///     Calculates volume on the elevation data for the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageVolumeParameters.html#mosaicRule">mosaicRule</a>, base surface type
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html">polygon</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">extent</a> geometries.
+    ///     param parameters Specifies parameters for calculating volume.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#calculateVolume">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for calculating volume.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<ImageVolumeResult?> CalculateVolume(ImageVolumeParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageVolumeResult? result = await JsComponentReference!.InvokeAsync<ImageVolumeResult?>(
+            "calculateVolume", 
+            CancellationTokenSource.Token,
+            parameters,
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercomputeangles-method">GeoBlazor Docs</a>
+    ///     Computes the rotation angle of a ImageryLayer at a given location.
+    ///     param parameters Specifies parameters for computing angles.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeAngles">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="parameters">
+    ///     Specifies parameters for computing angles.
+    /// </param>
+    /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageAngleResult?> ComputeAngles(ImageAngleParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageAngleResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageAngleResult? result = await JsComponentReference!.InvokeAsync<ImageAngleResult?>(
             "computeAngles", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercomputehistograms-method">GeoBlazor Docs</a>
     ///     Computes histograms based on the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeHistograms">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for computing histograms.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeHistograms">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for computing histograms.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<HistogramsResult?> ComputeHistograms(ImageHistogramParameters parameters,
-        object requestOptions)
+    public async Task<string?> ComputeHistograms(ImageHistogramParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<HistogramsResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "computeHistograms", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercomputepixelspacelocations-method">GeoBlazor Docs</a>
     ///     Computes the corresponding pixel location in columns and rows for an image based on input geometry.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computePixelSpaceLocations">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for computing image space pixel location.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computePixelSpaceLocations">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for computing image space pixel location.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImagePixelLocationResult?> ComputePixelSpaceLocations(ImagePixelLocationParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImagePixelLocationResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImagePixelLocationResult? result = await JsComponentReference!.InvokeAsync<ImagePixelLocationResult?>(
             "computePixelSpaceLocations", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
-    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a> for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#computeStatisticsHistograms">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercomputestatisticshistograms-method">GeoBlazor Docs</a>
+    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a>
+    ///     for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     param parameters Specifies parameters for computing statistics and histograms.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#computeStatisticsHistograms">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for computing statistics and histograms.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        object requestOptions)
+    public async Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "computeStatisticsHistograms", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a default popup template for the layer, populated with all the fields of the layer.
+    ///     param options Options for creating the popup template.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -3908,20 +3992,32 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Returns an image using the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export REST operation</a> that displays data from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfetchimage-method">GeoBlazor Docs</a>
+    ///     Returns an image using the
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-image.htm">export REST operation</a> that displays
+    ///     data from an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>.
+    ///     param extent The extent of the image to export.
+    ///     param width The width of the image in pixels.
+    ///     param height The height of the image in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
+    ///     The extent of the image
+    ///     to export.
     /// </param>
     /// <param name="width">
+    ///     The width of the image in pixels.
     /// </param>
     /// <param name="height">
+    ///     The height of the image in pixels.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> FetchImage(Extent extent,
+    public async Task<string?> FetchImage(Extent extent,
         int width,
         int height,
         CancellationToken cancellationToken = default)
@@ -3929,7 +4025,7 @@ public partial class ImageryLayer : IArcGISImageService,
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchImage", 
             CancellationTokenSource.Token,
             extent,
@@ -3943,31 +4039,51 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerfindimages-method">GeoBlazor Docs</a>
     ///     Finds images based on the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html">FindImagesParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#findImages">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the find images parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#findImages">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the find images parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<FindImagesResult?> FindImages(FindImagesParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<FindImagesResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        FindImagesResult? result = await JsComponentReference!.InvokeAsync<FindImagesResult?>(
             "findImages", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayergeneraterasterinfo-method">GeoBlazor Docs</a>
     ///     Generates raster info for the specified raster function.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#generateRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     param rasterFunction Raster function for the requested raster info.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#generateRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterFunction">
+    ///     Raster function for the requested raster info.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3991,22 +4107,28 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Gets the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a> information of a catalog item in an image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getCatalogItemICSInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayergetcatalogitemicsinfo-method">GeoBlazor Docs</a>
+    ///     Gets the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-ics.htm">image coordinate system</a>
+    ///     information of a catalog item in an image service.
+    ///     param rasterId Raster catalog id.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getCatalogItemICSInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterId">
+    ///     Raster catalog id.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> GetCatalogItemICSInfo(long rasterId,
+    public async Task<string?> GetCatalogItemICSInfo(long rasterId,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "getCatalogItemICSInfo", 
             CancellationTokenSource.Token,
             rasterId,
@@ -4018,10 +4140,16 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Get the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html">raster info</a> of a <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-catalog-item.htm">catalog item</a> in an image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getCatalogItemRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayergetcatalogitemrasterinfo-method">GeoBlazor Docs</a>
+    ///     Get the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html">raster info</a> of a
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/raster-catalog-item.htm">catalog item</a> in an image service.
+    ///     param rasterId Raster catalog id.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getCatalogItemRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rasterId">
+    ///     Raster catalog id.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -4045,363 +4173,628 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayergetimageurl-method">GeoBlazor Docs</a>
     ///     Retrieves an image's url using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageUrlParameters.html">ImageUrlParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getImageUrl">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the image url parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getImageUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the image url parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageUrlResult?> GetImageUrl(ImageUrlParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageUrlResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageUrlResult? result = await JsComponentReference!.InvokeAsync<ImageUrlResult?>(
             "getImageUrl", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayergetsamples-method">GeoBlazor Docs</a>
     ///     Returns sample point locations, pixel values and corresponding resolutions of the source data for a given geometry.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#getSamples">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters The parameters used in the getSamples operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#getSamples">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     The parameters used in the getSamples operation.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageSampleResult?> GetSamples(ImageSampleParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageSampleResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageSampleResult? result = await JsComponentReference!.InvokeAsync<ImageSampleResult?>(
             "getSamples", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
-    ///     Sends a request to the ArcGIS REST image service to identify content based on the specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html">ImageIdentifyParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#identify">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayeridentify-method">GeoBlazor Docs</a>
+    ///     Sends a request to the ArcGIS REST image service to identify content based on the
+    ///     specified <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html">ImageIdentifyParameters</a>.
+    ///     param parameters The identify parameters used in the identify operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     The identify parameters used in the identify operation.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageIdentifyResult?> Identify(ImageIdentifyParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageIdentifyResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageIdentifyResult? result = await JsComponentReference!.InvokeAsync<ImageIdentifyResult?>(
             "identify", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerimagetomap-method">GeoBlazor Docs</a>
     ///     Converts a geometry from an image space to a map space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapParameters.html">ImageToMapParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageToMap">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the image to map parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the image to map parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> ImageToMap(ImageToMapParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<Geometry?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>(
             "imageToMap", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerimagetomapmultiray-method">GeoBlazor Docs</a>
     ///     Creates a map space geometry from multiray image space geometries using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageToMapMultirayParameters.html">ImageToMapMultirayParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#imageToMapMultiray">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the image to map multiray parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#imageToMapMultiray">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the image to map multiray parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> ImageToMapMultiray(ImageToMapMultirayParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<Geometry?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>(
             "imageToMapMultiray", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermaptoimage-method">GeoBlazor Docs</a>
     ///     Converts a given geometry from a map space to an image space using the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-MapToImageParameters.html">MapToImageParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#mapToImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the map to image parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#mapToImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the map to image parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<Geometry?> MapToImage(MapToImageParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<Geometry?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        Geometry? result = await JsComponentReference!.InvokeAsync<Geometry?>(
             "mapToImage", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasureareaandperimeter-method">GeoBlazor Docs</a>
     ///     Calculates the area and perimeter of a given geometry on an image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaAndPerimeter">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for measuring the area and perimeter for a given geometry on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for measuring the area and perimeter for a given geometry on an image service.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageAreaResult?> MeasureAreaAndPerimeter(ImageAreaParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageAreaResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageAreaResult? result = await JsComponentReference!.InvokeAsync<ImageAreaResult?>(
             "measureAreaAndPerimeter", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasureareafromimage-method">GeoBlazor Docs</a>
     ///     Measures the area and the perimeter of a polygon in an image space on a selected raster when the following conditions are met:
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaFromImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     Image service must be published from a mosaic dataset.
+    ///     param parameters Specifies parameters for measuring the area and the perimeter.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for measuring the area and the perimeter.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<MeasureAreaFromImageResult?> MeasureAreaFromImage(MeasureFromImageParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<MeasureAreaFromImageResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        MeasureAreaFromImageResult? result = await JsComponentReference!.InvokeAsync<MeasureAreaFromImageResult?>(
             "measureAreaFromImage", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasuredistanceandangle-method">GeoBlazor Docs</a>
     ///     Calculates the distance and angle between two points on an image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureDistanceAndAngle">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for measuring the distance and angle between two points on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureDistanceAndAngle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for measuring the distance and angle between two points on an image service.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageDistanceResult?> MeasureDistanceAndAngle(ImageDistanceParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageDistanceResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageDistanceResult? result = await JsComponentReference!.InvokeAsync<ImageDistanceResult?>(
             "measureDistanceAndAngle", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasureheight-method">GeoBlazor Docs</a>
     ///     Calculates the height of an object between two points on an image service if the sensor info is available.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureHeight">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for measuring the height of an object between two points on an image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureHeight">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for measuring the height of an object between two points on
+    ///     an image service.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageHeightResult?> MeasureHeight(ImageHeightParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageHeightResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageHeightResult? result = await JsComponentReference!.InvokeAsync<ImageHeightResult?>(
             "measureHeight", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasurelengthfromimage-method">GeoBlazor Docs</a>
     ///     Measures the length of a polyline in an image space on a selected raster when the following conditions are met:
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureLengthFromImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     Image service must be published from a mosaic dataset.
+    ///     param parameters Specifies parameters for measuring the length of a polyline.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureLengthFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for measuring the length of a polyline.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<MeasureLengthFromImageResult?> MeasureLengthFromImage(MeasureFromImageParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<MeasureLengthFromImageResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        MeasureLengthFromImageResult? result = await JsComponentReference!.InvokeAsync<MeasureLengthFromImageResult?>(
             "measureLengthFromImage", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayermeasurepointorcentroid-method">GeoBlazor Docs</a>
     ///     Returns the location for a given point or centroid of a given area on an image service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measurePointOrCentroid">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies parameters for determining a point location or a centroid of a given area on the image service.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measurePointOrCentroid">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies parameters for determining a point location or a centroid
+    ///     of a given area on the image service.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImagePointResult?> MeasurePointOrCentroid(ImagePointParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImagePointResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImagePointResult? result = await JsComponentReference!.InvokeAsync<ImagePointResult?>(
             "measurePointOrCentroid", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerqueryboundary-method">GeoBlazor Docs</a>
     ///     Returns the boundary of an image for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageBoundaryParameters.html">ImageBoundaryParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryBoundary">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the imagery boundary parameters.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryBoundary">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the imagery boundary parameters.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageBoundaryResult?> QueryBoundary(ImageBoundaryParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageBoundaryResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageBoundaryResult? result = await JsComponentReference!.InvokeAsync<ImageBoundaryResult?>(
             "queryBoundary", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerquerygpsinfo-method">GeoBlazor Docs</a>
     ///     Returns GPS information for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageGPSInfoParameters.html">ImageGPSInfoParameters</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryGPSInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     param parameters Specifies the parameters for query GPS info operation.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryGPSInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
+    ///     Specifies the parameters for query GPS info operation.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<ImageGPSInfoResult?> QueryGPSInfo(ImageGPSInfoParameters parameters,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<ImageGPSInfoResult?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        ImageGPSInfoResult? result = await JsComponentReference!.InvokeAsync<ImageGPSInfoResult?>(
             "queryGPSInfo", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns an array of Object IDs for the rasters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerqueryobjectids-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns an
+    ///     array of Object IDs for the rasters.
+    ///     param query Specifies the query parameters. If no parameters are specified, then all Object IDs satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the query parameters. If no parameters are specified, then all Object IDs satisfying the
+    ///     layer's configuration/filters are returned.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<long[]?> QueryObjectIds(Query query,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<long[]?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and returns the number of rasters that satisfy the query.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryRasterCount">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerqueryrastercount-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the image service and
+    ///     returns the number of rasters that satisfy the query.
+    ///     param query Specifies the query parameters. If no parameters are specified, then count of all rasters satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryRasterCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the query parameters. If no parameters are specified, then count of all rasters satisfying the layer's
+    ///     configuration/filters are returned.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<int?> QueryRasterCount(Query query,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<int?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        int? result = await JsComponentReference!.InvokeAsync<int?>(
             "queryRasterCount", 
             CancellationTokenSource.Token,
             query,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against an image service and returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a>, which can be accessed using the `.then()` method once the promise resolves.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#queryRasters">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerqueryrasters-method">GeoBlazor Docs</a>
+    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against an image service and returns a
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
+    ///     param query Specifies the query parameters. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#queryRasters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
+    ///     Specifies the query parameters. If no parameters are specified, then all features satisfying the layer's
+    ///     configuration/filters are returned.
     /// </param>
     /// <param name="requestOptions">
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
     public async Task<FeatureSet?> QueryRasters(Query query,
-        object requestOptions)
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<FeatureSet?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
             "queryRasters", 
             CancellationTokenSource.Token,
             query,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerredraw-method">GeoBlazor Docs</a>
     ///     Executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#pixelFilter">pixelFilter</a> function and redraws the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#redraw">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -4416,8 +4809,9 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -4431,7 +4825,11 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersave-method">GeoBlazor Docs</a>
+    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>
+    ///     authenticated within the user's current session.
+    ///     param options Various options for saving the layer.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -4449,7 +4847,12 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayersaveas-method">GeoBlazor Docs</a>
     ///     Saves the layer to a new portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
+    ///     param portalItem The portal item to which the layer will be saved.
+    ///     param options Various options for saving the layer.
+    ///     param options.folder The portal folder where the layer's portal item will be saved.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="portalItem">
@@ -4494,6 +4897,7 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryLayer.html#imagerylayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>
@@ -4514,25 +4918,6 @@ public partial class ImageryLayer : IArcGISImageService,
     {
         switch (child)
         {
-            case ArcGISImageServiceCapabilities capabilities:
-                if (capabilities != Capabilities)
-                {
-                    Capabilities = capabilities;
-                    LayerChanged = MapRendered;
-                    ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                }
-                
-                return true;
-            case Field fields:
-                Fields ??= [];
-                if (!Fields.Contains(fields))
-                {
-                    Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
-                    ModifiedParameters[nameof(Fields)] = Fields;
-                }
-                
-                return true;
             case MultidimensionalSubset multidimensionalSubset:
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
@@ -4569,6 +4954,16 @@ public partial class ImageryLayer : IArcGISImageService,
                 }
                 
                 return true;
+            case RasterPresetRenderer presetRenderers:
+                PresetRenderers ??= [];
+                if (!PresetRenderers.Contains(presetRenderers))
+                {
+                    PresetRenderers = [..PresetRenderers, presetRenderers];
+                    LayerChanged = MapRendered;
+                    ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+                }
+                
+                return true;
             case RasterFunction rasterFunction:
                 if (rasterFunction != RasterFunction)
                 {
@@ -4588,16 +4983,6 @@ public partial class ImageryLayer : IArcGISImageService,
     {
         switch (child)
         {
-            case ArcGISImageServiceCapabilities _:
-                Capabilities = null;
-                LayerChanged = MapRendered;
-                ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                return true;
-            case Field fields:
-                Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
-                ModifiedParameters[nameof(Fields)] = Fields;
-                return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
                 LayerChanged = MapRendered;
@@ -4618,6 +5003,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
+            case RasterPresetRenderer presetRenderers:
+                PresetRenderers = PresetRenderers?.Where(p => p != presetRenderers).ToList();
+                LayerChanged = MapRendered;
+                ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+                return true;
             case RasterFunction _:
                 RasterFunction = null;
                 LayerChanged = MapRendered;
@@ -4636,17 +5026,16 @@ public partial class ImageryLayer : IArcGISImageService,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(ImageryLayer), [nameof(PortalItem), nameof(Url)]);
         }
-        Capabilities?.ValidateRequiredGeneratedChildren();
-        if (Fields is not null)
+        MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
+        NoData?.ValidateRequiredGeneratedChildren();
+        PopupTemplate?.ValidateRequiredGeneratedChildren();
+        if (PresetRenderers is not null)
         {
-            foreach (Field child in Fields)
+            foreach (RasterPresetRenderer child in PresetRenderers)
             {
                 child.ValidateRequiredGeneratedChildren();
             }
         }
-        MultidimensionalSubset?.ValidateRequiredGeneratedChildren();
-        NoData?.ValidateRequiredGeneratedChildren();
-        PopupTemplate?.ValidateRequiredGeneratedChildren();
         RasterFunction?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

@@ -17,8 +17,7 @@ export async function buildJsHeatmapRampElementGenerated(dotNetObject: any, laye
         jsHeatmapRampElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsHeatmapRampElement;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampElement;
     
     return jsHeatmapRampElement;

@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html">GeoBlazor Docs</a>
-///     The BasemapToggle provides a widget which allows an end-user to switch between two basemaps.
+///     The BasemapToggle provides a widget which allows an end-user to switch between
+///     two basemaps.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class BasemapToggleWidget
@@ -27,12 +28,12 @@ public partial class BasemapToggleWidget
     /// </param>
     /// <param name="icon">
     ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     default "layer-basemap"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
@@ -92,6 +93,7 @@ public partial class BasemapToggleWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html#basemaptogglewidgetactivebasemap-property">GeoBlazor Docs</a>
     ///     The map's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#basemap">basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#activeBasemap">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -101,6 +103,7 @@ public partial class BasemapToggleWidget
     public Basemap? ActiveBasemap { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html#basemaptogglewidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for this widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -110,6 +113,7 @@ public partial class BasemapToggleWidget
     public BasemapToggleViewModel? ViewModel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html#basemaptogglewidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -348,15 +352,16 @@ public partial class BasemapToggleWidget
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.BasemapToggleWidget.html#basemaptogglewidgettoggle-method">GeoBlazor Docs</a>
     ///     Toggles to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#nextBasemap">next basemap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-BasemapToggle.html#toggle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> Toggle()
+    public async Task<string?> Toggle()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "toggle", 
             CancellationTokenSource.Token);
     }

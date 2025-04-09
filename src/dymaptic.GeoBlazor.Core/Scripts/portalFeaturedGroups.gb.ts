@@ -16,8 +16,7 @@ export async function buildJsPortalFeaturedGroupsGenerated(dotNetObject: any): P
         jsPortalFeaturedGroups.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPortalFeaturedGroups);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFeaturedGroups;
     
     return jsPortalFeaturedGroups;

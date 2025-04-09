@@ -4,7 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Direction.html">GeoBlazor Docs</a>
-///     Enumeration for Direction
+///     Sorts the column in either ascending ("asc") or descending ("desc") order.
+///     param fieldName The specified field name to sort. This should match the field name as defined at the data source.
+///     param direction The direction to sort.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTable.html#sortColumn">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Direction>))]
 public enum Direction

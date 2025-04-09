@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html">GeoBlazor Docs</a>
-///     A slider widget that can be used for filtering data, or gathering numeric input from a user.
+///     A slider widget that can be used for filtering data, or gathering
+///     numeric input from a user.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class SliderWidget
@@ -26,35 +27,40 @@ public partial class SliderWidget
     ///     The ID of the container element for the widget. The widget will be rendered within this container.
     /// </param>
     /// <param name="disabled">
-    ///     When `true`, sets the slider to a disabled state so the user cannot interact with it.
+    ///     When `true`, sets the slider to a disabled state so the user cannot interact
+    ///     with it.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#disabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="draggableSegmentsEnabled">
-    ///     Indicates if the user can drag the segment between thumbs to update thumb positions.
+    ///     Indicates if the user can drag the segment between thumbs
+    ///     to update thumb positions.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#draggableSegmentsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effectiveMax">
-    ///     When set, the user is restricted from moving slider thumbs to positions higher than this value.
+    ///     When set, the user is restricted from moving slider thumbs to positions higher than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMax">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effectiveMin">
-    ///     When set, the user is restricted from moving slider thumbs to positions less than this value.
+    ///     When set, the user is restricted from moving slider thumbs to positions less than
+    ///     this value.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMin">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's default label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="labelInputsEnabled">
-    ///     Indicates whether to enable editing input values via keyboard input when the user clicks a label.
+    ///     Indicates whether to enable editing input values via keyboard input
+    ///     when the user clicks a label.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelInputsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="layout">
     ///     Determines the layout/orientation of the Slider widget.
-    ///     default horizontal
+    ///     default "horizontal"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#layout">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="max">
@@ -71,7 +77,8 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#precision">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="rangeLabelInputsEnabled">
-    ///     Indicates whether to enable editing range values via keyboard input when the user clicks a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a> label.
+    ///     Indicates whether to enable editing range values via keyboard input
+    ///     when the user clicks a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a> label.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#rangeLabelInputsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -89,7 +96,8 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#syncedSegmentsEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="thumbsConstrained">
-    ///     When `false`, the user can freely move any slider thumb to any position along the track.
+    ///     When `false`, the user can freely move any slider thumb to any
+    ///     position along the track.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#thumbsConstrained">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -98,7 +106,8 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#values">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="inputCreatedFunction">
-    ///     A function that provides the developer with access to the input elements when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#rangeLabelInputsEnabled">rangeLabelInputsEnabled</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelInputsEnabled">labelInputsEnabled</a> are set to `true`.
+    ///     A function that provides the developer with access to the input elements when
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#rangeLabelInputsEnabled">rangeLabelInputsEnabled</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelInputsEnabled">labelInputsEnabled</a> are set to `true`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="inputFormatFunction">
@@ -131,27 +140,25 @@ public partial class SliderWidget
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="doubleCollectionSteps">
-    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     Sets steps, or intervals, on the slider that restrict user
+    ///     input to specific values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="doubleSteps">
-    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     Sets steps, or intervals, on the slider that restrict user
+    ///     input to specific values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
-    ///     Icon which represents the widget.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
+    ///     Icon displayed in the widget's button.
+    ///     default "caret-double-horizontal"
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mapView">
     ///     If the Widget is defined outside of the MapView, this link is required to connect them together.
     /// </param>
     /// <param name="position">
     ///     The position of the widget in relation to the map view.
-    /// </param>
-    /// <param name="trackElement">
-    ///     The HTML Element node representing the slider track.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#trackElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="viewModel">
     ///     The view model for the Slider widget.
@@ -192,7 +199,6 @@ public partial class SliderWidget
         string? icon = null,
         MapView? mapView = null,
         OverlayPosition? position = null,
-        ElementReference? trackElement = null,
         SliderViewModel? viewModel = null,
         string? widgetId = null)
     {
@@ -211,10 +217,7 @@ public partial class SliderWidget
         Precision = precision;
         RangeLabelInputsEnabled = rangeLabelInputsEnabled;
         SnapOnClickEnabled = snapOnClickEnabled;
-        if (steps is not null)
-        {
-            Steps = steps;
-        }
+        Steps = steps;
         SyncedSegmentsEnabled = syncedSegmentsEnabled;
         ThumbsConstrained = thumbsConstrained;
         Values = values;
@@ -231,7 +234,6 @@ public partial class SliderWidget
         Icon = icon;
         MapView = mapView;
         Position = position;
-        TrackElement = trackElement;
         ViewModel = viewModel;
         WidgetId = widgetId;
 #pragma warning restore BL0005    
@@ -241,7 +243,9 @@ public partial class SliderWidget
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetdoublecollectionsteps-property">GeoBlazor Docs</a>
+    ///     Sets steps, or intervals, on the slider that restrict user
+    ///     input to specific values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -250,7 +254,9 @@ public partial class SliderWidget
     public IReadOnlyList<double>? DoubleCollectionSteps { get; set; }
     
     /// <summary>
-    ///     Sets steps, or intervals, on the slider that restrict user input to specific values.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetdoublesteps-property">GeoBlazor Docs</a>
+    ///     Sets steps, or intervals, on the slider that restrict user
+    ///     input to specific values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#steps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -259,7 +265,9 @@ public partial class SliderWidget
     public double? DoubleSteps { get; set; }
     
     /// <summary>
-    ///     The HTML Element nodes representing the slider segment between the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMin">effectiveMin</a>, and the segment between the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMax">effectiveMax</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgeteffectivesegmentelements-property">GeoBlazor Docs</a>
+    ///     The HTML Element nodes representing the slider segment between the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMin">effectiveMin</a>, and the segment between the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveMax">effectiveMax</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#effectiveSegmentElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -268,7 +276,9 @@ public partial class SliderWidget
     public IReadOnlyList<ElementReference>? EffectiveSegmentElements { get; protected set; }
     
     /// <summary>
-    ///     A function that provides the developer with access to the input elements when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#rangeLabelInputsEnabled">rangeLabelInputsEnabled</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelInputsEnabled">labelInputsEnabled</a> are set to `true`.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputcreatedfunction-property">GeoBlazor Docs</a>
+    ///     A function that provides the developer with access to the input elements when
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#rangeLabelInputsEnabled">rangeLabelInputsEnabled</a> and/or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelInputsEnabled">labelInputsEnabled</a> are set to `true`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -299,6 +309,7 @@ public partial class SliderWidget
     public bool HasInputCreatedFunction => InputCreatedFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format user inputs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -312,6 +323,7 @@ public partial class SliderWidget
     public bool HasInputFormatFunction => InputFormatFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetinputparsefunction-property">GeoBlazor Docs</a>
     ///     Function used to parse slider inputs formatted by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputFormatFunction">inputFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#inputParseFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -325,6 +337,7 @@ public partial class SliderWidget
     public bool HasInputParseFunction => InputParseFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabelelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labels">labels</a> attached to slider thumbs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -334,6 +347,7 @@ public partial class SliderWidget
     public IReadOnlyList<ElementReference>? LabelElements { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabelformatfunction-property">GeoBlazor Docs</a>
     ///     A function used to format labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelFormatFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -347,7 +361,9 @@ public partial class SliderWidget
     public bool HasLabelFormatFunction => LabelFormatFunction is not null;
     
     /// <summary>
-    ///     An array of strings associated with 'values' generated using an internal label formatter or the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelFormatFunction">labelFormatFunction</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetlabels-property">GeoBlazor Docs</a>
+    ///     An array of strings associated with 'values' generated using an internal label formatter or
+    ///     the values returned from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labelFormatFunction">labelFormatFunction</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#labels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -356,6 +372,7 @@ public partial class SliderWidget
     public LabelInfos? Labels { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetmaxlabelelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#max">max</a> value label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#maxLabelElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -365,6 +382,7 @@ public partial class SliderWidget
     public ElementReference? MaxLabelElement { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetminlabelelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#min">min</a> value label.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#minLabelElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -374,6 +392,7 @@ public partial class SliderWidget
     public ElementReference? MinLabelElement { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetsegmentelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing interactive slider segments.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#segmentElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -383,6 +402,7 @@ public partial class SliderWidget
     public IReadOnlyList<ElementReference>? SegmentElements { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetstate-property">GeoBlazor Docs</a>
     ///     The current state of the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -392,6 +412,7 @@ public partial class SliderWidget
     public SliderState? State { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetthumbcreatedfunction-property">GeoBlazor Docs</a>
     ///     Function that executes each time a thumb is created on the slider.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#thumbCreatedFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -425,6 +446,7 @@ public partial class SliderWidget
     public bool HasThumbCreatedFunction => ThumbCreatedFunction is not null;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetthumbelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing slider thumbs.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#thumbElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -434,6 +456,7 @@ public partial class SliderWidget
     public IReadOnlyList<ElementReference>? ThumbElements { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettickconfigs-property">GeoBlazor Docs</a>
     ///     When set, renders ticks along the slider track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#tickConfigs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -443,6 +466,7 @@ public partial class SliderWidget
     public IReadOnlyList<TickConfig>? TickConfigs { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettickelements-property">GeoBlazor Docs</a>
     ///     The HTML Element nodes representing slider ticks and their associated labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#tickElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -452,15 +476,17 @@ public partial class SliderWidget
     public IReadOnlyList<IReadOnlyList<TickElementGroup>>? TickElements { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgettrackelement-property">GeoBlazor Docs</a>
     ///     The HTML Element node representing the slider track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#trackElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
-    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public ElementReference? TrackElement { get; set; }
+    [JsonInclude]
+    public ElementReference? TrackElement { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetviewmodel-property">GeoBlazor Docs</a>
     ///     The view model for the Slider widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -470,6 +496,7 @@ public partial class SliderWidget
     public SliderViewModel? ViewModel { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -548,7 +575,7 @@ public partial class SliderWidget
 
         // get the property value
         IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
-            CancellationTokenSource.Token, "doubleCollectionSteps");
+            CancellationTokenSource.Token, "steps");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1693,7 +1720,7 @@ public partial class SliderWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleCollectionSteps", value);
+            JsComponentReference, "steps", value);
     }
     
     /// <summary>
@@ -1730,7 +1757,7 @@ public partial class SliderWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleSteps", value);
+            JsComponentReference, "steps", value);
     }
     
     /// <summary>
@@ -2226,43 +2253,6 @@ public partial class SliderWidget
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the TrackElement property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetTrackElement(ElementReference? value)
-    {
-#pragma warning disable BL0005
-        TrackElement = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(TrackElement)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "trackElement", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
     /// <param name="value">
@@ -2480,6 +2470,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonmaxchange-property">GeoBlazor Docs</a>
     ///     Event Listener for MaxChange.
     /// </summary>
     [Parameter]
@@ -2510,6 +2501,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonmaxclick-property">GeoBlazor Docs</a>
     ///     Event Listener for MaxClick.
     /// </summary>
     [Parameter]
@@ -2540,6 +2532,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonminchange-property">GeoBlazor Docs</a>
     ///     Event Listener for MinChange.
     /// </summary>
     [Parameter]
@@ -2570,6 +2563,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonminclick-property">GeoBlazor Docs</a>
     ///     Event Listener for MinClick.
     /// </summary>
     [Parameter]
@@ -2600,6 +2594,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonsegmentclick-property">GeoBlazor Docs</a>
     ///     Event Listener for SegmentClick.
     /// </summary>
     [Parameter]
@@ -2630,6 +2625,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonsegmentdrag-property">GeoBlazor Docs</a>
     ///     Event Listener for SegmentDrag.
     /// </summary>
     [Parameter]
@@ -2660,6 +2656,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbchange-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbChange.
     /// </summary>
     [Parameter]
@@ -2690,6 +2687,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbclick-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbClick.
     /// </summary>
     [Parameter]
@@ -2720,6 +2718,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetonthumbdrag-property">GeoBlazor Docs</a>
     ///     Event Listener for ThumbDrag.
     /// </summary>
     [Parameter]
@@ -2750,6 +2749,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetontickclick-property">GeoBlazor Docs</a>
     ///     Event Listener for TickClick.
     /// </summary>
     [Parameter]
@@ -2780,6 +2780,7 @@ public partial class SliderWidget
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SliderWidget.html#sliderwidgetontrackclick-property">GeoBlazor Docs</a>
     ///     Event Listener for TrackClick.
     /// </summary>
     [Parameter]

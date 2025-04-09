@@ -41,27 +41,36 @@ public partial record PortalItemResource(
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemResource.html#portalitemresourcefetch-method">GeoBlazor Docs</a>
     ///     Requests the PortalItemResource data in the format specified for the `responseType`.
+    ///     param responseType The format of the response.
+    ///     param options An object wih the following properties.
+    ///     param options.cacheBust If `true`, the browser will send a request to the server instead of using the browser's local cache. If `false`, the browser's default cache handling will be used.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#fetch">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="responseType">
     ///     The format of the response.
     /// </param>
+    /// <param name="options">
+    ///     An object wih the following properties.
+    /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> Fetch(ResponseType responseType,
+    public async Task<string?> Fetch(ResponseType responseType,
+        PortalItemResourceFetchOptions options,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetch", 
             CancellationTokenSource.Token,
             responseType,
-            new { signal = abortSignal });
+            new { cacheBust = options.CacheBust, signal = abortSignal });
                 
         await AbortManager.DisposeAbortController(cancellationToken);
         
@@ -69,7 +78,12 @@ public partial record PortalItemResource(
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.PortalItemResource.html#portalitemresourceupdate-method">GeoBlazor Docs</a>
     ///     Updates an existing resource with new content.
+    ///     param content The resource content.
+    ///     param options An object wih the following properties.
+    ///     param options.access Indicates the level of access to the resource. The default is "inherit" which causes the resource to have the same access level as the owning item.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="content">
@@ -82,14 +96,14 @@ public partial record PortalItemResource(
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> Update(Stream content,
+    public async Task<string?> Update(Stream content,
         PortalItemResourceUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
         if (JsComponentReference is null) return null;
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "update", 
             CancellationTokenSource.Token,
             content,

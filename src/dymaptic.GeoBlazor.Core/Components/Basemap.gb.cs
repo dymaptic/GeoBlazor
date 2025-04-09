@@ -8,7 +8,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     A basemap is a collection of layers that provide geographic context to a map or scene with data such as topographic features, road networks, buildings, and labels.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class Basemap
+public partial class Basemap : ILayerParent
 {
 
     /// <summary>
@@ -35,7 +35,7 @@ public partial class Basemap
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="referenceLayers">
-    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and can be used to display labels on top of terrain or streets.
+    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and all other layers in the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="spatialReference">
@@ -81,6 +81,7 @@ public partial class Basemap
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapbaselayers-property">GeoBlazor Docs</a>
     ///     A collection of tile layers that make up the basemap's features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -90,6 +91,7 @@ public partial class Basemap
     public IReadOnlyList<Layer>? BaseLayers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapbasemapid-property">GeoBlazor Docs</a>
     ///     An identifier used to refer to the basemap when referencing it elsewhere.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -99,6 +101,7 @@ public partial class Basemap
     public string? BasemapId { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemaploaded-property">GeoBlazor Docs</a>
     ///     Indicates whether the basemap instance has loaded.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#loaded">ArcGIS Maps SDK for JavaScript</a>
@@ -109,6 +112,7 @@ public partial class Basemap
     public bool? Loaded { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapportalitem-property">GeoBlazor Docs</a>
     ///     The portal item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -118,7 +122,8 @@ public partial class Basemap
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
-    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and can be used to display labels on top of terrain or streets.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapreferencelayers-property">GeoBlazor Docs</a>
+    ///     A collection of reference layers which are displayed over the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#baseLayers">base layers</a> and all other layers in the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -127,6 +132,7 @@ public partial class Basemap
     public IReadOnlyList<Layer>? ReferenceLayers { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the Basemap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -136,6 +142,7 @@ public partial class Basemap
     public SpatialReference? SpatialReference { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapstyle-property">GeoBlazor Docs</a>
     ///     The style of the basemap from the <a target="_blank" href="https://developers.arcgis.com/rest/basemap-styles/">basemap styles service (v2)</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -145,6 +152,7 @@ public partial class Basemap
     public BasemapStyle? Style { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapthumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL pointing to an image that represents the basemap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -154,6 +162,7 @@ public partial class Basemap
     public string? ThumbnailUrl { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemaptitle-property">GeoBlazor Docs</a>
     ///     The title of the basemap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -193,7 +202,7 @@ public partial class Basemap
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "basemapId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -530,7 +539,7 @@ public partial class Basemap
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "basemapId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -863,6 +872,93 @@ public partial class Basemap
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapcancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (JsComponentReference is null) return;
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapload-method">GeoBlazor Docs</a>
+    ///     Loads the resources referenced by this class.
+    ///     param options Additional options.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> Load(CancellationToken cancellationToken = default)
+    {
+        if (JsComponentReference is null) return null;
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "load", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemaploadall-method">GeoBlazor Docs</a>
     ///     Loads all the externally loadable resources associated with the basemap.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -874,6 +970,32 @@ public partial class Basemap
         return await JsComponentReference!.InvokeAsync<Basemap?>(
             "loadAll", 
             CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Basemap.html#basemapwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param callback The function to call when the promise resolves.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (JsComponentReference is null) return null;
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
     }
     
 #endregion

@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html">GeoBlazor Docs</a>
-///     Contains authoring properties of visual variables generated from one of the Smart Mapping methods or sliders.
+///     Contains authoring properties of visual variables generated from
+///     one of the Smart Mapping methods or sliders.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class AuthoringInfoVisualVariable
@@ -23,7 +24,8 @@ public partial class AuthoringInfoVisualVariable
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="endTime">
-    ///     If an age or timeline renderer was generated, indicates the end time of the visualization.
+    ///     If an age or timeline renderer was generated, indicates the end
+    ///     time of the visualization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#endTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="field">
@@ -55,15 +57,18 @@ public partial class AuthoringInfoVisualVariable
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#sizeStops">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="startTime">
-    ///     If an age or timeline renderer was generated, indicates the start time of the visualization.
+    ///     If an age or timeline renderer was generated, indicates the start
+    ///     time of the visualization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#startTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="style">
-    ///     If the UI offers the option to display values based on a ratio or percentage, this indicates which selection was made.
+    ///     If the UI offers the option to display values based on a ratio or
+    ///     percentage, this indicates which selection was made.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="theme">
-    ///     Indicates the theme selected by the user when generating a renderer or visual variable with one of the Smart Mapping functions.
+    ///     Indicates the theme selected by the user when generating a renderer
+    ///     or visual variable with one of the Smart Mapping functions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="units">
@@ -105,7 +110,9 @@ public partial class AuthoringInfoVisualVariable
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     If an age or timeline renderer was generated, indicates the end time of the visualization.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariableendtime-property">GeoBlazor Docs</a>
+    ///     If an age or timeline renderer was generated, indicates the end
+    ///     time of the visualization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#endTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -115,6 +122,7 @@ public partial class AuthoringInfoVisualVariable
     public string? EndTime { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablefield-property">GeoBlazor Docs</a>
     ///     Indicates the field name used for generating the data-driven visualization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#field">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -124,6 +132,7 @@ public partial class AuthoringInfoVisualVariable
     public string? Field { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablemaxslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the upper handle if a slider was used to generate the visual variable.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#maxSliderValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -133,6 +142,7 @@ public partial class AuthoringInfoVisualVariable
     public double? MaxSliderValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariableminslidervalue-property">GeoBlazor Docs</a>
     ///     Indicates the value of the lower handle if a slider was used to generate the visual variable.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#minSliderValue">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -142,6 +152,7 @@ public partial class AuthoringInfoVisualVariable
     public double? MinSliderValue { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablenormalizationfield-property">GeoBlazor Docs</a>
     ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#normalizationField">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -151,6 +162,7 @@ public partial class AuthoringInfoVisualVariable
     public string? NormalizationField { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablereferencesizescale-property">GeoBlazor Docs</a>
     ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#referenceSizeScale">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -160,6 +172,7 @@ public partial class AuthoringInfoVisualVariable
     public double? ReferenceSizeScale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablereferencesizesymbolstyle-property">GeoBlazor Docs</a>
     ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#referenceSizeSymbolStyle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -169,6 +182,7 @@ public partial class AuthoringInfoVisualVariable
     public ReferenceSizeSymbolStyle? ReferenceSizeSymbolStyle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablesizestops-property">GeoBlazor Docs</a>
     ///     Only applicable when <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">theme</a> is `reference-size`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#sizeStops">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -178,7 +192,9 @@ public partial class AuthoringInfoVisualVariable
     public IReadOnlyList<SizeStop>? SizeStops { get; set; }
     
     /// <summary>
-    ///     If an age or timeline renderer was generated, indicates the start time of the visualization.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablestarttime-property">GeoBlazor Docs</a>
+    ///     If an age or timeline renderer was generated, indicates the start
+    ///     time of the visualization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#startTime">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -188,7 +204,9 @@ public partial class AuthoringInfoVisualVariable
     public string? StartTime { get; set; }
     
     /// <summary>
-    ///     If the UI offers the option to display values based on a ratio or percentage, this indicates which selection was made.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariablestyle-property">GeoBlazor Docs</a>
+    ///     If the UI offers the option to display values based on a ratio or
+    ///     percentage, this indicates which selection was made.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -197,7 +215,9 @@ public partial class AuthoringInfoVisualVariable
     public AuthoringInfoVisualVariableStyle? Style { get; set; }
     
     /// <summary>
-    ///     Indicates the theme selected by the user when generating a renderer or visual variable with one of the Smart Mapping functions.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariabletheme-property">GeoBlazor Docs</a>
+    ///     Indicates the theme selected by the user when generating a renderer
+    ///     or visual variable with one of the Smart Mapping functions.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#theme">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -206,6 +226,7 @@ public partial class AuthoringInfoVisualVariable
     public AuthoringInfoVisualVariableTheme? Theme { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.AuthoringInfoVisualVariable.html#authoringinfovisualvariableunits-property">GeoBlazor Docs</a>
     ///     If an age or timeline renderer was generated, indicates the time units used.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-AuthoringInfoVisualVariable.html#units">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

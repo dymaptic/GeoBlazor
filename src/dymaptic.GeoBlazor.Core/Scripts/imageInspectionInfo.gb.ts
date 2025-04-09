@@ -53,8 +53,7 @@ export async function buildJsImageInspectionInfoGenerated(dotNetObject: any, lay
     }
     let jsImageInspectionInfo = new ImageInspectionInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageInspectionInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageInspectionInfo;
     arcGisObjectRefs[dotNetObject.id] = jsImageInspectionInfo;
     
     return jsImageInspectionInfo;

@@ -14,8 +14,7 @@ export async function buildJsBookmarksBookmarkEditEventGenerated(dotNetObject: a
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBookmarksBookmarkEditEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBookmarksBookmarkEditEvent;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksBookmarkEditEvent;
     
     return jsBookmarksBookmarkEditEvent;

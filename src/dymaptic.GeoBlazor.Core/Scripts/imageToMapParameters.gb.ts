@@ -20,16 +20,15 @@ export async function buildJsImageToMapParametersGenerated(dotNetObject: any, la
     if (hasValue(dotNetObject.depthOffset)) {
         properties.depthOffset = dotNetObject.depthOffset;
     }
-    if (hasValue(dotNetObject.inSpatialReference)) {
-        properties.inSpatialReference = sanitize(dotNetObject.inSpatialReference);
+    if (hasValue(dotNetObject.outSpatialReference)) {
+        properties.outSpatialReference = sanitize(dotNetObject.outSpatialReference);
     }
     if (hasValue(dotNetObject.rasterId)) {
         properties.rasterId = dotNetObject.rasterId;
     }
     let jsImageToMapParameters = new ImageToMapParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageToMapParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageToMapParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageToMapParameters;
     
     return jsImageToMapParameters;
@@ -56,8 +55,8 @@ export async function buildDotNetImageToMapParametersGenerated(jsObject: any, la
         dotNetImageToMapParameters.depthOffset = jsObject.depthOffset;
     }
     
-    if (hasValue(jsObject.inSpatialReference)) {
-        dotNetImageToMapParameters.inSpatialReference = removeCircularReferences(jsObject.inSpatialReference);
+    if (hasValue(jsObject.outSpatialReference)) {
+        dotNetImageToMapParameters.outSpatialReference = removeCircularReferences(jsObject.outSpatialReference);
     }
     
     if (hasValue(jsObject.rasterId)) {

@@ -87,6 +87,7 @@ public partial class LayerListVisibleElements : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementscataloglayerlist-property">GeoBlazor Docs</a>
     ///     Since 4.30 Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#catalogLayerList">catalogLayerList</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -96,6 +97,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? CatalogLayerList { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementsclosebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a close button in the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -105,6 +107,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? CloseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementscollapsebutton-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a collapse button in the header.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -114,6 +117,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? CollapseButton { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementserrors-property">GeoBlazor Docs</a>
     ///     Since 4.25 Indicates whether layer load errors will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -123,6 +127,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? Errors { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementsfilter-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display a filter input box when then number of list items is equal to or greater than the value set in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#minFilterItems">minFilterItems</a>, allowing users to filter layers by their title.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -132,6 +137,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? Filter { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementsflow-property">GeoBlazor Docs</a>
     ///     Since 4.29 Determines whether the widget should be shown within its built-in <a target="_blank" href="https://developers.arcgis.com/calcite-design-system/components/flow/">flow component</a> or if the flow component should be excluded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -141,6 +147,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? Flow { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementsheading-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether to display the widget heading.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -150,6 +157,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? Heading { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementsstatusindicators-property">GeoBlazor Docs</a>
     ///     Indicates whether the status indicators will be displayed.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -159,6 +167,7 @@ public partial class LayerListVisibleElements : MapComponent
     public bool? StatusIndicators { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LayerListVisibleElements.html#layerlistvisibleelementstemporarylayerindicators-property">GeoBlazor Docs</a>
     ///     Since 4.29 Indicates whether temporary layer indicators will be displayed for layers with <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">layer.persistenceEnabled</a> set to `false`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html#VisibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>

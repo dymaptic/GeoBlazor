@@ -21,10 +21,6 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.viewpoint)) {
             let { buildJsViewpoint } = await import('./viewpoint');
             this.component.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
@@ -41,20 +37,6 @@ export default class HomeViewModelGenerated implements IPropertyWrapper {
     }
 
     // region properties
-    
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
-    }
     
     async getViewpoint(): Promise<any> {
         if (!hasValue(this.component.viewpoint)) {
@@ -89,10 +71,6 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
-    }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');
         properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
@@ -113,7 +91,6 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     homeViewModelWrapper.viewId = viewId;
     homeViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(homeViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = homeViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHomeViewModel;
     

@@ -66,11 +66,6 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         return await Promise.all(this.component.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     
-    async setItems(value: any): Promise<void> {
-        let { buildJsBasemapGalleryItem } = await import('./basemapGalleryItem');
-        this.component.items = await Promise.all(value.map(async i => await buildJsBasemapGalleryItem(i, this.layerId, this.viewId))) as any;
-    }
-    
     async getSource(): Promise<any> {
         if (!hasValue(this.component.source)) {
             return null;
@@ -121,7 +116,6 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
     basemapGalleryViewModelWrapper.viewId = viewId;
     basemapGalleryViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapGalleryViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapGalleryViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapGalleryViewModel;
     
@@ -139,6 +133,10 @@ export async function buildDotNetBasemapGalleryViewModelGenerated(jsObject: any)
     if (hasValue(jsObject.items)) {
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
         dotNetBasemapGalleryViewModel.items = await Promise.all(jsObject.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
+    }
+    
+    if (hasValue(jsObject.activeBasemapIndex)) {
+        dotNetBasemapGalleryViewModel.activeBasemapIndex = jsObject.activeBasemapIndex;
     }
     
     if (hasValue(jsObject.state)) {

@@ -11,6 +11,7 @@ public partial interface ITablesMixin : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITablesMixin.html#itablesmixintables-property">GeoBlazor Docs</a>
     ///     A collection of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">layer</a> instances that are tables saved in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html">Map</a> and/or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-TablesMixin.html#tables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,7 +24,7 @@ public partial interface ITablesMixin : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the Tables property after render.
     /// </summary>
-    Task SetTables(IReadOnlyList<Layer>? value);
+    Task SetTables(IReadOnlyList<Layer> value);
     
 #endregion
 
@@ -57,7 +58,9 @@ public partial interface ITablesMixin : IMapComponent
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.ITablesMixin.html#itablesmixinfindtablebyid-method">GeoBlazor Docs</a>
     ///     Returns a table based on the given table ID.
+    ///     param tableId The ID assigned to the table.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-TablesMixin.html#findTableById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="tableId">

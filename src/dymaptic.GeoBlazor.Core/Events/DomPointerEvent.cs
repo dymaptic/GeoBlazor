@@ -43,7 +43,7 @@
 /// </param>
 public record DomPointerEvent(long? PointerId, double? Width, double? Height, double? Pressure,
     double? TangentialPressure, double? TiltX, double? TiltY, double? Twist, PointerType? PointerType, bool? IsPrimary,
-    bool? IsTrusted);
+    bool? IsTrusted): IDomUiEvent;
     
     
 /// <summary>
@@ -125,4 +125,20 @@ public record DomMouseEvent(
     int ScreenY,
     bool ShiftKey,
     int X,
-    int Y);
+    int Y): IDomUiEvent;
+
+public record DomKeyboardEvent(
+    bool AltKey,
+    int CharCode,
+    string Code,
+    bool CtrlKey,
+    bool IsComposing,
+    string Key,
+    int KeyCode,
+    int Location,
+    bool MetaKey,
+    bool Repeat,
+    bool ShiftKey
+): IDomUiEvent;
+    
+public interface IDomUiEvent;

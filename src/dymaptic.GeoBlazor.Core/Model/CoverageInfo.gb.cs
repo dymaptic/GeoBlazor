@@ -55,7 +55,7 @@ public partial record CoverageInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<string>? BandNames = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    ICoverageInfoCoverageDescription? CoverageDescription = null,
+    Object? CoverageDescription = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     string? CoverageId = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

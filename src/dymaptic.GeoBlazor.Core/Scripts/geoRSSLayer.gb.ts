@@ -19,10 +19,6 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         return this.layer;
     }
     
-    async load(options: AbortSignal): Promise<void> {
-        await this.layer.load(options);
-    }
-
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.effect)) {
@@ -88,6 +84,10 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         }
     }
     
+    async cancelLoad(): Promise<void> {
+        this.layer.cancelLoad();
+    }
+
     async createLayerView(view: any,
         options: any): Promise<any> {
         return await this.layer.createLayerView(view,
@@ -98,8 +98,30 @@ export default class GeoRSSLayerGenerated implements IPropertyWrapper {
         return await this.layer.fetchAttributionData();
     }
 
+    async isFulfilled(): Promise<any> {
+        return this.layer.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.layer.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.layer.isResolved();
+    }
+
+    async load(options: any): Promise<any> {
+        return await this.layer.load(options);
+    }
+
     async refresh(): Promise<void> {
         this.layer.refresh();
+    }
+
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.layer.when(callback,
+            errback);
     }
 
     // region properties
@@ -293,11 +315,11 @@ export async function buildJsGeoRSSLayerGenerated(dotNetObject: any, layerId: st
     geoRSSLayerWrapper.viewId = viewId;
     geoRSSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = geoRSSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerWrapper);
         let { buildDotNetGeoRSSLayer } = await import('./geoRSSLayer');
         let dnInstantiatedObject = await buildDotNetGeoRSSLayer(jsGeoRSSLayer);
 

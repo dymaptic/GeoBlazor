@@ -52,6 +52,7 @@ public partial class ColorRampElement : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ColorRampElement.html#colorrampelementinfos-property">GeoBlazor Docs</a>
     ///     The individual color stops rendered in the legend that correspond to the color visual variable in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ColorRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -61,6 +62,7 @@ public partial class ColorRampElement : MapComponent,
     public IReadOnlyList<ColorRampStop>? Infos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ColorRampElement.html#colorrampelementramptitle-property">GeoBlazor Docs</a>
     ///     The title of the color ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ColorRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -70,6 +72,7 @@ public partial class ColorRampElement : MapComponent,
     public RampTitle? RampTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ColorRampElement.html#colorrampelementstringtitle-property">GeoBlazor Docs</a>
     ///     The title of the color ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#ColorRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -148,7 +151,7 @@ public partial class ColorRampElement : MapComponent,
 
         // get the property value
         RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
-            CancellationTokenSource.Token, "rampTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -187,7 +190,7 @@ public partial class ColorRampElement : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -285,7 +288,7 @@ public partial class ColorRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rampTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -322,7 +325,7 @@ public partial class ColorRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringTitle", value);
+            JsComponentReference, "title", value);
     }
     
 #endregion

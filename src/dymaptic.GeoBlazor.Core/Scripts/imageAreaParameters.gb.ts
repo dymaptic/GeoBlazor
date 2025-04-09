@@ -17,6 +17,10 @@ export async function buildJsImageAreaParametersGenerated(dotNetObject: any, lay
         let { buildJsMosaicRule } = await import('./mosaicRule');
         properties.mosaicRule = await buildJsMosaicRule(dotNetObject.mosaicRule) as any;
     }
+    if (hasValue(dotNetObject.pixelSize)) {
+        let { buildJsPoint } = await import('./point');
+        properties.pixelSize = buildJsPoint(dotNetObject.pixelSize) as any;
+    }
 
     if (hasValue(dotNetObject.areaUnit)) {
         properties.areaUnit = dotNetObject.areaUnit;
@@ -27,13 +31,9 @@ export async function buildJsImageAreaParametersGenerated(dotNetObject: any, lay
     if (hasValue(dotNetObject.linearUnit)) {
         properties.linearUnit = dotNetObject.linearUnit;
     }
-    if (hasValue(dotNetObject.pixelSize)) {
-        properties.pixelSize = dotNetObject.pixelSize;
-    }
     let jsImageAreaParameters = new ImageAreaParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageAreaParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageAreaParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageAreaParameters;
     
     return jsImageAreaParameters;
@@ -57,6 +57,11 @@ export async function buildDotNetImageAreaParametersGenerated(jsObject: any, lay
         dotNetImageAreaParameters.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
     }
     
+    if (hasValue(jsObject.pixelSize)) {
+        let { buildDotNetPoint } = await import('./point');
+        dotNetImageAreaParameters.pixelSize = buildDotNetPoint(jsObject.pixelSize);
+    }
+    
     if (hasValue(jsObject.areaUnit)) {
         dotNetImageAreaParameters.areaUnit = removeCircularReferences(jsObject.areaUnit);
     }
@@ -69,12 +74,8 @@ export async function buildDotNetImageAreaParametersGenerated(jsObject: any, lay
         dotNetImageAreaParameters.linearUnit = removeCircularReferences(jsObject.linearUnit);
     }
     
-    if (hasValue(jsObject.pixelSize)) {
-        dotNetImageAreaParameters.pixelSize = removeCircularReferences(jsObject.pixelSize);
-    }
-    
     if (hasValue(jsObject.type)) {
-        dotNetImageAreaParameters.type = jsObject.type;
+        dotNetImageAreaParameters.type = removeCircularReferences(jsObject.type);
     }
     
 

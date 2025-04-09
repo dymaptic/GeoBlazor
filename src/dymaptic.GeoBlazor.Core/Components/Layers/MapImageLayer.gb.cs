@@ -5,7 +5,10 @@ namespace dymaptic.GeoBlazor.Core.Components.Layers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html">GeoBlazor Docs</a>
-///     MapImageLayer allows you to display and analyze data from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">sublayers</a> defined in a <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a>, exporting images instead of features.
+///     MapImageLayer allows you to display and analyze data from
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">sublayers</a> defined in a
+///     <a target="_blank" href="https://enterprise.arcgis.com/en/server/latest/publish-services/windows/what-is-a-map-service.htm">map service</a>, exporting images
+///     instead of features.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class MapImageLayer : IArcGISMapService,
@@ -52,9 +55,10 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#dpi">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="gdbVersion">
     ///     The version of the geodatabase of the map service data.
@@ -62,7 +66,7 @@ public partial class MapImageLayer : IArcGISMapService,
     /// </param>
     /// <param name="imageFormat">
     ///     The output image type.
-    ///     default png24
+    ///     default "png24"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#imageFormat">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="imageMaxHeight">
@@ -96,9 +100,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ScaleRangeLayer.html#minScale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="refreshInterval">
     ///     Refresh interval of the layer in minutes.
@@ -108,12 +112,16 @@ public partial class MapImageLayer : IArcGISMapService,
     /// <param name="timeExtent">
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
     ///     Determines if the time enabled layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
@@ -121,7 +129,9 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#useViewTime">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="sublayers">
-    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects that allow you to alter the properties of one or more sublayers of the MapImageLayer.
+    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects
+    ///     that allow you to alter
+    ///     the properties of one or more sublayers of the MapImageLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="listMode">
@@ -148,27 +158,28 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fullExtent">
-    ///     The full extent of the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     The full extent of the layer as defined by the map service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#fullExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
     /// <param name="subtables">
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#subtables">ArcGIS Maps SDK for JavaScript</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
+    ///     in the layer including the tables of its sublayers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#subtables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -245,7 +256,9 @@ public partial class MapImageLayer : IArcGISMapService,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">sublayers</a> in the MapImageLayer including the sublayers of its sublayers.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerallsublayers-property">GeoBlazor Docs</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">sublayers</a>
+    ///     in the MapImageLayer including the sublayers of its sublayers.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#allSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -254,6 +267,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public IReadOnlyList<Sublayer>? AllSublayers { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayercapabilities-property">GeoBlazor Docs</a>
     ///     Indicates the layer's supported capabilities.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#capabilities">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -263,6 +277,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public ArcGISMapServiceCapabilities? Capabilities { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayercopyright-property">GeoBlazor Docs</a>
     ///     The copyright text as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -272,6 +287,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public string? Copyright { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerdatefieldstimezone-property">GeoBlazor Docs</a>
     ///     The time zone that dates are stored in.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#dateFieldsTimeZone">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -281,6 +297,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public string? DateFieldsTimeZone { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerdatesinunknowntimezone-property">GeoBlazor Docs</a>
     ///     This property is set by the service publisher and indicates that dates should be considered without the local timezone.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#datesInUnknownTimezone">ArcGIS Maps SDK for JavaScript</a>
@@ -291,6 +308,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public bool? DatesInUnknownTimezone { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerdpi-property">GeoBlazor Docs</a>
     ///     The output dots per inch (DPI) of the MapImageLayer.
     ///     default 96
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#dpi">ArcGIS Maps SDK for JavaScript</a>
@@ -301,6 +319,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public double? Dpi { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -311,6 +330,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerpreferredtimezone-property">GeoBlazor Docs</a>
     ///     The IANA time zone the author of the service intended data from date fields to be viewed in.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#preferredTimeZone">ArcGIS Maps SDK for JavaScript</a>
@@ -321,7 +341,9 @@ public partial class MapImageLayer : IArcGISMapService,
     public string? PreferredTimeZone { get; protected set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a> exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayersourcejson-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/map-service.htm">map service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -330,6 +352,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerspatialreference-property">GeoBlazor Docs</a>
     ///     The spatial reference of the layer as defined by the service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -339,7 +362,10 @@ public partial class MapImageLayer : IArcGISMapService,
     public SpatialReference? SpatialReference { get; protected set; }
     
     /// <summary>
-    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects that allow you to alter the properties of one or more sublayers of the MapImageLayer.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayersublayers-property">GeoBlazor Docs</a>
+    ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">Sublayer</a> objects
+    ///     that allow you to alter
+    ///     the properties of one or more sublayers of the MapImageLayer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#sublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -348,8 +374,10 @@ public partial class MapImageLayer : IArcGISMapService,
     public IReadOnlyList<Sublayer>? Sublayers { get; set; }
     
     /// <summary>
-    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables in the layer including the tables of its sublayers.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#subtables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayersubtables-property">GeoBlazor Docs</a>
+    ///     A flat <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">Collection</a> of all the tables
+    ///     in the layer including the tables of its sublayers.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#subtables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -357,9 +385,10 @@ public partial class MapImageLayer : IArcGISMapService,
     public IReadOnlyList<Sublayer>? Subtables { get; set; }
     
     /// <summary>
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayertimeoffset-property">GeoBlazor Docs</a>
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-TemporalLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -367,6 +396,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public TimeInterval? TimeOffset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerurl-property">GeoBlazor Docs</a>
     ///     The URL to the REST endpoint of the map service.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -377,6 +407,7 @@ public partial class MapImageLayer : IArcGISMapService,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the map service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISMapService.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -1360,11 +1391,6 @@ public partial class MapImageLayer : IArcGISMapService,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -2514,7 +2540,16 @@ public partial class MapImageLayer : IArcGISMapService,
 #region Public Methods
 
     /// <summary>
-    ///     Gets the parameters of the exported image to use when calling the <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-map.htm">export REST operation</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayercreateexportimageparameters-method">GeoBlazor Docs</a>
+    ///     Gets the parameters of the exported image to use when calling the
+    ///     <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/export-map.htm">export REST operation</a>.
+    ///     param extent The extent of the exported image
+    ///     param width The width of the exported image
+    ///     param height The height of the exported image
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.rotation The rotation in degrees of the exported image. Available since ArcGIS Server 10.3.
+    ///     param options.pixelRatio The pixel ratio to apply to the dpi of the exported image.
+    ///     param options.timeExtent The time instant or time extent of content to render.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#createExportImageParameters">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -2530,14 +2565,14 @@ public partial class MapImageLayer : IArcGISMapService,
     ///     The parameter options is an object with the following properties.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> CreateExportImageParameters(Extent extent,
+    public async Task<string?> CreateExportImageParameters(Extent extent,
         int width,
         int height,
         MapImageLayerCreateExportImageParametersOptions options)
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "createExportImageParameters", 
             CancellationTokenSource.Token,
             extent,
@@ -2547,8 +2582,10 @@ public partial class MapImageLayer : IArcGISMapService,
     }
     
     /// <summary>
-    ///     Returns a deep clone of a map service's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">sublayers</a> as defined by the service.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#createServiceSublayers">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayercreateservicesublayers-method">GeoBlazor Docs</a>
+    ///     Returns a deep clone of a map service's
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html">sublayers</a> as defined by the service.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#createServiceSublayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<Sublayer[]?> CreateServiceSublayers()
@@ -2561,7 +2598,16 @@ public partial class MapImageLayer : IArcGISMapService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerfetchimage-method">GeoBlazor Docs</a>
     ///     This method fetches the image for the specified extent and size.
+    ///     param extent The extent of the view.
+    ///     param width The width of the view in pixels.
+    ///     param height The height of the view in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.rotation The rotation in degrees of the exported image. Available since ArcGIS Server 10.3.
+    ///     param options.pixelRatio The ratio of the resolution in physical pixels of the image to the resolution it will be displayed at.
+    ///     param options.timeExtent The time instant or time extent of content to render.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
@@ -2603,10 +2649,14 @@ public partial class MapImageLayer : IArcGISMapService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerfindsublayerbyid-method">GeoBlazor Docs</a>
     ///     Returns the sublayer with the given layerId.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-SublayersOwner.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
+    ///     param id The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#id">id</a> of the sublayer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="id">
+    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#id">id</a>
+    ///     of the sublayer.
     /// </param>
     [ArcGISMethod]
     public async Task<Sublayer?> FindSublayerById(long id)
@@ -2620,22 +2670,24 @@ public partial class MapImageLayer : IArcGISMapService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerloadall-method">GeoBlazor Docs</a>
     ///     Loads all of the sublayers and subtables.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#loadAll">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<Sublayer?> LoadAll()
+    public async Task<MapImageLayer?> LoadAll()
     {
         if (JsComponentReference is null) return null;
         
-        return await JsComponentReference!.InvokeAsync<Sublayer?>(
+        return await JsComponentReference!.InvokeAsync<MapImageLayer?>(
             "loadAll", 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-RefreshableLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-MapImageLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public override async ValueTask Refresh()
@@ -2671,6 +2723,7 @@ public partial class MapImageLayer : IArcGISMapService,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.MapImageLayer.html#mapimagelayeronrefresh-property">GeoBlazor Docs</a>
     ///     Fires if the layer has the <a href="#refreshInterval">refreshInterval</a> set or when <a href="#refresh">refresh()</a> method is called.
     ///     The event payload indicates if the layer's data has changed.
     /// </summary>

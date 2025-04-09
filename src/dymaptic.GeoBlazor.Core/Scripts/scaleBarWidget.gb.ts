@@ -58,12 +58,6 @@ export default class ScaleBarWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -152,11 +146,11 @@ export async function buildJsScaleBarWidgetGenerated(dotNetObject: any, layerId:
     scaleBarWidgetWrapper.viewId = viewId;
     scaleBarWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = scaleBarWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsScaleBar;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(scaleBarWidgetWrapper);
         let { buildDotNetScaleBarWidget } = await import('./scaleBarWidget');
         let dnInstantiatedObject = await buildDotNetScaleBarWidget(jsScaleBar);
 

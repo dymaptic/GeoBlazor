@@ -5,7 +5,8 @@ namespace dymaptic.GeoBlazor.Core.Components.Popups;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html">GeoBlazor Docs</a>
-///     The `ExpressionInfo` class references <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
+///     The `ExpressionInfo` class references <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expressions following
+///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class PopupExpressionInfo
@@ -23,7 +24,8 @@ public partial class PopupExpressionInfo
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="expression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following
+    ///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
@@ -35,7 +37,8 @@ public partial class PopupExpressionInfo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#returnType">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="title">
-    ///     The title used to describe the value returned by the expression in the popup.
+    ///     The title used to describe the value returned by the expression in the
+    ///     popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PopupExpressionInfo(
@@ -57,7 +60,9 @@ public partial class PopupExpressionInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html#popupexpressioninfoexpression-property">GeoBlazor Docs</a>
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following
+    ///     the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#popup">Arcade Popup Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#expression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -66,6 +71,7 @@ public partial class PopupExpressionInfo
     public string? Expression { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html#popupexpressioninfoname-property">GeoBlazor Docs</a>
     ///     The name of the expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -75,6 +81,7 @@ public partial class PopupExpressionInfo
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html#popupexpressioninforeturntype-property">GeoBlazor Docs</a>
     ///     Indicates the return type of the Arcade expression.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#returnType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -84,7 +91,9 @@ public partial class PopupExpressionInfo
     public PopupExpressionInfoReturnType? ReturnType { get; set; }
     
     /// <summary>
-    ///     The title used to describe the value returned by the expression in the popup.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Popups.PopupExpressionInfo.html#popupexpressioninfotitle-property">GeoBlazor Docs</a>
+    ///     The title used to describe the value returned by the expression in the
+    ///     popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-ExpressionInfo.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]

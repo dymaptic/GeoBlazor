@@ -25,12 +25,6 @@ public partial class Field : MapComponent
     [RequiredProperty]
     public FieldType? Type { get; set; }
 
-    /// <summary>
-    ///     The default value set for the field.
-    /// </summary>
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? DefaultValue { get; set; }
 
     /// <summary>
     ///     Contains information describing the purpose of each field.

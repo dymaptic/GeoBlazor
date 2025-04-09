@@ -13,8 +13,7 @@ export async function buildJsLegendStyleGenerated(dotNetObject: any, layerId: st
         jsLegendStyle.layout = dotNetObject.layout;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLegendStyle);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLegendStyle;
     arcGisObjectRefs[dotNetObject.id] = jsLegendStyle;
     
     return jsLegendStyle;

@@ -17,10 +17,6 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
         let { buildJsWMTSStyle } = await import('./wMTSStyle');
         properties.styles = await Promise.all(dotNetObject.styles.map(async i => await buildJsWMTSStyle(i))) as any;
     }
-    if (hasValue(dotNetObject.tileMatrixSet)) {
-        let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
-        properties.tileMatrixSet = await buildJsTileMatrixSet(dotNetObject.tileMatrixSet, layerId, viewId) as any;
-    }
     if (hasValue(dotNetObject.tileMatrixSets) && dotNetObject.tileMatrixSets.length > 0) {
         let { buildJsTileMatrixSet } = await import('./tileMatrixSet');
         properties.tileMatrixSets = await Promise.all(dotNetObject.tileMatrixSets.map(async i => await buildJsTileMatrixSet(i, layerId, viewId))) as any;
@@ -49,8 +45,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     }
     let jsWMTSSublayer = new WMTSSublayer(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWMTSSublayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     
     return jsWMTSSublayer;

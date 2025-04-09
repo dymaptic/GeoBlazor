@@ -12,7 +12,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#geometry">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxItemCount">
-///     Controls the maximum number of returned catalog items, set to 1 to return the top most raster only.
+///     Controls the maximum number of returned catalog items, set to 1 to return
+///     the top most raster only.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#maxItemCount">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MosaicRule">
@@ -57,10 +58,10 @@ public partial record ImageIdentifyParameters(
     Geometry? Geometry = null,
     int? MaxItemCount = null,
     MosaicRule? MosaicRule = null,
-    PixelSize? PixelSize = null,
+    Point? PixelSize = null,
     bool? ProcessAsMultidimensional = null,
     RasterFunction? RasterFunction = null,
-    RasterFunction? RasterFunctions = null,
+    IReadOnlyCollection<RasterFunction>? RasterFunctions = null,
     bool? ReturnCatalogItems = null,
     bool? ReturnGeometry = null,
     bool? ReturnPixelValues = null,
@@ -73,7 +74,8 @@ public partial record ImageIdentifyParameters(
     public Geometry? Geometry { get; set; } = Geometry;
     
     /// <summary>
-    ///     Controls the maximum number of returned catalog items, set to 1 to return the top most raster only.
+    ///     Controls the maximum number of returned catalog items, set to 1 to return
+    ///     the top most raster only.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#maxItemCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? MaxItemCount { get; set; } = MaxItemCount;
@@ -88,7 +90,7 @@ public partial record ImageIdentifyParameters(
     ///     Specifies the pixel level being identified on the x and y axis.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#pixelSize">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public PixelSize? PixelSize { get; set; } = PixelSize;
+    public Point? PixelSize { get; set; } = PixelSize;
     
     /// <summary>
     ///     When `true`, the request is processed for all variables and dimensions.
@@ -107,7 +109,7 @@ public partial record ImageIdentifyParameters(
     ///     An array the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#rasterFunction">raster functions</a> to retrieve multiple processed pixel values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageIdentifyParameters.html#rasterFunctions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public RasterFunction? RasterFunctions { get; set; } = RasterFunctions;
+    public IReadOnlyCollection<RasterFunction>? RasterFunctions { get; set; } = RasterFunctions;
     
     /// <summary>
     ///     If `true`, returns both geometry and attributes of the catalog items.

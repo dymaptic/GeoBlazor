@@ -8,9 +8,6 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<a
     }
 
     let jsCoverageInfo: any = {};
-    if (hasValue(dotNetObject.coverageDescription)) {
-        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
-    }
     if (hasValue(dotNetObject.lonLatEnvelope)) {
         let { buildJsExtent } = await import('./extent');
         jsCoverageInfo.lonLatEnvelope = buildJsExtent(dotNetObject.lonLatEnvelope) as any;
@@ -22,6 +19,9 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<a
 
     if (hasValue(dotNetObject.bandNames) && dotNetObject.bandNames.length > 0) {
         jsCoverageInfo.bandNames = dotNetObject.bandNames;
+    }
+    if (hasValue(dotNetObject.coverageDescription)) {
+        jsCoverageInfo.coverageDescription = dotNetObject.coverageDescription;
     }
     if (hasValue(dotNetObject.coverageId)) {
         jsCoverageInfo.id = dotNetObject.coverageId;
@@ -45,8 +45,7 @@ export async function buildJsCoverageInfoGenerated(dotNetObject: any): Promise<a
         jsCoverageInfo.version = dotNetObject.version;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageInfo;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageInfo;
     
     return jsCoverageInfo;

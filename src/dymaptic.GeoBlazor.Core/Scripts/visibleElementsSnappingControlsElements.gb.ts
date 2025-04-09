@@ -8,12 +8,22 @@ export async function buildJsVisibleElementsSnappingControlsElementsGenerated(do
     }
 
     let jsVisibleElementsSnappingControlsElements: any = {};
+    if (hasValue(dotNetObject.gridControlsElements)) {
+        let { buildJsVisibleElementsSnappingControlsElementsGridControlsElements } = await import('./visibleElementsSnappingControlsElementsGridControlsElements');
+        jsVisibleElementsSnappingControlsElements.gridControlsElements = await buildJsVisibleElementsSnappingControlsElementsGridControlsElements(dotNetObject.gridControlsElements, layerId, viewId) as any;
+    }
 
     if (hasValue(dotNetObject.enabledToggle)) {
         jsVisibleElementsSnappingControlsElements.enabledToggle = dotNetObject.enabledToggle;
     }
     if (hasValue(dotNetObject.featureEnabledToggle)) {
         jsVisibleElementsSnappingControlsElements.featureEnabledToggle = dotNetObject.featureEnabledToggle;
+    }
+    if (hasValue(dotNetObject.gridControls)) {
+        jsVisibleElementsSnappingControlsElements.gridControls = dotNetObject.gridControls;
+    }
+    if (hasValue(dotNetObject.gridEnabledToggle)) {
+        jsVisibleElementsSnappingControlsElements.gridEnabledToggle = dotNetObject.gridEnabledToggle;
     }
     if (hasValue(dotNetObject.header)) {
         jsVisibleElementsSnappingControlsElements.header = dotNetObject.header;
@@ -28,8 +38,7 @@ export async function buildJsVisibleElementsSnappingControlsElementsGenerated(do
         jsVisibleElementsSnappingControlsElements.selfEnabledToggle = dotNetObject.selfEnabledToggle;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVisibleElementsSnappingControlsElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVisibleElementsSnappingControlsElements;
     arcGisObjectRefs[dotNetObject.id] = jsVisibleElementsSnappingControlsElements;
     
     return jsVisibleElementsSnappingControlsElements;
@@ -43,12 +52,25 @@ export async function buildDotNetVisibleElementsSnappingControlsElementsGenerate
     
     let dotNetVisibleElementsSnappingControlsElements: any = {};
     
+    if (hasValue(jsObject.gridControlsElements)) {
+        let { buildDotNetVisibleElementsSnappingControlsElementsGridControlsElements } = await import('./visibleElementsSnappingControlsElementsGridControlsElements');
+        dotNetVisibleElementsSnappingControlsElements.gridControlsElements = await buildDotNetVisibleElementsSnappingControlsElementsGridControlsElements(jsObject.gridControlsElements);
+    }
+    
     if (hasValue(jsObject.enabledToggle)) {
         dotNetVisibleElementsSnappingControlsElements.enabledToggle = jsObject.enabledToggle;
     }
     
     if (hasValue(jsObject.featureEnabledToggle)) {
         dotNetVisibleElementsSnappingControlsElements.featureEnabledToggle = jsObject.featureEnabledToggle;
+    }
+    
+    if (hasValue(jsObject.gridControls)) {
+        dotNetVisibleElementsSnappingControlsElements.gridControls = jsObject.gridControls;
+    }
+    
+    if (hasValue(jsObject.gridEnabledToggle)) {
+        dotNetVisibleElementsSnappingControlsElements.gridEnabledToggle = jsObject.gridEnabledToggle;
     }
     
     if (hasValue(jsObject.header)) {

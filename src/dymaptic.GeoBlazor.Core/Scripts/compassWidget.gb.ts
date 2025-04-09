@@ -56,12 +56,6 @@ export default class CompassWidgetGenerated implements IPropertyWrapper {
         return this.widget.isResolved();
     }
 
-    async own(handleOrHandles: any): Promise<void> {
-        let { buildJsWatchHandle } = await import('./watchHandle');
-        let jsHandleOrHandles = await buildJsWatchHandle(handleOrHandles, this.layerId, this.viewId) as any;
-        this.widget.own(jsHandleOrHandles);
-    }
-
     async postInitialize(): Promise<void> {
         this.widget.postInitialize();
     }
@@ -166,11 +160,11 @@ export async function buildJsCompassWidgetGenerated(dotNetObject: any, layerId: 
     compassWidgetWrapper.viewId = viewId;
     compassWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = compassWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCompass;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(compassWidgetWrapper);
         let { buildDotNetCompassWidget } = await import('./compassWidget');
         let dnInstantiatedObject = await buildDotNetCompassWidget(jsCompass);
 
