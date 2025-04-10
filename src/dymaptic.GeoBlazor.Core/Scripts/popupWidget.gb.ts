@@ -375,11 +375,11 @@ export async function buildJsPopupWidgetGenerated(dotNetObject: any, layerId: st
     popupWidgetWrapper.viewId = viewId;
     popupWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = popupWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPopup;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(popupWidgetWrapper);
         let { buildDotNetPopupWidget } = await import('./popupWidget');
         let dnInstantiatedObject = await buildDotNetPopupWidget(jsPopup, layerId, viewId);
 

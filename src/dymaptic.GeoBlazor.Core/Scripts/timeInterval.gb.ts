@@ -18,8 +18,7 @@ export async function buildJsTimeIntervalGenerated(dotNetObject: any): Promise<a
     }
     let jsTimeInterval = new TimeInterval(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTimeInterval);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTimeInterval;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInterval;
     
     return jsTimeInterval;

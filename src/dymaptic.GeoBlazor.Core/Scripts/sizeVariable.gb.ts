@@ -177,7 +177,6 @@ export async function buildJsSizeVariableGenerated(dotNetObject: any, layerId: s
     sizeVariableWrapper.viewId = viewId;
     sizeVariableWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(sizeVariableWrapper);
     jsObjectRefs[dotNetObject.id] = sizeVariableWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsSizeVariable;
     

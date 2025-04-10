@@ -269,7 +269,7 @@ public partial class SearchWidget : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
+    public SearchResultResponse? Results { get; protected set; }
     
     /// <summary>
     ///     The result selected from a search.
@@ -2137,8 +2137,11 @@ public partial class SearchWidget : IGoTo
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2146,8 +2149,11 @@ public partial class SearchWidget : IGoTo
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Portal)] = Portal;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2156,8 +2162,11 @@ public partial class SearchWidget : IGoTo
                 if (!Sources.Contains(sources))
                 {
                     Sources = [..Sources, sources];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Sources)] = Sources;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2165,8 +2174,11 @@ public partial class SearchWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2182,23 +2194,35 @@ public partial class SearchWidget : IGoTo
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case Portal _:
                 Portal = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Portal)] = Portal;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Sources)] = Sources;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case SearchViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

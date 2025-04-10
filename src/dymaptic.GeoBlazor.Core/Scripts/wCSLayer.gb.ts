@@ -27,7 +27,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.coverageInfo)) {
             let { buildJsCoverageInfo } = await import('./coverageInfo');
-            this.layer.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo) as any;
+            this.layer.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.effect)) {
             let { buildJsEffect } = await import('./effect');
@@ -182,7 +182,7 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
     
     async setCoverageInfo(value: any): Promise<void> {
         let { buildJsCoverageInfo } = await import('./coverageInfo');
-        this.layer.coverageInfo = await  buildJsCoverageInfo(value);
+        this.layer.coverageInfo = await  buildJsCoverageInfo(value, this.layerId, this.viewId);
     }
     
     async getEffect(): Promise<any> {
@@ -375,7 +375,7 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     let properties: any = {};
     if (hasValue(dotNetObject.coverageInfo)) {
         let { buildJsCoverageInfo } = await import('./coverageInfo');
-        properties.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo) as any;
+        properties.coverageInfo = await buildJsCoverageInfo(dotNetObject.coverageInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.effect)) {
         let { buildJsEffect } = await import('./effect');
@@ -514,11 +514,11 @@ export async function buildJsWCSLayerGenerated(dotNetObject: any, layerId: strin
     wCSLayerWrapper.viewId = viewId;
     wCSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wCSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWCSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(wCSLayerWrapper);
         let { buildDotNetWCSLayer } = await import('./wCSLayer');
         let dnInstantiatedObject = await buildDotNetWCSLayer(jsWCSLayer);
 

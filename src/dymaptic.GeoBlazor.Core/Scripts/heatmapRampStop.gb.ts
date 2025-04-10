@@ -23,8 +23,7 @@ export async function buildJsHeatmapRampStopGenerated(dotNetObject: any, layerId
         jsHeatmapRampStop.ratio = dotNetObject.ratio;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsHeatmapRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsHeatmapRampStop;
     
     return jsHeatmapRampStop;

@@ -391,7 +391,7 @@ public partial class KMLSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "kMLSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -481,7 +481,6 @@ public partial class KMLSublayer : MapComponent
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
-                    
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 }
                 
@@ -498,7 +497,6 @@ public partial class KMLSublayer : MapComponent
         {
             case KMLSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 return true;
             default:

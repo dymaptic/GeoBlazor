@@ -358,7 +358,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 
         // get the property value
         object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "objectError");
+            CancellationTokenSource.Token, "error");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -681,7 +681,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectError", value);
+            JsComponentReference, "error", value);
     }
     
     /// <summary>
@@ -866,7 +866,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
                 if (graphic != Graphic)
                 {
                     Graphic = graphic;
-                    
                     ModifiedParameters[nameof(Graphic)] = Graphic;
                 }
                 
@@ -883,7 +882,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
         {
             case Graphic _:
                 Graphic = null;
-                
                 ModifiedParameters[nameof(Graphic)] = Graphic;
                 return true;
             default:

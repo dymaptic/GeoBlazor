@@ -33,8 +33,7 @@ export async function buildJsRelationshipRampElementGenerated(dotNetObject: any,
         jsRelationshipRampElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipRampElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRelationshipRampElement;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipRampElement;
     
     return jsRelationshipRampElement;

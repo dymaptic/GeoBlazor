@@ -114,7 +114,6 @@ export async function buildJsLayerListViewModelGenerated(dotNetObject: any, laye
     layerListViewModelWrapper.viewId = viewId;
     layerListViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(layerListViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = layerListViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModel;
     

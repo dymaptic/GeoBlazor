@@ -127,7 +127,6 @@ export async function buildJsTileInfoGenerated(dotNetObject: any, layerId: strin
     tileInfoWrapper.viewId = viewId;
     tileInfoWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(tileInfoWrapper);
     jsObjectRefs[dotNetObject.id] = tileInfoWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsTileInfo;
     

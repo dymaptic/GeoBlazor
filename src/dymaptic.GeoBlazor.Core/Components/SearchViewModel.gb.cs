@@ -1646,7 +1646,7 @@ public partial class SearchViewModel : IGoTo
 
         // get the property value
         Func<Task>? result = await JsComponentReference!.InvokeAsync<Func<Task>?>("getProperty",
-            CancellationTokenSource.Token, "taskCollectionIncludeDefaultSources");
+            CancellationTokenSource.Token, "includeDefaultSources");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1846,7 +1846,7 @@ public partial class SearchViewModel : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "boolIncludeDefaultSources", value);
+            JsComponentReference, "includeDefaultSources", value);
     }
     
     /// <summary>
@@ -2473,7 +2473,7 @@ public partial class SearchViewModel : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "taskCollectionIncludeDefaultSources", value);
+            JsComponentReference, "includeDefaultSources", value);
     }
     
 #endregion
@@ -2782,7 +2782,6 @@ public partial class SearchViewModel : IGoTo
                 if (defaultSymbols != DefaultSymbols)
                 {
                     DefaultSymbols = defaultSymbols;
-                    
                     ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
                 }
                 
@@ -2791,7 +2790,6 @@ public partial class SearchViewModel : IGoTo
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -2800,7 +2798,6 @@ public partial class SearchViewModel : IGoTo
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -2810,7 +2807,6 @@ public partial class SearchViewModel : IGoTo
                 if (!Sources.Contains(sources))
                 {
                     Sources = [..Sources, sources];
-                    
                     ModifiedParameters[nameof(Sources)] = Sources;
                 }
                 
@@ -2827,22 +2823,18 @@ public partial class SearchViewModel : IGoTo
         {
             case SearchViewModelDefaultSymbols _:
                 DefaultSymbols = null;
-                
                 ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
-                
                 ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             default:

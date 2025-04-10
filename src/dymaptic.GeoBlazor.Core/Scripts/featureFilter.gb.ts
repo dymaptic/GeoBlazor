@@ -129,7 +129,6 @@ export async function buildJsFeatureFilterGenerated(dotNetObject: any, layerId: 
     featureFilterWrapper.viewId = viewId;
     featureFilterWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(featureFilterWrapper);
     jsObjectRefs[dotNetObject.id] = featureFilterWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureFilter;
     

@@ -417,8 +417,11 @@ public partial class AreaMeasurement2DWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -434,8 +437,11 @@ public partial class AreaMeasurement2DWidget
         {
             case AreaMeasurement2DViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

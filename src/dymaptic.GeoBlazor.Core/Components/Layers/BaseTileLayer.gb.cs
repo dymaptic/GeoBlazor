@@ -794,8 +794,11 @@ public partial class BaseTileLayer : IBlendLayer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -803,8 +806,11 @@ public partial class BaseTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -820,13 +826,19 @@ public partial class BaseTileLayer : IBlendLayer,
         {
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

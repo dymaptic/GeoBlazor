@@ -15,8 +15,7 @@ export async function buildJsInheritedDomainGenerated(dotNetObject: any, layerId
     }
     let jsInheritedDomain = new InheritedDomain(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsInheritedDomain);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsInheritedDomain;
     arcGisObjectRefs[dotNetObject.id] = jsInheritedDomain;
     
     return jsInheritedDomain;

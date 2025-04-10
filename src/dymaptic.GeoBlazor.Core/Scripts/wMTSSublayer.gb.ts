@@ -49,8 +49,7 @@ export async function buildJsWMTSSublayerGenerated(dotNetObject: any, layerId: s
     }
     let jsWMTSSublayer = new WMTSSublayer(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWMTSSublayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     arcGisObjectRefs[dotNetObject.id] = jsWMTSSublayer;
     
     return jsWMTSSublayer;

@@ -653,7 +653,6 @@ public partial class LegendViewModel : MapComponent
                 if (!ActiveLayerInfos.Contains(activeLayerInfos))
                 {
                     ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
-                    
                     ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 }
                 
@@ -663,7 +662,6 @@ public partial class LegendViewModel : MapComponent
                 if (!LayerInfos.Contains(layerInfos))
                 {
                     LayerInfos = [..LayerInfos, layerInfos];
-                    
                     ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
                 }
                 
@@ -680,12 +678,10 @@ public partial class LegendViewModel : MapComponent
         {
             case ActiveLayerInfo activeLayerInfos:
                 ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
-                
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
                 return true;
             case LegendViewModelLayerInfos layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
-                
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
                 return true;
             default:

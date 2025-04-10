@@ -1637,8 +1637,11 @@ public partial class VectorTileLayer : IBlendLayer,
                 if (initialExtent != InitialExtent)
                 {
                     InitialExtent = initialExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1646,8 +1649,11 @@ public partial class VectorTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1663,13 +1669,19 @@ public partial class VectorTileLayer : IBlendLayer,
         {
             case Extent _:
                 InitialExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

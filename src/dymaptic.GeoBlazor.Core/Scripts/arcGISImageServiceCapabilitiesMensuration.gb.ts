@@ -31,8 +31,7 @@ export async function buildJsArcGISImageServiceCapabilitiesMensurationGenerated(
         jsArcGISImageServiceCapabilitiesMensuration.supportsPointOrCentroid = dotNetObject.supportsPointOrCentroid;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageServiceCapabilitiesMensuration);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesMensuration;
     
     return jsArcGISImageServiceCapabilitiesMensuration;

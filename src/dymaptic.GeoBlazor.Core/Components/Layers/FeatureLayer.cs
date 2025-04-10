@@ -496,7 +496,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!LabelingInfo.Contains(label))
                 {
                     LabelingInfo = [..LabelingInfo, label];
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -511,7 +514,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                     graphic.Layer ??= this;
                     Source = [..Source, graphic];
 
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -521,7 +527,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!Fields.Contains(field))
                 {
                     Fields = [..Fields, field];
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -530,7 +539,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!reduction.Equals(FeatureReduction))
                 {
                     FeatureReduction = reduction;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -538,7 +550,10 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!formTemplate.Equals(FormTemplate))
                 {
                     FormTemplate = formTemplate;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -557,7 +572,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
 
             case Label label:
                 LabelingInfo = LabelingInfo?.Where(l => !l.Equals(label)).ToList();
-                LayerChanged = MapRendered;
+                
 
                 break;
 
@@ -565,7 +580,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (Source?.Contains(graphic) ?? false)
                 {
                     Source = Source?.Except([graphic]).ToList();
-                    LayerChanged = MapRendered;
                 }
 
                 break;
@@ -573,19 +587,16 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (Fields?.Contains(field) ?? false)
                 {
                     Fields = Fields?.Except([field]).ToList();
-                    LayerChanged = MapRendered;
                 }
 
                 break;
             case IFeatureReduction _:
                 FeatureReduction = null;
-                LayerChanged = MapRendered;
 
                 break;
             
             case IFormTemplate _:
                 FormTemplate = null;
-                LayerChanged = MapRendered;
 
                 break;
 

@@ -643,7 +643,6 @@ public partial class BookmarksViewModel : IGoTo
                 if (!Bookmarks.Contains(bookmarks))
                 {
                     Bookmarks = [..Bookmarks, bookmarks];
-                    
                     ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 }
                 
@@ -652,7 +651,6 @@ public partial class BookmarksViewModel : IGoTo
                 if (capabilities != Capabilities)
                 {
                     Capabilities = capabilities;
-                    
                     ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 }
                 
@@ -669,12 +667,10 @@ public partial class BookmarksViewModel : IGoTo
         {
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
             case BookmarksCapabilities _:
                 Capabilities = null;
-                
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;
             default:

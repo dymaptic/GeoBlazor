@@ -634,8 +634,11 @@ public partial class GraphicsLayer : IBlendLayer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -651,8 +654,11 @@ public partial class GraphicsLayer : IBlendLayer,
         {
             case GraphicsLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

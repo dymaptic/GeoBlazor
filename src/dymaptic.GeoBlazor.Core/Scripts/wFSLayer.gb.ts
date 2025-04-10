@@ -598,11 +598,11 @@ export async function buildJsWFSLayerGenerated(dotNetObject: any, layerId: strin
     wFSLayerWrapper.viewId = viewId;
     wFSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wFSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(wFSLayerWrapper);
         let { buildDotNetWFSLayer } = await import('./wFSLayer');
         let dnInstantiatedObject = await buildDotNetWFSLayer(jsWFSLayer);
 

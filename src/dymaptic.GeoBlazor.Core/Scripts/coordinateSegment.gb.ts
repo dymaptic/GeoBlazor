@@ -19,8 +19,7 @@ export async function buildJsCoordinateSegmentGenerated(dotNetObject: any, layer
         jsCoordinateSegment.searchPattern = dotNetObject.searchPattern;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoordinateSegment);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoordinateSegment;
     arcGisObjectRefs[dotNetObject.id] = jsCoordinateSegment;
     
     return jsCoordinateSegment;

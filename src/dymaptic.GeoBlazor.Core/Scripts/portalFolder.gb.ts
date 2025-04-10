@@ -21,8 +21,7 @@ export async function buildJsPortalFolderGenerated(dotNetObject: any): Promise<a
     }
     let jsPortalFolder = new PortalFolder(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPortalFolder);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPortalFolder;
     arcGisObjectRefs[dotNetObject.id] = jsPortalFolder;
     
     return jsPortalFolder;

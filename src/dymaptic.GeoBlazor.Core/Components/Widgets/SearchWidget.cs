@@ -607,7 +607,10 @@ public partial class SearchWidget : Widget
             case SearchSource source:
                 Sources ??= new List<SearchSource>();
                 Sources = [..Sources, source];
-                WidgetChanged = MapRendered;
+                if (MapRendered)
+                {
+                    await UpdateWidget();
+                }
                 break;
 
             default:
@@ -624,6 +627,7 @@ public partial class SearchWidget : Widget
         {
             case SearchSource source:
                 Sources = Sources?.Except([source]).ToList();
+                
                 break;
 
             default:

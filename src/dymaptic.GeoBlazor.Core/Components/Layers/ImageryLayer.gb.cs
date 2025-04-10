@@ -1438,17 +1438,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return MultidimensionalInfo;
         }
 
-        // get the property value
-        RasterMultidimensionalInfo? result = await JsComponentReference!.InvokeAsync<RasterMultidimensionalInfo?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalInfo");
+        RasterMultidimensionalInfo? result = await JsComponentReference.InvokeAsync<RasterMultidimensionalInfo?>(
+            "getMultidimensionalInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalInfo = result;
+            MultidimensionalInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
+            ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
         }
-         
+        
         return MultidimensionalInfo;
     }
     
@@ -4518,8 +4518,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (capabilities != Capabilities)
                 {
                     Capabilities = capabilities;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Capabilities)] = Capabilities;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4528,8 +4531,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4537,8 +4543,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
                     MultidimensionalSubset = multidimensionalSubset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4546,8 +4555,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (noData != NoData)
                 {
                     NoData = noData;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(NoData)] = NoData;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4555,8 +4567,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4564,8 +4579,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4573,8 +4591,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4590,38 +4611,38 @@ public partial class ImageryLayer : IArcGISImageService,
         {
             case ArcGISImageServiceCapabilities _:
                 Capabilities = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
+                    
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
+                    
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+                    
                 return true;
             case NoData _:
                 NoData = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(NoData)] = NoData;
+
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

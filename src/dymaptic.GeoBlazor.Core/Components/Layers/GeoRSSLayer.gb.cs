@@ -1103,8 +1103,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (lineSymbol != LineSymbol)
                 {
                     LineSymbol = lineSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1112,8 +1115,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (pointSymbol != PointSymbol)
                 {
                     PointSymbol = pointSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1121,8 +1127,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (polygonSymbol != PolygonSymbol)
                 {
                     PolygonSymbol = polygonSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1138,18 +1147,27 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             case SimpleLineSymbol _:
                 LineSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case MarkerSymbol _:
                 PointSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case SimpleFillSymbol _:
                 PolygonSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

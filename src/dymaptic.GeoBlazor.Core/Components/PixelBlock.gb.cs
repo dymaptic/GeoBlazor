@@ -894,7 +894,6 @@ public partial class PixelBlock : MapComponent
                 if (!Statistics.Contains(statistics))
                 {
                     Statistics = [..Statistics, statistics];
-                    
                     ModifiedParameters[nameof(Statistics)] = Statistics;
                 }
                 
@@ -911,7 +910,6 @@ public partial class PixelBlock : MapComponent
         {
             case PixelBlockStatistics statistics:
                 Statistics = Statistics?.Where(s => s != statistics).ToList();
-                
                 ModifiedParameters[nameof(Statistics)] = Statistics;
                 return true;
             default:

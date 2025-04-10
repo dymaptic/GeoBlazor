@@ -1549,8 +1549,11 @@ public partial class WMTSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1566,8 +1569,11 @@ public partial class WMTSLayer : Layer,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

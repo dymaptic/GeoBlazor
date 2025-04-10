@@ -172,11 +172,11 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     unsupportedLayerWrapper.viewId = viewId;
     unsupportedLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(unsupportedLayerWrapper);
     jsObjectRefs[dotNetObject.id] = unsupportedLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnsupportedLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(unsupportedLayerWrapper);
         let { buildDotNetUnsupportedLayer } = await import('./unsupportedLayer');
         let dnInstantiatedObject = await buildDotNetUnsupportedLayer(jsUnsupportedLayer);
 

@@ -23,8 +23,7 @@ export async function buildJsNearestPointResultGenerated(dotNetObject: any, laye
         jsNearestPointResult.vertexIndex = dotNetObject.vertexIndex;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsNearestPointResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsNearestPointResult;
     arcGisObjectRefs[dotNetObject.id] = jsNearestPointResult;
     
     return jsNearestPointResult;

@@ -17,8 +17,7 @@ export async function buildJsAttachmentEditGenerated(dotNetObject: any, layerId:
         jsAttachmentEdit.attachment = dotNetObject.attachment;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentEdit);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAttachmentEdit;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentEdit;
     
     return jsAttachmentEdit;

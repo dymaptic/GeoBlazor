@@ -32,8 +32,7 @@ export async function buildJsCoverageDescriptionV110DomainSpatialDomainGenerated
         jsCoverageDescriptionV110DomainSpatialDomain.useEPSGAxis = dotNetObject.useEPSGAxis;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV110DomainSpatialDomain);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110DomainSpatialDomain;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110DomainSpatialDomain;
     
     return jsCoverageDescriptionV110DomainSpatialDomain;

@@ -29,8 +29,7 @@ export async function buildJsCameraGenerated(dotNetObject: any, layerId: string 
     }
     let jsCamera = new Camera(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCamera);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCamera;
     arcGisObjectRefs[dotNetObject.id] = jsCamera;
     
     return jsCamera;

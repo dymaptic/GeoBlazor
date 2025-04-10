@@ -17,8 +17,7 @@ export async function buildJsOpacityRampElementGenerated(dotNetObject: any, laye
         jsOpacityRampElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOpacityRampElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOpacityRampElement;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampElement;
     
     return jsOpacityRampElement;

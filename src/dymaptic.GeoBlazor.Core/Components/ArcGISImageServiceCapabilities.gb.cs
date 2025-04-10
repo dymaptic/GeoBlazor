@@ -341,7 +341,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
                 if (mensuration != Mensuration)
                 {
                     Mensuration = mensuration;
-                    
                     ModifiedParameters[nameof(Mensuration)] = Mensuration;
                 }
                 
@@ -350,7 +349,6 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
                 if (operations != Operations)
                 {
                     Operations = operations;
-                    
                     ModifiedParameters[nameof(Operations)] = Operations;
                 }
                 
@@ -367,12 +365,10 @@ public partial class ArcGISImageServiceCapabilities : MapComponent
         {
             case ArcGISImageServiceCapabilitiesMensuration _:
                 Mensuration = null;
-                
                 ModifiedParameters[nameof(Mensuration)] = Mensuration;
                 return true;
             case ArcGISImageServiceCapabilitiesOperations _:
                 Operations = null;
-                
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;
             default:

@@ -1248,8 +1248,11 @@ public partial class WebTileLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1257,8 +1260,11 @@ public partial class WebTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1274,13 +1280,19 @@ public partial class WebTileLayer : IBlendLayer,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

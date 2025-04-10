@@ -24,7 +24,11 @@ public partial class BasemapGalleryWidget : Widget
                 if (!src.Equals(Source))
                 {
                     Source = src;
-                    WidgetChanged = MapRendered;
+
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
 
                 break;
@@ -42,7 +46,7 @@ public partial class BasemapGalleryWidget : Widget
         {
             case IBasemapGalleryWidgetSource _:
                 Source = null;
-                WidgetChanged = MapRendered;
+                
 
                 break;
             default:

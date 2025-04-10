@@ -18,8 +18,7 @@ export async function buildJsLayerListViewModelTriggerActionEventGenerated(dotNe
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListViewModelTriggerActionEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListViewModelTriggerActionEvent;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListViewModelTriggerActionEvent;
     
     return jsLayerListViewModelTriggerActionEvent;

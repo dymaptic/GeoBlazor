@@ -21,8 +21,7 @@ export async function buildJsRangeDomainGenerated(dotNetObject: any, layerId: st
     }
     let jsRangeDomain = new RangeDomain(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRangeDomain);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRangeDomain;
     arcGisObjectRefs[dotNetObject.id] = jsRangeDomain;
     
     return jsRangeDomain;

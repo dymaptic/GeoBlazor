@@ -193,7 +193,6 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
                 if (!ColorRamps.Contains(colorRamps))
                 {
                     ColorRamps = [..ColorRamps, colorRamps];
-                    
                     ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
                 }
                 
@@ -210,7 +209,6 @@ public partial class MultipartColorRamp : IColorRampServiceCreateColorRamp
         {
             case AlgorithmicColorRamp colorRamps:
                 ColorRamps = ColorRamps?.Where(c => c != colorRamps).ToList();
-                
                 ModifiedParameters[nameof(ColorRamps)] = ColorRamps;
                 return true;
             default:

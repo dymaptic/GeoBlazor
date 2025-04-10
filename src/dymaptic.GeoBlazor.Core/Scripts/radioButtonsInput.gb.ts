@@ -18,8 +18,7 @@ export async function buildJsRadioButtonsInputGenerated(dotNetObject: any, layer
     }
     let jsRadioButtonsInput = new RadioButtonsInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRadioButtonsInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRadioButtonsInput;
     arcGisObjectRefs[dotNetObject.id] = jsRadioButtonsInput;
     
     return jsRadioButtonsInput;

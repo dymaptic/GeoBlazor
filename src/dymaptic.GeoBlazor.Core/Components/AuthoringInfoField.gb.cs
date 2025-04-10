@@ -466,7 +466,6 @@ public partial class AuthoringInfoField
                 if (!ClassBreakInfos.Contains(classBreakInfos))
                 {
                     ClassBreakInfos = [..ClassBreakInfos, classBreakInfos];
-                    
                     ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
                 }
                 
@@ -483,7 +482,6 @@ public partial class AuthoringInfoField
         {
             case AuthoringInfoField1ClassBreakInfos classBreakInfos:
                 ClassBreakInfos = ClassBreakInfos?.Where(c => c != classBreakInfos).ToList();
-                
                 ModifiedParameters[nameof(ClassBreakInfos)] = ClassBreakInfos;
                 return true;
             default:

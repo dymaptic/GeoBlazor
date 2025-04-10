@@ -37,8 +37,7 @@ export async function buildJsCapabilitiesEditingGenerated(dotNetObject: any): Pr
         jsCapabilitiesEditing.supportsUploadWithItemId = dotNetObject.supportsUploadWithItemId;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesEditing);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesEditing;
     
     return jsCapabilitiesEditing;

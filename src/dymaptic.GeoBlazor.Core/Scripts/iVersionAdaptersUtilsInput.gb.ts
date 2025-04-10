@@ -10,8 +10,7 @@ export async function buildJsIVersionAdaptersUtilsInputGenerated(dotNetObject: a
     let jsVersionAdaptersUtilsInput: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVersionAdaptersUtilsInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVersionAdaptersUtilsInput;
     arcGisObjectRefs[dotNetObject.id] = jsVersionAdaptersUtilsInput;
     
     return jsVersionAdaptersUtilsInput;

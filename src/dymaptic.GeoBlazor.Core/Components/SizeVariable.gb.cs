@@ -1056,7 +1056,6 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
-                    
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
                 
@@ -1073,7 +1072,6 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
         {
             case SizeStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
-                
                 ModifiedParameters[nameof(Stops)] = Stops;
                 return true;
             default:

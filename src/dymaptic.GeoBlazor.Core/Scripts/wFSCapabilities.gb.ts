@@ -18,8 +18,7 @@ export async function buildJsWFSCapabilitiesGenerated(dotNetObject: any): Promis
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWFSCapabilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWFSCapabilities;
     arcGisObjectRefs[dotNetObject.id] = jsWFSCapabilities;
     
     return jsWFSCapabilities;

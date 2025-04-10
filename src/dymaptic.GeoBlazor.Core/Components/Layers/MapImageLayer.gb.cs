@@ -2695,8 +2695,11 @@ public partial class MapImageLayer : IArcGISMapService,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2704,8 +2707,11 @@ public partial class MapImageLayer : IArcGISMapService,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2721,13 +2727,19 @@ public partial class MapImageLayer : IArcGISMapService,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

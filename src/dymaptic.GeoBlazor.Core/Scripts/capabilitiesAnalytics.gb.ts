@@ -13,8 +13,7 @@ export async function buildJsCapabilitiesAnalyticsGenerated(dotNetObject: any): 
         jsCapabilitiesAnalytics.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesAnalytics);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesAnalytics;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAnalytics;
     
     return jsCapabilitiesAnalytics;

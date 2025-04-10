@@ -64,8 +64,7 @@ export async function buildJsArcGISImageServiceCapabilitiesOperationsGenerated(d
         jsArcGISImageServiceCapabilitiesOperations.supportsQueryGPSInfo = dotNetObject.supportsQueryGPSInfo;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageServiceCapabilitiesOperations);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageServiceCapabilitiesOperations;
     
     return jsArcGISImageServiceCapabilitiesOperations;

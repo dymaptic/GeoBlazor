@@ -24,8 +24,7 @@ export async function buildJsRasterIdentifyResultGenerated(dotNetObject: any, la
         jsRasterIdentifyResult.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterIdentifyResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterIdentifyResult;
     arcGisObjectRefs[dotNetObject.id] = jsRasterIdentifyResult;
     
     return jsRasterIdentifyResult;

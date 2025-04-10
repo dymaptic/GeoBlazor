@@ -57,8 +57,7 @@ export async function buildJsImageIdentifyParametersGenerated(dotNetObject: any,
     }
     let jsImageIdentifyParameters = new ImageIdentifyParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageIdentifyParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageIdentifyParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageIdentifyParameters;
     
     return jsImageIdentifyParameters;

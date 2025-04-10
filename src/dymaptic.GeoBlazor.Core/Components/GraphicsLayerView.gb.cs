@@ -177,7 +177,6 @@ public partial class GraphicsLayerView : LayerView,
                 if (highlightOptions != HighlightOptions)
                 {
                     HighlightOptions = highlightOptions;
-                    
                     ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 }
                 
@@ -194,7 +193,6 @@ public partial class GraphicsLayerView : LayerView,
         {
             case HighlightOptions _:
                 HighlightOptions = null;
-                
                 ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 return true;
             default:

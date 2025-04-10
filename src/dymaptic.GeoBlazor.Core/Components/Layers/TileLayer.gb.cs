@@ -2038,8 +2038,11 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2048,8 +2051,11 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (!Subtables.Contains(subtables))
                 {
                     Subtables = [..Subtables, subtables];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Subtables)] = Subtables;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2065,13 +2071,13 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+
                 return true;
             case Sublayer subtables:
                 Subtables = Subtables?.Where(s => s != subtables).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Subtables)] = Subtables;
+
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

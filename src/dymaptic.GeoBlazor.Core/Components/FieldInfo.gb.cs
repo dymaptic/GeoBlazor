@@ -661,7 +661,6 @@ public partial class FieldInfo
                 if (format != Format)
                 {
                     Format = format;
-                    
                     ModifiedParameters[nameof(Format)] = Format;
                 }
                 
@@ -678,7 +677,6 @@ public partial class FieldInfo
         {
             case FieldInfoFormat _:
                 Format = null;
-                
                 ModifiedParameters[nameof(Format)] = Format;
                 return true;
             default:

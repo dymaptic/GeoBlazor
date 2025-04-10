@@ -26,8 +26,7 @@ export async function buildJsSuggestResponseGenerated(dotNetObject: any, layerId
         jsSuggestResponse.searchTerm = dotNetObject.searchTerm;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSuggestResponse);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSuggestResponse;
     arcGisObjectRefs[dotNetObject.id] = jsSuggestResponse;
     
     return jsSuggestResponse;

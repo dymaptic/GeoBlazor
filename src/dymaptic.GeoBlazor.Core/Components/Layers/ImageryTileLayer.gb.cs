@@ -827,7 +827,7 @@ public partial class ImageryTileLayer : IBlendLayer,
 
         // get the property value
         object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "objectSource");
+            CancellationTokenSource.Token, "source");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1903,7 +1903,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectSource", value);
+            JsComponentReference, "source", value);
     }
     
     /// <summary>
@@ -2651,8 +2651,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2660,8 +2663,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (pixelDataSource != PixelDataSource)
                 {
                     PixelDataSource = pixelDataSource;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2669,8 +2675,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2678,8 +2687,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2687,8 +2699,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2704,28 +2719,43 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case PixelData _:
                 PixelDataSource = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

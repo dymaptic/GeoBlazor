@@ -284,7 +284,6 @@ public partial class UniqueValueGroup : MapComponent
                 if (!Classes.Contains(classes))
                 {
                     Classes = [..Classes, classes];
-                    
                     ModifiedParameters[nameof(Classes)] = Classes;
                 }
                 
@@ -301,7 +300,6 @@ public partial class UniqueValueGroup : MapComponent
         {
             case UniqueValueClass classes:
                 Classes = Classes?.Where(c => c != classes).ToList();
-                
                 ModifiedParameters[nameof(Classes)] = Classes;
                 return true;
             default:

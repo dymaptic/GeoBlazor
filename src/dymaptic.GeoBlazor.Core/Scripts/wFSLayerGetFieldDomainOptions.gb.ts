@@ -14,8 +14,7 @@ export async function buildJsWFSLayerGetFieldDomainOptionsGenerated(dotNetObject
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWFSLayerGetFieldDomainOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWFSLayerGetFieldDomainOptions;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerGetFieldDomainOptions;
     
     return jsWFSLayerGetFieldDomainOptions;

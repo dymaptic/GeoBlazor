@@ -195,7 +195,6 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     bookmarksViewModelWrapper.viewId = viewId;
     bookmarksViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(bookmarksViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = bookmarksViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksViewModel;
     

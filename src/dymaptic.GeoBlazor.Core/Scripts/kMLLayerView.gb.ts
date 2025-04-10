@@ -101,7 +101,6 @@ export async function buildJsKMLLayerViewGenerated(dotNetObject: any, layerId: s
     kMLLayerViewWrapper.viewId = viewId;
     kMLLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(kMLLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = kMLLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayerView;
     

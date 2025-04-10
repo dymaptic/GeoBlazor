@@ -18,7 +18,10 @@ public partial class WCSLayer : Layer
                 if (!MultidimensionalDefinition.Contains(dimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, dimensionalDefinition];
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 break;
 
@@ -36,7 +39,7 @@ public partial class WCSLayer : Layer
 
             case DimensionalDefinition dimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Except([dimensionalDefinition]).ToList();
-                LayerChanged = MapRendered;
+                
                 break;
 
             default:

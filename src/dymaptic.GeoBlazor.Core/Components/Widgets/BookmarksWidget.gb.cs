@@ -1151,8 +1151,11 @@ public partial class BookmarksWidget : IGoTo
                 if (!Bookmarks.Contains(bookmarks))
                 {
                     Bookmarks = [..Bookmarks, bookmarks];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1160,8 +1163,11 @@ public partial class BookmarksWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1169,8 +1175,11 @@ public partial class BookmarksWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1186,18 +1195,27 @@ public partial class BookmarksWidget : IGoTo
         {
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case BookmarksViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case BookmarksVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

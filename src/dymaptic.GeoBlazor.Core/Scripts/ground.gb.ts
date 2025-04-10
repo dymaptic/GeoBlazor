@@ -55,16 +55,18 @@ export default class GroundGenerated implements IPropertyWrapper {
 
     async queryElevation(geometry: any,
         options: any): Promise<any> {
-        let jsGeometry: any; 
-        if (!Pro) return null;
-            try {
-            // @ts-ignore GeoBlazor Pro only
-            let { buildJsGeometry } = await import('./geometry');
-            // @ts-ignore GeoBlazor Pro only
-            jsGeometry = buildJsGeometry(geometry) as any;
-        } catch (e) {
-            console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+        let jsGeometry: any;
+        if (!Pro) {
             jsGeometry = null;
+        } else {
+            try {
+                // @ts-ignore GeoBlazor Pro only
+                let { buildJsGeometry } = await import('./geometry');
+                jsGeometry = buildJsGeometry(geometry) as any;
+            } catch (e) {
+                console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
+                jsGeometry = null;
+            }
         }
         return await this.component.queryElevation(jsGeometry,
             options);
@@ -154,7 +156,6 @@ export async function buildJsGroundGenerated(dotNetObject: any, layerId: string 
     groundWrapper.viewId = viewId;
     groundWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(groundWrapper);
     jsObjectRefs[dotNetObject.id] = groundWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGround;
     

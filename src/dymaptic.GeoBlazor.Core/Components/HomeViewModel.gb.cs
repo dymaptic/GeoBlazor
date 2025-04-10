@@ -274,7 +274,6 @@ public partial class HomeViewModel : IGoTo
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -291,7 +290,6 @@ public partial class HomeViewModel : IGoTo
         {
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

@@ -24,8 +24,7 @@ export async function buildJsExpandViewModelGenerated(dotNetObject: any, layerId
     }
     let jsExpandViewModel = new ExpandViewModel(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsExpandViewModel);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsExpandViewModel;
     arcGisObjectRefs[dotNetObject.id] = jsExpandViewModel;
     
     return jsExpandViewModel;

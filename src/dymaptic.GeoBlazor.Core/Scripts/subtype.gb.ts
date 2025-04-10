@@ -25,8 +25,7 @@ export async function buildJsSubtypeGenerated(dotNetObject: any): Promise<any> {
     }
     let jsSubtype = new Subtype(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSubtype);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSubtype;
     arcGisObjectRefs[dotNetObject.id] = jsSubtype;
     
     return jsSubtype;

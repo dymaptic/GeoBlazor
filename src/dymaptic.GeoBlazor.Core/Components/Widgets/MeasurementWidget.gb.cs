@@ -538,8 +538,11 @@ public partial class MeasurementWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -555,8 +558,11 @@ public partial class MeasurementWidget
         {
             case MeasurementViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

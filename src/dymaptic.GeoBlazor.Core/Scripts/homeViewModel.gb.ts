@@ -113,7 +113,6 @@ export async function buildJsHomeViewModelGenerated(dotNetObject: any, layerId: 
     homeViewModelWrapper.viewId = viewId;
     homeViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(homeViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = homeViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHomeViewModel;
     

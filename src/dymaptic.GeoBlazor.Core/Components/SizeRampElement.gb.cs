@@ -148,7 +148,7 @@ public partial class SizeRampElement : MapComponent,
 
         // get the property value
         RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
-            CancellationTokenSource.Token, "rampTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -187,7 +187,7 @@ public partial class SizeRampElement : MapComponent,
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringTitle");
+            CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -285,7 +285,7 @@ public partial class SizeRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "rampTitle", value);
+            JsComponentReference, "title", value);
     }
     
     /// <summary>
@@ -322,7 +322,7 @@ public partial class SizeRampElement : MapComponent,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringTitle", value);
+            JsComponentReference, "title", value);
     }
     
 #endregion
@@ -376,7 +376,6 @@ public partial class SizeRampElement : MapComponent,
                 if (!Infos.Contains(infos))
                 {
                     Infos = [..Infos, infos];
-                    
                     ModifiedParameters[nameof(Infos)] = Infos;
                 }
                 
@@ -393,7 +392,6 @@ public partial class SizeRampElement : MapComponent,
         {
             case SizeRampStop infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
-                
                 ModifiedParameters[nameof(Infos)] = Infos;
                 return true;
             default:

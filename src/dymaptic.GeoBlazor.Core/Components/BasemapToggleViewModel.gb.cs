@@ -294,7 +294,6 @@ public partial class BasemapToggleViewModel : MapComponent
                 if (nextBasemap != NextBasemap)
                 {
                     NextBasemap = nextBasemap;
-                    
                     ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
                 }
                 
@@ -311,7 +310,6 @@ public partial class BasemapToggleViewModel : MapComponent
         {
             case Basemap _:
                 NextBasemap = null;
-                
                 ModifiedParameters[nameof(NextBasemap)] = NextBasemap;
                 return true;
             default:

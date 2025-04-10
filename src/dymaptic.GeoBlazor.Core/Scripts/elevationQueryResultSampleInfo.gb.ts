@@ -16,8 +16,7 @@ export async function buildJsElevationQueryResultSampleInfoGenerated(dotNetObjec
         jsElevationQueryResultSampleInfo.source = dotNetObject.source;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsElevationQueryResultSampleInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsElevationQueryResultSampleInfo;
     arcGisObjectRefs[dotNetObject.id] = jsElevationQueryResultSampleInfo;
     
     return jsElevationQueryResultSampleInfo;

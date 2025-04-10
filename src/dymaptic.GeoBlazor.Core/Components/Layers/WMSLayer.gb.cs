@@ -3169,8 +3169,11 @@ public partial class WMSLayer : Layer,
                 if (!FullExtents.Contains(fullExtents))
                 {
                     FullExtents = [..FullExtents, fullExtents];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FullExtents)] = FullExtents;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3178,8 +3181,11 @@ public partial class WMSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3187,8 +3193,11 @@ public partial class WMSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3196,8 +3205,11 @@ public partial class WMSLayer : Layer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3205,8 +3217,11 @@ public partial class WMSLayer : Layer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3214,8 +3229,11 @@ public partial class WMSLayer : Layer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3231,33 +3249,51 @@ public partial class WMSLayer : Layer,
         {
             case Extent fullExtents:
                 FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FullExtents)] = FullExtents;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

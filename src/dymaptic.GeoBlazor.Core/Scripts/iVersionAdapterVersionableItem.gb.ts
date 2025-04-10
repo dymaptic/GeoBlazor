@@ -10,8 +10,7 @@ export async function buildJsIVersionAdapterVersionableItemGenerated(dotNetObjec
     let jsVersionAdapterVersionableItem: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVersionAdapterVersionableItem);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVersionAdapterVersionableItem;
     arcGisObjectRefs[dotNetObject.id] = jsVersionAdapterVersionableItem;
     
     return jsVersionAdapterVersionableItem;

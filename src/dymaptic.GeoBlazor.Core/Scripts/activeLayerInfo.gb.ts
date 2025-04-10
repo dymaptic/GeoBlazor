@@ -53,8 +53,7 @@ export async function buildJsActiveLayerInfoGenerated(dotNetObject: any, layerId
     }
     let jsActiveLayerInfo = new ActiveLayerInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsActiveLayerInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     arcGisObjectRefs[dotNetObject.id] = jsActiveLayerInfo;
     
     return jsActiveLayerInfo;

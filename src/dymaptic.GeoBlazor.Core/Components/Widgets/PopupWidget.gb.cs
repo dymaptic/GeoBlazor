@@ -942,7 +942,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringContent");
+            CancellationTokenSource.Token, "content");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1473,7 +1473,7 @@ public partial class PopupWidget : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "htmlContent", value);
+            JsComponentReference, "content", value);
     }
     
     /// <summary>
@@ -1629,7 +1629,7 @@ public partial class PopupWidget : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringContent", value);
+            JsComponentReference, "content", value);
     }
     
     /// <summary>
@@ -1966,8 +1966,11 @@ public partial class PopupWidget : IGoTo
                 if (dockOptions != DockOptions)
                 {
                     DockOptions = dockOptions;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1976,8 +1979,11 @@ public partial class PopupWidget : IGoTo
                 if (!Features.Contains(features))
                 {
                     Features = [..Features, features];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Features)] = Features;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1985,8 +1991,11 @@ public partial class PopupWidget : IGoTo
                 if (location != Location)
                 {
                     Location = location;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Location)] = Location;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1994,8 +2003,11 @@ public partial class PopupWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2003,8 +2015,11 @@ public partial class PopupWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2012,8 +2027,11 @@ public partial class PopupWidget : IGoTo
                 if (widgetContent != WidgetContent)
                 {
                     WidgetContent = widgetContent;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2029,33 +2047,51 @@ public partial class PopupWidget : IGoTo
         {
             case PopupDockOptions _:
                 DockOptions = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Features)] = Features;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case Point _:
                 Location = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Location)] = Location;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case Widget _:
                 WidgetContent = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

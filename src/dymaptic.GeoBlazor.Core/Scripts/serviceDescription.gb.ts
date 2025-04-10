@@ -21,8 +21,7 @@ export async function buildJsServiceDescriptionGenerated(dotNetObject: any, laye
         jsServiceDescription.currentVersion = dotNetObject.currentVersion;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsServiceDescription);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsServiceDescription;
     arcGisObjectRefs[dotNetObject.id] = jsServiceDescription;
     
     return jsServiceDescription;

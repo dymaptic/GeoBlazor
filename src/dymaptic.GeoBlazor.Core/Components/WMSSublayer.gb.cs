@@ -1215,7 +1215,7 @@ public partial class WMSSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMSSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion
@@ -1268,7 +1268,6 @@ public partial class WMSSublayer : MapComponent
                 if (fullExtent != FullExtent)
                 {
                     FullExtent = fullExtent;
-                    
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
                 
@@ -1278,7 +1277,6 @@ public partial class WMSSublayer : MapComponent
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
-                    
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 }
                 
@@ -1295,12 +1293,10 @@ public partial class WMSSublayer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;
             case WMSSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 return true;
             default:

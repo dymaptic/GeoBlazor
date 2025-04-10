@@ -3676,8 +3676,11 @@ public partial class WFSLayer : Layer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3685,8 +3688,11 @@ public partial class WFSLayer : Layer,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3695,8 +3701,11 @@ public partial class WFSLayer : Layer,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3705,8 +3714,11 @@ public partial class WFSLayer : Layer,
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3715,8 +3727,11 @@ public partial class WFSLayer : Layer,
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3724,8 +3739,11 @@ public partial class WFSLayer : Layer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3733,8 +3751,11 @@ public partial class WFSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3742,8 +3763,11 @@ public partial class WFSLayer : Layer,
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3751,8 +3775,11 @@ public partial class WFSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3760,8 +3787,11 @@ public partial class WFSLayer : Layer,
                 if (wfsCapabilities != WfsCapabilities)
                 {
                     WfsCapabilities = wfsCapabilities;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3777,53 +3807,83 @@ public partial class WFSLayer : Layer,
         {
             case WFSLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case OrderedLayerOrderBy orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case Renderer _:
                 Renderer = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             case WFSCapabilities _:
                 WfsCapabilities = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

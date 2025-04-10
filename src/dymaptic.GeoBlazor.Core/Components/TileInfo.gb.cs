@@ -770,7 +770,6 @@ public partial class TileInfo
                 if (!Lods.Contains(lods))
                 {
                     Lods = [..Lods, lods];
-                    
                     ModifiedParameters[nameof(Lods)] = Lods;
                 }
                 
@@ -779,7 +778,6 @@ public partial class TileInfo
                 if (origin != Origin)
                 {
                     Origin = origin;
-                    
                     ModifiedParameters[nameof(Origin)] = Origin;
                 }
                 
@@ -788,7 +786,6 @@ public partial class TileInfo
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -805,17 +802,14 @@ public partial class TileInfo
         {
             case LOD lods:
                 Lods = Lods?.Where(l => l != lods).ToList();
-                
                 ModifiedParameters[nameof(Lods)] = Lods;
                 return true;
             case Point _:
                 Origin = null;
-                
                 ModifiedParameters[nameof(Origin)] = Origin;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             default:

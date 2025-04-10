@@ -20,8 +20,7 @@ export async function buildJsVectorTileOriginGenerated(dotNetObject: any, layerI
         jsVectorTileOrigin.layerIndex = dotNetObject.layerIndex;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVectorTileOrigin);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVectorTileOrigin;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileOrigin;
     
     return jsVectorTileOrigin;

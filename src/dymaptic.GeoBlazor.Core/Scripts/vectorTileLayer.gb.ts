@@ -371,11 +371,11 @@ export async function buildJsVectorTileLayerGenerated(dotNetObject: any, layerId
     vectorTileLayerWrapper.viewId = viewId;
     vectorTileLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = vectorTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(vectorTileLayerWrapper);
         let { buildDotNetVectorTileLayer } = await import('./vectorTileLayer');
         let dnInstantiatedObject = await buildDotNetVectorTileLayer(jsVectorTileLayer);
 

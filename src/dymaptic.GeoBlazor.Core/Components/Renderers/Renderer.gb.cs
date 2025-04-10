@@ -126,7 +126,6 @@ public abstract partial class Renderer
                 if (authoringInfo != AuthoringInfo)
                 {
                     AuthoringInfo = authoringInfo;
-                    
                     ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
                 }
                 
@@ -143,7 +142,6 @@ public abstract partial class Renderer
         {
             case AuthoringInfo _:
                 AuthoringInfo = null;
-                
                 ModifiedParameters[nameof(AuthoringInfo)] = AuthoringInfo;
                 return true;
             default:

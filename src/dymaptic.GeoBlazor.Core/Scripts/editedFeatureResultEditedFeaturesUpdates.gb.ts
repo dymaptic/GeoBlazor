@@ -18,8 +18,7 @@ export async function buildJsEditedFeatureResultEditedFeaturesUpdatesGenerated(d
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsEditedFeatureResultEditedFeaturesUpdates);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsEditedFeatureResultEditedFeaturesUpdates;
     arcGisObjectRefs[dotNetObject.id] = jsEditedFeatureResultEditedFeaturesUpdates;
     
     return jsEditedFeatureResultEditedFeaturesUpdates;

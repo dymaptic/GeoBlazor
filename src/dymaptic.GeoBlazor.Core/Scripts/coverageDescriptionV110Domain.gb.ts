@@ -17,8 +17,7 @@ export async function buildJsCoverageDescriptionV110DomainGenerated(dotNetObject
         jsCoverageDescriptionV110Domain.temporalDomain = dotNetObject.temporalDomain;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV110Domain);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110Domain;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV110Domain;
     
     return jsCoverageDescriptionV110Domain;

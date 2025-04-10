@@ -507,11 +507,11 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     wMSLayerWrapper.viewId = viewId;
     wMSLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
     jsObjectRefs[dotNetObject.id] = wMSLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWMSLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(wMSLayerWrapper);
         let { buildDotNetWMSLayer } = await import('./wMSLayer');
         let dnInstantiatedObject = await buildDotNetWMSLayer(jsWMSLayer);
 

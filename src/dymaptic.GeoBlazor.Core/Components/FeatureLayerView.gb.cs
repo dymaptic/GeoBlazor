@@ -656,7 +656,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
                 
@@ -665,7 +664,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
                 if (filter != Filter)
                 {
                     Filter = filter;
-                    
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
                 
@@ -682,12 +680,10 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         {
             case FeatureEffect _:
                 FeatureEffect = null;
-                
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case FeatureFilter _:
                 Filter = null;
-                
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
             default:

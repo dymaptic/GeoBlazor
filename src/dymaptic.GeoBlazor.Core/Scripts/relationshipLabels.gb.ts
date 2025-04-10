@@ -22,8 +22,7 @@ export async function buildJsRelationshipLabelsGenerated(dotNetObject: any, laye
         jsRelationshipLabels.top = dotNetObject.top;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRelationshipLabels);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRelationshipLabels;
     arcGisObjectRefs[dotNetObject.id] = jsRelationshipLabels;
     
     return jsRelationshipLabels;

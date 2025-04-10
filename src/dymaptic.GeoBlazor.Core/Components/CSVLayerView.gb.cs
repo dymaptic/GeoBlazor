@@ -952,7 +952,6 @@ public partial class CSVLayerView : LayerView,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
                 
@@ -961,7 +960,6 @@ public partial class CSVLayerView : LayerView,
                 if (filter != Filter)
                 {
                     Filter = filter;
-                    
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
                 
@@ -970,7 +968,6 @@ public partial class CSVLayerView : LayerView,
                 if (highlightOptions != HighlightOptions)
                 {
                     HighlightOptions = highlightOptions;
-                    
                     ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 }
                 
@@ -987,17 +984,14 @@ public partial class CSVLayerView : LayerView,
         {
             case FeatureEffect _:
                 FeatureEffect = null;
-                
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case FeatureFilter _:
                 Filter = null;
-                
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
             case HighlightOptions _:
                 HighlightOptions = null;
-                
                 ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 return true;
             default:

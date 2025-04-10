@@ -21,8 +21,7 @@ export async function buildJsSearchSelectResultEventGenerated(dotNetObject: any,
         jsSearchSelectResultEvent.sourceIndex = dotNetObject.sourceIndex;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchSelectResultEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchSelectResultEvent;
     arcGisObjectRefs[dotNetObject.id] = jsSearchSelectResultEvent;
     
     return jsSearchSelectResultEvent;

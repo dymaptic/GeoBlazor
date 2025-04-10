@@ -93,8 +93,7 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     let jsLocatorSearchSource = new LocatorSearchSource(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLocatorSearchSource);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     arcGisObjectRefs[dotNetObject.id] = jsLocatorSearchSource;
     
     return jsLocatorSearchSource;

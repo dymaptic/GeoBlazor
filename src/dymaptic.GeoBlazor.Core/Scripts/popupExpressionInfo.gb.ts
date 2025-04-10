@@ -24,8 +24,7 @@ export async function buildJsPopupExpressionInfoGenerated(dotNetObject: any): Pr
     }
     let jspopupExpressionInfo = new popupExpressionInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jspopupExpressionInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jspopupExpressionInfo;
     arcGisObjectRefs[dotNetObject.id] = jspopupExpressionInfo;
     
     return jspopupExpressionInfo;

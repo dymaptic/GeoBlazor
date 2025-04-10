@@ -623,7 +623,7 @@ public partial class WMTSSublayer : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "wMTSSublayerId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1081,7 +1081,7 @@ public partial class WMTSSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMTSSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion
@@ -1194,7 +1194,6 @@ public partial class WMTSSublayer : MapComponent
                 if (fullExtent != FullExtent)
                 {
                     FullExtent = fullExtent;
-                    
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
                 
@@ -1204,7 +1203,6 @@ public partial class WMTSSublayer : MapComponent
                 if (!Styles.Contains(styles))
                 {
                     Styles = [..Styles, styles];
-                    
                     ModifiedParameters[nameof(Styles)] = Styles;
                 }
                 
@@ -1221,12 +1219,10 @@ public partial class WMTSSublayer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;
             case WMTSStyle styles:
                 Styles = Styles?.Where(s => s != styles).ToList();
-                
                 ModifiedParameters[nameof(Styles)] = Styles;
                 return true;
             default:

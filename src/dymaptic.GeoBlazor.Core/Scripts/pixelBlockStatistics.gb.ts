@@ -19,8 +19,7 @@ export async function buildJsPixelBlockStatisticsGenerated(dotNetObject: any): P
         jsPixelBlockStatistics.noDataValue = dotNetObject.noDataValue;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPixelBlockStatistics);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     arcGisObjectRefs[dotNetObject.id] = jsPixelBlockStatistics;
     
     return jsPixelBlockStatistics;

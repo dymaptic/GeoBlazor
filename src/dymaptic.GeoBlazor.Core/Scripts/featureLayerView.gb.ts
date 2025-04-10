@@ -142,7 +142,6 @@ export async function buildJsFeatureLayerViewGenerated(dotNetObject: any, layerI
     featureLayerViewWrapper.viewId = viewId;
     featureLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(featureLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = featureLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerView;
     

@@ -26,8 +26,7 @@ export async function buildJsPortalQueryResultGenerated(dotNetObject: any, layer
     }
     let jsPortalQueryResult = new PortalQueryResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPortalQueryResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPortalQueryResult;
     arcGisObjectRefs[dotNetObject.id] = jsPortalQueryResult;
     
     return jsPortalQueryResult;

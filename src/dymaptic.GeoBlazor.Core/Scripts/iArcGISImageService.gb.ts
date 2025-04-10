@@ -90,8 +90,7 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         jsArcGISImageService.url = dotNetObject.url;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsArcGISImageService);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsArcGISImageService;
     arcGisObjectRefs[dotNetObject.id] = jsArcGISImageService;
     
     return jsArcGISImageService;
@@ -128,6 +127,11 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     if (hasValue(jsObject.mosaicRule)) {
         let { buildDotNetMosaicRule } = await import('./mosaicRule');
         dotNetIArcGISImageService.mosaicRule = await buildDotNetMosaicRule(jsObject.mosaicRule);
+    }
+    
+    if (hasValue(jsObject.multidimensionalInfo)) {
+        let { buildDotNetRasterMultidimensionalInfo } = await import('./rasterMultidimensionalInfo');
+        dotNetIArcGISImageService.multidimensionalInfo = await buildDotNetRasterMultidimensionalInfo(jsObject.multidimensionalInfo);
     }
     
     if (hasValue(jsObject.multidimensionalSubset)) {
@@ -188,10 +192,6 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.interpolation)) {
         dotNetIArcGISImageService.interpolation = removeCircularReferences(jsObject.interpolation);
-    }
-    
-    if (hasValue(jsObject.multidimensionalInfo)) {
-        dotNetIArcGISImageService.multidimensionalInfo = removeCircularReferences(jsObject.multidimensionalInfo);
     }
     
     if (hasValue(jsObject.noData)) {

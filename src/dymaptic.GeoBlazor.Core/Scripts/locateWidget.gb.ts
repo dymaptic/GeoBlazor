@@ -236,11 +236,11 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     locateWidgetWrapper.viewId = viewId;
     locateWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = locateWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsLocate;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(locateWidgetWrapper);
         let { buildDotNetLocateWidget } = await import('./locateWidget');
         let dnInstantiatedObject = await buildDotNetLocateWidget(jsLocate);
 

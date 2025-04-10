@@ -19,8 +19,7 @@ export async function buildJsLineSymbolGenerated(dotNetObject: any, layerId: str
     }
     let jsLineSymbol = new LineSymbol(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLineSymbol);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLineSymbol;
     arcGisObjectRefs[dotNetObject.id] = jsLineSymbol;
     
     return jsLineSymbol;

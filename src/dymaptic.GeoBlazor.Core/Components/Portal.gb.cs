@@ -2765,7 +2765,7 @@ public partial class Portal
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "portalId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -5129,7 +5129,7 @@ public partial class Portal
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "portalId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -6050,7 +6050,6 @@ public partial class Portal
                 if (defaultExtent != DefaultExtent)
                 {
                     DefaultExtent = defaultExtent;
-                    
                     ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
                 }
                 
@@ -6060,7 +6059,6 @@ public partial class Portal
                 if (!FeaturedGroups.Contains(featuredGroups))
                 {
                     FeaturedGroups = [..FeaturedGroups, featuredGroups];
-                    
                     ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
                 }
                 
@@ -6069,7 +6067,6 @@ public partial class Portal
                 if (user != User)
                 {
                     User = user;
-                    
                     ModifiedParameters[nameof(User)] = User;
                 }
                 
@@ -6086,17 +6083,14 @@ public partial class Portal
         {
             case Extent _:
                 DefaultExtent = null;
-                
                 ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
                 return true;
             case PortalFeaturedGroups featuredGroups:
                 FeaturedGroups = FeaturedGroups?.Where(f => f != featuredGroups).ToList();
-                
                 ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
                 return true;
             case PortalUser _:
                 User = null;
-                
                 ModifiedParameters[nameof(User)] = User;
                 return true;
             default:

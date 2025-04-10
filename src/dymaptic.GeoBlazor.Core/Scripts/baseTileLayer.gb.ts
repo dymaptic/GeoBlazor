@@ -280,11 +280,11 @@ export async function buildJsBaseTileLayerGenerated(dotNetObject: any, layerId: 
             baseTileLayerWrapper.viewId = viewId;
             baseTileLayerWrapper.layerId = layerId;
     
-            let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
             jsObjectRefs[dotNetObject.id] = baseTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsBaseTileLayer;
     
             try {
+                let jsObjectRef = DotNet.createJSObjectReference(baseTileLayerWrapper);
                 let { buildDotNetBaseTileLayer } = await import('./baseTileLayer');
                 let dnInstantiatedObject = await buildDotNetBaseTileLayer(jsBaseTileLayer);
 

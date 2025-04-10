@@ -285,7 +285,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "boolBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>
@@ -367,7 +367,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupDockOptionsBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>
@@ -419,7 +419,6 @@ public partial class PopupDockOptions
                 if (popupDockOptionsBreakpoint != PopupDockOptionsBreakpoint)
                 {
                     PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
-                    
                     ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
                 }
                 
@@ -436,7 +435,6 @@ public partial class PopupDockOptions
         {
             case PopupDockOptionsBreakpoint _:
                 PopupDockOptionsBreakpoint = null;
-                
                 ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
                 return true;
             default:

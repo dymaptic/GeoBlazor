@@ -1537,7 +1537,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (backgroundFillSymbol != BackgroundFillSymbol)
                 {
                     BackgroundFillSymbol = backgroundFillSymbol;
-                    
                     ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 }
                 
@@ -1546,7 +1545,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (defaultSymbol != DefaultSymbol)
                 {
                     DefaultSymbol = defaultSymbol;
-                    
                     ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 }
                 
@@ -1555,7 +1553,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (legendOptions != LegendOptions)
                 {
                     LegendOptions = legendOptions;
-                    
                     ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 }
                 
@@ -1565,7 +1562,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueGroups.Contains(uniqueValueGroups))
                 {
                     UniqueValueGroups = [..UniqueValueGroups, uniqueValueGroups];
-                    
                     ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 }
                 
@@ -1575,7 +1571,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueInfos.Contains(uniqueValueInfos))
                 {
                     UniqueValueInfos = [..UniqueValueInfos, uniqueValueInfos];
-                    
                     ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 }
                 
@@ -1585,7 +1580,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
-                    
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
                 
@@ -1602,32 +1596,26 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             case FillSymbol _:
                 BackgroundFillSymbol = null;
-                
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 return true;
             case Symbol _:
                 DefaultSymbol = null;
-                
                 ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 return true;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
-                
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 return true;
             case UniqueValueGroup uniqueValueGroups:
                 UniqueValueGroups = UniqueValueGroups?.Where(u => u != uniqueValueGroups).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 return true;
             case UniqueValueInfo uniqueValueInfos:
                 UniqueValueInfos = UniqueValueInfos?.Where(u => u != uniqueValueInfos).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 return true;
             default:

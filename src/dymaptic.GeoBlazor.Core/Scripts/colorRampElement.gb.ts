@@ -17,8 +17,7 @@ export async function buildJsColorRampElementGenerated(dotNetObject: any, layerI
         jsColorRampElement.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsColorRampElement);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsColorRampElement;
     arcGisObjectRefs[dotNetObject.id] = jsColorRampElement;
     
     return jsColorRampElement;

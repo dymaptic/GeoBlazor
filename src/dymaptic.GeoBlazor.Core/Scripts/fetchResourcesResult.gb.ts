@@ -20,8 +20,7 @@ export async function buildJsFetchResourcesResultGenerated(dotNetObject: any, la
         jsFetchResourcesResult.total = dotNetObject.total;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFetchResourcesResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFetchResourcesResult;
     arcGisObjectRefs[dotNetObject.id] = jsFetchResourcesResult;
     
     return jsFetchResourcesResult;

@@ -166,7 +166,7 @@ public partial class PortalFolder : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "portalFolderId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -331,7 +331,7 @@ public partial class PortalFolder : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "portalFolderId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -383,7 +383,6 @@ public partial class PortalFolder : MapComponent
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -400,7 +399,6 @@ public partial class PortalFolder : MapComponent
         {
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             default:

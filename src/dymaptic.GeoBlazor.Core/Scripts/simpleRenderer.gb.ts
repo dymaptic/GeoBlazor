@@ -27,8 +27,7 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
     }
     let jsSimpleRenderer = new SimpleRenderer(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSimpleRenderer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSimpleRenderer;
     arcGisObjectRefs[dotNetObject.id] = jsSimpleRenderer;
     
     return jsSimpleRenderer;

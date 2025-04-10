@@ -22,8 +22,7 @@ export async function buildJsImagePointResultGenerated(dotNetObject: any, layerI
     }
     let jsImagePointResult = new ImagePointResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImagePointResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImagePointResult;
     arcGisObjectRefs[dotNetObject.id] = jsImagePointResult;
     
     return jsImagePointResult;

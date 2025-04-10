@@ -97,7 +97,6 @@ export async function buildJsAreaMeasurement2DViewModelGenerated(dotNetObject: a
     areaMeasurement2DViewModelWrapper.viewId = viewId;
     areaMeasurement2DViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(areaMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = areaMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsAreaMeasurement2DViewModel;
     

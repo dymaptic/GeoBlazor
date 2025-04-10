@@ -642,11 +642,11 @@ export async function buildJsCSVLayerGenerated(dotNetObject: any, layerId: strin
     cSVLayerWrapper.viewId = viewId;
     cSVLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(cSVLayerWrapper);
         let { buildDotNetCSVLayer } = await import('./cSVLayer');
         let dnInstantiatedObject = await buildDotNetCSVLayer(jsCSVLayer);
 

@@ -36,8 +36,7 @@ export async function buildJsImageDistanceParametersGenerated(dotNetObject: any,
     }
     let jsImageDistanceParameters = new ImageDistanceParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageDistanceParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageDistanceParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageDistanceParameters;
     
     return jsImageDistanceParameters;

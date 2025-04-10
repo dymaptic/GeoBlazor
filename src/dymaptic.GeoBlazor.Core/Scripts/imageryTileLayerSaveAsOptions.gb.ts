@@ -17,8 +17,7 @@ export async function buildJsImageryTileLayerSaveAsOptionsGenerated(dotNetObject
         jsImageryTileLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageryTileLayerSaveAsOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageryTileLayerSaveAsOptions;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayerSaveAsOptions;
     
     return jsImageryTileLayerSaveAsOptions;

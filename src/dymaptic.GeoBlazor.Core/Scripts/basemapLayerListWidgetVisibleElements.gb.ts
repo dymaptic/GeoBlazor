@@ -43,8 +43,7 @@ export async function buildJsBasemapLayerListWidgetVisibleElementsGenerated(dotN
         jsBasemapLayerListVisibleElements.temporaryLayerIndicators = dotNetObject.temporaryLayerIndicators;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBasemapLayerListVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBasemapLayerListVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapLayerListVisibleElements;
     
     return jsBasemapLayerListVisibleElements;

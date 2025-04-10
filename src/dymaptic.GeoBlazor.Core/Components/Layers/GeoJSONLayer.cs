@@ -33,7 +33,10 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
                 if (!reduction.Equals(FeatureReduction))
                 {
                     FeatureReduction = reduction;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -51,7 +54,7 @@ public partial class GeoJSONLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         {
             case IFeatureReduction _:
                 FeatureReduction = null;
-                LayerChanged = MapRendered;
+                
 
                 break;
 

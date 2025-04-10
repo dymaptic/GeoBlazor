@@ -95,7 +95,6 @@ export async function buildJsBasemapToggleViewModelGenerated(dotNetObject: any, 
     basemapToggleViewModelWrapper.viewId = viewId;
     basemapToggleViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(basemapToggleViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = basemapToggleViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleViewModel;
     

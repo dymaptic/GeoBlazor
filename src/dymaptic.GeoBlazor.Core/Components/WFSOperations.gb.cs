@@ -235,7 +235,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "describeFeatureType", value);
+            JsComponentReference, "DescribeFeatureType", value);
     }
     
     /// <summary>
@@ -280,7 +280,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "getCapabilities", value);
+            JsComponentReference, "GetCapabilities", value);
     }
     
     /// <summary>
@@ -325,7 +325,7 @@ public partial class WFSOperations : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "getFeature", value);
+            JsComponentReference, "GetFeature", value);
     }
     
 #endregion
@@ -340,7 +340,6 @@ public partial class WFSOperations : MapComponent
                 if (describeFeatureType != DescribeFeatureType)
                 {
                     DescribeFeatureType = describeFeatureType;
-                    
                     ModifiedParameters[nameof(DescribeFeatureType)] = DescribeFeatureType;
                 }
                 
@@ -349,7 +348,6 @@ public partial class WFSOperations : MapComponent
                 if (getCapabilities != GetCapabilities)
                 {
                     GetCapabilities = getCapabilities;
-                    
                     ModifiedParameters[nameof(GetCapabilities)] = GetCapabilities;
                 }
                 
@@ -358,7 +356,6 @@ public partial class WFSOperations : MapComponent
                 if (getFeature != GetFeature)
                 {
                     GetFeature = getFeature;
-                    
                     ModifiedParameters[nameof(GetFeature)] = GetFeature;
                 }
                 
@@ -375,17 +372,14 @@ public partial class WFSOperations : MapComponent
         {
             case WFSOperationsDescribeFeatureType _:
                 DescribeFeatureType = null;
-                
                 ModifiedParameters[nameof(DescribeFeatureType)] = DescribeFeatureType;
                 return true;
             case WFSOperationsGetCapabilities _:
                 GetCapabilities = null;
-                
                 ModifiedParameters[nameof(GetCapabilities)] = GetCapabilities;
                 return true;
             case WFSOperationsGetFeature _:
                 GetFeature = null;
-                
                 ModifiedParameters[nameof(GetFeature)] = GetFeature;
                 return true;
             default:

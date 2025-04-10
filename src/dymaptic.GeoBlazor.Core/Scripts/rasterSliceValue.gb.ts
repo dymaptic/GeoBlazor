@@ -20,8 +20,7 @@ export async function buildJsRasterSliceValueGenerated(dotNetObject: any, layerI
         jsRasterSliceValue.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterSliceValue);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterSliceValue;
     arcGisObjectRefs[dotNetObject.id] = jsRasterSliceValue;
     
     return jsRasterSliceValue;

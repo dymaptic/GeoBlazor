@@ -5,12 +5,12 @@ namespace dymaptic.GeoBlazor.Core;
 
 public interface IAppValidator
 {
-    public Task ValidateLicense();
+    public ValueTask ValidateLicense();
 }
 
 internal class RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime) : IAppValidator
 {
-    public async Task ValidateLicense()
+    public async ValueTask ValidateLicense()
     {
         // if we've already shown the message or validated, there's no need to check again
         if (_messageShown || _isValidated)

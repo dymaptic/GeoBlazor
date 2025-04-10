@@ -13,8 +13,7 @@ export async function buildJsBasemapToggleVisibleElementsGenerated(dotNetObject:
         jsBasemapToggleVisibleElements.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBasemapToggleVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBasemapToggleVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsBasemapToggleVisibleElements;
     
     return jsBasemapToggleVisibleElements;

@@ -1386,7 +1386,7 @@ public partial class PortalItem
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "portalItemId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -2467,7 +2467,7 @@ public partial class PortalItem
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "portalItemId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -3227,7 +3227,6 @@ public partial class PortalItem
                 if (extent != Extent)
                 {
                     Extent = extent;
-                    
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
                 
@@ -3236,7 +3235,6 @@ public partial class PortalItem
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -3253,12 +3251,10 @@ public partial class PortalItem
         {
             case Extent _:
                 Extent = null;
-                
                 ModifiedParameters[nameof(Extent)] = Extent;
                 return true;
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             default:

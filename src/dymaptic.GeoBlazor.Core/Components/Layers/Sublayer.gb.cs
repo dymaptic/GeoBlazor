@@ -1924,7 +1924,7 @@ public partial class Sublayer
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayerId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -2322,7 +2322,6 @@ public partial class Sublayer
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 }
                 
@@ -2331,7 +2330,6 @@ public partial class Sublayer
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -2340,7 +2338,6 @@ public partial class Sublayer
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    
                     ModifiedParameters[nameof(Renderer)] = Renderer;
                 }
                 
@@ -2349,7 +2346,6 @@ public partial class Sublayer
                 if (source != Source)
                 {
                     Source = source;
-                    
                     ModifiedParameters[nameof(Source)] = Source;
                 }
                 
@@ -2359,7 +2355,6 @@ public partial class Sublayer
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
-                    
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 }
                 
@@ -2376,27 +2371,22 @@ public partial class Sublayer
         {
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Renderer _:
                 Renderer = null;
-                
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             case DynamicLayer _:
                 Source = null;
-                
                 ModifiedParameters[nameof(Source)] = Source;
                 return true;
             case Sublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 return true;
             default:

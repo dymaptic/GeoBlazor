@@ -22,8 +22,7 @@ export async function buildJsImageToMapMultirayParametersGenerated(dotNetObject:
     }
     let jsImageToMapMultirayParameters = new ImageToMapMultirayParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageToMapMultirayParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageToMapMultirayParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageToMapMultirayParameters;
     
     return jsImageToMapMultirayParameters;

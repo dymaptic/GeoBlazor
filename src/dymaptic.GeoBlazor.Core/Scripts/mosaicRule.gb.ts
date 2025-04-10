@@ -52,8 +52,7 @@ export async function buildJsMosaicRuleGenerated(dotNetObject: any): Promise<any
     }
     let jsMosaicRule = new MosaicRule(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMosaicRule);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMosaicRule;
     arcGisObjectRefs[dotNetObject.id] = jsMosaicRule;
     
     return jsMosaicRule;

@@ -14,7 +14,10 @@ public partial class WFSLayer
             if (!reduction.Equals(FeatureReduction))
             {
                FeatureReduction = reduction;
-               LayerChanged = MapRendered;
+               if (MapRendered)
+               {
+                  await UpdateLayer();
+               }
             }
 
             break;
@@ -32,7 +35,8 @@ public partial class WFSLayer
       {
          case IFeatureReduction _:
             FeatureReduction = null;
-            LayerChanged = MapRendered;
+
+            
 
             break;
 

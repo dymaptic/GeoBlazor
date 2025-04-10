@@ -90,7 +90,10 @@ public partial class GraphicsLayer : Layer
 
         if (View is null || !View.MapRendered)
         {
-            LayerChanged = MapRendered;
+            if (MapRendered)
+            {
+                await UpdateLayer();
+            }
             UpdateState();
 
             return;
@@ -400,10 +403,6 @@ public partial class GraphicsLayer : Layer
                     {
                         // object disposed
                     }
-                }
-                else
-                {
-                    LayerChanged = MapRendered;
                 }
 
                 break;

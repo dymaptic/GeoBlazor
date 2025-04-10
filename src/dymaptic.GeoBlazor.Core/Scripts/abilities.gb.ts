@@ -28,8 +28,7 @@ export async function buildJsAbilitiesGenerated(dotNetObject: any, layerId: stri
         jsAbilities.textContent = dotNetObject.textContent;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAbilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAbilities;
     arcGisObjectRefs[dotNetObject.id] = jsAbilities;
     
     return jsAbilities;

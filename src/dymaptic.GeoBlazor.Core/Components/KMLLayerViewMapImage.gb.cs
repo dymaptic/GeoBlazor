@@ -303,7 +303,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "extent", value);
+            JsComponentReference, "Extent", value);
     }
     
     /// <summary>
@@ -377,7 +377,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "kMLLayerViewMapImageId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>
@@ -429,7 +429,6 @@ public partial class KMLLayerViewMapImage : MapComponent
                 if (extent != Extent)
                 {
                     Extent = extent;
-                    
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
                 
@@ -446,7 +445,6 @@ public partial class KMLLayerViewMapImage : MapComponent
         {
             case Extent _:
                 Extent = null;
-                
                 ModifiedParameters[nameof(Extent)] = Extent;
                 return true;
             default:

@@ -463,7 +463,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 if (activeBasemap != ActiveBasemap)
                 {
                     ActiveBasemap = activeBasemap;
-                    
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 }
                 
@@ -473,7 +472,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 if (!Items.Contains(items))
                 {
                     Items = [..Items, items];
-                    
                     ModifiedParameters[nameof(Items)] = Items;
                 }
                 
@@ -490,12 +488,10 @@ public partial class BasemapGalleryViewModel : MapComponent
         {
             case Basemap _:
                 ActiveBasemap = null;
-                
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
             case BasemapGalleryItem items:
                 Items = Items?.Where(i => i != items).ToList();
-                
                 ModifiedParameters[nameof(Items)] = Items;
                 return true;
             default:

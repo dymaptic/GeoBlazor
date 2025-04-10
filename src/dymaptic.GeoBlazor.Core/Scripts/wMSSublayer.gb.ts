@@ -52,8 +52,7 @@ export async function buildJsWMSSublayerGenerated(dotNetObject: any): Promise<an
     }
     let jsWMSSublayer = new WMSSublayer(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWMSSublayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWMSSublayer;
     arcGisObjectRefs[dotNetObject.id] = jsWMSSublayer;
     
     return jsWMSSublayer;

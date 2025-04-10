@@ -16,8 +16,7 @@ export async function buildJsFeatureLayerBaseElevationInfoFeatureExpressionInfoG
         jsFeatureLayerBaseElevationInfoFeatureExpressionInfo.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseElevationInfoFeatureExpressionInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;
     
     return jsFeatureLayerBaseElevationInfoFeatureExpressionInfo;

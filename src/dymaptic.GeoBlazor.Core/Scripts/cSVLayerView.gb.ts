@@ -199,7 +199,6 @@ export async function buildJsCSVLayerViewGenerated(dotNetObject: any, layerId: s
     cSVLayerViewWrapper.viewId = viewId;
     cSVLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(cSVLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = cSVLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerView;
     

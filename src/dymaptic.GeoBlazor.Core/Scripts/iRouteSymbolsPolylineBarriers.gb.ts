@@ -10,8 +10,7 @@ export async function buildJsIRouteSymbolsPolylineBarriersGenerated(dotNetObject
     let jsRouteSymbolsPolylineBarriers: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRouteSymbolsPolylineBarriers);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRouteSymbolsPolylineBarriers;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsPolylineBarriers;
     
     return jsRouteSymbolsPolylineBarriers;

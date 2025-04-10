@@ -13,8 +13,7 @@ export async function buildJsUniqueValueRendererLegendOptionsGenerated(dotNetObj
         jsUniqueValueRendererLegendOptions.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueRendererLegendOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueRendererLegendOptions;
     
     return jsUniqueValueRendererLegendOptions;

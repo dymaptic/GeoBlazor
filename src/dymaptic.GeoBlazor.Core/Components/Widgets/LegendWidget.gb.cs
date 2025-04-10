@@ -580,7 +580,7 @@ public partial class LegendWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringStyle");
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -995,7 +995,7 @@ public partial class LegendWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringStyle", value);
+            JsComponentReference, "style", value);
     }
     
     /// <summary>
@@ -1124,8 +1124,11 @@ public partial class LegendWidget
                 if (!ActiveLayerInfos.Contains(activeLayerInfos))
                 {
                     ActiveLayerInfos = [..ActiveLayerInfos, activeLayerInfos];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1134,8 +1137,11 @@ public partial class LegendWidget
                 if (!LayerInfos.Contains(layerInfos))
                 {
                     LayerInfos = [..LayerInfos, layerInfos];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1143,8 +1149,11 @@ public partial class LegendWidget
                 if (legendStyle != LegendStyle)
                 {
                     LegendStyle = legendStyle;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1152,8 +1161,11 @@ public partial class LegendWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1169,23 +1181,35 @@ public partial class LegendWidget
         {
             case ActiveLayerInfo activeLayerInfos:
                 ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case LegendLayerInfos layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case LegendStyle _:
                 LegendStyle = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             case LegendViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

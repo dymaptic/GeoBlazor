@@ -22,8 +22,7 @@ export async function buildJsGraphicHitGenerated(dotNetObject: any, layerId: str
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGraphicHit);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGraphicHit;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicHit;
     
     return jsGraphicHit;

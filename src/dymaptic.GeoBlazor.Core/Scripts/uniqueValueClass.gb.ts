@@ -23,8 +23,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any): Promi
     }
     let jsUniqueValueClass = new UniqueValueClass(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueClass);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsUniqueValueClass;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueClass;
     
     return jsUniqueValueClass;

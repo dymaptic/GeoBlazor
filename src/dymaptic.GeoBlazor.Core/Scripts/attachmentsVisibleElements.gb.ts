@@ -34,8 +34,7 @@ export async function buildJsAttachmentsVisibleElementsGenerated(dotNetObject: a
         jsAttachmentsVisibleElements.updateButton = dotNetObject.updateButton;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAttachmentsVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsVisibleElements;
     
     return jsAttachmentsVisibleElements;

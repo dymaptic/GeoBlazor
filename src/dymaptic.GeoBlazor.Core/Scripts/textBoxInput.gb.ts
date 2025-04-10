@@ -18,8 +18,7 @@ export async function buildJsTextBoxInputGenerated(dotNetObject: any, layerId: s
     }
     let jsTextBoxInput = new TextBoxInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTextBoxInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTextBoxInput;
     arcGisObjectRefs[dotNetObject.id] = jsTextBoxInput;
     
     return jsTextBoxInput;

@@ -23,8 +23,7 @@ export async function buildJsColorRampStopGenerated(dotNetObject: any, layerId: 
         jsColorRampStop.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsColorRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsColorRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsColorRampStop;
     
     return jsColorRampStop;
