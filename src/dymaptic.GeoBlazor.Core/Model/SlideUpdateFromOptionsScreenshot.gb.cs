@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Screenshot options to use.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideUpdateFromOptionsScreenshot.html">GeoBlazor Docs</a>
+///     Screenshot options to use.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#updateFrom">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Format">
 ///     The image format.

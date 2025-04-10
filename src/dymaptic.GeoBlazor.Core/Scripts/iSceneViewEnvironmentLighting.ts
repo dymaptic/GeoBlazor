@@ -1,7 +1,7 @@
 
-export async function buildJsISceneViewEnvironmentLighting(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsISceneViewEnvironmentLighting(dotNetObject: any): Promise<any> {
     let { buildJsISceneViewEnvironmentLightingGenerated } = await import('./iSceneViewEnvironmentLighting.gb');
-    return await buildJsISceneViewEnvironmentLightingGenerated(dotNetObject, layerId, viewId);
+    return await buildJsISceneViewEnvironmentLightingGenerated(dotNetObject);
 }     
 
 export async function buildDotNetISceneViewEnvironmentLighting(jsObject: any): Promise<any> {

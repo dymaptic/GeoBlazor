@@ -110,7 +110,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        return await buildDotNetWebsceneApplicationProperties(this.component.applicationProperties);
+        return await buildDotNetWebsceneApplicationProperties(this.component.applicationProperties, this.layerId, this.viewId);
     }
     
     async setApplicationProperties(value: any): Promise<void> {
@@ -166,7 +166,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        return await buildDotNetWebsceneInitialViewProperties(this.component.initialViewProperties);
+        return await buildDotNetWebsceneInitialViewProperties(this.component.initialViewProperties, this.layerId, this.viewId);
     }
     
     async setInitialViewProperties(value: any): Promise<void> {
@@ -194,7 +194,7 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetPresentation } = await import('./presentation');
-        return await buildDotNetPresentation(this.component.presentation);
+        return await buildDotNetPresentation(this.component.presentation, this.layerId, this.viewId);
     }
     
     async setPresentation(value: any): Promise<void> {
@@ -301,7 +301,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.applicationProperties)) {
         let { buildDotNetWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        dotNetWebScene.applicationProperties = await buildDotNetWebsceneApplicationProperties(jsObject.applicationProperties);
+        dotNetWebScene.applicationProperties = await buildDotNetWebsceneApplicationProperties(jsObject.applicationProperties, layerId, viewId);
     }
     
     if (hasValue(jsObject.clippingArea)) {
@@ -321,7 +321,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.initialViewProperties)) {
         let { buildDotNetWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        dotNetWebScene.initialViewProperties = await buildDotNetWebsceneInitialViewProperties(jsObject.initialViewProperties);
+        dotNetWebScene.initialViewProperties = await buildDotNetWebsceneInitialViewProperties(jsObject.initialViewProperties, layerId, viewId);
     }
     
     if (hasValue(jsObject.portalItem)) {
@@ -331,7 +331,7 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.presentation)) {
         let { buildDotNetPresentation } = await import('./presentation');
-        dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation);
+        dotNetWebScene.presentation = await buildDotNetPresentation(jsObject.presentation, layerId, viewId);
     }
     
     if (hasValue(jsObject.widgets)) {

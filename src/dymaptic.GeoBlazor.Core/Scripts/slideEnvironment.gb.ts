@@ -25,7 +25,7 @@ export async function buildJsSlideEnvironmentGenerated(dotNetObject: any, layerI
 }
 
 
-export async function buildDotNetSlideEnvironmentGenerated(jsObject: any): Promise<any> {
+export async function buildDotNetSlideEnvironmentGenerated(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     if (!hasValue(jsObject)) {
         return null;
     }
@@ -34,7 +34,7 @@ export async function buildDotNetSlideEnvironmentGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.lighting)) {
         let { buildDotNetWebsceneSunLighting } = await import('./websceneSunLighting');
-        dotNetSlideEnvironment.lighting = await buildDotNetWebsceneSunLighting(jsObject.lighting);
+        dotNetSlideEnvironment.lighting = await buildDotNetWebsceneSunLighting(jsObject.lighting, layerId, viewId);
     }
     
 

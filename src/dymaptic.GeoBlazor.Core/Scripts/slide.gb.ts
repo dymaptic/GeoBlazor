@@ -100,7 +100,7 @@ export default class SlideGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSlideEnvironment } = await import('./slideEnvironment');
-        return await buildDotNetSlideEnvironment(this.component.environment);
+        return await buildDotNetSlideEnvironment(this.component.environment, this.layerId, this.viewId);
     }
     
     async setEnvironment(value: any): Promise<void> {
@@ -234,7 +234,7 @@ export async function buildDotNetSlideGenerated(jsObject: any, layerId: string |
     
     if (hasValue(jsObject.environment)) {
         let { buildDotNetSlideEnvironment } = await import('./slideEnvironment');
-        dotNetSlide.environment = await buildDotNetSlideEnvironment(jsObject.environment);
+        dotNetSlide.environment = await buildDotNetSlideEnvironment(jsObject.environment, layerId, viewId);
     }
     
     if (hasValue(jsObject.ground)) {

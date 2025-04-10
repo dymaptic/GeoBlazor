@@ -10,7 +10,7 @@ export async function buildJsRasterMultidimensionalInfoVariablesGenerated(dotNet
     let jsRasterMultidimensionalInfoVariables: any = {};
     if (hasValue(dotNetObject.histograms) && dotNetObject.histograms.length > 0) {
         let { buildJsRasterHistogram } = await import('./rasterHistogram');
-        jsRasterMultidimensionalInfoVariables.histograms = await Promise.all(dotNetObject.histograms.map(async i => await buildJsRasterHistogram(i, layerId, viewId))) as any;
+        jsRasterMultidimensionalInfoVariables.histograms = dotNetObject.histograms.map(i => buildJsRasterHistogram(i)) as any;
     }
 
     if (hasValue(dotNetObject.description)) {
@@ -45,7 +45,7 @@ export async function buildDotNetRasterMultidimensionalInfoVariablesGenerated(js
     
     if (hasValue(jsObject.histograms)) {
         let { buildDotNetRasterHistogram } = await import('./rasterHistogram');
-        dotNetRasterMultidimensionalInfoVariables.histograms = await Promise.all(jsObject.histograms.map(async i => await buildDotNetRasterHistogram(i)));
+        dotNetRasterMultidimensionalInfoVariables.histograms = jsObject.histograms.map(i => buildDotNetRasterHistogram(i));
     }
     
     if (hasValue(jsObject.description)) {

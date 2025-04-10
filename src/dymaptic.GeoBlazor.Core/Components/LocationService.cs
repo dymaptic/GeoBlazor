@@ -32,7 +32,7 @@ public class LocationService : LogicComponent
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
     [CodeGenerationIgnore]
-public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
+    public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
     }
@@ -317,7 +317,7 @@ public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> add
     /// </summary>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
     [CodeGenerationIgnore]
-public Task<List<AddressCandidate>> AddressToLocations(Address address)
+    public Task<List<AddressCandidate>> AddressToLocations(Address address)
     {
         return AddressToLocations(ESRIGeoLocationUrl, address);
     }

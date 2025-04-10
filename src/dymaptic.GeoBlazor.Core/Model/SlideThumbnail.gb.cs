@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    A data URI encoded thumbnail.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#thumbnail">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideThumbnail.html">GeoBlazor Docs</a>
+///     A data URI encoded thumbnail.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#thumbnail">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Url">
 ///     The URI pointing to the thumbnail image representing the slide.

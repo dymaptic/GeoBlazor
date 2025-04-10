@@ -2,7 +2,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 public partial class BasemapStyle : MapComponent
 {
-/// <summary>
+    /// <summary>
     ///     Parameterless constructor for use as a Razor Component.
     /// </summary>
     [ActivatorUtilitiesConstructor]
@@ -78,4 +78,20 @@ public partial class BasemapStyle : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ServiceUrl { get; set; }
+
+    /// <summary>
+    ///     Asynchronous method to set the service URL after first render.
+    /// </summary>
+    public async Task SetName(BasemapStyleName name)
+    {
+        Name = name;
+        ModifiedParameters[nameof(Name)] = name;
+        if (CoreJsModule is null || Parent is not Basemap basemap)
+        {
+            return;
+        }
+        
+        BasemapStyle newStyle = new(name, Language, Places, ServiceUrl, Worldview);
+        await basemap.SetStyle(newStyle);
+    }
 }

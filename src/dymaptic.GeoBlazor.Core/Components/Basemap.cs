@@ -1,6 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
-public partial class Basemap : MapComponent
+public partial class Basemap : MapComponent, IPortalLayer
 {
     /// <summary>
     ///     A collection of tile layers that make of the basemap's features.

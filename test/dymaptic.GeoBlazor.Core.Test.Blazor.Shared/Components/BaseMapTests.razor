@@ -86,4 +86,65 @@
 
         Assert.IsFalse(imageryTileLayer.Visible);
     }
+    
+    [TestMethod]
+    public async Task TestCanUpdateBasemapStyle(Action renderHandler)
+    {
+        MapView? mapView = null;
+        BasemapStyle? baseMapStyle = null;
+
+        AddMapRenderFragment(
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap>
+                        <BasemapStyle @ref="baseMapStyle" Name="BasemapStyleName.ArcgisDarkGrayBase" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.IsTrue(mapView!.Map!.Basemap!.Style!.Name == baseMapStyle!.Name);
+        await AssertJavaScript("assertBasemapHasStyle", args: baseMapStyle.Name!);
+
+        await baseMapStyle.SetName(BasemapStyleName.ArcgisImagery);
+        await mapView!.Map!.Basemap!.Refresh();
+        await Task.Delay(1000);
+        BasemapStyle? checkedBaseMapStyle = await mapView!.Map!.Basemap!.GetStyle();
+
+        Assert.AreEqual(BasemapStyleName.ArcgisImagery, checkedBaseMapStyle!.Name);
+        await AssertJavaScript("assertBasemapHasStyle", args: BasemapStyleName.ArcgisImagery);
+    }
+
+    [TestMethod]
+    public async Task TestCanUpdateBasemapPortalId(Action renderHandler)
+    {
+        MapView? mapView = null;
+        Basemap? basemap = null;
+        PortalItem? portalItem = null;
+        string portalItemId = "55ebf90799fa4a3fa57562700a68c405";
+
+        AddMapRenderFragment(
+            @<MapView @ref="@mapView" class="map-view" OnViewRendered="renderHandler">
+                <Map>
+                    <Basemap @ref="basemap">
+                        <PortalItem @ref="portalItem" PortalItemId="@portalItemId" />
+                    </Basemap>
+                </Map>
+            </MapView>);
+
+        await WaitForMapToRender();
+
+        Assert.AreEqual(portalItemId, mapView!.Map!.Basemap!.PortalItem!.PortalItemId);
+        await AssertJavaScript("assertBasemapHasPortalItemId", args: portalItemId);
+
+        string newPortalItemId = "9053b6cd38d54e65bb0967f355a232df";
+        await portalItem!.SetPortalItemId(newPortalItemId);
+        // reload the entire portal item, Ids are not updated in place, the entire property is replaced.
+        portalItem = await basemap!.GetPortalItem();
+        string? checkedPortalItemId = await portalItem!.GetPortalItemId();
+
+        Assert.AreEqual(newPortalItemId, checkedPortalItemId);
+        await AssertJavaScript("assertBasemapHasPortalItemId", args: newPortalItemId);
+    }
 }

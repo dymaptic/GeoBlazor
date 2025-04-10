@@ -146,7 +146,7 @@ public partial class PortalItem : MapComponent
         string? ownerFolder = null,
         Portal? portal = null,
         IReadOnlyList<string>? screenshots = null,
-        int? size = null,
+        long? size = null,
         string? snippet = null,
         IReadOnlyList<string>? tags = null,
         string? title = null,
@@ -192,4 +192,53 @@ public partial class PortalItem : MapComponent
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ApiKey { get; set; }
 
+    /// <summary>
+    ///    Asynchronously set the value of the PortalItemId property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPortalItemId(string value)
+    {
+#pragma warning disable BL0005
+        PortalItemId = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PortalItemId)] = value;
+        
+        if (CoreJsModule is null || Parent is null)
+        {
+            return;
+        }
+        
+        PortalItem newPortalItem = new PortalItem(value, Access, AccessInformation,
+            ApiKey, AvgRating, Categories, Created, Culture, Description, Extent,
+            GroupCategories, LicenseInfo, Modified, Name, NumComments, NumRatings,
+            NumViews, Owner, OwnerFolder, Portal, Screenshots, Size, Snippet,
+            Tags, Title, TypeKeywords, Url);
+
+        if (Parent is IPortalLayer layer)
+        {
+            await layer.SetPortalItem(newPortalItem);
+
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "id", value);
+    }
 }

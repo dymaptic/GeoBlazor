@@ -3,8 +3,9 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    The description of the slide.
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#description">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideDescription.html">GeoBlazor Docs</a>
+///     The description of the slide.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#description">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="Text">
 ///     The description.

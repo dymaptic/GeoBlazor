@@ -459,7 +459,7 @@ public abstract partial class Widget : MapComponent
         {
             // for components added after the map has rendered, wait one render cycle to get all children before updating
             _delayedUpdate = true;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
 
             return;
         }

@@ -4,7 +4,7 @@ export async function buildJsApplicationProperties(dotNetObject: any, layerId: s
     return await buildJsApplicationPropertiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetApplicationProperties(jsObject: any): Promise<any> {
+export async function buildDotNetApplicationProperties(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetApplicationPropertiesGenerated } = await import('./applicationProperties.gb');
-    return await buildDotNetApplicationPropertiesGenerated(jsObject);
+    return await buildDotNetApplicationPropertiesGenerated(jsObject, layerId, viewId);
 }

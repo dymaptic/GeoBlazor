@@ -109,7 +109,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetApplicationProperties } = await import('./applicationProperties');
-        return await buildDotNetApplicationProperties(this.component.applicationProperties);
+        return await buildDotNetApplicationProperties(this.component.applicationProperties, this.layerId, this.viewId);
     }
     
     async setApplicationProperties(value: any): Promise<void> {
@@ -165,7 +165,7 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetInitialViewProperties } = await import('./initialViewProperties');
-        return await buildDotNetInitialViewProperties(this.component.initialViewProperties);
+        return await buildDotNetInitialViewProperties(this.component.initialViewProperties, this.layerId, this.viewId);
     }
     
     async setInitialViewProperties(value: any): Promise<void> {
@@ -285,7 +285,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.applicationProperties)) {
         let { buildDotNetApplicationProperties } = await import('./applicationProperties');
-        dotNetWebMap.applicationProperties = await buildDotNetApplicationProperties(jsObject.applicationProperties);
+        dotNetWebMap.applicationProperties = await buildDotNetApplicationProperties(jsObject.applicationProperties, layerId, viewId);
     }
     
     if (hasValue(jsObject.bookmarks)) {
@@ -305,7 +305,7 @@ export async function buildDotNetWebMapGenerated(jsObject: any, layerId: string 
     
     if (hasValue(jsObject.initialViewProperties)) {
         let { buildDotNetInitialViewProperties } = await import('./initialViewProperties');
-        dotNetWebMap.initialViewProperties = await buildDotNetInitialViewProperties(jsObject.initialViewProperties);
+        dotNetWebMap.initialViewProperties = await buildDotNetInitialViewProperties(jsObject.initialViewProperties, layerId, viewId);
     }
     
     if (hasValue(jsObject.portalItem)) {

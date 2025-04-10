@@ -189,7 +189,7 @@ export function getJsComponent(id: string) {
     const component = jsObjectRefs[id];
 
     if (hasValue(component)) {
-        return DotNet.createJSObjectReference(component);
+        return component;
     }
     return null;
 }
@@ -286,18 +286,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         switch (mapType) {
             case 'webmap':
-                let webMap: WebMap;
-                const portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webMap = new WebMap({portalItem: portalItem});
+                let {buildJsWebMap} = await import('./webMap');
+                let webMap = await buildJsWebMap(mapObject, null, id);
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
                 });
                 break;
             case 'webscene':
-                let webScene: WebScene;
-                const scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webScene = new WebScene({portalItem: scenePortalItem});
+                let {buildJsWebScene} = await import('./webScene');
+                let webScene = await buildJsWebScene(mapObject, null, id);
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
