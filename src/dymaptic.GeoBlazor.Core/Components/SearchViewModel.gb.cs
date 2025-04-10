@@ -364,7 +364,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<object>? Results { get; protected set; }
+    public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
     
     /// <summary>
     ///     Indicates whether to display the option to search all sources.
@@ -1232,7 +1232,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
-    public async Task<IReadOnlyList<object>?> GetResults()
+    public async Task<IReadOnlyList<SearchResultResponse>?> GetResults()
     {
         if (CoreJsModule is null)
         {
@@ -1255,7 +1255,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {

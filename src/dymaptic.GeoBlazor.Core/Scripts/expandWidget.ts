@@ -22,13 +22,7 @@ export async function buildJsExpandWidget(dotNetObject: any, layerId: string | n
     }
 
     // remove comment nodes
-    for (let i = 0; i < expandWidgetDiv.childNodes.length; i++) {
-        let childNode = expandWidgetDiv.childNodes[i];
-        if (childNode.nodeType === 8) {
-            expandWidgetDiv.removeChild(childNode);
-            i --;
-        }
-    }
+    expandWidgetDiv.innerHTML = '';
     
     expandWidgetDiv.hidden = false;
     if (hasValue(dotNetObject.htmlContent)) {

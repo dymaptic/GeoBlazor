@@ -725,18 +725,10 @@ public partial class ListItemPanelWidget
             case ListItemPanelContent content:
                 Content = Content?.Where(c => c != content).ToList();
                 ModifiedParameters[nameof(Content)] = Content;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case ListItem _:
                 ListItem = null;
                 ModifiedParameters[nameof(ListItem)] = ListItem;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

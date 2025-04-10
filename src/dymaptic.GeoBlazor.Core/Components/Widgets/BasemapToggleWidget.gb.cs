@@ -406,18 +406,10 @@ public partial class BasemapToggleWidget
             case BasemapToggleViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case BasemapToggleVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

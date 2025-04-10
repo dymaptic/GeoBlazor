@@ -856,18 +856,10 @@ public partial class KMLLayer : IBlendLayer,
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case KMLSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

@@ -832,9 +832,24 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     {
         await base.OnInitializedAsync();
         
-        if (Parent is not null && !_registered && !MapRendered)
+        if (Parent is not null && !_registered)
         {
-            await RegisterWithParent();
+            if (!await Parent.RegisterGeneratedChildComponent(this))
+            {
+                await Parent.RegisterChildComponent(this);
+            }
+            
+            if (Parent is Layer layer)
+            {
+                Layer = layer;
+            }
+            else
+            {
+                Layer ??= Parent.Layer;
+            }
+            
+            View ??= Parent.View;
+            _registered = true;
         }
     }
 
@@ -894,30 +909,6 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
             AbortManager ??= new AbortManager(CoreJsModule);
         }
         IsRenderedBlazorComponent = true;
-        if (!_registered && MapRendered && Parent is not null)
-        {
-            await RegisterWithParent();
-        }
-    }
-
-    private async Task RegisterWithParent()
-    {
-        _registered = true;
-        if (!await Parent!.RegisterGeneratedChildComponent(this))
-        {
-            await Parent.RegisterChildComponent(this);
-        }
-            
-        if (Parent is Layer layer)
-        {
-            Layer = layer;
-        }
-        else
-        {
-            Layer ??= Parent.Layer;
-        }
-            
-        View ??= Parent.View;
     }
 
     /// <summary>

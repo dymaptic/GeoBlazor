@@ -3250,50 +3250,26 @@ public partial class WMSLayer : Layer,
             case Extent fullExtents:
                 FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
                 ModifiedParameters[nameof(FullExtents)] = FullExtents;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

@@ -827,18 +827,10 @@ public partial class BaseTileLayer : IBlendLayer,
             case SpatialReference _:
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

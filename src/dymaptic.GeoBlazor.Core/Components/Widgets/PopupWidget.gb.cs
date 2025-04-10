@@ -2048,50 +2048,26 @@ public partial class PopupWidget : IGoTo
             case PopupDockOptions _:
                 DockOptions = null;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
                 ModifiedParameters[nameof(Features)] = Features;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case Point _:
                 Location = null;
                 ModifiedParameters[nameof(Location)] = Location;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case Widget _:
                 WidgetContent = null;
                 ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

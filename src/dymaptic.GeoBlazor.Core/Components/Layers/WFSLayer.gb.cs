@@ -3808,82 +3808,42 @@ public partial class WFSLayer : Layer,
             case WFSLayerElevationInfo _:
                 ElevationInfo = null;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
                 ModifiedParameters[nameof(Fields)] = Fields;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case OrderedLayerOrderBy orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case Renderer _:
                 Renderer = null;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case WFSCapabilities _:
                 WfsCapabilities = null;
                 ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

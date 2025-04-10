@@ -798,18 +798,10 @@ public partial class LocateWidget : IGoTo
             case Graphic _:
                 Graphic = null;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case LocateViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

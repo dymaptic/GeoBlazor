@@ -269,7 +269,7 @@ public partial class SearchWidget : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public SearchResultResponse? Results { get; protected set; }
+    public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
     
     /// <summary>
     ///     The result selected from a search.
@@ -943,6 +943,45 @@ public partial class SearchWidget : IGoTo
         }
          
         return ResultGraphicEnabled;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Results property.
+    /// </summary>
+    public async Task<IReadOnlyList<SearchResultResponse>?> GetResults()
+    {
+        if (CoreJsModule is null)
+        {
+            return Results;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Results;
+        }
+
+        // get the property value
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
+            CancellationTokenSource.Token, "results");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Results = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Results)] = Results;
+        }
+         
+        return Results;
     }
     
     /// <summary>
@@ -2195,34 +2234,18 @@ public partial class SearchWidget : IGoTo
             case PopupTemplate _:
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case Portal _:
                 Portal = null;
                 ModifiedParameters[nameof(Portal)] = Portal;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
                 ModifiedParameters[nameof(Sources)] = Sources;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case SearchViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

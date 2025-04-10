@@ -2743,66 +2743,34 @@ public partial class WCSLayer : IBlendLayer,
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case Field rasterFields:
                 RasterFields = RasterFields?.Where(r => r != rasterFields).ToList();
                 ModifiedParameters[nameof(RasterFields)] = RasterFields;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

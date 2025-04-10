@@ -2720,42 +2720,22 @@ public partial class ImageryTileLayer : IBlendLayer,
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PixelData _:
                 PixelDataSource = null;
                 ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

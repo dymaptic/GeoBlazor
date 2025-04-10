@@ -446,10 +446,26 @@ public abstract partial class Widget : MapComponent
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
+
+        if (_delayedUpdate)
+        {
+            await UpdateWidget();
+        }
     }
 
     protected async Task UpdateWidget()
     {
+        if (MapRendered && !_delayedUpdate)
+        {
+            // for components added after the map has rendered, wait one render cycle to get all children before updating
+            _delayedUpdate = true;
+            StateHasChanged();
+
+            return;
+        }
+        
+        _delayedUpdate = false;
+        
         if (CoreJsModule is null)
         {
             return;
@@ -475,6 +491,7 @@ public abstract partial class Widget : MapComponent
     }
 
     private bool _externalWidgetRegistered;
+    private bool _delayedUpdate;
 }
 
 /// <summary>

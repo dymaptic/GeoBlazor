@@ -4612,37 +4612,30 @@ public partial class ImageryLayer : IArcGISImageService,
             case ArcGISImageServiceCapabilities _:
                 Capabilities = null;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
-                    
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
                 ModifiedParameters[nameof(Fields)] = Fields;
-                    
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
-                    
                 return true;
             case NoData _:
                 NoData = null;
                 ModifiedParameters[nameof(NoData)] = NoData;
-
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
-
                 return true;
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

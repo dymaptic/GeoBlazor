@@ -492,18 +492,10 @@ public partial class HomeWidget : IGoTo
             case HomeViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case Viewpoint _:
                 Viewpoint = null;
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

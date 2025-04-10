@@ -2072,12 +2072,10 @@ public partial class TileLayer : IAPIKeyMixin,
             case PortalItem _:
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
-
                 return true;
             case Sublayer subtables:
                 Subtables = Subtables?.Where(s => s != subtables).ToList();
                 ModifiedParameters[nameof(Subtables)] = Subtables;
-
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

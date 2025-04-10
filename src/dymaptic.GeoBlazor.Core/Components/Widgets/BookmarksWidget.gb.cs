@@ -1196,26 +1196,14 @@ public partial class BookmarksWidget : IGoTo
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case BookmarksViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case BookmarksVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

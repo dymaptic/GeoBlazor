@@ -1148,26 +1148,14 @@ public partial class GeoRSSLayer : IBlendLayer,
             case SimpleLineSymbol _:
                 LineSymbol = null;
                 ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case MarkerSymbol _:
                 PointSymbol = null;
                 ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case SimpleFillSymbol _:
                 PolygonSymbol = null;
                 ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

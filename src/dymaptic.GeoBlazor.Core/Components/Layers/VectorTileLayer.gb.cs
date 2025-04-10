@@ -1670,18 +1670,10 @@ public partial class VectorTileLayer : IBlendLayer,
             case Extent _:
                 InitialExtent = null;
                 ModifiedParameters[nameof(InitialExtent)] = InitialExtent;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             case TileInfo _:
                 TileInfo = null;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

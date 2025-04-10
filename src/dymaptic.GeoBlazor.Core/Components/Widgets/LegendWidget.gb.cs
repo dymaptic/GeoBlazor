@@ -1182,34 +1182,18 @@ public partial class LegendWidget
             case ActiveLayerInfo activeLayerInfos:
                 ActiveLayerInfos = ActiveLayerInfos?.Where(a => a != activeLayerInfos).ToList();
                 ModifiedParameters[nameof(ActiveLayerInfos)] = ActiveLayerInfos;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case LegendLayerInfos layerInfos:
                 LayerInfos = LayerInfos?.Where(l => l != layerInfos).ToList();
                 ModifiedParameters[nameof(LayerInfos)] = LayerInfos;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case LegendStyle _:
                 LegendStyle = null;
                 ModifiedParameters[nameof(LegendStyle)] = LegendStyle;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case LegendViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

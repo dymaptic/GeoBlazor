@@ -441,10 +441,6 @@ public partial class DistanceMeasurement2DWidget : Widget
             case DistanceMeasurement2DViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

@@ -2849,26 +2849,14 @@ public partial class SliderWidget
             case TickConfig tickConfigs:
                 TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
                 ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case SliderViewModel _:
                 ViewModel = null;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             case SliderVisibleElements _:
                 VisibleElements = null;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
-                    if (MapRendered)
-                    {
-                        await UpdateWidget();
-                    }
                 return true;
             default:
                 return await base.UnregisterGeneratedChildComponent(child);

@@ -483,11 +483,30 @@ public abstract partial class Layer : MapComponent
         PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_delayedUpdate)
+        {
+            await UpdateLayer();
+        }
+    }
+
     /// <summary>
     ///     Updates the layer internally. Not intended for public use.
     /// </summary>
     public async Task UpdateLayer()
     {
+        if (MapRendered && !_delayedUpdate)
+        {
+            // for components added after the map has rendered, wait one render cycle to get all children before updating
+            _delayedUpdate = true;
+            StateHasChanged();
+
+            return;
+        }
+        
+        _delayedUpdate = false;
+        
         if (CoreJsModule is null)
         {
             return;
@@ -511,4 +530,6 @@ public abstract partial class Layer : MapComponent
         // ReSharper disable once RedundantCast
         await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token, (object)this);
     }
+    
+    private bool _delayedUpdate;
 }
