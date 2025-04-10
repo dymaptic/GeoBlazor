@@ -5,11 +5,11 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.DataType.html">GeoBlazor Docs</a>
 ///     <summary>
-///          Enumeration for DataType
+///          Enumeration for RasterDataType
 ///      </summary>
 /// </summary>
-[JsonConverter(typeof(EnumToKebabCaseStringConverter<DataType>))]
-public enum DataType
+[JsonConverter(typeof(EnumToKebabCaseStringConverter<RasterDataType>))]
+public enum RasterDataType
 {
 #pragma warning disable CS1591
     Generic,

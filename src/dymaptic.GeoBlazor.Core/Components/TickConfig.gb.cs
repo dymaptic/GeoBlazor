@@ -26,11 +26,7 @@ public partial class TickConfig
     ///     The mode or method of positioning ticks along the slider track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="doubleCollectionValues">
-    ///     Indicates where ticks will be rendered below the track.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="doubleValues">
+    /// <param name="values">
     ///     Indicates where ticks will be rendered below the track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -48,8 +44,7 @@ public partial class TickConfig
     /// </param>
     public TickConfig(
         TickConfigMode mode,
-        IReadOnlyList<double>? doubleCollectionValues = null,
-        double? doubleValues = null,
+        IReadOnlyList<double>? values = null,
         SliderLabelFormatter? labelFormatFunction = null,
         bool? labelsVisible = null,
         TickCreatedFunction? tickCreatedFunction = null)
@@ -57,8 +52,7 @@ public partial class TickConfig
         AllowRender = false;
 #pragma warning disable BL0005
         Mode = mode;
-        DoubleCollectionValues = doubleCollectionValues;
-        DoubleValues = doubleValues;
+        Values = values;
         LabelFormatFunction = labelFormatFunction;
         LabelsVisible = labelsVisible;
         TickCreatedFunction = tickCreatedFunction;
@@ -75,16 +69,7 @@ public partial class TickConfig
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<double>? DoubleCollectionValues { get; set; }
-    
-    /// <summary>
-    ///     Indicates where ticks will be rendered below the track.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public double? DoubleValues { get; set; }
+    public IReadOnlyList<double>? Values { get; set; }
     
     /// <summary>
     ///     Callback for formatting tick labels.
@@ -137,11 +122,11 @@ public partial class TickConfig
     /// <summary>
     ///     Asynchronously retrieve the current value of the DoubleCollectionValues property.
     /// </summary>
-    public async Task<IReadOnlyList<double>?> GetDoubleCollectionValues()
+    public async Task<IReadOnlyList<double>?> GetValues()
     {
         if (CoreJsModule is null)
         {
-            return DoubleCollectionValues;
+            return Values;
         }
         
         try 
@@ -156,7 +141,7 @@ public partial class TickConfig
         
         if (JsComponentReference is null)
         {
-            return DoubleCollectionValues;
+            return Values;
         }
 
         // get the property value
@@ -165,51 +150,12 @@ public partial class TickConfig
         if (result is not null)
         {
 #pragma warning disable BL0005
-             DoubleCollectionValues = result;
+             Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleCollectionValues)] = DoubleCollectionValues;
+             ModifiedParameters[nameof(Values)] = Values;
         }
          
-        return DoubleCollectionValues;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the DoubleValues property.
-    /// </summary>
-    public async Task<double?> GetDoubleValues()
-    {
-        if (CoreJsModule is null)
-        {
-            return DoubleValues;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return DoubleValues;
-        }
-
-        // get the property value
-        JsNullableDoubleWrapper? result = await CoreJsModule!.InvokeAsync<JsNullableDoubleWrapper?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "doubleValues");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             DoubleValues = result.Value.Value;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(DoubleValues)] = DoubleValues;
-        }
-         
-        return DoubleValues;
+        return Values;
     }
     
     /// <summary>
@@ -295,17 +241,17 @@ public partial class TickConfig
 #region Property Setters
 
     /// <summary>
-    ///    Asynchronously set the value of the DoubleCollectionValues property after render.
+    ///    Asynchronously set the value of the Values property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetDoubleCollectionValues(IReadOnlyList<double>? value)
+    public async Task SetValues(IReadOnlyList<double>? value)
     {
 #pragma warning disable BL0005
-        DoubleCollectionValues = value;
+        Values = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(DoubleCollectionValues)] = value;
+        ModifiedParameters[nameof(Values)] = value;
         
         if (CoreJsModule is null)
         {
@@ -328,44 +274,7 @@ public partial class TickConfig
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleCollectionValues", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the DoubleValues property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetDoubleValues(double? value)
-    {
-#pragma warning disable BL0005
-        DoubleValues = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(DoubleValues)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "doubleValues", value);
+            JsComponentReference, "values", value);
     }
     
     /// <summary>
