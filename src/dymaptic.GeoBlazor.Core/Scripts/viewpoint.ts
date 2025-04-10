@@ -16,8 +16,15 @@ export function buildDotNetViewpoint(viewpoint: any): any {
 export function buildJsViewpoint(dnViewpoint): any {
     if (dnViewpoint === undefined || dnViewpoint === null) return null;
     let viewpoint = new Viewpoint();
-    viewpoint.rotation = dnViewpoint.rotation ?? undefined;
-    viewpoint.scale = dnViewpoint.scale ?? undefined;
+
+    if (hasValue(dnViewpoint.scale)) {
+        viewpoint.scale = dnViewpoint.scale
+    }
+    
+    if (hasValue(dnViewpoint.rotation)) {
+        viewpoint.rotation = dnViewpoint.rotation
+    }
+
     viewpoint.targetGeometry = buildJsGeometry(dnViewpoint.targetGeometry) as Geometry;
     return viewpoint as Viewpoint;
 }
