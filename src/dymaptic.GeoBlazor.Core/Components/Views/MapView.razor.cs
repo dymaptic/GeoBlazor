@@ -2302,8 +2302,9 @@ public partial class MapView : MapComponent
             }
             catch (Exception ex)
             {
-                // only write exceptions out, don't throw.
-                Console.WriteLine(ex);
+                ErrorMessage = ex.Message;
+                StateHasChanged();
+                throw;
             }
 
             // the first render never has all the child components registered
