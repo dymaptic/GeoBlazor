@@ -1006,7 +1006,9 @@ public Task<List<AddressCandidate>> AddressToLocations(Address address)
     /// <param name="requestOptions">
     ///     Additional options to be used for the data request 
     /// </param>
+#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
     public async Task<List<AddressCandidate>> AddressToLocations(string url, Address address,
+#pragma warning restore RS0026 // Do not add multiple public overloads with optional parameters
         List<string>? categories = null, string? countryCode = null, bool? forStorage = null, Point? location = null,
         LocationType? locationType = null, string? magicKey = null, int? maxLocations = null,
         List<string>? outFields = null,  SpatialReference? outSpatialReference = null, Extent? searchExtent = null,

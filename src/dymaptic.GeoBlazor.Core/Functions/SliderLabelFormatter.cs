@@ -1,4 +1,9 @@
-namespace dymaptic.GeoBlazor.Core.Functions;/// <param name="JavaScriptFunction">
+namespace dymaptic.GeoBlazor.Core.Functions;
+
+/// <summary>
+///     Callback for formatting tick labels on a SliderWidget.
+/// </summary>
+/// <param name="JavaScriptFunction">
 ///     The JavaScript function to call, passed as a string.
 /// </param>
 /// <remarks>

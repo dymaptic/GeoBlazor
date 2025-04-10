@@ -264,7 +264,7 @@ public abstract partial class Layer : MapComponent
     ///     A cancellation token to cancel the operation.
     /// </param>
     public async Task Load(IJSRuntime jsRuntime, JsModuleManager jsModuleManager,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         JsRuntime ??= jsRuntime;
         JsModuleManager ??= jsModuleManager;
@@ -279,11 +279,23 @@ public abstract partial class Layer : MapComponent
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
     /// </summary>
+    public Task Load()
+    {
+        return Load(CancellationToken.None);
+    }
+
+    /// <summary>
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
+    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
+    ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
+    ///     return the same promise.
+    /// </summary>
     /// <remarks>
     ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is
     ///     aborted, the instance does not stop its loading process, only cancelLoad can abort it.
     /// </remarks>
-    public async Task Load(CancellationToken cancellationToken = default)
+    public async Task Load(CancellationToken cancellationToken)
     {
         if (CoreJsModule is null)
         {

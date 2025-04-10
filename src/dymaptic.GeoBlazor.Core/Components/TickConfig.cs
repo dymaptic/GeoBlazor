@@ -8,7 +8,6 @@ public partial class TickConfig : MapComponent
     [Parameter]
     public TickConfigMode Mode { get; set; }
 
-
     /// <summary>
     /// Indicates whether to render labels for the ticks.
     /// </summary>

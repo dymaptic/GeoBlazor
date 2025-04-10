@@ -26,6 +26,10 @@ public partial class TickConfig
     ///     The mode or method of positioning ticks along the slider track.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="values">
+    ///     Indicates where ticks will be rendered below the track.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="labelFormatFunction">
     ///     Callback for formatting tick labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
@@ -44,6 +48,7 @@ public partial class TickConfig
     /// </param>
     public TickConfig(
         TickConfigMode mode,
+        IReadOnlyList<double>? values = null,
         SliderLabelFormatter? labelFormatFunction = null,
         bool? labelsVisible = null,
         TickCreatedFunction? tickCreatedFunction = null,
@@ -52,6 +57,7 @@ public partial class TickConfig
         AllowRender = false;
 #pragma warning disable BL0005
         Mode = mode;
+        Values = values;
         LabelFormatFunction = labelFormatFunction;
         LabelsVisible = labelsVisible;
         TickCreatedFunction = tickCreatedFunction;
@@ -62,6 +68,15 @@ public partial class TickConfig
     
 #region Public Properties / Blazor Parameters
 
+    /// <summary>
+    ///     Indicates where ticks will be rendered below the track.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<double>? Values { get; set; }
+    
     /// <summary>
     ///     Callback for formatting tick labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
@@ -119,6 +134,45 @@ public partial class TickConfig
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the DoubleCollectionValues property.
+    /// </summary>
+    public async Task<IReadOnlyList<double>?> GetValues()
+    {
+        if (CoreJsModule is null)
+        {
+            return Values;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Values;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+            CancellationTokenSource.Token, "doubleCollectionValues");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Values = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Values)] = Values;
+        }
+         
+        return Values;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the LabelsVisible property.
     /// </summary>
@@ -228,9 +282,9 @@ public partial class TickConfig
         if (result is not null)
         {
 #pragma warning disable BL0005
-             Values = result;
+            Values = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Values)] = Values;
+            ModifiedParameters[nameof(Values)] = Values;
         }
          
         return Values;
@@ -239,25 +293,25 @@ public partial class TickConfig
 #endregion
 
 #region Property Setters
-
+    
     /// <summary>
-    ///    Asynchronously set the value of the LabelsVisible property after render.
+    ///    Asynchronously set the value of the Values property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLabelsVisible(bool? value)
+    public async Task SetValues(IReadOnlyList<double>? value)
     {
 #pragma warning disable BL0005
-        LabelsVisible = value;
+        Values = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(LabelsVisible)] = value;
+        ModifiedParameters[nameof(Values)] = value;
         
         if (CoreJsModule is null)
         {
-            return;
+            return Values;
         }
-    
+        
         try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -267,14 +321,25 @@ public partial class TickConfig
         {
             // this is expected if the component is not yet built
         }
-    
+        
         if (JsComponentReference is null)
         {
-            return;
+            return Values;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+            CancellationTokenSource.Token, "values");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Values = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Values)] = Values;
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelsVisible", value);
+            JsComponentReference, "values", value);
     }
     
     /// <summary>
