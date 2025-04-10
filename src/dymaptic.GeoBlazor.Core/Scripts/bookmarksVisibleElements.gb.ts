@@ -40,8 +40,7 @@ export async function buildJsBookmarksVisibleElementsGenerated(dotNetObject: any
         jsBookmarksVisibleElements.time = dotNetObject.time;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBookmarksVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBookmarksVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksVisibleElements;
     
     return jsBookmarksVisibleElements;

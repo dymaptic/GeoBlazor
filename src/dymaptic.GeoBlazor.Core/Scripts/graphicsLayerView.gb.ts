@@ -99,7 +99,6 @@ export async function buildJsGraphicsLayerViewGenerated(dotNetObject: any, layer
     graphicsLayerViewWrapper.viewId = viewId;
     graphicsLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayerView;
     

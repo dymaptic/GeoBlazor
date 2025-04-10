@@ -13,8 +13,7 @@ export async function buildJsOrientationGenerated(dotNetObject: any): Promise<an
         jsOrientation.z = dotNetObject.z;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOrientation);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOrientation;
     arcGisObjectRefs[dotNetObject.id] = jsOrientation;
     
     return jsOrientation;

@@ -16,8 +16,7 @@ export async function buildJsFindImagesResultGenerated(dotNetObject: any, layerI
 
     let jsFindImagesResult = new FindImagesResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFindImagesResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFindImagesResult;
     arcGisObjectRefs[dotNetObject.id] = jsFindImagesResult;
     
     return jsFindImagesResult;

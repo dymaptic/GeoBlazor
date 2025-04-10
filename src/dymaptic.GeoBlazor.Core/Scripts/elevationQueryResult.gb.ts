@@ -21,8 +21,7 @@ export async function buildJsElevationQueryResultGenerated(dotNetObject: any, la
         jsElevationQueryResult.noDataValue = dotNetObject.noDataValue;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsElevationQueryResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsElevationQueryResult;
     arcGisObjectRefs[dotNetObject.id] = jsElevationQueryResult;
     
     return jsElevationQueryResult;

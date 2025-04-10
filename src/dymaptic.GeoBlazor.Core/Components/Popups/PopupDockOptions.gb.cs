@@ -285,7 +285,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "boolBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>
@@ -367,7 +367,7 @@ public partial class PopupDockOptions
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "popupDockOptionsBreakpoint", value);
+            JsComponentReference, "breakpoint", value);
     }
     
     /// <summary>

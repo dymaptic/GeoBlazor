@@ -74,7 +74,6 @@ export async function buildJsZoomViewModelGenerated(dotNetObject: any, layerId: 
     zoomViewModelWrapper.viewId = viewId;
     zoomViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(zoomViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = zoomViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsZoomViewModel;
     

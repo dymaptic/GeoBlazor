@@ -71,8 +71,7 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
     }
     let jsTopFeaturesQuery = new TopFeaturesQuery(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTopFeaturesQuery);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTopFeaturesQuery;
     arcGisObjectRefs[dotNetObject.id] = jsTopFeaturesQuery;
     
     return jsTopFeaturesQuery;

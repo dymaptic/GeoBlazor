@@ -199,7 +199,6 @@ export async function buildJsWFSLayerViewGenerated(dotNetObject: any, layerId: s
     wFSLayerViewWrapper.viewId = viewId;
     wFSLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(wFSLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = wFSLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsWFSLayerView;
     

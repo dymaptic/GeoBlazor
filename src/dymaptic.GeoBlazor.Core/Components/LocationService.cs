@@ -31,6 +31,7 @@ public class LocationService : LogicComponent
     ///     Note: If using as API token: the token must have "Geocode (Stored)" enabled to get results
     /// </summary>
     /// <param name="addresses">The input addresses in the format supported by the geocode service. </param>
+    [CodeGenerationIgnore]
     public async Task<List<AddressCandidate>> AddressesToLocations(List<Address> addresses)
     {
         return await AddressesToLocations(ESRIGeoLocationUrl, addresses);
@@ -315,7 +316,8 @@ public class LocationService : LogicComponent
     ///     Uses the default ESRI geolocation service.
     /// </summary>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
-    public Task<List<AddressCandidate>> AddressToLocations(Address address)
+    [CodeGenerationIgnore]
+public Task<List<AddressCandidate>> AddressToLocations(Address address)
     {
         return AddressToLocations(ESRIGeoLocationUrl, address);
     }
@@ -1029,7 +1031,8 @@ public class LocationService : LogicComponent
     ///     The point at which to search for the closest address. The location should be in the same spatial
     ///     reference as that of the geocode service.
     /// </param>
-    public Task<AddressCandidate> LocationToAddress(Point location)
+    [CodeGenerationIgnore]
+public Task<AddressCandidate> LocationToAddress(Point location)
     {
         return LocationToAddress(ESRIGeoLocationUrl, location);
     }
@@ -1191,7 +1194,8 @@ public class LocationService : LogicComponent
     ///     The input text entered by a user which is used by the suggest operation to generate a list of
     ///     possible matches.
     /// </param>
-    public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text)
+    [CodeGenerationIgnore]
+public async Task<List<SuggestionResult>> SuggestLocations(Point location, string text)
     {
         return await SuggestLocations(ESRIGeoLocationUrl, location, text);
     }

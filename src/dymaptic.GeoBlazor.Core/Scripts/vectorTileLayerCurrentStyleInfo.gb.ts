@@ -28,8 +28,7 @@ export async function buildJsVectorTileLayerCurrentStyleInfoGenerated(dotNetObje
         jsVectorTileLayerCurrentStyleInfo.styleUrl = dotNetObject.styleUrl;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsVectorTileLayerCurrentStyleInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsVectorTileLayerCurrentStyleInfo;
     arcGisObjectRefs[dotNetObject.id] = jsVectorTileLayerCurrentStyleInfo;
     
     return jsVectorTileLayerCurrentStyleInfo;

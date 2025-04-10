@@ -23,8 +23,7 @@ export async function buildJsGeoJSONLayerElevationInfoGenerated(dotNetObject: an
         jsGeoJSONLayerElevationInfo.unit = dotNetObject.unit;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerElevationInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerElevationInfo;
     
     return jsGeoJSONLayerElevationInfo;

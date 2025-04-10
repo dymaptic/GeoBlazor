@@ -31,8 +31,7 @@ export async function buildJsCapabilitiesAttachmentGenerated(dotNetObject: any):
         jsCapabilitiesAttachment.supportsSize = dotNetObject.supportsSize;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesAttachment);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesAttachment;
     
     return jsCapabilitiesAttachment;

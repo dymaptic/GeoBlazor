@@ -22,11 +22,11 @@ export async function buildJsITemporalSceneLayerGenerated(dotNetObject: any, lay
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTemporalSceneLayer);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTemporalSceneLayer;
     arcGisObjectRefs[dotNetObject.id] = jsTemporalSceneLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(jsTemporalSceneLayer);
         let { buildDotNetITemporalSceneLayer } = await import('./iTemporalSceneLayer');
         let dnInstantiatedObject = await buildDotNetITemporalSceneLayer(jsTemporalSceneLayer, layerId, viewId);
 

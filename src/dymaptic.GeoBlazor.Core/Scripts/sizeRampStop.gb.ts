@@ -29,8 +29,7 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
         jsSizeRampStop.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSizeRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSizeRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsSizeRampStop;
     
     return jsSizeRampStop;

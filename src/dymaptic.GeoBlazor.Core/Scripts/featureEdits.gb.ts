@@ -33,8 +33,7 @@ export async function buildJsFeatureEditsGenerated(dotNetObject: any, layerId: s
         jsFeatureLayerBaseApplyEditsEdits.deleteAttachments = dotNetObject.deleteAttachments;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerBaseApplyEditsEdits);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerBaseApplyEditsEdits;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerBaseApplyEditsEdits;
     
     return jsFeatureLayerBaseApplyEditsEdits;

@@ -17,8 +17,7 @@ export async function buildJsPositionGenerated(dotNetObject: any, layerId: strin
         jsPosition.coordinate = dotNetObject.coordinate;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPosition);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPosition;
     arcGisObjectRefs[dotNetObject.id] = jsPosition;
     
     return jsPosition;

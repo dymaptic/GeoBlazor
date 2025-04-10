@@ -23,8 +23,7 @@ export async function buildJsAuthoringInfoFieldGenerated(dotNetObject: any): Pro
         jsAuthoringInfoField1.normalizationField = dotNetObject.normalizationField;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoField1);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1;
     
     return jsAuthoringInfoField1;

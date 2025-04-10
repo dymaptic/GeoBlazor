@@ -1924,7 +1924,7 @@ public partial class Sublayer
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "sublayerId", value);
+            JsComponentReference, "id", value);
     }
     
     /// <summary>

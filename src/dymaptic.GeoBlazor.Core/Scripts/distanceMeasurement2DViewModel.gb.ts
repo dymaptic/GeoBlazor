@@ -89,7 +89,6 @@ export async function buildJsDistanceMeasurement2DViewModelGenerated(dotNetObjec
     distanceMeasurement2DViewModelWrapper.viewId = viewId;
     distanceMeasurement2DViewModelWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(distanceMeasurement2DViewModelWrapper);
     jsObjectRefs[dotNetObject.id] = distanceMeasurement2DViewModelWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsDistanceMeasurement2DViewModel;
     

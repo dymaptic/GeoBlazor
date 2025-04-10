@@ -20,8 +20,7 @@ export async function buildJsRasterIdentifyOptionsGenerated(dotNetObject: any, l
         jsRasterIdentifyOptions.transposedVariableName = dotNetObject.transposedVariableName;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterIdentifyOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterIdentifyOptions;
     arcGisObjectRefs[dotNetObject.id] = jsRasterIdentifyOptions;
     
     return jsRasterIdentifyOptions;

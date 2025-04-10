@@ -18,8 +18,7 @@ export async function buildJsLayerListTriggerActionEventGenerated(dotNetObject: 
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListTriggerActionEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListTriggerActionEvent;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListTriggerActionEvent;
     
     return jsLayerListTriggerActionEvent;

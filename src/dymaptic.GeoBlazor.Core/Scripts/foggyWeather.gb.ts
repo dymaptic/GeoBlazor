@@ -15,8 +15,7 @@ export async function buildJsFoggyWeatherGenerated(dotNetObject: any, layerId: s
     }
     let jsFoggyWeather = new FoggyWeather(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFoggyWeather);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFoggyWeather;
     arcGisObjectRefs[dotNetObject.id] = jsFoggyWeather;
     
     return jsFoggyWeather;

@@ -580,7 +580,7 @@ public partial class LegendWidget
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringStyle");
+            CancellationTokenSource.Token, "style");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -995,7 +995,7 @@ public partial class LegendWidget
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringStyle", value);
+            JsComponentReference, "style", value);
     }
     
     /// <summary>

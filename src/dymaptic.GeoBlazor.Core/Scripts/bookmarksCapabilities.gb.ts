@@ -13,8 +13,7 @@ export async function buildJsBookmarksCapabilitiesGenerated(dotNetObject: any): 
         jsBookmarksCapabilities.time = dotNetObject.time;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBookmarksCapabilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBookmarksCapabilities;
     arcGisObjectRefs[dotNetObject.id] = jsBookmarksCapabilities;
     
     return jsBookmarksCapabilities;

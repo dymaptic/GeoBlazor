@@ -34,8 +34,7 @@ export async function buildJsHighlightOptionsGenerated(dotNetObject: any): Promi
         jsHighlightOptions.shadowOpacity = dotNetObject.shadowOpacity;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsHighlightOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsHighlightOptions;
     arcGisObjectRefs[dotNetObject.id] = jsHighlightOptions;
     
     return jsHighlightOptions;

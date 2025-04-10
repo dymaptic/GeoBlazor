@@ -27,8 +27,7 @@ export async function buildJsRasterFunctionGenerated(dotNetObject: any): Promise
     }
     let jsRasterFunction = new RasterFunction(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRasterFunction);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRasterFunction;
     arcGisObjectRefs[dotNetObject.id] = jsRasterFunction;
     
     return jsRasterFunction;

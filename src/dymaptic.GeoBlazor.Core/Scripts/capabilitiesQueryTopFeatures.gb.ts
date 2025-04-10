@@ -13,8 +13,7 @@ export async function buildJsCapabilitiesQueryTopFeaturesGenerated(dotNetObject:
         jsCapabilitiesQueryTopFeatures.supportsCacheHint = dotNetObject.supportsCacheHint;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesQueryTopFeatures);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesQueryTopFeatures;
     
     return jsCapabilitiesQueryTopFeatures;

@@ -29,8 +29,7 @@ export async function buildJsFindImagesParametersGenerated(dotNetObject: any, la
     }
     let jsFindImagesParameters = new FindImagesParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFindImagesParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFindImagesParameters;
     arcGisObjectRefs[dotNetObject.id] = jsFindImagesParameters;
     
     return jsFindImagesParameters;

@@ -74,7 +74,6 @@ export async function buildJsGeographicTransformationStepGenerated(dotNetObject:
     geographicTransformationStepWrapper.viewId = viewId;
     geographicTransformationStepWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geographicTransformationStepWrapper);
     jsObjectRefs[dotNetObject.id] = geographicTransformationStepWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeographicTransformationStep;
     

@@ -27,8 +27,7 @@ export async function buildJsJoinTableDataSourceGenerated(dotNetObject: any, lay
         jsJoinTableDataSource.rightTableKey = dotNetObject.rightTableKey;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsJoinTableDataSource);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsJoinTableDataSource;
     arcGisObjectRefs[dotNetObject.id] = jsJoinTableDataSource;
     
     return jsJoinTableDataSource;

@@ -18,8 +18,7 @@ export async function buildJsSwitchInputGenerated(dotNetObject: any, layerId: st
     }
     let jsSwitchInput = new SwitchInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSwitchInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSwitchInput;
     arcGisObjectRefs[dotNetObject.id] = jsSwitchInput;
     
     return jsSwitchInput;

@@ -10,8 +10,7 @@ export async function buildJsGroundNavigationConstraintGenerated(dotNetObject: a
     let jsGroundNavigationConstraint: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGroundNavigationConstraint);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGroundNavigationConstraint;
     arcGisObjectRefs[dotNetObject.id] = jsGroundNavigationConstraint;
     
     return jsGroundNavigationConstraint;

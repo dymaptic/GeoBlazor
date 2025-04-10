@@ -16,8 +16,7 @@ export async function buildJsAuthoringInfoField1ClassBreakInfosGenerated(dotNetO
         jsAuthoringInfoField1ClassBreakInfos.minValue = dotNetObject.minValue;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoField1ClassBreakInfos);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoField1ClassBreakInfos;
     
     return jsAuthoringInfoField1ClassBreakInfos;

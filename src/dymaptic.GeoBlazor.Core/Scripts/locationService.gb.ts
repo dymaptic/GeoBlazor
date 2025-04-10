@@ -50,7 +50,6 @@ export async function buildJsLocationServiceGenerated(dotNetObject: any, layerId
     locationServiceWrapper.viewId = viewId;
     locationServiceWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(locationServiceWrapper);
     jsObjectRefs[dotNetObject.id] = locationServiceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jslocator;
     

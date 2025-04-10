@@ -23,8 +23,7 @@ export async function buildJsCSVLayerElevationInfoGenerated(dotNetObject: any): 
         jsCSVLayerElevationInfo.unit = dotNetObject.unit;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCSVLayerElevationInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     arcGisObjectRefs[dotNetObject.id] = jsCSVLayerElevationInfo;
     
     return jsCSVLayerElevationInfo;

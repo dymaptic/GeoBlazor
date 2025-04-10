@@ -19,8 +19,7 @@ export async function buildJsUniqueValueGroupGenerated(dotNetObject: any): Promi
     }
     let jsUniqueValueGroup = new UniqueValueGroup(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsUniqueValueGroup);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
     arcGisObjectRefs[dotNetObject.id] = jsUniqueValueGroup;
     
     return jsUniqueValueGroup;

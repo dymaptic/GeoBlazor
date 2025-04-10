@@ -33,8 +33,7 @@ export async function buildJsImageHeightParametersGenerated(dotNetObject: any, l
     }
     let jsImageHeightParameters = new ImageHeightParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageHeightParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageHeightParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageHeightParameters;
     
     return jsImageHeightParameters;

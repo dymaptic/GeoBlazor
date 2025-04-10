@@ -16,8 +16,7 @@ export async function buildJsAuthoringInfoStatisticsGenerated(dotNetObject: any)
         jsAuthoringInfoStatistics.min = dotNetObject.min;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAuthoringInfoStatistics);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
     arcGisObjectRefs[dotNetObject.id] = jsAuthoringInfoStatistics;
     
     return jsAuthoringInfoStatistics;

@@ -172,11 +172,11 @@ export async function buildJsUnknownLayerGenerated(dotNetObject: any, layerId: s
     unknownLayerWrapper.viewId = viewId;
     unknownLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
     jsObjectRefs[dotNetObject.id] = unknownLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsUnknownLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(unknownLayerWrapper);
         let { buildDotNetUnknownLayer } = await import('./unknownLayer');
         let dnInstantiatedObject = await buildDotNetUnknownLayer(jsUnknownLayer);
 

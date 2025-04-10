@@ -65,7 +65,6 @@ export async function buildJsGeoRSSLayerViewGenerated(dotNetObject: any, layerId
     geoRSSLayerViewWrapper.viewId = viewId;
     geoRSSLayerViewWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geoRSSLayerViewWrapper);
     jsObjectRefs[dotNetObject.id] = geoRSSLayerViewWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoRSSLayerView;
     

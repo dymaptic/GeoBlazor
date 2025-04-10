@@ -45,8 +45,7 @@ export async function buildJsCapabilitiesGenerated(dotNetObject: any): Promise<a
         jsCapabilities.query = dotNetObject.query;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilities);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilities;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilities;
     
     return jsCapabilities;

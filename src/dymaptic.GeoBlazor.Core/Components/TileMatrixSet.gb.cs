@@ -196,7 +196,7 @@ public partial class TileMatrixSet : MapComponent
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "tileMatrixSetId");
+            CancellationTokenSource.Token, "id");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -336,7 +336,7 @@ public partial class TileMatrixSet : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "tileMatrixSetId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

@@ -42,12 +42,17 @@ public partial class TickConfig
     ///     Callback that fires for each tick.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="values">
+    ///     Indicates where ticks will be rendered below the track.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public TickConfig(
         TickConfigMode mode,
         IReadOnlyList<double>? values = null,
         SliderLabelFormatter? labelFormatFunction = null,
         bool? labelsVisible = null,
-        TickCreatedFunction? tickCreatedFunction = null)
+        TickCreatedFunction? tickCreatedFunction = null,
+        IReadOnlyList<double>? values = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -56,6 +61,7 @@ public partial class TickConfig
         LabelFormatFunction = labelFormatFunction;
         LabelsVisible = labelsVisible;
         TickCreatedFunction = tickCreatedFunction;
+        Values = values;
 #pragma warning restore BL0005    
     }
     
@@ -114,6 +120,15 @@ public partial class TickConfig
     ///     A convenience property that signifies whether a custom <see cref="TickCreatedFunction" /> function was registered.
     /// </summary>
     public bool HasTickCreatedFunction => TickCreatedFunction is not null;
+    
+    /// <summary>
+    ///     Indicates where ticks will be rendered below the track.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Slider.html#TickConfig">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<double>? Values { get; set; }
     
 #endregion
 
@@ -236,10 +251,49 @@ public partial class TickConfig
         return Mode;
     }
     
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Values property.
+    /// </summary>
+    public async Task<IReadOnlyList<double>?> GetValues()
+    {
+        if (CoreJsModule is null)
+        {
+            return Values;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Values;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+            CancellationTokenSource.Token, "values");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Values = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Values)] = Values;
+        }
+         
+        return Values;
+    }
+    
 #endregion
 
 #region Property Setters
-
+    
     /// <summary>
     ///    Asynchronously set the value of the Values property after render.
     /// </summary>
@@ -255,9 +309,9 @@ public partial class TickConfig
         
         if (CoreJsModule is null)
         {
-            return;
+            return Values;
         }
-    
+        
         try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
@@ -267,51 +321,25 @@ public partial class TickConfig
         {
             // this is expected if the component is not yet built
         }
-    
+        
         if (JsComponentReference is null)
         {
-            return;
+            return Values;
+        }
+
+        // get the property value
+        IReadOnlyList<double>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<double>?>("getProperty",
+            CancellationTokenSource.Token, "values");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Values = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Values)] = Values;
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "values", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the LabelsVisible property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetLabelsVisible(bool? value)
-    {
-#pragma warning disable BL0005
-        LabelsVisible = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(LabelsVisible)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "labelsVisible", value);
     }
     
     /// <summary>
@@ -349,6 +377,81 @@ public partial class TickConfig
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "mode", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Values property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetValues(IReadOnlyList<double>? value)
+    {
+#pragma warning disable BL0005
+        Values = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Values)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "values", value);
+    }
+    
+#endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the Values property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToValues(params double[] values)
+    {
+        double[] join = Values is null
+            ? values
+            : [..Values, ..values];
+        await SetValues(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the Values property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromValues(params double[] values)
+    {
+        if (Values is null)
+        {
+            return;
+        }
+        await SetValues(Values.Except(values).ToArray());
     }
     
 #endregion

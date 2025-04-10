@@ -17,8 +17,7 @@ export async function buildJsImageryLayerSaveAsOptionsGenerated(dotNetObject: an
         jsImageryLayerSaveAsOptions.validationOptions = dotNetObject.validationOptions;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageryLayerSaveAsOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageryLayerSaveAsOptions;
     arcGisObjectRefs[dotNetObject.id] = jsImageryLayerSaveAsOptions;
     
     return jsImageryLayerSaveAsOptions;

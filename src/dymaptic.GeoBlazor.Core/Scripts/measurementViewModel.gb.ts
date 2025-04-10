@@ -28,8 +28,7 @@ export async function buildJsMeasurementViewModelGenerated(dotNetObject: any, la
     }
     let jsMeasurementViewModel = new MeasurementViewModel(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMeasurementViewModel);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     arcGisObjectRefs[dotNetObject.id] = jsMeasurementViewModel;
     
     return jsMeasurementViewModel;

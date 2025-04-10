@@ -827,7 +827,7 @@ public partial class ImageryTileLayer : IBlendLayer,
 
         // get the property value
         object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "objectSource");
+            CancellationTokenSource.Token, "source");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1903,7 +1903,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "objectSource", value);
+            JsComponentReference, "source", value);
     }
     
     /// <summary>

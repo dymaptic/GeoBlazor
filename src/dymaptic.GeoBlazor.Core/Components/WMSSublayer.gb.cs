@@ -1215,7 +1215,7 @@ public partial class WMSSublayer : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "wMSSublayerId", value);
+            JsComponentReference, "id", value);
     }
     
 #endregion

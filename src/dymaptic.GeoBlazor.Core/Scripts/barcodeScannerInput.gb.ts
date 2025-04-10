@@ -18,8 +18,7 @@ export async function buildJsBarcodeScannerInputGenerated(dotNetObject: any, lay
     }
     let jsBarcodeScannerInput = new BarcodeScannerInput(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsBarcodeScannerInput);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsBarcodeScannerInput;
     arcGisObjectRefs[dotNetObject.id] = jsBarcodeScannerInput;
     
     return jsBarcodeScannerInput;

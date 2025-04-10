@@ -38,8 +38,7 @@ export async function buildJsWFSFeatureTypeGenerated(dotNetObject: any): Promise
         jsWFSFeatureType.typeName = dotNetObject.typeName;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWFSFeatureType);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWFSFeatureType;
     arcGisObjectRefs[dotNetObject.id] = jsWFSFeatureType;
     
     return jsWFSFeatureType;

@@ -263,11 +263,11 @@ export async function buildJsGraphicsLayerGenerated(dotNetObject: any, layerId: 
     graphicsLayerWrapper.viewId = viewId;
     graphicsLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
     jsObjectRefs[dotNetObject.id] = graphicsLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGraphicsLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(graphicsLayerWrapper);
         let { buildDotNetGraphicsLayer } = await import('./graphicsLayer');
         let dnInstantiatedObject = await buildDotNetGraphicsLayer(jsGraphicsLayer);
 

@@ -3,8 +3,20 @@
 namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
-///    Represents settings that affect the environment in which the WebScene is displayed (such as lighting).
-///    <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#environment">ArcGIS Maps SDK for JavaScript</a>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.SlideEnvironment.html">GeoBlazor Docs</a>
+///     Represents settings that affect the environment in which the WebScene is displayed (such as lighting).
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#environment">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="WebsceneSunLighting">
+///     Settings for defining the lighting of the scene.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#environment">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="WebsceneVirtualLighting">
+///     Settings for defining the lighting of the scene.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-webscene-Slide.html#environment">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 public partial record SlideEnvironment(
-);
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    WebsceneSunLighting? WebsceneSunLighting = null,
+    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    WebsceneVirtualLighting? WebsceneVirtualLighting = null);

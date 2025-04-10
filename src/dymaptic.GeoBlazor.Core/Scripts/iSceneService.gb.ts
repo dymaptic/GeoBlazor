@@ -22,8 +22,7 @@ export async function buildJsISceneServiceGenerated(dotNetObject: any, layerId: 
         jsSceneService.url = dotNetObject.url;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSceneService);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSceneService;
     arcGisObjectRefs[dotNetObject.id] = jsSceneService;
     
     return jsSceneService;

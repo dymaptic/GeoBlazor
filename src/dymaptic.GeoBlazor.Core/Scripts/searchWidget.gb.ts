@@ -374,11 +374,11 @@ export async function buildJsSearchWidgetGenerated(dotNetObject: any, layerId: s
     searchWidgetWrapper.viewId = viewId;
     searchWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = searchWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jswidgetsSearch;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(searchWidgetWrapper);
         let { buildDotNetSearchWidget } = await import('./searchWidget');
         let dnInstantiatedObject = await buildDotNetSearchWidget(jswidgetsSearch, layerId, viewId);
 
@@ -502,7 +502,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     
     if (hasValue(jsObject.results)) {
-        dotNetSearchWidget.results = jsObject.results;
+        dotNetSearchWidget.results = removeCircularReferences(jsObject.results);
     }
     
     if (hasValue(jsObject.searchAllEnabled)) {

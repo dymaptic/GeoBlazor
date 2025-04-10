@@ -4358,7 +4358,7 @@ public partial class FeatureLayer : IAPIKeyMixin,
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "layerIndex", value);
+            JsComponentReference, "layerId", value);
     }
     
     /// <summary>

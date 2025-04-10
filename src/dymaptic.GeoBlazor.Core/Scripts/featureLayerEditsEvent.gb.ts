@@ -35,8 +35,7 @@ export async function buildJsFeatureLayerEditsEventGenerated(dotNetObject: any, 
         jsFeatureLayerEditsEvent.updatedFeatures = dotNetObject.updatedFeatures;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFeatureLayerEditsEvent);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFeatureLayerEditsEvent;
     arcGisObjectRefs[dotNetObject.id] = jsFeatureLayerEditsEvent;
     
     return jsFeatureLayerEditsEvent;

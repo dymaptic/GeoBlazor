@@ -205,11 +205,11 @@ export async function buildJsHomeWidgetGenerated(dotNetObject: any, layerId: str
     homeWidgetWrapper.viewId = viewId;
     homeWidgetWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
     jsObjectRefs[dotNetObject.id] = homeWidgetWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsHome;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(homeWidgetWrapper);
         let { buildDotNetHomeWidget } = await import('./homeWidget');
         let dnInstantiatedObject = await buildDotNetHomeWidget(jsHome);
 

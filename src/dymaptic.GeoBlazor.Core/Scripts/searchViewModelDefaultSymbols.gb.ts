@@ -22,8 +22,7 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelDefaultSymbols);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelDefaultSymbols;
     
     return jsSearchViewModelDefaultSymbols;

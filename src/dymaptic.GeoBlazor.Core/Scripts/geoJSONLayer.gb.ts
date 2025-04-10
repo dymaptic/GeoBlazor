@@ -71,7 +71,7 @@ export default class GeoJSONLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
             let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
+            this.layer.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
         }
         if (hasValue(dotNetObject.timeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -508,7 +508,7 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i, layerId, viewId))) as any;
+        properties.templates = await Promise.all(dotNetObject.templates.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
     if (hasValue(dotNetObject.timeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -651,11 +651,11 @@ export async function buildJsGeoJSONLayerGenerated(dotNetObject: any, layerId: s
     geoJSONLayerWrapper.viewId = viewId;
     geoJSONLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
     jsObjectRefs[dotNetObject.id] = geoJSONLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(geoJSONLayerWrapper);
         let { buildDotNetGeoJSONLayer } = await import('./geoJSONLayer');
         let dnInstantiatedObject = await buildDotNetGeoJSONLayer(jsGeoJSONLayer);
 

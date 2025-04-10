@@ -262,11 +262,11 @@ export async function buildJsKMLLayerGenerated(dotNetObject: any, layerId: strin
     kMLLayerWrapper.viewId = viewId;
     kMLLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
     jsObjectRefs[dotNetObject.id] = kMLLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsKMLLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(kMLLayerWrapper);
         let { buildDotNetKMLLayer } = await import('./kMLLayer');
         let dnInstantiatedObject = await buildDotNetKMLLayer(jsKMLLayer);
 

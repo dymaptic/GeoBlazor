@@ -31,8 +31,7 @@ export async function buildJsPopupVisibleElementsGenerated(dotNetObject: any, la
         jsPopupVisibleElements.spinner = dotNetObject.spinner;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPopupVisibleElements);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
     arcGisObjectRefs[dotNetObject.id] = jsPopupVisibleElements;
     
     return jsPopupVisibleElements;

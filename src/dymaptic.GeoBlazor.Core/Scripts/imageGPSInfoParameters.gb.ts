@@ -29,8 +29,7 @@ export async function buildJsImageGPSInfoParametersGenerated(dotNetObject: any, 
     }
     let jsImageGPSInfoParameters = new ImageGPSInfoParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageGPSInfoParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageGPSInfoParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageGPSInfoParameters;
     
     return jsImageGPSInfoParameters;

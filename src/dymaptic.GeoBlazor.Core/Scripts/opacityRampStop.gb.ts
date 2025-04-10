@@ -23,8 +23,7 @@ export async function buildJsOpacityRampStopGenerated(dotNetObject: any, layerId
         jsOpacityRampStop.value = dotNetObject.value;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsOpacityRampStop);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     arcGisObjectRefs[dotNetObject.id] = jsOpacityRampStop;
     
     return jsOpacityRampStop;

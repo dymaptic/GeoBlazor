@@ -24,8 +24,7 @@ export async function buildJsDimensionalDefinitionGenerated(dotNetObject: any): 
     }
     let jsDimensionalDefinition = new DimensionalDefinition(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsDimensionalDefinition);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     arcGisObjectRefs[dotNetObject.id] = jsDimensionalDefinition;
     
     return jsDimensionalDefinition;

@@ -22,8 +22,7 @@ export async function buildJsMapToImageParametersGenerated(dotNetObject: any, la
     }
     let jsMapToImageParameters = new MapToImageParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMapToImageParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMapToImageParameters;
     arcGisObjectRefs[dotNetObject.id] = jsMapToImageParameters;
     
     return jsMapToImageParameters;

@@ -19,8 +19,7 @@ export async function buildJsLegendViewModelLayerInfosGenerated(dotNetObject: an
         jsLegendViewModelLayerInfos.title = dotNetObject.title;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLegendViewModelLayerInfos);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLegendViewModelLayerInfos;
     arcGisObjectRefs[dotNetObject.id] = jsLegendViewModelLayerInfos;
     
     return jsLegendViewModelLayerInfos;

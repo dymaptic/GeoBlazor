@@ -26,8 +26,7 @@ export async function buildJsLayerListKnowledgeGraphOptionsGenerated(dotNetObjec
         jsLayerListKnowledgeGraphOptions.selectionMode = dotNetObject.selectionMode;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsLayerListKnowledgeGraphOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptions;
     arcGisObjectRefs[dotNetObject.id] = jsLayerListKnowledgeGraphOptions;
     
     return jsLayerListKnowledgeGraphOptions;

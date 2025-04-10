@@ -19,8 +19,7 @@ export async function buildJsMeasureLengthFromImageResultGenerated(dotNetObject:
     }
     let jsMeasureLengthFromImageResult = new MeasureLengthFromImageResult(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsMeasureLengthFromImageResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsMeasureLengthFromImageResult;
     arcGisObjectRefs[dotNetObject.id] = jsMeasureLengthFromImageResult;
     
     return jsMeasureLengthFromImageResult;

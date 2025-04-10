@@ -19,8 +19,7 @@ export async function buildJsImagePixelLocationParametersGenerated(dotNetObject:
     }
     let jsImagePixelLocationParameters = new ImagePixelLocationParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImagePixelLocationParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImagePixelLocationParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImagePixelLocationParameters;
     
     return jsImagePixelLocationParameters;

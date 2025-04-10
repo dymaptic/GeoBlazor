@@ -17,8 +17,7 @@ export async function buildJsHitTestResultGenerated(dotNetObject: any, layerId: 
         jsHitTestResult.results = dotNetObject.results;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsHitTestResult);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsHitTestResult;
     arcGisObjectRefs[dotNetObject.id] = jsHitTestResult;
     
     return jsHitTestResult;

@@ -20,8 +20,7 @@ export async function buildJsSearchViewModelSuggestCompleteEventResultsGenerated
         jsSearchViewModelSuggestCompleteEventResults.sourceIndex = dotNetObject.sourceIndex;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSearchViewModelSuggestCompleteEventResults);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSearchViewModelSuggestCompleteEventResults;
     arcGisObjectRefs[dotNetObject.id] = jsSearchViewModelSuggestCompleteEventResults;
     
     return jsSearchViewModelSuggestCompleteEventResults;

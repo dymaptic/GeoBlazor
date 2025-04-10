@@ -1438,17 +1438,17 @@ public partial class ImageryLayer : IArcGISImageService,
             return MultidimensionalInfo;
         }
 
-        // get the property value
-        RasterMultidimensionalInfo? result = await JsComponentReference!.InvokeAsync<RasterMultidimensionalInfo?>("getProperty",
-            CancellationTokenSource.Token, "multidimensionalInfo");
+        RasterMultidimensionalInfo? result = await JsComponentReference.InvokeAsync<RasterMultidimensionalInfo?>(
+            "getMultidimensionalInfo", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
 #pragma warning disable BL0005
-             MultidimensionalInfo = result;
+            MultidimensionalInfo = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
+            ModifiedParameters[nameof(MultidimensionalInfo)] = MultidimensionalInfo;
         }
-         
+        
         return MultidimensionalInfo;
     }
     

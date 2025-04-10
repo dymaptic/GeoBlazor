@@ -309,11 +309,11 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     openStreetMapLayerWrapper.viewId = viewId;
     openStreetMapLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
     jsObjectRefs[dotNetObject.id] = openStreetMapLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsOpenStreetMapLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(openStreetMapLayerWrapper);
         let { buildDotNetOpenStreetMapLayer } = await import('./openStreetMapLayer');
         let dnInstantiatedObject = await buildDotNetOpenStreetMapLayer(jsOpenStreetMapLayer);
 

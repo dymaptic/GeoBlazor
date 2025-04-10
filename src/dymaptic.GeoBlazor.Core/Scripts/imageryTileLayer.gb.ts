@@ -544,11 +544,11 @@ export async function buildJsImageryTileLayerGenerated(dotNetObject: any, layerI
     imageryTileLayerWrapper.viewId = viewId;
     imageryTileLayerWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
     jsObjectRefs[dotNetObject.id] = imageryTileLayerWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsImageryTileLayer;
     
     try {
+        let jsObjectRef = DotNet.createJSObjectReference(imageryTileLayerWrapper);
         let { buildDotNetImageryTileLayer } = await import('./imageryTileLayer');
         let dnInstantiatedObject = await buildDotNetImageryTileLayer(jsImageryTileLayer);
 

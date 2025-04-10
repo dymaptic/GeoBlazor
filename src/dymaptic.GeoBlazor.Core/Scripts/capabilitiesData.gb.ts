@@ -22,8 +22,7 @@ export async function buildJsCapabilitiesDataGenerated(dotNetObject: any): Promi
         jsCapabilitiesData.supportsZ = dotNetObject.supportsZ;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCapabilitiesData);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCapabilitiesData;
     arcGisObjectRefs[dotNetObject.id] = jsCapabilitiesData;
     
     return jsCapabilitiesData;

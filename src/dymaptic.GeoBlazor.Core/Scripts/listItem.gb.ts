@@ -180,7 +180,6 @@ export async function buildJsListItemGenerated(dotNetObject: any, layerId: strin
     listItemWrapper.viewId = viewId;
     listItemWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(listItemWrapper);
     jsObjectRefs[dotNetObject.id] = listItemWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsListItem;
     

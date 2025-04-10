@@ -35,8 +35,7 @@ export async function buildJsImageHistogramParametersGenerated(dotNetObject: any
     }
     let jsImageHistogramParameters = new ImageHistogramParameters(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsImageHistogramParameters);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsImageHistogramParameters;
     arcGisObjectRefs[dotNetObject.id] = jsImageHistogramParameters;
     
     return jsImageHistogramParameters;

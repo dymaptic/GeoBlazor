@@ -35,8 +35,7 @@ export async function buildJsTimeInfoGenerated(dotNetObject: any): Promise<any> 
     }
     let jsTimeInfo = new TimeInfo(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsTimeInfo);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsTimeInfo;
     arcGisObjectRefs[dotNetObject.id] = jsTimeInfo;
     
     return jsTimeInfo;

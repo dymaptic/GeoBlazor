@@ -14,8 +14,7 @@ export async function buildJsGeoJSONLayerGetFieldDomainOptionsGenerated(dotNetOb
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerGetFieldDomainOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGeoJSONLayerGetFieldDomainOptions;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerGetFieldDomainOptions;
     
     return jsGeoJSONLayerGetFieldDomainOptions;

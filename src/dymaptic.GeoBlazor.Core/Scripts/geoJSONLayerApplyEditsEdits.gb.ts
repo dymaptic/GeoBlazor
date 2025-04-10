@@ -25,8 +25,7 @@ export async function buildJsGeoJSONLayerApplyEditsEditsGenerated(dotNetObject: 
     }
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsGeoJSONLayerApplyEditsEdits);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsGeoJSONLayerApplyEditsEdits;
     arcGisObjectRefs[dotNetObject.id] = jsGeoJSONLayerApplyEditsEdits;
     
     return jsGeoJSONLayerApplyEditsEdits;

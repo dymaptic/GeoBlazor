@@ -42,8 +42,7 @@ export async function buildJsCoverageDescriptionV201Generated(dotNetObject: any,
         jsCoverageDescriptionV201.version = dotNetObject.version;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsCoverageDescriptionV201);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201;
     arcGisObjectRefs[dotNetObject.id] = jsCoverageDescriptionV201;
     
     return jsCoverageDescriptionV201;

@@ -20,8 +20,7 @@ export async function buildJsFetchResourceGenerated(dotNetObject: any, layerId: 
         jsFetchResource.size = dotNetObject.size;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsFetchResource);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsFetchResource;
     arcGisObjectRefs[dotNetObject.id] = jsFetchResource;
     
     return jsFetchResource;

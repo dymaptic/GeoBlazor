@@ -219,7 +219,6 @@ export async function buildJsPortalUserGenerated(dotNetObject: any, layerId: str
     portalUserWrapper.viewId = viewId;
     portalUserWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(portalUserWrapper);
     jsObjectRefs[dotNetObject.id] = portalUserWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalUser;
     

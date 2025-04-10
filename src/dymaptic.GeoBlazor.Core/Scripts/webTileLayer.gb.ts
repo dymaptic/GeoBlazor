@@ -315,11 +315,11 @@ export async function buildJsWebTileLayerGenerated(dotNetObject: any, layerId: s
             webTileLayerWrapper.viewId = viewId;
             webTileLayerWrapper.layerId = layerId;
     
-            let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
             jsObjectRefs[dotNetObject.id] = webTileLayerWrapper;
             arcGisObjectRefs[dotNetObject.id] = jsWebTileLayer;
     
             try {
+                let jsObjectRef = DotNet.createJSObjectReference(webTileLayerWrapper);
                 let { buildDotNetWebTileLayer } = await import('./webTileLayer');
                 let dnInstantiatedObject = await buildDotNetWebTileLayer(jsWebTileLayer);
 

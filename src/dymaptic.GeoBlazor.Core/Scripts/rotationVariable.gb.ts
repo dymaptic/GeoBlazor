@@ -31,8 +31,7 @@ export async function buildJsRotationVariableGenerated(dotNetObject: any): Promi
     }
     let jsRotationVariable = new RotationVariable(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRotationVariable);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRotationVariable;
     arcGisObjectRefs[dotNetObject.id] = jsRotationVariable;
     
     return jsRotationVariable;

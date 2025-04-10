@@ -942,7 +942,7 @@ public partial class PopupWidget : IGoTo
 
         // get the property value
         string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
-            CancellationTokenSource.Token, "stringContent");
+            CancellationTokenSource.Token, "content");
         if (result is not null)
         {
 #pragma warning disable BL0005
@@ -1473,7 +1473,7 @@ public partial class PopupWidget : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "htmlContent", value);
+            JsComponentReference, "content", value);
     }
     
     /// <summary>
@@ -1629,7 +1629,7 @@ public partial class PopupWidget : IGoTo
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "stringContent", value);
+            JsComponentReference, "content", value);
     }
     
     /// <summary>

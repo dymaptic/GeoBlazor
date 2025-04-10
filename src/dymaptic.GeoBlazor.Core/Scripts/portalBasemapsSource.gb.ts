@@ -128,7 +128,6 @@ export async function buildJsPortalBasemapsSourceGenerated(dotNetObject: any, la
     portalBasemapsSourceWrapper.viewId = viewId;
     portalBasemapsSourceWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(portalBasemapsSourceWrapper);
     jsObjectRefs[dotNetObject.id] = portalBasemapsSourceWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsPortalBasemapsSource;
     

@@ -19,8 +19,7 @@ export async function buildJsAttachmentsCapabilitiesOperationsGenerated(dotNetOb
         jsAttachmentsCapabilitiesOperations.update = dotNetObject.update;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsAttachmentsCapabilitiesOperations);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsAttachmentsCapabilitiesOperations;
     arcGisObjectRefs[dotNetObject.id] = jsAttachmentsCapabilitiesOperations;
     
     return jsAttachmentsCapabilitiesOperations;

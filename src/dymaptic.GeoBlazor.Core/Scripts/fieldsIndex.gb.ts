@@ -88,7 +88,6 @@ export async function buildJsFieldsIndexGenerated(dotNetObject: any, layerId: st
     fieldsIndexWrapper.viewId = viewId;
     fieldsIndexWrapper.layerId = layerId;
     
-    let jsObjectRef = DotNet.createJSObjectReference(fieldsIndexWrapper);
     jsObjectRefs[dotNetObject.id] = fieldsIndexWrapper;
     arcGisObjectRefs[dotNetObject.id] = jsFieldsIndex;
     

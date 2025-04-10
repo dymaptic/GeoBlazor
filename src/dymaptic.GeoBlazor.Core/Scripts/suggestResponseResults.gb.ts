@@ -20,8 +20,7 @@ export async function buildJsSuggestResponseResultsGenerated(dotNetObject: any, 
         jsSuggestResponseResults.sourceIndex = dotNetObject.sourceIndex;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsSuggestResponseResults);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsSuggestResponseResults;
     arcGisObjectRefs[dotNetObject.id] = jsSuggestResponseResults;
     
     return jsSuggestResponseResults;

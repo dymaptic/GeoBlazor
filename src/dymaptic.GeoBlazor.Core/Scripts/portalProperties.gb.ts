@@ -202,8 +202,7 @@ export async function buildJsPortalPropertiesGenerated(dotNetObject: any, layerI
         jsPortalProperties.vectorBasemapGalleryGroupQuery = dotNetObject.vectorBasemapGalleryGroupQuery;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsPortalProperties);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsPortalProperties;
     arcGisObjectRefs[dotNetObject.id] = jsPortalProperties;
     
     return jsPortalProperties;
