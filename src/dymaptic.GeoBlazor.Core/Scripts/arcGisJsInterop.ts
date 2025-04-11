@@ -120,13 +120,8 @@ export let Pro: any;
 
 // region functions
 
-export async function setPro(): Promise<void> {
-    try {
-        // @ts-ignore
-        Pro = await import("./arcGisPro?v=4.0.0-beta-1.11");
-    } catch {
-        // this catch tells esbuild to ignore
-    }
+export async function setPro(pro): Promise<void> {
+    Pro = pro;
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
