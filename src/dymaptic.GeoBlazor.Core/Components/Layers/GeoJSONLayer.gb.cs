@@ -2505,43 +2505,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the FeatureReduction property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetFeatureReduction(IFeatureReduction? value)
-    {
-#pragma warning disable BL0005
-        FeatureReduction = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(FeatureReduction)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "featureReduction", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Fields property after render.
     /// </summary>
     /// <param name="value">
@@ -3653,7 +3616,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<FeatureEditsResult?> ApplyEdits(GeoJSONLayerApplyEditsEdits edits)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditsResult?>(
             "applyEdits", 
@@ -3671,7 +3652,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -3686,7 +3685,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<Query?> CreateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createQuery", 
@@ -3703,7 +3720,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<Field?> GetField(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Field?>(
             "getField", 
@@ -3726,7 +3761,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public async Task<Domain?> GetFieldDomain(string fieldName,
         GeoJSONLayerGetFieldDomainOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Domain?>(
             "getFieldDomain", 
@@ -3751,7 +3804,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public async Task<ExtentQueryResult?> QueryExtent(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
@@ -3781,7 +3852,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public async Task<int?> QueryFeatureCount(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         int? result = await JsComponentReference!.InvokeAsync<int?>(
@@ -3811,7 +3900,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public async Task<FeatureSet?> QueryFeatures(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -3841,7 +3948,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public async Task<long[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
@@ -3863,7 +3988,25 @@ public partial class GeoJSONLayer : IBlendLayer,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 

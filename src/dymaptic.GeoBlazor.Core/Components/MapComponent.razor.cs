@@ -898,6 +898,28 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
         }
     }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        Props ??= GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+        foreach (PropertyInfo propInfo in Props)
+        {
+            if (propInfo.PropertyType.IsAssignableTo(typeof(IInteractiveRecord)) 
+                && propInfo.GetValue(this) is IInteractiveRecord record)
+            {
+                record.CoreJsModule = CoreJsModule;
+                record.AbortManager = new AbortManager(CoreJsModule!);
+            }
+        }
+    }
+
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

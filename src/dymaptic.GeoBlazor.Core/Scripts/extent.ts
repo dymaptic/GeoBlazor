@@ -10,10 +10,19 @@ export default class ExtentWrapper implements IPropertyWrapper {
     public extent: Extent;
     public geoBlazorId: string | null = null;
     
-    constructor(component: Extent) {
-        this.extent = component;
+    constructor(extent: Extent) {
+        this.extent = extent;
     }
     
+    setProperty(prop: string, value: any): void {
+        this.extent[prop] = value;
+    }
+    getProperty(prop: string) {
+        return this.extent[prop];
+    }
+    unwrap() {
+        return this.extent;
+    }
     
     centerAt(point: any) {
         let jsPoint = buildJsPoint(point);

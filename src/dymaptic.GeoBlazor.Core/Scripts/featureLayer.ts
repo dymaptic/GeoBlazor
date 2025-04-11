@@ -320,7 +320,7 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
 
     async setTemplates(value: any): Promise<void> {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-        this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
+        this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
 
     async getField(fieldName: string): Promise<DotNetField | null> {

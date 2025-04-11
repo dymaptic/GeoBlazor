@@ -5628,7 +5628,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<FeatureEditResult?> AddAttachment(Graphic feature,
         ElementReference attachment)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
             "addAttachment", 
@@ -5649,7 +5667,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<FeatureEditResult[]?> DeleteAttachments(Graphic feature,
         IReadOnlyCollection<long> attachmentIds)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult[]?>(
             "deleteAttachments", 
@@ -5671,7 +5707,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<AttachmentsQueryResult?> QueryAttachments(AttachmentQuery attachmentQuery,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         AttachmentsQueryResult? result = await JsComponentReference!.InvokeAsync<AttachmentsQueryResult?>(
@@ -5694,7 +5748,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(FeatureLayerBaseSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -5714,7 +5786,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         FeatureLayerBaseSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -5738,7 +5828,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
         long attachmentId,
         ElementReference attachment)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
             "updateAttachment", 

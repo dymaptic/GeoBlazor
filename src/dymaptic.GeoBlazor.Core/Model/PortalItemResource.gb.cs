@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record PortalItemResource(
     string? Path = null,
-    PortalItem? PortalItem = null)
+    PortalItem? PortalItem = null): IInteractiveRecord
 {
     /// <summary>
     ///     Path of the resource relative to `{ITEM}/resources/`.
@@ -31,8 +31,10 @@ public partial record PortalItemResource(
     /// </summary>
     public PortalItem? PortalItem { get; set; } = PortalItem;
     
-    internal IJSObjectReference? JsComponentReference { get; set; }
-    internal AbortManager? AbortManager { get; set; }
+    public IJSObjectReference? JsComponentReference { get; set; }
+    public AbortManager? AbortManager { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Cancellation Token for async methods.
@@ -54,7 +56,25 @@ public partial record PortalItemResource(
     public async Task<object?> Fetch(ResponseType responseType,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
@@ -86,7 +106,25 @@ public partial record PortalItemResource(
         PortalItemResourceUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(

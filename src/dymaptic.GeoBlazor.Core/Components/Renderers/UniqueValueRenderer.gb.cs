@@ -1480,7 +1480,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public async Task AddUniqueValueInfo(string valueOrInfo,
         Symbol symbol)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "addUniqueValueInfo", 
@@ -1499,7 +1517,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task<UniqueValueInfo?> GetUniqueValueInfo(Graphic graphic)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<UniqueValueInfo?>(
             "getUniqueValueInfo", 
@@ -1517,7 +1553,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task RemoveUniqueValueInfo(string value)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "removeUniqueValueInfo", 

@@ -45,6 +45,9 @@ export default class WebMapGenerated implements IPropertyWrapper {
             let { buildJsPortalItem } = await import('./portalItem');
             this.component.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.utilityNetworks) && dotNetObject.utilityNetworks.length > 0) {
+            this.component.utilityNetworks = dotNetObject.iUtilityNetwork;
+        }
         if (hasValue(dotNetObject.widgets)) {
             let { buildJsWebMapWidgets } = await import('./webMapWidgets');
             this.component.widgets = await buildJsWebMapWidgets(dotNetObject.widgets, this.layerId, this.viewId) as any;
@@ -61,9 +64,6 @@ export default class WebMapGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.thumbnailUrl)) {
             this.component.thumbnailUrl = dotNetObject.thumbnailUrl;
-        }
-        if (hasValue(dotNetObject.utilityNetworks) && dotNetObject.utilityNetworks.length > 0) {
-            this.component.utilityNetworks = dotNetObject.utilityNetworks;
         }
     }
     
@@ -241,6 +241,9 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
         let { buildJsPortalItem } = await import('./portalItem');
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.utilityNetworks) && dotNetObject.utilityNetworks.length > 0) {
+        properties.utilityNetworks = dotNetObject.utilityNetworks;
+    }
     if (hasValue(dotNetObject.widgets)) {
         let { buildJsWebMapWidgets } = await import('./webMapWidgets');
         properties.widgets = await buildJsWebMapWidgets(dotNetObject.widgets, layerId, viewId) as any;
@@ -257,9 +260,6 @@ export async function buildJsWebMapGenerated(dotNetObject: any, layerId: string 
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {
         properties.thumbnailUrl = dotNetObject.thumbnailUrl;
-    }
-    if (hasValue(dotNetObject.utilityNetworks) && dotNetObject.utilityNetworks.length > 0) {
-        properties.utilityNetworks = dotNetObject.utilityNetworks;
     }
     let jsWebMap = new WebMap(properties);
 

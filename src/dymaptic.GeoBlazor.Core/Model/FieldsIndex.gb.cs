@@ -12,7 +12,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-FieldsIndex.html#dateFields">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FieldsIndex(
-    IReadOnlyList<Field>? DateFields = null)
+    IReadOnlyList<Field>? DateFields = null): IInteractiveRecord
 {
     /// <summary>
     ///     An array of date fields or field json objects.
@@ -21,8 +21,10 @@ public partial record FieldsIndex(
     /// </summary>
     public IReadOnlyList<Field>? DateFields { get; set; } = DateFields;
     
-    internal IJSObjectReference? JsComponentReference { get; set; }
-    internal AbortManager? AbortManager { get; set; }
+    public IJSObjectReference? JsComponentReference { get; set; }
+    public AbortManager? AbortManager { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Cancellation Token for async methods.
@@ -40,7 +42,25 @@ public partial record FieldsIndex(
     [ArcGISMethod]
     public async Task<Field?> Get(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Field?>(
             "get", 
@@ -58,7 +78,25 @@ public partial record FieldsIndex(
     [ArcGISMethod]
     public async Task<string?> GetTimeZone(string fieldOrFieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "getTimeZone", 
@@ -76,7 +114,25 @@ public partial record FieldsIndex(
     [ArcGISMethod]
     public async Task<bool?> Has(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "has", 
@@ -94,7 +150,25 @@ public partial record FieldsIndex(
     [ArcGISMethod]
     public async Task<bool?> IsDateField(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isDateField", 

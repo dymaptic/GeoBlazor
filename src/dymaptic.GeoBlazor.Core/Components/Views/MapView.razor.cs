@@ -1490,7 +1490,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
 
         _newLayers.Add((layer, isBasemapLayer, isBasemapReferenceLayer));
-
+        StateHasChanged();
         return Task.CompletedTask;
     }
 
@@ -2162,6 +2162,7 @@ public partial class MapView : MapComponent
         if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
 
         _newWidgets.Add(widget);
+        StateHasChanged();
 
         return Task.CompletedTask;
     }
@@ -2420,10 +2421,9 @@ public partial class MapView : MapComponent
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 
             Rendering = false;
-            
+            MapRendered = true;
             // must be after `Rendering = false`
             await GetPopupWidget();
-            MapRendered = true;
         });
     }
 #endregion
