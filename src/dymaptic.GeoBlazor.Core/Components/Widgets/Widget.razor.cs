@@ -453,6 +453,9 @@ public abstract partial class Widget : MapComponent
         }
     }
 
+    /// <summary>
+    ///     Updates the widget internally. Not intended for public use.
+    /// </summary>
     protected async Task UpdateWidget()
     {
         if (MapRendered && !_delayedUpdate)

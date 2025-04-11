@@ -483,6 +483,7 @@ public abstract partial class Layer : MapComponent
         PreviousParameters = dictionary.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_delayedUpdate)
