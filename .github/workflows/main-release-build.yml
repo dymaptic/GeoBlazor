@@ -28,6 +28,7 @@ jobs:
         nuget-version: 'latest'
 
     - name: Bump Version
+      shell: pwsh
       run: |
         ./bumpVersion.ps1 -publish
         
