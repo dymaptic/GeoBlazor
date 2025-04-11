@@ -78,8 +78,6 @@
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
         <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
         <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
-        <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
-        <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />
         <Content Remove="package-lock.json" />
         <Content Remove="tsconfig.json" />
