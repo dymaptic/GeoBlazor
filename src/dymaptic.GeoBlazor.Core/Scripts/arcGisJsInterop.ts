@@ -123,7 +123,7 @@ export let Pro: any;
 export async function setPro(): Promise<void> {
     try {
         // @ts-ignore
-        Pro = await import("./arcGisPro");
+        Pro = await import("./arcGisPro?v=4.0.0-beta-1.11");
     } catch {
         // this catch tells esbuild to ignore
     }
