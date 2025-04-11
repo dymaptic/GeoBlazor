@@ -242,7 +242,6 @@ public partial class WebMapWidgets : MapComponent
                 if (floorFilter != FloorFilter)
                 {
                     FloorFilter = floorFilter;
-                    
                     ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
                 }
                 
@@ -259,7 +258,6 @@ public partial class WebMapWidgets : MapComponent
         {
             case WebMapFloorFilter _:
                 FloorFilter = null;
-                
                 ModifiedParameters[nameof(FloorFilter)] = FloorFilter;
                 return true;
             default:

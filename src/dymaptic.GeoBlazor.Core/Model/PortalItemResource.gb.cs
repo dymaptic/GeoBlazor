@@ -31,9 +31,24 @@ public partial record PortalItemResource(
     /// </summary>
     public PortalItem? PortalItem { get; set; } = PortalItem;
     
+    /// <summary>
+    ///     Represents the JavaScript component reference.
+    /// </summary>
     public IJSObjectReference? JsComponentReference { get; set; }
+    
+    /// <summary>
+    ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
+    /// </summary>
     public AbortManager? AbortManager { get; set; }
+    
+    /// <summary>
+    ///     A unique Id to identify this record in JavaScript.
+    /// </summary>
     public Guid Id { get; set; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Reference to the Core JavaScript module.
+    /// </summary>
     public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
