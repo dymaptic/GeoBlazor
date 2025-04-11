@@ -1,11 +1,14 @@
 ﻿@inherits MapComponent
 
-<div class="validation-message">@((MarkupString)(ErrorMessage ?? string.Empty))</div>
 <CascadingValue Name="View" Value="this">
     <CascadingValue Name="Parent" Value="this">
         <CascadingValue Name="MapRendered" Value="MapRendered">
             <div class="@Class map-wrapper" style="@Style">
                 <div class="map-container" id="@($"map-container-{Id}")">
+                    @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+                    {
+                        <div class="validation-message">@((MarkupString)ErrorMessage)</div>
+                    }
                     @ChildContent
                 </div>
                 @if (WhiteLabel is null || !IsPro())
