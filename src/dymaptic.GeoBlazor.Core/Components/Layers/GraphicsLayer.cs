@@ -98,15 +98,14 @@ public partial class GraphicsLayer : Layer
 
             return;
         }
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
+        
         int chunkSize = View!.GraphicSerializationChunkSize ?? (View.IsMaui ? 100 : 200);
         AbortManager ??= new AbortManager(CoreJsModule!);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (View.IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -117,7 +116,7 @@ public partial class GraphicsLayer : Layer
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -138,7 +137,8 @@ public partial class GraphicsLayer : Layer
         }
         else if (View.IsMaui)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -147,9 +147,9 @@ public partial class GraphicsLayer : Layer
                 {
                     return;
                 }
-
-                GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
-                ProtoGraphicCollection collection = new(recordChunk);
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -172,7 +172,7 @@ public partial class GraphicsLayer : Layer
         {
             List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -183,9 +183,9 @@ public partial class GraphicsLayer : Layer
                     {
                         return;
                     }
-
-                    GraphicSerializationRecord[] recordChunk = records.Skip(skip).Take(chunkSize).ToArray();
-                    ProtoGraphicCollection collection = new(recordChunk);
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 

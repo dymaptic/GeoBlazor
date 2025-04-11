@@ -1291,14 +1291,13 @@ public partial class MapView : MapComponent
         }
 
         if (CoreJsModule is null || !MapRendered) return;
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
+        
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1309,7 +1308,7 @@ public partial class MapView : MapComponent
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1331,7 +1330,7 @@ public partial class MapView : MapComponent
         else if (IsMaui)
         {
             // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1340,9 +1339,9 @@ public partial class MapView : MapComponent
                 {
                     return;
                 }
-
-                ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1365,7 +1364,7 @@ public partial class MapView : MapComponent
         {
             List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1376,9 +1375,9 @@ public partial class MapView : MapComponent
                     {
                         return;
                     }
-
-                    ProtoGraphicCollection collection =
-                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
