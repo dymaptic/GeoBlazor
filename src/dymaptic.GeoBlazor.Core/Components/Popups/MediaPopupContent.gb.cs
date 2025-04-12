@@ -439,7 +439,6 @@ public partial class MediaPopupContent
                 if (!MediaInfos.Contains(mediaInfos))
                 {
                     MediaInfos = [..MediaInfos, mediaInfos];
-                    
                     ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
                 }
                 
@@ -456,7 +455,6 @@ public partial class MediaPopupContent
         {
             case MediaInfo mediaInfos:
                 MediaInfos = MediaInfos?.Where(m => m != mediaInfos).ToList();
-                
                 ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
                 return true;
             default:

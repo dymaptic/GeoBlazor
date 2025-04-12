@@ -1122,7 +1122,6 @@ public partial class PopupTemplate
                 if (!Actions.Contains(actions))
                 {
                     Actions = [..Actions, actions];
-                    
                     ModifiedParameters[nameof(Actions)] = Actions;
                 }
                 
@@ -1132,7 +1131,6 @@ public partial class PopupTemplate
                 if (!ExpressionInfos.Contains(expressionInfos))
                 {
                     ExpressionInfos = [..ExpressionInfos, expressionInfos];
-                    
                     ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
                 }
                 
@@ -1142,7 +1140,6 @@ public partial class PopupTemplate
                 if (!FieldInfos.Contains(fieldInfos))
                 {
                     FieldInfos = [..FieldInfos, fieldInfos];
-                    
                     ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
                 }
                 
@@ -1151,7 +1148,6 @@ public partial class PopupTemplate
                 if (layerOptions != LayerOptions)
                 {
                     LayerOptions = layerOptions;
-                    
                     ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
                 }
                 
@@ -1168,22 +1164,18 @@ public partial class PopupTemplate
         {
             case ActionBase actions:
                 Actions = Actions?.Where(a => a != actions).ToList();
-                
                 ModifiedParameters[nameof(Actions)] = Actions;
                 return true;
             case PopupExpressionInfo expressionInfos:
                 ExpressionInfos = ExpressionInfos?.Where(e => e != expressionInfos).ToList();
-                
                 ModifiedParameters[nameof(ExpressionInfos)] = ExpressionInfos;
                 return true;
             case FieldInfo fieldInfos:
                 FieldInfos = FieldInfos?.Where(f => f != fieldInfos).ToList();
-                
                 ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
                 return true;
             case LayerOptions _:
                 LayerOptions = null;
-                
                 ModifiedParameters[nameof(LayerOptions)] = LayerOptions;
                 return true;
             default:

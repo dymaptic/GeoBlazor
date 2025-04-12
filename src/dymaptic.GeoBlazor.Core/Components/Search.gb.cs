@@ -598,7 +598,6 @@ public partial class Search : MapComponent
                 if (!Layers.Contains(layers))
                 {
                     Layers = [..Layers, layers];
-                    
                     ModifiedParameters[nameof(Layers)] = Layers;
                 }
                 
@@ -608,7 +607,6 @@ public partial class Search : MapComponent
                 if (!Tables.Contains(tables))
                 {
                     Tables = [..Tables, tables];
-                    
                     ModifiedParameters[nameof(Tables)] = Tables;
                 }
                 
@@ -625,12 +623,10 @@ public partial class Search : MapComponent
         {
             case SearchLayer layers:
                 Layers = Layers?.Where(l => l != layers).ToList();
-                
                 ModifiedParameters[nameof(Layers)] = Layers;
                 return true;
             case SearchTable tables:
                 Tables = Tables?.Where(t => t != tables).ToList();
-                
                 ModifiedParameters[nameof(Tables)] = Tables;
                 return true;
             default:

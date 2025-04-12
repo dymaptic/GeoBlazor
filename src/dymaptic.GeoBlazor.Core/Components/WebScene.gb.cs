@@ -1296,7 +1296,25 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<object?> Load()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "load", 
@@ -1310,7 +1328,25 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<WebScene?> LoadAll()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<WebScene?>(
             "loadAll", 
@@ -1327,7 +1363,25 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(WebSceneSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -1350,7 +1404,25 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         WebSceneSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -1373,7 +1445,25 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     public async Task<object?> UpdateFrom(SceneView view,
         WebSceneUpdateFromOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "updateFrom", 
@@ -1394,7 +1484,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
                 if (applicationProperties != ApplicationProperties)
                 {
                     ApplicationProperties = applicationProperties;
-                    
                     ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
                 }
                 
@@ -1403,7 +1492,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
                 if (clippingArea != ClippingArea)
                 {
                     ClippingArea = clippingArea;
-                    
                     ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
                 }
                 
@@ -1412,7 +1500,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
                 if (initialViewProperties != InitialViewProperties)
                 {
                     InitialViewProperties = initialViewProperties;
-                    
                     ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 }
                 
@@ -1421,7 +1508,6 @@ public partial class WebScene : ITimeSliderViewModelDocument,
                 if (widgets != Widgets)
                 {
                     Widgets = widgets;
-                    
                     ModifiedParameters[nameof(Widgets)] = Widgets;
                 }
                 
@@ -1438,22 +1524,18 @@ public partial class WebScene : ITimeSliderViewModelDocument,
         {
             case WebsceneApplicationProperties _:
                 ApplicationProperties = null;
-                
                 ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
                 return true;
             case Extent _:
                 ClippingArea = null;
-                
                 ModifiedParameters[nameof(ClippingArea)] = ClippingArea;
                 return true;
             case WebsceneInitialViewProperties _:
                 InitialViewProperties = null;
-                
                 ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 return true;
             case WebSceneWidgets _:
                 Widgets = null;
-                
                 ModifiedParameters[nameof(Widgets)] = Widgets;
                 return true;
             default:

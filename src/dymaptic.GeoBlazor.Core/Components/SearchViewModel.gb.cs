@@ -364,7 +364,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<object>? Results { get; protected set; }
+    public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
     
     /// <summary>
     ///     Indicates whether to display the option to search all sources.
@@ -1232,7 +1232,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
-    public async Task<IReadOnlyList<object>?> GetResults()
+    public async Task<IReadOnlyList<SearchResultResponse>?> GetResults()
     {
         if (CoreJsModule is null)
         {
@@ -1255,7 +1255,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<object>?>("getProperty",
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {
@@ -2525,7 +2525,25 @@ public partial class SearchViewModel : IGoTo
     [ArcGISMethod]
     public async Task Clear()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "clear", 
@@ -2545,7 +2563,25 @@ public partial class SearchViewModel : IGoTo
     [ArcGISMethod]
     public async Task<SearchResponse?> Search(string searchTerm)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "search", 
@@ -2560,7 +2596,25 @@ public partial class SearchViewModel : IGoTo
     [ArcGISMethod]
     public async Task<SearchResponse?> SearchNearby()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<SearchResponse?>(
             "searchNearby", 
@@ -2578,7 +2632,25 @@ public partial class SearchViewModel : IGoTo
     [ArcGISMethod]
     public async Task<SuggestResponse?> Suggest(string value)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<SuggestResponse?>(
             "suggest", 
@@ -2782,7 +2854,6 @@ public partial class SearchViewModel : IGoTo
                 if (defaultSymbols != DefaultSymbols)
                 {
                     DefaultSymbols = defaultSymbols;
-                    
                     ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
                 }
                 
@@ -2791,7 +2862,6 @@ public partial class SearchViewModel : IGoTo
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -2800,7 +2870,6 @@ public partial class SearchViewModel : IGoTo
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -2810,7 +2879,6 @@ public partial class SearchViewModel : IGoTo
                 if (!Sources.Contains(sources))
                 {
                     Sources = [..Sources, sources];
-                    
                     ModifiedParameters[nameof(Sources)] = Sources;
                 }
                 
@@ -2827,22 +2895,18 @@ public partial class SearchViewModel : IGoTo
         {
             case SearchViewModelDefaultSymbols _:
                 DefaultSymbols = null;
-                
                 ModifiedParameters[nameof(DefaultSymbols)] = DefaultSymbols;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
-                
                 ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             default:

@@ -2804,8 +2804,11 @@ public partial class SliderWidget
                 if (!TickConfigs.Contains(tickConfigs))
                 {
                     TickConfigs = [..TickConfigs, tickConfigs];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2813,8 +2816,11 @@ public partial class SliderWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2822,8 +2828,11 @@ public partial class SliderWidget
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2839,17 +2848,14 @@ public partial class SliderWidget
         {
             case TickConfig tickConfigs:
                 TickConfigs = TickConfigs?.Where(t => t != tickConfigs).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(TickConfigs)] = TickConfigs;
                 return true;
             case SliderViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case SliderVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

@@ -46,13 +46,15 @@ export function buildJsPopupTemplate(dotNetObject: any, layerId: string | null, 
 
         if (hasValue(viewId)) {
             let view = arcGisObjectRefs[viewId!];
-            if (!hasValue(view.popup.on)) {
-                reactiveUtils.once(() => view.popup.on !== undefined)
-                    .then(() => {
-                        setTriggerActionHandlers(dotNetObject, view, viewId);
-                    })
-            } else {
-                setTriggerActionHandlers(dotNetObject, view, viewId);
+            if (hasValue(view)) {
+                if (!hasValue(view.popup.on)) {
+                    reactiveUtils.once(() => view.popup.on !== undefined)
+                        .then(() => {
+                            setTriggerActionHandlers(dotNetObject, view, viewId);
+                        })
+                } else {
+                    setTriggerActionHandlers(dotNetObject, view, viewId);
+                }   
             }
         }
     }

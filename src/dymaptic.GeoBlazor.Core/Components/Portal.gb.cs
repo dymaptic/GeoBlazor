@@ -5845,7 +5845,25 @@ public partial class Portal
         PortalFetchBasemapsOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Basemap[]? result = await JsComponentReference!.InvokeAsync<Basemap[]?>(
@@ -5869,7 +5887,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<object[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
@@ -5892,7 +5928,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<PortalGroup[]?> FetchFeaturedGroups(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalGroup[]? result = await JsComponentReference!.InvokeAsync<PortalGroup[]?>(
@@ -5915,7 +5969,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<object[]?> FetchRegions(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object[]? result = await JsComponentReference!.InvokeAsync<object[]?>(
@@ -5938,7 +6010,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<object?> FetchSettings(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
@@ -5966,7 +6056,25 @@ public partial class Portal
     public async Task<PortalQueryResult?> QueryGroups(PortalQueryParams queryParams,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
@@ -5995,7 +6103,25 @@ public partial class Portal
     public async Task<PortalQueryResult?> QueryItems(PortalQueryParams queryParams,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
@@ -6024,7 +6150,25 @@ public partial class Portal
     public async Task<PortalQueryResult?> QueryUsers(PortalQueryParams queryParams,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(
@@ -6050,7 +6194,6 @@ public partial class Portal
                 if (defaultExtent != DefaultExtent)
                 {
                     DefaultExtent = defaultExtent;
-                    
                     ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
                 }
                 
@@ -6060,7 +6203,6 @@ public partial class Portal
                 if (!FeaturedGroups.Contains(featuredGroups))
                 {
                     FeaturedGroups = [..FeaturedGroups, featuredGroups];
-                    
                     ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
                 }
                 
@@ -6069,7 +6211,6 @@ public partial class Portal
                 if (user != User)
                 {
                     User = user;
-                    
                     ModifiedParameters[nameof(User)] = User;
                 }
                 
@@ -6086,17 +6227,14 @@ public partial class Portal
         {
             case Extent _:
                 DefaultExtent = null;
-                
                 ModifiedParameters[nameof(DefaultExtent)] = DefaultExtent;
                 return true;
             case PortalFeaturedGroups featuredGroups:
                 FeaturedGroups = FeaturedGroups?.Where(f => f != featuredGroups).ToList();
-                
                 ModifiedParameters[nameof(FeaturedGroups)] = FeaturedGroups;
                 return true;
             case PortalUser _:
                 User = null;
-                
                 ModifiedParameters[nameof(User)] = User;
                 return true;
             default:

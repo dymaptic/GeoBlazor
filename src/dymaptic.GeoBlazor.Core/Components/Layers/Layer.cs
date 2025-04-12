@@ -176,13 +176,19 @@ public abstract partial class Layer : MapComponent
                 if (!extent.Equals(FullExtent))
                 {
                     FullExtent = extent;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
             default:
                 await base.RegisterChildComponent(child);
-                LayerChanged = MapRendered;
+                if (MapRendered)
+                {
+                    await UpdateLayer();
+                }
                 break;
         }
     }
@@ -194,12 +200,12 @@ public abstract partial class Layer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                LayerChanged = MapRendered;
+                
 
                 break;
             default:
                 await base.UnregisterChildComponent(child);
-                LayerChanged = MapRendered;
+
                 break;
         }
     }
@@ -328,7 +334,10 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc/>
     public override async ValueTask Refresh()
     {
-        LayerChanged = MapRendered;
+        if (MapRendered)
+        {
+            await UpdateLayer();
+        }
         await base.Refresh();
         if (JsComponentReference is null) return;
         
@@ -377,7 +386,8 @@ public abstract partial class Layer : MapComponent
     {
         IReadOnlyDictionary<string, object?> dictionary = parameters.ToDictionary();
         await base.SetParametersAsync(parameters);
-        
+
+        bool layerChanged = false;
         if (PreviousParameters is not null && MapRendered)
         {
             foreach (KeyValuePair<string, object?> kvp in dictionary)
@@ -390,7 +400,10 @@ public abstract partial class Layer : MapComponent
                 
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue))
                 {
-                    LayerChanged = true;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
 
                     break;
                 }
@@ -404,7 +417,10 @@ public abstract partial class Layer : MapComponent
                     
                     if (prevArray.Length != currArray.Length)
                     {
-                        LayerChanged = true;
+                        if (MapRendered)
+                        {
+                            await UpdateLayer();
+                        }
                         break;
                     }
                     
@@ -412,12 +428,16 @@ public abstract partial class Layer : MapComponent
                     {
                         if (!Equals(prevArray.GetValue(i), currArray.GetValue(i)))
                         {
-                            LayerChanged = true;
+                            if (MapRendered)
+                            {
+                                await UpdateLayer();
+                                layerChanged = true;
+                            }
                             break;
                         }
                     }
                     
-                    if (LayerChanged) break;
+                    if (layerChanged) break;
                 }
                 else if (paramType.IsGenericType)
                 {
@@ -426,7 +446,10 @@ public abstract partial class Layer : MapComponent
                     
                     if (prevCollection.Count != currCollection.Count)
                     {
-                        LayerChanged = true;
+                        if (MapRendered)
+                        {
+                            await UpdateLayer();
+                        }
                         break;
                     }
                     
@@ -438,15 +461,20 @@ public abstract partial class Layer : MapComponent
                     {
                         if (!Equals(prevEnumerator.Current, currEnumerator.Current))
                         {
-                            LayerChanged = true;
+                            if (MapRendered)
+                            {
+                                await UpdateLayer();
+                            }
                             break;
                         }
                     }
                 }
                 else if (!kvp.Value?.Equals(previousValue) ?? true)
                 {
-                    LayerChanged = true;
-
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                     break;
                 }
             }
@@ -458,9 +486,7 @@ public abstract partial class Layer : MapComponent
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender);
-
-        if (LayerChanged)
+        if (_delayedUpdate)
         {
             await UpdateLayer();
         }
@@ -471,9 +497,33 @@ public abstract partial class Layer : MapComponent
     /// </summary>
     public async Task UpdateLayer()
     {
-        LayerChanged = false;
+        if (MapRendered && !_delayedUpdate)
+        {
+            // for components added after the map has rendered, wait one render cycle to get all children before updating
+            _delayedUpdate = true;
+            await InvokeAsync(StateHasChanged);
 
-        if (JsComponentReference is null)
+            return;
+        }
+        
+        _delayedUpdate = false;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null || !MapRendered || IsDisposed)
         {
             return;
         }
@@ -481,9 +531,6 @@ public abstract partial class Layer : MapComponent
         // ReSharper disable once RedundantCast
         await JsComponentReference!.InvokeAsync<string?>("updateComponent", CancellationTokenSource.Token, (object)this);
     }
-
-    /// <summary>
-    ///     Indicates if the layer has changed since the last render.
-    /// </summary>
-    public bool LayerChanged { get; set; }
+    
+    private bool _delayedUpdate;
 }

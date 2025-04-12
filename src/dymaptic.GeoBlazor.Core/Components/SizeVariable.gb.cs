@@ -1036,7 +1036,25 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
     [ArcGISMethod]
     public async Task FlipSizes()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "flipSizes", 
@@ -1056,7 +1074,6 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
-                    
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
                 
@@ -1073,7 +1090,6 @@ public partial class SizeVariable : IColorSizeSliderWidgetUpdateVisualVariables
         {
             case SizeStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
-                
                 ModifiedParameters[nameof(Stops)] = Stops;
                 return true;
             default:

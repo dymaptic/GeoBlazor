@@ -2464,7 +2464,25 @@ public partial class ImageryTileLayer : IBlendLayer,
     public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "computeStatisticsHistograms", 
@@ -2483,7 +2501,25 @@ public partial class ImageryTileLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -2513,7 +2549,25 @@ public partial class ImageryTileLayer : IBlendLayer,
         ImageryTileMixinFetchPixelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
@@ -2551,7 +2605,25 @@ public partial class ImageryTileLayer : IBlendLayer,
         double col,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
@@ -2583,7 +2655,25 @@ public partial class ImageryTileLayer : IBlendLayer,
         RasterIdentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         RasterIdentifyResult? result = await JsComponentReference!.InvokeAsync<RasterIdentifyResult?>(
@@ -2607,7 +2697,25 @@ public partial class ImageryTileLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(ImageryTileLayerSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -2629,7 +2737,25 @@ public partial class ImageryTileLayer : IBlendLayer,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         ImageryTileLayerSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -2651,8 +2777,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2660,8 +2789,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (pixelDataSource != PixelDataSource)
                 {
                     PixelDataSource = pixelDataSource;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2669,8 +2801,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2678,8 +2813,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2687,8 +2825,11 @@ public partial class ImageryTileLayer : IBlendLayer,
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2704,27 +2845,22 @@ public partial class ImageryTileLayer : IBlendLayer,
         {
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 return true;
             case PixelData _:
                 PixelDataSource = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PixelDataSource)] = PixelDataSource;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 return true;
             default:

@@ -480,7 +480,6 @@ public partial class MeasurementViewModel : MapComponent
                 if (activeViewModel != ActiveViewModel)
                 {
                     ActiveViewModel = activeViewModel;
-                    
                     ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
                 }
                 
@@ -497,7 +496,6 @@ public partial class MeasurementViewModel : MapComponent
         {
             case IMeasurementViewModelActiveViewModel _:
                 ActiveViewModel = null;
-                
                 ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
                 return true;
             default:

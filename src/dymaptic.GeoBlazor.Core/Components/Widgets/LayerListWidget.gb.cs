@@ -1462,7 +1462,25 @@ public partial class LayerListWidget
     public async Task TriggerAction(ActionBase action,
         ListItem item)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
@@ -1488,8 +1506,11 @@ public partial class LayerListWidget
                 if (!SelectedItems.Contains(selectedItems))
                 {
                     SelectedItems = [..SelectedItems, selectedItems];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1497,8 +1518,11 @@ public partial class LayerListWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1506,8 +1530,11 @@ public partial class LayerListWidget
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1523,17 +1550,14 @@ public partial class LayerListWidget
         {
             case ListItem selectedItems:
                 SelectedItems = SelectedItems?.Where(s => s != selectedItems).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(SelectedItems)] = SelectedItems;
                 return true;
             case LayerListViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case LayerListVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

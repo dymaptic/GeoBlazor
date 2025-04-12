@@ -415,7 +415,6 @@ public partial class Viewpoint
                 if (camera != Camera)
                 {
                     Camera = camera;
-                    
                     ModifiedParameters[nameof(Camera)] = Camera;
                 }
                 
@@ -424,7 +423,6 @@ public partial class Viewpoint
                 if (targetGeometry != TargetGeometry)
                 {
                     TargetGeometry = targetGeometry;
-                    
                     ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
                 }
                 
@@ -441,12 +439,10 @@ public partial class Viewpoint
         {
             case Camera _:
                 Camera = null;
-                
                 ModifiedParameters[nameof(Camera)] = Camera;
                 return true;
             case Geometry _:
                 TargetGeometry = null;
-                
                 ModifiedParameters[nameof(TargetGeometry)] = TargetGeometry;
                 return true;
             default:

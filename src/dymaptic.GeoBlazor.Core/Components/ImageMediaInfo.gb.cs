@@ -251,7 +251,6 @@ public partial class ImageMediaInfo
                 if (value != Value)
                 {
                     Value = value;
-                    
                     ModifiedParameters[nameof(Value)] = Value;
                 }
                 
@@ -268,7 +267,6 @@ public partial class ImageMediaInfo
         {
             case ImageMediaInfoValue _:
                 Value = null;
-                
                 ModifiedParameters[nameof(Value)] = Value;
                 return true;
             default:

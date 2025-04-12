@@ -121,15 +121,6 @@ public abstract partial class Geometry : MapComponent
     }
 
     internal abstract GeometrySerializationRecord ToSerializationRecord();
-    /// <inheritdoc/>
-    protected override async Task OnParametersSetAsync()
-    {
-        await base.OnParametersSetAsync();
-        if (Parent is not null)
-        {
-            await Parent.RegisterChildComponent(this);
-        }
-    }
 }
 
 [ProtoContract(Name = "Geometry")]

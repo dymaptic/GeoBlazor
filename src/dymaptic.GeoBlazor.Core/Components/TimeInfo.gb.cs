@@ -754,7 +754,6 @@ public partial class TimeInfo
                 if (fullTimeExtent != FullTimeExtent)
                 {
                     FullTimeExtent = fullTimeExtent;
-                    
                     ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
                 }
                 
@@ -763,7 +762,6 @@ public partial class TimeInfo
                 if (interval != Interval)
                 {
                     Interval = interval;
-                    
                     ModifiedParameters[nameof(Interval)] = Interval;
                 }
                 
@@ -780,12 +778,10 @@ public partial class TimeInfo
         {
             case TimeExtent _:
                 FullTimeExtent = null;
-                
                 ModifiedParameters[nameof(FullTimeExtent)] = FullTimeExtent;
                 return true;
             case TimeInterval _:
                 Interval = null;
-                
                 ModifiedParameters[nameof(Interval)] = Interval;
                 return true;
             default:

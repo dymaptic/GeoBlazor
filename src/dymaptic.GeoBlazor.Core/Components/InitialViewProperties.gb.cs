@@ -434,7 +434,6 @@ public partial class InitialViewProperties : MapComponent
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -443,7 +442,6 @@ public partial class InitialViewProperties : MapComponent
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -460,12 +458,10 @@ public partial class InitialViewProperties : MapComponent
         {
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

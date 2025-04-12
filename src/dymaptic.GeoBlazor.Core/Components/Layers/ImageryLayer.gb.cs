@@ -3817,7 +3817,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageAngleResult?> ComputeAngles(ImageAngleParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageAngleResult?>(
             "computeAngles", 
@@ -3838,7 +3856,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<HistogramsResult?> ComputeHistograms(ImageHistogramParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<HistogramsResult?>(
             "computeHistograms", 
@@ -3859,7 +3895,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImagePixelLocationResult?> ComputePixelSpaceLocations(ImagePixelLocationParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImagePixelLocationResult?>(
             "computePixelSpaceLocations", 
@@ -3880,7 +3934,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "computeStatisticsHistograms", 
@@ -3899,7 +3971,25 @@ public partial class ImageryLayer : IArcGISImageService,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -3926,7 +4016,25 @@ public partial class ImageryLayer : IArcGISImageService,
         int height,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
@@ -3954,7 +4062,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<FindImagesResult?> FindImages(FindImagesParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FindImagesResult?>(
             "findImages", 
@@ -3976,7 +4102,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<RasterInfo?> GenerateRasterInfo(RasterFunction rasterFunction,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>(
@@ -4003,7 +4147,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<object?> GetCatalogItemICSInfo(long rasterId,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         object? result = await JsComponentReference!.InvokeAsync<object?>(
@@ -4030,7 +4192,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<RasterInfo?> GetCatalogItemRasterInfo(long rasterId,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>(
@@ -4056,7 +4236,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageUrlResult?> GetImageUrl(ImageUrlParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageUrlResult?>(
             "getImageUrl", 
@@ -4077,7 +4275,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageSampleResult?> GetSamples(ImageSampleParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageSampleResult?>(
             "getSamples", 
@@ -4098,7 +4314,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageIdentifyResult?> Identify(ImageIdentifyParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageIdentifyResult?>(
             "identify", 
@@ -4119,7 +4353,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<Geometry?> ImageToMap(ImageToMapParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Geometry?>(
             "imageToMap", 
@@ -4140,7 +4392,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<Geometry?> ImageToMapMultiray(ImageToMapMultirayParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Geometry?>(
             "imageToMapMultiray", 
@@ -4161,7 +4431,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<Geometry?> MapToImage(MapToImageParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Geometry?>(
             "mapToImage", 
@@ -4182,7 +4470,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageAreaResult?> MeasureAreaAndPerimeter(ImageAreaParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageAreaResult?>(
             "measureAreaAndPerimeter", 
@@ -4203,7 +4509,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<MeasureAreaFromImageResult?> MeasureAreaFromImage(MeasureFromImageParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<MeasureAreaFromImageResult?>(
             "measureAreaFromImage", 
@@ -4224,7 +4548,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageDistanceResult?> MeasureDistanceAndAngle(ImageDistanceParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageDistanceResult?>(
             "measureDistanceAndAngle", 
@@ -4245,7 +4587,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageHeightResult?> MeasureHeight(ImageHeightParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageHeightResult?>(
             "measureHeight", 
@@ -4266,7 +4626,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<MeasureLengthFromImageResult?> MeasureLengthFromImage(MeasureFromImageParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<MeasureLengthFromImageResult?>(
             "measureLengthFromImage", 
@@ -4287,7 +4665,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImagePointResult?> MeasurePointOrCentroid(ImagePointParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImagePointResult?>(
             "measurePointOrCentroid", 
@@ -4308,7 +4704,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageBoundaryResult?> QueryBoundary(ImageBoundaryParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageBoundaryResult?>(
             "queryBoundary", 
@@ -4329,7 +4743,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<ImageGPSInfoResult?> QueryGPSInfo(ImageGPSInfoParameters parameters,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<ImageGPSInfoResult?>(
             "queryGPSInfo", 
@@ -4350,7 +4782,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<long[]?> QueryObjectIds(Query query,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<long[]?>(
             "queryObjectIds", 
@@ -4371,7 +4821,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<int?> QueryRasterCount(Query query,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<int?>(
             "queryRasterCount", 
@@ -4392,7 +4860,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<FeatureSet?> QueryRasters(Query query,
         object requestOptions)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureSet?>(
             "queryRasters", 
@@ -4408,7 +4894,25 @@ public partial class ImageryLayer : IArcGISImageService,
     [ArcGISMethod]
     public async Task Redraw()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "redraw", 
@@ -4423,7 +4927,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -4440,7 +4962,25 @@ public partial class ImageryLayer : IArcGISImageService,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(ImageryLayerSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -4462,7 +5002,25 @@ public partial class ImageryLayer : IArcGISImageService,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         ImageryLayerSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -4518,8 +5076,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (capabilities != Capabilities)
                 {
                     Capabilities = capabilities;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Capabilities)] = Capabilities;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4528,8 +5089,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4537,8 +5101,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
                     MultidimensionalSubset = multidimensionalSubset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4546,8 +5113,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (noData != NoData)
                 {
                     NoData = noData;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(NoData)] = NoData;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4555,8 +5125,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4564,8 +5137,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4573,8 +5149,11 @@ public partial class ImageryLayer : IArcGISImageService,
                 if (rasterFunction != RasterFunction)
                 {
                     RasterFunction = rasterFunction;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4590,37 +5169,30 @@ public partial class ImageryLayer : IArcGISImageService,
         {
             case ArcGISImageServiceCapabilities _:
                 Capabilities = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 return true;
             case NoData _:
                 NoData = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(NoData)] = NoData;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case RasterFunction _:
                 RasterFunction = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
                 return true;
             default:

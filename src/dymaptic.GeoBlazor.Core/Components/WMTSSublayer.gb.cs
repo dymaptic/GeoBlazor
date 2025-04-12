@@ -1194,7 +1194,6 @@ public partial class WMTSSublayer : MapComponent
                 if (fullExtent != FullExtent)
                 {
                     FullExtent = fullExtent;
-                    
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
                 
@@ -1204,7 +1203,6 @@ public partial class WMTSSublayer : MapComponent
                 if (!Styles.Contains(styles))
                 {
                     Styles = [..Styles, styles];
-                    
                     ModifiedParameters[nameof(Styles)] = Styles;
                 }
                 
@@ -1221,12 +1219,10 @@ public partial class WMTSSublayer : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;
             case WMTSStyle styles:
                 Styles = Styles?.Where(s => s != styles).ToList();
-                
                 ModifiedParameters[nameof(Styles)] = Styles;
                 return true;
             default:

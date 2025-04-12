@@ -351,7 +351,6 @@ public partial class TileMatrixSet : MapComponent
                 if (fullExtent != FullExtent)
                 {
                     FullExtent = fullExtent;
-                    
                     ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 }
                 
@@ -360,7 +359,6 @@ public partial class TileMatrixSet : MapComponent
                 if (tileInfo != TileInfo)
                 {
                     TileInfo = tileInfo;
-                    
                     ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 }
                 
@@ -377,12 +375,10 @@ public partial class TileMatrixSet : MapComponent
         {
             case Extent _:
                 FullExtent = null;
-                
                 ModifiedParameters[nameof(FullExtent)] = FullExtent;
                 return true;
             case TileInfo _:
                 TileInfo = null;
-                
                 ModifiedParameters[nameof(TileInfo)] = TileInfo;
                 return true;
             default:

@@ -29,10 +29,27 @@ public partial record Ground(
     IReadOnlyCollection<Layer>? Layers = null,
     GroundNavigationConstraint? NavigationConstraint = null,
     double? Opacity = null,
-    MapColor? SurfaceColor = null) : IMeshUtilsSource
+    MapColor? SurfaceColor = null) : IMeshUtilsSource, IInteractiveRecord
 {
-    internal IJSObjectReference? JsComponentReference { get; set; }
-    internal AbortManager? AbortManager { get; set; }
+    /// <summary>
+    ///     Represents the JavaScript component reference.
+    /// </summary>
+    public IJSObjectReference? JsComponentReference { get; set; }
+    
+    /// <summary>
+    ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
+    /// </summary>
+    public AbortManager? AbortManager { get; set; }
+    
+    /// <summary>
+    ///     A unique Id to identify this record in JavaScript.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Reference to the Core JavaScript module.
+    /// </summary>
+    public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Cancellation Token for async methods.
@@ -58,7 +75,25 @@ public partial record Ground(
         GroundCreateElevationSamplerOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         IElevationSampler? result = await JsComponentReference!.InvokeAsync<IElevationSampler?>(
@@ -79,7 +114,25 @@ public partial record Ground(
     [ArcGISMethod]
     public async Task<Ground?> LoadAll()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Ground?>(
             "loadAll", 
@@ -104,7 +157,25 @@ public partial record Ground(
         GroundQueryElevationOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ElevationQueryResult? result = await JsComponentReference!.InvokeAsync<ElevationQueryResult?>(

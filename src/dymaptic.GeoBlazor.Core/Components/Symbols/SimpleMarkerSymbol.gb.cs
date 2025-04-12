@@ -438,7 +438,6 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
                 if (outline != Outline)
                 {
                     Outline = outline;
-                    
                     ModifiedParameters[nameof(Outline)] = Outline;
                 }
                 
@@ -455,7 +454,6 @@ public partial class SimpleMarkerSymbol : IRouteStopSymbolsBreak,
         {
             case Outline _:
                 Outline = null;
-                
                 ModifiedParameters[nameof(Outline)] = Outline;
                 return true;
             default:

@@ -1049,7 +1049,25 @@ public partial class GeoRSSLayer : IBlendLayer,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -1103,8 +1121,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (lineSymbol != LineSymbol)
                 {
                     LineSymbol = lineSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1112,8 +1133,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (pointSymbol != PointSymbol)
                 {
                     PointSymbol = pointSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1121,8 +1145,11 @@ public partial class GeoRSSLayer : IBlendLayer,
                 if (polygonSymbol != PolygonSymbol)
                 {
                     PolygonSymbol = polygonSymbol;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -1138,17 +1165,14 @@ public partial class GeoRSSLayer : IBlendLayer,
         {
             case SimpleLineSymbol _:
                 LineSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LineSymbol)] = LineSymbol;
                 return true;
             case MarkerSymbol _:
                 PointSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PointSymbol)] = PointSymbol;
                 return true;
             case SimpleFillSymbol _:
                 PolygonSymbol = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PolygonSymbol)] = PolygonSymbol;
                 return true;
             default:

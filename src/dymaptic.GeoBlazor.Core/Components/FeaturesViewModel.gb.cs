@@ -2392,7 +2392,25 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISMethod]
     public async Task Clear()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "clear", 
@@ -2406,7 +2424,25 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISMethod]
     public async Task<FeaturesViewModel?> Next()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
             "next", 
@@ -2423,7 +2459,25 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISMethod]
     public async Task Open(FeaturesViewModelOpenOptions options)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "open", 
@@ -2438,7 +2492,25 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISMethod]
     public async Task<FeaturesViewModel?> Previous()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeaturesViewModel?>(
             "previous", 
@@ -2455,7 +2527,25 @@ public partial class FeaturesViewModel : MapComponent,
     [ArcGISMethod]
     public async Task TriggerAction(int actionIndex)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
@@ -2512,7 +2602,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (!Actions.Contains(actions))
                 {
                     Actions = [..Actions, actions];
-                    
                     ModifiedParameters[nameof(Actions)] = Actions;
                 }
                 
@@ -2522,7 +2611,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (!Features.Contains(features))
                 {
                     Features = [..Features, features];
-                    
                     ModifiedParameters[nameof(Features)] = Features;
                 }
                 
@@ -2531,7 +2619,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (featureViewModelAbilities != FeatureViewModelAbilities)
                 {
                     FeatureViewModelAbilities = featureViewModelAbilities;
-                    
                     ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
                 }
                 
@@ -2540,7 +2627,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (location != Location)
                 {
                     Location = location;
-                    
                     ModifiedParameters[nameof(Location)] = Location;
                 }
                 
@@ -2549,7 +2635,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -2558,7 +2643,6 @@ public partial class FeaturesViewModel : MapComponent,
                 if (widgetContent != WidgetContent)
                 {
                     WidgetContent = widgetContent;
-                    
                     ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
                 }
                 
@@ -2575,32 +2659,26 @@ public partial class FeaturesViewModel : MapComponent,
         {
             case ActionBase actions:
                 Actions = Actions?.Where(a => a != actions).ToList();
-                
                 ModifiedParameters[nameof(Actions)] = Actions;
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
-                
                 ModifiedParameters[nameof(Features)] = Features;
                 return true;
             case Abilities _:
                 FeatureViewModelAbilities = null;
-                
                 ModifiedParameters[nameof(FeatureViewModelAbilities)] = FeatureViewModelAbilities;
                 return true;
             case Point _:
                 Location = null;
-                
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case Widget _:
                 WidgetContent = null;
-                
                 ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
                 return true;
             default:

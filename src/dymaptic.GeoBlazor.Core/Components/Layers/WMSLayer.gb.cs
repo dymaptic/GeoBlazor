@@ -3054,7 +3054,25 @@ public partial class WMSLayer : Layer,
         WMSLayerFetchImageOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
@@ -3080,7 +3098,25 @@ public partial class WMSLayer : Layer,
     [ArcGISMethod]
     public async Task<WMSSublayer?> FindSublayerById(long id)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
             "findSublayerById", 
@@ -3098,7 +3134,25 @@ public partial class WMSLayer : Layer,
     [ArcGISMethod]
     public async Task<WMSSublayer?> FindSublayerByName(string name)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
             "findSublayerByName", 
@@ -3114,7 +3168,25 @@ public partial class WMSLayer : Layer,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -3169,8 +3241,11 @@ public partial class WMSLayer : Layer,
                 if (!FullExtents.Contains(fullExtents))
                 {
                     FullExtents = [..FullExtents, fullExtents];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FullExtents)] = FullExtents;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3178,8 +3253,11 @@ public partial class WMSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3187,8 +3265,11 @@ public partial class WMSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3196,8 +3277,11 @@ public partial class WMSLayer : Layer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3205,8 +3289,11 @@ public partial class WMSLayer : Layer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3214,8 +3301,11 @@ public partial class WMSLayer : Layer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3231,32 +3321,26 @@ public partial class WMSLayer : Layer,
         {
             case Extent fullExtents:
                 FullExtents = FullExtents?.Where(f => f != fullExtents).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FullExtents)] = FullExtents;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

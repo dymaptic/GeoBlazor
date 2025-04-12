@@ -357,7 +357,6 @@ public partial class FieldsPopupContent
                 if (!FieldInfos.Contains(fieldInfos))
                 {
                     FieldInfos = [..FieldInfos, fieldInfos];
-                    
                     ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
                 }
                 
@@ -374,7 +373,6 @@ public partial class FieldsPopupContent
         {
             case FieldInfo fieldInfos:
                 FieldInfos = FieldInfos?.Where(f => f != fieldInfos).ToList();
-                
                 ModifiedParameters[nameof(FieldInfos)] = FieldInfos;
                 return true;
             default:

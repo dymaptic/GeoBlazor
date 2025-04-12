@@ -317,7 +317,7 @@ public class LocationService : LogicComponent
     /// </summary>
     /// <param name="address">the various address fields accepted by the corresponding geocode service. </param>
     [CodeGenerationIgnore]
-public Task<List<AddressCandidate>> AddressToLocations(Address address)
+    public Task<List<AddressCandidate>> AddressToLocations(Address address)
     {
         return AddressToLocations(ESRIGeoLocationUrl, address);
     }

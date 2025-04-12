@@ -2548,7 +2548,25 @@ public partial class WCSLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -2578,7 +2596,25 @@ public partial class WCSLayer : IBlendLayer,
         ImageryTileMixinFetchPixelsOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
@@ -2610,7 +2646,25 @@ public partial class WCSLayer : IBlendLayer,
         RasterIdentifyOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         RasterIdentifyResult? result = await JsComponentReference!.InvokeAsync<RasterIdentifyResult?>(
@@ -2637,8 +2691,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (!MultidimensionalDefinition.Contains(multidimensionalDefinition))
                 {
                     MultidimensionalDefinition = [..MultidimensionalDefinition, multidimensionalDefinition];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2646,8 +2703,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (multidimensionalSubset != MultidimensionalSubset)
                 {
                     MultidimensionalSubset = multidimensionalSubset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2655,8 +2715,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2664,8 +2727,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2674,8 +2740,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (!RasterFields.Contains(rasterFields))
                 {
                     RasterFields = [..RasterFields, rasterFields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(RasterFields)] = RasterFields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2683,8 +2752,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2692,8 +2764,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2701,8 +2776,11 @@ public partial class WCSLayer : IBlendLayer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2718,42 +2796,34 @@ public partial class WCSLayer : IBlendLayer,
         {
             case DimensionalDefinition multidimensionalDefinition:
                 MultidimensionalDefinition = MultidimensionalDefinition?.Where(m => m != multidimensionalDefinition).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalDefinition)] = MultidimensionalDefinition;
                 return true;
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(MultidimensionalSubset)] = MultidimensionalSubset;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Field rasterFields:
                 RasterFields = RasterFields?.Where(r => r != rasterFields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(RasterFields)] = RasterFields;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

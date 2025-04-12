@@ -299,7 +299,6 @@ public partial class OpacityVariable
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
-                    
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
                 
@@ -316,7 +315,6 @@ public partial class OpacityVariable
         {
             case OpacityStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
-                
                 ModifiedParameters[nameof(Stops)] = Stops;
                 return true;
             default:

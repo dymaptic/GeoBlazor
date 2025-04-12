@@ -1349,7 +1349,6 @@ public abstract partial class SearchSource
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -1358,7 +1357,6 @@ public abstract partial class SearchSource
                 if (resultSymbol != ResultSymbol)
                 {
                     ResultSymbol = resultSymbol;
-                    
                     ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
                 }
                 
@@ -1375,12 +1373,10 @@ public abstract partial class SearchSource
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-                
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Symbol _:
                 ResultSymbol = null;
-                
                 ModifiedParameters[nameof(ResultSymbol)] = ResultSymbol;
                 return true;
             default:

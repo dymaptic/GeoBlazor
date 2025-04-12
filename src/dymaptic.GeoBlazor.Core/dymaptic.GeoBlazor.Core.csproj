@@ -45,25 +45,6 @@
         <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
     </PropertyGroup>
 
-    <!--    Uncomment this section to turn on Roslyn Public API Analyzers.
-<<<<<<< HEAD
-        Must be commented out for successful builds -->
-=======
-        Must be commented out for successful builds. Also comment out the <NoWarn> below. -->
->>>>>>> develop
-    <!--    <ItemGroup>-->
-    <!--        <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4">-->
-    <!--	        <PrivateAssets>all</PrivateAssets>-->
-    <!--	        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
-    <!--        </PackageReference>-->
-    <!--    </ItemGroup>-->
-
-    <!--    Comment out this section when you uncomment the section above to trigger 
-            the public API analyzer warnings/errors -->
-    <PropertyGroup>
-        <NoWarn>GeoBlazor_Untested;RS0016;RS0037</NoWarn>
-    </PropertyGroup>
-
     <ItemGroup>
         <SupportedPlatform Include="browser" />
         <InternalsVisibleTo Include="dymaptic.GeoBlazor.Pro" />
@@ -95,8 +76,6 @@
 
     <ItemGroup>
         <None Include="Blazor-API-500px.png" Pack="true" PackagePath="" />
-        <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
-        <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <None Include="gb_white_text_300px.png" Pack="true" PackagePath="" />
         <None Include="Go-GeoBlazor-Pro.png" Pack="true" PackagePath="" />
         <Content Remove="package.json" />

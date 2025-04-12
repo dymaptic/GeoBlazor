@@ -1090,7 +1090,6 @@ public partial class Label
                 if (labelExpressionInfo != LabelExpressionInfo)
                 {
                     LabelExpressionInfo = labelExpressionInfo;
-                    
                     ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
                 }
                 
@@ -1099,7 +1098,6 @@ public partial class Label
                 if (symbol != Symbol)
                 {
                     Symbol = symbol;
-                    
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
                 
@@ -1116,12 +1114,10 @@ public partial class Label
         {
             case LabelExpressionInfo _:
                 LabelExpressionInfo = null;
-                
                 ModifiedParameters[nameof(LabelExpressionInfo)] = LabelExpressionInfo;
                 return true;
             case Symbol _:
                 Symbol = null;
-                
                 ModifiedParameters[nameof(Symbol)] = Symbol;
                 return true;
             default:

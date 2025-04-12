@@ -551,7 +551,6 @@ public partial class Environment : MapComponent
                 if (background != Background)
                 {
                     Background = background;
-                    
                     ModifiedParameters[nameof(Background)] = Background;
                 }
                 
@@ -560,7 +559,6 @@ public partial class Environment : MapComponent
                 if (lighting != Lighting)
                 {
                     Lighting = lighting;
-                    
                     ModifiedParameters[nameof(Lighting)] = Lighting;
                 }
                 
@@ -569,7 +567,6 @@ public partial class Environment : MapComponent
                 if (weather != Weather)
                 {
                     Weather = weather;
-                    
                     ModifiedParameters[nameof(Weather)] = Weather;
                 }
                 
@@ -586,17 +583,14 @@ public partial class Environment : MapComponent
         {
             case Background _:
                 Background = null;
-                
                 ModifiedParameters[nameof(Background)] = Background;
                 return true;
             case IEnvironmentLighting _:
                 Lighting = null;
-                
                 ModifiedParameters[nameof(Lighting)] = Lighting;
                 return true;
             case IEnvironmentWeather _:
                 Weather = null;
-                
                 ModifiedParameters[nameof(Weather)] = Weather;
                 return true;
             default:

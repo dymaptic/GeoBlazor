@@ -457,7 +457,7 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     }
     
     if (hasValue(jsObject.results)) {
-        dotNetSearchViewModel.results = jsObject.results;
+        dotNetSearchViewModel.results = removeCircularReferences(jsObject.results);
     }
     
     if (hasValue(jsObject.searchAllEnabled)) {
