@@ -16,12 +16,25 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: true
+        
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.x
+
+    - name: Setup Nuget
+      uses: nuget/setup-nuget@v2
+      with:
+        nuget-version: 'latest'
+
+    - name: Bump Version
+      shell: pwsh
+      run: |
+        ./bumpVersion.ps1 -publish
+        
     - name: Restore dependencies
       run: dotnet restore ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj
+    
     - name: Copy Assets and Generate JS
       shell: pwsh
       run: |
@@ -30,17 +43,21 @@ jobs:
         npm run releaseBuild
         ./assetCopy.ps1
         cd ../..
+    
     - name: Build Core
       run: dotnet build ./src/dymaptic.GeoBlazor.Core/dymaptic.GeoBlazor.Core.csproj --no-restore /p:OptOutFromCoreEsBuild=true /p:GenerateDocs=false -c Release
+    
     - name: Install xmllint
       shell: bash
       run: |
         sudo apt update
         sudo apt install -y libxml2-utils
+    
     - name: Copy Build Versions
       run: |
         CORE_VERSION=$(xmllint --xpath "//PropertyGroup/CoreVersion/text()" ./Directory.Build.props)
         echo "CORE_VERSION=$CORE_VERSION" >> $GITHUB_ENV
+    
     - name: Verify JS Files and Assets
       shell: pwsh
       continue-on-error: false
@@ -58,6 +75,16 @@ jobs:
             Write-Error "JS file does not exist"
             Exit 1
         }
+        
+    - name: Add & Commit
+      continue-on-error: true
+      run: |
+        git config --global user.name "dymaptic"
+        git config --global user.email "geoblazor@dymaptic.com"
+        git add .
+        git commit -m "Pipeline Build Commit of Nuget Version Bump"
+        git push
+        
     - name: Copy PR Release Notes
       run: |
         PR_DESCRIPTION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -67,6 +94,7 @@ jobs:
         echo "PR_DESCRIPTION<<EOF" >> $GITHUB_ENV
         echo "$DESC_PLUS_EOF" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
+    
     - name: Create Release
       if: github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v1
@@ -77,11 +105,13 @@ jobs:
         prerelease: false
         files: |
           ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+    
     - name: Upload nuget artifact
       uses: actions/upload-artifact@v4.6.0
       with:
         name: .core-nuget
         path: ./src/dymaptic.GeoBlazor.Core/bin/Release/dymaptic.GeoBlazor.Core.*.nupkg
+  
   nuget-push:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
