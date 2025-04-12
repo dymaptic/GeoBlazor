@@ -376,7 +376,6 @@ public partial class OpacityRampElement : MapComponent,
                 if (!Infos.Contains(infos))
                 {
                     Infos = [..Infos, infos];
-                    
                     ModifiedParameters[nameof(Infos)] = Infos;
                 }
                 
@@ -393,7 +392,6 @@ public partial class OpacityRampElement : MapComponent,
         {
             case OpacityRampStop infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
-                
                 ModifiedParameters[nameof(Infos)] = Infos;
                 return true;
             default:

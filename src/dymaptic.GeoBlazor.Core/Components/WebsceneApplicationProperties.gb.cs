@@ -151,7 +151,6 @@ public partial class WebsceneApplicationProperties : MapComponent
                 if (viewing != Viewing)
                 {
                     Viewing = viewing;
-                    
                     ModifiedParameters[nameof(Viewing)] = Viewing;
                 }
                 
@@ -168,7 +167,6 @@ public partial class WebsceneApplicationProperties : MapComponent
         {
             case Viewing _:
                 Viewing = null;
-                
                 ModifiedParameters[nameof(Viewing)] = Viewing;
                 return true;
             default:

@@ -427,8 +427,7 @@ public abstract partial class Widget : MapComponent
                 if (!PreviousParameters.TryGetValue(kvp.Key, out object? previousValue)
                     || (!kvp.Value?.Equals(previousValue) ?? true))
                 {
-                    WidgetChanged = true;
-
+                    await UpdateWidget();
                     break;
                 }
             }
@@ -438,52 +437,64 @@ public abstract partial class Widget : MapComponent
     }
 
     /// <inheritdoc />
-    public override async Task RegisterChildComponent(MapComponent child)
-    {
-        await base.RegisterChildComponent(child);
-        WidgetChanged = MapRendered;
-    }
-
-    /// <inheritdoc />
-    public override async Task UnregisterChildComponent(MapComponent child)
-    {
-        await base.UnregisterChildComponent(child);
-        WidgetChanged = MapRendered;
-    }
-
-    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-
-        if (WidgetChanged)
-        {
-            await UpdateWidget();
-        }
 
         if (View is null && MapView is not null && !_externalWidgetRegistered)
         {
             await MapView!.AddWidget(this);
             _externalWidgetRegistered = true;
         }
+
+        if (_delayedUpdate)
+        {
+            await UpdateWidget();
+        }
     }
 
-    private async Task UpdateWidget()
+    /// <summary>
+    ///     Updates the widget internally. Not intended for public use.
+    /// </summary>
+    protected async Task UpdateWidget()
     {
-        WidgetChanged = false;
+        if (MapRendered && !_delayedUpdate)
+        {
+            // for components added after the map has rendered, wait one render cycle to get all children before updating
+            _delayedUpdate = true;
+            await InvokeAsync(StateHasChanged);
 
-        if (JsComponentReference is null) return;
+            return;
+        }
+        
+        _delayedUpdate = false;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+
+        try
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null || !MapRendered || IsDisposed)
+        {
+            return;
+        }
 
         // ReSharper disable once RedundantCast
         await JsComponentReference!.InvokeVoidAsync("updateComponent", CancellationTokenSource.Token, (object)this);
     }
 
-    /// <summary>
-    ///     Indicates if the widget has changed since the last render.
-    /// </summary>
-    protected bool WidgetChanged { get; set; }
-
     private bool _externalWidgetRegistered;
+    private bool _delayedUpdate;
 }
 
 /// <summary>

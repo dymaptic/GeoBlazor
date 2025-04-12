@@ -151,7 +151,6 @@ public partial class Viewing : MapComponent
                 if (search != Search)
                 {
                     Search = search;
-                    
                     ModifiedParameters[nameof(Search)] = Search;
                 }
                 
@@ -168,7 +167,6 @@ public partial class Viewing : MapComponent
         {
             case Search _:
                 Search = null;
-                
                 ModifiedParameters[nameof(Search)] = Search;
                 return true;
             default:

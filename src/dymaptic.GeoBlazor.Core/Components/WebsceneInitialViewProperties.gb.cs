@@ -546,7 +546,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
                 if (environment != Environment)
                 {
                     Environment = environment;
-                    
                     ModifiedParameters[nameof(Environment)] = Environment;
                 }
                 
@@ -555,7 +554,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -564,7 +562,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 }
                 
@@ -573,7 +570,6 @@ public partial class WebsceneInitialViewProperties : MapComponent
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -590,22 +586,18 @@ public partial class WebsceneInitialViewProperties : MapComponent
         {
             case Environment _:
                 Environment = null;
-                
                 ModifiedParameters[nameof(Environment)] = Environment;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

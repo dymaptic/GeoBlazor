@@ -1,6 +1,6 @@
 import CodedValueDomain from "@arcgis/core/layers/support/CodedValueDomain";
 import RangeDomain from "@arcgis/core/layers/support/RangeDomain";
-import {hasValue} from "./arcGisJsInterop";
+import {hasValue, sanitize} from "./arcGisJsInterop";
 
 export function buildJsDomain(dotNetDomain) {
     if (!hasValue(dotNetDomain)) {
@@ -30,7 +30,7 @@ export function buildJsDomain(dotNetDomain) {
                 name: dotNetDomain.name
             };
         default:
-            throw new Error(`Unsupported domain type: ${dotNetDomain?.type}`);
+            return sanitize(dotNetDomain);
     }
 }
 

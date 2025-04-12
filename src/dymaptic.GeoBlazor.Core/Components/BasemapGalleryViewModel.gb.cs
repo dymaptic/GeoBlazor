@@ -442,7 +442,25 @@ public partial class BasemapGalleryViewModel : MapComponent
     public async Task<bool?> BasemapEquals(Basemap basemap1,
         Basemap basemap2)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "basemapEquals", 
@@ -463,7 +481,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 if (activeBasemap != ActiveBasemap)
                 {
                     ActiveBasemap = activeBasemap;
-                    
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 }
                 
@@ -473,7 +490,6 @@ public partial class BasemapGalleryViewModel : MapComponent
                 if (!Items.Contains(items))
                 {
                     Items = [..Items, items];
-                    
                     ModifiedParameters[nameof(Items)] = Items;
                 }
                 
@@ -490,12 +506,10 @@ public partial class BasemapGalleryViewModel : MapComponent
         {
             case Basemap _:
                 ActiveBasemap = null;
-                
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
             case BasemapGalleryItem items:
                 Items = Items?.Where(i => i != items).ToList();
-                
                 ModifiedParameters[nameof(Items)] = Items;
                 return true;
             default:

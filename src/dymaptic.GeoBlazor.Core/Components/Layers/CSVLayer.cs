@@ -54,7 +54,10 @@ public partial class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLay
                 if (!reduction.Equals(FeatureReduction))
                 {
                     FeatureReduction = reduction;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -72,7 +75,6 @@ public partial class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLay
         {
             case IFeatureReduction _:
                 FeatureReduction = null;
-                LayerChanged = MapRendered;
 
                 break;
 

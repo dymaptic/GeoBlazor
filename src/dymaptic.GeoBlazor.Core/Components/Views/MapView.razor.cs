@@ -1291,14 +1291,13 @@ public partial class MapView : MapComponent
         }
 
         if (CoreJsModule is null || !MapRendered) return;
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
+        
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1309,7 +1308,7 @@ public partial class MapView : MapComponent
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1331,7 +1330,7 @@ public partial class MapView : MapComponent
         else if (IsMaui)
         {
             // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1340,9 +1339,9 @@ public partial class MapView : MapComponent
                 {
                     return;
                 }
-
-                ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1365,7 +1364,7 @@ public partial class MapView : MapComponent
         {
             List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1376,9 +1375,9 @@ public partial class MapView : MapComponent
                     {
                         return;
                     }
-
-                    ProtoGraphicCollection collection =
-                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -1459,7 +1458,7 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapReferenceLayer">
     ///     If true, adds the layer as a Basemap Reference Layer.
     /// </param>
-    public async Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
+    public Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
     {
         if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
@@ -1487,10 +1486,11 @@ public partial class MapView : MapComponent
         
         layer.View ??= this;
 
-        if (CoreJsModule is null || !MapRendered) return;
+        if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
 
-        await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-            (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
+        _newLayers.Add((layer, isBasemapLayer, isBasemapReferenceLayer));
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1890,15 +1890,15 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Retrieves the Popup Widget for the view.
     /// </summary>
-    public async Task<PopupWidget?> GetPopupWidget()
+    public Task<PopupWidget?> GetPopupWidget()
     {
         if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
         {
             var popupWidget = new PopupWidget();
-            await AddWidget(popupWidget);
+            AddWidget(popupWidget);
         }
 
-        return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;
+        return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
     }
 
     /// <summary>
@@ -2149,7 +2149,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a widget to the view.
     /// </summary>
-    public async Task AddWidget(Widget widget)
+    public Task AddWidget(Widget widget)
     {
         if (_widgets.Add(widget))
         {
@@ -2158,23 +2158,12 @@ public partial class MapView : MapComponent
             widget.CoreJsModule ??= CoreJsModule;
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return;
+        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
 
-        await InvokeAsync(async () =>
-        {
-            await CoreJsModule.InvokeVoidAsync("addWidget",
-                CancellationTokenSource.Token, widget, Id);
-        });
+        _newWidgets.Add(widget);
+        StateHasChanged();
 
-        if (widget is PopupWidget && Map is not null)
-        {
-            // we have to update the layers to make sure the popupTemplates aren't unset by this action
-            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
-            {
-                // ReSharper disable once RedundantCast
-                await layer.UpdateLayer();
-            }
-        }
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -2326,6 +2315,42 @@ public partial class MapView : MapComponent
         {
             await RenderView();
         }
+
+        if (MapRendered)
+        {
+            if (_newLayers.Any())
+            {
+                (Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)[] newLayers = _newLayers.ToArray();
+                _newLayers.Clear();
+                foreach ((Layer newLayer, bool isBasemapLayer, bool isBasemapReferenceLayer) in newLayers)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+                        (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
+                }
+            }
+
+
+            if (_newWidgets.Any())
+            {
+                Widget[] newWidgets = _newWidgets.ToArray();
+                _newWidgets.Clear();
+                foreach (Widget newWidget in newWidgets)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addWidget",
+                        CancellationTokenSource.Token, newWidget, Id);
+
+                    if (newWidget is PopupWidget && Map is not null)
+                    {
+                        // we have to update the layers to make sure the popupTemplates aren't unset by this action
+                        foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+                        {
+                            // ReSharper disable once RedundantCast
+                            await layer.UpdateLayer();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -2396,10 +2421,9 @@ public partial class MapView : MapComponent
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 
             Rendering = false;
-            
+            MapRendered = true;
             // must be after `Rendering = false`
             await GetPopupWidget();
-            MapRendered = true;
         });
     }
 #endregion
@@ -2705,6 +2729,8 @@ public partial class MapView : MapComponent
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
     private HashSet<Widget> _widgets = [];
+    private HashSet<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
+    private HashSet<Widget> _newWidgets = [];
     private bool? _isPro;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;

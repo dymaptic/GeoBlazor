@@ -513,26 +513,6 @@ public partial class SearchWidget : Widget
     }
 
     /// <summary>
-    ///     Retrieves an array of objects, each containing a SearchResult from the search.
-    /// </summary>
-    [CodeGenerationIgnore]
-    public async Task<SearchResultResponse[]> GetResults()
-    {
-        IJSStreamReference jsStreamRef =
-            await JsComponentReference!.InvokeAsync<IJSStreamReference>("getResults");
-        await using Stream stream = await jsStreamRef.OpenReadStreamAsync(1_000_000_000L);
-        await using MemoryStream ms = new();
-        await stream.CopyToAsync(ms);
-        ms.Seek(0, SeekOrigin.Begin);
-        byte[] encodedJson = ms.ToArray();
-        string json = Encoding.UTF8.GetString(encodedJson);
-        SearchResultResponse[] searchResults = JsonSerializer.Deserialize<SearchResultResponse[]>(
-            json, GeoBlazorSerialization.JsonSerializerOptions)!;
-
-        return searchResults;
-    }
-
-    /// <summary>
     ///    Retrieves the result selected from a search.
     /// </summary>
     public async Task<SearchResult> GetSelectedResult()
@@ -607,7 +587,10 @@ public partial class SearchWidget : Widget
             case SearchSource source:
                 Sources ??= new List<SearchSource>();
                 Sources = [..Sources, source];
-                WidgetChanged = MapRendered;
+                if (MapRendered)
+                {
+                    await UpdateWidget();
+                }
                 break;
 
             default:
@@ -624,6 +607,7 @@ public partial class SearchWidget : Widget
         {
             case SearchSource source:
                 Sources = Sources?.Except([source]).ToList();
+                
                 break;
 
             default:

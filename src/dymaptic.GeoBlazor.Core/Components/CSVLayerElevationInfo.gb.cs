@@ -424,7 +424,6 @@ public partial class CSVLayerElevationInfo : MapComponent
                 if (featureExpressionInfo != FeatureExpressionInfo)
                 {
                     FeatureExpressionInfo = featureExpressionInfo;
-                    
                     ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 }
                 
@@ -441,7 +440,6 @@ public partial class CSVLayerElevationInfo : MapComponent
         {
             case CSVLayerElevationInfoFeatureExpressionInfo _:
                 FeatureExpressionInfo = null;
-                
                 ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 return true;
             default:

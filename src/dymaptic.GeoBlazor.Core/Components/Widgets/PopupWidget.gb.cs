@@ -1853,7 +1853,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task Blur()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "blur", 
@@ -1867,7 +1885,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task Focus()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "focus", 
@@ -1881,7 +1917,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task<PopupViewModel?> Next()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
             "next", 
@@ -1897,7 +1951,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task Open(PopupOpenOptions options)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "open", 
@@ -1912,7 +1984,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task<PopupViewModel?> Previous()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
             "previous", 
@@ -1926,7 +2016,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task Reposition()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "reposition", 
@@ -1942,7 +2050,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task TriggerAction(int actionIndex)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
@@ -1966,8 +2092,11 @@ public partial class PopupWidget : IGoTo
                 if (dockOptions != DockOptions)
                 {
                     DockOptions = dockOptions;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1976,8 +2105,11 @@ public partial class PopupWidget : IGoTo
                 if (!Features.Contains(features))
                 {
                     Features = [..Features, features];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Features)] = Features;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1985,8 +2117,11 @@ public partial class PopupWidget : IGoTo
                 if (location != Location)
                 {
                     Location = location;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Location)] = Location;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -1994,8 +2129,11 @@ public partial class PopupWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2003,8 +2141,11 @@ public partial class PopupWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2012,8 +2153,11 @@ public partial class PopupWidget : IGoTo
                 if (widgetContent != WidgetContent)
                 {
                     WidgetContent = widgetContent;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2029,32 +2173,26 @@ public partial class PopupWidget : IGoTo
         {
             case PopupDockOptions _:
                 DockOptions = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Features)] = Features;
                 return true;
             case Point _:
                 Location = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             case Widget _:
                 WidgetContent = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
                 return true;
             default:

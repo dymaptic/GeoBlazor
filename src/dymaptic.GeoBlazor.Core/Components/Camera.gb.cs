@@ -534,7 +534,6 @@ public partial class Camera : MapComponent
                 if (layout != Layout)
                 {
                     Layout = layout;
-                    
                     ModifiedParameters[nameof(Layout)] = Layout;
                 }
                 
@@ -543,7 +542,6 @@ public partial class Camera : MapComponent
                 if (position != Position)
                 {
                     Position = position;
-                    
                     ModifiedParameters[nameof(Position)] = Position;
                 }
                 
@@ -560,12 +558,10 @@ public partial class Camera : MapComponent
         {
             case CameraLayout _:
                 Layout = null;
-                
                 ModifiedParameters[nameof(Layout)] = Layout;
                 return true;
             case Point _:
                 Position = null;
-                
                 ModifiedParameters[nameof(Position)] = Position;
                 return true;
             default:

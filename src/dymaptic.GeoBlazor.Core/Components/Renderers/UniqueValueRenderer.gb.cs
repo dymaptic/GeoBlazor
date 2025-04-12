@@ -1480,7 +1480,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public async Task AddUniqueValueInfo(string valueOrInfo,
         Symbol symbol)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "addUniqueValueInfo", 
@@ -1499,7 +1517,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task<UniqueValueInfo?> GetUniqueValueInfo(Graphic graphic)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<UniqueValueInfo?>(
             "getUniqueValueInfo", 
@@ -1517,7 +1553,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task RemoveUniqueValueInfo(string value)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "removeUniqueValueInfo", 
@@ -1537,7 +1591,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (backgroundFillSymbol != BackgroundFillSymbol)
                 {
                     BackgroundFillSymbol = backgroundFillSymbol;
-                    
                     ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 }
                 
@@ -1546,7 +1599,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (defaultSymbol != DefaultSymbol)
                 {
                     DefaultSymbol = defaultSymbol;
-                    
                     ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 }
                 
@@ -1555,7 +1607,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (legendOptions != LegendOptions)
                 {
                     LegendOptions = legendOptions;
-                    
                     ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 }
                 
@@ -1565,7 +1616,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueGroups.Contains(uniqueValueGroups))
                 {
                     UniqueValueGroups = [..UniqueValueGroups, uniqueValueGroups];
-                    
                     ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 }
                 
@@ -1575,7 +1625,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueInfos.Contains(uniqueValueInfos))
                 {
                     UniqueValueInfos = [..UniqueValueInfos, uniqueValueInfos];
-                    
                     ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 }
                 
@@ -1585,7 +1634,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
-                    
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
                 
@@ -1602,32 +1650,26 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             case FillSymbol _:
                 BackgroundFillSymbol = null;
-                
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 return true;
             case Symbol _:
                 DefaultSymbol = null;
-                
                 ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 return true;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
-                
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 return true;
             case UniqueValueGroup uniqueValueGroups:
                 UniqueValueGroups = UniqueValueGroups?.Where(u => u != uniqueValueGroups).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 return true;
             case UniqueValueInfo uniqueValueInfos:
                 UniqueValueInfos = UniqueValueInfos?.Where(u => u != uniqueValueInfos).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 return true;
             default:

@@ -731,7 +731,25 @@ public partial class TileInfo
     [ArcGISMethod]
     public async Task<int?> ScaleToZoom(double scale)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<int?>(
             "scaleToZoom", 
@@ -749,7 +767,25 @@ public partial class TileInfo
     [ArcGISMethod]
     public async Task<double?> ZoomToScale(int zoom)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<double?>(
             "zoomToScale", 
@@ -770,7 +806,6 @@ public partial class TileInfo
                 if (!Lods.Contains(lods))
                 {
                     Lods = [..Lods, lods];
-                    
                     ModifiedParameters[nameof(Lods)] = Lods;
                 }
                 
@@ -779,7 +814,6 @@ public partial class TileInfo
                 if (origin != Origin)
                 {
                     Origin = origin;
-                    
                     ModifiedParameters[nameof(Origin)] = Origin;
                 }
                 
@@ -788,7 +822,6 @@ public partial class TileInfo
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -805,17 +838,14 @@ public partial class TileInfo
         {
             case LOD lods:
                 Lods = Lods?.Where(l => l != lods).ToList();
-                
                 ModifiedParameters[nameof(Lods)] = Lods;
                 return true;
             case Point _:
                 Origin = null;
-                
                 ModifiedParameters[nameof(Origin)] = Origin;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             default:

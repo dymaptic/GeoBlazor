@@ -260,7 +260,6 @@ public partial class PixelData : MapComponent
                 if (extent != Extent)
                 {
                     Extent = extent;
-                    
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
                 
@@ -269,7 +268,6 @@ public partial class PixelData : MapComponent
                 if (pixelBlock != PixelBlock)
                 {
                     PixelBlock = pixelBlock;
-                    
                     ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
                 }
                 
@@ -286,12 +284,10 @@ public partial class PixelData : MapComponent
         {
             case Extent _:
                 Extent = null;
-                
                 ModifiedParameters[nameof(Extent)] = Extent;
                 return true;
             case PixelBlock _:
                 PixelBlock = null;
-                
                 ModifiedParameters[nameof(PixelBlock)] = PixelBlock;
                 return true;
             default:

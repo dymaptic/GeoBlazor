@@ -599,7 +599,6 @@ public partial class ChartMediaInfoValue
                 if (!Series.Contains(series))
                 {
                     Series = [..Series, series];
-                    
                     ModifiedParameters[nameof(Series)] = Series;
                 }
                 
@@ -616,7 +615,6 @@ public partial class ChartMediaInfoValue
         {
             case ChartMediaInfoValueSeries series:
                 Series = Series?.Where(s => s != series).ToList();
-                
                 ModifiedParameters[nameof(Series)] = Series;
                 return true;
             default:

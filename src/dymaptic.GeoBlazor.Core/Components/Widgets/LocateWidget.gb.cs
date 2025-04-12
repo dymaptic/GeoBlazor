@@ -668,7 +668,25 @@ public partial class LocateWidget : IGoTo
     [ArcGISMethod]
     public async Task CancelLocate()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "cancelLocate", 
@@ -682,7 +700,25 @@ public partial class LocateWidget : IGoTo
     [ArcGISMethod]
     public async Task<object?> Locate()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "locate", 
@@ -765,8 +801,11 @@ public partial class LocateWidget : IGoTo
                 if (graphic != Graphic)
                 {
                     Graphic = graphic;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Graphic)] = Graphic;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -774,8 +813,11 @@ public partial class LocateWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -791,12 +833,10 @@ public partial class LocateWidget : IGoTo
         {
             case Graphic _:
                 Graphic = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
                 return true;
             case LocateViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

@@ -1398,7 +1398,6 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
                 if (font != Font)
                 {
                     Font = font;
-                    
                     ModifiedParameters[nameof(Font)] = Font;
                 }
                 
@@ -1415,7 +1414,6 @@ public partial class TextSymbol : ISketchViewModelPointSymbol,
         {
             case MapFont _:
                 Font = null;
-                
                 ModifiedParameters[nameof(Font)] = Font;
                 return true;
             default:

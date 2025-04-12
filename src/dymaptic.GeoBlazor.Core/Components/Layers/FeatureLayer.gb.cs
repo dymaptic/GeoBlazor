@@ -5628,7 +5628,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<FeatureEditResult?> AddAttachment(Graphic feature,
         ElementReference attachment)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
             "addAttachment", 
@@ -5649,7 +5667,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<FeatureEditResult[]?> DeleteAttachments(Graphic feature,
         IReadOnlyCollection<long> attachmentIds)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult[]?>(
             "deleteAttachments", 
@@ -5671,7 +5707,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<AttachmentsQueryResult?> QueryAttachments(AttachmentQuery attachmentQuery,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         AttachmentsQueryResult? result = await JsComponentReference!.InvokeAsync<AttachmentsQueryResult?>(
@@ -5694,7 +5748,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(FeatureLayerBaseSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -5714,7 +5786,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         FeatureLayerBaseSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -5738,7 +5828,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
         long attachmentId,
         ElementReference attachment)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
             "updateAttachment", 
@@ -5827,8 +5935,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (dynamicDataSource != DynamicDataSource)
                 {
                     DynamicDataSource = dynamicDataSource;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5836,8 +5947,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5845,8 +5959,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5855,8 +5972,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5864,8 +5984,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (floorInfo != FloorInfo)
                 {
                     FloorInfo = floorInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5874,8 +5997,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5884,8 +6010,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5893,8 +6022,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5902,8 +6034,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5911,8 +6046,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5921,8 +6059,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (!Source.Contains(source))
                 {
                     Source = [..Source, source];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Source)] = Source;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5930,8 +6071,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5939,8 +6083,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5948,8 +6095,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5957,8 +6107,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -5974,77 +6127,62 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             case DynamicLayer _:
                 DynamicDataSource = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(DynamicDataSource)] = DynamicDataSource;
                 return true;
             case FeatureLayerBaseElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case LayerFloorInfo _:
                 FloorInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FloorInfo)] = FloorInfo;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case OrderedLayerOrderBy orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Renderer _:
                 Renderer = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             case Graphic source:
                 Source = Source?.Where(s => s != source).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Source)] = Source;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             default:

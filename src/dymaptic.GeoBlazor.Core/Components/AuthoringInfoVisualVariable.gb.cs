@@ -1196,7 +1196,6 @@ public partial class AuthoringInfoVisualVariable
                 if (!SizeStops.Contains(sizeStops))
                 {
                     SizeStops = [..SizeStops, sizeStops];
-                    
                     ModifiedParameters[nameof(SizeStops)] = SizeStops;
                 }
                 
@@ -1213,7 +1212,6 @@ public partial class AuthoringInfoVisualVariable
         {
             case SizeStop sizeStops:
                 SizeStops = SizeStops?.Where(s => s != sizeStops).ToList();
-                
                 ModifiedParameters[nameof(SizeStops)] = SizeStops;
                 return true;
             default:

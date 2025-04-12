@@ -822,8 +822,11 @@ public partial class KMLLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -832,8 +835,11 @@ public partial class KMLLayer : IBlendLayer,
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -849,12 +855,10 @@ public partial class KMLLayer : IBlendLayer,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case KMLSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 return true;
             default:

@@ -333,7 +333,6 @@ public partial class SearchLayer : MapComponent
                 if (field != Field)
                 {
                     Field = field;
-                    
                     ModifiedParameters[nameof(Field)] = Field;
                 }
                 
@@ -350,7 +349,6 @@ public partial class SearchLayer : MapComponent
         {
             case SearchLayerField _:
                 Field = null;
-                
                 ModifiedParameters[nameof(Field)] = Field;
                 return true;
             default:

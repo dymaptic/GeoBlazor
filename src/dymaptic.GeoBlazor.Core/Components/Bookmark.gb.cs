@@ -419,7 +419,6 @@ public partial class Bookmark
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -436,7 +435,6 @@ public partial class Bookmark
         {
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

@@ -161,6 +161,25 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task<Graphic?> GetSelectedFeature()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<Graphic?>("getSelectedFeature",
             CancellationTokenSource.Token);
     }
@@ -171,6 +190,25 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task SetContent(string stringContent)
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
     }
 
@@ -181,6 +219,25 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task Clear()
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
 
@@ -190,8 +247,27 @@ public partial class PopupWidget : Widget
     ///     popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<Graphic[]> FetchFeatures()
+    public async Task<Graphic[]?> FetchFeatures()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
 
@@ -199,8 +275,27 @@ public partial class PopupWidget : Widget
     ///     The number of selected features available to the popup.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<int> GetFeatureCount()
+    public async Task<int?> GetFeatureCount()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
     }
 
@@ -208,8 +303,27 @@ public partial class PopupWidget : Widget
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<int> GetSelectedFeatureIndex()
+    public async Task<int?> GetSelectedFeatureIndex()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
     }
 
@@ -217,8 +331,27 @@ public partial class PopupWidget : Widget
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<bool> GetVisibility()
+    public async Task<bool?> GetVisibility()
     {
+        if (CoreJsModule is null)
+        {
+            return Visible;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
 
@@ -231,6 +364,25 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task Close()
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
 

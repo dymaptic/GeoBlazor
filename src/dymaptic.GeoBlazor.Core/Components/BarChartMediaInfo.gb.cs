@@ -169,7 +169,6 @@ public partial class BarChartMediaInfo : IChartMediaInfo
                 if (value != Value)
                 {
                     Value = value;
-                    
                     ModifiedParameters[nameof(Value)] = Value;
                 }
                 
@@ -186,7 +185,6 @@ public partial class BarChartMediaInfo : IChartMediaInfo
         {
             case ChartMediaInfoValue _:
                 Value = null;
-                
                 ModifiedParameters[nameof(Value)] = Value;
                 return true;
             default:

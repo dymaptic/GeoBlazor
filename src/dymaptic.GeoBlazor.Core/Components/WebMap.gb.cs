@@ -1359,7 +1359,25 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<object?> Load()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "load", 
@@ -1373,7 +1391,25 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<WebMap?> LoadAll()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<WebMap?>(
             "loadAll", 
@@ -1390,7 +1426,25 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     [ArcGISMethod]
     public async Task<PortalItem?> Save(WebMapSaveOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "save", 
@@ -1413,7 +1467,25 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     public async Task<PortalItem?> SaveAs(PortalItem portalItem,
         WebMapSaveAsOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PortalItem?>(
             "saveAs", 
@@ -1436,7 +1508,25 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     public async Task<object?> UpdateFrom(MapView view,
         WebMapUpdateFromOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<object?>(
             "updateFrom", 
@@ -1457,7 +1547,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 if (applicationProperties != ApplicationProperties)
                 {
                     ApplicationProperties = applicationProperties;
-                    
                     ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
                 }
                 
@@ -1467,7 +1556,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 if (!Bookmarks.Contains(bookmarks))
                 {
                     Bookmarks = [..Bookmarks, bookmarks];
-                    
                     ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 }
                 
@@ -1476,7 +1564,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 if (initialViewProperties != InitialViewProperties)
                 {
                     InitialViewProperties = initialViewProperties;
-                    
                     ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 }
                 
@@ -1485,7 +1572,6 @@ public partial class WebMap : ITimeSliderViewModelDocument,
                 if (widgets != Widgets)
                 {
                     Widgets = widgets;
-                    
                     ModifiedParameters[nameof(Widgets)] = Widgets;
                 }
                 
@@ -1502,22 +1588,18 @@ public partial class WebMap : ITimeSliderViewModelDocument,
         {
             case ApplicationProperties _:
                 ApplicationProperties = null;
-                
                 ModifiedParameters[nameof(ApplicationProperties)] = ApplicationProperties;
                 return true;
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
             case InitialViewProperties _:
                 InitialViewProperties = null;
-                
                 ModifiedParameters[nameof(InitialViewProperties)] = InitialViewProperties;
                 return true;
             case WebMapWidgets _:
                 Widgets = null;
-                
                 ModifiedParameters[nameof(Widgets)] = Widgets;
                 return true;
             default:

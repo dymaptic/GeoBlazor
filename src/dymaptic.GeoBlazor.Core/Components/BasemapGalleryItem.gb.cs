@@ -253,7 +253,6 @@ public partial class BasemapGalleryItem : MapComponent
                 if (basemap != Basemap)
                 {
                     Basemap = basemap;
-                    
                     ModifiedParameters[nameof(Basemap)] = Basemap;
                 }
                 
@@ -270,7 +269,6 @@ public partial class BasemapGalleryItem : MapComponent
         {
             case Basemap _:
                 Basemap = null;
-                
                 ModifiedParameters[nameof(Basemap)] = Basemap;
                 return true;
             default:

@@ -946,6 +946,45 @@ public partial class SearchWidget : IGoTo
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the Results property.
+    /// </summary>
+    public async Task<IReadOnlyList<SearchResultResponse>?> GetResults()
+    {
+        if (CoreJsModule is null)
+        {
+            return Results;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Results;
+        }
+
+        // get the property value
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
+            CancellationTokenSource.Token, "results");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Results = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Results)] = Results;
+        }
+         
+        return Results;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the SearchAllEnabled property.
     /// </summary>
     public async Task<bool?> GetSearchAllEnabled()
@@ -1936,7 +1975,25 @@ public partial class SearchWidget : IGoTo
     [ArcGISMethod]
     public async Task Blur()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "blur", 
@@ -1950,7 +2007,25 @@ public partial class SearchWidget : IGoTo
     [ArcGISMethod]
     public async Task Clear()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "clear", 
@@ -1964,7 +2039,25 @@ public partial class SearchWidget : IGoTo
     [ArcGISMethod]
     public async Task Focus()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "focus", 
@@ -2137,8 +2230,11 @@ public partial class SearchWidget : IGoTo
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2146,8 +2242,11 @@ public partial class SearchWidget : IGoTo
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Portal)] = Portal;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2156,8 +2255,11 @@ public partial class SearchWidget : IGoTo
                 if (!Sources.Contains(sources))
                 {
                     Sources = [..Sources, sources];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Sources)] = Sources;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2165,8 +2267,11 @@ public partial class SearchWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2182,22 +2287,18 @@ public partial class SearchWidget : IGoTo
         {
             case PopupTemplate _:
                 PopupTemplate = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case Portal _:
                 Portal = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             case SearchSource sources:
                 Sources = Sources?.Where(s => s != sources).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Sources)] = Sources;
                 return true;
             case SearchViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

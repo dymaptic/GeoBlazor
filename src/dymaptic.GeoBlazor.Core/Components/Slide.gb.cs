@@ -1133,7 +1133,25 @@ public partial class Slide : MapComponent
     public async Task<Slide?> ApplyTo(SceneView view,
         object optionsWithDefaults)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Slide?>(
             "applyTo", 
@@ -1156,7 +1174,25 @@ public partial class Slide : MapComponent
     public async Task<Slide?> UpdateFrom(SceneView view,
         SlideUpdateFromOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Slide?>(
             "updateFrom", 
@@ -1177,7 +1213,6 @@ public partial class Slide : MapComponent
                 if (basemap != Basemap)
                 {
                     Basemap = basemap;
-                    
                     ModifiedParameters[nameof(Basemap)] = Basemap;
                 }
                 
@@ -1186,7 +1221,6 @@ public partial class Slide : MapComponent
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 }
                 
@@ -1195,7 +1229,6 @@ public partial class Slide : MapComponent
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -1212,17 +1245,14 @@ public partial class Slide : MapComponent
         {
             case Basemap _:
                 Basemap = null;
-                
                 ModifiedParameters[nameof(Basemap)] = Basemap;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

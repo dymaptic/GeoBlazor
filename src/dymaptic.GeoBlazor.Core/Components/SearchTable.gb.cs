@@ -242,7 +242,6 @@ public partial class SearchTable : MapComponent
                 if (field != Field)
                 {
                     Field = field;
-                    
                     ModifiedParameters[nameof(Field)] = Field;
                 }
                 
@@ -259,7 +258,6 @@ public partial class SearchTable : MapComponent
         {
             case SearchTableField _:
                 Field = null;
-                
                 ModifiedParameters[nameof(Field)] = Field;
                 return true;
             default:
