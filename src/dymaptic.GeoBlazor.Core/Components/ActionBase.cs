@@ -12,9 +12,7 @@ public abstract partial class ActionBase : MapComponent
     public string? Title { get; set; }
 
     /// <summary>
-    ///     Set this property to true to display a spinner icon. You should do this if the action executes an async operation,
-    ///     such as a query, that requires letting the end user know that a process is ongoing in the background. Set the
-    ///     property back to false to communicate to the user that the process has finished.
+    ///     Set this property to true to display a spinner icon. You should do this if the action executes an async operation, such as a query, that requires letting the end user know that a process is ongoing in the background. Set the property back to false to communicate to the user that the process has finished.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

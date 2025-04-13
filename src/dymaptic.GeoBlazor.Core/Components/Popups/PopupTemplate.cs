@@ -24,15 +24,13 @@ public partial class PopupTemplate : MapComponent
     ///     An array of field names used in the PopupTemplate.
     /// </param>
     /// <param name="fieldInfos">
-    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a
-    ///     popup.
+    ///     An array of FieldInfo that defines how fields in the dataset or values from Arcade expressions participate in a popup.
     /// </param>
     /// <param name="content">
     ///     Pass advanced <see cref="PopupContent" /> parameters
     /// </param>
     /// <param name="expressionInfos">
-    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by
-    ///     the Arcade Popup Profile.
+    ///     An array of objects or ExpressionInfo[] that reference Arcade expressions following the specification defined by the Arcade Popup Profile.
     /// </param>
     /// <param name="overwriteActions">
     ///     Indicates whether actions should replace existing popup actions.
@@ -103,10 +101,7 @@ public partial class PopupTemplate : MapComponent
     public bool? OverwriteActions { get; set; }
 
     /// <summary>
-    ///     Indicates whether to include the feature's geometry for use by the template. This property should be set to true if
-    ///     needing to access the popup's selected feature's geometry. Access the geometry via the returned graphic from the
-    ///     popup's selectedFeatureWidget. This is needed since the geometry is not automatically queried and returned in the
-    ///     popup's selected feature.
+    ///     Indicates whether to include the feature's geometry for use by the template. This property should be set to true if needing to access the popup's selected feature's geometry. Access the geometry via the returned graphic from the popup's selectedFeatureWidget. This is needed since the geometry is not automatically queried and returned in the popup's selected feature.
     ///     If the feature layer does not specify its outFields and the template's outFields isn't set, the returned popup's
     ///     geometry is only returned if returnGeometry is set to true. This also applies when working with WebMaps.
     /// </summary>
@@ -128,8 +123,7 @@ public partial class PopupTemplate : MapComponent
     public bool HasContentFunction => ContentFunction is not null;
 
     /// <summary>
-    ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" />
-    ///     s.
+    ///     The template for defining and formatting a popup's content, provided as a collection of <see cref="PopupContent" /> s.
     /// </summary>
     /// <remarks>
     ///     Either <see cref="Content" /> or <see cref="StringContent" /> should be defined, but not both.

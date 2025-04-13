@@ -5831,8 +5831,7 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="basemapGalleryGroupQuery">
-    ///     When provided, this argument is used
-    ///     to fetch basemaps based on input query parameters.
+    ///     When provided, this argument is used to fetch basemaps based on input query parameters.
     /// </param>
     /// <param name="options">
     ///     An object with the following properties.
@@ -6046,8 +6045,7 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters
-    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6093,8 +6091,7 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters
-    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6140,8 +6137,7 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryUsers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters
-    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.

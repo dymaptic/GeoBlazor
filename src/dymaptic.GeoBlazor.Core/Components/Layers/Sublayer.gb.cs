@@ -2187,8 +2187,7 @@ public partial class Sublayer
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -2272,9 +2271,7 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no
-    ///     parameters are specified, the total number of features satisfying
-    ///     the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2320,9 +2317,7 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then all features satisfying the
-    ///     layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2368,9 +2363,7 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no
-    ///     parameters are specified, then the Object IDs of all features
-    ///     satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2416,9 +2409,7 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for
-    ///     querying related features or records from
-    ///     a layer or a table.
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2464,9 +2455,7 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeaturesCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for
-    ///     querying related features or records from
-    ///     a layer or a table.
+    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.

@@ -39,11 +39,11 @@ public partial class VectorTileLayer : Layer
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PortalItem? PortalItem { get; set; }
 
-    /// <inheritdoc />    
+    /// <inheritdoc />
     [ArcGISProperty]
     public override LayerType Type => LayerType.VectorTile;  
   
-    /// <inheritdoc />  
+    /// <inheritdoc />
     internal override async Task UpdateFromJavaScript(Layer renderedLayer)  
     {        await base.UpdateFromJavaScript(renderedLayer);  
         VectorTileLayer renderedTileLayer = (VectorTileLayer)renderedLayer;  

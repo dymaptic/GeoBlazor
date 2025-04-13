@@ -62,8 +62,7 @@ public partial class Polyline
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#addPath">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="points">
-    ///     A polyline path. This can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polyline path. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<Polyline?> AddPath(IReadOnlyCollection<Point> points)

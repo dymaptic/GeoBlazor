@@ -1394,8 +1394,7 @@ public partial class WebScene : ITimeSliderViewModelDocument,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="portalItem">
-    ///     The new portal item to which
-    ///     the scene will be saved.
+    ///     The new portal item to which the scene will be saved.
     /// </param>
     /// <param name="options">
     ///     additional save options.

@@ -9,7 +9,7 @@ public partial class BingMapsLayer : BaseTileLayer
 
 
     /// <summary>
-    ///     For more information on Bing map styles please visit: <a target="_blank" href="https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata">https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata</a>
+    ///     For more information on Bing map styles please visit: <a target="_blank" href="https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata">https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata</a>.
     ///     Default Value: "Road"
     /// </summary>
     [Parameter]
@@ -17,8 +17,8 @@ public partial class BingMapsLayer : BaseTileLayer
     public BingImageryStyle? Style { get; set; }
 
     /// <summary>
-    ///     Provides culture specific map labels. For more information visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/culture-parameter
-    ///     For a list of supported culture codes please visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/supported-culture-codes
+    ///     Provides culture specific map labels. For more information visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/culture-parameter.
+    ///     For a list of supported culture codes please visit: <a href="https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/supported-culture-codes">https://learn.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/supported-culture-codes</a>.
     ///     Default Value: "en-US"
     /// </summary>
     [Parameter]

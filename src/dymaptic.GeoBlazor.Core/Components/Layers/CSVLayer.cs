@@ -16,8 +16,7 @@ public partial class CSVLayer : Layer, IFeatureReductionLayer, IPopupTemplateLay
     public string? Copyright { get; set; }
     
     /// <summary>
-    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
-    ///     seems like a new layer.
+    ///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

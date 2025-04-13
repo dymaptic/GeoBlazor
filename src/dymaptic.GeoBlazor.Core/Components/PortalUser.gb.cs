@@ -1899,8 +1899,7 @@ public partial class PortalUser : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalUser.html#queryFavorites">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters
-    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be
+    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>. This object may be
     ///     <a href="https://developers.arcgis.com/javascript/latest/autocasting/">autocast</a>.
     /// </param>
     [ArcGISMethod]

@@ -11,9 +11,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 ///      </summary>
 ///      <remarks>
 ///          See more at
-///          <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
-///              ArcGIS Maps SDK for JavaScript
-///          </a>
+///          <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
 ///      </remarks>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BlendMode>))]

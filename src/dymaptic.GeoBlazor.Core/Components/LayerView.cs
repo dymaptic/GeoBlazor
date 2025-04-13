@@ -19,7 +19,7 @@ public partial class LayerView : MapComponent
     ///     The type of layer view.
     /// </param>
     /// <param name="spatialReferenceSupported">
-    ///     Indicates if the  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#spatialReference">spatialReference</a> of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> is supported by the layer view.
+    ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#spatialReference">spatialReference</a> of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> is supported by the layer view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#spatialReferenceSupported">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="suspended">

@@ -2576,9 +2576,7 @@ public partial class FeaturesViewModel : MapComponent,
     }
     
     /// <summary>
-    ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> in the action bar. This
-    ///     event may be used to define a custom function to execute when particular
-    ///     actions are clicked. See the example below for details of how this works.
+    ///     Fires after the user clicks on an <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionButton.html">action</a> or <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-support-actions-ActionToggle.html">action toggle</a> in the action bar. This event may be used to define a custom function to execute when particular actions are clicked. See the example below for details of how this works.
     /// </summary>
     [Parameter]
     [JsonIgnore]

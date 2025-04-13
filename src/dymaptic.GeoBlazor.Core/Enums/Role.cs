@@ -3,9 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          Indicates whether the table participating in the relationship is the origin or destination table.
-///      </summary>
+///     Indicates whether the table participating in the relationship is the origin or destination table.
 /// </summary>
 [JsonConverter(typeof(EnumRelationshipConverter<Role>))]
 [CodeGenerationIgnore]

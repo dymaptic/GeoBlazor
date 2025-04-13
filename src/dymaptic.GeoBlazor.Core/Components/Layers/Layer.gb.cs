@@ -560,8 +560,7 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
-    ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>
-    ///     after a layer has been added to the map.
+    ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> after a layer has been added to the map.
     /// </summary>
     [Parameter]
     [JsonIgnore]

@@ -4498,8 +4498,7 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Measures the area and the perimeter of a polygon in an image space on a selected raster when the following conditions are met:
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaFromImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     Measures the area and the perimeter of a polygon in an image space on a selected raster when the following conditions are met: <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureAreaFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>
@@ -4615,8 +4614,7 @@ public partial class ImageryLayer : IArcGISImageService,
     }
     
     /// <summary>
-    ///     Measures the length of a polyline in an image space on a selected raster when the following conditions are met:
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureLengthFromImage">ArcGIS Maps SDK for JavaScript</a>
+    ///     Measures the length of a polyline in an image space on a selected raster when the following conditions are met: <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ArcGISImageService.html#measureLengthFromImage">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     /// </param>

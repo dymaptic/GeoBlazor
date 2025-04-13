@@ -3735,8 +3735,7 @@ public partial class CSVLayer : IBlendLayer,
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,

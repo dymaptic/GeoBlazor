@@ -2555,8 +2555,7 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#search">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="searchTerm">
-    ///     This searchTerm can be
-    ///     a string, geometry, suggest candidate object, or an array of [latitude,longitude].
+    ///     This searchTerm can be a string, geometry, suggest candidate object, or an array of [latitude,longitude].
     ///     If a geometry is supplied, then it will reverse geocode (locator) or
     ///     findAddressCandidates with geometry instead of text (featurelayer).
     /// </param>
@@ -2626,8 +2625,7 @@ public partial class SearchViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Search-SearchViewModel.html#suggest">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
-    ///     The string value used to suggest() on an active Locator or feature layer. If
-    ///     nothing is passed in, takes the current value of the widget.
+    ///     The string value used to suggest() on an active Locator or feature layer. If nothing is passed in, takes the current value of the widget.
     /// </param>
     [ArcGISMethod]
     public async Task<SuggestResponse?> Suggest(string value)

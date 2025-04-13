@@ -15,8 +15,7 @@ public partial class LocateWidget : Widget
     public bool? RotationEnabled { get; set; }
 
     /// <summary>
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is
-    ///     returned from the track event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the track event.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

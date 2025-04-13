@@ -24,7 +24,7 @@ public partial class PictureFillSymbol : FillSymbol
     
     /// <summary>
     ///     The scale factor on the x axis of the symbol.
-    ///     Default Value:1
+    ///     Default Value: 1
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -32,7 +32,7 @@ public partial class PictureFillSymbol : FillSymbol
     
     /// <summary>
     ///     The scale factor on the y axis of the symbol.
-    ///     Default Value:1
+    ///     Default Value: 1
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

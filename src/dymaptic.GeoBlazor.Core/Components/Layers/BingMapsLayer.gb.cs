@@ -29,8 +29,7 @@ public partial class BingMapsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#key">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="style">
-    ///     For more information on Bing map styles please visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata
-    ///     default "road"
+    ///     For more information on Bing map styles please visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata default "road"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="blendMode">

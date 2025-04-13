@@ -37,8 +37,7 @@ public class ExpandWidget : Widget
     public bool? AutoCollapse { get; set; }
 
     /// <summary>
-    ///     When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its
-    ///     content.
+    ///     When true, the Expand widget will close after the Escape key is pressed when the keyboard focus is within its content.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -58,8 +57,7 @@ public class ExpandWidget : Widget
     ///     The content to display within the expanded Expand widget.
     /// </summary>
     /// <remarks>
-    ///     If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent
-    ///     container of the widget must have a width set in CSS for it to render inside the Expand widget.
+    ///     If adding a Slider, HistogramRangeSlider, or TimeSlider as content to the Expand widget, the container or parent container of the widget must have a width set in CSS for it to render inside the Expand widget.
     /// </remarks>
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Widget? WidgetContent { get; set; }

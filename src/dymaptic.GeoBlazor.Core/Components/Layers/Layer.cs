@@ -53,8 +53,7 @@ public abstract partial class Layer : MapComponent
     public ListMode? ListMode { get; set; }
     
     /// <summary>
-    ///     If the layer is added to the <see cref="Basemap"/>, this flag identifies the layer as a reference layer,
-    ///     which will sit on top of other layers to add labels.
+    ///     If the layer is added to the <see cref="Basemap"/>, this flag identifies the layer as a reference layer, which will sit on top of other layers to add labels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Basemap.html#referenceLayers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [Parameter]
@@ -254,8 +253,7 @@ public abstract partial class Layer : MapComponent
     }
 
     /// <summary>
-    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
-    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
     ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
@@ -279,8 +277,7 @@ public abstract partial class Layer : MapComponent
     }
 
     /// <summary>
-    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
-    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
     ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
@@ -291,15 +288,13 @@ public abstract partial class Layer : MapComponent
     }
 
     /// <summary>
-    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the
-    ///     resources it references in Map if the view is constructed with a map instance.
+    ///     Loads the resources referenced by this class. This method automatically executes for a View and all of the resources it references in Map if the view is constructed with a map instance.
     ///     This method must be called by the developer when accessing a resource that will not be loaded in a View.
     ///     The load() method only triggers the loading of the resource the first time it is called. The subsequent calls
     ///     return the same promise.
     /// </summary>
     /// <remarks>
-    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is
-    ///     aborted, the instance does not stop its loading process, only cancelLoad can abort it.
+    ///     It's possible to provide a signal to stop being interested into a Loadable instance load status. When the signal is aborted, the instance does not stop its loading process, only cancelLoad can abort it.
     /// </remarks>
     public async Task Load(CancellationToken cancellationToken)
     {

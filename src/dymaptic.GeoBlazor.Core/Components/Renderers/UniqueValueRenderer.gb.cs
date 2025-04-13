@@ -1469,12 +1469,10 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#addUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="valueOrInfo">
-    ///     The value to match. The value can be provided
-    ///     as an individual argument or as an <a href="#uniqueValueInfos">info object described in uniqueValueInfos</a>.
+    ///     The value to match. The value can be provided as an individual argument or as an <a href="#uniqueValueInfos">info object described in uniqueValueInfos</a>.
     /// </param>
     /// <param name="symbol">
-    ///     The symbol used to represent features matching the
-    ///     specified <code>value</code>.
+    ///     The symbol used to represent features matching the specified <code>value</code>.
     /// </param>
     [ArcGISMethod]
     public async Task AddUniqueValueInfo(string valueOrInfo,

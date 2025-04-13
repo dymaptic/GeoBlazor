@@ -247,9 +247,7 @@ public partial class Polygon
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#addRing">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="points">
-    ///     A polygon ring. The first and last coordinates/points
-    ///     in the ring must be the same. This can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polygon ring. The first and last coordinates/points in the ring must be the same. This can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<Polygon?> AddRing(IReadOnlyCollection<Point> points)
@@ -408,8 +406,7 @@ public partial class Polygon
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polygon.html#isClockwise">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="ring">
-    ///     A polygon ring. It can either be defined as an array of
-    ///     Point geometries or an array of XY coordinates.
+    ///     A polygon ring. It can either be defined as an array of Point geometries or an array of XY coordinates.
     /// </param>
     [ArcGISMethod]
     public async Task<bool?> IsClockwise(IReadOnlyCollection<Point> ring)

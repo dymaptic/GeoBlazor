@@ -2,10 +2,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 
 /// <summary>
 ///     The base class for widgets. Each widget's presentation is separate from its properties, methods, and data.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">
-///         ArcGIS
-///         Maps SDK for JavaScript
-///     </a>
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(WidgetConverter))]
 [CodeGenerationIgnore]
@@ -21,8 +18,7 @@ public abstract partial class Widget : MapComponent
     public OverlayPosition? Position { get; set; }
 
     /// <summary>
-    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on
-    ///     the map.
+    ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -41,8 +37,7 @@ public abstract partial class Widget : MapComponent
     public abstract WidgetType Type { get; }
 
     /// <summary>
-    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the
-    ///     Expand widget).
+    ///     Icon which represents the widget. It is typically used when the widget is controlled by another one (e.g. in the Expand widget).
     ///     Default Value:null
     /// </summary>
     [Parameter]
@@ -57,8 +52,7 @@ public abstract partial class Widget : MapComponent
     public virtual string? Label { get; set; }
 
     /// <summary>
-    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to
-    ///     the container ID, or if that is not present then it will be automatically generated.
+    ///     The unique ID assigned to the widget when the widget is created. If not set by the developer, it will default to the container ID, or if that is not present then it will be automatically generated.
     /// </summary>
     [Parameter]
     public string? WidgetId { get; set; }
@@ -75,8 +69,7 @@ public abstract partial class Widget : MapComponent
     protected virtual bool Hidden => false;
 
     /// <summary>
-    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return
-    ///     false.
+    ///     Indicates that the widget is sent to ArcGIS JS to render. Custom GeoBlazor Widgets should override this to return false.
     /// </summary>
     protected internal virtual bool ArcGISWidget => true;
 

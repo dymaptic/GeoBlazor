@@ -1353,8 +1353,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#deleteStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task DeleteStyleLayer(string layerId)
@@ -1390,8 +1389,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getLayoutProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<object?> GetLayoutProperties(string layerId)
@@ -1427,8 +1425,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getPaintProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<object?> GetPaintProperties(string layerId)
@@ -1464,8 +1461,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<object?> GetStyleLayer(string layerId)
@@ -1537,8 +1533,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayerIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">style layer id</a> as specified
-    ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">style layer id</a> as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<int?> GetStyleLayerIndex(string layerId)
@@ -1574,8 +1569,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#getStyleLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     [ArcGISMethod]
     public async Task<string?> GetStyleLayerVisibility(string layerId)
@@ -1657,8 +1651,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setLayoutProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     /// <param name="layout">
     ///     An instance of layout properties to assign to the style layer.
@@ -1699,8 +1692,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setPaintProperties">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     /// <param name="painter">
     ///     An instance of paint properties to assign to the specified style layer.
@@ -1741,9 +1733,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setSpriteSource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="spriteSourceInfo">
-    ///     The sprite source info is used
-    ///     to set the sprites in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>. The user can set the sprite source from a URL to fetch the sprite resources or from the image info
-    ///     to set the sprite resources directly on the layer.
+    ///     The sprite source info is used to set the sprites in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>. The user can set the sprite source from a URL to fetch the sprite resources or from the image info to set the sprite resources directly on the layer.
     /// </param>
     [ArcGISMethod]
     public async Task<SpriteSource?> SetSpriteSource(IVectorTileLayerSpriteSourceInfo spriteSourceInfo)
@@ -1779,8 +1769,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setStyleLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layer">
-    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/">style layer</a>
-    ///     specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>. Get an instance of a style layer from a loaded style using
+    ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/">style layer</a> specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>. Get an instance of a style layer from a loaded style using
     ///     <a href="#getStyleLayer">getStyleLayer</a> method.
     /// </param>
     /// <param name="index">
@@ -1822,8 +1811,7 @@ public partial class VectorTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-VectorTileLayer.html#setStyleLayerVisibility">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="layerId">
-    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a>
-    ///     as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
+    ///     The style layer <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/https://maplibre.org/maplibre-style-spec/layers/#id">id</a> as specified in the VectorTileLayer's <a href="#currentStyleInfo">currentStyleInfo.style</a>.
     /// </param>
     /// <param name="visibility">
     ///     Set this parameter to <code>"none"</code> to hide the style layer or to <code>"visible"</code> to show the style layer.

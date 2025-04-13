@@ -235,8 +235,7 @@ public partial class TimeExtent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html#intersection">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="timeExtent">
-    ///     The time extent to be intersected with the time extent
-    ///     on which <code>intersection()</code> is being called on.
+    ///     The time extent to be intersected with the time extent on which <code>intersection()</code> is being called on.
     /// </param>
     [ArcGISMethod]
     public async Task<TimeExtent?> Intersection(TimeExtent timeExtent)

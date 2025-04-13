@@ -4,7 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.ImageAreaParameters.html">GeoBlazor Docs</a>
-///     Input parameters used by  the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods to perform imagery area and perimeter mensuration.
+///     Input parameters used by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#measureAreaAndPerimeter">ImageryLayer.measureAreaAndPerimeter()</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-imageService.html#measureAreaAndPerimeter">imageService.measureAreaAndPerimeter()</a> methods to perform imagery area and perimeter mensuration.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageAreaParameters.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="MosaicRule">

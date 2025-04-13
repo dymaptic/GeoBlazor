@@ -731,8 +731,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the
-    ///     <see cref="RequiredPropertyAttribute" /> are provided.
+    ///     When a <see cref="MapView" /> is prepared to render, this will check to make sure that all properties with the <see cref="RequiredPropertyAttribute" /> are provided.
     /// </summary>
     /// <exception cref="MissingRequiredChildElementException">
     ///     The consumer needs to provide the missing child component
@@ -986,8 +985,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     // ReSharper disable once UnusedMethodReturnValue.Global
@@ -1006,9 +1004,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
@@ -1017,8 +1013,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName)
@@ -1036,9 +1031,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1050,8 +1043,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName, bool once)
@@ -1069,9 +1061,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1086,8 +1076,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Func<T, Task> handler, string? targetName, bool once, bool initial)
@@ -1111,8 +1100,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler)
@@ -1130,9 +1118,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <typeparam name="T">
     ///     The type of return value to expect in the handler.
@@ -1141,8 +1127,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName)
@@ -1160,9 +1145,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1174,8 +1157,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName, bool once)
@@ -1193,9 +1175,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when there are changes.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>watchExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1210,8 +1190,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding watchers to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>watchExpression</code>
     /// </remarks>
     public Task AddReactiveWatcher<T>(string watchExpression, Action<T> handler, string? targetName, bool once, bool initial)
@@ -1297,8 +1276,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers
-    ///     passed to <see cref="AddReactiveWatcher" />
+    ///     JS-Invokable method that is triggered by the reactiveUtils watchers. This method will dynamically trigger handlers passed to <see cref="AddReactiveWatcher" />
     /// </summary>
     /// <param name="watchExpression">
     ///     The tracked expression that was triggered.
@@ -1439,8 +1417,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger
-    ///     handlers passed to <see cref="AddReactiveListener" />
+    ///     JS-Invokable method that is triggered by the reactiveUtils 'on' listeners. This method will dynamically trigger handlers passed to <see cref="AddReactiveListener" />
     /// </summary>
     /// <param name="eventName">
     ///     The tracked event that was triggered.
@@ -1477,8 +1454,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1490,8 +1466,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
 
@@ -1502,8 +1477,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1512,16 +1486,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <exception cref="UnMatchedTargetNameException">
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName)
@@ -1530,8 +1501,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1540,9 +1510,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1551,8 +1519,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName, bool once)
@@ -1561,8 +1528,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1571,9 +1537,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1585,8 +1549,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Func<Task> handler, string? targetName, bool once, bool initial)
@@ -1595,8 +1558,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1608,8 +1570,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Action handler)
@@ -1618,8 +1579,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1628,16 +1588,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <exception cref="UnMatchedTargetNameException">
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName)
@@ -1646,8 +1603,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1656,9 +1612,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1667,8 +1621,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName, bool once)
@@ -1677,8 +1630,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes
-    ///     <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
+    ///     Tracks a value in the <code>waitExpression</code> and calls the callback when it becomes <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a>.
     /// </summary>
     /// <param name="waitExpression">
     ///     Expression used to get the current value. All accessed properties will be tracked.
@@ -1687,9 +1639,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     The function to call when the value is truthy.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="once">
     ///     Whether to fire the callback only once.
@@ -1701,8 +1651,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     ///     This exception is thrown when a watchExpression's target object name doesn't match the targetName parameter.
     /// </exception>
     /// <remarks>
-    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default
-    ///     <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
+    ///     For adding waiters to types other than <see cref="MapView" /> and <see cref="SceneView" />, the default <code>targetName</code> should not be relied upon. Make sure it matches the variable in your
     ///     <code>waitExpression</code>
     /// </remarks>
     public Task AddReactiveWaiter(string waitExpression, Action handler, string? targetName, bool once, bool initial)
@@ -1750,8 +1699,7 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
 
 #pragma warning disable CS1574, CS0419
     /// <summary>
-    ///     JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers
-    ///     passed to <see cref="AddReactiveWaiter" />
+    ///     JS-Invokable method that is triggered by the reactiveUtils waiters. This method will dynamically trigger handlers passed to <see cref="AddReactiveWaiter" />
     /// </summary>
     /// <param name="waitExpression">
     ///     The tracked expression that was triggered.
@@ -1765,16 +1713,13 @@ public abstract partial class MapComponent : ComponentBase, IAsyncDisposable, IM
     }
 
     /// <summary>
-    ///     Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing
-    ///     the value. This method only tracks a single change.
+    ///     Tracks any properties being evaluated by the getValue function. When getValue changes, it returns a Task containing the value. This method only tracks a single change.
     /// </summary>
     /// <param name="watchExpression">
     ///     The expression to be tracked.
     /// </param>
     /// <param name="targetName">
-    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is
-    ///     "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on
-    ///     which this method was called.
+    ///     The name of the target you are referencing in the <code>waitExpression</code>. For example, if the expression is "layer?.refresh", then the targetName should be "layer". The type of the target should also match the class on which this method was called.
     /// </param>
     /// <param name="token">
     ///     Optional Cancellation Token to abort a listener.

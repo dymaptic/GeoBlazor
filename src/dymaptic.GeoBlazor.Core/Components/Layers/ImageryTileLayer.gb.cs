@@ -2457,8 +2457,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     Specifies parameters for computing statistics and histograms.
     /// </param>
     /// <param name="requestOptions">
-    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#esriRequest">options</a> to be used for the data request
-    ///     (will override requestOptions defined during construction).
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#esriRequest">options</a> to be used for the data request (will override requestOptions defined during construction).
     /// </param>
     [ArcGISMethod]
     public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,

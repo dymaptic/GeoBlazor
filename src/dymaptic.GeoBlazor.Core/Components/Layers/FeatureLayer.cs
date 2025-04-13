@@ -919,8 +919,7 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     ///     Executes a TopFeaturesQuery against a feature service and returns the count of features or records that satisfy the query.
     /// </summary>
     /// <remarks>
-    ///     Known Limitations: Currently, the <see cref="QueryTopFeatureCount" /> is only supported with server-side
-    ///     <see cref="FeatureLayer" />s.
+    ///     Known Limitations: Currently, the <see cref="QueryTopFeatureCount" /> is only supported with server-side <see cref="FeatureLayer" />s.
     /// </remarks>
     /// <param name="query">
     ///     Specifies the attributes, spatial, temporal, and top filter of the query. The topFilter parameter must be set.

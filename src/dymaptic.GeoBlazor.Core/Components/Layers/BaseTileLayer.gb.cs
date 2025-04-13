@@ -648,8 +648,7 @@ public partial class BaseTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#addResolvingPromise">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="promiseToLoad">
-    ///     A promise that must resolve for the layer
-    ///     to resolve and move from the <code>loading</code> <a href="#loadStatus">status</a> to being
+    ///     A promise that must resolve for the layer to resolve and move from the <code>loading</code> <a href="#loadStatus">status</a> to being
     ///     <a href="#loaded">loaded</a>.
     /// </param>
     [ArcGISMethod]

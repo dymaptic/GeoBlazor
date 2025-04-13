@@ -10,8 +10,7 @@ public partial class VisualVariableLegendOptions : MapComponent
     public bool? ShowLegend { get; set; }
 
     /// <summary>
-    ///     The title describing the visualization of the visual variable in the Legend. This takes precedence over a field
-    ///     alias or valueExpressionTitle.
+    ///     The title describing the visualization of the visual variable in the Legend. This takes precedence over a field alias or valueExpressionTitle.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

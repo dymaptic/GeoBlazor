@@ -1457,8 +1457,7 @@ public partial class WebMap : ITimeSliderViewModelDocument,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="portalItem">
-    ///     The new portal item to which
-    ///     the webmap will be saved.
+    ///     The new portal item to which the webmap will be saved.
     /// </param>
     /// <param name="options">
     ///     Additional save options.

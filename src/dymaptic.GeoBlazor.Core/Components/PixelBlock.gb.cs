@@ -135,8 +135,7 @@ public partial class PixelBlock : MapComponent
     public IReadOnlyList<PixelBlockStatistics>? Statistics { get; set; }
     
     /// <summary>
-    ///     Number of valid pixels
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
+    ///     Number of valid pixels <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

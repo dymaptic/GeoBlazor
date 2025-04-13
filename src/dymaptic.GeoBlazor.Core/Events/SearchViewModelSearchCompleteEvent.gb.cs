@@ -16,8 +16,7 @@ namespace dymaptic.GeoBlazor.Core.Events;
 ///     The number of results from the search.
 /// </param>
 /// <param name="Results">
-///     An array of objects representing the results of the search. See object specification
-///     table below for more information about the result object.
+///     An array of objects representing the results of the search. See object specification table below for more information about the result object.
 /// </param>
 /// <param name="SearchTerm">
 ///     The searched expression.

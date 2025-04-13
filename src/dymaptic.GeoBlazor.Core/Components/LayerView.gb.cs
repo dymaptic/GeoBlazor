@@ -14,7 +14,7 @@ public partial class LayerView
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     Indicates if the  <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#spatialReference">spatialReference</a> of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> is supported by the layer view.
+    ///     Indicates if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#spatialReference">spatialReference</a> of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> is supported by the layer view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html#spatialReferenceSupported">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
