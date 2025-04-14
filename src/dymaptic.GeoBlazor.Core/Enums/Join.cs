@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Join.html">GeoBlazor Docs</a>
-///     <summary>
-///          Join enumeration.
-///      </summary>
+///     Join enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Join>))]
 public enum Join

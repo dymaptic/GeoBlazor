@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.NoDataInterpretation.html">GeoBlazor Docs</a>
-///     <summary>
-///          The interpretation of no data values in the raster dataset.
-///      </summary>
+///     The interpretation of no data values in the raster dataset.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<NoDataInterpretation>))]
 public enum NoDataInterpretation

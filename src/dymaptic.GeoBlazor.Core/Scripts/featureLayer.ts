@@ -361,9 +361,10 @@ export default class FeatureLayerWrapper extends FeatureLayerGenerated {
         return await buildDotNetFeatureLayer(result);
     }
 
-    refresh() {
+    async refresh() {
 
         this.layer.refresh();
+        return await buildDotNetFeatureLayer(this.layer);
     }
 
     async setEffect(dnEffect: any): Promise<void> {

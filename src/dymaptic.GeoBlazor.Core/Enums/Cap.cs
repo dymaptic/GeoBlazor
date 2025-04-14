@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Cap.html">GeoBlazor Docs</a>
-///     <summary>
-///          Cap enumeration.
-///      </summary>
+///     Cap enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Cap>))]
 public enum Cap

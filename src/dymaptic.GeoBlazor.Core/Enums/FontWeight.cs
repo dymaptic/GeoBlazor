@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.FontWeight.html">GeoBlazor Docs</a>
-///     <summary>
-///          Weight enumeration.
-///      </summary>
+///     Weight enumeration.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<FontWeight>))]
 public enum FontWeight

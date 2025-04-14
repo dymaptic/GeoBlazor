@@ -334,11 +334,6 @@ public abstract partial class Layer : MapComponent
             await UpdateLayer();
         }
         await base.Refresh();
-        if (JsComponentReference is null) return;
-        
-        await JsComponentReference!.InvokeAsync<string?>(
-            "refresh", 
-            CancellationTokenSource.Token);
     }
 
     /// <inheritdoc />

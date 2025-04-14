@@ -2,7 +2,10 @@
 
 namespace dymaptic.GeoBlazor.Core;
 
-
+/// <summary>
+///     For internal use only.
+/// </summary>
+/// <exclude/>
 public interface IAppValidator
 {
     public ValueTask ValidateLicense();

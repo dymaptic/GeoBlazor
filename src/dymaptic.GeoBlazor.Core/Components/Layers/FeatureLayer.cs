@@ -447,16 +447,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         return await JsComponentReference!.InvokeAsync<FeatureLayer>("clone");
     }
-
-    /// <summary>
-    /// Fetches all the data for the layer. Calls 'refresh' on the layer.
-    /// </summary>
-    [CodeGenerationIgnore]
-    public override ValueTask Refresh()
-    {
-        _refreshRequired = true;
-        return base.Refresh();
-    }
     
     /// <summary>
     ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work. This powerful capability allows you to apply css filter-like functions to layers to create custom visual effects to enhance the cartographic quality of your maps. This is done by applying the desired effect to the layer's effect property as a string or an array of objects to set scale dependent effects.
@@ -468,21 +458,23 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
     {
         await JsComponentReference!.InvokeVoidAsync("setEffect", effect);
     }
-
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    
+    /// <summary>
+    ///     Fetches all the data for the layer. Calls 'refresh' on the layer.
+    /// </summary>
+    [CodeGenerationIgnore]
+    public override async ValueTask Refresh()
     {
-        if (_refreshRequired)
+        if (MapRendered)
         {
-            _refreshRequired = false;
-            var newLayer = await JsComponentReference!.InvokeAsync<FeatureLayer>("refresh");
-            await UpdateFromJavaScript(newLayer);
+            await UpdateLayer();
         }
-
-        await base.OnAfterRenderAsync(firstRender);
+        await base.Refresh();
+        if (JsComponentReference is null) return;
+        
+        FeatureLayer newLayer = await JsComponentReference!.InvokeAsync<FeatureLayer>("refresh");
+        await UpdateFromJavaScript(newLayer);
     }
-
-
 
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
@@ -1077,7 +1069,6 @@ public partial class FeatureLayer : Layer, IFeatureReductionLayer, IPopupTemplat
         }
     }
 
-    private bool _refreshRequired = false;
     private Dictionary<Guid, Graphic[]> _activeQueries = new();
     private Dictionary<Guid, Dictionary<long, Graphic[]>> _activeRelatedQueries = new();
 }

@@ -71,6 +71,7 @@
         <DefaultDocumentationFolder>Documentation</DefaultDocumentationFolder>
         <DefaultDocumentationGeneratedPages>Types</DefaultDocumentationGeneratedPages>
         <DefaultDocumentationGeneratedAccessModifiers>Public</DefaultDocumentationGeneratedAccessModifiers>
+        <DefaultDocumentationIncludeUndocumentedItems>true</DefaultDocumentationIncludeUndocumentedItems>
         <DefaultDocumentationConfigurationFile>DefaultDocumentation.json</DefaultDocumentationConfigurationFile>
     </PropertyGroup>
 
