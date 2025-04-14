@@ -147,7 +147,10 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!subset.Equals(MultidimensionalSubset))
                 {
                     MultidimensionalSubset = subset;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -155,7 +158,10 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!popupTemplate.Equals(PopupTemplate))
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -163,7 +169,10 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
                 if (!_multidimensionalDefinition.Contains(definition))
                 {
                     _multidimensionalDefinition.Add(definition);
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -181,17 +190,16 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
 
             case MultidimensionalSubset _:
                 MultidimensionalSubset = null;
-                LayerChanged = MapRendered;
+                
                 break;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
 
                 break;
             case DimensionalDefinition definition:
-                if (_multidimensionalDefinition.Remove(definition))
+                if (_multidimensionalDefinition.Remove(definition) && MapRendered)
                 {
-                    LayerChanged = MapRendered;
+                    await UpdateLayer();
                 }
 
                 break;

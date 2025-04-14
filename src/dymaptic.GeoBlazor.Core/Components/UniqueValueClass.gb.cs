@@ -387,7 +387,6 @@ public partial class UniqueValueClass : MapComponent
                 if (symbol != Symbol)
                 {
                     Symbol = symbol;
-                    
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
                 
@@ -397,7 +396,6 @@ public partial class UniqueValueClass : MapComponent
                 if (!Values.Contains(values))
                 {
                     Values = [..Values, values];
-                    
                     ModifiedParameters[nameof(Values)] = Values;
                 }
                 
@@ -414,12 +412,10 @@ public partial class UniqueValueClass : MapComponent
         {
             case Symbol _:
                 Symbol = null;
-                
                 ModifiedParameters[nameof(Symbol)] = Symbol;
                 return true;
             case UniqueValue values:
                 Values = Values?.Where(v => v != values).ToList();
-                
                 ModifiedParameters[nameof(Values)] = Values;
                 return true;
             default:

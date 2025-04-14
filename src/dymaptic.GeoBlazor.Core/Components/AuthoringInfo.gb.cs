@@ -1836,7 +1836,6 @@ public partial class AuthoringInfo
                 if (colorRamp != ColorRamp)
                 {
                     ColorRamp = colorRamp;
-                    
                     ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
                 }
                 
@@ -1845,7 +1844,6 @@ public partial class AuthoringInfo
                 if (statistics != Statistics)
                 {
                     Statistics = statistics;
-                    
                     ModifiedParameters[nameof(Statistics)] = Statistics;
                 }
                 
@@ -1855,7 +1853,6 @@ public partial class AuthoringInfo
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
-                    
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
                 
@@ -1872,17 +1869,14 @@ public partial class AuthoringInfo
         {
             case ColorRamp _:
                 ColorRamp = null;
-                
                 ModifiedParameters[nameof(ColorRamp)] = ColorRamp;
                 return true;
             case AuthoringInfoStatistics _:
                 Statistics = null;
-                
                 ModifiedParameters[nameof(Statistics)] = Statistics;
                 return true;
             case AuthoringInfoVisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 return true;
             default:

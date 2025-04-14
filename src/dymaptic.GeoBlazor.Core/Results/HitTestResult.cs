@@ -10,13 +10,11 @@ namespace dymaptic.GeoBlazor.Core.Results;
 public record HitTestResult(ScreenPoint ScreenPoint)
 {
     /// <summary>
-    ///     Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the
-    ///     ground was excluded from the hitTest.
+    ///     Ground intersection result, only applies to SceneViews. The ground hit result will always be returned, even if the ground was excluded from the hitTest.
     /// </summary>
     public GroundIntersectionResult? Ground { get; init; }
     /// <summary>
-    ///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen
-    ///     coordinates intersects a Graphic or media element in the view.
+    ///     An array of result objects returned from the hitTest(). Results are returned when the location of the input screen coordinates intersects a Graphic or media element in the view.
     /// </summary>
     public ViewHit[] Results { get; set; } = [];
 }

@@ -433,7 +433,6 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
                 if (outline != Outline)
                 {
                     Outline = outline;
-                    
                     ModifiedParameters[nameof(Outline)] = Outline;
                 }
                 
@@ -450,7 +449,6 @@ public partial class SimpleMarkerSymbol : ISymbol2D,
         {
             case Outline _:
                 Outline = null;
-                
                 ModifiedParameters[nameof(Outline)] = Outline;
                 return true;
             default:

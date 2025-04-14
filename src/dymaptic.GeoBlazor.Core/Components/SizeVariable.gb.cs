@@ -1052,7 +1052,25 @@ public partial class SizeVariable
     [ArcGISMethod]
     public async Task FlipSizes()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "flipSizes", 
@@ -1072,7 +1090,6 @@ public partial class SizeVariable
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
-                    
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
                 
@@ -1089,7 +1106,6 @@ public partial class SizeVariable
         {
             case SizeStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
-                
                 ModifiedParameters[nameof(Stops)] = Stops;
                 return true;
             default:

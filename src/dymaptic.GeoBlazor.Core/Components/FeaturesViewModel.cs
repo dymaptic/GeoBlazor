@@ -51,8 +51,7 @@ public partial class FeaturesViewModel: IViewModel
    ///     <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#ScreenPoint">SceneView</a>.
    /// </param>
    /// <param name="options">
-   ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html#FetchFeaturesOptions">options</a>
-   ///     to pass into the <code>fetchFeatures</code> method.
+   ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features.html#FetchFeaturesOptions">options</a> to pass into the <code>fetchFeatures</code> method.
    /// </param>
    /// <param name="cancellationToken">
    ///     The CancellationToken to cancel an asynchronous operation.

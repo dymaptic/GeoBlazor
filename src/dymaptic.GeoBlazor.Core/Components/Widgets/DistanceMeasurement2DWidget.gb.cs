@@ -533,8 +533,11 @@ public partial class DistanceMeasurement2DWidget : Widget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -555,7 +558,6 @@ public partial class DistanceMeasurement2DWidget : Widget
                 return true;
             case DistanceMeasurement2DViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

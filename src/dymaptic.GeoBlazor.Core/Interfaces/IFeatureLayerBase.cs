@@ -27,8 +27,7 @@ public partial interface IFeatureLayerBase
     Task<Domain?> GetFieldDomain(string fieldName, Graphic? feature = null);
 
     /// <summary>
-    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table
-    ///     objectIds.
+    ///     Executes a RelationshipQuery against the feature service and returns FeatureSets grouped by source layer or table objectIds.
     /// </summary>
     /// <param name="query">
     ///     Specifies relationship parameters for querying related features or records from a layer or a table.
@@ -41,9 +40,7 @@ public partial interface IFeatureLayerBase
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key
-    ///     value pairs. Key in this case is the objectId of the feature and value is the number of related features associated
-    ///     with the feature.
+    ///     Executes a RelationshipQuery against the feature service and when resolved, it returns an object containing key value pairs. Key in this case is the objectId of the feature and value is the number of related features associated with the feature.
     /// </summary>
     /// <param name="query">
     ///     Specifies relationship parameters for querying related features or records from a layer or a table.

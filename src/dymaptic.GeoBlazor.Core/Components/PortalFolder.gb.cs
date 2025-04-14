@@ -388,7 +388,6 @@ public partial class PortalFolder : MapComponent
                 if (portal != Portal)
                 {
                     Portal = portal;
-                    
                     ModifiedParameters[nameof(Portal)] = Portal;
                 }
                 
@@ -405,7 +404,6 @@ public partial class PortalFolder : MapComponent
         {
             case Portal _:
                 Portal = null;
-                
                 ModifiedParameters[nameof(Portal)] = Portal;
                 return true;
             default:

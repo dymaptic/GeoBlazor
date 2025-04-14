@@ -1895,7 +1895,25 @@ public partial class TileLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<Sublayer[]?> CreateServiceSublayers()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Sublayer[]?>(
             "createServiceSublayers", 
@@ -1930,7 +1948,25 @@ public partial class TileLayer : IAPIKeyMixin,
         double col,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
@@ -1959,7 +1995,25 @@ public partial class TileLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<Sublayer?> FindSublayerById(long id)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Sublayer?>(
             "findSublayerById", 
@@ -1989,7 +2043,25 @@ public partial class TileLayer : IAPIKeyMixin,
         double row,
         double col)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "getTileUrl", 
@@ -2007,7 +2079,25 @@ public partial class TileLayer : IAPIKeyMixin,
     [ArcGISMethod]
     public async Task<TileLayer?> LoadAll()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<TileLayer?>(
             "loadAll", 
@@ -2023,7 +2113,25 @@ public partial class TileLayer : IAPIKeyMixin,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -2078,8 +2186,11 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2088,8 +2199,11 @@ public partial class TileLayer : IAPIKeyMixin,
                 if (!Subtables.Contains(subtables))
                 {
                     Subtables = [..Subtables, subtables];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Subtables)] = Subtables;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -2105,12 +2219,10 @@ public partial class TileLayer : IAPIKeyMixin,
         {
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Sublayer subtables:
                 Subtables = Subtables?.Where(s => s != subtables).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Subtables)] = Subtables;
                 return true;
             default:

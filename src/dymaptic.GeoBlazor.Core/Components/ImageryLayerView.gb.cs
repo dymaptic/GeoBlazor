@@ -282,7 +282,6 @@ public partial class ImageryLayerView : LayerView
                 if (highlightOptions != HighlightOptions)
                 {
                     HighlightOptions = highlightOptions;
-                    
                     ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 }
                 
@@ -291,7 +290,6 @@ public partial class ImageryLayerView : LayerView
                 if (pixelData != PixelData)
                 {
                     PixelData = pixelData;
-                    
                     ModifiedParameters[nameof(PixelData)] = PixelData;
                 }
                 
@@ -308,12 +306,10 @@ public partial class ImageryLayerView : LayerView
         {
             case HighlightOptions _:
                 HighlightOptions = null;
-                
                 ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 return true;
             case PixelData _:
                 PixelData = null;
-                
                 ModifiedParameters[nameof(PixelData)] = PixelData;
                 return true;
             default:

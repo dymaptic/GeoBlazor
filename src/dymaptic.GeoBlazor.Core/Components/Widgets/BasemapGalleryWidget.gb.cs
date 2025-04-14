@@ -586,8 +586,11 @@ public partial class BasemapGalleryWidget
                 if (activeBasemap != ActiveBasemap)
                 {
                     ActiveBasemap = activeBasemap;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -595,8 +598,11 @@ public partial class BasemapGalleryWidget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -612,12 +618,10 @@ public partial class BasemapGalleryWidget
         {
             case Basemap _:
                 ActiveBasemap = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ActiveBasemap)] = ActiveBasemap;
                 return true;
             case BasemapGalleryViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             default:

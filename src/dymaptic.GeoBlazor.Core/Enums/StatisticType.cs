@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.StatisticType.html">GeoBlazor Docs</a>
-///     <summary>
-///          Defines the type of statistic.
-///      </summary>
+///     Defines the type of statistic.
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<StatisticType>))]
 public enum StatisticType

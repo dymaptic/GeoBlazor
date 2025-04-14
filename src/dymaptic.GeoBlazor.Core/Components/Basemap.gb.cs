@@ -965,7 +965,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task<Basemap?> LoadAll()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Basemap?>(
             "loadAll", 
@@ -1010,7 +1028,6 @@ public partial class Basemap : ILayerParent
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 }
                 
@@ -1019,7 +1036,6 @@ public partial class Basemap : ILayerParent
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 }
                 
@@ -1028,7 +1044,6 @@ public partial class Basemap : ILayerParent
                 if (style != Style)
                 {
                     Style = style;
-                    
                     ModifiedParameters[nameof(Style)] = Style;
                 }
                 
@@ -1045,17 +1060,14 @@ public partial class Basemap : ILayerParent
         {
             case PortalItem _:
                 PortalItem = null;
-                
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case BasemapStyle _:
                 Style = null;
-                
                 ModifiedParameters[nameof(Style)] = Style;
                 return true;
             default:

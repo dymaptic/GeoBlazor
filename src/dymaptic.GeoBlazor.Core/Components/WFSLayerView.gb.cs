@@ -804,7 +804,25 @@ public partial class WFSLayerView : LayerView,
     [ArcGISMethod]
     public async Task<Query?> CreateAggregateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createAggregateQuery", 
@@ -820,7 +838,25 @@ public partial class WFSLayerView : LayerView,
     [ArcGISMethod]
     public async Task<Query?> CreateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createQuery", 
@@ -846,7 +882,25 @@ public partial class WFSLayerView : LayerView,
     public async Task<FeatureSet?> QueryAggregates(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -914,7 +968,25 @@ public partial class WFSLayerView : LayerView,
     public async Task<ExtentQueryResult?> QueryExtent(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
@@ -949,7 +1021,25 @@ public partial class WFSLayerView : LayerView,
     public async Task<int?> QueryFeatureCount(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         int? result = await JsComponentReference!.InvokeAsync<int?>(
@@ -986,7 +1076,25 @@ public partial class WFSLayerView : LayerView,
     public async Task<FeatureSet?> QueryFeatures(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -1021,7 +1129,25 @@ public partial class WFSLayerView : LayerView,
     public async Task<string[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
@@ -1047,7 +1173,6 @@ public partial class WFSLayerView : LayerView,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
                 
@@ -1056,7 +1181,6 @@ public partial class WFSLayerView : LayerView,
                 if (filter != Filter)
                 {
                     Filter = filter;
-                    
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
                 
@@ -1065,7 +1189,6 @@ public partial class WFSLayerView : LayerView,
                 if (highlightOptions != HighlightOptions)
                 {
                     HighlightOptions = highlightOptions;
-                    
                     ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 }
                 
@@ -1082,17 +1205,14 @@ public partial class WFSLayerView : LayerView,
         {
             case FeatureEffect _:
                 FeatureEffect = null;
-                
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case FeatureFilter _:
                 Filter = null;
-                
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
             case HighlightOptions _:
                 HighlightOptions = null;
-                
                 ModifiedParameters[nameof(HighlightOptions)] = HighlightOptions;
                 return true;
             default:

@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.BasemapStylePlace.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for BasemapStylePlace
-///      </summary>
+///     Enumeration for BasemapStylePlace
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BasemapStylePlace>))]
 public enum BasemapStylePlace

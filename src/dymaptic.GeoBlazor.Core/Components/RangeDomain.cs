@@ -1,27 +1,8 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     Range domains specify a valid
-///     <a target="_blank"
-///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">
-///         minimum
-///     </a>
-///     and
-///     <a target="_blank"
-///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">
-///         maximum
-///     </a>
-///     valid value that can be stored in numeric and date
-///     <a target="_blank"
-///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#type">
-///         fields
-///     </a>
-///     .
-///     <a target="_blank"
-///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html">
-///         ArcGIS
-///         Maps SDK for JavaScript
-///     </a>
+///     Range domains specify a valid <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">minimum</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">maximum</a> valid value that can be stored in numeric and date <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html#type">fields</a>.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [CodeGenerationIgnore]
 public class RangeDomain : Domain
@@ -35,32 +16,19 @@ public class RangeDomain : Domain
     }
 
     /// <summary>
-    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any
-    ///     order.
+    ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="maxValue">
     ///     The maximum valid value.
-    ///     <a target="_blank"
-    ///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">
-    ///         ArcGIS
-    ///         Maps SDK for JavaScript
-    ///     </a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="minValue">
     ///     The minimum valid value.
-    ///     <a target="_blank"
-    ///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">
-    ///         ArcGIS
-    ///         Maps SDK for JavaScript
-    ///     </a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="name">
     ///     The domain name.
-    ///     <a target="_blank"
-    ///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html#name">
-    ///         ArcGIS
-    ///         Maps SDK for JavaScript
-    ///     </a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     [CodeGenerationIgnore]
     public RangeDomain(string? maxValue = null,
@@ -83,11 +51,7 @@ public class RangeDomain : Domain
 
     /// <summary>
     ///     The maximum valid value.
-    ///     <a target="_blank"
-    ///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">
-    ///         ArcGIS
-    ///         Maps SDK for JavaScript
-    ///     </a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#maxValue">ArcGIS Maps SDK</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -96,11 +60,7 @@ public class RangeDomain : Domain
 
     /// <summary>
     ///     The minimum valid value.
-    ///     <a target="_blank"
-    ///        href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">
-    ///         ArcGIS
-    ///         Maps SDK for JavaScript
-    ///     </a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RangeDomain.html#minValue">ArcGIS Maps SDK</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

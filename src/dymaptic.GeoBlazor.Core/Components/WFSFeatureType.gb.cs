@@ -931,7 +931,6 @@ public partial class WFSFeatureType : MapComponent
                 if (extent != Extent)
                 {
                     Extent = extent;
-                    
                     ModifiedParameters[nameof(Extent)] = Extent;
                 }
                 
@@ -948,7 +947,6 @@ public partial class WFSFeatureType : MapComponent
         {
             case Extent _:
                 Extent = null;
-                
                 ModifiedParameters[nameof(Extent)] = Extent;
                 return true;
             default:

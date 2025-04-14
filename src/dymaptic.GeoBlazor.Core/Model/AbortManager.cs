@@ -46,8 +46,7 @@ public class AbortManager : IAsyncDisposable
     ///     Creates a new abort signal for the given <see cref="CancellationToken" />.
     /// </summary>
     /// <remarks>
-    ///     Uses of this method should always be followed by <see cref="DisposeAbortController" /> when you are finished with
-    ///     the JavaScript calls.
+    ///     Uses of this method should always be followed by <see cref="DisposeAbortController" /> when you are finished with the JavaScript calls.
     /// </remarks>
     /// <param name="cancellationToken">
     ///     The <see cref="CancellationToken" /> to create the abort signal for.
@@ -73,8 +72,7 @@ public class AbortManager : IAsyncDisposable
     }
 
     /// <summary>
-    ///     Disposes the signal created for a specific JavaScript call, this should always be called when you are done with the
-    ///     signal.
+    ///     Disposes the signal created for a specific JavaScript call, this should always be called when you are done with the signal.
     /// </summary>
     /// <param name="cancellationToken">
     ///     The <see cref="CancellationToken" /> to abort the query for.

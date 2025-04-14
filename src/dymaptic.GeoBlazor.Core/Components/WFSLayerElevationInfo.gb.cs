@@ -428,7 +428,6 @@ public partial class WFSLayerElevationInfo : MapComponent
                 if (featureExpressionInfo != FeatureExpressionInfo)
                 {
                     FeatureExpressionInfo = featureExpressionInfo;
-                    
                     ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 }
                 
@@ -445,7 +444,6 @@ public partial class WFSLayerElevationInfo : MapComponent
         {
             case WFSLayerElevationInfoFeatureExpressionInfo _:
                 FeatureExpressionInfo = null;
-                
                 ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 return true;
             default:

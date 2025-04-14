@@ -428,7 +428,6 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
                 if (featureExpressionInfo != FeatureExpressionInfo)
                 {
                     FeatureExpressionInfo = featureExpressionInfo;
-                    
                     ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 }
                 
@@ -445,7 +444,6 @@ public partial class GeoJSONLayerElevationInfo : MapComponent
         {
             case GeoJSONLayerElevationInfoFeatureExpressionInfo _:
                 FeatureExpressionInfo = null;
-                
                 ModifiedParameters[nameof(FeatureExpressionInfo)] = FeatureExpressionInfo;
                 return true;
             default:

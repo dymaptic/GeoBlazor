@@ -63,10 +63,27 @@ public partial record PortalGroup(
     string? PortalGroupId = null,
     string? Snippet = null,
     IReadOnlyCollection<string>? Tags = null,
-    string? Title = null)
+    string? Title = null): IInteractiveRecord
 {
-    internal IJSObjectReference? JsComponentReference { get; set; }
-    internal AbortManager? AbortManager { get; set; }
+    /// <summary>
+    ///     Represents the JavaScript component reference.
+    /// </summary>
+    public IJSObjectReference? JsComponentReference { get; set; }
+    
+    /// <summary>
+    ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
+    /// </summary>
+    public AbortManager? AbortManager { get; set; }
+    
+    /// <summary>
+    ///     A unique Id to identify this record in JavaScript.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Reference to the Core JavaScript module.
+    /// </summary>
+    public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Cancellation Token for async methods.
@@ -87,7 +104,25 @@ public partial record PortalGroup(
     [ArcGISMethod]
     public async Task<string[]?> FetchCategorySchema(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
@@ -113,7 +148,25 @@ public partial record PortalGroup(
     [ArcGISMethod]
     public async Task<Members?> FetchMembers(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Members? result = await JsComponentReference!.InvokeAsync<Members?>(
@@ -138,7 +191,25 @@ public partial record PortalGroup(
     [ArcGISMethod]
     public async Task<string?> GetThumbnailUrl(int width)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "getThumbnailUrl", 
@@ -156,8 +227,7 @@ public partial record PortalGroup(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters
-    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -166,7 +236,25 @@ public partial record PortalGroup(
     public async Task<PortalQueryResult?> QueryItems(PortalQueryParams queryParams,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         PortalQueryResult? result = await JsComponentReference!.InvokeAsync<PortalQueryResult?>(

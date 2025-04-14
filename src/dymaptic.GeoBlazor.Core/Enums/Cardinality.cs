@@ -3,10 +3,7 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     <summary>
-///          The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects
-///          in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
-///      </summary>
+///     The cardinality which specifies the number of objects in the origin FeatureLayer related to the number of objects in the destination FeatureLayer. Please see the Desktop help for additional information on cardinality.
 /// </summary>
 [JsonConverter(typeof(EnumRelationshipConverter<Cardinality>))]
 [CodeGenerationIgnore]

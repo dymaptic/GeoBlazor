@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.OutputPixelType.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for OutputPixelType
-///      </summary>
+///     Enumeration for OutputPixelType
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OutputPixelType>))]
 public enum OutputPixelType

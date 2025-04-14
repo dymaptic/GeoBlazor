@@ -485,7 +485,6 @@ public partial class FeatureEffect
                 if (filter != Filter)
                 {
                     Filter = filter;
-                    
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
                 
@@ -502,7 +501,6 @@ public partial class FeatureEffect
         {
             case FeatureFilter _:
                 Filter = null;
-                
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
             default:

@@ -249,7 +249,6 @@ public partial class Position : MapComponent
                 if (location != Location)
                 {
                     Location = location;
-                    
                     ModifiedParameters[nameof(Location)] = Location;
                 }
                 
@@ -266,7 +265,6 @@ public partial class Position : MapComponent
         {
             case Point _:
                 Location = null;
-                
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;
             default:

@@ -73,8 +73,7 @@ public partial class BasemapLayerListViewModel: MapComponent, IViewModel
     public Func<ListItem, Task<ListItem>>? OnReferenceListItemCreatedHandler { get; set; }
 
     /// <summary>
-    ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler" /> was
-    ///     registered.
+    ///     A convenience property that signifies whether a custom <see cref="OnReferenceListItemCreatedHandler" /> was registered.
     /// </summary>
     [CodeGenerationIgnore]
     public bool HasCustomReferenceListHandler => OnReferenceListItemCreatedHandler is not null;
@@ -102,8 +101,7 @@ public partial class BasemapLayerListViewModel: MapComponent, IViewModel
     }
 
     /// <summary>
-    ///     A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is
-    ///     attached.
+    ///     A JavaScript invokable method that is triggered whenever a reference type ListItem is created and a handler is attached.
     /// </summary>
     /// <param name="item">
     ///     The <see cref="ListItem" /> from the original source.

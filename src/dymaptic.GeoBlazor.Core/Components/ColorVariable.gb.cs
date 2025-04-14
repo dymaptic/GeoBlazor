@@ -306,7 +306,6 @@ public partial class ColorVariable
                 if (!Stops.Contains(stops))
                 {
                     Stops = [..Stops, stops];
-                    
                     ModifiedParameters[nameof(Stops)] = Stops;
                 }
                 
@@ -323,7 +322,6 @@ public partial class ColorVariable
         {
             case ColorStop stops:
                 Stops = Stops?.Where(s => s != stops).ToList();
-                
                 ModifiedParameters[nameof(Stops)] = Stops;
                 return true;
             default:

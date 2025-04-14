@@ -29,9 +29,7 @@ public partial class BingMapsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#key">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="style">
-    ///     For more information on Bing map styles please visit:
-    ///     https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata.
-    ///     default "road"
+    ///     For more information on Bing map styles please visit: https://learn.microsoft.com/en-us/bingmaps/rest-services/imagery/get-imagery-metadata default "road"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#style">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="blendMode">
@@ -40,10 +38,9 @@ public partial class BingMapsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
-    ///     how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="maxScale">
     ///     The maximum scale (most zoomed in) at which the layer is visible in the view.
@@ -62,7 +59,7 @@ public partial class BingMapsLayer : IBlendLayer,
     /// </param>
     /// <param name="spatialReference">
     ///     The spatial reference of the layer.
-    ///     default <a target="_blank" href="module:esri/geometry/SpatialReference#WebMercator">SpatialReference.WebMercator</a>
+    ///     default {link module:esri/geometry/SpatialReference#WebMercator SpatialReference.WebMercator}
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BaseTileLayer.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="arcGISLayerId">
@@ -92,9 +89,9 @@ public partial class BingMapsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#opacity">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
-    ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     When `true`, the layer can be persisted.
+    ///     default false
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="region">
     ///     This will alter Geopolitical disputed borders and labels to align with the specified user region.
@@ -110,7 +107,7 @@ public partial class BingMapsLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -170,7 +167,6 @@ public partial class BingMapsLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BingMapsLayer.html#bingmapslayerbinglogo-property">GeoBlazor Docs</a>
     ///     Expose Bing logo url.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#bingLogo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -180,7 +176,6 @@ public partial class BingMapsLayer : IBlendLayer,
     public string? BingLogo { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BingMapsLayer.html#bingmapslayercopyright-property">GeoBlazor Docs</a>
     ///     Copyright information.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -190,7 +185,6 @@ public partial class BingMapsLayer : IBlendLayer,
     public string? Copyright { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.BingMapsLayer.html#bingmapslayerkey-property">GeoBlazor Docs</a>
     ///     Bing Maps Key.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-BingMapsLayer.html#key">ArcGIS Maps SDK for JavaScript</a>

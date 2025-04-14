@@ -81,8 +81,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     ///     Name-value pairs of fields and field values associated with the graphic.
     /// </summary>
     /// <remarks>
-    ///     This collection should only be set via the constructor or as a markup parameter/attribute. To add or remove
-    ///     members, use the methods defined in <see cref = "AttributesDictionary"/>
+    ///     This collection should only be set via the constructor or as a markup parameter/attribute. To add or remove members, use the methods defined in <see cref = "AttributesDictionary"/>
     /// </remarks>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -473,9 +472,7 @@ public partial class Graphic: MapComponent, IEquatable<Graphic>
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#getEffectivePopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="defaultPopupTemplateEnabled">
-    ///     Whether support for default popup templates
-    ///     is enabled. When true, a default popup template may be created automatically if neither
-    ///     the graphic nor its layer have a popup template defined.
+    ///     Whether support for default popup templates is enabled. When true, a default popup template may be created automatically if neither the graphic nor its layer have a popup template defined.
     /// </param>
     [ArcGISMethod]
     [CodeGenerationIgnore]

@@ -249,7 +249,6 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
                 if (geometry != Geometry)
                 {
                     Geometry = geometry;
-                    
                     ModifiedParameters[nameof(Geometry)] = Geometry;
                 }
                 
@@ -266,7 +265,6 @@ public partial class DistanceMeasurement2DViewModelMeasurement : MapComponent
         {
             case Polyline _:
                 Geometry = null;
-                
                 ModifiedParameters[nameof(Geometry)] = Geometry;
                 return true;
             default:

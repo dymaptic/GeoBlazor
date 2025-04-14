@@ -27,6 +27,10 @@ public partial class MeasurementViewModel : MapComponent
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#activeTool">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="activeViewModel">
+    ///     View model of the active measurement widget.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#activeViewModel">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="areaUnit">
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
@@ -37,12 +41,14 @@ public partial class MeasurementViewModel : MapComponent
     /// </param>
     public MeasurementViewModel(
         ActiveTool? activeTool = null,
+        IMeasurementViewModelActiveViewModel? activeViewModel = null,
         SystemOrAreaUnit? areaUnit = null,
         SystemOrLengthUnit? linearUnit = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         ActiveTool = activeTool;
+        ActiveViewModel = activeViewModel;
         AreaUnit = areaUnit;
         LinearUnit = linearUnit;
 #pragma warning restore BL0005    
@@ -52,7 +58,6 @@ public partial class MeasurementViewModel : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelactivetool-property">GeoBlazor Docs</a>
     ///     Specifies the current measurement tool to display.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#activeTool">ArcGIS Maps SDK for JavaScript</a>
@@ -63,17 +68,15 @@ public partial class MeasurementViewModel : MapComponent
     public ActiveTool? ActiveTool { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelactiveviewmodel-property">GeoBlazor Docs</a>
     ///     View model of the active measurement widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#activeViewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
+    [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public IMeasurementViewModelActiveViewModel? ActiveViewModel { get; protected set; }
+    public IMeasurementViewModelActiveViewModel? ActiveViewModel { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelareaunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the area values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#areaUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -83,7 +86,6 @@ public partial class MeasurementViewModel : MapComponent
     public SystemOrAreaUnit? AreaUnit { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodellinearunit-property">GeoBlazor Docs</a>
     ///     Unit system (imperial, metric) or specific unit used for displaying the distance values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#linearUnit">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -93,9 +95,8 @@ public partial class MeasurementViewModel : MapComponent
     public SystemOrLengthUnit? LinearUnit { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.MeasurementViewModel.html#measurementviewmodelstate-property">GeoBlazor Docs</a>
     ///     The ViewModel's state.
-    ///     default "disabled"
+    ///     default disabled
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Measurement-MeasurementViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -349,6 +350,51 @@ public partial class MeasurementViewModel : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the ActiveViewModel property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActiveViewModel(IMeasurementViewModelActiveViewModel? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        ActiveViewModel = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActiveViewModel)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activeViewModel", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the AreaUnit property after render.
     /// </summary>
     /// <param name="value">
@@ -424,4 +470,45 @@ public partial class MeasurementViewModel : MapComponent
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeasurementViewModelActiveViewModel activeViewModel:
+                if (activeViewModel != ActiveViewModel)
+                {
+                    ActiveViewModel = activeViewModel;
+                    ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case IMeasurementViewModelActiveViewModel _:
+                ActiveViewModel = null;
+                ModifiedParameters[nameof(ActiveViewModel)] = ActiveViewModel;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        ActiveViewModel?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

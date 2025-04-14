@@ -209,7 +209,25 @@ public partial class HomeViewModel : IGoTo
     [ArcGISMethod]
     public async Task CancelGo()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "cancelGo", 
@@ -225,7 +243,25 @@ public partial class HomeViewModel : IGoTo
     [ArcGISMethod]
     public async Task Go()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "go", 
@@ -282,7 +318,6 @@ public partial class HomeViewModel : IGoTo
                 if (viewpoint != Viewpoint)
                 {
                     Viewpoint = viewpoint;
-                    
                     ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 }
                 
@@ -299,7 +334,6 @@ public partial class HomeViewModel : IGoTo
         {
             case Viewpoint _:
                 Viewpoint = null;
-                
                 ModifiedParameters[nameof(Viewpoint)] = Viewpoint;
                 return true;
             default:

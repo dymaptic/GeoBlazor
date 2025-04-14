@@ -40,7 +40,7 @@ export default class GeoJSONLayerWrapper extends GeoJSONLayerGenerated {
 
     async setTemplates(value: any): Promise<void> {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
-        this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i, this.layerId, this.viewId))) as any;
+        this.layer.templates = await Promise.all(value.map(async i => await buildJsIFeatureTemplate(i))) as any;
     }
 }
 

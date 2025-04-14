@@ -5,8 +5,7 @@ namespace dymaptic.GeoBlazor.Core.Components.Renderers;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html">GeoBlazor Docs</a>
-///     UniqueValueRenderer allows you to symbolize features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> based on one
-///     or more categorical attributes.
+///     UniqueValueRenderer allows you to symbolize features in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html">Layer</a> based on one or more categorical attributes.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class UniqueValueRenderer : IRendererWithVisualVariables,
@@ -25,31 +24,23 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
     /// <param name="authoringInfo">
-    ///     Authoring metadata only included in renderers generated from one of the
-    ///     Smart Mapping creator methods, such as
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
+    ///     Authoring metadata only included in renderers generated from one of the Smart Mapping creator methods, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-size.html#createContinuousRenderer">sizeRendererCreator.createContinuousRenderer()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-smartMapping-renderers-color.html#createContinuousRenderer">colorRendererCreator.createContinuousRenderer()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-Renderer.html#authoringInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="backgroundFillSymbol">
-    ///     This property is only relevant when symbolizing polygon features with marker symbols
-    ///     (or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a>) in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> of this renderer.
+    ///     This property is only relevant when symbolizing polygon features with marker symbols (or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a>) in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> of this renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="defaultLabel">
-    ///     The label used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> to describe features assigned the
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultSymbol">default symbol</a>.
+    ///     The label used in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend.html">Legend</a> to describe features assigned the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultSymbol">default symbol</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultLabel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="defaultSymbol">
-    ///     The symbol used to draw
-    ///     all features with values not referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
+    ///     The symbol used to draw all features with values not referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="field">
-    ///     The name of the attribute field containing types or categorical values referenced
-    ///     in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
+    ///     The name of the attribute field containing types or categorical values referenced in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="field2">
@@ -61,8 +52,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="fieldDelimiter">
-    ///     A string used as a separator between the values in the legend
-    ///     if multiple attribute fields are used to categorize values.
+    ///     A string used as a separator between the values in the legend if multiple attribute fields are used to categorize values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#fieldDelimiter">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendOptions">
@@ -70,8 +60,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="orderByClassesEnabled">
-    ///     Indicates whether the order of the classes or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> in the renderer definition
-    ///     should be used for the feature drawing order of the layer.
+    ///     Indicates whether the order of the classes or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> in the renderer definition should be used for the feature drawing order of the layer.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#orderByClassesEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -80,23 +69,20 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="uniqueValueInfos">
-    ///     Defines categories and their corresponding symbols based on a set of values expected
-    ///     from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
+    ///     Defines categories and their corresponding symbols based on a set of values expected from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpression">
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
-    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="valueExpressionTitle">
-    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a>
-    ///     expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a> property.
+    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visualVariables">
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public UniqueValueRenderer(
         AuthoringInfo? authoringInfo = null,
@@ -139,9 +125,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererbackgroundfillsymbol-property">GeoBlazor Docs</a>
-    ///     This property is only relevant when symbolizing polygon features with marker symbols
-    ///     (or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a>) in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> of this renderer.
+    ///     This property is only relevant when symbolizing polygon features with marker symbols (or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-symbols-IconSymbol3DLayer.html">IconSymbol3DLayer</a>) in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> of this renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#backgroundFillSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -150,10 +134,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public FillSymbol? BackgroundFillSymbol { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererdefaultsymbol-property">GeoBlazor Docs</a>
-    ///     The symbol used to draw
-    ///     all features with values not referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
+    ///     The symbol used to draw all features with values not referenced by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">uniqueValueGroups</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#defaultSymbol">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -162,7 +143,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public Symbol? DefaultSymbol { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererfield2-property">GeoBlazor Docs</a>
     ///     Specifies the name of an additional attribute field used to categorize features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field2">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -172,7 +152,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public string? Field2 { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererfield3-property">GeoBlazor Docs</a>
     ///     Specifies the name of a third attribute field used to categorize features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field3">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -182,9 +161,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public string? Field3 { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererfielddelimiter-property">GeoBlazor Docs</a>
-    ///     A string used as a separator between the values in the legend
-    ///     if multiple attribute fields are used to categorize values.
+    ///     A string used as a separator between the values in the legend if multiple attribute fields are used to categorize values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#fieldDelimiter">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -193,7 +170,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public string? FieldDelimiter { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererlegendoptions-property">GeoBlazor Docs</a>
     ///     An object providing options for displaying the renderer in the Legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#legendOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -203,9 +179,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public UniqueValueRendererLegendOptions? LegendOptions { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererorderbyclassesenabled-property">GeoBlazor Docs</a>
-    ///     Indicates whether the order of the classes or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> in the renderer definition
-    ///     should be used for the feature drawing order of the layer.
+    ///     Indicates whether the order of the classes or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a> in the renderer definition should be used for the feature drawing order of the layer.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#orderByClassesEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -215,7 +189,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public bool? OrderByClassesEnabled { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendereruniquevaluegroups-property">GeoBlazor Docs</a>
     ///     An array of objects defining groups of unique values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -225,9 +198,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public IReadOnlyList<UniqueValueGroup>? UniqueValueGroups { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendereruniquevalueinfos-property">GeoBlazor Docs</a>
-    ///     Defines categories and their corresponding symbols based on a set of values expected
-    ///     from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
+    ///     Defines categories and their corresponding symbols based on a set of values expected from the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#field">field</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -236,9 +207,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public IReadOnlyList<UniqueValueInfo>? UniqueValueInfos { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerenderervalueexpression-property">GeoBlazor Docs</a>
-    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification
-    ///     defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
+    ///     An <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression following the specification defined by the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/#visualization">Arcade Visualization Profile</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -247,9 +216,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public string? ValueExpression { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerenderervalueexpressiontitle-property">GeoBlazor Docs</a>
-    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a>
-    ///     expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a> property.
+    ///     The title identifying and describing the associated <a target="_blank" href="https://developers.arcgis.com/javascript/latest/arcade/">Arcade</a> expression as defined in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpression">valueExpression</a> property.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#valueExpressionTitle">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -258,9 +225,8 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     public string? ValueExpressionTitle { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerenderervisualvariables-property">GeoBlazor Docs</a>
     ///     An array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-VisualVariable.html">VisualVariable</a> objects.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-mixins-VisualVariablesMixin.html#visualVariables">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -1499,9 +1465,48 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
 #region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerenderergetuniquevalueinfo-method">GeoBlazor Docs</a>
+    ///     Adds a unique value and symbol to the renderer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#addUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="valueOrInfo">
+    ///     The value to match. The value can be provided as an individual argument or as an <a href="#uniqueValueInfos">info object described in uniqueValueInfos</a>.
+    /// </param>
+    /// <param name="symbol">
+    ///     The symbol used to represent features matching the specified <code>value</code>.
+    /// </param>
+    [ArcGISMethod]
+    public async Task AddUniqueValueInfo(string valueOrInfo,
+        Symbol symbol)
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "addUniqueValueInfo", 
+            CancellationTokenSource.Token,
+            valueOrInfo,
+            symbol);
+    }
+    
+    /// <summary>
     ///     Returns rendering and legend information (as defined by the renderer) associated with the given graphic.
-    ///     param graphic The graphic whose rendering and legend information will be returned.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#getUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="graphic">
@@ -1510,7 +1515,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task<UniqueValueInfo?> GetUniqueValueInfo(Graphic graphic)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<UniqueValueInfo?>(
             "getUniqueValueInfo", 
@@ -1519,9 +1542,7 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.UniqueValueRenderer.html#uniquevaluerendererremoveuniquevalueinfo-method">GeoBlazor Docs</a>
     ///     Removes a unique value from the renderer.
-    ///     param value Value to remove from <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#uniqueValueInfos">uniqueValueInfos</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-UniqueValueRenderer.html#removeUniqueValueInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="value">
@@ -1530,7 +1551,25 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
     [ArcGISMethod]
     public async Task RemoveUniqueValueInfo(string value)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "removeUniqueValueInfo", 
@@ -1550,7 +1589,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (backgroundFillSymbol != BackgroundFillSymbol)
                 {
                     BackgroundFillSymbol = backgroundFillSymbol;
-                    
                     ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 }
                 
@@ -1559,7 +1597,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (defaultSymbol != DefaultSymbol)
                 {
                     DefaultSymbol = defaultSymbol;
-                    
                     ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 }
                 
@@ -1568,7 +1605,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (legendOptions != LegendOptions)
                 {
                     LegendOptions = legendOptions;
-                    
                     ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 }
                 
@@ -1578,7 +1614,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueGroups.Contains(uniqueValueGroups))
                 {
                     UniqueValueGroups = [..UniqueValueGroups, uniqueValueGroups];
-                    
                     ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 }
                 
@@ -1588,7 +1623,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!UniqueValueInfos.Contains(uniqueValueInfos))
                 {
                     UniqueValueInfos = [..UniqueValueInfos, uniqueValueInfos];
-                    
                     ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 }
                 
@@ -1598,7 +1632,6 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
-                    
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
                 
@@ -1615,32 +1648,26 @@ public partial class UniqueValueRenderer : IRendererWithVisualVariables,
         {
             case FillSymbol _:
                 BackgroundFillSymbol = null;
-                
                 ModifiedParameters[nameof(BackgroundFillSymbol)] = BackgroundFillSymbol;
                 return true;
             case Symbol _:
                 DefaultSymbol = null;
-                
                 ModifiedParameters[nameof(DefaultSymbol)] = DefaultSymbol;
                 return true;
             case UniqueValueRendererLegendOptions _:
                 LegendOptions = null;
-                
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 return true;
             case UniqueValueGroup uniqueValueGroups:
                 UniqueValueGroups = UniqueValueGroups?.Where(u => u != uniqueValueGroups).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueGroups)] = UniqueValueGroups;
                 return true;
             case UniqueValueInfo uniqueValueInfos:
                 UniqueValueInfos = UniqueValueInfos?.Where(u => u != uniqueValueInfos).ToList();
-                
                 ModifiedParameters[nameof(UniqueValueInfos)] = UniqueValueInfos;
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 return true;
             default:

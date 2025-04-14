@@ -1057,7 +1057,6 @@ public partial class ActiveLayerInfo : MapComponent
                 if (!Children.Contains(children))
                 {
                     Children = [..Children, children];
-                    
                     ModifiedParameters[nameof(Children)] = Children;
                 }
                 
@@ -1066,7 +1065,6 @@ public partial class ActiveLayerInfo : MapComponent
                 if (layerView != LayerView)
                 {
                     LayerView = layerView;
-                    
                     ModifiedParameters[nameof(LayerView)] = LayerView;
                 }
                 
@@ -1076,7 +1074,6 @@ public partial class ActiveLayerInfo : MapComponent
                 if (!LegendElements.Contains(legendElements))
                 {
                     LegendElements = [..LegendElements, legendElements];
-                    
                     ModifiedParameters[nameof(LegendElements)] = LegendElements;
                 }
                 
@@ -1093,17 +1090,14 @@ public partial class ActiveLayerInfo : MapComponent
         {
             case ActiveLayerInfo children:
                 Children = Children?.Where(c => c != children).ToList();
-                
                 ModifiedParameters[nameof(Children)] = Children;
                 return true;
             case LayerView _:
                 LayerView = null;
-                
                 ModifiedParameters[nameof(LayerView)] = LayerView;
                 return true;
             case ILegendElement legendElements:
                 LegendElements = LegendElements?.Where(l => l != legendElements).ToList();
-                
                 ModifiedParameters[nameof(LegendElements)] = LegendElements;
                 return true;
             default:

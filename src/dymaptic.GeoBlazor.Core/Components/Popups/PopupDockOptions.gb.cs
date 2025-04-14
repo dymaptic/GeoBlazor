@@ -419,7 +419,6 @@ public partial class PopupDockOptions
                 if (popupDockOptionsBreakpoint != PopupDockOptionsBreakpoint)
                 {
                     PopupDockOptionsBreakpoint = popupDockOptionsBreakpoint;
-                    
                     ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
                 }
                 
@@ -436,7 +435,6 @@ public partial class PopupDockOptions
         {
             case PopupDockOptionsBreakpoint _:
                 PopupDockOptionsBreakpoint = null;
-                
                 ModifiedParameters[nameof(PopupDockOptionsBreakpoint)] = PopupDockOptionsBreakpoint;
                 return true;
             default:

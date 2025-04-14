@@ -477,7 +477,6 @@ public partial class BookmarkOptionsScreenshotSettings
                 if (area != Area)
                 {
                     Area = area;
-                    
                     ModifiedParameters[nameof(Area)] = Area;
                 }
                 
@@ -487,7 +486,6 @@ public partial class BookmarkOptionsScreenshotSettings
                 if (!Layers.Contains(layers))
                 {
                     Layers = [..Layers, layers];
-                    
                     ModifiedParameters[nameof(Layers)] = Layers;
                 }
                 
@@ -504,12 +502,10 @@ public partial class BookmarkOptionsScreenshotSettings
         {
             case BookmarkOptionsScreenshotSettingsArea _:
                 Area = null;
-                
                 ModifiedParameters[nameof(Area)] = Area;
                 return true;
             case Layer layers:
                 Layers = Layers?.Where(l => l != layers).ToList();
-                
                 ModifiedParameters[nameof(Layers)] = Layers;
                 return true;
             default:

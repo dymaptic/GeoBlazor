@@ -35,8 +35,7 @@ public partial class PixelBlock : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#maskIsAlpha">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="pixels">
-    ///     A two dimensional array representing the pixels from the Image Service
-    ///     displayed on the client.
+    ///     A two dimensional array representing the pixels from the Image Service displayed on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="pixelType">
@@ -48,7 +47,7 @@ public partial class PixelBlock : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="validPixelCount">
-    ///     Number of valid pixels.
+    ///     Number of valid pixels
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="width">
@@ -82,7 +81,6 @@ public partial class PixelBlock : MapComponent
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockheight-property">GeoBlazor Docs</a>
     ///     The height (or number of rows) of the PixelBlock in pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#height">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -92,7 +90,6 @@ public partial class PixelBlock : MapComponent
     public int? Height { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmask-property">GeoBlazor Docs</a>
     ///     An array of nodata mask.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#mask">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -102,7 +99,6 @@ public partial class PixelBlock : MapComponent
     public Stream? Mask { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockmaskisalpha-property">GeoBlazor Docs</a>
     ///     Indicates whether mask should be used as alpha values.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#maskIsAlpha">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -112,9 +108,7 @@ public partial class PixelBlock : MapComponent
     public bool? MaskIsAlpha { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixels-property">GeoBlazor Docs</a>
-    ///     A two dimensional array representing the pixels from the Image Service
-    ///     displayed on the client.
+    ///     A two dimensional array representing the pixels from the Image Service displayed on the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -123,7 +117,6 @@ public partial class PixelBlock : MapComponent
     public Stream? Pixels { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockpixeltype-property">GeoBlazor Docs</a>
     ///     The pixel type.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -133,7 +126,6 @@ public partial class PixelBlock : MapComponent
     public PixelType? PixelType { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockstatistics-property">GeoBlazor Docs</a>
     ///     An array of objects containing numeric statistical properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#statistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -143,9 +135,7 @@ public partial class PixelBlock : MapComponent
     public IReadOnlyList<PixelBlockStatistics>? Statistics { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockvalidpixelcount-property">GeoBlazor Docs</a>
-    ///     Number of valid pixels.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
+    ///     Number of valid pixels <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#validPixelCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -153,7 +143,6 @@ public partial class PixelBlock : MapComponent
     public int? ValidPixelCount { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockwidth-property">GeoBlazor Docs</a>
     ///     The width (or number of columns) of the PixelBlock in pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#width">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -832,11 +821,7 @@ public partial class PixelBlock : MapComponent
 #region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockadddata-method">GeoBlazor Docs</a>
     ///     Adds another plane to the PixelBlock.
-    ///     param planeData The data to add to the PixelBlock.
-    ///     param planeData.pixels An array representing the pixel data to add.
-    ///     param planeData.statistics An object containing numeric statistical properties.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#addData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="planeData">
@@ -845,7 +830,25 @@ public partial class PixelBlock : MapComponent
     [ArcGISMethod]
     public async Task AddData(PixelBlockAddDataPlaneData planeData)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "addData", 
@@ -854,15 +857,31 @@ public partial class PixelBlock : MapComponent
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetasrgba-method">GeoBlazor Docs</a>
-    ///     Returns pixels and masks using a single array in bip format
-    ///     (e.g.
+    ///     Returns pixels and masks using a single array in bip format (e.g.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#getAsRGBA">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<Stream?> GetAsRGBA()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Stream?>(
             "getAsRGBA", 
@@ -870,14 +889,31 @@ public partial class PixelBlock : MapComponent
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetasrgbafloat-method">GeoBlazor Docs</a>
     ///     Similar to <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#getAsRGBA">getAsRGBA</a>, but returns floating point data.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#getAsRGBAFloat">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<float[]?> GetAsRGBAFloat()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<float[]?>(
             "getAsRGBAFloat", 
@@ -885,14 +921,31 @@ public partial class PixelBlock : MapComponent
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PixelBlock.html#pixelblockgetplanecount-method">GeoBlazor Docs</a>
     ///     Returns the plane band count of the PixelBlock.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-PixelBlock.html#getPlaneCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<int?> GetPlaneCount()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<int?>(
             "getPlaneCount", 
@@ -912,7 +965,6 @@ public partial class PixelBlock : MapComponent
                 if (!Statistics.Contains(statistics))
                 {
                     Statistics = [..Statistics, statistics];
-                    
                     ModifiedParameters[nameof(Statistics)] = Statistics;
                 }
                 
@@ -929,7 +981,6 @@ public partial class PixelBlock : MapComponent
         {
             case PixelBlockStatistics statistics:
                 Statistics = Statistics?.Where(s => s != statistics).ToList();
-                
                 ModifiedParameters[nameof(Statistics)] = Statistics;
                 return true;
             default:

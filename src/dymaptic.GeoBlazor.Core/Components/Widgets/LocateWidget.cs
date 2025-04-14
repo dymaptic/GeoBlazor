@@ -11,12 +11,11 @@ public partial class LocateWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since 4.29. Use Track widget instead")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use Track widget instead")]
     public bool? RotationEnabled { get; set; }
 
     /// <summary>
-    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is
-    ///     returned from the track event.
+    ///     Indicates the scale to set on the view when navigating to the position of the geolocated result once a location is returned from the track event.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

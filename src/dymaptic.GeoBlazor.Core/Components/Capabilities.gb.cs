@@ -1041,7 +1041,6 @@ public partial class Capabilities : MapComponent
                 if (analytics != Analytics)
                 {
                     Analytics = analytics;
-                    
                     ModifiedParameters[nameof(Analytics)] = Analytics;
                 }
                 
@@ -1050,7 +1049,6 @@ public partial class Capabilities : MapComponent
                 if (attachment != Attachment)
                 {
                     Attachment = attachment;
-                    
                     ModifiedParameters[nameof(Attachment)] = Attachment;
                 }
                 
@@ -1059,7 +1057,6 @@ public partial class Capabilities : MapComponent
                 if (data != Data)
                 {
                     Data = data;
-                    
                     ModifiedParameters[nameof(Data)] = Data;
                 }
                 
@@ -1068,7 +1065,6 @@ public partial class Capabilities : MapComponent
                 if (editing != Editing)
                 {
                     Editing = editing;
-                    
                     ModifiedParameters[nameof(Editing)] = Editing;
                 }
                 
@@ -1077,7 +1073,6 @@ public partial class Capabilities : MapComponent
                 if (metadata != Metadata)
                 {
                     Metadata = metadata;
-                    
                     ModifiedParameters[nameof(Metadata)] = Metadata;
                 }
                 
@@ -1086,7 +1081,6 @@ public partial class Capabilities : MapComponent
                 if (operations != Operations)
                 {
                     Operations = operations;
-                    
                     ModifiedParameters[nameof(Operations)] = Operations;
                 }
                 
@@ -1104,7 +1098,6 @@ public partial class Capabilities : MapComponent
                 if (queryRelated != QueryRelated)
                 {
                     QueryRelated = queryRelated;
-                    
                     ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
                 }
                 
@@ -1113,7 +1106,6 @@ public partial class Capabilities : MapComponent
                 if (queryTopFeatures != QueryTopFeatures)
                 {
                     QueryTopFeatures = queryTopFeatures;
-                    
                     ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
                 }
                 
@@ -1130,32 +1122,26 @@ public partial class Capabilities : MapComponent
         {
             case CapabilitiesAnalytics _:
                 Analytics = null;
-                
                 ModifiedParameters[nameof(Analytics)] = Analytics;
                 return true;
             case CapabilitiesAttachment _:
                 Attachment = null;
-                
                 ModifiedParameters[nameof(Attachment)] = Attachment;
                 return true;
             case CapabilitiesData _:
                 Data = null;
-                
                 ModifiedParameters[nameof(Data)] = Data;
                 return true;
             case CapabilitiesEditing _:
                 Editing = null;
-                
                 ModifiedParameters[nameof(Editing)] = Editing;
                 return true;
             case CapabilitiesMetadata _:
                 Metadata = null;
-                
                 ModifiedParameters[nameof(Metadata)] = Metadata;
                 return true;
             case CapabilitiesOperations _:
                 Operations = null;
-                
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;
             case CapabilitiesQueryAttributeBins _:
@@ -1165,12 +1151,10 @@ public partial class Capabilities : MapComponent
                 return true;
             case CapabilitiesQueryRelated _:
                 QueryRelated = null;
-                
                 ModifiedParameters[nameof(QueryRelated)] = QueryRelated;
                 return true;
             case CapabilitiesQueryTopFeatures _:
                 QueryTopFeatures = null;
-                
                 ModifiedParameters[nameof(QueryTopFeatures)] = QueryTopFeatures;
                 return true;
             default:

@@ -28,7 +28,7 @@ public partial class PopupWidget : IGoTo
     /// </param>
     /// <param name="alignment">
     ///     Position of the popup in relation to the selected feature.
-    ///     default "auto"
+    ///     default auto
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#alignment">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="autoCloseEnabled">
@@ -40,8 +40,7 @@ public partial class PopupWidget : IGoTo
     ///     The id of an external HTML Element (div). If provided, the widget will be placed inside that element, instead of on the map.
     /// </param>
     /// <param name="defaultPopupTemplateEnabled">
-    ///     Enables automatic creation of a popup template for layers that have popups enabled but no
-    ///     popupTemplate defined.
+    ///     Enables automatic creation of a popup template for layers that have popups enabled but no popupTemplate defined.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#defaultPopupTemplateEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -51,8 +50,7 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="dockOptions">
-    ///     Docking the popup allows for a better user experience, particularly when opening
-    ///     popups in apps on mobile devices.
+    ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="features">
@@ -69,9 +67,7 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#headingLevel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="highlightEnabled">
-    ///     Highlight the selected popup feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlights">highlights</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlights">highlights</a>
-    ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
+    ///     Highlight the selected popup feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a> set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#highlightEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -80,18 +76,13 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="icon">
-    ///     Icon displayed in the widget's button.
-    ///     default "popup"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#icon">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="initialDisplayMode">
-    ///     Indicates whether to initially display a list of features, or the content for one feature.
-    ///     default "feature"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
+    ///     Icon which represents the widget.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#icon">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="label">
-    ///     The widget's default label.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#label">ArcGIS Maps SDK for JavaScript</a>
+    ///     The widget's label.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#label">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="location">
     ///     Point used to position the popup.
@@ -120,8 +111,7 @@ public partial class PopupWidget : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="viewModel">
-    ///     This is a class that contains all the logic
-    ///     (properties and methods) that controls this widget's behavior.
+    ///     This is a class that contains all the logic (properties and methods) that controls this widget's behavior.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visible">
@@ -155,12 +145,11 @@ public partial class PopupWidget : IGoTo
         bool? highlightEnabled = null,
         ElementReference? htmlContent = null,
         string? icon = null,
-        InitialDisplayMode? initialDisplayMode = null,
         string? label = null,
         Point? location = null,
         MapView? mapView = null,
         OverlayPosition? position = null,
-        string? promises = null,
+        object? promises = null,
         int? selectedFeatureIndex = null,
         string? stringContent = null,
         string? title = null,
@@ -185,7 +174,6 @@ public partial class PopupWidget : IGoTo
         HighlightEnabled = highlightEnabled;
         HtmlContent = htmlContent;
         Icon = icon;
-        InitialDisplayMode = initialDisplayMode;
         Label = label;
         Location = location;
         MapView = mapView;
@@ -206,7 +194,6 @@ public partial class PopupWidget : IGoTo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetactive-property">GeoBlazor Docs</a>
     ///     Indicates if the widget is active when it is visible and is not <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup-PopupViewModel.html#waitingForResult">waiting for results</a>.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#active">ArcGIS Maps SDK for JavaScript</a>
@@ -217,7 +204,6 @@ public partial class PopupWidget : IGoTo
     public bool? Active { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetcurrentdockposition-property">GeoBlazor Docs</a>
     ///     Dock position in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#currentDockPosition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -227,9 +213,7 @@ public partial class PopupWidget : IGoTo
     public CurrentDockPosition? CurrentDockPosition { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetdockoptions-property">GeoBlazor Docs</a>
-    ///     Docking the popup allows for a better user experience, particularly when opening
-    ///     popups in apps on mobile devices.
+    ///     Docking the popup allows for a better user experience, particularly when opening popups in apps on mobile devices.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -238,7 +222,6 @@ public partial class PopupWidget : IGoTo
     public PopupDockOptions? DockOptions { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeaturecount-property">GeoBlazor Docs</a>
     ///     The number of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a> available to the popup.
     ///     default 0
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#featureCount">ArcGIS Maps SDK for JavaScript</a>
@@ -249,7 +232,6 @@ public partial class PopupWidget : IGoTo
     public int? FeatureCount { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfeatures-property">GeoBlazor Docs</a>
     ///     An array of features associated with the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -259,7 +241,6 @@ public partial class PopupWidget : IGoTo
     public IReadOnlyList<Graphic>? Features { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgethtmlcontent-property">GeoBlazor Docs</a>
     ///     The content of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -269,18 +250,6 @@ public partial class PopupWidget : IGoTo
     public ElementReference? HtmlContent { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetinitialdisplaymode-property">GeoBlazor Docs</a>
-    ///     Indicates whether to initially display a list of features, or the content for one feature.
-    ///     default "feature"
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public InitialDisplayMode? InitialDisplayMode { get; set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetlocation-property">GeoBlazor Docs</a>
     ///     Point used to position the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -290,27 +259,15 @@ public partial class PopupWidget : IGoTo
     public Point? Location { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetpromises-property">GeoBlazor Docs</a>
     ///     An array of pending Promises that have not yet been fulfilled.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? Promises { get; set; }
+    public object? Promises { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselecteddrillinfeature-property">GeoBlazor Docs</a>
-    ///     The feature that the widget has drilled into.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedDrillInFeature">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [JsonInclude]
-    public Graphic? SelectedDrillInFeature { get; protected set; }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeature-property">GeoBlazor Docs</a>
     ///     The selected feature accessed by the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -320,7 +277,6 @@ public partial class PopupWidget : IGoTo
     public Graphic? SelectedFeature { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeatureindex-property">GeoBlazor Docs</a>
     ///     Index of the feature that is <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureIndex">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -330,7 +286,6 @@ public partial class PopupWidget : IGoTo
     public int? SelectedFeatureIndex { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetselectedfeaturewidget-property">GeoBlazor Docs</a>
     ///     Returns a reference to the current <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature.html">Feature</a> that the Popup is using.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeatureWidget">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -340,9 +295,7 @@ public partial class PopupWidget : IGoTo
     public IFeatureWidget? SelectedFeatureWidget { get; protected set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetviewmodel-property">GeoBlazor Docs</a>
-    ///     This is a class that contains all the logic
-    ///     (properties and methods) that controls this widget's behavior.
+    ///     This is a class that contains all the logic (properties and methods) that controls this widget's behavior.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#viewModel">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -351,7 +304,6 @@ public partial class PopupWidget : IGoTo
     public PopupViewModel? ViewModel { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetvisibleelements-property">GeoBlazor Docs</a>
     ///     The visible elements that are displayed within the widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#visibleElements">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -361,7 +313,6 @@ public partial class PopupWidget : IGoTo
     public PopupVisibleElements? VisibleElements { get; set; }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetwidgetcontent-property">GeoBlazor Docs</a>
     ///     The content of the popup.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -843,45 +794,6 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the InitialDisplayMode property.
-    /// </summary>
-    public async Task<InitialDisplayMode?> GetInitialDisplayMode()
-    {
-        if (CoreJsModule is null)
-        {
-            return InitialDisplayMode;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return InitialDisplayMode;
-        }
-
-        // get the property value
-        JsNullableEnumWrapper<InitialDisplayMode>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<InitialDisplayMode>?>("getNullableValueTypedProperty",
-            CancellationTokenSource.Token, JsComponentReference, "initialDisplayMode");
-        if (result is { Value: not null })
-        {
-#pragma warning disable BL0005
-             InitialDisplayMode = (InitialDisplayMode)result.Value.Value!;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(InitialDisplayMode)] = InitialDisplayMode;
-        }
-         
-        return InitialDisplayMode;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the Location property.
     /// </summary>
     public async Task<Point?> GetLocation()
@@ -928,7 +840,7 @@ public partial class PopupWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Promises property.
     /// </summary>
-    public async Task<string?> GetPromises()
+    public async Task<object?> GetPromises()
     {
         if (CoreJsModule is null)
         {
@@ -951,7 +863,7 @@ public partial class PopupWidget : IGoTo
         }
 
         // get the property value
-        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
             CancellationTokenSource.Token, "promises");
         if (result is not null)
         {
@@ -962,50 +874,6 @@ public partial class PopupWidget : IGoTo
         }
          
         return Promises;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the SelectedDrillInFeature property.
-    /// </summary>
-    public async Task<Graphic?> GetSelectedDrillInFeature()
-    {
-        if (CoreJsModule is null)
-        {
-            return SelectedDrillInFeature;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return SelectedDrillInFeature;
-        }
-
-        Graphic? result = await JsComponentReference.InvokeAsync<Graphic?>(
-            "getSelectedDrillInFeature", CancellationTokenSource.Token);
-        
-        if (result is not null)
-        {
-            if (SelectedDrillInFeature is not null)
-            {
-                result.Id = SelectedDrillInFeature.Id;
-            }
-            
-#pragma warning disable BL0005
-            SelectedDrillInFeature = result;
-#pragma warning restore BL0005
-            ModifiedParameters[nameof(SelectedDrillInFeature)] = SelectedDrillInFeature;
-        }
-        
-        return SelectedDrillInFeature;
     }
     
     /// <summary>
@@ -1609,43 +1477,6 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the InitialDisplayMode property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetInitialDisplayMode(InitialDisplayMode? value)
-    {
-#pragma warning disable BL0005
-        InitialDisplayMode = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(InitialDisplayMode)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "initialDisplayMode", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the Location property after render.
     /// </summary>
     /// <param name="value">
@@ -1696,7 +1527,7 @@ public partial class PopupWidget : IGoTo
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetPromises(string? value)
+    public async Task SetPromises(object? value)
     {
 #pragma warning disable BL0005
         Promises = value;
@@ -2016,14 +1847,31 @@ public partial class PopupWidget : IGoTo
 #region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetblur-method">GeoBlazor Docs</a>
     ///     Use this method to remove focus from the Widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#blur">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task Blur()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "blur", 
@@ -2031,14 +1879,31 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetfocus-method">GeoBlazor Docs</a>
     ///     Use this method to give focus to the Widget if the widget is able to be focused.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#focus">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task Focus()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "focus", 
@@ -2046,14 +1911,31 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetnext-method">GeoBlazor Docs</a>
     ///     Selects the feature at the next index in relation to the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#next">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<PopupViewModel?> Next()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
             "next", 
@@ -2061,20 +1943,7 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetopen-method">GeoBlazor Docs</a>
-    ///     Opens the popup at the given location with content defined either explicitly with `content`
-    ///     or driven from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> of input features.
-    ///     param options Defines the location and content of the popup when opened.
-    ///     param options.title Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#title">title</a> of the popup.
-    ///     param options.content Sets the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#content">content</a> of the popup.
-    ///     param options.location Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a>, which is the geometry used to position the popup.
-    ///     param options.fetchFeatures When `true`, indicates the popup should fetch the content of this feature and display it. If no <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> exists, a default template is created for the layer if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#defaultPopupTemplateEnabled">defaultPopupTemplateEnabled</a> = `true`. In order for this option to work, there must be a valid `view` and `location` set.
-    ///     param options.features Sets the popup's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#features">features</a>, which populate the title and content of the popup based on each graphic's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
-    ///     param options.promises Sets pending <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#promises">promises</a> on the popup. The popup will display once the promises resolve. Each promise must resolve to an array of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html">Graphics</a>.
-    ///     param options.featureMenuOpen Since: 4.5    This property enables multiple features in a popup to display in a list rather than displaying the first selected feature. Setting this to `true` allows the user to scroll through the list of features. This value will only be honored if <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#initialDisplayMode">`initialDisplayMode`</a> is set to `feature`.
-    ///     param options.updateLocationEnabled When `true` indicates the popup should update its <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#location">location</a> for each paginated feature based on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#selectedFeature">selected feature's</a> geometry.
-    ///     param options.collapsed Since: 4.5    When `true`, indicates that only the popup header will display.
-    ///     param options.shouldFocus Since: 4.23    When `true`, indicates that the focus should be on the popup after it has been opened.
+    ///     Opens the popup at the given location with content defined either explicitly with `content` or driven from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a> of input features.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#open">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -2082,7 +1951,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task Open(PopupOpenOptions options)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "open", 
@@ -2091,14 +1978,31 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetprevious-method">GeoBlazor Docs</a>
     ///     Selects the feature at the previous index in relation to the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#previous">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task<PopupViewModel?> Previous()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupViewModel?>(
             "previous", 
@@ -2106,14 +2010,31 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgetreposition-method">GeoBlazor Docs</a>
     ///     Positions the popup on the view.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#reposition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
     public async Task Reposition()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "reposition", 
@@ -2121,10 +2042,7 @@ public partial class PopupWidget : IGoTo
     }
     
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.PopupWidget.html#popupwidgettriggeraction-method">GeoBlazor Docs</a>
-    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">action</a>
-    ///     at the specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">actions</a> array.
-    ///     param actionIndex The index of the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">action</a> to execute.
+    ///     Triggers the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#event-trigger-action">trigger-action</a> event and executes the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">action</a> at the specified index in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#actions">actions</a> array.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#triggerAction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="actionIndex">
@@ -2132,7 +2050,25 @@ public partial class PopupWidget : IGoTo
     [ArcGISMethod]
     public async Task TriggerAction(int actionIndex)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "triggerAction", 
@@ -2156,8 +2092,11 @@ public partial class PopupWidget : IGoTo
                 if (dockOptions != DockOptions)
                 {
                     DockOptions = dockOptions;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(DockOptions)] = DockOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2166,8 +2105,11 @@ public partial class PopupWidget : IGoTo
                 if (!Features.Contains(features))
                 {
                     Features = [..Features, features];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Features)] = Features;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2175,8 +2117,11 @@ public partial class PopupWidget : IGoTo
                 if (location != Location)
                 {
                     Location = location;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Location)] = Location;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2184,8 +2129,11 @@ public partial class PopupWidget : IGoTo
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2193,8 +2141,11 @@ public partial class PopupWidget : IGoTo
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2202,8 +2153,11 @@ public partial class PopupWidget : IGoTo
                 if (widgetContent != WidgetContent)
                 {
                     WidgetContent = widgetContent;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -2219,32 +2173,26 @@ public partial class PopupWidget : IGoTo
         {
             case PopupDockOptions _:
                 DockOptions = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(DockOptions)] = DockOptions;
                 return true;
             case Graphic features:
                 Features = Features?.Where(f => f != features).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Features)] = Features;
                 return true;
             case Point _:
                 Location = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Location)] = Location;
                 return true;
             case PopupViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case PopupVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             case Widget _:
                 WidgetContent = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(WidgetContent)] = WidgetContent;
                 return true;
             default:

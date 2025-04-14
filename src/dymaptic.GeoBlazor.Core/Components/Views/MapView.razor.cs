@@ -16,8 +16,7 @@ public partial class MapView : MapComponent
 {
 #region Injected Services
     /// <summary>
-    ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment
-    ///     variables, or other sources.
+    ///     A set of key/value application configuration properties, that can be populated from `appsettings.json, environment variables, or other sources.
     /// </summary>
     [Inject]
     public IConfiguration Configuration { get; set; } = null!;
@@ -110,26 +109,22 @@ public partial class MapView : MapComponent
     public bool? AllowDefaultEsriLogin { get; set; }
 
     /// <summary>
-    ///     Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor
-    ///     components.
+    ///     Boolean flag that can be set to false to prevent the MapView from automatically rendering with the Blazor components.
     /// </summary>
     [Parameter]
     public bool LoadOnRender { get; set; } = true;
 
     /// <summary>
-    ///     Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS
-    ///     services will trigger a sign-in popup.
+    ///     Provides an override for the default behavior of requiring an API key. By setting to "false", all calls to ArcGIS services will trigger a sign-in popup.
     /// </summary>
     /// <remarks>
-    ///     Setting this to "false" is the same as setting <see cref="AllowDefaultEsriLogin" /> to "true". This is provided
-    ///     simply for convenience of discovery.
+    ///     Setting this to "false" is the same as setting <see cref="AllowDefaultEsriLogin" /> to "true". This is provided simply for convenience of discovery.
     /// </remarks>
     [Parameter]
     public bool? PromptForArcGISKey { get; set; }
 
     /// <summary>
-    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login
-    ///     using ArcGIS OAuth.
+    ///     If you set an `AppId` in your configuration, setting this to true will cause the app to attempt to auto-login using ArcGIS OAuth.
     /// </summary>
     [Parameter]
     public bool? PromptForOAuthLogin { get; set; }
@@ -166,8 +161,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a
-    ///     <see cref="GraphicsLayer" />.
+    ///     The collection of <see cref="Graphic" />s in the view. These are directly on the view itself, not in a <see cref="GraphicsLayer" />.
     /// </summary>
     public IReadOnlyCollection<Graphic> Graphics
     {
@@ -197,8 +191,7 @@ public partial class MapView : MapComponent
     public bool IsMaui => JsRuntime!.GetType().Name.Contains("WebView");
     
     /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be
-    ///     modifiable by markup until <see cref="Refresh" /> is called
+    ///     A boolean flag to indicate that the map extent has been modified in JavaScript, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
     public bool ExtentChangedInJs { get; set; }
     
@@ -226,9 +219,7 @@ public partial class MapView : MapComponent
     protected string? ErrorMessage { get; set; }
 
     /// <summary>
-    ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a
-    ///     feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the
-    ///     shadow of the highlighted feature is displayed in a darker shade.
+    ///     Options for configuring the highlight. Use the highlight method on the appropriate LayerView to highlight a feature. With version 4.19, highlighting a feature influences the shadow of the feature as well. By default, the shadow of the highlighted feature is displayed in a darker shade.
     /// </summary>
     protected HighlightOptions? HighlightOptions { get; private set; }
 
@@ -306,8 +297,7 @@ public partial class MapView : MapComponent
     ///     The <see cref="ClickEvent" /> return meta object.
     /// </param>
     /// <remarks>
-    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure
-    ///     that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
+    ///     Fires after a user clicks on the view. This event emits slightly slower than an immediate-click event to make sure that a double-click event isn't triggered instead. The immediate-click event can be used for responding to a click
     ///     event without delay.
     /// </remarks>
     [JSInvokable]
@@ -521,8 +511,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for pointer leave events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     Fires after a mouse cursor leaves the view, or a display touch ends.
@@ -544,8 +533,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for point move events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     The real-time nature of this handler make it a challenge to use continuously over SignalR in Blazor Server.
@@ -575,8 +563,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point" /> and return a
-    ///     <see cref="Task" />.
+    ///     Handler delegate for pointer up events on the view. Must take in a <see cref="Point" /> and return a <see cref="Task" />.
     /// </summary>
     /// <remarks>
     ///     Fires after a mouse button is released, or a display touch ends.
@@ -936,8 +923,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer
-    ///     is removed from the map of the view.
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewDestroyEvent> OnLayerViewDestroy { get; set; }
@@ -953,16 +939,13 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer
-    ///     is removed from the map of the view.
+    ///     Fires after a LayerView is destroyed and is no longer rendered in the view. This happens for example when a layer is removed from the map of the view.
     /// </summary>
     [Parameter]
     public EventCallback<LayerViewCreateErrorEvent> OnLayerViewCreateError { get; set; }
 
     /// <summary>
-    ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />,
-    ///     <see cref="OnPointerMove" />, <see cref="OnMouseWheel" />, <see cref="OnResize" />, and
-    ///     <see cref="OnExtentChanged" />
+    ///     Set this parameter to limit the rate at which recurring events are returned. Applies to <see cref="OnDrag" />, <see cref="OnPointerMove" />, <see cref="OnMouseWheel" />, <see cref="OnResize" />, and <see cref="OnExtentChanged" />
     /// </summary>
     [Parameter]
     public int EventRateLimitInMilliseconds { get; set; } = 100;
@@ -974,8 +957,7 @@ public partial class MapView : MapComponent
     public int? GraphicSerializationChunkSize { get; set; }
     
     /// <summary>
-    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller
-    ///     value might create errors in query returns.
+    ///     The maximum size of query results that will be returned in a stream. Note that setting this to a smaller value might create errors in query returns.
     /// </summary>
     [Parameter]
     public long QueryResultsMaxSizeLimit { get; set; } = 1_000_000_000L;
@@ -1253,9 +1235,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the
-    ///     PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively
-    ///     open the popup by directly setting the visible property to true.
+    ///     Opens the popup at the given location with content defined either explicitly with content or driven from the PopupTemplate of input features. This method sets the popup's visible property to true. Users can alternatively open the popup by directly setting the visible property to true.
     /// </summary>
     /// <param name="options">
     ///     Defines the location and content of the popup when opened.
@@ -1266,8 +1246,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
-    ///     setting the visible property to false.
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
     /// </summary>
     public async Task ClosePopup()
     {
@@ -1291,14 +1270,13 @@ public partial class MapView : MapComponent
         }
 
         if (CoreJsModule is null || !MapRendered) return;
-
-        var records = newGraphics.Select(g => g.ToSerializationRecord(true)).ToList();
+        
         int chunkSize = GraphicSerializationChunkSize ?? (IsMaui ? 100 : 200);
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
 
         if (IsWebAssembly)
         {
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1309,7 +1287,7 @@ public partial class MapView : MapComponent
                 }
 
                 ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                    new(newGraphics.Skip(skip).Take(chunkSize).Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1331,7 +1309,7 @@ public partial class MapView : MapComponent
         else if (IsMaui)
         {
             // MAUI at least on windows seems to occasionally throw an exception when adding graphics from multiple threads
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1340,9 +1318,9 @@ public partial class MapView : MapComponent
                 {
                     return;
                 }
-
-                ProtoGraphicCollection collection =
-                    new(records.Skip(skip).Take(chunkSize).ToArray());
+                
+                ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                    .Select(g => g.ToSerializationRecord(true)).ToArray());
                 MemoryStream ms = new();
                 Serializer.Serialize(ms, collection);
 
@@ -1365,7 +1343,7 @@ public partial class MapView : MapComponent
         {
             List<Task> serializationTasks = [];
 
-            for (var index = 0; index < records.Count; index += chunkSize)
+            for (var index = 0; index < newGraphics.Count; index += chunkSize)
             {
                 int skip = index;
 
@@ -1376,9 +1354,9 @@ public partial class MapView : MapComponent
                     {
                         return;
                     }
-
-                    ProtoGraphicCollection collection =
-                        new(records.Skip(skip).Take(chunkSize).ToArray());
+                    
+                    ProtoGraphicCollection collection = new(newGraphics.Skip(skip).Take(chunkSize)
+                        .Select(g => g.ToSerializationRecord(true)).ToArray());
                     MemoryStream ms = new();
                     Serializer.Serialize(ms, collection);
 
@@ -1459,7 +1437,7 @@ public partial class MapView : MapComponent
     /// <param name="isBasemapReferenceLayer">
     ///     If true, adds the layer as a Basemap Reference Layer.
     /// </param>
-    public async Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
+    public Task AddLayer(Layer layer, bool isBasemapLayer = false, bool isBasemapReferenceLayer = false)
     {
         if (isBasemapLayer && layer.IsBasemapReferenceLayer != true)
         {
@@ -1487,10 +1465,11 @@ public partial class MapView : MapComponent
         
         layer.View ??= this;
 
-        if (CoreJsModule is null || !MapRendered) return;
+        if (CoreJsModule is null || !MapRendered) return Task.CompletedTask;
 
-        await CoreJsModule.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
-            (object)layer, Id, isBasemapLayer, isBasemapReferenceLayer);
+        _newLayers.Add((layer, isBasemapLayer, isBasemapReferenceLayer));
+        StateHasChanged();
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -1890,15 +1869,15 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Retrieves the Popup Widget for the view.
     /// </summary>
-    public async Task<PopupWidget?> GetPopupWidget()
+    public Task<PopupWidget?> GetPopupWidget()
     {
         if (!Widgets.Any(w => w is PopupWidget) && CoreJsModule is not null)
         {
             var popupWidget = new PopupWidget();
-            await AddWidget(popupWidget);
+            AddWidget(popupWidget);
         }
 
-        return Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget;
+        return Task.FromResult(Widgets.FirstOrDefault(w => w is PopupWidget) as PopupWidget);
     }
 
     /// <summary>
@@ -1952,8 +1931,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="clickEvent">
     ///     The click event to test for hits.
@@ -1964,8 +1942,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="clickEvent">
     ///     The click event to test for hits.
@@ -1979,8 +1956,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="pointerEvent">
     ///     The pointer event to test for hits.
@@ -1991,8 +1967,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="pointerEvent">
     ///     The pointer event to test for hits.
@@ -2006,8 +1981,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="screenPoint">
     ///     The screen point to check for hits.
@@ -2018,8 +1992,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="screenPoint">
     ///     The screen point to check for hits.
@@ -2033,8 +2006,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="mapPoint">
     ///     The map point, in the same projection as the map, to check for hits.
@@ -2045,8 +2017,7 @@ public partial class MapView : MapComponent
     }
 
     /// <summary>
-    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results
-    ///     are organized as an array of objects containing different result types.
+    ///     Returns <see cref="HitTestResult" />s from each layer that intersects the specified screen coordinates. The results are organized as an array of objects containing different result types.
     /// </summary>
     /// <param name="mapPoint">
     ///     The map point, in the same projection as the map, to check for hits.
@@ -2149,7 +2120,7 @@ public partial class MapView : MapComponent
     /// <summary>
     ///     Adds a widget to the view.
     /// </summary>
-    public async Task AddWidget(Widget widget)
+    public Task AddWidget(Widget widget)
     {
         if (_widgets.Add(widget))
         {
@@ -2158,23 +2129,12 @@ public partial class MapView : MapComponent
             widget.CoreJsModule ??= CoreJsModule;
         }
 
-        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return;
+        if (CoreJsModule is null || !widget.ArcGISWidget || !MapRendered) return Task.CompletedTask;
 
-        await InvokeAsync(async () =>
-        {
-            await CoreJsModule.InvokeVoidAsync("addWidget",
-                CancellationTokenSource.Token, widget, Id);
-        });
+        _newWidgets.Add(widget);
+        StateHasChanged();
 
-        if (widget is PopupWidget && Map is not null)
-        {
-            // we have to update the layers to make sure the popupTemplates aren't unset by this action
-            foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
-            {
-                // ReSharper disable once RedundantCast
-                await layer.UpdateLayer();
-            }
-        }
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -2302,8 +2262,9 @@ public partial class MapView : MapComponent
             }
             catch (Exception ex)
             {
-                // only write exceptions out, don't throw.
-                Console.WriteLine(ex);
+                ErrorMessage = ex.Message;
+                StateHasChanged();
+                throw;
             }
 
             // the first render never has all the child components registered
@@ -2324,6 +2285,42 @@ public partial class MapView : MapComponent
         if (NeedsRender)
         {
             await RenderView();
+        }
+
+        if (MapRendered)
+        {
+            if (_newLayers.Any())
+            {
+                (Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)[] newLayers = _newLayers.ToArray();
+                _newLayers.Clear();
+                foreach ((Layer newLayer, bool isBasemapLayer, bool isBasemapReferenceLayer) in newLayers)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addLayer", CancellationTokenSource.Token,
+                        (object)newLayer, Id, isBasemapLayer, isBasemapReferenceLayer);
+                }
+            }
+
+
+            if (_newWidgets.Any())
+            {
+                Widget[] newWidgets = _newWidgets.ToArray();
+                _newWidgets.Clear();
+                foreach (Widget newWidget in newWidgets)
+                {
+                    await CoreJsModule!.InvokeVoidAsync("addWidget",
+                        CancellationTokenSource.Token, newWidget, Id);
+
+                    if (newWidget is PopupWidget && Map is not null)
+                    {
+                        // we have to update the layers to make sure the popupTemplates aren't unset by this action
+                        foreach (Layer layer in Map!.Layers.Where(l => l is FeatureLayer { PopupTemplate: not null }))
+                        {
+                            // ReSharper disable once RedundantCast
+                            await layer.UpdateLayer();
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -2395,10 +2392,9 @@ public partial class MapView : MapComponent
                 EventRateLimitInMilliseconds, GetActiveEventHandlers(), IsServer, HighlightOptions, PopupEnabled);
 
             Rendering = false;
-            
+            MapRendered = true;
             // must be after `Rendering = false`
             await GetPopupWidget();
-            MapRendered = true;
         });
     }
 #endregion
@@ -2611,8 +2607,7 @@ public partial class MapView : MapComponent
     }
     
     /// <summary>
-    ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript
-    ///     events.
+    ///     Retrieves all <see cref="EventCallback" />s and <see cref="Func{TResult}" />s that are listening for JavaScript events.
     /// </summary>
     protected List<string> GetActiveEventHandlers()
     {
@@ -2682,8 +2677,7 @@ public partial class MapView : MapComponent
     /// </summary>
     protected bool ShouldUpdate = true;
     /// <summary>
-    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by
-    ///     markup until <see cref="Refresh" /> is called
+    ///     A boolean flag to indicate that the map extent has been modified in code, and therefore should not be modifiable by markup until <see cref="Refresh" /> is called
     /// </summary>
     protected bool ExtentSetByCode = false;
     /// <summary>
@@ -2704,6 +2698,8 @@ public partial class MapView : MapComponent
     private Dictionary<string, StringBuilder> _layerViewCreateData = new();
     private HashSet<Graphic> _graphics = [];
     private HashSet<Widget> _widgets = [];
+    private HashSet<(Layer Layer, bool IsBasemapLayer, bool IsBasemapReferenceLayer)> _newLayers = [];
+    private HashSet<Widget> _newWidgets = [];
     private bool? _isPro;
     private Dictionary<Guid, ViewHit[]> _activeHitTests = new();
     private bool _isDisposed;

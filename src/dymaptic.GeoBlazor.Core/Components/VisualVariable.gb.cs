@@ -368,7 +368,6 @@ public abstract partial class VisualVariable
                 if (legendOptions != LegendOptions)
                 {
                     LegendOptions = legendOptions;
-                    
                     ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 }
                 
@@ -385,7 +384,6 @@ public abstract partial class VisualVariable
         {
             case VisualVariableLegendOptions _:
                 LegendOptions = null;
-                
                 ModifiedParameters[nameof(LegendOptions)] = LegendOptions;
                 return true;
             default:

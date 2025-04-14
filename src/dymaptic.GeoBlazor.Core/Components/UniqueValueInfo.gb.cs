@@ -232,7 +232,6 @@ public partial class UniqueValueInfo
                 if (symbol != Symbol)
                 {
                     Symbol = symbol;
-                    
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
                 
@@ -249,7 +248,6 @@ public partial class UniqueValueInfo
         {
             case Symbol _:
                 Symbol = null;
-                
                 ModifiedParameters[nameof(Symbol)] = Symbol;
                 return true;
             default:

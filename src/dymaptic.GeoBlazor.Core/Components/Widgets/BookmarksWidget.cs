@@ -17,7 +17,7 @@ public partial class BookmarksWidget : Widget
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    [Obsolete("Deprecated since 4.29. Use VisibleElements.EditBookmarkButton, VisibleElements.AddBookmarkButton, and DragEnabled instead.")]
+    [Obsolete("Deprecated since GeoBlazor 4. Use VisibleElements.EditBookmarkButton, VisibleElements.AddBookmarkButton, and DragEnabled instead.")]
     public bool? EditingEnabled { get; set; }
 
     /// <summary>
@@ -75,7 +75,10 @@ public partial class BookmarksWidget : Widget
                 if (!Bookmarks!.Contains(bookmark))
                 {
                     Bookmarks = [..Bookmarks, bookmark];
-                    WidgetChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 break;
             default:
@@ -92,7 +95,7 @@ public partial class BookmarksWidget : Widget
         {
             case Bookmark bookmark:
                 Bookmarks = Bookmarks?.Except([bookmark]).ToList();
-                WidgetChanged = MapRendered;
+                
                 break;
             default:
                 await base.UnregisterChildComponent(child);

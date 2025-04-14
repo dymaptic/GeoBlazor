@@ -10,8 +10,7 @@ public partial class OrderedLayerOrderBy : MapComponent
     public string? Field { get; set; }
 
     /// <summary>
-    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined
-    ///     by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
+    ///     An [Arcade](https://developers.arcgis.com/javascript/latest/arcade/) expression following the specification defined by the [Arcade Feature Z Profile](https://developers.arcgis.com/javascript/latest/arcade/#feature-sorting).
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

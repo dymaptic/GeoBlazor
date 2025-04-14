@@ -35,7 +35,9 @@ public class JsModuleManager
     {
         if (_proModule is null && !_proChecked)
         {
-            Version? version = Assembly.GetAssembly(typeof(JsModuleManager))!.GetName().Version;
+            string version = Assembly.GetAssembly(typeof(JsModuleManager))!
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!
+                .InformationalVersion;
 
             LicenseType licenseType = Licensing.GetLicenseType();
 

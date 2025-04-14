@@ -10,8 +10,7 @@ export async function buildJsIRouteSymbolsDirectionLinesGenerated(dotNetObject: 
     let jsRouteSymbolsDirectionLines: any = {};
 
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsRouteSymbolsDirectionLines);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsRouteSymbolsDirectionLines;
     arcGisObjectRefs[dotNetObject.id] = jsRouteSymbolsDirectionLines;
     
     return jsRouteSymbolsDirectionLines;

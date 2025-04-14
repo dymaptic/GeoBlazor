@@ -700,8 +700,11 @@ public partial class ListItemPanelWidget
                 if (!Content.Contains(content))
                 {
                     Content = [..Content, content];
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Content)] = Content;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -709,8 +712,11 @@ public partial class ListItemPanelWidget
                 if (listItem != ListItem)
                 {
                     ListItem = listItem;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ListItem)] = ListItem;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -726,12 +732,10 @@ public partial class ListItemPanelWidget
         {
             case ListItemPanelContent content:
                 Content = Content?.Where(c => c != content).ToList();
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Content)] = Content;
                 return true;
             case ListItem _:
                 ListItem = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ListItem)] = ListItem;
                 return true;
             default:

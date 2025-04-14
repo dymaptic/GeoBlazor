@@ -13,8 +13,7 @@ public partial class HighlightOptions : MapComponent
     public MapColor? Color { get; set; }
 
     /// <summary>
-    ///     The color of the halo surrounding the highlight. If no haloColor is provided, then the halo will be colored with
-    ///     the specified color.
+    ///     The color of the halo surrounding the highlight. If no haloColor is provided, then the halo will be colored with the specified color.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -59,10 +58,7 @@ public partial class HighlightOptions : MapComponent
     public double? ShadowOpacity { get; set; }
 
     /// <summary>
-    ///     Defines the intensity of the shadow area obtained by overlapping the shadow of the highlighted feature and the
-    ///     shadow of other objects in the scene. The value ranges from 0 to 1. A value of 0 highlights the overlapping shadow
-    ///     areas in the same way (no difference). Setting it to 1 highlights only the difference between the shadow areas, so
-    ///     the overlapping shadow areas aren't highlighted at all.
+    ///     Defines the intensity of the shadow area obtained by overlapping the shadow of the highlighted feature and the shadow of other objects in the scene. The value ranges from 0 to 1. A value of 0 highlights the overlapping shadow areas in the same way (no difference). Setting it to 1 highlights only the difference between the shadow areas, so the overlapping shadow areas aren't highlighted at all.
     ///     DefaultValue: 0.375
     /// </summary>
     /// <remarks>

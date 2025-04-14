@@ -6,14 +6,8 @@
 public static class DependencyExtension
 {
     /// <summary>
-    ///     Adds the Logic components <see cref="GeometryEngine" /> and <see cref="ProjectionEngine" /> to your dependency
-    ///     injection collection.
+    ///     Registers all GeoBlazor components and services for dependency injection.
     /// </summary>
-    /// <remarks>
-    ///     Since Scoped services behave like singletons in client applications (wasm, maui), registering the OAuthAuthentication
-    ///     service as scoped is safe for all implementations.
-    ///     https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/dependency-injection?view=aspnetcore-7.0#service-lifetime
-    /// </remarks>
     public static IServiceCollection AddGeoBlazor(this IServiceCollection serviceCollection,
         IConfiguration? configuration = null)
     {

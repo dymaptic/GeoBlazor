@@ -3762,7 +3762,25 @@ public partial class WFSLayer : Layer,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -3778,7 +3796,25 @@ public partial class WFSLayer : Layer,
     [ArcGISMethod]
     public async Task<Query?> CreateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createQuery", 
@@ -3797,7 +3833,25 @@ public partial class WFSLayer : Layer,
     [ArcGISMethod]
     public async Task<Field?> GetField(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Field?>(
             "getField", 
@@ -3817,14 +3871,31 @@ public partial class WFSLayer : Layer,
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
         WFSLayerGetFieldDomainOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Domain?>(
             "getFieldDomain", 
@@ -3843,9 +3914,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then the extent and count of all features
-    ///     satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3854,7 +3923,25 @@ public partial class WFSLayer : Layer,
     public async Task<ExtentQueryResult?> QueryExtent(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
@@ -3878,9 +3965,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and
-    ///     spatial filter of the query. If no parameters are specified, the total number of features
-    ///     satisfying the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3889,7 +3974,25 @@ public partial class WFSLayer : Layer,
     public async Task<int?> QueryFeatureCount(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         int? result = await JsComponentReference!.InvokeAsync<int?>(
@@ -3913,9 +4016,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then all features satisfying the layer's
-    ///     configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3924,7 +4025,25 @@ public partial class WFSLayer : Layer,
     public async Task<FeatureSet?> QueryFeatures(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -3948,9 +4067,7 @@ public partial class WFSLayer : Layer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WFSLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then the Object IDs of all features
-    ///     satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -3959,7 +4076,25 @@ public partial class WFSLayer : Layer,
     public async Task<long[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
@@ -3982,7 +4117,25 @@ public partial class WFSLayer : Layer,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -4046,8 +4199,11 @@ public partial class WFSLayer : Layer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4055,8 +4211,11 @@ public partial class WFSLayer : Layer,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4065,8 +4224,11 @@ public partial class WFSLayer : Layer,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4075,8 +4237,11 @@ public partial class WFSLayer : Layer,
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4085,8 +4250,11 @@ public partial class WFSLayer : Layer,
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4094,8 +4262,11 @@ public partial class WFSLayer : Layer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4103,8 +4274,11 @@ public partial class WFSLayer : Layer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4112,8 +4286,11 @@ public partial class WFSLayer : Layer,
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4121,8 +4298,11 @@ public partial class WFSLayer : Layer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4139,8 +4319,11 @@ public partial class WFSLayer : Layer,
                 if (wfsCapabilities != WfsCapabilities)
                 {
                     WfsCapabilities = wfsCapabilities;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4161,47 +4344,38 @@ public partial class WFSLayer : Layer,
                 return true;
             case WFSLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Renderer _:
                 Renderer = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TrackInfo _:
@@ -4211,7 +4385,6 @@ public partial class WFSLayer : Layer,
                 return true;
             case WFSCapabilities _:
                 WfsCapabilities = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(WfsCapabilities)] = WfsCapabilities;
                 return true;
             default:

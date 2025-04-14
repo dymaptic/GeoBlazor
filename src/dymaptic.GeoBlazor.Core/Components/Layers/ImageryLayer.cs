@@ -177,7 +177,10 @@ public partial class ImageryLayer : Layer
                 if (!tileInfo.Equals(TileInfo))
                 {
                     TileInfo = tileInfo;
-                    LayerChanged = MapRendered;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
 
                 break;
@@ -195,7 +198,7 @@ public partial class ImageryLayer : Layer
 
             case TileInfo _:
                 TileInfo = null;
-                LayerChanged = MapRendered;
+                
 
                 break;
             default:

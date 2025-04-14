@@ -773,7 +773,6 @@ public partial class RelationshipRampElement : MapComponent,
                 if (labels != Labels)
                 {
                     Labels = labels;
-                    
                     ModifiedParameters[nameof(Labels)] = Labels;
                 }
                 
@@ -790,7 +789,6 @@ public partial class RelationshipRampElement : MapComponent,
         {
             case RelationshipLabels _:
                 Labels = null;
-                
                 ModifiedParameters[nameof(Labels)] = Labels;
                 return true;
             default:

@@ -8,8 +8,7 @@ public partial class MediaPopupContent : PopupContent
     public override PopupContentType Type => PopupContentType.Media;
 
     /// <summary>
-    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed
-    ///     when displayed.
+    ///     Index of the current active media within the popup's media content. This will be the media that is currently viewed when displayed.
     /// </summary>
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

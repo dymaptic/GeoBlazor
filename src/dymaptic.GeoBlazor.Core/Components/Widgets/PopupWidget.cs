@@ -3,18 +3,14 @@ namespace dymaptic.GeoBlazor.Core.Components.Widgets;
 public partial class PopupWidget : Widget
 {
     /// <summary>
-    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every
-    ///     popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four
-    ///     LODs and centers on the selected feature.
+    ///     Defines actions that may be executed by clicking the icon or image symbolizing them in the popup. By default, every popup has a zoom-to action styled with a magnifying glass icon. When this icon is clicked, the view zooms in four LODs and centers on the selected feature.
     /// </summary>
     [CodeGenerationIgnore]
     [Parameter]
     public IReadOnlyList<ActionBase>? Actions { get; set; }
 
     /// <summary>
-    ///     Position of the popup in relation to the selected feature. The default behavior is to display above the feature and
-    ///     adjust if not enough room. If needing to explicitly control where the popup displays in relation to the feature,
-    ///     choose an option besides auto.
+    ///     Position of the popup in relation to the selected feature. The default behavior is to display above the feature and adjust if not enough room. If needing to explicitly control where the popup displays in relation to the feature, choose an option besides auto.
     /// </summary>
     [Parameter]
     public PopupAlignment? Alignment { get; set; }
@@ -26,8 +22,7 @@ public partial class PopupWidget : Widget
     public bool? AutoCloseEnabled { get; set; }
 
     /// <summary>
-    ///     This property indicates to the Popup that it needs to allow or disallow the click event propagation. Use
-    ///     view.popup.autoOpenEnabled = false; when needing to stop the click event propagation.
+    ///     This property indicates to the Popup that it needs to allow or disallow the click event propagation. Use view.popup.autoOpenEnabled = false; when needing to stop the click event propagation.
     ///     DefaultValue: true
     /// </summary>
     [Parameter]
@@ -45,13 +40,11 @@ public partial class PopupWidget : Widget
     ///     DefaultValue: true
     /// </summary>
     [Parameter]
-    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.CollapseButton instead.")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use PopupVisibleElements.CollapseButton instead.")]
     public bool? CollapseEnabled { get; set; }
 
     /// <summary>
-    ///     The html string content of the popup. When set directly on the Popup, this content is static and cannot use fields
-    ///     to set content templates. To set a template for the content based on field or attribute names, see
-    ///     <see cref="PopupTemplate.Content" />.
+    ///     The html string content of the popup. When set directly on the Popup, this content is static and cannot use fields to set content templates. To set a template for the content based on field or attribute names, see <see cref="PopupTemplate.Content" />.
     /// </summary>
     [Parameter]
     public string? StringContent { get; set; }
@@ -75,17 +68,14 @@ public partial class PopupWidget : Widget
     public bool? DockEnabled { get; set; }
 
     /// <summary>
-    ///     Indicates the heading level to use for the title of the popup. By default, the title is rendered as a level 2
-    ///     heading (e.g. <h2>Popup title</h2>). Depending on the widget's placement in your app, you may need to adjust this
-    ///     heading for proper semantics. This is important for meeting accessibility standards.
+    ///     Indicates the heading level to use for the title of the popup. By default, the title is rendered as a level 2 heading (e.g. <h2>Popup title</h2>). Depending on the widget's placement in your app, you may need to adjust this heading for proper semantics. This is important for meeting accessibility standards.
     ///     DefaultValue:2
     /// </summary>
     [Parameter]
     public int? HeadingLevel { get; set; }
 
     /// <summary>
-    ///     Highlight the selected popup feature using the highlightOptions set on the MapView or the highlightOptions set on
-    ///     the SceneView.
+    ///     Highlight the selected popup feature using the highlightOptions set on the MapView or the highlightOptions set on the SceneView.
     /// </summary>
     [Parameter]
     public bool? HighlightEnabled { get; set; }
@@ -102,12 +92,11 @@ public partial class PopupWidget : Widget
     ///     Indicates whether to display a spinner at the popup location prior to its display when it has pending promises.
     /// </summary>
     [Parameter]
-    [Obsolete("Deprecated since 4.29. Use PopupVisibleElements.Spinner instead.")]
+    [Obsolete("Deprecated since GeoBlazor v4. Use PopupVisibleElements.Spinner instead.")]
     public bool? SpinnerEnabled { get; set; }
 
     /// <summary>
-    ///     The title of the popup. This can be set generically on the popup no matter the features that are selected. If the
-    ///     selected feature has a PopupTemplate, then the title set in the corresponding template is used here.
+    ///     The title of the popup. This can be set generically on the popup no matter the features that are selected. If the selected feature has a PopupTemplate, then the title set in the corresponding template is used here.
     /// </summary>
     [Parameter]
     public string? Title { get; set; }
@@ -155,12 +144,30 @@ public partial class PopupWidget : Widget
     public bool HasGoToOverride => GoToOverride is not null;
 
     /// <summary>
-    ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate
-    ///     assigned to this feature.
+    ///     The selected feature accessed by the popup. The content of the Popup is determined based on the PopupTemplate assigned to this feature.
     /// </summary>
     [CodeGenerationIgnore]
     public async Task<Graphic?> GetSelectedFeature()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<Graphic?>("getSelectedFeature",
             CancellationTokenSource.Token);
     }
@@ -171,6 +178,25 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task SetContent(string stringContent)
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("setContent", CancellationTokenSource.Token, stringContent);
     }
 
@@ -181,17 +207,53 @@ public partial class PopupWidget : Widget
     [CodeGenerationIgnore]
     public async Task Clear()
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("clear", CancellationTokenSource.Token);
     }
 
     /// <summary>
-    ///     Use this method to return feature(s) at a given screen location. These features are fetched from all of the
-    ///     LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its
-    ///     popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
+    ///     Use this method to return feature(s) at a given screen location. These features are fetched from all of the LayerViews in the view. In order to use this, a layer must already have an associated PopupTemplate and have its popupEnabled. These features can then be used within a custom Popup or Feature widget experience.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<Graphic[]> FetchFeatures()
+    public async Task<Graphic[]?> FetchFeatures()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<Graphic[]>("fetchFeatures", CancellationTokenSource.Token);
     }
 
@@ -199,8 +261,27 @@ public partial class PopupWidget : Widget
     ///     The number of selected features available to the popup.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<int> GetFeatureCount()
+    public async Task<int?> GetFeatureCount()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<int>("getFeatureCount", CancellationTokenSource.Token);
     }
 
@@ -208,8 +289,27 @@ public partial class PopupWidget : Widget
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<int> GetSelectedFeatureIndex()
+    public async Task<int?> GetSelectedFeatureIndex()
     {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<int>("getSelectedFeatureIndex", CancellationTokenSource.Token);
     }
 
@@ -217,20 +317,57 @@ public partial class PopupWidget : Widget
     ///     Index of the feature that is selected. When features are set, the first index is automatically selected.
     /// </summary>
     [CodeGenerationIgnore]
-    public async Task<bool> GetVisibility()
+    public async Task<bool?> GetVisibility()
     {
+        if (CoreJsModule is null)
+        {
+            return Visible;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
         return await JsComponentReference!.InvokeAsync<bool>("getVisibility", CancellationTokenSource.Token);
     }
 
 
     /// <summary>
-    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly
-    ///     setting the visible property to false.
+    ///     Closes the popup by setting its visible property to false. Users can alternatively close the popup by directly setting the visible property to false.
     /// </summary>
     [ArcGISMethod]
     [CodeGenerationIgnore]
     public async Task Close()
     {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule!.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+                                        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
         await JsComponentReference!.InvokeVoidAsync("close", CancellationTokenSource.Token);
     }
 

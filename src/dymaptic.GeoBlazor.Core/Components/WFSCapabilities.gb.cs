@@ -294,7 +294,6 @@ public partial class WFSCapabilities : MapComponent
                 if (!FeatureTypes.Contains(featureTypes))
                 {
                     FeatureTypes = [..FeatureTypes, featureTypes];
-                    
                     ModifiedParameters[nameof(FeatureTypes)] = FeatureTypes;
                 }
                 
@@ -303,7 +302,6 @@ public partial class WFSCapabilities : MapComponent
                 if (operations != Operations)
                 {
                     Operations = operations;
-                    
                     ModifiedParameters[nameof(Operations)] = Operations;
                 }
                 
@@ -320,12 +318,10 @@ public partial class WFSCapabilities : MapComponent
         {
             case WFSFeatureType featureTypes:
                 FeatureTypes = FeatureTypes?.Where(f => f != featureTypes).ToList();
-                
                 ModifiedParameters[nameof(FeatureTypes)] = FeatureTypes;
                 return true;
             case WFSOperations _:
                 Operations = null;
-                
                 ModifiedParameters[nameof(Operations)] = Operations;
                 return true;
             default:

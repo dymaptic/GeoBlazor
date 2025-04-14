@@ -2,83 +2,75 @@
 
 namespace dymaptic.GeoBlazor.Core;
 
-
+/// <summary>
+///     For internal use only.
+/// </summary>
+/// <exclude/>
 public interface IAppValidator
 {
-    public Task ValidateLicense();
+    public ValueTask ValidateLicense();
 }
 
-internal class RegistrationValidator(GeoBlazorSettings settings, IJSRuntime jsRuntime) : IAppValidator
+internal class RegistrationValidator(GeoBlazorSettings settings) : IAppValidator
 {
-    public async Task ValidateLicense()
+    public ValueTask ValidateLicense()
     {
         // if we've already shown the message or validated, there's no need to check again
-        if (_messageShown || _isValidated)
+        if (_validating || _isValidated)
         {
-            return;
+            return ValueTask.CompletedTask;
         }
-        
-        if (_validating) return;
 
         _validating = true;
 
-        BlazorMode blazorMode = jsRuntime.GetType().Name.Contains("Remote") ? BlazorMode.Server :
-            OperatingSystem.IsBrowser() ? BlazorMode.WebAssembly : BlazorMode.Maui;
-
         string? registration = settings.RegistrationKey;
-        bool valid = registration is not null;
-
-        if (valid)
+        
+        if (registration == null)
         {
-            try
-            {
-                string registrationText = Encoding.UTF8.GetString(Convert.FromBase64String(registration!));
+            _validating = false;
+            throw new InvalidRegistrationException("No GeoBlazor Registration key provided. Please visit <a href='https://licensing.dymaptic.com' target='_blank'>https://licensing.dymaptic.com</a> to generate your free registration key.");
+        }
+        
+        bool valid = true;
 
-                RegistrationObject registrationObject =
-                    JsonSerializer.Deserialize<RegistrationObject>(registrationText)!;
-                if (valid && registrationObject.LicenseVersion != 1)
-                {
-                    valid = false;
-                }
-                if (valid && registrationObject.LicenseType != "Free")
-                {
-                    valid = false;
-                }
-                if (valid && registrationObject.Software != "GeoBlazorCore")
-                {
-                    valid = false;
-                }
+        try
+        {
+            string registrationText = Encoding.UTF8.GetString(Convert.FromBase64String(registration));
+
+            RegistrationObject registrationObject =
+                JsonSerializer.Deserialize<RegistrationObject>(registrationText)!;
+            if (valid && registrationObject.LicenseVersion != 1)
+            {
+                valid = false;
             }
-            catch
+            if (valid && registrationObject.LicenseType != "Free")
+            {
+                valid = false;
+            }
+            if (valid && registrationObject.Software != "GeoBlazorCore")
             {
                 valid = false;
             }
         }
+        catch
+        {
+            valid = false;
+        }
         
         if (!valid)
         {
-            if (!_messageShown)
-            {
-                Console.WriteLine(_registrationMessage);
-                Debug.WriteLine(_registrationMessage);
-                if (blazorMode == BlazorMode.Server)
-                {
-                    await jsRuntime.InvokeVoidAsync("console.log", _registrationMessage);
-                }
+            _validating = false;
 
-                _messageShown = true;
-                return;
-            }
+            throw new InvalidRegistrationException(
+                "Invalid GeoBlazor registration key. Please visit <a href='https://licensing.dymaptic.com' target='_blank'>https://licensing.dymaptic.com</a> to generate a new free registration key.");
         }
 
         _isValidated = true;
         _validating = false;
+        return ValueTask.CompletedTask;
     }
 
     private static bool _isValidated;
-    private readonly string _registrationMessage =
-        "Thank you for using GeoBlazor! Please visit https://licensing.dymaptic.com/geoblazor-core to register.";
-    private static bool _messageShown;
     private bool _validating;
 }
 
@@ -92,7 +84,11 @@ internal enum BlazorMode
 }
 
 internal record RegistrationObject(
-    string Email, 
     string LicenseType, 
     string Software,
     int LicenseVersion);
+
+internal class InvalidRegistrationException(string message) : Exception(message)
+{
+    public override string StackTrace => string.Empty;
+}

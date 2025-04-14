@@ -17,8 +17,7 @@ export async function buildJsWebMapSaveAsOptionsGenerated(dotNetObject: any, lay
         jsWebMapSaveAsOptions.ignoreUnsupported = dotNetObject.ignoreUnsupported;
     }
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsWebMapSaveAsOptions);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsWebMapSaveAsOptions;
     arcGisObjectRefs[dotNetObject.id] = jsWebMapSaveAsOptions;
     
     return jsWebMapSaveAsOptions;

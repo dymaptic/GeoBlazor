@@ -4,9 +4,7 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AngularUnit.html">GeoBlazor Docs</a>
-///     <summary>
-///          Enumeration for AngularUnit
-///      </summary>
+///     Enumeration for AngularUnit
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AngularUnit>))]
 public enum AngularUnit

@@ -624,7 +624,25 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     [ArcGISMethod]
     public async Task<Query?> CreateAggregateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createAggregateQuery", 
@@ -650,7 +668,25 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
     public async Task<FeatureSet?> QueryAggregates(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -709,7 +745,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 }
                 
@@ -718,7 +753,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
                 if (filter != Filter)
                 {
                     Filter = filter;
-                    
                     ModifiedParameters[nameof(Filter)] = Filter;
                 }
                 
@@ -735,12 +769,10 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         {
             case FeatureEffect _:
                 FeatureEffect = null;
-                
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case FeatureFilter _:
                 Filter = null;
-                
                 ModifiedParameters[nameof(Filter)] = Filter;
                 return true;
             default:

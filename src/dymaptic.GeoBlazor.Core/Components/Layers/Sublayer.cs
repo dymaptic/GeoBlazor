@@ -90,13 +90,17 @@ public partial class Sublayer: MapComponent, IPopupTemplateLayer
     }
 
     /// <inheritdoc />
-    public override ValueTask Refresh()
+    public override async ValueTask Refresh()
     {
         if (Layer is not null)
         {
-            Layer.LayerChanged = MapRendered;
+            if (MapRendered)
+            {
+                await Layer.UpdateLayer();
+            }
         }
-        return base.Refresh();
+
+        await base.Refresh();
     }
 
     /// <summary>

@@ -120,13 +120,8 @@ export let Pro: any;
 
 // region functions
 
-export async function setPro(): Promise<void> {
-    try {
-        // @ts-ignore
-        Pro = await import("./arcGisPro");
-    } catch {
-        // this catch tells esbuild to ignore
-    }
+export async function setPro(pro): Promise<void> {
+    Pro = pro;
 }
 
 // we have to wrap the JsObjectReference because a null will throw an error
@@ -189,7 +184,7 @@ export function getJsComponent(id: string) {
     const component = jsObjectRefs[id];
 
     if (hasValue(component)) {
-        return DotNet.createJSObjectReference(component);
+        return component;
     }
     return null;
 }
@@ -286,18 +281,16 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
 
         switch (mapType) {
             case 'webmap':
-                let webMap: WebMap;
-                const portalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webMap = new WebMap({portalItem: portalItem});
+                let {buildJsWebMap} = await import('./webMap');
+                let webMap = await buildJsWebMap(mapObject, null, id);
                 view = new MapView({
                     container: `map-container-${id}`,
                     map: webMap
                 });
                 break;
             case 'webscene':
-                let webScene: WebScene;
-                const scenePortalItem = await buildJsPortalItem(mapObject.portalItem, null, id);
-                webScene = new WebScene({portalItem: scenePortalItem});
+                let {buildJsWebScene} = await import('./webScene');
+                let webScene = await buildJsWebScene(mapObject, null, id);
                 view = new SceneView({
                     container: `map-container-${id}`,
                     map: webScene
@@ -1706,13 +1699,14 @@ function waitForRender(viewId: string, dotNetRef: any): void {
             if (!view.updating && !isRendered && !rendering) {
                 notifyExtentChanged = true;
                 // listen for click on zoom widget
-                if (!zoomWidgetListenerAdded) {
-                    const zoomWidgetButtons = document.querySelectorAll('[title="Zoom in"], [title="Zoom out"]');
-                    for (let i = 0; i < zoomWidgetButtons.length; i++) {
-                        zoomWidgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
-                        zoomWidgetButtons[i].addEventListener('click', setUserChangedViewExtent);
+                if (!widgetListenerAdded) {
+                    let widgetQuery = '[title="Zoom in"], [title="Zoom out"], [title="Find my location"], [class="esri-bookmarks__list"], [title="Default map view"], [title="Reset map orientation"]';
+                    let widgetButtons = document.querySelectorAll(widgetQuery);
+                    for (let i = 0; i < widgetButtons.length; i++) {
+                        widgetButtons[i].removeEventListener('click', setUserChangedViewExtent);
+                        widgetButtons[i].addEventListener('click', setUserChangedViewExtent);
                     }
-                    zoomWidgetListenerAdded = true;
+                    widgetListenerAdded = true;
                 }
 
                 console.debug(new Date() + " - View Render Complete");
@@ -1731,7 +1725,7 @@ function waitForRender(viewId: string, dotNetRef: any): void {
     })
 }
 
-let zoomWidgetListenerAdded = false;
+let widgetListenerAdded = false;
 
 function setUserChangedViewExtent() {
     userChangedViewExtent = true;

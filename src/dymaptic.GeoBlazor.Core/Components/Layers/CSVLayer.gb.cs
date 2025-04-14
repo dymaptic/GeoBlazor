@@ -4059,7 +4059,25 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
             "createPopupTemplate", 
@@ -4076,7 +4094,25 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<Query?> CreateQuery()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Query?>(
             "createQuery", 
@@ -4095,7 +4131,25 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISMethod]
     public async Task<Field?> GetField(string fieldName)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Field?>(
             "getField", 
@@ -4115,14 +4169,31 @@ public partial class CSVLayer : IBlendLayer,
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
         CSVLayerGetFieldDomainOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Domain?>(
             "getFieldDomain", 
@@ -4185,7 +4256,25 @@ public partial class CSVLayer : IBlendLayer,
     public async Task<ExtentQueryResult?> QueryExtent(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
@@ -4220,7 +4309,25 @@ public partial class CSVLayer : IBlendLayer,
     public async Task<int?> QueryFeatureCount(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         int? result = await JsComponentReference!.InvokeAsync<int?>(
@@ -4255,7 +4362,25 @@ public partial class CSVLayer : IBlendLayer,
     public async Task<FeatureSet?> QueryFeatures(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
@@ -4290,7 +4415,25 @@ public partial class CSVLayer : IBlendLayer,
     public async Task<long[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
@@ -4313,7 +4456,25 @@ public partial class CSVLayer : IBlendLayer,
     public override async ValueTask Refresh()
     {
         await base.Refresh();
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "refresh", 
@@ -4386,8 +4547,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (elevationInfo != ElevationInfo)
                 {
                     ElevationInfo = elevationInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4395,8 +4559,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (featureEffect != FeatureEffect)
                 {
                     FeatureEffect = featureEffect;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4405,8 +4572,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Fields)] = Fields;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4415,8 +4585,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4425,8 +4598,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4434,8 +4610,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4443,8 +4622,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (portalItem != PortalItem)
                 {
                     PortalItem = portalItem;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(PortalItem)] = PortalItem;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4452,8 +4634,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Renderer)] = Renderer;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4461,8 +4646,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (spatialReference != SpatialReference)
                 {
                     SpatialReference = spatialReference;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4470,8 +4658,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (timeExtent != TimeExtent)
                 {
                     TimeExtent = timeExtent;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4479,8 +4670,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (timeInfo != TimeInfo)
                 {
                     TimeInfo = timeInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4488,8 +4682,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (timeOffset != TimeOffset)
                 {
                     TimeOffset = timeOffset;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4524,62 +4721,50 @@ public partial class CSVLayer : IBlendLayer,
                 return true;
             case CSVLayerElevationInfo _:
                 ElevationInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(ElevationInfo)] = ElevationInfo;
                 return true;
             case FeatureEffect _:
                 FeatureEffect = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(FeatureEffect)] = FeatureEffect;
                 return true;
             case Field fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             case PortalItem _:
                 PortalItem = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
             case Renderer _:
                 Renderer = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             case SpatialReference _:
                 SpatialReference = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(SpatialReference)] = SpatialReference;
                 return true;
             case TimeExtent _:
                 TimeExtent = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeExtent)] = TimeExtent;
                 return true;
             case TimeInfo _:
                 TimeInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeInfo)] = TimeInfo;
                 return true;
             case TimeInterval _:
                 TimeOffset = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TimeOffset)] = TimeOffset;
                 return true;
             case TrackInfo _:

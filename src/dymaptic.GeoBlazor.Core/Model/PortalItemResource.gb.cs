@@ -17,7 +17,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record PortalItemResource(
     string? Path = null,
-    PortalItem? PortalItem = null)
+    PortalItem? PortalItem = null): IInteractiveRecord
 {
     /// <summary>
     ///     Path of the resource relative to `{ITEM}/resources/`.
@@ -31,8 +31,25 @@ public partial record PortalItemResource(
     /// </summary>
     public PortalItem? PortalItem { get; set; } = PortalItem;
     
-    internal IJSObjectReference? JsComponentReference { get; set; }
-    internal AbortManager? AbortManager { get; set; }
+    /// <summary>
+    ///     Represents the JavaScript component reference.
+    /// </summary>
+    public IJSObjectReference? JsComponentReference { get; set; }
+    
+    /// <summary>
+    ///     Allows for transmitting CancellationToken cancel signals to JavaScript.
+    /// </summary>
+    public AbortManager? AbortManager { get; set; }
+    
+    /// <summary>
+    ///     A unique Id to identify this record in JavaScript.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+    
+    /// <summary>
+    ///     Reference to the Core JavaScript module.
+    /// </summary>
+    public IJSObjectReference? CoreJsModule { get; set; }
     
     /// <summary>
     ///     Cancellation Token for async methods.
@@ -63,7 +80,25 @@ public partial record PortalItemResource(
         PortalItemResourceFetchOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(
@@ -100,7 +135,25 @@ public partial record PortalItemResource(
         PortalItemResourceUpdateOptions options,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(

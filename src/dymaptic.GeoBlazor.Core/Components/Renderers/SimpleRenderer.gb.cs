@@ -302,7 +302,6 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
                 if (symbol != Symbol)
                 {
                     Symbol = symbol;
-                    
                     ModifiedParameters[nameof(Symbol)] = Symbol;
                 }
                 
@@ -312,7 +311,6 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
                 if (!VisualVariables.Contains(visualVariables))
                 {
                     VisualVariables = [..VisualVariables, visualVariables];
-                    
                     ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 }
                 
@@ -329,12 +327,10 @@ public partial class SimpleRenderer : IRendererWithVisualVariables,
         {
             case Symbol _:
                 Symbol = null;
-                
                 ModifiedParameters[nameof(Symbol)] = Symbol;
                 return true;
             case VisualVariable visualVariables:
                 VisualVariables = VisualVariables?.Where(v => v != visualVariables).ToList();
-                
                 ModifiedParameters[nameof(VisualVariables)] = VisualVariables;
                 return true;
             default:

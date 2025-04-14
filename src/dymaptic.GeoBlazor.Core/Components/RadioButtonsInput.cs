@@ -1,7 +1,6 @@
 namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
-///     https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-RadioButtonsInput.html
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-form-elements-inputs-RadioButtonsInput.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <remarks>

@@ -575,13 +575,30 @@ public partial class BookmarksViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#createBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
-    ///     Specifies
-    ///     how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
+    ///     Specifies how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
     /// </param>
     [ArcGISMethod]
     public async Task<Bookmark?> CreateBookmark(BookmarkOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Bookmark?>(
             "createBookmark", 
@@ -600,15 +617,32 @@ public partial class BookmarksViewModel : IGoTo
     ///     The bookmark to be edited.
     /// </param>
     /// <param name="options">
-    ///     Specifies
-    ///     how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
+    ///     Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
     ///     If not specified, the <a href="#defaultEditOptions">defaultEditOptions</a> will be used.
     /// </param>
     [ArcGISMethod]
     public async Task<Bookmark?> EditBookmark(Bookmark bookmark,
         BookmarkOptions options)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<Bookmark?>(
             "editBookmark", 
@@ -629,7 +663,25 @@ public partial class BookmarksViewModel : IGoTo
     [ArcGISMethod]
     public async Task<string?> GoTo(Bookmark bookmark)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "goTo", 
@@ -650,7 +702,6 @@ public partial class BookmarksViewModel : IGoTo
                 if (!Bookmarks.Contains(bookmarks))
                 {
                     Bookmarks = [..Bookmarks, bookmarks];
-                    
                     ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 }
                 
@@ -659,7 +710,6 @@ public partial class BookmarksViewModel : IGoTo
                 if (capabilities != Capabilities)
                 {
                     Capabilities = capabilities;
-                    
                     ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 }
                 
@@ -676,12 +726,10 @@ public partial class BookmarksViewModel : IGoTo
         {
             case Bookmark bookmarks:
                 Bookmarks = Bookmarks?.Where(b => b != bookmarks).ToList();
-                
                 ModifiedParameters[nameof(Bookmarks)] = Bookmarks;
                 return true;
             case BookmarksCapabilities _:
                 Capabilities = null;
-                
                 ModifiedParameters[nameof(Capabilities)] = Capabilities;
                 return true;
             default:

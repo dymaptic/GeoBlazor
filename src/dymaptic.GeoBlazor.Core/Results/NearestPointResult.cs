@@ -1,8 +1,7 @@
 namespace dymaptic.GeoBlazor.Core.Results;
 
 /// <summary>
-///     Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of
-///     <see cref="GeometryEngine" />.
+///     Object returned from the nearestCoordinate(), nearestVertex(), and nearestVertices() methods of <see cref="GeometryEngine" />.
 /// </summary>
 [CodeGenerationIgnore]
 public record NearestPointResult

@@ -391,7 +391,6 @@ public partial class MultidimensionalSubset
                 if (areaOfInterest != AreaOfInterest)
                 {
                     AreaOfInterest = areaOfInterest;
-                    
                     ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
                 }
                 
@@ -401,7 +400,6 @@ public partial class MultidimensionalSubset
                 if (!SubsetDefinitions.Contains(subsetDefinitions))
                 {
                     SubsetDefinitions = [..SubsetDefinitions, subsetDefinitions];
-                    
                     ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
                 }
                 
@@ -418,12 +416,10 @@ public partial class MultidimensionalSubset
         {
             case Geometry _:
                 AreaOfInterest = null;
-                
                 ModifiedParameters[nameof(AreaOfInterest)] = AreaOfInterest;
                 return true;
             case DimensionalDefinition subsetDefinitions:
                 SubsetDefinitions = SubsetDefinitions?.Where(s => s != subsetDefinitions).ToList();
-                
                 ModifiedParameters[nameof(SubsetDefinitions)] = SubsetDefinitions;
                 return true;
             default:

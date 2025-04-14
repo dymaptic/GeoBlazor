@@ -4,18 +4,12 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.BlendMode.html">GeoBlazor Docs</a>
-///     <summary>
-///          Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what
-///          seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blend
-///          modes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
-///      </summary>
-///      <remarks>
-///          See more at
-///          <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">
-///              ArcGIS Maps SDK for JavaScript
-///          </a>
-///      </remarks>
+///     Blend modes are used to blend layers together to create an interesting effect in a layer, or even to produce what seems like a new layer. Unlike the method of using transparency which can result in a washed-out top layer, blenddes can create a variety of very vibrant and intriguing results by blending a layer with the layer(s) below it.
 /// </summary>
+/// <remarks>
+///     See more at
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WebTileLayer.html#blendMode">ArcGIS Maps SDK for JavaScript</a>
+/// </remarks>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<BlendMode>))]
 public enum BlendMode
 {

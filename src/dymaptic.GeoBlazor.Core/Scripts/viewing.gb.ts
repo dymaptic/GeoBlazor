@@ -16,8 +16,7 @@ export async function buildJsViewingGenerated(dotNetObject: any, layerId: string
 
     let jsViewing = new Viewing(properties);
     
-    let jsObjectRef = DotNet.createJSObjectReference(jsViewing);
-    jsObjectRefs[dotNetObject.id] = jsObjectRef;
+    jsObjectRefs[dotNetObject.id] = jsViewing;
     arcGisObjectRefs[dotNetObject.id] = jsViewing;
     
     return jsViewing;

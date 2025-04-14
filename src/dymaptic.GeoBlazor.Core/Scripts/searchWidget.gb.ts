@@ -510,7 +510,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     
     if (hasValue(jsObject.results)) {
-        dotNetSearchWidget.results = jsObject.results;
+        dotNetSearchWidget.results = removeCircularReferences(jsObject.results);
     }
     
     if (hasValue(jsObject.searchAllEnabled)) {

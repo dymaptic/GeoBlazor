@@ -1262,13 +1262,11 @@ public partial class ListItem
                 if (ActionsSections.Length == 0)
                 {
                     ActionsSections = [[actionsSections]];
-                    
                     ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
                 }
                 else if (!ActionsSections.Any(s => s.Contains(actionsSections)))
                 {
                     ActionsSections = [..ActionsSections, [actionsSections]];
-                    
                     ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
                 }
                 
@@ -1278,7 +1276,6 @@ public partial class ListItem
                 if (!Children.Contains(children))
                 {
                     Children = [..Children, children];
-                    
                     ModifiedParameters[nameof(Children)] = Children;
                 }
                 
@@ -1287,7 +1284,6 @@ public partial class ListItem
                 if (panel != Panel)
                 {
                     Panel = panel;
-                    
                     ModifiedParameters[nameof(Panel)] = Panel;
                 }
                 
@@ -1306,17 +1302,14 @@ public partial class ListItem
                 ActionsSections = ActionsSections?
                     .Select(s => s.Where(a => a != actionsSections).ToArray())
                     .Where(s => s.Any()).ToArray();
-                
                 ModifiedParameters[nameof(ActionsSections)] = ActionsSections;
                 return true;
             case ListItem children:
                 Children = Children?.Where(c => c != children).ToList();
-                
                 ModifiedParameters[nameof(Children)] = Children;
                 return true;
             case ListItemPanelWidget _:
                 Panel = null;
-                
                 ModifiedParameters[nameof(Panel)] = Panel;
                 return true;
             default:

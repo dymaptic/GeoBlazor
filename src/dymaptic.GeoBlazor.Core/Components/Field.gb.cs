@@ -826,7 +826,6 @@ public partial class Field
                 if (domain != Domain)
                 {
                     Domain = domain;
-                    
                     ModifiedParameters[nameof(Domain)] = Domain;
                 }
                 
@@ -843,7 +842,6 @@ public partial class Field
         {
             case Domain _:
                 Domain = null;
-                
                 ModifiedParameters[nameof(Domain)] = Domain;
                 return true;
             default:
