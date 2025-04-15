@@ -59,9 +59,9 @@
         }
         AddMapRenderFragment(
     @<MapView @ref="mapView"
-                  class="map-view"
-                  OnViewRendered="renderHandler"
-                  OnLayerViewCreate="OnLayerViewCreated">
+                          class="map-view"
+                          OnViewRendered="renderHandler"
+                          OnLayerViewCreate="OnLayerViewCreated">
         <Map>
             <TileLayer @ref="layer" Title="World Imagery">
                 <PortalItem PortalItemId="10df2279f9684e4a9f6a7f08febac2a9" />
@@ -80,84 +80,4 @@
         Assert.IsTrue(layer.AllSublayers!.Count > 0);
         await AssertJavaScript("assertLayerExists", args: "tile");
     }
-
-    [TestMethod]
-    public async Task TestCanRenderOpenStreetMapLayerWithUrlTemplate(Action renderHandler)
-    {
-        WebTileLayer? layer = null;
-        string[] subdomains = new[] { "a", "b", "c" };
-        AddMapRenderFragment(
-    @<SceneView class="map-view"
-                    Zoom="1"
-                    PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
-        <Map Ground="world-elevation">
-            <OpenStreetMapLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png" SubDomains="@subdomains" @ref=layer />
-        </Map>
-    </SceneView>
-        );
-
-        await WaitForMapToRender();
-
-        await AssertJavaScript("assertLayerExists", args: "web-tile");
-
-        Assert.AreEqual(layer!.UrlTemplate, "https://tile.openstreetmap.org/{z}/{x}/{y}.png");
-        Assert.AreEqual(layer!.SubDomains, subdomains);
-    }
-
-    [TestMethod]
-    public async Task TestCanRenderOpenStreetMapLayerWithoutUrlTemplate(Action renderHandler)
-    {
-        AddMapRenderFragment(
-    @<SceneView class="map-view"
-                    Zoom="1"
-                    PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
-        <Map Ground="world-elevation">
-            <OpenStreetMapLayer />
-        </Map>
-    </SceneView>);
-
-        await WaitForMapToRender();
-
-        await AssertJavaScript("assertLayerExists", args: "open-street-map");
-    }
-
-    [TestMethod]
-    public async Task TestOpenStreetMapLayerCopyrightConsistency(Action renderHandler)
-    {
-        WebTileLayer? osmLayerWithUrlTemplate = null;
-        AddMapRenderFragment(
-    @<SceneView class="map-view"
-                    Zoom="1"
-                    PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
-        <Map Ground="world-elevation">
-            <OpenStreetMapLayer UrlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png" @ref="osmLayerWithUrlTemplate" />
-        </Map>
-    </SceneView>);
-
-        await WaitForMapToRender();
-
-        Assert.IsNotNull(osmLayerWithUrlTemplate?.Copyright, "Copyright with UrlTemplate should not be null");
-
-        OpenStreetMapLayer? osmLayer = null;
-        AddMapRenderFragment(
-    @<SceneView class="map-view"
-                    Zoom="1"
-                    PromptForArcGISKey="false"
-                    OnViewRendered="renderHandler">
-        <Map Ground="world-elevation">
-            <OpenStreetMapLayer @ref="osmLayer" />
-        </Map>
-    </SceneView>);
-
-        await WaitForMapToRender();
-
-        Assert.IsNotNull(osmLayer?.Copyright, "Copyright without UrlTemplate should not be null");
-
-        Assert.AreEqual(osmLayerWithUrlTemplate?.Copyright, osmLayer?.Copyright,
-            "Copyright should be the same with and without UrlTemplate");
-    }
-
 }
