@@ -24,6 +24,10 @@ public partial class HomeViewModel : IGoTo
     /// <summary>
     ///     Constructor for use in C# code. Use named parameters (e.g., item1: value1, item2: value2) to set properties in any order.
     /// </summary>
+    /// <param name="goToOverride">
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="viewpoint">
     ///     The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Viewpoint.html">Viewpoint</a>, or point of view, to zoom to when
     ///     going home.
@@ -31,10 +35,12 @@ public partial class HomeViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Home-HomeViewModel.html#viewpoint">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public HomeViewModel(
+        GoToOverride? goToOverride = null,
         Viewpoint? viewpoint = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
+        GoToOverride = goToOverride;
         Viewpoint = viewpoint;
 #pragma warning restore BL0005    
     }

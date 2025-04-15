@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.DateFormat.html">GeoBlazor Docs</a>
-///     DateFormat enumeration.
+///     <summary>
+///          DateFormat enumeration.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<DateFormat>))]
 public enum DateFormat

@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SupportedInterpolations.html">GeoBlazor Docs</a>
-///     Enumeration for SupportedInterpolations
+///     <summary>
+///          Enumeration for SupportedInterpolations
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SupportedInterpolations>))]
 public enum SupportedInterpolations

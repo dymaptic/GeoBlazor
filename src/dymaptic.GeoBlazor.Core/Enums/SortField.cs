@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SortField.html">GeoBlazor Docs</a>
-///     Enumeration for SortField
+///     <summary>
+///          Enumeration for SortField
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SortField>))]
 public enum SortField

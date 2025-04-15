@@ -135,10 +135,13 @@ export default class SliderWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetTickConfig } = await import('./tickConfig');
-        return await Promise.all(this.widget.tickConfigs.map(async i => await buildDotNetTickConfig(i)));
+        return await Promise.all(this.widget.tickConfigs!.map(async i => await buildDotNetTickConfig(i)));
     }
     
     async setTickConfigs(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.tickConfigs = [];
+        }
         let { buildJsTickConfig } = await import('./tickConfig');
         this.widget.tickConfigs = await Promise.all(value.map(async i => await buildJsTickConfig(i))) as any;
     }

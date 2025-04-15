@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.RotationType.html">GeoBlazor Docs</a>
-///     Options for rotation type for <see cref="RotationVariable" />
+///     <summary>
+///          Options for rotation type for <see cref="RotationVariable" />
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<RotationType>))]
 public enum RotationType

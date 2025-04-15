@@ -13,6 +13,10 @@ export async function buildJsInitialViewPropertiesGenerated(dotNetObject: any, l
         let { buildJsColorBackground } = await import('./colorBackground');
         properties.background = await buildJsColorBackground(dotNetObject.background, layerId, viewId) as any;
     }
+    if (hasValue(dotNetObject.timeExtent)) {
+        let { buildJsTimeExtent } = await import('./timeExtent');
+        properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
+    }
     if (hasValue(dotNetObject.viewpoint)) {
         let { buildJsViewpoint } = await import('./viewpoint');
         properties.viewpoint = buildJsViewpoint(dotNetObject.viewpoint) as any;
@@ -43,6 +47,11 @@ export async function buildDotNetInitialViewPropertiesGenerated(jsObject: any, l
     if (hasValue(jsObject.background)) {
         let { buildDotNetColorBackground } = await import('./colorBackground');
         dotNetInitialViewProperties.background = await buildDotNetColorBackground(jsObject.background, layerId, viewId);
+    }
+    
+    if (hasValue(jsObject.timeExtent)) {
+        let { buildDotNetTimeExtent } = await import('./timeExtent');
+        dotNetInitialViewProperties.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
     }
     
     if (hasValue(jsObject.viewpoint)) {

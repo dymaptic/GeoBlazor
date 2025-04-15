@@ -10,9 +10,9 @@ export default class IEditorViewModelGetTemplatesForLayerWrapper extends IEditor
     
 }
 
-export async function buildJsIEditorViewModelGetTemplatesForLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIEditorViewModelGetTemplatesForLayer(dotNetObject: any): Promise<any> {
     let { buildJsIEditorViewModelGetTemplatesForLayerGenerated } = await import('./iEditorViewModelGetTemplatesForLayer.gb');
-    return await buildJsIEditorViewModelGetTemplatesForLayerGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIEditorViewModelGetTemplatesForLayerGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIEditorViewModelGetTemplatesForLayer(jsObject: any): Promise<any> {

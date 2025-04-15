@@ -63,7 +63,7 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         }
         
         let { buildDotNetBasemapGalleryItem } = await import('./basemapGalleryItem');
-        return await Promise.all(this.component.items.map(async i => await buildDotNetBasemapGalleryItem(i)));
+        return await Promise.all(this.component.items!.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     
     async getSource(): Promise<any> {

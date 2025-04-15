@@ -14,6 +14,7 @@ public partial class PortalItem
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaccess-property">GeoBlazor Docs</a>
     ///     Indicates the level of access to this item: `private`, `shared`, `org`, or `public`.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#access">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -23,6 +24,7 @@ public partial class PortalItem
     public PortalItemAccess? Access { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaccessinformation-property">GeoBlazor Docs</a>
     ///     Information on the source of the item and its copyright status.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#accessInformation">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -32,6 +34,7 @@ public partial class PortalItem
     public string? AccessInformation { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemapplicationproxies-property">GeoBlazor Docs</a>
     ///     Contains an array of objects containing proxy information for premium platform services.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#applicationProxies">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -41,6 +44,7 @@ public partial class PortalItem
     public IReadOnlyList<PortalItemApplicationProxies>? ApplicationProxies { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemavgrating-property">GeoBlazor Docs</a>
     ///     Average rating.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#avgRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -50,6 +54,7 @@ public partial class PortalItem
     public double? AvgRating { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcategories-property">GeoBlazor Docs</a>
     ///     An array of organization categories that are set on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#categories">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -59,6 +64,17 @@ public partial class PortalItem
     public IReadOnlyList<string>? Categories { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemclassification-property">GeoBlazor Docs</a>
+    ///     The classification information for the item.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#classification">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Dictionary<string, string>? Classification { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcreated-property">GeoBlazor Docs</a>
     ///     The date the item was created.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#created">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -68,6 +84,7 @@ public partial class PortalItem
     public DateTime? Created { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemculture-property">GeoBlazor Docs</a>
     ///     The item's locale information (language and country).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#culture">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -77,6 +94,7 @@ public partial class PortalItem
     public string? Culture { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemdescription-property">GeoBlazor Docs</a>
     ///     The detailed description of the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -86,6 +104,7 @@ public partial class PortalItem
     public string? Description { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemextent-property">GeoBlazor Docs</a>
     ///     The geographic extent, or bounding rectangle, of the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#extent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -95,6 +114,7 @@ public partial class PortalItem
     public Extent? Extent { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemgroupcategories-property">GeoBlazor Docs</a>
     ///     An array of group categories set on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#groupCategories">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -104,6 +124,7 @@ public partial class PortalItem
     public IReadOnlyList<string>? GroupCategories { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemislayer-property">GeoBlazor Docs</a>
     ///     Indicates whether a layer can be created from this item using <a target="_blank" href="esri-layers-Layer.html#fromPortalItem">Layer.fromPortalItem()</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#isLayer">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -113,7 +134,9 @@ public partial class PortalItem
     public bool? IsLayer { get; protected set; }
     
     /// <summary>
-    ///     Indicates whether this item and the user whose credential was used to fetch this item belong to the same ArcGIS Enterprise Portal or ArcGIS Online Organization.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisorgitem-property">GeoBlazor Docs</a>
+    ///     Indicates whether this item and the user whose credential was used to fetch this item belong
+    ///     to the same ArcGIS Enterprise Portal or ArcGIS Online Organization.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#isOrgItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -122,6 +145,7 @@ public partial class PortalItem
     public bool? IsOrgItem { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitemcontrol-property">GeoBlazor Docs</a>
     ///     Indicates whether an item can be updated and deleted.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#itemControl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -131,6 +155,7 @@ public partial class PortalItem
     public ItemControl? ItemControl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitempageurl-property">GeoBlazor Docs</a>
     ///     The URL to the <a target="_blank" href="https://doc.arcgis.com/en/arcgis-online/manage-data/item-details.htm">Item page</a> on the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#itemPageUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -140,6 +165,7 @@ public partial class PortalItem
     public string? ItemPageUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemitemurl-property">GeoBlazor Docs</a>
     ///     The URL to the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#itemUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -149,6 +175,7 @@ public partial class PortalItem
     public string? ItemUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemlicenseinfo-property">GeoBlazor Docs</a>
     ///     Information on license or restrictions related to the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#licenseInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -158,6 +185,7 @@ public partial class PortalItem
     public string? LicenseInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemloaded-property">GeoBlazor Docs</a>
     ///     Indicates whether the item's resources have loaded from the portal.
     ///     default false
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#loaded">ArcGIS Maps SDK for JavaScript</a>
@@ -168,6 +196,7 @@ public partial class PortalItem
     public bool? Loaded { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemmodified-property">GeoBlazor Docs</a>
     ///     The date the item was last modified.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#modified">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -177,6 +206,7 @@ public partial class PortalItem
     public DateTime? Modified { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemname-property">GeoBlazor Docs</a>
     ///     The name of the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -186,6 +216,7 @@ public partial class PortalItem
     public string? Name { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumcomments-property">GeoBlazor Docs</a>
     ///     Number of comments on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numComments">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -195,6 +226,7 @@ public partial class PortalItem
     public double? NumComments { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumratings-property">GeoBlazor Docs</a>
     ///     Number of ratings on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numRatings">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -204,6 +236,7 @@ public partial class PortalItem
     public double? NumRatings { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemnumviews-property">GeoBlazor Docs</a>
     ///     Number of views on the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#numViews">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -213,6 +246,7 @@ public partial class PortalItem
     public double? NumViews { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemowner-property">GeoBlazor Docs</a>
     ///     The username of the user who owns this item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#owner">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -222,6 +256,7 @@ public partial class PortalItem
     public string? Owner { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemownerfolder-property">GeoBlazor Docs</a>
     ///     The ID of the folder in which the owner has stored the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#ownerFolder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -231,6 +266,7 @@ public partial class PortalItem
     public string? OwnerFolder { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemportal-property">GeoBlazor Docs</a>
     ///     The portal that contains the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#portal">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -240,6 +276,7 @@ public partial class PortalItem
     public Portal? Portal { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemportalitemid-property">GeoBlazor Docs</a>
     ///     The unique id for the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -250,6 +287,7 @@ public partial class PortalItem
     public string PortalItemId { get; set; } = null!;
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemscreenshots-property">GeoBlazor Docs</a>
     ///     An array of string URLs.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#screenshots">ArcGIS Maps SDK for JavaScript</a>
@@ -260,6 +298,7 @@ public partial class PortalItem
     public IReadOnlyList<string>? Screenshots { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsize-property">GeoBlazor Docs</a>
     ///     The size of the item (in bytes).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#size">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -269,6 +308,7 @@ public partial class PortalItem
     public long? Size { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsnippet-property">GeoBlazor Docs</a>
     ///     A summary description of the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#snippet">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -278,15 +318,17 @@ public partial class PortalItem
     public string? Snippet { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemsourcejson-property">GeoBlazor Docs</a>
     ///     The JSON used to create the property values when the `PortalItem` is loaded.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? SourceJSON { get; protected set; }
+    public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtags-property">GeoBlazor Docs</a>
     ///     User defined tags that describe the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#tags">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -296,6 +338,7 @@ public partial class PortalItem
     public IReadOnlyList<string>? Tags { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemthumbnailurl-property">GeoBlazor Docs</a>
     ///     The URL to the thumbnail used for the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -305,6 +348,7 @@ public partial class PortalItem
     public string? ThumbnailUrl { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtitle-property">GeoBlazor Docs</a>
     ///     The title for the item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -314,6 +358,7 @@ public partial class PortalItem
     public string? Title { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemtypekeywords-property">GeoBlazor Docs</a>
     ///     Type keywords that describe the type of content of this item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#typeKeywords">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -323,6 +368,7 @@ public partial class PortalItem
     public IReadOnlyList<string>? TypeKeywords { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemurl-property">GeoBlazor Docs</a>
     ///     The service URL of this item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -567,6 +613,45 @@ public partial class PortalItem
         }
          
         return Categories;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Classification property.
+    /// </summary>
+    public async Task<Dictionary<string, string>?> GetClassification()
+    {
+        if (CoreJsModule is null)
+        {
+            return Classification;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Classification;
+        }
+
+        // get the property value
+        Dictionary<string, string>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, string>?>("getProperty",
+            CancellationTokenSource.Token, "classification");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Classification = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Classification)] = Classification;
+        }
+         
+        return Classification;
     }
     
     /// <summary>
@@ -1518,7 +1603,7 @@ public partial class PortalItem
     /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -1541,7 +1626,7 @@ public partial class PortalItem
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1897,6 +1982,43 @@ public partial class PortalItem
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "categories", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Classification property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetClassification(Dictionary<string, string>? value)
+    {
+#pragma warning disable BL0005
+        Classification = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Classification)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "classification", value);
     }
     
     /// <summary>
@@ -2855,7 +2977,9 @@ public partial class PortalItem
 #region Public Methods
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaddrating-method">GeoBlazor Docs</a>
     ///     Adds a rating to an accessible item.
+    ///     param rating Rating to set for the item. Rating must be a number between 1.0 and 5.0.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#addRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="rating">
@@ -2891,7 +3015,13 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemaddresource-method">GeoBlazor Docs</a>
     ///     Adds a new <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> to the portal item.
+    ///     param resource The resource to add to the portal item.
+    ///     param content The resource content.
+    ///     param options An object wih the following properties.
+    ///     param options.access Indicates the level of access to the resource. The default is "inherit" which causes the resource to have the same access level as the owning item.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#addResource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="resource">
@@ -2907,7 +3037,7 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> AddResource(PortalItemResource resource,
+    public async Task<string?> AddResource(PortalItemResource resource,
         Stream content,
         PortalItemAddResourceOptions options,
         CancellationToken cancellationToken = default)
@@ -2933,7 +3063,7 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "addResource", 
             CancellationTokenSource.Token,
             resource,
@@ -2946,11 +3076,45 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemdeleterating-method">GeoBlazor Docs</a>
     ///     Deletes a rating for the specified item.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#deleteRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> DeleteRating()
+    public async Task<string?> DeleteRating()
     {
         if (CoreJsModule is null)
         {
@@ -2972,13 +3136,17 @@ public partial class PortalItem
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "deleteRating", 
             CancellationTokenSource.Token);
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchdata-method">GeoBlazor Docs</a>
     ///     Requests a PortalItem in the format specified in `responseType`.
+    ///     param responseType The format of the response.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="responseType">
@@ -2988,7 +3156,7 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> FetchData(ResponseType responseType,
+    public async Task<string?> FetchData(ResponseType responseType,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3012,7 +3180,7 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchData", 
             CancellationTokenSource.Token,
             responseType,
@@ -3024,7 +3192,10 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrating-method">GeoBlazor Docs</a>
     ///     Returns the rating (if any) given to the item.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRating">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
@@ -3065,7 +3236,13 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchrelateditems-method">GeoBlazor Docs</a>
     ///     Gets all the related items of a certain relationship type for the portal item.
+    ///     param params See the object specifications table below for the parameters that may be passed as properties in this object.
+    ///     param params.relationshipType The type of relationship between the two items. See <a target="_blank" href="https://developers.arcgis.com/rest/users-groups-and-items/relationship-types.htm">Relationship types</a> for a complete listing of types.
+    ///     param params.direction The direction of the relationship. Can either be `forward` (from origin to destination) or `reverse` (from destination to origin).
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchRelatedItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipType">
@@ -3117,7 +3294,11 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemfetchresources-method">GeoBlazor Docs</a>
     ///     Retrieves references to all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">portal item resources</a>.
+    ///     param params The fetch parameters used to retrieve <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">portal item resources</a>.
+    ///     param options Additional options with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#fetchResources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="num">
@@ -3179,7 +3360,9 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemgetthumbnailurl-method">GeoBlazor Docs</a>
     ///     Get the URL to the thumbnail image for the item.
+    ///     param width The desired image width.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#getThumbnailUrl">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="width">
@@ -3215,6 +3398,150 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemload-method">GeoBlazor Docs</a>
+    ///     Loads the resources referenced by this class.
+    ///     param options Additional options.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#load">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> Load(CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
+            "load", 
+            CancellationTokenSource.Token,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemreload-method">GeoBlazor Docs</a>
     ///     Reloads a loaded item's properties from the portal.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#reload">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -3247,14 +3574,17 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveallresources-method">GeoBlazor Docs</a>
     ///     Removes all the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resources</a> from the portal item.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#removeAllResources">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> RemoveAllResources(CancellationToken cancellationToken = default)
+    public async Task<string?> RemoveAllResources(CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
@@ -3277,7 +3607,7 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "removeAllResources", 
             CancellationTokenSource.Token,
             new { signal = abortSignal });
@@ -3288,7 +3618,11 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemremoveresource-method">GeoBlazor Docs</a>
     ///     Removes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItemResource.html">resource</a> from the portal item.
+    ///     param resource The resource to remove from the portal item.
+    ///     param options An object wih the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#removeResource">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="resource">
@@ -3298,7 +3632,7 @@ public partial class PortalItem
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> RemoveResource(PortalItemResource resource,
+    public async Task<string?> RemoveResource(PortalItemResource resource,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -3322,7 +3656,7 @@ public partial class PortalItem
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "removeResource", 
             CancellationTokenSource.Token,
             resource,
@@ -3334,7 +3668,10 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdate-method">GeoBlazor Docs</a>
     ///     Updates the item's properties to the portal, and optionally its data.
+    ///     param params See the object specifications table below for the parameters that may be passed as properties in this object.
+    ///     param params.data Optional. The component used to stream the data represented by the item to the client.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#update">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="data">
@@ -3371,7 +3708,11 @@ public partial class PortalItem
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemupdatethumbnail-method">GeoBlazor Docs</a>
     ///     Updates the item's thumbnail on the portal.
+    ///     param params See the object specification table below for the parameters that may be passed as properties in this object.
+    ///     param params.thumbnail A URL, Data URI, Blob, or File. The accepted formats are `GIF`, `JPG`, and `PNG`.
+    ///     param params.filename The file name used for the thumbnail in <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#thumbnailUrl">thumbnailUrl</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#updateThumbnail">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="thumbnail">
@@ -3410,6 +3751,50 @@ public partial class PortalItem
             "updateThumbnail", 
             CancellationTokenSource.Token,
             new { thumbnail, filename });
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param callback The function to call when the promise resolves.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalItem.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
     }
     
 #endregion

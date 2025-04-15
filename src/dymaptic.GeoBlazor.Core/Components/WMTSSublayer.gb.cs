@@ -1174,7 +1174,6 @@ public partial class WMTSSublayer : MapComponent
                 if (!TileMatrixSets.Contains(tileMatrixSets))
                 {
                     TileMatrixSets = [..TileMatrixSets, tileMatrixSets];
-                    
                     ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
                 }
                 
@@ -1199,7 +1198,6 @@ public partial class WMTSSublayer : MapComponent
                 return true;
             case TileMatrixSet tileMatrixSets:
                 TileMatrixSets = TileMatrixSets?.Where(t => t != tileMatrixSets).ToList();
-                
                 ModifiedParameters[nameof(TileMatrixSets)] = TileMatrixSets;
                 return true;
             default:

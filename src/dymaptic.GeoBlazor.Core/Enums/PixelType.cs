@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PixelType.html">GeoBlazor Docs</a>
-///     Types of pixels for raster data sources
+///     <summary>
+///          Types of pixels for raster data sources
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PixelType>))]
 public enum PixelType

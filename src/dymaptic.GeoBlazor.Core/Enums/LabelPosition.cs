@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.LabelPosition.html">GeoBlazor Docs</a>
-///     Specifies the orientation of the label position of a polyline label.
+///     <summary>
+///          Specifies the orientation of the label position of a polyline label.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LabelPosition>))]
 public enum LabelPosition

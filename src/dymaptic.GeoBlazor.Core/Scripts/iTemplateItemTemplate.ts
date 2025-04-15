@@ -1,7 +1,7 @@
 
-export async function buildJsITemplateItemTemplate(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsITemplateItemTemplate(dotNetObject: any): Promise<any> {
     let { buildJsITemplateItemTemplateGenerated } = await import('./iTemplateItemTemplate.gb');
-    return await buildJsITemplateItemTemplateGenerated(dotNetObject, layerId, viewId);
+    return await buildJsITemplateItemTemplateGenerated(dotNetObject);
 }     
 
 export async function buildDotNetITemplateItemTemplate(jsObject: any): Promise<any> {

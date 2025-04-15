@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ActiveTool.html">GeoBlazor Docs</a>
-///     Specifies the current measurement tool to display.
+///     <summary>
+///          Specifies the current measurement tool to display.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ActiveTool>))]
 public enum ActiveTool

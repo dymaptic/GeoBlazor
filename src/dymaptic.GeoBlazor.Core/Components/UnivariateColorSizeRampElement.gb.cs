@@ -455,7 +455,6 @@ public partial class UnivariateColorSizeRampElement : MapComponent,
                 if (clusterTitle != ClusterTitle)
                 {
                     ClusterTitle = clusterTitle;
-                    
                     ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
                 }
                 
@@ -465,7 +464,6 @@ public partial class UnivariateColorSizeRampElement : MapComponent,
                 if (!Infos.Contains(infos))
                 {
                     Infos = [..Infos, infos];
-                    
                     ModifiedParameters[nameof(Infos)] = Infos;
                 }
                 
@@ -482,12 +480,10 @@ public partial class UnivariateColorSizeRampElement : MapComponent,
         {
             case ClusterTitle _:
                 ClusterTitle = null;
-                
                 ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
                 return true;
             case MapComponent infos:
                 Infos = Infos?.Where(i => i != infos).ToList();
-                
                 ModifiedParameters[nameof(Infos)] = Infos;
                 return true;
             default:

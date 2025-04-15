@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PortalMode.html">GeoBlazor Docs</a>
-///     Enumeration for PortalMode
+///     <summary>
+///          Enumeration for PortalMode
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalMode>))]
 public enum PortalMode

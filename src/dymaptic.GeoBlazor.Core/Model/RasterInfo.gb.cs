@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Model.RasterInfo.html">GeoBlazor Docs</a>
-///     Describes general raster data information exposed by the ArcGIS REST API for <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">WCSLayer</a>.
+///     Describes general raster data information exposed by the ArcGIS REST API for
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html">ImageryLayer</a>, <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html">WCSLayer</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 /// <param name="AttributeTable">
@@ -15,17 +16,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Raster band count.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#bandCount">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="BandInfos">
-///     This property provides additional information for each band in the raster.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#bandInfos">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Colormap">
 ///     Raster colormap that can be used to display the imagery layer.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#colormap">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="DataType">
-///     Raster data type controls how the data is rendered by default.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#dataType">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Extent">
 ///     The minimum and maximum X and Y coordinates of a bounding box containing all the raster data.
@@ -40,7 +33,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#height">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="Histograms">
-///     Raster histograms return basic name-value pairs for number of bins, min and max bounding values, counts of pixels in each bin.
+///     Raster histograms return basic name-value pairs for number of bins, min and
+///     max bounding values, counts of pixels in each bin.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#histograms">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="KeyProperties">
@@ -63,10 +57,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     Pixel type for the raster data source.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#pixelType">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="SensorInfo">
-///     The sensor information associated with an image service referenced by a layer.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#sensorInfo">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="SpatialReference">
 ///     The spatial reference of the raster.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
@@ -85,11 +75,7 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? BandCount = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<RasterBandInfo>? BandInfos = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyList<ColormapPixel>? Colormap = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    RasterDataType? DataType = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     Extent? Extent = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -97,9 +83,9 @@ public partial record RasterInfo(
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     int? Height = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    IReadOnlyCollection<Dictionary<string, object?>>? Histograms = null,
+    IReadOnlyCollection<string>? Histograms = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    Dictionary<string, object?>? KeyProperties = null,
+    string? KeyProperties = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     RasterMultidimensionalInfo? MultidimensionalInfo = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -108,8 +94,6 @@ public partial record RasterInfo(
     RasterInfoPixelSize? PixelSize = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     PixelType? PixelType = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    RasterSensorInfo? SensorInfo = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     SpatialReference? SpatialReference = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

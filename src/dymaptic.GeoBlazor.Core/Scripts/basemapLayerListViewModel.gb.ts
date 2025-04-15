@@ -51,7 +51,7 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.baseItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.baseItems!.map(async i => await buildDotNetListItem(i)));
     }
     
     async getReferenceItems(): Promise<any> {
@@ -60,7 +60,7 @@ export default class BasemapLayerListViewModelGenerated implements IPropertyWrap
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.referenceItems.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.referenceItems!.map(async i => await buildDotNetListItem(i)));
     }
     
     getProperty(prop: string): any {

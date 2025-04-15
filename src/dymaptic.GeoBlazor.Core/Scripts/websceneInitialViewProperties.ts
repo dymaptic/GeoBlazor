@@ -4,7 +4,7 @@ export async function buildJsWebsceneInitialViewProperties(dotNetObject: any, la
     return await buildJsWebsceneInitialViewPropertiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebsceneInitialViewProperties(jsObject: any): Promise<any> {
+export async function buildDotNetWebsceneInitialViewProperties(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWebsceneInitialViewPropertiesGenerated } = await import('./websceneInitialViewProperties.gb');
-    return await buildDotNetWebsceneInitialViewPropertiesGenerated(jsObject);
+    return await buildDotNetWebsceneInitialViewPropertiesGenerated(jsObject, layerId, viewId);
 }

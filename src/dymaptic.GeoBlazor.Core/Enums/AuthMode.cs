@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AuthMode.html">GeoBlazor Docs</a>
-///     Authentication modes for the <see cref="RequestOptions" /> class.
+///     <summary>
+///          Authentication modes for the <see cref="RequestOptions" /> class.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthMode>))]
 public enum AuthMode

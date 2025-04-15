@@ -3247,8 +3247,11 @@ public partial class WMSLayer : Layer,
                 if (!Sublayers.Contains(sublayers))
                 {
                     Sublayers = [..Sublayers, sublayers];
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(Sublayers)] = Sublayers;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -3312,7 +3315,6 @@ public partial class WMSLayer : Layer,
                 return true;
             case WMSSublayer sublayers:
                 Sublayers = Sublayers?.Where(s => s != sublayers).ToList();
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(Sublayers)] = Sublayers;
                 return true;
             case TimeExtent _:

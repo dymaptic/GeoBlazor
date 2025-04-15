@@ -2218,7 +2218,25 @@ public partial class Sublayer
     [ArcGISMethod]
     public async Task CancelLoad()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "cancelLoad", 
@@ -2383,7 +2401,8 @@ public partial class Sublayer
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the
+    ///     object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -2424,7 +2443,25 @@ public partial class Sublayer
     [ArcGISMethod]
     public async Task<bool?> IsFulfilled()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isFulfilled", 
@@ -2439,7 +2476,25 @@ public partial class Sublayer
     [ArcGISMethod]
     public async Task<bool?> IsRejected()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isRejected", 
@@ -2454,7 +2509,25 @@ public partial class Sublayer
     [ArcGISMethod]
     public async Task<bool?> IsResolved()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isResolved", 
@@ -2474,7 +2547,25 @@ public partial class Sublayer
     [ArcGISMethod]
     public async Task<string?> Load(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(
@@ -2547,7 +2638,9 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     Specifies the attributes and spatial filter of the query. If no
+    ///     parameters are specified, the total number of features satisfying
+    ///     the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2597,7 +2690,9 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial
+    ///     filter of the query. If no parameters are specified, then all features satisfying the
+    ///     layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2648,7 +2743,9 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial filter of the query. If no
+    ///     parameters are specified, then the Object IDs of all features
+    ///     satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2699,7 +2796,9 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    ///     Specifies relationship parameters for
+    ///     querying related features or records from
+    ///     a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2750,7 +2849,9 @@ public partial class Sublayer
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Sublayer.html#queryRelatedFeaturesCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="relationshipQuery">
-    ///     Specifies relationship parameters for querying related features or records from a layer or a table.
+    ///     Specifies relationship parameters for
+    ///     querying related features or records from
+    ///     a layer or a table.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2808,7 +2909,25 @@ public partial class Sublayer
     public async Task<string?> When(Func<Task> callback,
         Func<Task> errback)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 
@@ -2839,7 +2958,6 @@ public partial class Sublayer
                 if (!OrderBy.Contains(orderBy))
                 {
                     OrderBy = [..OrderBy, orderBy];
-                    
                     ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 }
                 
@@ -2893,7 +3011,6 @@ public partial class Sublayer
                 return true;
             case OrderByInfo orderBy:
                 OrderBy = OrderBy?.Where(o => o != orderBy).ToList();
-                
                 ModifiedParameters[nameof(OrderBy)] = OrderBy;
                 return true;
             case PopupTemplate _:

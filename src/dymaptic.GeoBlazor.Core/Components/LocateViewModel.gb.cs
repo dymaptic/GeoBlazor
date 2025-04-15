@@ -5,7 +5,9 @@ namespace dymaptic.GeoBlazor.Core.Components;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html">GeoBlazor Docs</a>
-///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">Locate</a> widget, which animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a> to the user's current location.
+///     Provides the logic for the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/references/map-components/arcgis-locate/">Locate</a> component and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate.html">Locate</a> widget, which
+///     animates the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html">View</a>
+///     to the user's current location.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 public partial class LocateViewModel : IGeolocationPositioning,
@@ -44,15 +46,11 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// </param>
     /// <param name="graphic">
     ///     The graphic used to show the user's location on the map.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#graphic">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
-    /// <param name="objectError">
-    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
-    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
+    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -61,15 +59,20 @@ public partial class LocateViewModel : IGeolocationPositioning,
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#scale">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="stringError">
+    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public LocateViewModel(
         Error? error = null,
-        object? geolocationOptions = null,
+        GeolocationOptions? geolocationOptions = null,
         bool? goToLocationEnabled = null,
         GoToOverride? goToOverride = null,
         Graphic? graphic = null,
-        object? objectError = null,
         bool? popupEnabled = null,
-        double? scale = null)
+        double? scale = null,
+        string? stringError = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -78,9 +81,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
         GoToLocationEnabled = goToLocationEnabled;
         GoToOverride = goToOverride;
         Graphic = graphic;
-        ObjectError = objectError;
         PopupEnabled = popupEnabled;
         Scale = scale;
+        StringError = stringError;
 #pragma warning restore BL0005    
     }
     
@@ -88,6 +91,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelerror-property">GeoBlazor Docs</a>
     ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
@@ -98,6 +102,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public Error? Error { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelgeolocationoptions-property">GeoBlazor Docs</a>
     ///     An object used for setting optional position parameters.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -105,9 +110,10 @@ public partial class LocateViewModel : IGeolocationPositioning,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? GeolocationOptions { get; set; }
+    public GeolocationOptions? GeolocationOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelgotolocationenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -118,8 +124,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public bool? GoToLocationEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelgraphic-property">GeoBlazor Docs</a>
     ///     The graphic used to show the user's location on the map.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#graphic">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -127,17 +134,9 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public Graphic? Graphic { get; set; }
     
     /// <summary>
-    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
-    ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? ObjectError { get; set; }
-    
-    /// <summary>
-    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelpopupenabled-property">GeoBlazor Docs</a>
+    ///     Indicates whether to display the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html">Popup</a> of the result graphic from the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">locate()</a> method.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -147,6 +146,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public bool? PopupEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelscale-property">GeoBlazor Docs</a>
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#event-track">track</a> event.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#scale">ArcGIS Maps SDK for JavaScript</a>
@@ -157,14 +157,26 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public double? Scale { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelstate-property">GeoBlazor Docs</a>
     ///     The current state of the widget.
-    ///     default disabled
+    ///     default "disabled"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#state">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public LocateViewModelState? State { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelstringerror-property">GeoBlazor Docs</a>
+    ///     Error that caused the last <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#event:locate-error">locate-error</a> event to fire.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#error">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StringError { get; set; }
     
 #endregion
 
@@ -212,7 +224,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    public async Task<object?> GetGeolocationOptions()
+    public async Task<GeolocationOptions?> GetGeolocationOptions()
     {
         if (CoreJsModule is null)
         {
@@ -235,7 +247,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        GeolocationOptions? result = await JsComponentReference!.InvokeAsync<GeolocationOptions?>("getProperty",
             CancellationTokenSource.Token, "geolocationOptions");
         if (result is not null)
         {
@@ -329,45 +341,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
         }
         
         return Graphic;
-    }
-    
-    /// <summary>
-    ///     Asynchronously retrieve the current value of the ObjectError property.
-    /// </summary>
-    public async Task<object?> GetObjectError()
-    {
-        if (CoreJsModule is null)
-        {
-            return ObjectError;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ObjectError;
-        }
-
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "error");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ObjectError = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectError)] = ObjectError;
-        }
-         
-        return ObjectError;
     }
     
     /// <summary>
@@ -487,6 +460,45 @@ public partial class LocateViewModel : IGeolocationPositioning,
         return State;
     }
     
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the StringError property.
+    /// </summary>
+    public async Task<string?> GetStringError()
+    {
+        if (CoreJsModule is null)
+        {
+            return StringError;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return StringError;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "error");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StringError = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(StringError)] = StringError;
+        }
+         
+        return StringError;
+    }
+    
 #endregion
 
 #region Property Setters
@@ -534,7 +546,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetGeolocationOptions(object? value)
+    public async Task SetGeolocationOptions(GeolocationOptions? value)
     {
 #pragma warning disable BL0005
         GeolocationOptions = value;
@@ -648,43 +660,6 @@ public partial class LocateViewModel : IGeolocationPositioning,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectError property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectError(object? value)
-    {
-#pragma warning disable BL0005
-        ObjectError = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectError)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "error", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
     /// <param name="value">
@@ -758,12 +733,51 @@ public partial class LocateViewModel : IGeolocationPositioning,
             JsComponentReference, "scale", value);
     }
     
+    /// <summary>
+    ///    Asynchronously set the value of the StringError property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStringError(string? value)
+    {
+#pragma warning disable BL0005
+        StringError = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(StringError)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "error", value);
+    }
+    
 #endregion
 
 #region Public Methods
 
     /// <summary>
-    ///     This function provides the ability to interrupt and cancel the process of programmatically obtaining the location of the user's device.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelcancellocate-method">GeoBlazor Docs</a>
+    ///     This function provides the ability to interrupt and cancel the process of
+    ///     programmatically obtaining the location of the user's device.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#cancelLocate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
@@ -795,11 +809,12 @@ public partial class LocateViewModel : IGeolocationPositioning,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodellocate-method">GeoBlazor Docs</a>
     ///     Animates the view to the user's location.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Locate-LocateViewModel.html#locate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> Locate()
+    public async Task<string?> Locate()
     {
         if (CoreJsModule is null)
         {
@@ -821,7 +836,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "locate", 
             CancellationTokenSource.Token);
     }
@@ -849,6 +864,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelonlocate-property">GeoBlazor Docs</a>
     ///     Fires after the <a href="#locate">locate()</a> method is called and succeeds.
     /// </summary>
     [Parameter]
@@ -879,6 +895,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.LocateViewModel.html#locateviewmodelonlocateerror-property">GeoBlazor Docs</a>
     ///     Fires after the <a href="#locate">locate()</a> method is called and fails.
     /// </summary>
     [Parameter]

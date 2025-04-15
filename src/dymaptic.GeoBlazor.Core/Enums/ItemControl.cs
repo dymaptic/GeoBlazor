@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ItemControl.html">GeoBlazor Docs</a>
-///     Enumeration for ItemControl
+///     <summary>
+///          Enumeration for ItemControl
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ItemControl>))]
 public enum ItemControl

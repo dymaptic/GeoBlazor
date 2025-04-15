@@ -27,7 +27,7 @@ public partial class HeatmapRampElement : MapComponent,
     ///     The individual color stops rendered in the legend that correspond to the heatmap colorStops in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="rampTitle">
+    /// <param name="rendererTitle">
     ///     The title of the heatmap ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -37,13 +37,13 @@ public partial class HeatmapRampElement : MapComponent,
     /// </param>
     public HeatmapRampElement(
         IReadOnlyList<HeatmapRampStop>? infos = null,
-        RampTitle? rampTitle = null,
+        RendererTitle? rendererTitle = null,
         string? stringTitle = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
         Infos = infos;
-        RampTitle = rampTitle;
+        RendererTitle = rendererTitle;
         StringTitle = stringTitle;
 #pragma warning restore BL0005    
     }
@@ -52,6 +52,7 @@ public partial class HeatmapRampElement : MapComponent,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementinfos-property">GeoBlazor Docs</a>
     ///     The individual color stops rendered in the legend that correspond to the heatmap colorStops in the renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -61,15 +62,17 @@ public partial class HeatmapRampElement : MapComponent,
     public IReadOnlyList<HeatmapRampStop>? Infos { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementrenderertitle-property">GeoBlazor Docs</a>
     ///     The title of the heatmap ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RampTitle? RampTitle { get; set; }
+    public RendererTitle? RendererTitle { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.HeatmapRampElement.html#heatmaprampelementstringtitle-property">GeoBlazor Docs</a>
     ///     The title of the heatmap ramp as displayed in the legend.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-support-ActiveLayerInfo.html#HeatmapRampElement">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -122,13 +125,13 @@ public partial class HeatmapRampElement : MapComponent,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the RampTitle property.
+    ///     Asynchronously retrieve the current value of the RendererTitle property.
     /// </summary>
-    public async Task<RampTitle?> GetRampTitle()
+    public async Task<RendererTitle?> GetRendererTitle()
     {
         if (CoreJsModule is null)
         {
-            return RampTitle;
+            return RendererTitle;
         }
         
         try 
@@ -143,21 +146,21 @@ public partial class HeatmapRampElement : MapComponent,
         
         if (JsComponentReference is null)
         {
-            return RampTitle;
+            return RendererTitle;
         }
 
         // get the property value
-        RampTitle? result = await JsComponentReference!.InvokeAsync<RampTitle?>("getProperty",
+        RendererTitle? result = await JsComponentReference!.InvokeAsync<RendererTitle?>("getProperty",
             CancellationTokenSource.Token, "title");
         if (result is not null)
         {
 #pragma warning disable BL0005
-             RampTitle = result;
+             RendererTitle = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(RampTitle)] = RampTitle;
+             ModifiedParameters[nameof(RendererTitle)] = RendererTitle;
         }
          
-        return RampTitle;
+        return RendererTitle;
     }
     
     /// <summary>
@@ -252,17 +255,17 @@ public partial class HeatmapRampElement : MapComponent,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the RampTitle property after render.
+    ///    Asynchronously set the value of the RendererTitle property after render.
     /// </summary>
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetRampTitle(RampTitle? value)
+    public async Task SetRendererTitle(RendererTitle? value)
     {
 #pragma warning disable BL0005
-        RampTitle = value;
+        RendererTitle = value;
 #pragma warning restore BL0005
-        ModifiedParameters[nameof(RampTitle)] = value;
+        ModifiedParameters[nameof(RendererTitle)] = value;
         
         if (CoreJsModule is null)
         {

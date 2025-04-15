@@ -242,10 +242,13 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.component.labelingInfo.map(async i => await buildDotNetLabel(i)));
+        return await Promise.all(this.component.labelingInfo!.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.labelingInfo = [];
+        }
         let { buildJsLabel } = await import('./label');
         this.component.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
     }
@@ -265,10 +268,13 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetOrderByInfo } = await import('./orderByInfo');
-        return await Promise.all(this.component.orderBy.map(async i => await buildDotNetOrderByInfo(i)));
+        return await Promise.all(this.component.orderBy!.map(async i => await buildDotNetOrderByInfo(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.orderBy = [];
+        }
         let { buildJsOrderByInfo } = await import('./orderByInfo');
         this.component.orderBy = await Promise.all(value.map(async i => await buildJsOrderByInfo(i, this.layerId, this.viewId))) as any;
     }
@@ -333,10 +339,13 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSublayer } = await import('./sublayer');
-        return await Promise.all(this.component.sublayers.map(async i => await buildDotNetSublayer(i)));
+        return await Promise.all(this.component.sublayers!.map(async i => await buildDotNetSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.sublayers = [];
+        }
         let { buildJsSublayer } = await import('./sublayer');
         this.component.sublayers = await Promise.all(value.map(async i => await buildJsSublayer(i, this.layerId, this.viewId))) as any;
     }
@@ -347,7 +356,7 @@ export default class SublayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.component.types.map(async i => await buildDotNetFeatureType(i)));
+        return await Promise.all(this.component.types!.map(async i => await buildDotNetFeatureType(i)));
     }
     
     getProperty(prop: string): any {

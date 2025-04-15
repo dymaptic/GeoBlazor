@@ -123,10 +123,13 @@ export default class BookmarksWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmark } = await import('./bookmark');
-        return await Promise.all(this.widget.bookmarks.map(async i => await buildDotNetBookmark(i)));
+        return await Promise.all(this.widget.bookmarks!.map(async i => await buildDotNetBookmark(i)));
     }
     
     async setBookmarks(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.bookmarks = [];
+        }
         let { buildJsBookmark } = await import('./bookmark');
         this.widget.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }

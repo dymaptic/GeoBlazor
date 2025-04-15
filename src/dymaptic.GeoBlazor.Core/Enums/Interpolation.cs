@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Interpolation.html">GeoBlazor Docs</a>
-///     Enumeration for Interpolation
+///     <summary>
+///          Enumeration for Interpolation
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Interpolation>))]
 public enum Interpolation

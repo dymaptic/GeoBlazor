@@ -593,7 +593,6 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
                 if (snappingOptions != SnappingOptions)
                 {
                     SnappingOptions = snappingOptions;
-                    
                     ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 }
                 
@@ -610,7 +609,6 @@ public partial class DistanceMeasurement2DViewModel : MapComponent,
         {
             case SnappingOptions _:
                 SnappingOptions = null;
-                
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
             default:

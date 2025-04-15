@@ -4169,7 +4169,8 @@ public partial class CSVLayer : IBlendLayer,
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the
+    ///     object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -4221,7 +4222,25 @@ public partial class CSVLayer : IBlendLayer,
     public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
@@ -4529,8 +4548,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (attributeTableTemplate != AttributeTableTemplate)
                 {
                     AttributeTableTemplate = attributeTableTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4538,8 +4560,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
                     DisplayFilterInfo = displayFilterInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4694,8 +4719,11 @@ public partial class CSVLayer : IBlendLayer,
                 if (trackInfo != TrackInfo)
                 {
                     TrackInfo = trackInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4711,12 +4739,10 @@ public partial class CSVLayer : IBlendLayer,
         {
             case AttributeTableTemplate _:
                 AttributeTableTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
                 return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
             case CSVLayerElevationInfo _:
@@ -4769,7 +4795,6 @@ public partial class CSVLayer : IBlendLayer,
                 return true;
             case TrackInfo _:
                 TrackInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
                 return true;
             default:

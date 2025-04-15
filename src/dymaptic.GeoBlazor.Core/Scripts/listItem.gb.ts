@@ -64,10 +64,13 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.actionsSections.map(async i => await buildDotNetActionBase(i)));
+        return await Promise.all(this.component.actionsSections!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActionsSections(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.actionsSections = [];
+        }
         let { buildJsActionBase } = await import('./actionBase');
         this.component.actionsSections = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
@@ -78,10 +81,13 @@ export default class ListItemGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetListItem } = await import('./listItem');
-        return await Promise.all(this.component.children.map(async i => await buildDotNetListItem(i)));
+        return await Promise.all(this.component.children!.map(async i => await buildDotNetListItem(i)));
     }
     
     async setChildren(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.children = [];
+        }
         let { buildJsListItem } = await import('./listItem');
         this.component.children = await Promise.all(value.map(async i => await buildJsListItem(i, this.layerId, this.viewId))) as any;
     }

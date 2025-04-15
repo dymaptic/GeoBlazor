@@ -341,7 +341,6 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
                 if (geometry != Geometry)
                 {
                     Geometry = geometry;
-                    
                     ModifiedParameters[nameof(Geometry)] = Geometry;
                 }
                 
@@ -358,7 +357,6 @@ public partial class AreaMeasurement2DViewModelMeasurement : MapComponent
         {
             case Polygon _:
                 Geometry = null;
-                
                 ModifiedParameters[nameof(Geometry)] = Geometry;
                 return true;
             default:

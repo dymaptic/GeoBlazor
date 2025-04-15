@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SourceType.html">GeoBlazor Docs</a>
-///     Enumeration for SourceType
+///     <summary>
+///          Enumeration for SourceType
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SourceType>))]
 public enum SourceType

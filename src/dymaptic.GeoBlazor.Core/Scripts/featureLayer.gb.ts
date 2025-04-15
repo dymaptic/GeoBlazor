@@ -428,6 +428,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     
     async setFields(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.fields = [];
+        }
         let { buildJsField } = await import('./field');
         this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
@@ -479,6 +482,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     
     async setLabelingInfo(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.labelingInfo = [];
+        }
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
     }
@@ -493,6 +499,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     
     async setOrderBy(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.orderBy = [];
+        }
         let { buildJsOrderByInfo } = await import('./orderByInfo');
         this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderByInfo(i, this.layerId, this.viewId))) as any;
     }
@@ -549,6 +558,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     
     async setSource(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.source = [];
+        }
         let { buildJsGraphic } = await import('./graphic');
         this.layer.source = value.map(i => buildJsGraphic(i)) as any;
     }
@@ -640,6 +652,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
     
     async setTypes(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.types = [];
+        }
         let { buildJsFeatureType } = await import('./featureType');
         this.layer.types = await Promise.all(value.map(async i => await buildJsFeatureType(i, this.layerId, this.viewId))) as any;
     }

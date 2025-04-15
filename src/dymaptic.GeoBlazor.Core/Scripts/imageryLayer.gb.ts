@@ -576,10 +576,13 @@ export default class ImageryLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterPresetRenderer } = await import('./rasterPresetRenderer');
-        return await Promise.all(this.layer.presetRenderers.map(async i => await buildDotNetRasterPresetRenderer(i)));
+        return await Promise.all(this.layer.presetRenderers!.map(async i => await buildDotNetRasterPresetRenderer(i)));
     }
     
     async setPresetRenderers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.presetRenderers = [];
+        }
         let { buildJsRasterPresetRenderer } = await import('./rasterPresetRenderer');
         this.layer.presetRenderers = await Promise.all(value.map(async i => await buildJsRasterPresetRenderer(i, this.layerId, this.viewId))) as any;
     }

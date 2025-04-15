@@ -1240,7 +1240,25 @@ public partial class GridControlsViewModel : MapComponent
     [ArcGISMethod]
     public async Task TrySetDisplayEnabled(bool visible)
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "trySetDisplayEnabled", 
@@ -1260,7 +1278,6 @@ public partial class GridControlsViewModel : MapComponent
                 if (snappingOptions != SnappingOptions)
                 {
                     SnappingOptions = snappingOptions;
-                    
                     ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 }
                 
@@ -1277,7 +1294,6 @@ public partial class GridControlsViewModel : MapComponent
         {
             case SnappingOptions _:
                 SnappingOptions = null;
-                
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
             default:

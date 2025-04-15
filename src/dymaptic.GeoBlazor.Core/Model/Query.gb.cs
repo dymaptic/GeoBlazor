@@ -11,6 +11,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="CacheHint">
+/// </param>
 /// <param name="DateTimeArrayCollectionParameterValues">
 ///     Filters features from the layer based on pre-authored parameterized filters.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
@@ -18,6 +20,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="DateTimeCollectionParameterValues">
 ///     Filters features from the layer based on pre-authored parameterized filters.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Distance">
 /// </param>
 /// <param name="DoubleArrayCollectionParameterValues">
 ///     Filters features from the layer based on pre-authored parameterized filters.
@@ -160,6 +164,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     If `true`, and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnGeometry">returnGeometry</a> is `true`, then z-values are included in the geometry.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#returnZ">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SpatialRelationship">
+/// </param>
 /// <param name="SqlFormat">
 ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.
 ///     default "none"
@@ -186,10 +192,16 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A time extent for a temporal query against <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#timeInfo">time-aware layers</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Units">
+/// </param>
+/// <param name="Where">
+/// </param>
 public partial record Query(
     IReadOnlyCollection<string>? AggregateIds = null,
+    bool? CacheHint = null,
     Dictionary<string, IReadOnlyCollection<DateTime>>? DateTimeArrayCollectionParameterValues = null,
     Dictionary<string, DateTime>? DateTimeCollectionParameterValues = null,
+    double? Distance = null,
     Dictionary<string, IReadOnlyCollection<double>>? DoubleArrayCollectionParameterValues = null,
     Dictionary<string, double>? DoubleCollectionParameterValues = null,
     double? DoubleDatumTransformation = null,
@@ -221,18 +233,26 @@ public partial record Query(
     bool? ReturnM = null,
     bool? ReturnQueryGeometry = null,
     bool? ReturnZ = null,
+    SpatialRelationship? SpatialRelationship = null,
     SqlFormat? SqlFormat = null,
     int? Start = null,
     Dictionary<string, IReadOnlyCollection<string>>? StringArrayCollectionParameterValues = null,
     Dictionary<string, string>? StringCollectionParameterValues = null,
     string? Text = null,
-    TimeExtent? TimeExtent = null) : IQueryMixin
+    TimeExtent? TimeExtent = null,
+    IQueryMixinUnits? Units = null,
+    string? Where = null) : IQueryMixin
 {
     /// <summary>
     ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public bool? CacheHint { get; set; } = CacheHint;
     
     /// <summary>
     ///     Filters features from the layer based on pre-authored parameterized filters.
@@ -245,6 +265,11 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public Dictionary<string, DateTime>? DateTimeCollectionParameterValues { get; set; } = DateTimeCollectionParameterValues;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public double? Distance { get; set; } = Distance;
     
     /// <summary>
     ///     Filters features from the layer based on pre-authored parameterized filters.
@@ -450,6 +475,11 @@ public partial record Query(
     public bool? ReturnZ { get; set; } = ReturnZ;
     
     /// <summary>
+    ///     
+    /// </summary>
+    public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
+    
+    /// <summary>
     ///     This parameter can be either standard SQL92 `standard` or it can use the native SQL of the underlying datastore `native`.
     ///     default "none"
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#sqlFormat">ArcGIS Maps SDK for JavaScript</a>
@@ -486,5 +516,15 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public IQueryMixinUnits? Units { get; set; } = Units;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public string? Where { get; set; } = Where;
     
 }

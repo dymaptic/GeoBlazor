@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AuthoringInfoVisualVariableStyle.html">GeoBlazor Docs</a>
-///     Enumeration for AuthoringInfoVisualVariableStyle
+///     <summary>
+///          Enumeration for AuthoringInfoVisualVariableStyle
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthoringInfoVisualVariableStyle>))]
 public enum AuthoringInfoVisualVariableStyle

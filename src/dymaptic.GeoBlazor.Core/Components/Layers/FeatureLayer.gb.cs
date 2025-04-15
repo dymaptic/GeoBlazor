@@ -6228,7 +6228,25 @@ public partial class FeatureLayer : IAPIKeyMixin,
     public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
         CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
@@ -6460,8 +6478,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (attributeTableTemplate != AttributeTableTemplate)
                 {
                     AttributeTableTemplate = attributeTableTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -6469,8 +6490,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
                     DisplayFilterInfo = displayFilterInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -6662,8 +6686,11 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 if (trackInfo != TrackInfo)
                 {
                     TrackInfo = trackInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -6679,12 +6706,10 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             case AttributeTableTemplate _:
                 AttributeTableTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
                 return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
             case DynamicLayer _:
@@ -6749,7 +6774,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
                 return true;
             case TrackInfo _:
                 TrackInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
                 return true;
             default:

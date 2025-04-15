@@ -715,7 +715,6 @@ public partial class SnappingOptions
                 if (!FeatureSources.Contains(featureSources))
                 {
                     FeatureSources = [..FeatureSources, featureSources];
-                    
                     ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
                 }
                 
@@ -732,7 +731,6 @@ public partial class SnappingOptions
         {
             case FeatureSnappingLayerSource featureSources:
                 FeatureSources = FeatureSources?.Where(f => f != featureSources).ToList();
-                
                 ModifiedParameters[nameof(FeatureSources)] = FeatureSources;
                 return true;
             default:

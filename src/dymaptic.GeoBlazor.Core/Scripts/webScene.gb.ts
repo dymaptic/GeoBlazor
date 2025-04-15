@@ -21,10 +21,6 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.applicationProperties)) {
-            let { buildJsWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-            this.component.applicationProperties = await buildJsWebsceneApplicationProperties(dotNetObject.applicationProperties, this.layerId, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.clippingArea)) {
             let { buildJsExtent } = await import('./extent');
             this.component.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
@@ -36,10 +32,6 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.heightModelInfo)) {
             let { buildJsHeightModelInfo } = await import('./heightModelInfo');
             this.component.heightModelInfo = await buildJsHeightModelInfo(dotNetObject.heightModelInfo, this.layerId, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.initialViewProperties)) {
-            let { buildJsWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-            this.component.initialViewProperties = await buildJsWebsceneInitialViewProperties(dotNetObject.initialViewProperties, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.portalItem)) {
             let { buildJsPortalItem } = await import('./portalItem');
@@ -54,6 +46,9 @@ export default class WebSceneGenerated implements IPropertyWrapper {
             this.component.widgets = await buildJsWebSceneWidgets(dotNetObject.widgets, this.layerId, this.viewId) as any;
         }
 
+        if (hasValue(dotNetObject.applicationProperties)) {
+            this.component.applicationProperties = dotNetObject.applicationProperties;
+        }
         if (hasValue(dotNetObject.authoringApp)) {
             this.component.authoringApp = dotNetObject.authoringApp;
         }
@@ -63,11 +58,26 @@ export default class WebSceneGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.clippingEnabled)) {
             this.component.clippingEnabled = dotNetObject.clippingEnabled;
         }
+        if (hasValue(dotNetObject.initialViewProperties)) {
+            this.component.initialViewProperties = dotNetObject.initialViewProperties;
+        }
         if (hasValue(dotNetObject.thumbnailUrl)) {
             this.component.thumbnailUrl = dotNetObject.thumbnailUrl;
         }
     }
     
+    async isFulfilled(): Promise<any> {
+        return this.component.isFulfilled();
+    }
+
+    async isRejected(): Promise<any> {
+        return this.component.isRejected();
+    }
+
+    async isResolved(): Promise<any> {
+        return this.component.isResolved();
+    }
+
     async load(): Promise<any> {
         return await this.component.load();
     }
@@ -102,21 +112,13 @@ export default class WebSceneGenerated implements IPropertyWrapper {
             options);
     }
 
+    async when(callback: any,
+        errback: any): Promise<any> {
+        return await this.component.when(callback,
+            errback);
+    }
+
     // region properties
-    
-    async getApplicationProperties(): Promise<any> {
-        if (!hasValue(this.component.applicationProperties)) {
-            return null;
-        }
-        
-        let { buildDotNetWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        return await buildDotNetWebsceneApplicationProperties(this.component.applicationProperties, this.layerId, this.viewId);
-    }
-    
-    async setApplicationProperties(value: any): Promise<void> {
-        let { buildJsWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        this.component.applicationProperties = await  buildJsWebsceneApplicationProperties(value, this.layerId, this.viewId);
-    }
     
     async getClippingArea(): Promise<any> {
         if (!hasValue(this.component.clippingArea)) {
@@ -158,20 +160,6 @@ export default class WebSceneGenerated implements IPropertyWrapper {
     async setHeightModelInfo(value: any): Promise<void> {
         let { buildJsHeightModelInfo } = await import('./heightModelInfo');
         this.component.heightModelInfo = await  buildJsHeightModelInfo(value, this.layerId, this.viewId);
-    }
-    
-    async getInitialViewProperties(): Promise<any> {
-        if (!hasValue(this.component.initialViewProperties)) {
-            return null;
-        }
-        
-        let { buildDotNetWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        return await buildDotNetWebsceneInitialViewProperties(this.component.initialViewProperties, this.layerId, this.viewId);
-    }
-    
-    async setInitialViewProperties(value: any): Promise<void> {
-        let { buildJsWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        this.component.initialViewProperties = await  buildJsWebsceneInitialViewProperties(value, this.layerId, this.viewId);
     }
     
     async getPortalItem(): Promise<any> {
@@ -232,10 +220,6 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.applicationProperties)) {
-        let { buildJsWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        properties.applicationProperties = await buildJsWebsceneApplicationProperties(dotNetObject.applicationProperties, layerId, viewId) as any;
-    }
     if (hasValue(dotNetObject.clippingArea)) {
         let { buildJsExtent } = await import('./extent');
         properties.clippingArea = buildJsExtent(dotNetObject.clippingArea) as any;
@@ -247,10 +231,6 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     if (hasValue(dotNetObject.heightModelInfo)) {
         let { buildJsHeightModelInfo } = await import('./heightModelInfo');
         properties.heightModelInfo = await buildJsHeightModelInfo(dotNetObject.heightModelInfo, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.initialViewProperties)) {
-        let { buildJsWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        properties.initialViewProperties = await buildJsWebsceneInitialViewProperties(dotNetObject.initialViewProperties, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.portalItem)) {
         let { buildJsPortalItem } = await import('./portalItem');
@@ -265,6 +245,9 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
         properties.widgets = await buildJsWebSceneWidgets(dotNetObject.widgets, layerId, viewId) as any;
     }
 
+    if (hasValue(dotNetObject.applicationProperties)) {
+        properties.applicationProperties = dotNetObject.applicationProperties;
+    }
     if (hasValue(dotNetObject.authoringApp)) {
         properties.authoringApp = dotNetObject.authoringApp;
     }
@@ -273,6 +256,9 @@ export async function buildJsWebSceneGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.clippingEnabled)) {
         properties.clippingEnabled = dotNetObject.clippingEnabled;
+    }
+    if (hasValue(dotNetObject.initialViewProperties)) {
+        properties.initialViewProperties = dotNetObject.initialViewProperties;
     }
     if (hasValue(dotNetObject.thumbnailUrl)) {
         properties.thumbnailUrl = dotNetObject.thumbnailUrl;
@@ -299,11 +285,6 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     let dotNetWebScene: any = {};
     
-    if (hasValue(jsObject.applicationProperties)) {
-        let { buildDotNetWebsceneApplicationProperties } = await import('./websceneApplicationProperties');
-        dotNetWebScene.applicationProperties = await buildDotNetWebsceneApplicationProperties(jsObject.applicationProperties, layerId, viewId);
-    }
-    
     if (hasValue(jsObject.clippingArea)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetWebScene.clippingArea = buildDotNetExtent(jsObject.clippingArea);
@@ -317,11 +298,6 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     if (hasValue(jsObject.heightModelInfo)) {
         let { buildDotNetHeightModelInfo } = await import('./heightModelInfo');
         dotNetWebScene.heightModelInfo = await buildDotNetHeightModelInfo(jsObject.heightModelInfo);
-    }
-    
-    if (hasValue(jsObject.initialViewProperties)) {
-        let { buildDotNetWebsceneInitialViewProperties } = await import('./websceneInitialViewProperties');
-        dotNetWebScene.initialViewProperties = await buildDotNetWebsceneInitialViewProperties(jsObject.initialViewProperties, layerId, viewId);
     }
     
     if (hasValue(jsObject.portalItem)) {
@@ -339,6 +315,10 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
         dotNetWebScene.widgets = await buildDotNetWebSceneWidgets(jsObject.widgets);
     }
     
+    if (hasValue(jsObject.applicationProperties)) {
+        dotNetWebScene.applicationProperties = removeCircularReferences(jsObject.applicationProperties);
+    }
+    
     if (hasValue(jsObject.authoringApp)) {
         dotNetWebScene.authoringApp = jsObject.authoringApp;
     }
@@ -349,6 +329,10 @@ export async function buildDotNetWebSceneGenerated(jsObject: any, layerId: strin
     
     if (hasValue(jsObject.clippingEnabled)) {
         dotNetWebScene.clippingEnabled = jsObject.clippingEnabled;
+    }
+    
+    if (hasValue(jsObject.initialViewProperties)) {
+        dotNetWebScene.initialViewProperties = removeCircularReferences(jsObject.initialViewProperties);
     }
     
     if (hasValue(jsObject.loaded)) {

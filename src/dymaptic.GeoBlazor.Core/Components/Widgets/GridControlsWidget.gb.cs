@@ -597,8 +597,11 @@ public partial class GridControlsWidget : Widget
                 if (snappingOptions != SnappingOptions)
                 {
                     SnappingOptions = snappingOptions;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -606,8 +609,11 @@ public partial class GridControlsWidget : Widget
                 if (theme != Theme)
                 {
                     Theme = theme;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(Theme)] = Theme;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -615,8 +621,11 @@ public partial class GridControlsWidget : Widget
                 if (viewModel != ViewModel)
                 {
                     ViewModel = viewModel;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(ViewModel)] = ViewModel;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -624,8 +633,11 @@ public partial class GridControlsWidget : Widget
                 if (visibleElements != VisibleElements)
                 {
                     VisibleElements = visibleElements;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -641,22 +653,18 @@ public partial class GridControlsWidget : Widget
         {
             case SnappingOptions _:
                 SnappingOptions = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
             case Theme _:
                 Theme = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(Theme)] = Theme;
                 return true;
             case GridControlsViewModel _:
                 ViewModel = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(ViewModel)] = ViewModel;
                 return true;
             case GridControlsVisibleElements _:
                 VisibleElements = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(VisibleElements)] = VisibleElements;
                 return true;
             default:

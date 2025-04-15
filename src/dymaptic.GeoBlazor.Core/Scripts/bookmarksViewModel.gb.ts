@@ -37,6 +37,10 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
             let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
             this.component.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
 
     }
     
@@ -79,10 +83,13 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBookmark } = await import('./bookmark');
-        return await Promise.all(this.component.bookmarks.map(async i => await buildDotNetBookmark(i)));
+        return await Promise.all(this.component.bookmarks!.map(async i => await buildDotNetBookmark(i)));
     }
     
     async setBookmarks(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.bookmarks = [];
+        }
         let { buildJsBookmark } = await import('./bookmark');
         this.component.bookmarks = await Promise.all(value.map(async i => await buildJsBookmark(i))) as any;
     }
@@ -129,6 +136,20 @@ export default class BookmarksViewModelGenerated implements IPropertyWrapper {
         this.component.defaultEditOptions = await  buildJsBookmarkOptions(value, this.layerId, this.viewId);
     }
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -163,6 +184,10 @@ export async function buildJsBookmarksViewModelGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.defaultEditOptions)) {
         let { buildJsBookmarkOptions } = await import('./bookmarkOptions');
         properties.defaultEditOptions = await buildJsBookmarkOptions(dotNetObject.defaultEditOptions, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
 
     let jsBookmarksViewModel = new BookmarksViewModel(properties);

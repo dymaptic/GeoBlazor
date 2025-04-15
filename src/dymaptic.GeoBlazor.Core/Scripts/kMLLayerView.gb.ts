@@ -53,7 +53,7 @@ export default class KMLLayerViewGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetKMLLayerViewMapImage } = await import('./kMLLayerViewMapImage');
-        return await Promise.all(this.component.allVisibleMapImages.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
+        return await Promise.all(this.component.allVisibleMapImages!.map(async i => await buildDotNetKMLLayerViewMapImage(i)));
     }
     
     async getAllVisiblePoints(): Promise<any> {

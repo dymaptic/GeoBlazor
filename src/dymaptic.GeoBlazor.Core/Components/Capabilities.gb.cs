@@ -1089,7 +1089,6 @@ public partial class Capabilities : MapComponent
                 if (queryAttributeBins != QueryAttributeBins)
                 {
                     QueryAttributeBins = queryAttributeBins;
-                    
                     ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
                 }
                 
@@ -1146,7 +1145,6 @@ public partial class Capabilities : MapComponent
                 return true;
             case CapabilitiesQueryAttributeBins _:
                 QueryAttributeBins = null;
-                
                 ModifiedParameters[nameof(QueryAttributeBins)] = QueryAttributeBins;
                 return true;
             case CapabilitiesQueryRelated _:

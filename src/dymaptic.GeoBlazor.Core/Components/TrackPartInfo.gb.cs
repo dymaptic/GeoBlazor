@@ -397,7 +397,6 @@ public partial class TrackPartInfo : MapComponent
                 if (!LabelingInfo.Contains(labelingInfo))
                 {
                     LabelingInfo = [..LabelingInfo, labelingInfo];
-                    
                     ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 }
                 
@@ -406,7 +405,6 @@ public partial class TrackPartInfo : MapComponent
                 if (renderer != Renderer)
                 {
                     Renderer = renderer;
-                    
                     ModifiedParameters[nameof(Renderer)] = Renderer;
                 }
                 
@@ -423,12 +421,10 @@ public partial class TrackPartInfo : MapComponent
         {
             case Label labelingInfo:
                 LabelingInfo = LabelingInfo?.Where(l => l != labelingInfo).ToList();
-                
                 ModifiedParameters[nameof(LabelingInfo)] = LabelingInfo;
                 return true;
             case Renderer _:
                 Renderer = null;
-                
                 ModifiedParameters[nameof(Renderer)] = Renderer;
                 return true;
             default:

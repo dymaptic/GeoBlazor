@@ -879,7 +879,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task CancelLoad()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "cancelLoad", 
@@ -894,7 +912,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task<bool?> IsFulfilled()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isFulfilled", 
@@ -909,7 +945,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task<bool?> IsRejected()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isRejected", 
@@ -924,7 +978,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task<bool?> IsResolved()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isResolved", 
@@ -944,7 +1016,25 @@ public partial class Basemap : ILayerParent
     [ArcGISMethod]
     public async Task<string?> Load(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(
@@ -1007,7 +1097,25 @@ public partial class Basemap : ILayerParent
     public async Task<string?> When(Func<Task> callback,
         Func<Task> errback)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 

@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.ResponseType.html">GeoBlazor Docs</a>
-///     Response types for the <see cref="RequestOptions" /> class.
+///     <summary>
+///          Response types for the <see cref="RequestOptions" /> class.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<ResponseType>))]
 public enum ResponseType

@@ -21,8 +21,14 @@ export async function buildJsAttributeBinsQueryGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.binOrder)) {
         properties.binOrder = dotNetObject.binOrder;
     }
+    if (hasValue(dotNetObject.cacheHint)) {
+        properties.cacheHint = dotNetObject.cacheHint;
+    }
     if (hasValue(dotNetObject.datumTransformation)) {
         properties.datumTransformation = dotNetObject.datumTransformation;
+    }
+    if (hasValue(dotNetObject.distance)) {
+        properties.distance = dotNetObject.distance;
     }
     if (hasValue(dotNetObject.lowerBoundaryAlias)) {
         properties.lowerBoundaryAlias = dotNetObject.lowerBoundaryAlias;
@@ -39,8 +45,17 @@ export async function buildJsAttributeBinsQueryGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.returnDistinctValues)) {
         properties.returnDistinctValues = dotNetObject.returnDistinctValues;
     }
+    if (hasValue(dotNetObject.spatialRelationship)) {
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
+    }
+    if (hasValue(dotNetObject.units)) {
+        properties.units = dotNetObject.units;
+    }
     if (hasValue(dotNetObject.upperBoundaryAlias)) {
         properties.upperBoundaryAlias = dotNetObject.upperBoundaryAlias;
+    }
+    if (hasValue(dotNetObject.where)) {
+        properties.where = dotNetObject.where;
     }
     let jsAttributeBinsQuery = new AttributeBinsQuery(properties);
     
@@ -72,8 +87,16 @@ export async function buildDotNetAttributeBinsQueryGenerated(jsObject: any): Pro
         dotNetAttributeBinsQuery.binOrder = removeCircularReferences(jsObject.binOrder);
     }
     
+    if (hasValue(jsObject.cacheHint)) {
+        dotNetAttributeBinsQuery.cacheHint = jsObject.cacheHint;
+    }
+    
     if (hasValue(jsObject.datumTransformation)) {
         dotNetAttributeBinsQuery.datumTransformation = jsObject.datumTransformation;
+    }
+    
+    if (hasValue(jsObject.distance)) {
+        dotNetAttributeBinsQuery.distance = jsObject.distance;
     }
     
     if (hasValue(jsObject.lowerBoundaryAlias)) {
@@ -96,8 +119,20 @@ export async function buildDotNetAttributeBinsQueryGenerated(jsObject: any): Pro
         dotNetAttributeBinsQuery.returnDistinctValues = jsObject.returnDistinctValues;
     }
     
+    if (hasValue(jsObject.spatialRelationship)) {
+        dotNetAttributeBinsQuery.spatialRelationship = removeCircularReferences(jsObject.spatialRelationship);
+    }
+    
+    if (hasValue(jsObject.units)) {
+        dotNetAttributeBinsQuery.units = removeCircularReferences(jsObject.units);
+    }
+    
     if (hasValue(jsObject.upperBoundaryAlias)) {
         dotNetAttributeBinsQuery.upperBoundaryAlias = jsObject.upperBoundaryAlias;
+    }
+    
+    if (hasValue(jsObject.where)) {
+        dotNetAttributeBinsQuery.where = jsObject.where;
     }
     
 

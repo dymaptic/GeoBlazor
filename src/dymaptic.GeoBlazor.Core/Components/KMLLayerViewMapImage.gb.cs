@@ -307,7 +307,7 @@ public partial class KMLLayerViewMapImage : MapComponent
         }
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "Extent", value);
+            JsComponentReference, "extent", value);
     }
     
     /// <summary>

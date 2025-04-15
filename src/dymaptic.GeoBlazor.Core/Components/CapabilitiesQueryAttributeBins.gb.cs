@@ -1135,7 +1135,6 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
                 if (supportedNormalizationTypes != SupportedNormalizationTypes)
                 {
                     SupportedNormalizationTypes = supportedNormalizationTypes;
-                    
                     ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
                 }
                 
@@ -1144,7 +1143,6 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
                 if (supportedStatistics != SupportedStatistics)
                 {
                     SupportedStatistics = supportedStatistics;
-                    
                     ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
                 }
                 
@@ -1161,12 +1159,10 @@ public partial class CapabilitiesQueryAttributeBins : MapComponent
         {
             case CapabilitiesQueryAttributeBinsSupportedNormalizationTypes _:
                 SupportedNormalizationTypes = null;
-                
                 ModifiedParameters[nameof(SupportedNormalizationTypes)] = SupportedNormalizationTypes;
                 return true;
             case CapabilitiesQueryAttributeBinsSupportedStatistics _:
                 SupportedStatistics = null;
-                
                 ModifiedParameters[nameof(SupportedStatistics)] = SupportedStatistics;
                 return true;
             default:

@@ -79,6 +79,10 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     Defines the specific <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Feature-FeatureViewModel.html#Abilities">abilities</a> that can be used when querying and displaying content.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#featureViewModelAbilities">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="goToOverride">
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="highlightEnabled">
     ///     Highlight the selected feature using the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#highlightOptions">highlightOptions</a>
     ///     set on the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> or the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#highlightOptions">highlightOptions</a>
@@ -161,6 +165,7 @@ public partial class PopupViewModel : FeaturesViewModel
         IReadOnlyList<Graphic>? features = null,
         double? featuresPerPage = null,
         Abilities? featureViewModelAbilities = null,
+        GoToOverride? goToOverride = null,
         bool? highlightEnabled = null,
         bool? includeDefaultActions = null,
         InitialDisplayMode? initialDisplayMode = null,
@@ -191,6 +196,7 @@ public partial class PopupViewModel : FeaturesViewModel
         Features = features;
         FeaturesPerPage = featuresPerPage;
         FeatureViewModelAbilities = featureViewModelAbilities;
+        GoToOverride = goToOverride;
         HighlightEnabled = highlightEnabled;
         IncludeDefaultActions = includeDefaultActions;
         InitialDisplayMode = initialDisplayMode;

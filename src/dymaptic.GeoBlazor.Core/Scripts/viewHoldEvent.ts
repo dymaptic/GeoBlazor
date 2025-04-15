@@ -9,6 +9,13 @@ export async function buildDotNetViewHoldEvent(jsObject: any, layerId: string | 
     return await buildDotNetViewHoldEventGenerated(jsObject, layerId, viewId);
 }
 
+    constructor(component: ViewHoldEvent) {
+        super(component);
+    }
+    
+}
+
+
 export default class ViewHoldEventWrapper extends ViewHoldEventGenerated {
 
     constructor(component: ViewHoldEvent) {

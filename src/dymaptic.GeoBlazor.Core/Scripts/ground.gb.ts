@@ -106,10 +106,13 @@ export default class GroundGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLayer } = await import('./layer');
-        return await Promise.all(this.component.layers.map(async i => await buildDotNetLayer(i)));
+        return await Promise.all(this.component.layers!.map(async i => await buildDotNetLayer(i)));
     }
     
     async setLayers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.layers = [];
+        }
         let { buildJsLayer } = await import('./layer');
         this.component.layers = await Promise.all(value.map(async i => await buildJsLayer(i, this.layerId, this.viewId))) as any;
     }

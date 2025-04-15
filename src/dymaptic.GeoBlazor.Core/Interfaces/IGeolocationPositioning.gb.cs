@@ -11,6 +11,7 @@ public partial interface IGeolocationPositioning : IMapComponent
 #region Properties
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IGeolocationPositioning.html#igeolocationpositioninggeolocationoptions-property">GeoBlazor Docs</a>
     ///     An object used for setting optional position parameters.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#geolocationOptions">ArcGIS Maps SDK for JavaScript</a>
@@ -18,6 +19,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     GeolocationOptions? GeolocationOptions { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IGeolocationPositioning.html#igeolocationpositioninggotolocationenabled-property">GeoBlazor Docs</a>
     ///     Indicates whether to navigate the view to the position and scale of the geolocated result.
     ///     default true
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#goToLocationEnabled">ArcGIS Maps SDK for JavaScript</a>
@@ -25,12 +27,14 @@ public partial interface IGeolocationPositioning : IMapComponent
     bool? GoToLocationEnabled { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IGeolocationPositioning.html#igeolocationpositioninggraphic-property">GeoBlazor Docs</a>
     ///     The graphic used to show the user's location on the map.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#graphic">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     Graphic? Graphic { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IGeolocationPositioning.html#igeolocationpositioningscale-property">GeoBlazor Docs</a>
     ///     Indicates the scale to set on the view when navigating to the position of the geolocated result, after a location is returned from the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#event-track">track</a> event.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GeolocationPositioning.html#scale">ArcGIS Maps SDK for JavaScript</a>
@@ -44,7 +48,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the GeolocationOptions property after render.
     /// </summary>
-    Task SetGeolocationOptions(object? value);
+    Task SetGeolocationOptions(GeolocationOptions? value);
     
     /// <summary>
     ///    Asynchronously set the value of the GoToLocationEnabled property after render.
@@ -54,7 +58,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///    Asynchronously set the value of the Graphic property after render.
     /// </summary>
-    Task SetGraphic(Graphic? value);
+    Task SetGraphic(Graphic value);
     
     /// <summary>
     ///    Asynchronously set the value of the Scale property after render.
@@ -68,7 +72,7 @@ public partial interface IGeolocationPositioning : IMapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the GeolocationOptions property.
     /// </summary>
-    Task<object?> GetGeolocationOptions();
+    Task<GeolocationOptions?> GetGeolocationOptions();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the GoToLocationEnabled property.

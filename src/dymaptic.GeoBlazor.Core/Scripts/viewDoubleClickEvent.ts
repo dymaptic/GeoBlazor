@@ -9,6 +9,13 @@ export async function buildDotNetViewDoubleClickEvent(jsObject: any, layerId: st
     return await buildDotNetViewDoubleClickEventGenerated(jsObject, layerId, viewId);
 }
 
+    constructor(component: ViewDoubleClickEvent) {
+        super(component);
+    }
+    
+}
+
+
 export default class ViewDoubleClickEventWrapper extends ViewDoubleClickEventGenerated {
 
     constructor(component: ViewDoubleClickEvent) {

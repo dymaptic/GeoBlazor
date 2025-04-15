@@ -4,7 +4,7 @@ export async function buildJsWebsceneApplicationProperties(dotNetObject: any, la
     return await buildJsWebsceneApplicationPropertiesGenerated(dotNetObject, layerId, viewId);
 }     
 
-export async function buildDotNetWebsceneApplicationProperties(jsObject: any): Promise<any> {
+export async function buildDotNetWebsceneApplicationProperties(jsObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     let { buildDotNetWebsceneApplicationPropertiesGenerated } = await import('./websceneApplicationProperties.gb');
-    return await buildDotNetWebsceneApplicationPropertiesGenerated(jsObject);
+    return await buildDotNetWebsceneApplicationPropertiesGenerated(jsObject, layerId, viewId);
 }

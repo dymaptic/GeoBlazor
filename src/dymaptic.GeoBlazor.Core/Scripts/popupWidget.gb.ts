@@ -164,10 +164,13 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.widget.actions.map(async i => await buildDotNetActionBase(i)));
+        return await Promise.all(this.widget.actions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActions(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.actions = [];
+        }
         let { buildJsActionBase } = await import('./actionBase');
         this.widget.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
@@ -196,6 +199,9 @@ export default class PopupWidgetGenerated implements IPropertyWrapper {
     }
     
     async setFeatures(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.features = [];
+        }
         let { buildJsGraphic } = await import('./graphic');
         this.widget.features = value.map(i => buildJsGraphic(i)) as any;
     }

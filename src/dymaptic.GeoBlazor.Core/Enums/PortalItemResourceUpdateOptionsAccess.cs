@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PortalItemResourceUpdateOptionsAccess.html">GeoBlazor Docs</a>
-///     Enumeration for PortalItemResourceUpdateOptionsAccess
+///     <summary>
+///          Enumeration for PortalItemResourceUpdateOptionsAccess
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalItemResourceUpdateOptionsAccess>))]
 public enum PortalItemResourceUpdateOptionsAccess

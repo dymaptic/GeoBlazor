@@ -206,7 +206,7 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.allSublayers.map(async i => await buildDotNetWMSSublayer(i)));
+        return await Promise.all(this.layer.allSublayers!.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
     getCustomLayerParameters(): any {
@@ -259,6 +259,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
     
     async setFullExtents(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.fullExtents = [];
+        }
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtents = value.map(i => buildJsExtent(i)) as any;
     }
@@ -283,10 +286,13 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMSSublayer } = await import('./wMSSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMSSublayer(i)));
+        return await Promise.all(this.layer.sublayers!.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.sublayers = [];
+        }
         let { buildJsWMSSublayer } = await import('./wMSSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMSSublayer(i))) as any;
     }

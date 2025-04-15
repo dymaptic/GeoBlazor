@@ -194,7 +194,6 @@ public partial class AttributeTableTemplate : MapComponent
                 if (!OrderByFields.Contains(orderByFields))
                 {
                     OrderByFields = [..OrderByFields, orderByFields];
-                    
                     ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
                 }
                 
@@ -211,7 +210,6 @@ public partial class AttributeTableTemplate : MapComponent
         {
             case FieldOrder orderByFields:
                 OrderByFields = OrderByFields?.Where(o => o != orderByFields).ToList();
-                
                 ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
                 return true;
             default:

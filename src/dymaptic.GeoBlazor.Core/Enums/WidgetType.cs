@@ -41,6 +41,7 @@ public enum WidgetType
     FloorFilter,
     FullScreen,
     GraphicsLegend,
+    GridControls,
     HeatmapSlider,
     Histogram,
     HistogramRangeSlider,

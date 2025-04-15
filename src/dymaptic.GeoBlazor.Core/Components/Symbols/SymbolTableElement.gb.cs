@@ -559,7 +559,6 @@ public partial class SymbolTableElement : MapComponent,
                 if (dotDensityTitle != DotDensityTitle)
                 {
                     DotDensityTitle = dotDensityTitle;
-                    
                     ModifiedParameters[nameof(DotDensityTitle)] = DotDensityTitle;
                 }
                 
@@ -576,7 +575,6 @@ public partial class SymbolTableElement : MapComponent,
         {
             case DotDensityTitle _:
                 DotDensityTitle = null;
-                
                 ModifiedParameters[nameof(DotDensityTitle)] = DotDensityTitle;
                 return true;
             default:

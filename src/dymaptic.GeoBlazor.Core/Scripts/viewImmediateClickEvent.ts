@@ -9,6 +9,13 @@ export async function buildDotNetViewImmediateClickEvent(jsObject: any, layerId:
     return await buildDotNetViewImmediateClickEventGenerated(jsObject, layerId, viewId);
 }
 
+    constructor(component: ViewImmediateClickEvent) {
+        super(component);
+    }
+    
+}
+
+
 export default class ViewImmediateClickEventWrapper extends ViewImmediateClickEventGenerated {
 
     constructor(component: ViewImmediateClickEvent) {

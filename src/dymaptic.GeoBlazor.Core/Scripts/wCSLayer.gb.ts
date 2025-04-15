@@ -258,10 +258,13 @@ export default class WCSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        return await Promise.all(this.layer.multidimensionalDefinition!.map(async i => await buildDotNetDimensionalDefinition(i)));
     }
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.multidimensionalDefinition = [];
+        }
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }

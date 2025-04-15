@@ -9,6 +9,13 @@ export async function buildDotNetViewClickEvent(jsObject: any, layerId: string |
     return await buildDotNetViewClickEventGenerated(jsObject, layerId, viewId);
 }
 
+    constructor(component: ViewClickEvent) {
+        super(component);
+    }
+    
+}
+
+
 export default class ViewClickEventWrapper extends ViewClickEventGenerated {
 
     constructor(component: ViewClickEvent) {

@@ -478,7 +478,6 @@ public partial class SizeRampElement : MapComponent,
                 if (clusterTitle != ClusterTitle)
                 {
                     ClusterTitle = clusterTitle;
-                    
                     ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
                 }
                 
@@ -504,7 +503,6 @@ public partial class SizeRampElement : MapComponent,
         {
             case ClusterTitle _:
                 ClusterTitle = null;
-                
                 ModifiedParameters[nameof(ClusterTitle)] = ClusterTitle;
                 return true;
             case SizeRampStop infos:

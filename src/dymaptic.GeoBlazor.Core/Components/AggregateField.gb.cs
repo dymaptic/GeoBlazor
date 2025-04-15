@@ -571,7 +571,6 @@ public partial class AggregateField
                 if (onStatisticExpression != OnStatisticExpression)
                 {
                     OnStatisticExpression = onStatisticExpression;
-                    
                     ModifiedParameters[nameof(OnStatisticExpression)] = OnStatisticExpression;
                 }
                 
@@ -588,7 +587,6 @@ public partial class AggregateField
         {
             case SupportExpressionInfo _:
                 OnStatisticExpression = null;
-                
                 ModifiedParameters[nameof(OnStatisticExpression)] = OnStatisticExpression;
                 return true;
             default:

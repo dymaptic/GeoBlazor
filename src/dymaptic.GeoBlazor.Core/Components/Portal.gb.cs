@@ -6206,7 +6206,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task CancelLoad()
     {
-        if (JsComponentReference is null) return;
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
         
         await JsComponentReference!.InvokeVoidAsync(
             "cancelLoad", 
@@ -6224,7 +6242,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#fetchBasemaps">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="basemapGalleryGroupQuery">
-    ///     When provided, this argument is used to fetch basemaps based on input query parameters.
+    ///     When provided, this argument is used
+    ///     to fetch basemaps based on input query parameters.
     /// </param>
     /// <param name="options">
     ///     An object with the following properties.
@@ -6326,7 +6345,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<string?> FetchClassificationSchema(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(
@@ -6352,7 +6389,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<Basemap?> FetchDefault3DBasemap(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         Basemap? result = await JsComponentReference!.InvokeAsync<Basemap?>(
@@ -6505,7 +6560,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<bool?> IsFulfilled()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isFulfilled", 
@@ -6520,7 +6593,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<bool?> IsRejected()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isRejected", 
@@ -6535,7 +6626,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<bool?> IsResolved()
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<bool?>(
             "isResolved", 
@@ -6555,7 +6664,25 @@ public partial class Portal
     [ArcGISMethod]
     public async Task<string?> Load(CancellationToken cancellationToken = default)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
         string? result = await JsComponentReference!.InvokeAsync<string?>(
@@ -6578,7 +6705,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryGroups">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters
+    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6629,7 +6757,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters
+    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6680,7 +6809,8 @@ public partial class Portal
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html#queryUsers">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters
+    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -6738,7 +6868,25 @@ public partial class Portal
     public async Task<string?> When(Func<Task> callback,
         Func<Task> errback)
     {
-        if (JsComponentReference is null) return null;
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
         
         return await JsComponentReference!.InvokeAsync<string?>(
             "when", 

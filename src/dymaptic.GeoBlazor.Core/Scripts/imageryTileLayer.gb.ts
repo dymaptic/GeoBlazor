@@ -275,10 +275,13 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetDimensionalDefinition } = await import('./dimensionalDefinition');
-        return await Promise.all(this.layer.multidimensionalDefinition.map(async i => await buildDotNetDimensionalDefinition(i)));
+        return await Promise.all(this.layer.multidimensionalDefinition!.map(async i => await buildDotNetDimensionalDefinition(i)));
     }
     
     async setMultidimensionalDefinition(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.multidimensionalDefinition = [];
+        }
         let { buildJsDimensionalDefinition } = await import('./dimensionalDefinition');
         this.layer.multidimensionalDefinition = await Promise.all(value.map(async i => await buildJsDimensionalDefinition(i))) as any;
     }
@@ -331,10 +334,13 @@ export default class ImageryTileLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetRasterPresetRenderer } = await import('./rasterPresetRenderer');
-        return await Promise.all(this.layer.presetRenderers.map(async i => await buildDotNetRasterPresetRenderer(i)));
+        return await Promise.all(this.layer.presetRenderers!.map(async i => await buildDotNetRasterPresetRenderer(i)));
     }
     
     async setPresetRenderers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.presetRenderers = [];
+        }
         let { buildJsRasterPresetRenderer } = await import('./rasterPresetRenderer');
         this.layer.presetRenderers = await Promise.all(value.map(async i => await buildJsRasterPresetRenderer(i, this.layerId, this.viewId))) as any;
     }

@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.OperationType.html">GeoBlazor Docs</a>
-///     Enumeration for OperationType
+///     <summary>
+///          Enumeration for OperationType
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<OperationType>))]
 public enum OperationType

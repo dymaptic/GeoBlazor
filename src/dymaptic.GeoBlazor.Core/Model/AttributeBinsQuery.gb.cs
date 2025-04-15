@@ -13,6 +13,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default "ascending"
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binOrder">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="CacheHint">
+/// </param>
+/// <param name="Distance">
+/// </param>
 /// <param name="DoubleDatumTransformation">
 ///     Datum transformation used for projecting geometries in the query results when
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#outSpatialReference">outSpatialReference</a> is different than the layer's spatial reference.
@@ -54,17 +58,25 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     default false
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#returnDistinctValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="SpatialRelationship">
+/// </param>
 /// <param name="TimeExtent">
 ///     A time extent for a temporal query against <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#timeInfo">time-aware layers</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="Units">
 /// </param>
 /// <param name="UpperBoundaryAlias">
 ///     Sets the name of the upper boundary property in the response.
 ///     default null
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#upperBoundaryAlias">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="Where">
+/// </param>
 public partial record AttributeBinsQuery(
     BinOrder? BinOrder = null,
+    bool? CacheHint = null,
+    double? Distance = null,
     double? DoubleDatumTransformation = null,
     Geometry? Geometry = null,
     string? LowerBoundaryAlias = null,
@@ -74,8 +86,11 @@ public partial record AttributeBinsQuery(
     QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation = null,
     QuerySimpleTransformation? QuerySimpleTransformationDatumTransformation = null,
     bool? ReturnDistinctValues = null,
+    SpatialRelationship? SpatialRelationship = null,
     TimeExtent? TimeExtent = null,
-    string? UpperBoundaryAlias = null) : IQueryMixin
+    IQueryMixinUnits? Units = null,
+    string? UpperBoundaryAlias = null,
+    string? Where = null) : IQueryMixin
 {
     /// <summary>
     ///     Bins can be returned in ascending or descending order.
@@ -83,6 +98,16 @@ public partial record AttributeBinsQuery(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binOrder">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public BinOrder? BinOrder { get; set; } = BinOrder;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public bool? CacheHint { get; set; } = CacheHint;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public double? Distance { get; set; } = Distance;
     
     /// <summary>
     ///     Datum transformation used for projecting geometries in the query results when
@@ -144,10 +169,20 @@ public partial record AttributeBinsQuery(
     public bool? ReturnDistinctValues { get; set; } = ReturnDistinctValues;
     
     /// <summary>
+    ///     
+    /// </summary>
+    public SpatialRelationship? SpatialRelationship { get; set; } = SpatialRelationship;
+    
+    /// <summary>
     ///     A time extent for a temporal query against <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#timeInfo">time-aware layers</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public TimeExtent? TimeExtent { get; set; } = TimeExtent;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public IQueryMixinUnits? Units { get; set; } = Units;
     
     /// <summary>
     ///     Sets the name of the upper boundary property in the response.
@@ -155,5 +190,10 @@ public partial record AttributeBinsQuery(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#upperBoundaryAlias">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public string? UpperBoundaryAlias { get; set; } = UpperBoundaryAlias;
+    
+    /// <summary>
+    ///     
+    /// </summary>
+    public string? Where { get; set; } = Where;
     
 }

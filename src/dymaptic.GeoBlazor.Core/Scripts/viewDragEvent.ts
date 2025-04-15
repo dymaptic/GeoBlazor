@@ -10,6 +10,13 @@ export async function buildDotNetViewDragEvent(jsObject: any, layerId: string | 
     return await buildDotNetViewDragEventGenerated(jsObject, layerId, viewId);
 }
 
+    constructor(component: ViewDragEvent) {
+        super(component);
+    }
+    
+}
+
+
 export default class ViewDragEventWrapper extends ViewDragEventGenerated {
 
     constructor(component: ViewDragEvent) {

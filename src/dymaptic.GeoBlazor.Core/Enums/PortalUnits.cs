@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.PortalUnits.html">GeoBlazor Docs</a>
-///     Enumeration for PortalUnits
+///     <summary>
+///          Enumeration for PortalUnits
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<PortalUnits>))]
 public enum PortalUnits

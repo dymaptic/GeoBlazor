@@ -226,10 +226,13 @@ export default class WMTSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetWMTSSublayer } = await import('./wMTSSublayer');
-        return await Promise.all(this.layer.sublayers.map(async i => await buildDotNetWMTSSublayer(i)));
+        return await Promise.all(this.layer.sublayers!.map(async i => await buildDotNetWMTSSublayer(i)));
     }
     
     async setSublayers(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.sublayers = [];
+        }
         let { buildJsWMTSSublayer } = await import('./wMTSSublayer');
         this.layer.sublayers = await Promise.all(value.map(async i => await buildJsWMTSSublayer(i, this.layerId, this.viewId))) as any;
     }

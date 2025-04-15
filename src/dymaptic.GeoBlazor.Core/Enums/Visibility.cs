@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.Visibility.html">GeoBlazor Docs</a>
-///     Enumeration for Visibility
+///     <summary>
+///          Enumeration for Visibility
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<Visibility>))]
 public enum Visibility

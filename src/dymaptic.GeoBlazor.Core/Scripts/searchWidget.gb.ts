@@ -192,6 +192,9 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
     }
     
     async setSources(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.sources = [];
+        }
         let { buildJsSearchSource } = await import('./searchSource');
         this.widget.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
     }
@@ -202,7 +205,7 @@ export default class SearchWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetSearchResultsSuggestions } = await import('./searchResultsSuggestions');
-        return await Promise.all(this.widget.suggestions.map(async i => await buildDotNetSearchResultsSuggestions(i)));
+        return await Promise.all(this.widget.suggestions!.map(async i => await buildDotNetSearchResultsSuggestions(i)));
     }
     
     async getViewModel(): Promise<any> {
@@ -510,7 +513,7 @@ export async function buildDotNetSearchWidgetGenerated(jsObject: any, layerId: s
     }
     
     if (hasValue(jsObject.results)) {
-        dotNetSearchWidget.results = removeCircularReferences(jsObject.results);
+        dotNetSearchWidget.results = jsObject.results;
     }
     
     if (hasValue(jsObject.searchAllEnabled)) {

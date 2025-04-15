@@ -169,6 +169,9 @@ export default class GraphicsLayerGenerated implements IPropertyWrapper {
     }
     
     async setGraphics(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.graphics = [];
+        }
         let { buildJsGraphic } = await import('./graphic');
         this.layer.graphics = value.map(i => buildJsGraphic(i)) as any;
     }

@@ -879,7 +879,6 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
                 if (gridControlsElements != GridControlsElements)
                 {
                     GridControlsElements = gridControlsElements;
-                    
                     ModifiedParameters[nameof(GridControlsElements)] = GridControlsElements;
                 }
                 
@@ -896,7 +895,6 @@ public partial class VisibleElementsSnappingControlsElements : MapComponent
         {
             case VisibleElementsSnappingControlsElementsGridControlsElements _:
                 GridControlsElements = null;
-                
                 ModifiedParameters[nameof(GridControlsElements)] = GridControlsElements;
                 return true;
             default:

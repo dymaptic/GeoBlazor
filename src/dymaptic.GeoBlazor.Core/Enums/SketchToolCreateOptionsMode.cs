@@ -4,7 +4,8 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SketchToolCreateOptionsMode.html">GeoBlazor Docs</a>
-///     
+///     Specifies how the graphic can be created.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Sketch.html#create">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SketchToolCreateOptionsMode>))]
 public enum SketchToolCreateOptionsMode

@@ -521,8 +521,11 @@ public partial class AreaMeasurement2DWidget
                 if (snappingOptions != SnappingOptions)
                 {
                     SnappingOptions = snappingOptions;
-                    WidgetChanged = MapRendered;
                     ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
+                    if (MapRendered)
+                    {
+                        await UpdateWidget();
+                    }
                 }
                 
                 return true;
@@ -550,7 +553,6 @@ public partial class AreaMeasurement2DWidget
         {
             case SnappingOptions _:
                 SnappingOptions = null;
-                WidgetChanged = MapRendered;
                 ModifiedParameters[nameof(SnappingOptions)] = SnappingOptions;
                 return true;
             case AreaMeasurement2DViewModel _:

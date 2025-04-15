@@ -12,6 +12,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     IImageryTileMixin,
     IOperationalLayer,
     IPortalLayer,
+    IRasterPresetRendererMixin,
     IScaleRangeLayer
 {
 
@@ -32,11 +33,10 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     /// <param name="portalItem">
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
-    ///     The client-side renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    ///     An interface that implements the various imagery renderers.
     /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
@@ -52,13 +52,12 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#copyright">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="effect">
-    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to how image filters work.
+    ///     Effect provides various filter functions that can be performed on the layer to achieve different visual effects similar to
+    ///     how image filters work.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-BlendLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#effect">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="interpolation">
-    ///     Defines how to interpolate pixel values.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#interpolation">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="legendEnabled">
     ///     Indicates whether the layer will be included in the legend.
@@ -86,21 +85,21 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// </param>
     /// <param name="multidimensionalSubset">
     ///     Represents a multidimensional subset of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#multidimensionalSubset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="persistenceEnabled">
-    ///     When `true`, the layer can be persisted.
-    ///     default false
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     Enable persistence of the layer in a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebMap.html">WebMap</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-WebScene.html">WebScene</a>.
+    ///     default true
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-OperationalLayer.html#persistenceEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupEnabled">
     ///     Indicates whether to display popups when features in the layer are clicked.
     ///     default true
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#popupEnabled">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="popupTemplate">
     ///     The popup template for the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#popupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="useViewTime">
     ///     Determines if the layer will update its temporal data based on the view's <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-View.html#timeExtent">timeExtent</a>.
@@ -120,6 +119,8 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The title of the layer used to identify it in places such as the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-LayerList.html">LayerList</a> widget.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#title">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="activePresetRendererName">
+    /// </param>
     /// <param name="arcGISLayerId">
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
@@ -131,17 +132,21 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="isBasemapReferenceLayer">
     ///     Indicates whether the layer is a basemap reference layer. Default value: false.
     /// </param>
-    /// <param name="objectSource">
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    /// <param name="pixelDataSource">
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="pixelDataSource">
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// <param name="presetRenderers">
     /// </param>
     /// <param name="rasterFunction">
     ///     The client-side raster functions are operations that apply processing directly to the source image pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
+    /// <param name="stringSource">
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="tileInfo">
     ///     The tiling scheme information for the layer.
@@ -150,20 +155,24 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="timeExtent">
     ///     The layer's time extent.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#timeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeInfo">
-    ///     TimeInfo provides information such as date fields that store <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a> for the layer.
+    ///     TimeInfo provides information such as date fields that store
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#startField">start</a>
+    ///     and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#endField">end</a> time
+    ///     for each feature and the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-TimeInfo.html#fullTimeExtent">fullTimeExtent</a>
+    ///     for the layer.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#timeInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="timeOffset">
-    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeInterval.html">TimeInterval</a>.
+    ///     A temporary offset of the time data based on a certain <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeInterval.html">TimeInterval</a>.
     ///     default null
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#timeOffset">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="visibilityTimeExtent">
-    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-TimeExtent.html">time extent</a> during which a layer should be visible.
+    ///     Specifies a fixed <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">time extent</a> during which a layer should be visible.
     ///     default null
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#visibilityTimeExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
@@ -180,7 +189,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         BlendMode? blendMode = null,
         string? copyright = null,
         Effect? effect = null,
-        PixelInterpolation? interpolation = null,
+        Interpolation? interpolation = null,
         bool? legendEnabled = null,
         ListMode? listMode = null,
         double? maxScale = null,
@@ -194,12 +203,14 @@ public partial class ImageryTileLayer : IBlendLayer,
         Dictionary<string, object>? customParameters = null,
         double? opacity = null,
         string? title = null,
+        string? activePresetRendererName = null,
         string? arcGISLayerId = null,
         Extent? fullExtent = null,
         bool? isBasemapReferenceLayer = null,
-        object? objectSource = null,
         PixelData? pixelDataSource = null,
+        IReadOnlyList<RasterPresetRenderer>? presetRenderers = null,
         RasterFunction? rasterFunction = null,
+        string? stringSource = null,
         TileInfo? tileInfo = null,
         TimeExtent? timeExtent = null,
         TimeInfo? timeInfo = null,
@@ -230,12 +241,14 @@ public partial class ImageryTileLayer : IBlendLayer,
         CustomParameters = customParameters;
         Opacity = opacity;
         Title = title;
+        ActivePresetRendererName = activePresetRendererName;
         ArcGISLayerId = arcGISLayerId;
         FullExtent = fullExtent;
         IsBasemapReferenceLayer = isBasemapReferenceLayer;
-        ObjectSource = objectSource;
         PixelDataSource = pixelDataSource;
+        PresetRenderers = presetRenderers;
         RasterFunction = rasterFunction;
+        StringSource = stringSource;
         TileInfo = tileInfo;
         TimeExtent = timeExtent;
         TimeInfo = timeInfo;
@@ -249,6 +262,16 @@ public partial class ImageryTileLayer : IBlendLayer,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayeractivepresetrenderername-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ActivePresetRendererName { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerbandids-property">GeoBlazor Docs</a>
     ///     Defines a band combination using 0-based band indexes.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#bandIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -258,6 +281,16 @@ public partial class ImageryTileLayer : IBlendLayer,
     public IReadOnlyList<long>? BandIds { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerinterpolation-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Interpolation? Interpolation { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayermultidimensionaldefinition-property">GeoBlazor Docs</a>
     ///     The multidimensional definitions associated with the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -267,16 +300,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     public IReadOnlyList<DimensionalDefinition>? MultidimensionalDefinition { get; set; }
     
     /// <summary>
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public object? ObjectSource { get; set; }
-    
-    /// <summary>
-    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerpixeldatasource-property">GeoBlazor Docs</a>
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
@@ -285,8 +311,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     public PixelData? PixelDataSource { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerportalitem-property">GeoBlazor Docs</a>
     ///     The portal item from which the layer is loaded.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-PortalLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]
@@ -295,6 +322,16 @@ public partial class ImageryTileLayer : IBlendLayer,
     public PortalItem? PortalItem { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerpresetrenderers-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<RasterPresetRenderer>? PresetRenderers { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerrasterfields-property">GeoBlazor Docs</a>
     ///     A complete list of fields that consists of service pixel value and vector fields.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterFields">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -304,6 +341,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerrasterfunction-property">GeoBlazor Docs</a>
     ///     The client-side raster functions are operations that apply processing directly to the source image pixels.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#rasterFunction">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -313,15 +351,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     public RasterFunction? RasterFunction { get; set; }
     
     /// <summary>
-    ///     The client-side renderer assigned to the layer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISProperty]
-    [Parameter]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IImageryRenderer? Renderer { get; set; }
-    
-    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Raster information retrieved from tiled imagery data source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -331,15 +361,29 @@ public partial class ImageryTileLayer : IBlendLayer,
     public RasterInfo? ServiceRasterInfo { get; protected set; }
     
     /// <summary>
-    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">tiled image service's metadata JSON</a> exposed by the ArcGIS REST API.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayersourcejson-property">GeoBlazor Docs</a>
+    ///     The <a target="_blank" href="https://developers.arcgis.com/rest/services-reference/image-service.htm">tiled image service's metadata JSON</a>
+    ///     exposed by the ArcGIS REST API.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#sourceJSON">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public object? SourceJSON { get; protected set; }
+    public string? SourceJSON { get; protected set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerstringsource-property">GeoBlazor Docs</a>
+    ///     The data source for client-side ImageryTileLayer can be a <a target="_blank" href="https://www.ogc.org/standard/coveragejson/">coverage JSON</a> object
+    ///     or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#PixelData">PixelData</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#source">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StringSource { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayertileinfo-property">GeoBlazor Docs</a>
     ///     The tiling scheme information for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#tileInfo">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -349,6 +393,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     public TileInfo? TileInfo { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerurl-property">GeoBlazor Docs</a>
     ///     The URL of the REST endpoint of the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#url">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -359,6 +404,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     public string? Url { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerversion-property">GeoBlazor Docs</a>
     ///     The version of ArcGIS Server in which the image service is published.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#version">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -371,6 +417,45 @@ public partial class ImageryTileLayer : IBlendLayer,
 
 #region Property Getters
 
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the ActivePresetRendererName property.
+    /// </summary>
+    public async Task<string?> GetActivePresetRendererName()
+    {
+        if (CoreJsModule is null)
+        {
+            return ActivePresetRendererName;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return ActivePresetRendererName;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "activePresetRendererName");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             ActivePresetRendererName = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(ActivePresetRendererName)] = ActivePresetRendererName;
+        }
+         
+        return ActivePresetRendererName;
+    }
+    
     /// <summary>
     ///     Asynchronously retrieve the current value of the BandIds property.
     /// </summary>
@@ -569,7 +654,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Interpolation property.
     /// </summary>
-    public async Task<PixelInterpolation?> GetInterpolation()
+    public async Task<Interpolation?> GetInterpolation()
     {
         if (CoreJsModule is null)
         {
@@ -592,12 +677,12 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        JsNullableEnumWrapper<PixelInterpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<PixelInterpolation>?>("getNullableValueTypedProperty",
+        JsNullableEnumWrapper<Interpolation>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<Interpolation>?>("getNullableValueTypedProperty",
             CancellationTokenSource.Token, JsComponentReference, "interpolation");
         if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             Interpolation = (PixelInterpolation)result.Value.Value!;
+             Interpolation = (Interpolation)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(Interpolation)] = Interpolation;
         }
@@ -801,45 +886,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the ObjectSource property.
-    /// </summary>
-    public async Task<object?> GetObjectSource()
-    {
-        if (CoreJsModule is null)
-        {
-            return ObjectSource;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return ObjectSource;
-        }
-
-        // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
-            CancellationTokenSource.Token, "source");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             ObjectSource = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(ObjectSource)] = ObjectSource;
-        }
-         
-        return ObjectSource;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the PixelDataSource property.
     /// </summary>
     public async Task<PixelData?> GetPixelDataSource()
@@ -1001,6 +1047,45 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     Asynchronously retrieve the current value of the PresetRenderers property.
+    /// </summary>
+    public async Task<IReadOnlyList<RasterPresetRenderer>?> GetPresetRenderers()
+    {
+        if (CoreJsModule is null)
+        {
+            return PresetRenderers;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return PresetRenderers;
+        }
+
+        IReadOnlyList<RasterPresetRenderer>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<RasterPresetRenderer>?>(
+            "getPresetRenderers", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            PresetRenderers = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+        }
+        
+        return PresetRenderers;
+    }
+    
+    /// <summary>
     ///     Asynchronously retrieve the current value of the RasterFields property.
     /// </summary>
     public async Task<IReadOnlyList<Field>?> GetRasterFields()
@@ -1079,48 +1164,9 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Asynchronously retrieve the current value of the Renderer property.
-    /// </summary>
-    public async Task<IImageryRenderer?> GetRenderer()
-    {
-        if (CoreJsModule is null)
-        {
-            return Renderer;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return Renderer;
-        }
-
-        // get the property value
-        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
-            CancellationTokenSource.Token, "renderer");
-        if (result is not null)
-        {
-#pragma warning disable BL0005
-             Renderer = result;
-#pragma warning restore BL0005
-             ModifiedParameters[nameof(Renderer)] = Renderer;
-        }
-         
-        return Renderer;
-    }
-    
-    /// <summary>
     ///     Asynchronously retrieve the current value of the SourceJSON property.
     /// </summary>
-    public async Task<object?> GetSourceJSON()
+    public async Task<string?> GetSourceJSON()
     {
         if (CoreJsModule is null)
         {
@@ -1143,7 +1189,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
 
         // get the property value
-        object? result = await JsComponentReference!.InvokeAsync<object?>("getProperty",
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
             CancellationTokenSource.Token, "sourceJSON");
         if (result is not null)
         {
@@ -1154,6 +1200,45 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
          
         return SourceJSON;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the StringSource property.
+    /// </summary>
+    public async Task<string?> GetStringSource()
+    {
+        if (CoreJsModule is null)
+        {
+            return StringSource;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return StringSource;
+        }
+
+        // get the property value
+        string? result = await JsComponentReference!.InvokeAsync<string?>("getProperty",
+            CancellationTokenSource.Token, "source");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             StringSource = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(StringSource)] = StringSource;
+        }
+         
+        return StringSource;
     }
     
     /// <summary>
@@ -1230,11 +1315,6 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         if (result is not null)
         {
-            if (TimeExtent is not null)
-            {
-                result.Id = TimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             TimeExtent = result;
 #pragma warning restore BL0005
@@ -1444,6 +1524,43 @@ public partial class ImageryTileLayer : IBlendLayer,
 #region Property Setters
 
     /// <summary>
+    ///    Asynchronously set the value of the ActivePresetRendererName property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetActivePresetRendererName(string? value)
+    {
+#pragma warning disable BL0005
+        ActivePresetRendererName = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(ActivePresetRendererName)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "activePresetRendererName", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the BandIds property after render.
     /// </summary>
     /// <param name="value">
@@ -1634,7 +1751,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetInterpolation(PixelInterpolation? value)
+    public async Task SetInterpolation(Interpolation? value)
     {
 #pragma warning disable BL0005
         Interpolation = value;
@@ -1870,43 +1987,6 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///    Asynchronously set the value of the ObjectSource property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetObjectSource(object? value)
-    {
-#pragma warning disable BL0005
-        ObjectSource = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(ObjectSource)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "source", value);
-    }
-    
-    /// <summary>
     ///    Asynchronously set the value of the PixelDataSource property after render.
     /// </summary>
     /// <param name="value">
@@ -2079,6 +2159,54 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PresetRenderers property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPresetRenderers(IReadOnlyList<RasterPresetRenderer>? value)
+    {
+        if (value is not null)
+        {
+            foreach (RasterPresetRenderer item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
+#pragma warning disable BL0005
+        PresetRenderers = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PresetRenderers)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference.InvokeVoidAsync("setPresetRenderers", 
+            CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the RasterFunction property after render.
     /// </summary>
     /// <param name="value">
@@ -2121,6 +2249,43 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
             CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the StringSource property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetStringSource(string? value)
+    {
+#pragma warning disable BL0005
+        StringSource = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(StringSource)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "source", value);
     }
     
     /// <summary>
@@ -2409,6 +2574,20 @@ public partial class ImageryTileLayer : IBlendLayer,
         await SetMultidimensionalDefinition(join);
     }
     
+    /// <summary>
+    ///     Asynchronously adds elements to the PresetRenderers property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToPresetRenderers(params RasterPresetRenderer[] values)
+    {
+        RasterPresetRenderer[] join = PresetRenderers is null
+            ? values
+            : [..PresetRenderers, ..values];
+        await SetPresetRenderers(join);
+    }
+    
 #endregion
 
 #region Remove From Collection Methods
@@ -2445,30 +2624,55 @@ public partial class ImageryTileLayer : IBlendLayer,
         await SetMultidimensionalDefinition(MultidimensionalDefinition.Except(values).ToArray());
     }
     
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the PresetRenderers property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromPresetRenderers(params RasterPresetRenderer[] values)
+    {
+        if (PresetRenderers is null)
+        {
+            return;
+        }
+        await SetPresetRenderers(PresetRenderers.Except(values).ToArray());
+    }
+    
 #endregion
 
 #region Public Methods
 
     /// <summary>
-    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a> for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayercomputestatisticshistograms-method">GeoBlazor Docs</a>
+    ///     Computes <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterBandStatistics">statistics</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryLayer.html#RasterHistogram">histograms</a>
+    ///     for the provided <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHistogramParameters.html">ImageHistogramParameters</a>.
+    ///     param parameters Specifies parameters for computing statistics and histograms.
+    ///     param requestOptions Additional <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request (will override requestOptions defined during construction).
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#computeStatisticsHistograms">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="parameters">
     ///     Specifies parameters for computing statistics and histograms.
     /// </param>
     /// <param name="requestOptions">
-    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#esriRequest">options</a> to be used for the data request (will override requestOptions defined during construction).
+    ///     Additional <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#request">options</a> to be used for the data request
+    ///     (will override requestOptions defined during construction).
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
-        object requestOptions)
+    public async Task<string?> ComputeStatisticsHistograms(ImageHistogramParameters parameters,
+        RequestOptions requestOptions,
+        CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
         {
             return null;
         }
         
-        try
+        try 
         {
             JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
                 "getJsComponent", CancellationTokenSource.Token, Id);
@@ -2483,15 +2687,22 @@ public partial class ImageryTileLayer : IBlendLayer,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "computeStatisticsHistograms", 
             CancellationTokenSource.Token,
             parameters,
-            requestOptions);
+            new { authMode = requestOptions.AuthMode, body = requestOptions.Body, cacheBust = requestOptions.CacheBust, headers = requestOptions.Headers, method = requestOptions.Method, query = requestOptions.Query, responseType = requestOptions.ResponseType, signal = abortSignal, timeout = requestOptions.Timeout, useProxy = requestOptions.UseProxy, withCredentials = requestOptions.WithCredentials });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayercreatepopuptemplate-method">GeoBlazor Docs</a>
     ///     Creates a default popup template for the layer, populated with all the fields of the layer.
+    ///     param options Options for creating the popup template.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -2527,22 +2738,33 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerfetchpixels-method">GeoBlazor Docs</a>
     ///     Fetches pixels for a given extent.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
+    ///     param extent The extent of the image to export.
+    ///     param width The width of the image in pixels.
+    ///     param height The height of the image in pixels.
+    ///     param options The parameter options is an object with the following properties.
+    ///     param options.interpolation Added at version 4.23. Defines how to interpolate pixel values.
+    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#fetchPixels">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="extent">
+    ///     The extent of the image to export.
     /// </param>
     /// <param name="width">
+    ///     The width of the image in pixels.
     /// </param>
     /// <param name="height">
+    ///     The height of the image in pixels.
     /// </param>
     /// <param name="options">
+    ///     The parameter options is an object with the following properties.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<PixelData?> FetchPixels(Extent extent,
+    public async Task<string?> FetchPixels(Extent extent,
         int width,
         int height,
         ImageryTileMixinFetchPixelsOptions options,
@@ -2569,7 +2791,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchPixels", 
             CancellationTokenSource.Token,
             extent,
@@ -2583,7 +2805,13 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerfetchtile-method">GeoBlazor Docs</a>
     ///     This method fetches a tile for the given level, row and column present in the view.
+    ///     param level Level of detail of the tile to fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param row The row (y) position of the tile fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param col The column (x) position of the tile to fetch. This value is provided by <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>.
+    ///     param options Optional settings for the tile request.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#fetchTile">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="level">
@@ -2599,7 +2827,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<object?> FetchTile(double level,
+    public async Task<string?> FetchTile(double level,
         double row,
         double col,
         CancellationToken cancellationToken = default)
@@ -2625,7 +2853,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        object? result = await JsComponentReference!.InvokeAsync<object?>(
+        string? result = await JsComponentReference!.InvokeAsync<string?>(
             "fetchTile", 
             CancellationTokenSource.Token,
             level,
@@ -2639,12 +2867,71 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayergeneraterasterinfo-method">GeoBlazor Docs</a>
+    ///     Generates a new raster info for the specified client side raster function.
+    ///     param rasterFunction Raster function for the requested raster info.
+    ///     param options An object with the following properties.
+    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#generateRasterInfo">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="rasterFunction">
+    ///     Raster function for the requested raster info.
+    /// </param>
+    /// <param name="cancellationToken">
+    ///     The CancellationToken to cancel an asynchronous operation.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<RasterInfo?> GenerateRasterInfo(RasterFunction rasterFunction,
+        CancellationToken cancellationToken = default)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
+        RasterInfo? result = await JsComponentReference!.InvokeAsync<RasterInfo?>(
+            "generateRasterInfo", 
+            CancellationTokenSource.Token,
+            rasterFunction,
+            new { signal = abortSignal });
+                
+        await AbortManager.DisposeAbortController(cancellationToken);
+        
+        return result;
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayeridentify-method">GeoBlazor Docs</a>
     ///     Identify pixel values at a given location.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#identify">ArcGIS Maps SDK for JavaScript</a>
+    ///     param point Input point that defines the location to be identified.
+    ///     param options Optional settings for the identify request. At version 4.25, the `transposedVariableName` was added to get pixel values from specific dimensional definitions if the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a> references a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service. Set the `transposedVariableName` and `multidimensionalDefinition` get pixel values for the specified dimensional definitions from a transposed multidimensional service. If `multidimensionalDefinition` is not specified, pixel values will be returned from all the dimensional slices.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#identify">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="point">
+    ///     Input point that defines the location to be identified.
     /// </param>
     /// <param name="options">
+    ///     Optional settings for the identify request.
+    ///     At version 4.25, the <code>transposedVariableName</code> was added to get pixel values from specific dimensional definitions if the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html">ImageryTileLayer</a>
+    ///     references a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-RasterInfo.html#hasMultidimensionalTranspose">transposed multidimensional</a> image service.
+    ///     Set the <code>transposedVariableName</code> and <code>multidimensionalDefinition</code> get pixel values for the specified dimensional definitions from a transposed multidimensional service.
+    ///     If <code>multidimensionalDefinition</code> is not specified, pixel values will be returned from all the dimensional slices.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -2687,7 +2974,11 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
-    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayersave-method">GeoBlazor Docs</a>
+    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>
+    ///     authenticated within the user's current session.
+    ///     param options Various options for saving the layer.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
@@ -2723,7 +3014,12 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayersaveas-method">GeoBlazor Docs</a>
     ///     Saves the layer to a new portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a> authenticated within the user's current session.
+    ///     param portalItem The portal item to which the layer will be saved.
+    ///     param options Various options for saving the layer.
+    ///     param options.folder The portal folder where the layer's portal item will be saved.
+    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="portalItem">
@@ -2808,6 +3104,19 @@ public partial class ImageryTileLayer : IBlendLayer,
                 }
                 
                 return true;
+            case RasterPresetRenderer presetRenderers:
+                PresetRenderers ??= [];
+                if (!PresetRenderers.Contains(presetRenderers))
+                {
+                    PresetRenderers = [..PresetRenderers, presetRenderers];
+                    ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
+                }
+                
+                return true;
             case RasterFunction rasterFunction:
                 if (rasterFunction != RasterFunction)
                 {
@@ -2854,6 +3163,10 @@ public partial class ImageryTileLayer : IBlendLayer,
                 PortalItem = null;
                 ModifiedParameters[nameof(PortalItem)] = PortalItem;
                 return true;
+            case RasterPresetRenderer presetRenderers:
+                PresetRenderers = PresetRenderers?.Where(p => p != presetRenderers).ToList();
+                ModifiedParameters[nameof(PresetRenderers)] = PresetRenderers;
+                return true;
             case RasterFunction _:
                 RasterFunction = null;
                 ModifiedParameters[nameof(RasterFunction)] = RasterFunction;
@@ -2883,6 +3196,13 @@ public partial class ImageryTileLayer : IBlendLayer,
             }
         }
         PixelDataSource?.ValidateRequiredGeneratedChildren();
+        if (PresetRenderers is not null)
+        {
+            foreach (RasterPresetRenderer child in PresetRenderers)
+            {
+                child.ValidateRequiredGeneratedChildren();
+            }
+        }
         RasterFunction?.ValidateRequiredGeneratedChildren();
         TileInfo?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();

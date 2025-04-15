@@ -37,6 +37,10 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
             let { buildJsAbilities } = await import('./abilities');
             this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
             this.component.location = buildJsPoint(dotNetObject.location) as any;
@@ -145,10 +149,13 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.actions.map(async i => await buildDotNetActionBase(i)));
+        return await Promise.all(this.component.actions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async setActions(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.actions = [];
+        }
         let { buildJsActionBase } = await import('./actionBase');
         this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
     }
@@ -173,7 +180,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.allActions.map(async i => await buildDotNetActionBase(i)));
+        return await Promise.all(this.component.allActions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async getDefaultActions(): Promise<any> {
@@ -182,7 +189,7 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActionBase } = await import('./actionBase');
-        return await Promise.all(this.component.defaultActions.map(async i => await buildDotNetActionBase(i)));
+        return await Promise.all(this.component.defaultActions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     async getFeatures(): Promise<any> {
@@ -195,6 +202,9 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     }
     
     async setFeatures(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.features = [];
+        }
         let { buildJsGraphic } = await import('./graphic');
         this.component.features = value.map(i => buildJsGraphic(i)) as any;
     }
@@ -211,6 +221,20 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     async setFeatureViewModelAbilities(value: any): Promise<void> {
         let { buildJsAbilities } = await import('./abilities');
         this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
+    }
+    
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
     async getLocation(): Promise<any> {
@@ -237,6 +261,9 @@ export default class PopupViewModelGenerated implements IPropertyWrapper {
     }
     
     async setPromises(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.promises = [];
+        }
         let { buildJsGraphic } = await import('./graphic');
         this.component.promises = value.map(i => buildJsGraphic(i)) as any;
     }
@@ -304,6 +331,10 @@ export async function buildJsPopupViewModelGenerated(dotNetObject: any, layerId:
     if (hasValue(dotNetObject.featureViewModelAbilities)) {
         let { buildJsAbilities } = await import('./abilities');
         properties.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, layerId, viewId) as any;
+    }
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.location)) {
         let { buildJsPoint } = await import('./point');

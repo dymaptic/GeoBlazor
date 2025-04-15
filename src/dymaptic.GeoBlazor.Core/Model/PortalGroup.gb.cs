@@ -227,7 +227,8 @@ public partial record PortalGroup(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalGroup.html#queryItems">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="queryParams">
-    ///     The input query parameters defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
+    ///     The input query parameters
+    ///     defined in <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-PortalQueryParams.html">PortalQueryParams</a>.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.

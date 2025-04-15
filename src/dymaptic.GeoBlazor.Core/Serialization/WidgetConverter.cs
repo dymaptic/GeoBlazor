@@ -60,6 +60,8 @@ internal class WidgetConverter : JsonConverter<Widget>
                     return JsonSerializer.Deserialize<ZoomWidget>(ref cloneReader, newOptions);
                 case "grid-controls":
                     return JsonSerializer.Deserialize<GridControlsWidget>(ref cloneReader, newOptions);
+                case "grid-controls":
+                    return JsonSerializer.Deserialize<GridControlsWidget>(ref cloneReader, newOptions);
                 case null:
                     return null;
                 default:

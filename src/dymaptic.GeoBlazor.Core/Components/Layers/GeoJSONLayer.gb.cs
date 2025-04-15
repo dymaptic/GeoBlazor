@@ -4200,7 +4200,8 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     Name of the field.
     /// </param>
     /// <param name="options">
-    ///     An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     An object specifying additional options. See the
+    ///     object specification table below for the required properties of this object.
     /// </param>
     [ArcGISMethod]
     public async Task<Domain?> GetFieldDomain(string fieldName,
@@ -4243,7 +4244,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial
+    ///     filter of the query. If no parameters are specified, then the extent and count of all features
+    ///     satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -4294,7 +4297,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
+    ///     Specifies the attributes and
+    ///     spatial filter of the query. If no parameters are specified, the total number of features
+    ///     satisfying the layer's configuration/filters is returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -4345,7 +4350,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial
+    ///     filter of the query. If no parameters are specified, then all features satisfying the layer's
+    ///     configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -4396,7 +4403,9 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
+    ///     Specifies the attributes and spatial
+    ///     filter of the query. If no parameters are specified, then the Object IDs of all features
+    ///     satisfying the layer's configuration/filters are returned.
     /// </param>
     /// <param name="cancellationToken">
     ///     The CancellationToken to cancel an asynchronous operation.
@@ -4551,8 +4560,11 @@ public partial class GeoJSONLayer : IBlendLayer,
                 if (attributeTableTemplate != AttributeTableTemplate)
                 {
                     AttributeTableTemplate = attributeTableTemplate;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4560,8 +4572,11 @@ public partial class GeoJSONLayer : IBlendLayer,
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
                     DisplayFilterInfo = displayFilterInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4716,8 +4731,11 @@ public partial class GeoJSONLayer : IBlendLayer,
                 if (trackInfo != TrackInfo)
                 {
                     TrackInfo = trackInfo;
-                    LayerChanged = MapRendered;
                     ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
+                    if (MapRendered)
+                    {
+                        await UpdateLayer();
+                    }
                 }
                 
                 return true;
@@ -4733,12 +4751,10 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             case AttributeTableTemplate _:
                 AttributeTableTemplate = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
                 return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
                 return true;
             case GeoJSONLayerElevationInfo _:
@@ -4791,7 +4807,6 @@ public partial class GeoJSONLayer : IBlendLayer,
                 return true;
             case TrackInfo _:
                 TrackInfo = null;
-                LayerChanged = MapRendered;
                 ModifiedParameters[nameof(TrackInfo)] = TrackInfo;
                 return true;
             default:

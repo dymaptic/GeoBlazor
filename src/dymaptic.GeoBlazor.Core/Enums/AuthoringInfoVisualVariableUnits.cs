@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AuthoringInfoVisualVariableUnits.html">GeoBlazor Docs</a>
-///     Enumeration for AuthoringInfoVisualVariableUnits
+///     <summary>
+///          Enumeration for AuthoringInfoVisualVariableUnits
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthoringInfoVisualVariableUnits>))]
 public enum AuthoringInfoVisualVariableUnits

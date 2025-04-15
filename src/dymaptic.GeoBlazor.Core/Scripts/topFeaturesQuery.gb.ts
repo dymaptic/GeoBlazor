@@ -18,6 +18,12 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
         properties.timeExtent = await buildJsTimeExtent(dotNetObject.timeExtent) as any;
     }
 
+    if (hasValue(dotNetObject.cacheHint)) {
+        properties.cacheHint = dotNetObject.cacheHint;
+    }
+    if (hasValue(dotNetObject.distance)) {
+        properties.distance = dotNetObject.distance;
+    }
     if (hasValue(dotNetObject.geometryPrecision)) {
         properties.geometryPrecision = dotNetObject.geometryPrecision;
     }
@@ -48,11 +54,20 @@ export async function buildJsTopFeaturesQueryGenerated(dotNetObject: any, layerI
     if (hasValue(dotNetObject.returnZ)) {
         properties.returnZ = dotNetObject.returnZ;
     }
+    if (hasValue(dotNetObject.spatialRelationship)) {
+        properties.spatialRelationship = dotNetObject.spatialRelationship;
+    }
     if (hasValue(dotNetObject.start)) {
         properties.start = dotNetObject.start;
     }
     if (hasValue(dotNetObject.topFilter)) {
         properties.topFilter = dotNetObject.topFilter;
+    }
+    if (hasValue(dotNetObject.units)) {
+        properties.units = dotNetObject.units;
+    }
+    if (hasValue(dotNetObject.where)) {
+        properties.where = dotNetObject.where;
     }
     let jsTopFeaturesQuery = new TopFeaturesQuery(properties);
     
@@ -78,6 +93,14 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any, layerI
     if (hasValue(jsObject.timeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetTopFeaturesQuery.timeExtent = buildDotNetTimeExtent(jsObject.timeExtent);
+    }
+    
+    if (hasValue(jsObject.cacheHint)) {
+        dotNetTopFeaturesQuery.cacheHint = jsObject.cacheHint;
+    }
+    
+    if (hasValue(jsObject.distance)) {
+        dotNetTopFeaturesQuery.distance = jsObject.distance;
     }
     
     if (hasValue(jsObject.geometryPrecision)) {
@@ -120,12 +143,24 @@ export async function buildDotNetTopFeaturesQueryGenerated(jsObject: any, layerI
         dotNetTopFeaturesQuery.returnZ = jsObject.returnZ;
     }
     
+    if (hasValue(jsObject.spatialRelationship)) {
+        dotNetTopFeaturesQuery.spatialRelationship = removeCircularReferences(jsObject.spatialRelationship);
+    }
+    
     if (hasValue(jsObject.start)) {
         dotNetTopFeaturesQuery.start = jsObject.start;
     }
     
     if (hasValue(jsObject.topFilter)) {
         dotNetTopFeaturesQuery.topFilter = removeCircularReferences(jsObject.topFilter);
+    }
+    
+    if (hasValue(jsObject.units)) {
+        dotNetTopFeaturesQuery.units = removeCircularReferences(jsObject.units);
+    }
+    
+    if (hasValue(jsObject.where)) {
+        dotNetTopFeaturesQuery.where = jsObject.where;
     }
     
 

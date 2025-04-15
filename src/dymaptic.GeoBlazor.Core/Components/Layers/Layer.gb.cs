@@ -16,6 +16,7 @@ public abstract partial class Layer : IHitTestItem,
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerarcgislayerid-property">GeoBlazor Docs</a>
     ///     The unique ID assigned to the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#id">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
@@ -214,11 +215,6 @@ public abstract partial class Layer : IHitTestItem,
         
         if (result is not null)
         {
-            if (VisibilityTimeExtent is not null)
-            {
-                result.Id = VisibilityTimeExtent.Id;
-            }
-            
 #pragma warning disable BL0005
             VisibilityTimeExtent = result;
 #pragma warning restore BL0005
@@ -304,43 +300,6 @@ public abstract partial class Layer : IHitTestItem,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "listMode", value);
-    }
-    
-    /// <summary>
-    ///    Asynchronously set the value of the PersistenceEnabled property after render.
-    /// </summary>
-    /// <param name="value">
-    ///     The value to set.
-    /// </param>
-    public async Task SetPersistenceEnabled(bool? value)
-    {
-#pragma warning disable BL0005
-        PersistenceEnabled = value;
-#pragma warning restore BL0005
-        ModifiedParameters[nameof(PersistenceEnabled)] = value;
-        
-        if (CoreJsModule is null)
-        {
-            return;
-        }
-    
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-    
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
-            JsComponentReference, "persistenceEnabled", value);
     }
     
     /// <summary>
@@ -430,7 +389,47 @@ public abstract partial class Layer : IHitTestItem,
 #region Public Methods
 
     /// <summary>
-    ///     Called by the views, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>, when the layer is added to the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#layers">Map.layers</a> collection and a layer view must be created for it.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layercancelload-method">GeoBlazor Docs</a>
+    ///     Cancels a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#load">load()</a> operation if it is already in progress.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#cancelLoad">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task CancelLoad()
+    {
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await JsComponentReference!.InvokeVoidAsync(
+            "cancelLoad", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layercreatelayerview-method">GeoBlazor Docs</a>
+    ///     Called by the views, such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html">MapView</a> and
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>, when the layer is added to the
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Map.html#layers">Map.layers</a> collection and a layer view must
+    ///     be created for it.
+    ///     param view The parent view.
+    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
+    ///     param options.signal A signal to abort the creation of the layerview.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#createLayerView">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="view">
@@ -440,7 +439,7 @@ public abstract partial class Layer : IHitTestItem,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<LayerView?> CreateLayerView(object view,
+    public async Task<LayerView?> CreateLayerView(string view,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -476,11 +475,12 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerfetchattributiondata-method">GeoBlazor Docs</a>
     ///     Fetches custom attribution data for the layer when it becomes available.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#fetchAttributionData">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISMethod]
-    public async Task<object?> FetchAttributionData()
+    public async Task<string?> FetchAttributionData()
     {
         if (CoreJsModule is null)
         {
@@ -502,9 +502,152 @@ public abstract partial class Layer : IHitTestItem,
             return null;
         }
         
-        return await JsComponentReference!.InvokeAsync<object?>(
+        return await JsComponentReference!.InvokeAsync<string?>(
             "fetchAttributionData", 
             CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerisfulfilled-method">GeoBlazor Docs</a>
+    ///     `isFulfilled()` may be used to verify if creating an instance of the class is fulfilled (either resolved or rejected).
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#isFulfilled">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsFulfilled()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isFulfilled", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerisrejected-method">GeoBlazor Docs</a>
+    ///     `isRejected()` may be used to verify if creating an instance of the class is rejected.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#isRejected">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsRejected()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isRejected", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerisresolved-method">GeoBlazor Docs</a>
+    ///     `isResolved()` may be used to verify if creating an instance of the class is resolved.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#isResolved">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISMethod]
+    public async Task<bool?> IsResolved()
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<bool?>(
+            "isResolved", 
+            CancellationTokenSource.Token);
+    }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerwhen-method">GeoBlazor Docs</a>
+    ///     `when()` may be leveraged once an instance of the class is created.
+    ///     param callback The function to call when the promise resolves.
+    ///     param errback The function to execute when the promise fails.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-Layer.html#when">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    /// <param name="callback">
+    ///     The function to call when the promise resolves.
+    /// </param>
+    /// <param name="errback">
+    ///     The function to execute when the promise fails.
+    /// </param>
+    [ArcGISMethod]
+    public async Task<string?> When(Func<Task> callback,
+        Func<Task> errback)
+    {
+        if (CoreJsModule is null)
+        {
+            return null;
+        }
+        
+        try
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return null;
+        }
+        
+        return await JsComponentReference!.InvokeAsync<string?>(
+            "when", 
+            CancellationTokenSource.Token,
+            callback,
+            errback);
     }
     
 #endregion
@@ -530,6 +673,7 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layeroncreate-property">GeoBlazor Docs</a>
     ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is created and rendered in a view.
     /// </summary>
     [Parameter]
@@ -560,7 +704,9 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
-    ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> after a layer has been added to the map.
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layeroncreateerror-property">GeoBlazor Docs</a>
+    ///     Fires when an error emits during the creation of a <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a>
+    ///     after a layer has been added to the map.
     /// </summary>
     [Parameter]
     [JsonIgnore]
@@ -590,6 +736,7 @@ public abstract partial class Layer : IHitTestItem,
     }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.Layer.html#layerondestroy-property">GeoBlazor Docs</a>
     ///     Fires after the layer's <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html">LayerView</a> is destroyed and no longer renders in a view.
     /// </summary>
     [Parameter]

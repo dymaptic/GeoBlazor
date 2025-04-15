@@ -47,10 +47,13 @@ export default class PortalBasemapsSourceGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetBasemap } = await import('./basemap');
-        return await Promise.all(this.component.basemaps.map(async i => await buildDotNetBasemap(i)));
+        return await Promise.all(this.component.basemaps!.map(async i => await buildDotNetBasemap(i)));
     }
     
     async setBasemaps(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.basemaps = [];
+        }
         let { buildJsBasemap } = await import('./basemap');
         this.component.basemaps = await Promise.all(value.map(async i => await buildJsBasemap(i, this.layerId, this.viewId))) as any;
     }

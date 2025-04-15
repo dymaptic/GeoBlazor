@@ -337,6 +337,9 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
     }
     
     async setFields(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.fields = [];
+        }
         let { buildJsField } = await import('./field');
         this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
@@ -370,10 +373,13 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLabel } = await import('./label');
-        return await Promise.all(this.layer.labelingInfo.map(async i => await buildDotNetLabel(i)));
+        return await Promise.all(this.layer.labelingInfo!.map(async i => await buildDotNetLabel(i)));
     }
     
     async setLabelingInfo(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.labelingInfo = [];
+        }
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
     }
@@ -384,10 +390,13 @@ export default class WFSLayerGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetOrderByInfo } = await import('./orderByInfo');
-        return await Promise.all(this.layer.orderBy.map(async i => await buildDotNetOrderByInfo(i)));
+        return await Promise.all(this.layer.orderBy!.map(async i => await buildDotNetOrderByInfo(i)));
     }
     
     async setOrderBy(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.layer.orderBy = [];
+        }
         let { buildJsOrderByInfo } = await import('./orderByInfo');
         this.layer.orderBy = await Promise.all(value.map(async i => await buildJsOrderByInfo(i, this.layerId, this.viewId))) as any;
     }

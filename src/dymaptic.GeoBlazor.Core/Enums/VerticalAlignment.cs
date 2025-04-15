@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.VerticalAlignment.html">GeoBlazor Docs</a>
-///     The vertical alignment for a text symbol's text.
+///     <summary>
+///          The vertical alignment for a text symbol's text.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<VerticalAlignment>))]
 public enum VerticalAlignment

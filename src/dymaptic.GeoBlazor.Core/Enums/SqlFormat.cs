@@ -4,11 +4,14 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SqlFormat.html">GeoBlazor Docs</a>
-///     This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore native. See the ArcGIS REST API documentation for more information.
+///     <summary>
+///          This parameter can be either standard SQL92 standard or it can use the native SQL of the underlying datastore
+///          native. See the ArcGIS REST API documentation for more information.
+///      </summary>
+///      <remarks>
+///          This property does not apply to layer view or CSVLayer queries.
+///      </remarks>
 /// </summary>
-/// <remarks>
-///     This property does not apply to layer view or CSVLayer queries.
-/// </remarks>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SqlFormat>))]
 public enum SqlFormat
 {

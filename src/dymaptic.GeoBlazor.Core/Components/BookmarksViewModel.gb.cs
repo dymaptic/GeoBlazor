@@ -38,11 +38,16 @@ public partial class BookmarksViewModel : IGoTo
     ///     Specifies how bookmarks will be edited.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#defaultEditOptions">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="goToOverride">
+    ///     This function provides the ability to override either the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-MapView.html#goTo">MapView goTo()</a> or <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html#goTo">SceneView goTo()</a> methods.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-support-GoTo.html#goToOverride">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     public BookmarksViewModel(
         IReadOnlyList<Bookmark>? bookmarks = null,
         BookmarksCapabilities? capabilities = null,
         BookmarkOptions? defaultCreateOptions = null,
-        BookmarkOptions? defaultEditOptions = null)
+        BookmarkOptions? defaultEditOptions = null,
+        GoToOverride? goToOverride = null)
     {
         AllowRender = false;
 #pragma warning disable BL0005
@@ -50,6 +55,7 @@ public partial class BookmarksViewModel : IGoTo
         Capabilities = capabilities;
         DefaultCreateOptions = defaultCreateOptions;
         DefaultEditOptions = defaultEditOptions;
+        GoToOverride = goToOverride;
 #pragma warning restore BL0005    
     }
     
@@ -575,7 +581,8 @@ public partial class BookmarksViewModel : IGoTo
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Bookmarks-BookmarksViewModel.html#createBookmark">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     /// <param name="options">
-    ///     Specifies how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
+    ///     Specifies
+    ///     how new bookmarks will be created. Can be used to enable/disable taking screenshots or capturing the extent when a new bookmark is added.
     /// </param>
     [ArcGISMethod]
     public async Task<Bookmark?> CreateBookmark(BookmarkOptions options)
@@ -617,7 +624,8 @@ public partial class BookmarksViewModel : IGoTo
     ///     The bookmark to be edited.
     /// </param>
     /// <param name="options">
-    ///     Specifies how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
+    ///     Specifies
+    ///     how bookmarks will be edited. Can be used to enable/disable taking screenshots or capturing the extent when a bookmark is edited.
     ///     If not specified, the <a href="#defaultEditOptions">defaultEditOptions</a> will be used.
     /// </param>
     [ArcGISMethod]

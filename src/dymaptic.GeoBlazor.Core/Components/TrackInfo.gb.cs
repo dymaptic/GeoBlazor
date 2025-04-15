@@ -1076,7 +1076,6 @@ public partial class TrackInfo : MapComponent
                 if (!Fields.Contains(fields))
                 {
                     Fields = [..Fields, fields];
-                    
                     ModifiedParameters[nameof(Fields)] = Fields;
                 }
                 
@@ -1085,7 +1084,6 @@ public partial class TrackInfo : MapComponent
                 if (maxDisplayDuration != MaxDisplayDuration)
                 {
                     MaxDisplayDuration = maxDisplayDuration;
-                    
                     ModifiedParameters[nameof(MaxDisplayDuration)] = MaxDisplayDuration;
                 }
                 
@@ -1094,7 +1092,6 @@ public partial class TrackInfo : MapComponent
                 if (popupTemplate != PopupTemplate)
                 {
                     PopupTemplate = popupTemplate;
-                    
                     ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 }
                 
@@ -1111,17 +1108,14 @@ public partial class TrackInfo : MapComponent
         {
             case AggregateField fields:
                 Fields = Fields?.Where(f => f != fields).ToList();
-                
                 ModifiedParameters[nameof(Fields)] = Fields;
                 return true;
             case TimeInterval _:
                 MaxDisplayDuration = null;
-                
                 ModifiedParameters[nameof(MaxDisplayDuration)] = MaxDisplayDuration;
                 return true;
             case PopupTemplate _:
                 PopupTemplate = null;
-                
                 ModifiedParameters[nameof(PopupTemplate)] = PopupTemplate;
                 return true;
             default:

@@ -108,10 +108,13 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetActiveLayerInfo } = await import('./activeLayerInfo');
-        return await Promise.all(this.widget.activeLayerInfos.map(async i => await buildDotNetActiveLayerInfo(i)));
+        return await Promise.all(this.widget.activeLayerInfos!.map(async i => await buildDotNetActiveLayerInfo(i)));
     }
     
     async setActiveLayerInfos(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.activeLayerInfos = [];
+        }
         let { buildJsActiveLayerInfo } = await import('./activeLayerInfo');
         this.widget.activeLayerInfos = await Promise.all(value.map(async i => await buildJsActiveLayerInfo(i, this.layerId, this.viewId))) as any;
     }
@@ -122,10 +125,13 @@ export default class LegendWidgetGenerated implements IPropertyWrapper {
         }
         
         let { buildDotNetLegendLayerInfos } = await import('./legendLayerInfos');
-        return await Promise.all(this.widget.layerInfos.map(async i => await buildDotNetLegendLayerInfos(i)));
+        return await Promise.all(this.widget.layerInfos!.map(async i => await buildDotNetLegendLayerInfos(i)));
     }
     
     async setLayerInfos(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.widget.layerInfos = [];
+        }
         let { buildJsLegendLayerInfos } = await import('./legendLayerInfos');
         this.widget.layerInfos = await Promise.all(value.map(async i => await buildJsLegendLayerInfos(i))) as any;
     }
