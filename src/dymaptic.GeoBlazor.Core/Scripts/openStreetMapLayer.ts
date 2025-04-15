@@ -1,4 +1,10 @@
 // override generated code in this file
+
+// Workaround for ESRI OpenStreetMapLayer issue with custom urlTemplate
+// See: https://github.com/Esri/jsapi-resources/issues/562
+// This bypasses the typical path used in other layers due to a known limitation
+// If ESRI fixes this in a future release, we can remove this logic
+
 import OpenStreetMapLayerGenerated from './openStreetMapLayer.gb';
 import OpenStreetMapLayer from '@arcgis/core/layers/OpenStreetMapLayer';
 import { copyValuesIfExists, hasValue } from "./arcGisJsInterop";
@@ -11,6 +17,7 @@ export default class OpenStreetMapLayerWrapper extends OpenStreetMapLayerGenerat
     }
 
 }
+
 
 export async function buildJsOpenStreetMapLayer(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
     const { buildJsOpenStreetMapLayerGenerated } = await import('./openStreetMapLayer.gb');
