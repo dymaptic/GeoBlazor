@@ -236,8 +236,8 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async applyEdits(edits: any,
         options: any): Promise<any> {
-        let { buildJsFeatureLayerApplyEditsEdits } = await import('./featureLayerApplyEditsEdits');
-        let jsEdits = await buildJsFeatureLayerApplyEditsEdits(edits, this.layerId, this.viewId) as any;
+        let { buildJsFeatureEdits } = await import('./featureEdits');
+        let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
         return await this.layer.applyEdits(jsEdits,
             options);
     }

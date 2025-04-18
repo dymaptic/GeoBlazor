@@ -7,10 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     This class defines parameters for executing queries for features from a layer or layer view.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-/// <param name="AggregateIds">
-///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="CacheHint">
 /// </param>
 /// <param name="DateTimeArrayCollectionParameterValues">
@@ -61,6 +57,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="HistoricMoment">
 ///     The historic moment to query.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="LongCollectionAggregateIds">
+///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxAllowableOffset">
 ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
@@ -175,6 +175,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The zero-based index indicating where to begin retrieving features.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#start">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="String)CollectionAggregateIds">
+///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="StringArrayCollectionParameterValues">
 ///     Filters features from the layer based on pre-authored parameterized filters.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
@@ -197,7 +201,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Where">
 /// </param>
 public partial record Query(
-    IReadOnlyCollection<string>? AggregateIds = null,
     bool? CacheHint = null,
     Dictionary<string, IReadOnlyCollection<DateTime>>? DateTimeArrayCollectionParameterValues = null,
     Dictionary<string, DateTime>? DateTimeCollectionParameterValues = null,
@@ -211,6 +214,7 @@ public partial record Query(
     IReadOnlyCollection<string>? GroupByFieldsForStatistics = null,
     string? Having = null,
     DateTime? HistoricMoment = null,
+    IReadOnlyCollection<long>? LongCollectionAggregateIds = null,
     double? MaxAllowableOffset = null,
     int? MaxRecordCountFactor = null,
     string? MultipatchOption = null,
@@ -236,19 +240,13 @@ public partial record Query(
     SpatialRelationship? SpatialRelationship = null,
     SqlFormat? SqlFormat = null,
     int? Start = null,
-    Dictionary<string, IReadOnlyCollection<string>>? StringArrayCollectionParameterValues = null,
-    Dictionary<string, string>? StringCollectionParameterValues = null,
+    IReadOnlyCollection<string>? AggregateIds = null,
+    Dictionary<string, object?>? ParameterValues = null,
     string? Text = null,
     TimeExtent? TimeExtent = null,
     IQueryMixinUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
-    /// <summary>
-    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
-    
     /// <summary>
     ///     
     /// </summary>
@@ -327,6 +325,12 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public DateTime? HistoricMoment { get; set; } = HistoricMoment;
+    
+    /// <summary>
+    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public IReadOnlyCollection<long>? LongCollectionAggregateIds { get; set; } = LongCollectionAggregateIds;
     
     /// <summary>
     ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
@@ -493,16 +497,16 @@ public partial record Query(
     public int? Start { get; set; } = Start;
     
     /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
+    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Dictionary<string, IReadOnlyCollection<string>>? StringArrayCollectionParameterValues { get; set; } = StringArrayCollectionParameterValues;
+    public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
     
     /// <summary>
     ///     Filters features from the layer based on pre-authored parameterized filters.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    public Dictionary<string, string>? StringCollectionParameterValues { get; set; } = StringCollectionParameterValues;
+    public Dictionary<string, object?>? ParameterValues { get; set; } = ParameterValues;
     
     /// <summary>
     ///     Shorthand for a where clause using "like".

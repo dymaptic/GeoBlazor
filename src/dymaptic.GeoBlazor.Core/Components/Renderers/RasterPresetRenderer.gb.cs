@@ -34,6 +34,10 @@ public partial class RasterPresetRenderer : MapComponent
     ///     The name of the preset renderer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#name">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
+    /// <param name="renderer">
+    ///     The raster renderer associated with the selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#method">method</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    /// </param>
     /// <param name="value">
     ///     The corresponding value of selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#method">method</a>.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#value">ArcGIS Maps SDK for JavaScript</a>
@@ -42,6 +46,7 @@ public partial class RasterPresetRenderer : MapComponent
         IReadOnlyList<long>? bandIds = null,
         Method? method = null,
         string? name = null,
+        Renderer? renderer = null,
         string? value = null)
     {
         AllowRender = false;
@@ -49,6 +54,7 @@ public partial class RasterPresetRenderer : MapComponent
         BandIds = bandIds;
         Method = method;
         Name = name;
+        Renderer = renderer;
         Value = value;
 #pragma warning restore BL0005    
     }
@@ -85,6 +91,16 @@ public partial class RasterPresetRenderer : MapComponent
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterPresetRenderer.html#rasterpresetrendererrenderer-property">GeoBlazor Docs</a>
+    ///     The raster renderer associated with the selected <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#value">value</a> and <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#method">method</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-support-RasterPresetRenderer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public Renderer? Renderer { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Renderers.RasterPresetRenderer.html#rasterpresetrenderervalue-property">GeoBlazor Docs</a>
@@ -215,6 +231,45 @@ public partial class RasterPresetRenderer : MapComponent
         }
          
         return Name;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Renderer property.
+    /// </summary>
+    public async Task<Renderer?> GetRenderer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Renderer;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Renderer;
+        }
+
+        Renderer? result = await JsComponentReference.InvokeAsync<Renderer?>(
+            "getRenderer", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            Renderer = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+        
+        return Renderer;
     }
     
     /// <summary>
@@ -372,6 +427,51 @@ public partial class RasterPresetRenderer : MapComponent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the Renderer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRenderer(Renderer? value)
+    {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
+#pragma warning disable BL0005
+        Renderer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Renderer)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "renderer", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Value property after render.
     /// </summary>
     /// <param name="value">
@@ -448,4 +548,45 @@ public partial class RasterPresetRenderer : MapComponent
     
 #endregion
 
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> RegisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Renderer renderer:
+                if (renderer != Renderer)
+                {
+                    Renderer = renderer;
+                    ModifiedParameters[nameof(Renderer)] = Renderer;
+                }
+                
+                return true;
+            default:
+                return await base.RegisterGeneratedChildComponent(child);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override async ValueTask<bool> UnregisterGeneratedChildComponent(MapComponent child)
+    {
+        switch (child)
+        {
+            case Renderer _:
+                Renderer = null;
+                ModifiedParameters[nameof(Renderer)] = Renderer;
+                return true;
+            default:
+                return await base.UnregisterGeneratedChildComponent(child);
+        }
+    }
+    
+    /// <inheritdoc />
+    public override void ValidateRequiredGeneratedChildren()
+    {
+    
+        Renderer?.ValidateRequiredGeneratedChildren();
+        base.ValidateRequiredGeneratedChildren();
+    }
+      
 }

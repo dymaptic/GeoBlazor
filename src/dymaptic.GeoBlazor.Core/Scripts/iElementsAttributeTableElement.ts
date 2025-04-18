@@ -1,7 +1,7 @@
 
-export async function buildJsIElementsAttributeTableElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIElementsAttributeTableElement(dotNetObject: any): Promise<any> {
     let { buildJsIElementsAttributeTableElementGenerated } = await import('./iElementsAttributeTableElement.gb');
-    return await buildJsIElementsAttributeTableElementGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIElementsAttributeTableElementGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIElementsAttributeTableElement(jsObject: any): Promise<any> {

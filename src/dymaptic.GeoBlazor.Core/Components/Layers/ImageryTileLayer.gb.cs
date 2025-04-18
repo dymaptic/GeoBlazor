@@ -36,7 +36,8 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#portalItem">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
-    ///     An interface that implements the various imagery renderers.
+    ///     The renderer assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="bandIds">
     ///     Defines a band combination using 0-based band indexes.
@@ -349,6 +350,16 @@ public partial class ImageryTileLayer : IBlendLayer,
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RasterFunction? RasterFunction { get; set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerrenderer-property">GeoBlazor Docs</a>
+    ///     The renderer assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-ImageryTileLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IImageryRenderer? Renderer { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.ImageryTileLayer.html#imagerytilelayerservicerasterinfo-property">GeoBlazor Docs</a>
@@ -1161,6 +1172,45 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         return RasterFunction;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Renderer property.
+    /// </summary>
+    public async Task<IImageryRenderer?> GetRenderer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Renderer;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Renderer;
+        }
+
+        // get the property value
+        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
+            CancellationTokenSource.Token, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
+        return Renderer;
     }
     
     /// <summary>
@@ -1987,6 +2037,43 @@ public partial class ImageryTileLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PixelDataSource property after render.
     /// </summary>
     /// <param name="value">
@@ -2249,6 +2336,43 @@ public partial class ImageryTileLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setRasterFunction", 
             CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Renderer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRenderer(IImageryRenderer? value)
+    {
+#pragma warning disable BL0005
+        Renderer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Renderer)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "renderer", value);
     }
     
     /// <summary>
@@ -2764,7 +2888,7 @@ public partial class ImageryTileLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchPixels(Extent extent,
+    public async Task<PixelData?> FetchPixels(Extent extent,
         int width,
         int height,
         ImageryTileMixinFetchPixelsOptions options,
@@ -2791,7 +2915,7 @@ public partial class ImageryTileLayer : IBlendLayer,
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
             "fetchPixels", 
             CancellationTokenSource.Token,
             extent,

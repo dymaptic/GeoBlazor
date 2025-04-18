@@ -10,8 +10,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-SceneView.html">SceneView</a>.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class FeatureLayerView : IFeatureLayerViewMixin,
-    IHighlightLayerViewMixin
+public partial class FeatureLayerView : IHighlightLayerViewMixin, IMapComponent
 {
 
 #region Public Properties / Blazor Parameters
@@ -700,56 +699,6 @@ public partial class FeatureLayerView : IFeatureLayerViewMixin,
         return result;
     }
     
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.FeatureLayerView.html#featurelayerviewqueryattributebins-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html">AttributeBinsQuery</a> against features available for drawing, which groups features into bins based on ranges in numeric or date fields, and returns a
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> containing the series of bins.
-    ///     param binsQuery Specifies the parameters of the `queryAttributeBins()` operation. The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-FeatureLayerView.html#queryAttributeBins">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="binsQuery">
-    ///     Specifies the parameters of the <code>queryAttributeBins()</code> operation. The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
-            "queryAttributeBins", 
-            CancellationTokenSource.Token,
-            binsQuery,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
     
 #endregion
 

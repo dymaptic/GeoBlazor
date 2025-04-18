@@ -1,3 +1,4 @@
+import ExtentGenerated from './extent.gb';
 import {DotNetExtent, IPropertyWrapper} from "./definitions";
 import Extent from "@arcgis/core/geometry/Extent";
 import {arcGisObjectRefs, buildJsStreamReference, copyValuesIfExists, hasValue, jsObjectRefs} from "./arcGisJsInterop";

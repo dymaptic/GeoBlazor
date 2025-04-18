@@ -79,6 +79,7 @@ public enum WidgetType
     ValuePicker,
     VideoPlayer,
     Weather,
-    Zoom
+    Zoom,
+    BatchAttributeForm
 #pragma warning restore CS1591
 }

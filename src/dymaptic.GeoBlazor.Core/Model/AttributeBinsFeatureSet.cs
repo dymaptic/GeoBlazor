@@ -33,10 +33,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     When a FeatureSet is used as input to Geoprocessor, the spatial reference is set to the map's spatial reference by default.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html#spatialReference">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-public partial record AttributeBinsFeatureSet(
+[CodeGenerationIgnore]
+public record AttributeBinsFeatureSet(
     string DisplayFieldName,
     bool? ExceededTransferLimit,
-    IReadOnlyList<AttributeBinsGraphic>? Features,
     IReadOnlyList<Field> Fields,
     GeometryType? GeometryType,
     Geometry QueryGeometry,
@@ -48,5 +48,6 @@ public partial record AttributeBinsFeatureSet(
     QueryGeometry,
     SpatialReference)
 {
-   // Add custom code to this file to override generated code
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public new IReadOnlyList<AttributeBinsGraphic>? Features { get; init; }
 }

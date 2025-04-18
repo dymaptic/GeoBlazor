@@ -36,7 +36,7 @@ public partial class PieChartMediaInfo : IChartMediaInfo
     /// </param>
     /// <param name="value">
     ///     Defines the chart value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-ChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public PieChartMediaInfo(
         string? title = null,
@@ -57,8 +57,9 @@ public partial class PieChartMediaInfo : IChartMediaInfo
 #region Public Properties / Blazor Parameters
 
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PieChartMediaInfo.html#piechartmediainfovalue-property">GeoBlazor Docs</a>
     ///     Defines the chart value.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-mixins-ChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-PieChartMediaInfo.html#value">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     [ArcGISProperty]
     [Parameter]

@@ -46,7 +46,7 @@ public partial class RasterFunction : MapComponent
     public RasterFunction(
         string? functionArguments = null,
         string? functionName = null,
-        RasterFunctionOutputPixelType? outputPixelType = null,
+        OutputPixelType? outputPixelType = null,
         string? rasterFunctionDefinition = null,
         string? variableName = null)
     {
@@ -92,7 +92,7 @@ public partial class RasterFunction : MapComponent
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public RasterFunctionOutputPixelType? OutputPixelType { get; set; }
+    public OutputPixelType? OutputPixelType { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.RasterFunction.html#rasterfunctionrasterfunctiondefinition-property">GeoBlazor Docs</a>
@@ -199,7 +199,7 @@ public partial class RasterFunction : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the OutputPixelType property.
     /// </summary>
-    public async Task<RasterFunctionOutputPixelType?> GetOutputPixelType()
+    public async Task<OutputPixelType?> GetOutputPixelType()
     {
         if (CoreJsModule is null)
         {
@@ -222,12 +222,12 @@ public partial class RasterFunction : MapComponent
         }
 
         // get the property value
-        RasterFunctionOutputPixelType? result = await JsComponentReference!.InvokeAsync<RasterFunctionOutputPixelType?>("getProperty",
-            CancellationTokenSource.Token, "outputPixelType");
-        if (result is not null)
+        JsNullableEnumWrapper<OutputPixelType>? result = await CoreJsModule!.InvokeAsync<JsNullableEnumWrapper<OutputPixelType>?>("getNullableValueTypedProperty",
+            CancellationTokenSource.Token, JsComponentReference, "outputPixelType");
+        if (result is { Value: not null })
         {
 #pragma warning disable BL0005
-             OutputPixelType = result;
+             OutputPixelType = (OutputPixelType)result.Value.Value!;
 #pragma warning restore BL0005
              ModifiedParameters[nameof(OutputPixelType)] = OutputPixelType;
         }
@@ -397,7 +397,7 @@ public partial class RasterFunction : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetOutputPixelType(RasterFunctionOutputPixelType? value)
+    public async Task SetOutputPixelType(OutputPixelType? value)
     {
 #pragma warning disable BL0005
         OutputPixelType = value;

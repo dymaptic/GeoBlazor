@@ -1,7 +1,7 @@
 
-export async function buildJsIElementsElement(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIElementsElement(dotNetObject: any): Promise<any> {
     let { buildJsIElementsElementGenerated } = await import('./iElementsElement.gb');
-    return await buildJsIElementsElementGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIElementsElementGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIElementsElement(jsObject: any): Promise<any> {

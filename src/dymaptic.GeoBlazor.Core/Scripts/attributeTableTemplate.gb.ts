@@ -9,6 +9,10 @@ export async function buildJsAttributeTableTemplateGenerated(dotNetObject: any, 
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.elements) && dotNetObject.elements.length > 0) {
+        let { buildJsIAttributeTableTemplateElements } = await import('./iAttributeTableTemplateElements');
+        properties.elements = dotNetObject.elements.map(i => buildJsIAttributeTableTemplateElements(i)) as any;
+    }
     if (hasValue(dotNetObject.orderByFields) && dotNetObject.orderByFields.length > 0) {
         let { buildJsFieldOrder } = await import('./fieldOrder');
         properties.orderByFields = await Promise.all(dotNetObject.orderByFields.map(async i => await buildJsFieldOrder(i, layerId, viewId))) as any;
@@ -29,6 +33,11 @@ export async function buildDotNetAttributeTableTemplateGenerated(jsObject: any):
     }
     
     let dotNetAttributeTableTemplate: any = {};
+    
+    if (hasValue(jsObject.elements)) {
+        let { buildDotNetIAttributeTableTemplateElements } = await import('./iAttributeTableTemplateElements');
+        dotNetAttributeTableTemplate.elements = jsObject.elements.map(i => buildDotNetIAttributeTableTemplateElements(i));
+    }
     
     if (hasValue(jsObject.orderByFields)) {
         let { buildDotNetFieldOrder } = await import('./fieldOrder');

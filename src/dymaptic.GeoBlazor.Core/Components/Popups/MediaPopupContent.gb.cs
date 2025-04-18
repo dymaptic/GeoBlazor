@@ -32,7 +32,9 @@ public partial class MediaPopupContent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#description">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="mediaInfos">
-    ///     Contains the media elements representing images or charts to display within the PopupTemplate. This can be an
+    ///     Contains the media elements representing images or charts to display
+    ///     within the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-PopupTemplate.html">PopupTemplate</a>.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-popup-content-MediaContent.html#mediaInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="activeMediaInfoIndex">
     ///     Index of the current active media within the popup's media content.
@@ -132,6 +134,45 @@ public partial class MediaPopupContent
         }
          
         return Description;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the MediaInfos property.
+    /// </summary>
+    public async Task<IReadOnlyList<MediaInfo>?> GetMediaInfos()
+    {
+        if (CoreJsModule is null)
+        {
+            return MediaInfos;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return MediaInfos;
+        }
+
+        IReadOnlyList<MediaInfo>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<MediaInfo>?>(
+            "getMediaInfos", CancellationTokenSource.Token);
+        
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+            MediaInfos = result;
+#pragma warning restore BL0005
+            ModifiedParameters[nameof(MediaInfos)] = MediaInfos;
+        }
+        
+        return MediaInfos;
     }
     
     /// <summary>
@@ -252,6 +293,54 @@ public partial class MediaPopupContent
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the MediaInfos property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetMediaInfos(IReadOnlyList<MediaInfo>? value)
+    {
+        if (value is not null)
+        {
+            foreach (MediaInfo item in value)
+            {
+                item.CoreJsModule = CoreJsModule;
+                item.Parent = this;
+                item.Layer = Layer;
+                item.View = View;
+            }
+        }
+        
+#pragma warning disable BL0005
+        MediaInfos = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(MediaInfos)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "mediaInfos", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the Title property after render.
     /// </summary>
     /// <param name="value">
@@ -286,6 +375,44 @@ public partial class MediaPopupContent
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "title", value);
+    }
+    
+#endregion
+
+#region Add to Collection Methods
+
+    /// <summary>
+    ///     Asynchronously adds elements to the MediaInfos property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to add.
+    /// </param>
+    public async Task AddToMediaInfos(params MediaInfo[] values)
+    {
+        MediaInfo[] join = MediaInfos is null
+            ? values
+            : [..MediaInfos, ..values];
+        await SetMediaInfos(join);
+    }
+    
+#endregion
+
+#region Remove From Collection Methods
+
+    
+    /// <summary>
+    ///     Asynchronously remove an element from the MediaInfos property.
+    /// </summary>
+    /// <param name="values">
+    ///    The elements to remove.
+    /// </param>
+    public async Task RemoveFromMediaInfos(params MediaInfo[] values)
+    {
+        if (MediaInfos is null)
+        {
+            return;
+        }
+        await SetMediaInfos(MediaInfos.Except(values).ToArray());
     }
     
 #endregion

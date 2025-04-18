@@ -53,6 +53,12 @@ public partial interface IImageryTileMixin : IMapComponent
     MultidimensionalSubset? MultidimensionalSubset { get; set; }
     
     /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinrenderer-property">GeoBlazor Docs</a>
+    ///     
+    /// </summary>
+    IImageryRenderer? Renderer { get; set; }
+    
+    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IImageryTileMixin.html#iimagerytilemixinservicerasterinfo-property">GeoBlazor Docs</a>
     ///     Raster information retrieved from tiled imagery data source.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#serviceRasterInfo">ArcGIS Maps SDK for JavaScript</a>
@@ -126,6 +132,11 @@ public partial interface IImageryTileMixin : IMapComponent
     Task SetMultidimensionalSubset(MultidimensionalSubset? value);
     
     /// <summary>
+    ///    Asynchronously set the value of the Renderer property after render.
+    /// </summary>
+    Task SetRenderer(IImageryRenderer? value);
+    
+    /// <summary>
     ///    Asynchronously set the value of the TimeExtent property after render.
     /// </summary>
     Task SetTimeExtent(TimeExtent? value);
@@ -178,6 +189,11 @@ public partial interface IImageryTileMixin : IMapComponent
     ///     Asynchronously retrieve the current value of the MultidimensionalSubset property.
     /// </summary>
     Task<MultidimensionalSubset?> GetMultidimensionalSubset();
+
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Renderer property.
+    /// </summary>
+    Task<IImageryRenderer?> GetRenderer();
 
     /// <summary>
     ///     Asynchronously retrieve the current value of the ServiceRasterInfo property.

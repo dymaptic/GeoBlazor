@@ -915,6 +915,14 @@ public partial class LocateViewModel : IGeolocationPositioning,
     {
         switch (child)
         {
+            case GeolocationOptions geolocationOptions:
+                if (geolocationOptions != GeolocationOptions)
+                {
+                    GeolocationOptions = geolocationOptions;
+                    ModifiedParameters[nameof(GeolocationOptions)] = GeolocationOptions;
+                }
+                
+                return true;
             case Graphic graphic:
                 if (graphic != Graphic)
                 {
@@ -933,6 +941,10 @@ public partial class LocateViewModel : IGeolocationPositioning,
     {
         switch (child)
         {
+            case GeolocationOptions _:
+                GeolocationOptions = null;
+                ModifiedParameters[nameof(GeolocationOptions)] = GeolocationOptions;
+                return true;
             case Graphic _:
                 Graphic = null;
                 ModifiedParameters[nameof(Graphic)] = Graphic;
@@ -946,6 +958,7 @@ public partial class LocateViewModel : IGeolocationPositioning,
     public override void ValidateRequiredGeneratedChildren()
     {
     
+        GeolocationOptions?.ValidateRequiredGeneratedChildren();
         Graphic?.ValidateRequiredGeneratedChildren();
         base.ValidateRequiredGeneratedChildren();
     }

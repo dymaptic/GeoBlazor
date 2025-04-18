@@ -1,7 +1,7 @@
 
-export async function buildJsBinParametersBase(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsBinParametersBase(dotNetObject: any): Promise<any> {
     let { buildJsBinParametersBaseGenerated } = await import('./binParametersBase.gb');
-    return await buildJsBinParametersBaseGenerated(dotNetObject, layerId, viewId);
+    return await buildJsBinParametersBaseGenerated(dotNetObject);
 }     
 
 export async function buildDotNetBinParametersBase(jsObject: any): Promise<any> {

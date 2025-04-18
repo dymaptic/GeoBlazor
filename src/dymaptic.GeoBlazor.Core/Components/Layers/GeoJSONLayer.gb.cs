@@ -246,7 +246,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         bool? visible = null,
         ListMode? listMode = null,
         string? arcGISLayerId = null,
-        AttributeTableTemplate? attributeTableTemplate = null,
+        IAttributeTableTemplate? attributeTableTemplate = null,
         BlendMode? blendMode = null,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
@@ -348,7 +348,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public AttributeTableTemplate? AttributeTableTemplate { get; set; }
+    public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerblendmode-property">GeoBlazor Docs</a>
@@ -770,7 +770,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
     /// </summary>
-    public async Task<AttributeTableTemplate?> GetAttributeTableTemplate()
+    public async Task<IAttributeTableTemplate?> GetAttributeTableTemplate()
     {
         if (CoreJsModule is null)
         {
@@ -792,7 +792,7 @@ public partial class GeoJSONLayer : IBlendLayer,
             return AttributeTableTemplate;
         }
 
-        AttributeTableTemplate? result = await JsComponentReference.InvokeAsync<AttributeTableTemplate?>(
+        IAttributeTableTemplate? result = await JsComponentReference.InvokeAsync<IAttributeTableTemplate?>(
             "getAttributeTableTemplate", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -2420,7 +2420,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAttributeTableTemplate(AttributeTableTemplate? value)
+    public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
     {
         if (value is not null)
         {
@@ -3291,6 +3291,43 @@ public partial class GeoJSONLayer : IBlendLayer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "outFields", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
     }
     
     /// <summary>
@@ -4411,7 +4448,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string[]?> QueryObjectIds(Query query,
+    public async Task<long[]?> QueryObjectIds(Query query,
         CancellationToken cancellationToken = default)
     {
         if (CoreJsModule is null)
@@ -4435,7 +4472,7 @@ public partial class GeoJSONLayer : IBlendLayer,
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string[]? result = await JsComponentReference!.InvokeAsync<string[]?>(
+        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
             "queryObjectIds", 
             CancellationTokenSource.Token,
             query,
@@ -4556,7 +4593,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
-            case AttributeTableTemplate attributeTableTemplate:
+            case IAttributeTableTemplate attributeTableTemplate:
                 if (attributeTableTemplate != AttributeTableTemplate)
                 {
                     AttributeTableTemplate = attributeTableTemplate;
@@ -4749,7 +4786,7 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
-            case AttributeTableTemplate _:
+            case IAttributeTableTemplate _:
                 AttributeTableTemplate = null;
                 ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
                 return true;

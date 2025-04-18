@@ -35,6 +35,8 @@ public partial class WCSLayer : IBlendLayer,
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-mixins-ImageryTileMixin.html#multidimensionalDefinition">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="renderer">
+    ///     The renderer assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     /// <param name="opacity">
     ///     The opacity of the layer.
@@ -177,7 +179,7 @@ public partial class WCSLayer : IBlendLayer,
     public WCSLayer(
         string? url = null,
         IReadOnlyList<DimensionalDefinition>? multidimensionalDefinition = null,
-        RasterStretchRenderer? renderer = null,
+        IImageryRenderer? renderer = null,
         double? opacity = null,
         string? title = null,
         PortalItem? portalItem = null,
@@ -437,6 +439,16 @@ public partial class WCSLayer : IBlendLayer,
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
     public IReadOnlyList<Field>? RasterFields { get; protected set; }
+    
+    /// <summary>
+    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerrenderer-property">GeoBlazor Docs</a>
+    ///     The renderer assigned to the layer.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#renderer">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    [ArcGISProperty]
+    [Parameter]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IImageryRenderer? Renderer { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WCSLayer.html#wcslayerservicerasterinfo-property">GeoBlazor Docs</a>
@@ -1226,6 +1238,45 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         return RasterFields;
+    }
+    
+    /// <summary>
+    ///     Asynchronously retrieve the current value of the Renderer property.
+    /// </summary>
+    public async Task<IImageryRenderer?> GetRenderer()
+    {
+        if (CoreJsModule is null)
+        {
+            return Renderer;
+        }
+        
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+        
+        if (JsComponentReference is null)
+        {
+            return Renderer;
+        }
+
+        // get the property value
+        IImageryRenderer? result = await JsComponentReference!.InvokeAsync<IImageryRenderer?>("getProperty",
+            CancellationTokenSource.Token, "renderer");
+        if (result is not null)
+        {
+#pragma warning disable BL0005
+             Renderer = result;
+#pragma warning restore BL0005
+             ModifiedParameters[nameof(Renderer)] = Renderer;
+        }
+         
+        return Renderer;
     }
     
     /// <summary>
@@ -2043,6 +2094,43 @@ public partial class WCSLayer : IBlendLayer,
     }
     
     /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
+    }
+    
+    /// <summary>
     ///    Asynchronously set the value of the PopupEnabled property after render.
     /// </summary>
     /// <param name="value">
@@ -2167,6 +2255,43 @@ public partial class WCSLayer : IBlendLayer,
         
         await JsComponentReference.InvokeVoidAsync("setPortalItem", 
             CancellationTokenSource.Token, value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the Renderer property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetRenderer(IImageryRenderer? value)
+    {
+#pragma warning disable BL0005
+        Renderer = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(Renderer)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "renderer", value);
     }
     
     /// <summary>
@@ -2552,7 +2677,7 @@ public partial class WCSLayer : IBlendLayer,
     ///     The CancellationToken to cancel an asynchronous operation.
     /// </param>
     [ArcGISMethod]
-    public async Task<string?> FetchPixels(Extent extent,
+    public async Task<PixelData?> FetchPixels(Extent extent,
         int width,
         int height,
         ImageryTileMixinFetchPixelsOptions options,
@@ -2579,7 +2704,7 @@ public partial class WCSLayer : IBlendLayer,
         }
         
         IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        string? result = await JsComponentReference!.InvokeAsync<string?>(
+        PixelData? result = await JsComponentReference!.InvokeAsync<PixelData?>(
             "fetchPixels", 
             CancellationTokenSource.Token,
             extent,

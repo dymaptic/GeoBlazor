@@ -354,7 +354,7 @@ public partial class WMSLayer : Layer,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<Object>? Dimensions { get; protected set; }
+    public IReadOnlyList<IWMSLayerDimensions>? Dimensions { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayereffect-property">GeoBlazor Docs</a>
@@ -877,7 +877,7 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
-    public async Task<IReadOnlyList<Object>?> GetDimensions()
+    public async Task<IReadOnlyList<IWMSLayerDimensions>?> GetDimensions()
     {
         if (CoreJsModule is null)
         {
@@ -900,7 +900,7 @@ public partial class WMSLayer : Layer,
         }
 
         // get the property value
-        IReadOnlyList<Object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Object>?>("getProperty",
+        IReadOnlyList<IWMSLayerDimensions>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimensions>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -2420,6 +2420,43 @@ public partial class WMSLayer : Layer,
         
         await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
             JsComponentReference, "minScale", value);
+    }
+    
+    /// <summary>
+    ///    Asynchronously set the value of the PersistenceEnabled property after render.
+    /// </summary>
+    /// <param name="value">
+    ///     The value to set.
+    /// </param>
+    public async Task SetPersistenceEnabled(bool? value)
+    {
+#pragma warning disable BL0005
+        PersistenceEnabled = value;
+#pragma warning restore BL0005
+        ModifiedParameters[nameof(PersistenceEnabled)] = value;
+        
+        if (CoreJsModule is null)
+        {
+            return;
+        }
+    
+        try 
+        {
+            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
+                "getJsComponent", CancellationTokenSource.Token, Id);
+        }
+        catch (JSException)
+        {
+            // this is expected if the component is not yet built
+        }
+    
+        if (JsComponentReference is null)
+        {
+            return;
+        }
+        
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "persistenceEnabled", value);
     }
     
     /// <summary>

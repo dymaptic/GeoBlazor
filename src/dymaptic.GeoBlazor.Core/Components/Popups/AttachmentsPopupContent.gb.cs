@@ -442,7 +442,6 @@ public partial class AttachmentsPopupContent
                 if (!OrderByFields.Contains(orderByFields))
                 {
                     OrderByFields = [..OrderByFields, orderByFields];
-                    
                     ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
                 }
                 
@@ -459,7 +458,6 @@ public partial class AttachmentsPopupContent
         {
             case AttachmentsOrderByInfo orderByFields:
                 OrderByFields = OrderByFields?.Where(o => o != orderByFields).ToList();
-                
                 ModifiedParameters[nameof(OrderByFields)] = OrderByFields;
                 return true;
             default:

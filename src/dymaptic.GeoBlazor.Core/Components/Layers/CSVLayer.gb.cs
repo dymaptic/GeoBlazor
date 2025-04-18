@@ -246,7 +246,7 @@ public partial class CSVLayer : IBlendLayer,
         BlendMode? blendMode = null,
         PopupTemplate? popupTemplate = null,
         string? arcGISLayerId = null,
-        AttributeTableTemplate? attributeTableTemplate = null,
+        IAttributeTableTemplate? attributeTableTemplate = null,
         Dictionary<string, object>? customParameters = null,
         string? definitionExpression = null,
         CSVDelimiter? delimiter = null,
@@ -346,7 +346,7 @@ public partial class CSVLayer : IBlendLayer,
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public AttributeTableTemplate? AttributeTableTemplate { get; set; }
+    public IAttributeTableTemplate? AttributeTableTemplate { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercapabilities-property">GeoBlazor Docs</a>
@@ -736,7 +736,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the AttributeTableTemplate property.
     /// </summary>
-    public async Task<AttributeTableTemplate?> GetAttributeTableTemplate()
+    public async Task<IAttributeTableTemplate?> GetAttributeTableTemplate()
     {
         if (CoreJsModule is null)
         {
@@ -758,7 +758,7 @@ public partial class CSVLayer : IBlendLayer,
             return AttributeTableTemplate;
         }
 
-        AttributeTableTemplate? result = await JsComponentReference.InvokeAsync<AttributeTableTemplate?>(
+        IAttributeTableTemplate? result = await JsComponentReference.InvokeAsync<IAttributeTableTemplate?>(
             "getAttributeTableTemplate", CancellationTokenSource.Token);
         
         if (result is not null)
@@ -2386,7 +2386,7 @@ public partial class CSVLayer : IBlendLayer,
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetAttributeTableTemplate(AttributeTableTemplate? value)
+    public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
     {
         if (value is not null)
         {
@@ -4203,56 +4203,7 @@ public partial class CSVLayer : IBlendLayer,
             options);
     }
     
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryattributebins-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html">AttributeBinsQuery</a> against a CSVLayer, which groups features into bins based on ranges in numeric or date fields, and returns a
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> containing the series of bins.
-    ///     param binsQuery Specifies the parameters of the `queryAttributeBins()` operation. The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryAttributeBins">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="binsQuery">
-    ///     Specifies the parameters of the <code>queryAttributeBins()</code> operation. The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AttributeBinsQuery.html#binParameters">binParameters</a> property must be set.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<AttributeBinsFeatureSet?> QueryAttributeBins(AttributeBinsQuery binsQuery,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        AttributeBinsFeatureSet? result = await JsComponentReference!.InvokeAsync<AttributeBinsFeatureSet?>(
-            "queryAttributeBins", 
-            CancellationTokenSource.Token,
-            binsQuery,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
+    
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryextent-method">GeoBlazor Docs</a>
@@ -4544,7 +4495,7 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case AttributeTableTemplate attributeTableTemplate:
+            case IAttributeTableTemplate attributeTableTemplate:
                 if (attributeTableTemplate != AttributeTableTemplate)
                 {
                     AttributeTableTemplate = attributeTableTemplate;
@@ -4737,7 +4688,7 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case AttributeTableTemplate _:
+            case IAttributeTableTemplate _:
                 AttributeTableTemplate = null;
                 ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
                 return true;

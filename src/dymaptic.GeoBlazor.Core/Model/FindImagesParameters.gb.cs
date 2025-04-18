@@ -12,11 +12,15 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#fromGeometry">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
+/// <param name="LongCollectionObjectIds">
+///     An array of ObjectIDs to filter images.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="MaxCount">
 ///     The maximum image count.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#maxCount">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="ObjectIds">
+/// <param name="String)CollectionObjectIds">
 ///     An array of ObjectIDs to filter images.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
@@ -30,8 +34,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// </param>
 public partial record FindImagesParameters(
     Point? FromGeometry = null,
-    int? MaxCount = null,
     IReadOnlyCollection<string>? ObjectIds = null,
+    int? MaxCount = null,
     Point? ToGeometry = null,
     string? Where = null)
 {
@@ -42,16 +46,16 @@ public partial record FindImagesParameters(
     public Point? FromGeometry { get; set; } = FromGeometry;
     
     /// <summary>
-    ///     The maximum image count.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#maxCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public int? MaxCount { get; set; } = MaxCount;
-    
-    /// <summary>
     ///     An array of ObjectIDs to filter images.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#objectIds">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<string>? ObjectIds { get; set; } = ObjectIds;
+    
+    /// <summary>
+    ///     The maximum image count.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FindImagesParameters.html#maxCount">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public int? MaxCount { get; set; } = MaxCount;
     
     /// <summary>
     ///     A <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Point.html">point</a> geometry with `z` value that defines the target geometry's location.

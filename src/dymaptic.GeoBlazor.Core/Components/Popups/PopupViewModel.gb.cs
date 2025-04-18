@@ -104,10 +104,6 @@ public partial class PopupViewModel : FeaturesViewModel
     ///     Geometry used to show the location of the feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#location">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
-    /// <param name="promises">
-    ///     An array of pending Promises that have not yet been fulfilled.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#promises">ArcGIS Maps SDK for JavaScript</a>
-    /// </param>
     /// <param name="screenLocation">
     ///     The screen location of the selected feature.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Features-FeaturesViewModel.html#screenLocation">ArcGIS Maps SDK for JavaScript</a>
@@ -170,7 +166,6 @@ public partial class PopupViewModel : FeaturesViewModel
         bool? includeDefaultActions = null,
         InitialDisplayMode? initialDisplayMode = null,
         Point? location = null,
-        IReadOnlyList<Graphic>? promises = null,
         FeaturesViewModelScreenPoint? screenLocation = null,
         bool? screenLocationEnabled = null,
         int? selectedFeatureIndex = null,
@@ -201,7 +196,6 @@ public partial class PopupViewModel : FeaturesViewModel
         IncludeDefaultActions = includeDefaultActions;
         InitialDisplayMode = initialDisplayMode;
         Location = location;
-        Promises = promises;
         ScreenLocation = screenLocation;
         ScreenLocationEnabled = screenLocationEnabled;
         SelectedFeatureIndex = selectedFeatureIndex;

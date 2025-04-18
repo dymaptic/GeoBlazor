@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.LinePlacement.html">GeoBlazor Docs</a>
-///     Placement enumeration.
+///     <summary>
+///          Placement enumeration.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<LinePlacement>))]
 public enum LinePlacement

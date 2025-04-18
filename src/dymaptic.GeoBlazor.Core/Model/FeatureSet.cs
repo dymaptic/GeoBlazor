@@ -49,5 +49,5 @@ public record FeatureSet(
     SpatialReference? SpatialReference = null) : IClosestFacilityParametersFacilities, IClosestFacilityParametersIncidents, IServiceAreaParametersFacilities
 {
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public virtual Graphic[]? Features { get; init; }
+    public IReadOnlyList<Graphic>? Features { get; init; }
 }

@@ -28,6 +28,9 @@ export async function buildJsIArcGISImageServiceGenerated(dotNetObject: any, lay
         let { buildJsRasterFunction } = await import('./rasterFunction');
         jsArcGISImageService.rasterFunction = await buildJsRasterFunction(dotNetObject.rasterFunction) as any;
     }
+    if (hasValue(dotNetObject.renderer)) {
+        jsArcGISImageService.renderer = dotNetObject.renderer;
+    }
 
     if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
         jsArcGISImageService.bandIds = dotNetObject.bandIds;
@@ -194,6 +197,10 @@ export async function buildDotNetIArcGISImageServiceGenerated(jsObject: any, lay
     
     if (hasValue(jsObject.rasterFunctionInfos)) {
         dotNetIArcGISImageService.rasterFunctionInfos = removeCircularReferences(jsObject.rasterFunctionInfos);
+    }
+    
+    if (hasValue(jsObject.renderer)) {
+        dotNetIArcGISImageService.renderer = removeCircularReferences(jsObject.renderer);
     }
     
     if (hasValue(jsObject.sourceType)) {

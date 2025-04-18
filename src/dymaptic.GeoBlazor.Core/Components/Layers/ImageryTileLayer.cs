@@ -120,23 +120,6 @@ public partial class ImageryTileLayer : Layer, IPopupTemplateLayer
         return await JsComponentReference.InvokeAsync<RasterInfo>("getServiceRasterInfo");    
     }
 
-    /// <summary>
-    ///     Updates the renderer after initial render.
-    /// </summary>
-    public async Task SetRenderer(IImageryRenderer? renderer)
-    {
-        Renderer = renderer;
-
-        if (JsComponentReference is null)
-        {
-            return;
-        }
-        
-        ModifiedParameters[nameof(Renderer)] = renderer;
-
-        await JsComponentReference.InvokeVoidAsync("setRenderer", renderer);
-    }
-
     /// <inheritdoc />
     public override async Task RegisterChildComponent(MapComponent child)
     {

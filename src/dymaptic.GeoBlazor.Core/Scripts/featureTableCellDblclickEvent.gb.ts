@@ -12,15 +12,15 @@ export async function buildJsFeatureTableCellDblclickEventGenerated(dotNetObject
         let { buildJsGraphic } = await import('./graphic');
         jsFeatureTableCellDblclickEvent.feature = buildJsGraphic(dotNetObject.feature) as any;
     }
+    if (hasValue(dotNetObject.native)) {
+        jsFeatureTableCellDblclickEvent.native = dotNetObject.native;
+    }
 
     if (hasValue(dotNetObject.fieldName)) {
         jsFeatureTableCellDblclickEvent.fieldName = dotNetObject.fieldName;
     }
     if (hasValue(dotNetObject.index)) {
         jsFeatureTableCellDblclickEvent.index = dotNetObject.index;
-    }
-    if (hasValue(dotNetObject.native)) {
-        jsFeatureTableCellDblclickEvent.native = dotNetObject.native;
     }
     if (hasValue(dotNetObject.objectId)) {
         jsFeatureTableCellDblclickEvent.objectId = dotNetObject.objectId;

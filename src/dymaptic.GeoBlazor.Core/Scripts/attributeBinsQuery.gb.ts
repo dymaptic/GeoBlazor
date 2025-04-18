@@ -21,6 +21,9 @@ export async function buildJsAttributeBinsQueryGenerated(dotNetObject: any, laye
     if (hasValue(dotNetObject.binOrder)) {
         properties.binOrder = dotNetObject.binOrder;
     }
+    if (hasValue(dotNetObject.binParameters)) {
+        properties.binParameters = dotNetObject.binParameters;
+    }
     if (hasValue(dotNetObject.cacheHint)) {
         properties.cacheHint = dotNetObject.cacheHint;
     }
@@ -85,6 +88,10 @@ export async function buildDotNetAttributeBinsQueryGenerated(jsObject: any): Pro
     
     if (hasValue(jsObject.binOrder)) {
         dotNetAttributeBinsQuery.binOrder = removeCircularReferences(jsObject.binOrder);
+    }
+    
+    if (hasValue(jsObject.binParameters)) {
+        dotNetAttributeBinsQuery.binParameters = removeCircularReferences(jsObject.binParameters);
     }
     
     if (hasValue(jsObject.cacheHint)) {

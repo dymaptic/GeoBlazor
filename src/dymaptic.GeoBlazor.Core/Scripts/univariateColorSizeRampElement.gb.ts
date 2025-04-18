@@ -9,7 +9,8 @@ export async function buildJsUnivariateColorSizeRampElementGenerated(dotNetObjec
 
     let jsUnivariateColorSizeRampElement: any = {};
     if (hasValue(dotNetObject.infos) && dotNetObject.infos.length > 0) {
-        jsUnivariateColorSizeRampElement.infos = dotNetObject.infos;
+        let { buildJsIUnivariateColorSizeRampElementInfos } = await import('./iUnivariateColorSizeRampElementInfos');
+        jsUnivariateColorSizeRampElement.infos = await Promise.all(dotNetObject.infos.map(async i => await buildJsIUnivariateColorSizeRampElementInfos(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.title)) {
@@ -31,7 +32,8 @@ export async function buildDotNetUnivariateColorSizeRampElementGenerated(jsObjec
     let dotNetUnivariateColorSizeRampElement: any = {};
     
     if (hasValue(jsObject.infos)) {
-        dotNetUnivariateColorSizeRampElement.infos = removeCircularReferences(jsObject.infos);
+        let { buildDotNetIUnivariateColorSizeRampElementInfos } = await import('./iUnivariateColorSizeRampElementInfos');
+        dotNetUnivariateColorSizeRampElement.infos = await Promise.all(jsObject.infos.map(async i => await buildDotNetIUnivariateColorSizeRampElementInfos(i)));
     }
     
     if (hasValue(jsObject.title)) {

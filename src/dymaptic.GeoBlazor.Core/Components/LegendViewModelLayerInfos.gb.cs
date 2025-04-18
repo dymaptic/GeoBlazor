@@ -31,7 +31,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Legend-LegendViewModel.html#layerInfos">ArcGIS Maps SDK for JavaScript</a>
     /// </param>
     public LegendViewModelLayerInfos(
-        MapComponent? layer = null,
+        Layer? layer = null,
         string? title = null)
     {
         AllowRender = false;
@@ -61,7 +61,7 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// <summary>
     ///     Asynchronously retrieve the current value of the Layer property.
     /// </summary>
-    public async Task<MapComponent?> GetLayer()
+    public async Task<Layer?> GetLayer()
     {
         if (CoreJsModule is null)
         {
@@ -83,17 +83,22 @@ public partial class LegendViewModelLayerInfos : MapComponent
             return Layer;
         }
 
-        // get the property value
-        MapComponent? result = await JsComponentReference!.InvokeAsync<MapComponent?>("getProperty",
-            CancellationTokenSource.Token, "layer");
+        Layer? result = await JsComponentReference.InvokeAsync<Layer?>(
+            "getLayer", CancellationTokenSource.Token);
+        
         if (result is not null)
         {
+            if (Layer is not null)
+            {
+                result.Id = Layer.Id;
+            }
+            
 #pragma warning disable BL0005
-             Layer = result;
+            Layer = result;
 #pragma warning restore BL0005
-             ModifiedParameters[nameof(Layer)] = Layer;
+            ModifiedParameters[nameof(Layer)] = Layer;
         }
-         
+        
         return Layer;
     }
     
@@ -146,8 +151,16 @@ public partial class LegendViewModelLayerInfos : MapComponent
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetLayer(MapComponent? value)
+    public async Task SetLayer(Layer? value)
     {
+        if (value is not null)
+        {
+            value.CoreJsModule  = CoreJsModule;
+            value.Parent = this;
+            value.Layer = Layer;
+            value.View = View;
+        } 
+        
 #pragma warning disable BL0005
         Layer = value;
 #pragma warning restore BL0005

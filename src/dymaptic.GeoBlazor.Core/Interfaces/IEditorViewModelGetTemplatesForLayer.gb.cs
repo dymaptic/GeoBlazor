@@ -9,6 +9,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Editor-EditorViewModel.html#getTemplatesForLayer">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<IEditorViewModelGetTemplatesForLayer>))]
-public partial interface IEditorViewModelGetTemplatesForLayer 
+public partial interface IEditorViewModelGetTemplatesForLayer : IMapComponent
 {
 }

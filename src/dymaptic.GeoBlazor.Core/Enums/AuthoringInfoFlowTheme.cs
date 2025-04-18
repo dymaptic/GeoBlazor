@@ -4,7 +4,9 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.AuthoringInfoFlowTheme.html">GeoBlazor Docs</a>
-///     Enumeration for AuthoringInfoFlowTheme
+///     <summary>
+///          Enumeration for AuthoringInfoFlowTheme
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<AuthoringInfoFlowTheme>))]
 public enum AuthoringInfoFlowTheme
