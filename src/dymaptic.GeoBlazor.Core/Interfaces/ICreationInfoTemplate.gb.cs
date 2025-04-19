@@ -7,6 +7,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<ICreationInfoTemplate>))]
-public partial interface ICreationInfoTemplate 
+public partial interface ICreationInfoTemplate : IMapComponent
 {
 }

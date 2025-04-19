@@ -7,25 +7,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     This class defines parameters for executing queries for features from a layer or layer view.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
+/// <param name="AggregateIds">
+///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
 /// <param name="CacheHint">
 /// </param>
-/// <param name="DateTimeArrayCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="DateTimeCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Distance">
-/// </param>
-/// <param name="DoubleArrayCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="DoubleCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="DoubleDatumTransformation">
 ///     Datum transformation used for projecting geometries in the query results when
@@ -57,10 +45,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="HistoricMoment">
 ///     The historic moment to query.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="LongCollectionAggregateIds">
-///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="MaxAllowableOffset">
 ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
@@ -101,6 +85,10 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="OutStatistics">
 ///     The definitions for one or more field-based statistics to be calculated.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">ArcGIS Maps SDK for JavaScript</a>
+/// </param>
+/// <param name="ParameterValues">
+///     Filters features from the layer based on pre-authored parameterized filters.
+///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 /// <param name="PixelSize">
 ///     Specifies the pixel level to be identified on the X and Y axis.
@@ -175,18 +163,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     The zero-based index indicating where to begin retrieving features.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#start">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
-/// <param name="String)CollectionAggregateIds">
-///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="StringArrayCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
-/// <param name="StringCollectionParameterValues">
-///     Filters features from the layer based on pre-authored parameterized filters.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-/// </param>
 /// <param name="Text">
 ///     Shorthand for a where clause using "like".
 ///     default null
@@ -201,12 +177,9 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="Where">
 /// </param>
 public partial record Query(
+    IReadOnlyCollection<string>? AggregateIds = null,
     bool? CacheHint = null,
-    Dictionary<string, IReadOnlyCollection<DateTime>>? DateTimeArrayCollectionParameterValues = null,
-    Dictionary<string, DateTime>? DateTimeCollectionParameterValues = null,
     double? Distance = null,
-    Dictionary<string, IReadOnlyCollection<double>>? DoubleArrayCollectionParameterValues = null,
-    Dictionary<string, double>? DoubleCollectionParameterValues = null,
     double? DoubleDatumTransformation = null,
     string? GdbVersion = null,
     Geometry? Geometry = null,
@@ -214,7 +187,6 @@ public partial record Query(
     IReadOnlyCollection<string>? GroupByFieldsForStatistics = null,
     string? Having = null,
     DateTime? HistoricMoment = null,
-    IReadOnlyCollection<long>? LongCollectionAggregateIds = null,
     double? MaxAllowableOffset = null,
     int? MaxRecordCountFactor = null,
     string? MultipatchOption = null,
@@ -224,6 +196,7 @@ public partial record Query(
     IReadOnlyCollection<string>? OutFields = null,
     SpatialReference? OutSpatialReference = null,
     IReadOnlyCollection<StatisticDefinition>? OutStatistics = null,
+    Dictionary<string, object?>? ParameterValues = null,
     Point? PixelSize = null,
     QuantizationParameters? QuantizationParameters = null,
     QueryCompositeTransformation? QueryCompositeTransformationDatumTransformation = null,
@@ -240,46 +213,26 @@ public partial record Query(
     SpatialRelationship? SpatialRelationship = null,
     SqlFormat? SqlFormat = null,
     int? Start = null,
-    IReadOnlyCollection<string>? AggregateIds = null,
-    Dictionary<string, object?>? ParameterValues = null,
     string? Text = null,
     TimeExtent? TimeExtent = null,
     IQueryMixinUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
     /// <summary>
+    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
+    
+    /// <summary>
     ///     
     /// </summary>
     public bool? CacheHint { get; set; } = CacheHint;
     
     /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public Dictionary<string, IReadOnlyCollection<DateTime>>? DateTimeArrayCollectionParameterValues { get; set; } = DateTimeArrayCollectionParameterValues;
-    
-    /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public Dictionary<string, DateTime>? DateTimeCollectionParameterValues { get; set; } = DateTimeCollectionParameterValues;
-    
-    /// <summary>
     ///     
     /// </summary>
     public double? Distance { get; set; } = Distance;
-    
-    /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public Dictionary<string, IReadOnlyCollection<double>>? DoubleArrayCollectionParameterValues { get; set; } = DoubleArrayCollectionParameterValues;
-    
-    /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public Dictionary<string, double>? DoubleCollectionParameterValues { get; set; } = DoubleCollectionParameterValues;
     
     /// <summary>
     ///     Datum transformation used for projecting geometries in the query results when
@@ -325,12 +278,6 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#historicMoment">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public DateTime? HistoricMoment { get; set; } = HistoricMoment;
-    
-    /// <summary>
-    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public IReadOnlyCollection<long>? LongCollectionAggregateIds { get; set; } = LongCollectionAggregateIds;
     
     /// <summary>
     ///     The maximum distance in units of <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outSpatialReference">outSpatialReference</a> used for
@@ -389,6 +336,12 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#outStatistics">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public IReadOnlyCollection<StatisticDefinition>? OutStatistics { get; set; } = OutStatistics;
+    
+    /// <summary>
+    ///     Filters features from the layer based on pre-authored parameterized filters.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public Dictionary<string, object?>? ParameterValues { get; set; } = ParameterValues;
     
     /// <summary>
     ///     Specifies the pixel level to be identified on the X and Y axis.
@@ -495,18 +448,6 @@ public partial record Query(
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#start">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
     public int? Start { get; set; } = Start;
-    
-    /// <summary>
-    ///     An array of Object IDs representing <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-Graphic.html#isAggregate">aggregate</a> (i.e.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#aggregateIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public IReadOnlyCollection<string>? AggregateIds { get; set; } = AggregateIds;
-    
-    /// <summary>
-    ///     Filters features from the layer based on pre-authored parameterized filters.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html#parameterValues">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    public Dictionary<string, object?>? ParameterValues { get; set; } = ParameterValues;
     
     /// <summary>
     ///     Shorthand for a where clause using "like".

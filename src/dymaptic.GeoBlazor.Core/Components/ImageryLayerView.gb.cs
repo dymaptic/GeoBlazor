@@ -255,39 +255,6 @@ public partial class ImageryLayerView : LayerView
 
 #region Public Methods
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.ImageryLayerView.html#imagerylayerviewgetsourcescale-method">GeoBlazor Docs</a>
-    ///     Returns the map scale that corresponds to the source level of raster data.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-ImageryLayerView.html#getSourceScale">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<double?> GetSourceScale()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<double?>(
-            "getSourceScale", 
-            CancellationTokenSource.Token);
-    }
-    
 #endregion
 
 

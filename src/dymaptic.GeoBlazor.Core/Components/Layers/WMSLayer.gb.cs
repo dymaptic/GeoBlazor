@@ -354,7 +354,7 @@ public partial class WMSLayer : Layer,
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<IWMSLayerDimensions>? Dimensions { get; protected set; }
+    public IReadOnlyList<Object>? Dimensions { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayereffect-property">GeoBlazor Docs</a>
@@ -877,7 +877,7 @@ public partial class WMSLayer : Layer,
     /// <summary>
     ///     Asynchronously retrieve the current value of the Dimensions property.
     /// </summary>
-    public async Task<IReadOnlyList<IWMSLayerDimensions>?> GetDimensions()
+    public async Task<IReadOnlyList<Object>?> GetDimensions()
     {
         if (CoreJsModule is null)
         {
@@ -900,7 +900,7 @@ public partial class WMSLayer : Layer,
         }
 
         // get the property value
-        IReadOnlyList<IWMSLayerDimensions>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<IWMSLayerDimensions>?>("getProperty",
+        IReadOnlyList<Object>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<Object>?>("getProperty",
             CancellationTokenSource.Token, "dimensions");
         if (result is not null)
         {
@@ -3019,151 +3019,6 @@ public partial class WMSLayer : Layer,
 
 #region Public Methods
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfetchimage-method">GeoBlazor Docs</a>
-    ///     Fetching the WMS image.
-    ///     param extent The extent of the view.
-    ///     param width The width of the view in pixels.
-    ///     param height The height of the view in pixels.
-    ///     param options The parameter options is an object with the following properties.
-    ///     param options.pixelRatio The ratio of the resolution in physical pixels of the image to the resolution it will be displayed at.
-    ///     param options.rotation The rotation in degrees of the exported image.
-    ///     param options.timeExent The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-time-TimeExtent.html">TimeExtent</a> of the exported image.
-    ///     param options.signal An <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal">AbortSignal</a> to abort the request. If canceled, the promise will be rejected with an error named `AbortError`. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#fetchImage">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="extent">
-    ///     The extent of the view.
-    /// </param>
-    /// <param name="width">
-    ///     The width of the view in pixels.
-    /// </param>
-    /// <param name="height">
-    ///     The height of the view in pixels.
-    /// </param>
-    /// <param name="options">
-    ///     The parameter options is an object with the following properties.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ElementReference?> FetchImage(Extent extent,
-        int width,
-        int height,
-        WMSLayerFetchImageOptions options,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ElementReference? result = await JsComponentReference!.InvokeAsync<ElementReference?>(
-            "fetchImage", 
-            CancellationTokenSource.Token,
-            extent,
-            width,
-            height,
-            new { pixelRatio = options.PixelRatio, rotation = options.Rotation, timeExent = options.TimeExent, signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfindsublayerbyid-method">GeoBlazor Docs</a>
-    ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a> based on the given sublayer id.
-    ///     param id The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">id</a> of the WMS sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#findSublayerById">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="id">
-    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#id">id</a> of the WMS sublayer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<WMSSublayer?> FindSublayerById(long id)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
-            "findSublayerById", 
-            CancellationTokenSource.Token,
-            id);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerfindsublayerbyname-method">GeoBlazor Docs</a>
-    ///     Returns a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html">WMSSublayer</a> based on the given sublayer name.
-    ///     param name The <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">name</a> of the WMS sublayer.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WMSLayer.html#findSublayerByName">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="name">
-    ///     The <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-WMSSublayer.html#name">name</a> of the WMS sublayer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<WMSSublayer?> FindSublayerByName(string name)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<WMSSublayer?>(
-            "findSublayerByName", 
-            CancellationTokenSource.Token,
-            name);
-    }
-    
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.WMSLayer.html#wmslayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.

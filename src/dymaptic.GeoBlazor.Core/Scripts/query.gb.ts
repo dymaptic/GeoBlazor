@@ -231,7 +231,7 @@ export async function buildDotNetQueryGenerated(jsObject: any, layerId: string |
     }
     
     if (hasValue(jsObject.parameterValues)) {
-        dotNetQuery.parameterValues = jsObject.parameterValues;
+        dotNetQuery.parameterValues = removeCircularReferences(jsObject.parameterValues);
     }
     
     if (hasValue(jsObject.quantizationParameters)) {

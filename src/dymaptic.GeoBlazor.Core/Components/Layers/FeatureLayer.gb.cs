@@ -16,7 +16,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     ICustomParametersMixin,
     IDisplayFilteredLayer,
     IFeatureEffectLayer,
-    IFeatureServiceResourcesBundleLayers,
     IFeatureSetLayer,
     IFeatureTableWidgetLayers,
     IFeatureTemplatesViewModelLayers,
@@ -1149,17 +1148,17 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return AttributeTableTemplate;
         }
 
-        IAttributeTableTemplate? result = await JsComponentReference.InvokeAsync<IAttributeTableTemplate?>(
-            "getAttributeTableTemplate", CancellationTokenSource.Token);
-        
+        // get the property value
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+            CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AttributeTableTemplate = result;
+             AttributeTableTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
-        
+         
         return AttributeTableTemplate;
     }
     
@@ -3830,14 +3829,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     /// </param>
     public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         AttributeTableTemplate = value;
 #pragma warning restore BL0005
@@ -3863,8 +3854,8 @@ public partial class FeatureLayer : IAPIKeyMixin,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAttributeTableTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeTableTemplate", value);
     }
     
     /// <summary>
@@ -6109,231 +6100,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
 
 #region Public Methods
 
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayeraddattachment-method">GeoBlazor Docs</a>
-    ///     Adds an attachment to a feature.
-    ///     param feature Feature to which the attachment is to be added.
-    ///     param attachment HTML form that contains a file upload field pointing to the file to be added as an attachment.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#addAttachment">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="feature">
-    ///     Feature to which the attachment is to be added.
-    /// </param>
-    /// <param name="attachment">
-    ///     HTML form that contains a file upload field pointing to the file to be added as an attachment.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureEditResult?> AddAttachment(Graphic feature,
-        ElementReference attachment)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
-            "addAttachment", 
-            CancellationTokenSource.Token,
-            feature,
-            attachment);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerdeleteattachments-method">GeoBlazor Docs</a>
-    ///     Deletes attachments from a feature.
-    ///     param feature Feature containing attachments to be deleted.
-    ///     param attachmentIds Ids of the attachments to be deleted.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#deleteAttachments">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="feature">
-    ///     Feature containing attachments to be deleted.
-    /// </param>
-    /// <param name="attachmentIds">
-    ///     Ids of the attachments to be deleted.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureEditResult[]?> DeleteAttachments(Graphic feature,
-        IReadOnlyCollection<long> attachmentIds)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureEditResult[]?>(
-            "deleteAttachments", 
-            CancellationTokenSource.Token,
-            feature,
-            attachmentIds);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayersave-method">GeoBlazor Docs</a>
-    ///     Saves the layer to its existing portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>
-    ///     authenticated within the user's current session.
-    ///     param options Various options for saving the layer.
-    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#save">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    ///     Various options for saving the layer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PortalItem?> Save(FeatureLayerSaveOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "save", 
-            CancellationTokenSource.Token,
-            options);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayersaveas-method">GeoBlazor Docs</a>
-    ///     Saves the layer to a new portal item in the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-portal-Portal.html">Portal</a>
-    ///     authenticated within the user's current session.
-    ///     param portalItem The portal item to which the layer will be saved.
-    ///     param options Various options for saving the layer.
-    ///     param options.folder The portal folder where the layer's portal item will be saved.
-    ///     param options.ignoreUnsupported Indicates whether to ignore saving unsupported layers or layers with unsupported content, such as unsupported symbology.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#saveAs">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="portalItem">
-    ///     The portal item to which the layer will be saved.
-    /// </param>
-    /// <param name="options">
-    ///     Various options for saving the layer.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PortalItem?> SaveAs(PortalItem portalItem,
-        FeatureLayerSaveAsOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PortalItem?>(
-            "saveAs", 
-            CancellationTokenSource.Token,
-            portalItem,
-            options);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.FeatureLayer.html#featurelayerupdateattachment-method">GeoBlazor Docs</a>
-    ///     Updates an existing attachment for a feature.
-    ///     param feature The feature containing the attachment to be updated.
-    ///     param attachmentId Id of the attachment to be updated.
-    ///     param attachment HTML form that contains a file upload field pointing to the file to be added as an attachment.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#updateAttachment">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="feature">
-    ///     The feature containing the attachment to be updated.
-    /// </param>
-    /// <param name="attachmentId">
-    ///     Id of the attachment to be updated.
-    /// </param>
-    /// <param name="attachment">
-    ///     HTML form that contains a file upload field pointing to the file to be added as an attachment.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureEditResult?> UpdateAttachment(Graphic feature,
-        long attachmentId,
-        ElementReference attachment)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureEditResult?>(
-            "updateAttachment", 
-            CancellationTokenSource.Token,
-            feature,
-            attachmentId,
-            attachment);
-    }
-    
 #endregion
 
 #region Event Handlers
@@ -6411,18 +6177,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
-            case IAttributeTableTemplate attributeTableTemplate:
-                if (attributeTableTemplate != AttributeTableTemplate)
-                {
-                    AttributeTableTemplate = attributeTableTemplate;
-                    ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
             case DisplayFilterInfo displayFilterInfo:
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
@@ -6641,10 +6395,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
     {
         switch (child)
         {
-            case IAttributeTableTemplate _:
-                AttributeTableTemplate = null;
-                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
@@ -6726,7 +6476,6 @@ public partial class FeatureLayer : IAPIKeyMixin,
         {
             throw new MissingRequiredOptionsChildElementException(nameof(FeatureLayer), [nameof(PortalItem), nameof(Source), nameof(Url)]);
         }
-        AttributeTableTemplate?.ValidateRequiredGeneratedChildren();
         DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         DynamicDataSource?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();

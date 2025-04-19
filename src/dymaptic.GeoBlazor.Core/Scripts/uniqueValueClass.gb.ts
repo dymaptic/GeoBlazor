@@ -10,8 +10,7 @@ export async function buildJsUniqueValueClassGenerated(dotNetObject: any): Promi
 
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('./symbol');
-        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = dotNetObject.symbol;
     }
     if (hasValue(dotNetObject.values) && dotNetObject.values.length > 0) {
         let { buildJsUniqueValue } = await import('./uniqueValue');
@@ -37,11 +36,6 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     
     let dotNetUniqueValueClass: any = {};
     
-    if (hasValue(jsObject.symbol)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetUniqueValueClass.symbol = buildDotNetSymbol(jsObject.symbol);
-    }
-    
     if (hasValue(jsObject.values)) {
         let { buildDotNetUniqueValue } = await import('./uniqueValue');
         dotNetUniqueValueClass.values = await Promise.all(jsObject.values.map(async i => await buildDotNetUniqueValue(i)));
@@ -49,6 +43,10 @@ export async function buildDotNetUniqueValueClassGenerated(jsObject: any): Promi
     
     if (hasValue(jsObject.label)) {
         dotNetUniqueValueClass.label = jsObject.label;
+    }
+    
+    if (hasValue(jsObject.symbol)) {
+        dotNetUniqueValueClass.symbol = jsObject.symbol;
     }
     
 

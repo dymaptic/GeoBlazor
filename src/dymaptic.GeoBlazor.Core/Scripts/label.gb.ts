@@ -14,8 +14,7 @@ export async function buildJsLabelGenerated(dotNetObject: any, layerId: string |
         properties.labelExpressionInfo = await buildJsLabelExpressionInfo(dotNetObject.labelExpressionInfo, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
-        let { buildJsSymbol } = await import('./symbol');
-        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
+        properties.symbol = dotNetObject.symbol;
     }
 
     if (hasValue(dotNetObject.allowOverrun)) {
@@ -72,11 +71,6 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
         dotNetLabel.labelExpressionInfo = await buildDotNetLabelExpressionInfo(jsObject.labelExpressionInfo);
     }
     
-    if (hasValue(jsObject.symbol)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetLabel.symbol = buildDotNetSymbol(jsObject.symbol);
-    }
-    
     if (hasValue(jsObject.allowOverrun)) {
         dotNetLabel.allowOverrun = jsObject.allowOverrun;
     }
@@ -111,6 +105,10 @@ export async function buildDotNetLabelGenerated(jsObject: any): Promise<any> {
     
     if (hasValue(jsObject.repeatLabelDistance)) {
         dotNetLabel.repeatLabelDistance = removeCircularReferences(jsObject.repeatLabelDistance);
+    }
+    
+    if (hasValue(jsObject.symbol)) {
+        dotNetLabel.symbol = jsObject.symbol;
     }
     
     if (hasValue(jsObject.useCodedValues)) {

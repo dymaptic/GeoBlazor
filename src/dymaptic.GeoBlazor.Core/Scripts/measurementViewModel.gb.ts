@@ -38,13 +38,12 @@ export async function buildDotNetMeasurementViewModelGenerated(jsObject: any): P
     
     let dotNetMeasurementViewModel: any = {};
     
-    if (hasValue(jsObject.activeViewModel)) {
-        let { buildDotNetIMeasurementViewModelActiveViewModel } = await import('./iMeasurementViewModelActiveViewModel');
-        dotNetMeasurementViewModel.activeViewModel = buildDotNetIMeasurementViewModelActiveViewModel(jsObject.activeViewModel);
-    }
-    
     if (hasValue(jsObject.activeTool)) {
         dotNetMeasurementViewModel.activeTool = removeCircularReferences(jsObject.activeTool);
+    }
+    
+    if (hasValue(jsObject.activeViewModel)) {
+        dotNetMeasurementViewModel.activeViewModel = removeCircularReferences(jsObject.activeViewModel);
     }
     
     if (hasValue(jsObject.areaUnit)) {

@@ -71,7 +71,7 @@ public partial class PortalItem
     [ArcGISProperty]
     [Parameter]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Dictionary<string, string>? Classification { get; set; }
+    public Dictionary<string, string?>? Classification { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.PortalItem.html#portalitemcreated-property">GeoBlazor Docs</a>
@@ -618,7 +618,7 @@ public partial class PortalItem
     /// <summary>
     ///     Asynchronously retrieve the current value of the Classification property.
     /// </summary>
-    public async Task<Dictionary<string, string>?> GetClassification()
+    public async Task<Dictionary<string, string?>?> GetClassification()
     {
         if (CoreJsModule is null)
         {
@@ -641,7 +641,7 @@ public partial class PortalItem
         }
 
         // get the property value
-        Dictionary<string, string>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, string>?>("getProperty",
+        Dictionary<string, string?>? result = await JsComponentReference!.InvokeAsync<Dictionary<string, string?>?>("getProperty",
             CancellationTokenSource.Token, "classification");
         if (result is not null)
         {
@@ -1990,7 +1990,7 @@ public partial class PortalItem
     /// <param name="value">
     ///     The value to set.
     /// </param>
-    public async Task SetClassification(Dictionary<string, string>? value)
+    public async Task SetClassification(Dictionary<string, string?>? value)
     {
 #pragma warning disable BL0005
         Classification = value;

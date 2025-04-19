@@ -72,8 +72,8 @@ export default class ExtentGenerated implements IPropertyWrapper {
         } else {
             try {
                 // @ts-ignore GeoBlazor Pro only
-                let { buildJsGeometry } = await import('./geometry');
-                jsGeometry = buildJsGeometry(geometry) as any;
+                let { buildJsMesh } = await import('./mesh');
+                jsGeometry = buildJsMesh(geometry) as any;
             } catch (e) {
                 console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
                 jsGeometry = null;
@@ -103,8 +103,8 @@ export default class ExtentGenerated implements IPropertyWrapper {
         } else {
             try {
                 // @ts-ignore GeoBlazor Pro only
-                let { buildJsGeometry } = await import('./geometry');
-                jsGeometry = buildJsGeometry(geometry) as any;
+                let { buildJsMesh } = await import('./mesh');
+                jsGeometry = buildJsMesh(geometry) as any;
             } catch (e) {
                 console.error(`Pro functionality not available in GeoBlazor Core. ${e}`);
                 jsGeometry = null;
@@ -144,13 +144,13 @@ export default class ExtentGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.cache);
-        return json;
+        return generateSerializableJson(this.component.cache);
     }
     
     setCache(value: any): void {
         this.component.cache = JSON.parse(value);
     }
+    
     async getCenter(): Promise<any> {
         if (!hasValue(this.component.center)) {
             return null;

@@ -56,7 +56,9 @@ export default class AttributeBinsGraphicGenerated implements IPropertyWrapper {
     }
     
     async getAttribute(name: any): Promise<any> {
-        return this.component.getAttribute(name);
+        let result = this.component.getAttribute(name);
+        
+        return generateSerializableJson(result);
     }
 
     async getEffectivePopupTemplate(defaultPopupTemplateEnabled: any): Promise<any> {
@@ -64,7 +66,9 @@ export default class AttributeBinsGraphicGenerated implements IPropertyWrapper {
     }
 
     async getObjectId(): Promise<any> {
-        return this.component.getObjectId();
+        let result = this.component.getObjectId();
+        
+        return generateSerializableJson(result);
     }
 
     async setAttribute(name: any,
@@ -80,13 +84,13 @@ export default class AttributeBinsGraphicGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.aggregateGeometries);
-        return json;
+        return generateSerializableJson(this.component.aggregateGeometries);
     }
     
     setAggregateGeometries(value: any): void {
         this.component.aggregateGeometries = JSON.parse(value);
     }
+    
     async getGeometry(): Promise<any> {
         if (!hasValue(this.component.geometry)) {
             return null;
@@ -247,7 +251,7 @@ export async function buildDotNetAttributeBinsGraphicGenerated(jsObject: any): P
     }
     
     if (hasValue(jsObject.stackedAttributes)) {
-        dotNetAttributeBinsGraphic.stackedAttributes = jsObject.stackedAttributes;
+        dotNetAttributeBinsGraphic.stackedAttributes = removeCircularReferences(jsObject.stackedAttributes);
     }
     
     if (hasValue(jsObject.visible)) {

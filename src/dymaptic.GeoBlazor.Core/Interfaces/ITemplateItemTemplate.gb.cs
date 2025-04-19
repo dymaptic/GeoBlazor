@@ -8,6 +8,6 @@ namespace dymaptic.GeoBlazor.Core.Interfaces;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-FeatureTemplates-TemplateItem.html#template">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
 [JsonConverter(typeof(MultiTypeConverter<ITemplateItemTemplate>))]
-public partial interface ITemplateItemTemplate 
+public partial interface ITemplateItemTemplate : IMapComponent
 {
 }

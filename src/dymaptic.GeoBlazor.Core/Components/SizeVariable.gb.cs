@@ -9,7 +9,7 @@ namespace dymaptic.GeoBlazor.Core.Components;
 ///     on a numeric (often thematic) value.
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-renderers-visualVariables-SizeVariable.html">ArcGIS Maps SDK for JavaScript</a>
 /// </summary>
-public partial class SizeVariable : IPieChartRendererVisualVariables
+public partial class SizeVariable
 {
 
     /// <summary>

@@ -1,7 +1,7 @@
 
-export async function buildJsIQueryMixin(dotNetObject: any, layerId: string | null, viewId: string | null): Promise<any> {
+export async function buildJsIQueryMixin(dotNetObject: any): Promise<any> {
     let { buildJsIQueryMixinGenerated } = await import('./iQueryMixin.gb');
-    return await buildJsIQueryMixinGenerated(dotNetObject, layerId, viewId);
+    return await buildJsIQueryMixinGenerated(dotNetObject);
 }     
 
 export async function buildDotNetIQueryMixin(jsObject: any): Promise<any> {

@@ -758,17 +758,17 @@ public partial class CSVLayer : IBlendLayer,
             return AttributeTableTemplate;
         }
 
-        IAttributeTableTemplate? result = await JsComponentReference.InvokeAsync<IAttributeTableTemplate?>(
-            "getAttributeTableTemplate", CancellationTokenSource.Token);
-        
+        // get the property value
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+            CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AttributeTableTemplate = result;
+             AttributeTableTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
-        
+         
         return AttributeTableTemplate;
     }
     
@@ -2388,14 +2388,6 @@ public partial class CSVLayer : IBlendLayer,
     /// </param>
     public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         AttributeTableTemplate = value;
 #pragma warning restore BL0005
@@ -2421,8 +2413,8 @@ public partial class CSVLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAttributeTableTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeTableTemplate", value);
     }
     
     /// <summary>
@@ -4048,376 +4040,6 @@ public partial class CSVLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercreatepopuptemplate-method">GeoBlazor Docs</a>
-    ///     Creates a popup template for the layer, populated with all the fields of the layer.
-    ///     param options Options for creating the popup template.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    ///     Options for creating the popup template.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
-            CancellationTokenSource.Token,
-            options);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayercreatequery-method">GeoBlazor Docs</a>
-    ///     Creates query parameters that can be used to fetch features that
-    ///     satisfy the layer's current filters, and definitions.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<Query?> CreateQuery()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayergetfield-method">GeoBlazor Docs</a>
-    ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> instance for a field name (case-insensitive).
-    ///     param fieldName Name of the field.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#getField">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Field?> GetField(string fieldName)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Field?>(
-            "getField", 
-            CancellationTokenSource.Token,
-            fieldName);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayergetfielddomain-method">GeoBlazor Docs</a>
-    ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> associated with the given field name.
-    ///     param fieldName Name of the field.
-    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
-    ///     param options.feature The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Domain?> GetFieldDomain(string fieldName,
-        CSVLayerGetFieldDomainOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
-            CancellationTokenSource.Token,
-            fieldName,
-            options);
-    }
-    
-    
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryextent-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and
-    ///     returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
-    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query.
-    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
-    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ExtentQueryResult?> QueryExtent(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
-            "queryExtent", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryfeaturecount-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and
-    ///     returns the number of features that satisfy the query.
-    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query.
-    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
-    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<int?> QueryFeatureCount(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryfeatures-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns a
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
-    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query.
-    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
-    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureSet?> QueryFeatures(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerqueryobjectids-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the CSV data and returns an
-    ///     array of Object IDs for features that satisfy the input query.
-    ///     param query Specifies the attributes and spatial filter of the query. When no parameters are passed to this method, all features in the client are returned. To only return features visible in the view, set the `geometry` parameter in the query object to the view's extent.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial filter of the query.
-    ///     When no parameters are passed to this method, all features in the client are returned. To only return features
-    ///     visible in the view, set the <code>geometry</code> parameter in the query object to the view's extent.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
-            "queryObjectIds", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.CSVLayer.html#csvlayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
@@ -4495,18 +4117,6 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case IAttributeTableTemplate attributeTableTemplate:
-                if (attributeTableTemplate != AttributeTableTemplate)
-                {
-                    AttributeTableTemplate = attributeTableTemplate;
-                    ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
             case DisplayFilterInfo displayFilterInfo:
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
@@ -4688,10 +4298,6 @@ public partial class CSVLayer : IBlendLayer,
     {
         switch (child)
         {
-            case IAttributeTableTemplate _:
-                AttributeTableTemplate = null;
-                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
@@ -4761,7 +4367,6 @@ public partial class CSVLayer : IBlendLayer,
         {
             throw new MissingRequiredChildElementException(nameof(CSVLayer), nameof(Url));
         }
-        AttributeTableTemplate?.ValidateRequiredGeneratedChildren();
         DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();

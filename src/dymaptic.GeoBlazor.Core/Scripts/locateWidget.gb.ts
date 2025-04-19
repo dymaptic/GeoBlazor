@@ -21,10 +21,6 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.widget.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
             this.widget.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -77,7 +73,9 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     }
 
     async locate(): Promise<any> {
-        return await this.widget.locate();
+        let result = await this.widget.locate();
+        
+        return generateSerializableJson(result);
     }
 
     async postInitialize(): Promise<void> {
@@ -85,7 +83,9 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     }
 
     async render(): Promise<any> {
-        return this.widget.render();
+        let result = this.widget.render();
+        
+        return generateSerializableJson(result);
     }
 
     async renderNow(): Promise<void> {
@@ -98,8 +98,10 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.widget.when(callback,
+        let result = await this.widget.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
@@ -109,25 +111,11 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.widget.geolocationOptions);
-        return json;
+        return generateSerializableJson(this.widget.geolocationOptions);
     }
     
     setGeolocationOptions(value: any): void {
         this.widget.geolocationOptions = JSON.parse(value);
-    }
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.widget.goToOverride)) {
-            return null;
-        }
-        
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.widget.goToOverride);
-    }
-    
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.widget.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
     async getGraphic(): Promise<any> {
@@ -144,6 +132,30 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
         this.widget.graphic =  buildJsGraphic(value);
     }
     
+    getIcon(): any {
+        if (!hasValue(this.widget.icon)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.widget.icon);
+    }
+    
+    setIcon(value: any): void {
+        this.widget.icon = JSON.parse(value);
+    }
+    
+    getLabel(): any {
+        if (!hasValue(this.widget.label)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.widget.label);
+    }
+    
+    setLabel(value: any): void {
+        this.widget.label = JSON.parse(value);
+    }
+    
     async getViewModel(): Promise<any> {
         if (!hasValue(this.widget.viewModel)) {
             return null;
@@ -156,6 +168,18 @@ export default class LocateWidgetGenerated implements IPropertyWrapper {
     async setViewModel(value: any): Promise<void> {
         let { buildJsLocateViewModel } = await import('./locateViewModel');
         this.widget.viewModel = await  buildJsLocateViewModel(value, this.layerId, this.viewId);
+    }
+    
+    getWidgetId(): any {
+        if (!hasValue(this.widget.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.widget.id);
+    }
+    
+    setWidgetId(value: any): void {
+        this.widget.id = JSON.parse(value);
     }
     
     getProperty(prop: string): any {
@@ -177,9 +201,13 @@ export async function buildJsLocateWidgetGenerated(dotNetObject: any, layerId: s
     if (hasValue(viewId)) {
         properties.view = arcGisObjectRefs[viewId!];
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+        properties.goToOverride = async (view,
+        goToParameters) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
+            goToParameters);
+        };
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');

@@ -9,16 +9,13 @@ export async function buildJsSearchViewModelDefaultSymbolsGenerated(dotNetObject
 
     let jsSearchViewModelDefaultSymbols: any = {};
     if (hasValue(dotNetObject.point)) {
-        let { buildJsSymbol } = await import('./symbol');
-        jsSearchViewModelDefaultSymbols.point = buildJsSymbol(dotNetObject.point) as any;
+        jsSearchViewModelDefaultSymbols.point = dotNetObject.point;
     }
     if (hasValue(dotNetObject.polygon)) {
-        let { buildJsSymbol } = await import('./symbol');
-        jsSearchViewModelDefaultSymbols.polygon = buildJsSymbol(dotNetObject.polygon) as any;
+        jsSearchViewModelDefaultSymbols.polygon = dotNetObject.polygon;
     }
     if (hasValue(dotNetObject.polyline)) {
-        let { buildJsSymbol } = await import('./symbol');
-        jsSearchViewModelDefaultSymbols.polyline = buildJsSymbol(dotNetObject.polyline) as any;
+        jsSearchViewModelDefaultSymbols.polyline = dotNetObject.polyline;
     }
 
     
@@ -37,18 +34,15 @@ export async function buildDotNetSearchViewModelDefaultSymbolsGenerated(jsObject
     let dotNetSearchViewModelDefaultSymbols: any = {};
     
     if (hasValue(jsObject.point)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.point = buildDotNetSymbol(jsObject.point);
+        dotNetSearchViewModelDefaultSymbols.point = jsObject.point;
     }
     
     if (hasValue(jsObject.polygon)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.polygon = buildDotNetSymbol(jsObject.polygon);
+        dotNetSearchViewModelDefaultSymbols.polygon = jsObject.polygon;
     }
     
     if (hasValue(jsObject.polyline)) {
-        let { buildDotNetSymbol } = await import('./symbol');
-        dotNetSearchViewModelDefaultSymbols.polyline = buildDotNetSymbol(jsObject.polyline);
+        dotNetSearchViewModelDefaultSymbols.polyline = jsObject.polyline;
     }
     
 

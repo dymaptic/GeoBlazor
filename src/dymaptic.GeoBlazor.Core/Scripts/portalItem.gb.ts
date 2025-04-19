@@ -117,11 +117,11 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async addResource(resource: any,
         content: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        return await this.component.addResource(jsResource,
+        let result = await this.component.addResource(resource,
             content,
             options);
+        
+        return generateSerializableJson(result);
     }
 
     async cancelLoad(): Promise<void> {
@@ -129,13 +129,17 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async deleteRating(): Promise<any> {
-        return await this.component.deleteRating();
+        let result = await this.component.deleteRating();
+        
+        return generateSerializableJson(result);
     }
 
     async fetchData(responseType: any,
         options: any): Promise<any> {
-        return await this.component.fetchData(responseType,
+        let result = await this.component.fetchData(responseType,
             options);
+        
+        return generateSerializableJson(result);
     }
 
     async fetchRating(options: any): Promise<any> {
@@ -173,7 +177,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async load(options: any): Promise<any> {
-        return await this.component.load(options);
+        let result = await this.component.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async reload(): Promise<any> {
@@ -183,15 +189,17 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     }
 
     async removeAllResources(options: any): Promise<any> {
-        return await this.component.removeAllResources(options);
+        let result = await this.component.removeAllResources(options);
+        
+        return generateSerializableJson(result);
     }
 
     async removeResource(resource: any,
         options: any): Promise<any> {
-        let { buildJsPortalItemResource } = await import('./portalItemResource');
-        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
-        return await this.component.removeResource(jsResource,
+        let result = await this.component.removeResource(resource,
             options);
+        
+        return generateSerializableJson(result);
     }
 
     async update(parameters: any): Promise<any> {
@@ -208,11 +216,61 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.component.when(callback,
+        let result = await this.component.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
+    
+    getAccessInformation(): any {
+        if (!hasValue(this.component.accessInformation)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.accessInformation);
+    }
+    
+    setAccessInformation(value: any): void {
+        this.component.accessInformation = JSON.parse(value);
+    }
+    
+    getApiKey(): any {
+        if (!hasValue(this.component.apiKey)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.apiKey);
+    }
+    
+    setApiKey(value: any): void {
+        this.component.apiKey = JSON.parse(value);
+    }
+    
+    getCulture(): any {
+        if (!hasValue(this.component.culture)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.culture);
+    }
+    
+    setCulture(value: any): void {
+        this.component.culture = JSON.parse(value);
+    }
+    
+    getDescription(): any {
+        if (!hasValue(this.component.description)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.description);
+    }
+    
+    setDescription(value: any): void {
+        this.component.description = JSON.parse(value);
+    }
     
     async getExtent(): Promise<any> {
         if (!hasValue(this.component.extent)) {
@@ -226,6 +284,78 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async setExtent(value: any): Promise<void> {
         let { buildJsExtent } = await import('./extent');
         this.component.extent =  buildJsExtent(value);
+    }
+    
+    getItemPageUrl(): any {
+        if (!hasValue(this.component.itemPageUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.itemPageUrl);
+    }
+    
+    setItemPageUrl(value: any): void {
+        this.component.itemPageUrl = JSON.parse(value);
+    }
+    
+    getItemUrl(): any {
+        if (!hasValue(this.component.itemUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.itemUrl);
+    }
+    
+    setItemUrl(value: any): void {
+        this.component.itemUrl = JSON.parse(value);
+    }
+    
+    getLicenseInfo(): any {
+        if (!hasValue(this.component.licenseInfo)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.licenseInfo);
+    }
+    
+    setLicenseInfo(value: any): void {
+        this.component.licenseInfo = JSON.parse(value);
+    }
+    
+    getName(): any {
+        if (!hasValue(this.component.name)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.name);
+    }
+    
+    setName(value: any): void {
+        this.component.name = JSON.parse(value);
+    }
+    
+    getOwner(): any {
+        if (!hasValue(this.component.owner)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.owner);
+    }
+    
+    setOwner(value: any): void {
+        this.component.owner = JSON.parse(value);
+    }
+    
+    getOwnerFolder(): any {
+        if (!hasValue(this.component.ownerFolder)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.ownerFolder);
+    }
+    
+    setOwnerFolder(value: any): void {
+        this.component.ownerFolder = JSON.parse(value);
     }
     
     async getPortal(): Promise<any> {
@@ -242,18 +372,70 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
+    getPortalItemId(): any {
+        if (!hasValue(this.component.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.id);
+    }
+    
+    setPortalItemId(value: any): void {
+        this.component.id = JSON.parse(value);
+    }
+    
+    getSnippet(): any {
+        if (!hasValue(this.component.snippet)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.snippet);
+    }
+    
+    setSnippet(value: any): void {
+        this.component.snippet = JSON.parse(value);
+    }
+    
     getSourceJSON(): any {
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.sourceJSON);
-        return json;
+        return generateSerializableJson(this.component.sourceJSON);
     }
     
     setSourceJSON(value: any): void {
         this.component.sourceJSON = JSON.parse(value);
     }
+    
+    setThumbnailUrl(value: any): void {
+        this.component.thumbnailUrl = JSON.parse(value);
+    }
+    
+    getTitle(): any {
+        if (!hasValue(this.component.title)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.title);
+    }
+    
+    setTitle(value: any): void {
+        this.component.title = JSON.parse(value);
+    }
+    
+    getUrl(): any {
+        if (!hasValue(this.component.url)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.url);
+    }
+    
+    setUrl(value: any): void {
+        this.component.url = JSON.parse(value);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -414,7 +596,7 @@ export async function buildDotNetPortalItemGenerated(jsObject: any): Promise<any
     }
     
     if (hasValue(jsObject.classification)) {
-        dotNetPortalItem.classification = jsObject.classification;
+        dotNetPortalItem.classification = removeCircularReferences(jsObject.classification);
     }
     
     if (hasValue(jsObject.created)) {

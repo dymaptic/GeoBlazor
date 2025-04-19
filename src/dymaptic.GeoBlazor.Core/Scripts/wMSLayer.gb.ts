@@ -21,10 +21,6 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.effect)) {
-            let { buildJsEffect } = await import('./effect');
-            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
-        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -75,6 +71,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.description)) {
             this.layer.description = dotNetObject.description;
+        }
+        if (hasValue(dotNetObject.effect)) {
+            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.featureInfoFormat)) {
             this.layer.featureInfoFormat = dotNetObject.featureInfoFormat;
@@ -149,7 +148,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchAttributionData(): Promise<any> {
-        return await this.layer.fetchAttributionData();
+        let result = await this.layer.fetchAttributionData();
+        
+        return generateSerializableJson(result);
     }
 
     async fetchImage(extent: any,
@@ -185,7 +186,9 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
     }
 
     async load(options: any): Promise<any> {
-        return await this.layer.load(options);
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async refresh(): Promise<void> {
@@ -194,8 +197,10 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.layer.when(callback,
+        let result = await this.layer.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
@@ -209,30 +214,64 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers!.map(async i => await buildDotNetWMSSublayer(i)));
     }
     
+    getArcGISLayerId(): any {
+        if (!hasValue(this.layer.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.id);
+    }
+    
+    setArcGISLayerId(value: any): void {
+        this.layer.id = JSON.parse(value);
+    }
+    
+    getCopyright(): any {
+        if (!hasValue(this.layer.copyright)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.copyright);
+    }
+    
+    setCopyright(value: any): void {
+        this.layer.copyright = JSON.parse(value);
+    }
+    
     getCustomLayerParameters(): any {
         if (!hasValue(this.layer.customLayerParameters)) {
             return null;
         }
         
-        let json = generateSerializableJson(this.layer.customLayerParameters);
-        return json;
+        return generateSerializableJson(this.layer.customLayerParameters);
     }
     
     setCustomLayerParameters(value: any): void {
         this.layer.customLayerParameters = JSON.parse(value);
     }
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
+    
+    getDescription(): any {
+        if (!hasValue(this.layer.description)) {
             return null;
         }
         
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
+        return generateSerializableJson(this.layer.description);
     }
     
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value);
+    setDescription(value: any): void {
+        this.layer.description = JSON.parse(value);
+    }
+    
+    getFeatureInfoUrl(): any {
+        if (!hasValue(this.layer.featureInfoUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.featureInfoUrl);
+    }
+    
+    setFeatureInfoUrl(value: any): void {
+        this.layer.featureInfoUrl = JSON.parse(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -264,6 +303,18 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         }
         let { buildJsExtent } = await import('./extent');
         this.layer.fullExtents = value.map(i => buildJsExtent(i)) as any;
+    }
+    
+    getImageFormat(): any {
+        if (!hasValue(this.layer.imageFormat)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.imageFormat);
+    }
+    
+    setImageFormat(value: any): void {
+        this.layer.imageFormat = JSON.parse(value);
     }
     
     async getPortalItem(): Promise<any> {
@@ -339,6 +390,42 @@ export default class WMSLayerGenerated implements IPropertyWrapper {
         this.layer.timeOffset = await  buildJsTimeInterval(value);
     }
     
+    getTitle(): any {
+        if (!hasValue(this.layer.title)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.title);
+    }
+    
+    setTitle(value: any): void {
+        this.layer.title = JSON.parse(value);
+    }
+    
+    getUrl(): any {
+        if (!hasValue(this.layer.url)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.url);
+    }
+    
+    setUrl(value: any): void {
+        this.layer.url = JSON.parse(value);
+    }
+    
+    getVersion(): any {
+        if (!hasValue(this.layer.version)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.version);
+    }
+    
+    setVersion(value: any): void {
+        this.layer.version = JSON.parse(value);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -369,10 +456,6 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
     if (hasValue(dotNetObject.hasFetchFeatureInfoFunction) && dotNetObject.hasFetchFeatureInfoFunction) {
         properties.fetchFeatureInfoFunction = async (query) => {
 
@@ -431,6 +514,9 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     }
     if (hasValue(dotNetObject.description)) {
         properties.description = dotNetObject.description;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.featureInfoFormat)) {
         properties.featureInfoFormat = dotNetObject.featureInfoFormat;
@@ -495,27 +581,21 @@ export async function buildJsWMSLayerGenerated(dotNetObject: any, layerId: strin
     let jsWMSLayer = new WMSLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsWMSLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsWMSLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsWMSLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -559,11 +639,6 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     }
     
     let dotNetWMSLayer: any = {};
-    
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetWMSLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -631,6 +706,10 @@ export async function buildDotNetWMSLayerGenerated(jsObject: any): Promise<any> 
     
     if (hasValue(jsObject.dimensions)) {
         dotNetWMSLayer.dimensions = removeCircularReferences(jsObject.dimensions);
+    }
+    
+    if (hasValue(jsObject.effect)) {
+        dotNetWMSLayer.effect = removeCircularReferences(jsObject.effect);
     }
     
     if (hasValue(jsObject.featureInfoFormat)) {

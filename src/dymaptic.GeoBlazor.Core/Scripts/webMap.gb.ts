@@ -85,7 +85,9 @@ export default class WebMapGenerated implements IPropertyWrapper {
     }
 
     async load(): Promise<any> {
-        return await this.component.load();
+        let result = await this.component.load();
+        
+        return generateSerializableJson(result);
     }
 
     async loadAll(): Promise<any> {
@@ -116,14 +118,18 @@ export default class WebMapGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsWebDocument2DUpdateFromOptions } = await import('./webDocument2DUpdateFromOptions');
         let jsOptions = await buildJsWebDocument2DUpdateFromOptions(options, this.layerId, this.viewId) as any;
-        return await this.component.updateFrom(view,
+        let result = await this.component.updateFrom(view,
             jsOptions);
+        
+        return generateSerializableJson(result);
     }
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.component.when(callback,
+        let result = await this.component.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
@@ -140,6 +146,30 @@ export default class WebMapGenerated implements IPropertyWrapper {
     async setApplicationProperties(value: any): Promise<void> {
         let { buildJsApplicationProperties } = await import('./applicationProperties');
         this.component.applicationProperties = await  buildJsApplicationProperties(value, this.layerId, this.viewId);
+    }
+    
+    getAuthoringApp(): any {
+        if (!hasValue(this.component.authoringApp)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.authoringApp);
+    }
+    
+    setAuthoringApp(value: any): void {
+        this.component.authoringApp = JSON.parse(value);
+    }
+    
+    getAuthoringAppVersion(): any {
+        if (!hasValue(this.component.authoringAppVersion)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.authoringAppVersion);
+    }
+    
+    setAuthoringAppVersion(value: any): void {
+        this.component.authoringAppVersion = JSON.parse(value);
     }
     
     async getBookmarks(): Promise<any> {
@@ -234,13 +264,25 @@ export default class WebMapGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.presentation);
-        return json;
+        return generateSerializableJson(this.component.presentation);
     }
     
     setPresentation(value: any): void {
         this.component.presentation = JSON.parse(value);
     }
+    
+    getThumbnailUrl(): any {
+        if (!hasValue(this.component.thumbnailUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.thumbnailUrl);
+    }
+    
+    setThumbnailUrl(value: any): void {
+        this.component.thumbnailUrl = JSON.parse(value);
+    }
+    
     async getUtilityNetworks(): Promise<any> {
         if (!hasValue(this.component.utilityNetworks)) {
             return null;

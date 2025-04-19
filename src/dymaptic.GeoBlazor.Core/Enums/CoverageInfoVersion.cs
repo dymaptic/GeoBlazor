@@ -4,8 +4,10 @@ namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
 ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.CoverageInfoVersion.html">GeoBlazor Docs</a>
-///     The service version.
-///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#CoverageInfo">ArcGIS Maps SDK for JavaScript</a>
+///     <summary>
+///          The service version.
+///          <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-WCSLayer.html#CoverageInfo">ArcGIS Maps SDK for JavaScript</a>
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<CoverageInfoVersion>))]
 public enum CoverageInfoVersion

@@ -792,17 +792,17 @@ public partial class GeoJSONLayer : IBlendLayer,
             return AttributeTableTemplate;
         }
 
-        IAttributeTableTemplate? result = await JsComponentReference.InvokeAsync<IAttributeTableTemplate?>(
-            "getAttributeTableTemplate", CancellationTokenSource.Token);
-        
+        // get the property value
+        IAttributeTableTemplate? result = await JsComponentReference!.InvokeAsync<IAttributeTableTemplate?>("getProperty",
+            CancellationTokenSource.Token, "attributeTableTemplate");
         if (result is not null)
         {
 #pragma warning disable BL0005
-            AttributeTableTemplate = result;
+             AttributeTableTemplate = result;
 #pragma warning restore BL0005
-            ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
+             ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
         }
-        
+         
         return AttributeTableTemplate;
     }
     
@@ -2422,14 +2422,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     /// </param>
     public async Task SetAttributeTableTemplate(IAttributeTableTemplate? value)
     {
-        if (value is not null)
-        {
-            value.CoreJsModule  = CoreJsModule;
-            value.Parent = this;
-            value.Layer = Layer;
-            value.View = View;
-        } 
-        
 #pragma warning disable BL0005
         AttributeTableTemplate = value;
 #pragma warning restore BL0005
@@ -2455,8 +2447,8 @@ public partial class GeoJSONLayer : IBlendLayer,
             return;
         }
         
-        await JsComponentReference.InvokeVoidAsync("setAttributeTableTemplate", 
-            CancellationTokenSource.Token, value);
+        await CoreJsModule.InvokeVoidAsync("setProperty", CancellationTokenSource.Token,
+            JsComponentReference, "attributeTableTemplate", value);
     }
     
     /// <summary>
@@ -4075,415 +4067,6 @@ public partial class GeoJSONLayer : IBlendLayer,
 #region Public Methods
 
     /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerapplyedits-method">GeoBlazor Docs</a>
-    ///     Applies edits to features in a layer.
-    ///     param edits Object containing features to be added, updated or deleted.
-    ///     param edits.addFeatures An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be added. Values of non nullable fields must be provided when adding new features. Date fields must have <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime">numeric</a> values representing universal time.
-    ///     param edits.updateFeatures An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features to be updated. Each feature must have valid <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#objectIdField">objectId</a>. Values of non nullable fields must be provided when updating features. Date fields must have <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime">numeric</a> values representing universal time.
-    ///     param edits.deleteFeatures An array or a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Collection.html">collection</a> of features, or objects to be deleted. When an array or collection of features is passed, each feature must have a valid <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#objectIdField">objectId</a>. When an array of objects is used, each object must have a valid `objectId` property.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="edits">
-    ///     Object containing features to be added, updated or deleted.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureEditsResult?> ApplyEdits(GeoJSONLayerApplyEditsEdits edits)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<FeatureEditsResult?>(
-            "applyEdits", 
-            CancellationTokenSource.Token,
-            edits);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercreatepopuptemplate-method">GeoBlazor Docs</a>
-    ///     Creates a popup template for the layer, populated with all the fields of the layer.
-    ///     param options Options for creating the popup template.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#createPopupTemplate">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="options">
-    ///     Options for creating the popup template.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<PopupTemplate?> CreatePopupTemplate(CreatePopupTemplateOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<PopupTemplate?>(
-            "createPopupTemplate", 
-            CancellationTokenSource.Token,
-            options);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayercreatequery-method">GeoBlazor Docs</a>
-    ///     Creates query parameter object that can be used to fetch features that
-    ///     satisfy the layer's configurations such as <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#definitionExpression">definitionExpression</a>.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#createQuery">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    [ArcGISMethod]
-    public async Task<Query?> CreateQuery()
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Query?>(
-            "createQuery", 
-            CancellationTokenSource.Token);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayergetfield-method">GeoBlazor Docs</a>
-    ///     Returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Field.html">Field</a> instance for a field name (case-insensitive).
-    ///     param fieldName Name of the field.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#getField">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Field?> GetField(string fieldName)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Field?>(
-            "getField", 
-            CancellationTokenSource.Token,
-            fieldName);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayergetfielddomain-method">GeoBlazor Docs</a>
-    ///     Returns the Domain associated with the given field name.
-    ///     param fieldName Name of the field.
-    ///     param options An object specifying additional options. See the object specification table below for the required properties of this object.
-    ///     param options.feature The feature to which the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-support-Domain.html">Domain</a> is assigned.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#getFieldDomain">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="fieldName">
-    ///     Name of the field.
-    /// </param>
-    /// <param name="options">
-    ///     An object specifying additional options. See the
-    ///     object specification table below for the required properties of this object.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<Domain?> GetFieldDomain(string fieldName,
-        GeoJSONLayerGetFieldDomainOptions options)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        return await JsComponentReference!.InvokeAsync<Domain?>(
-            "getFieldDomain", 
-            CancellationTokenSource.Token,
-            fieldName,
-            options);
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerqueryextent-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and
-    ///     returns the <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Extent.html">Extent</a> of features that satisfy the query.
-    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then the extent and count of all features satisfying the layer's configuration/filters are returned.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryExtent">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then the extent and count of all features
-    ///     satisfying the layer's configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<ExtentQueryResult?> QueryExtent(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        ExtentQueryResult? result = await JsComponentReference!.InvokeAsync<ExtentQueryResult?>(
-            "queryExtent", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerqueryfeaturecount-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and
-    ///     returns the number of features that satisfy the query.
-    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, the total number of features satisfying the layer's configuration/filters is returned.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatureCount">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and
-    ///     spatial filter of the query. If no parameters are specified, the total number of features
-    ///     satisfying the layer's configuration/filters is returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<int?> QueryFeatureCount(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        int? result = await JsComponentReference!.InvokeAsync<int?>(
-            "queryFeatureCount", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerqueryfeatures-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns a
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FeatureSet.html">FeatureSet</a> once the promise resolves.
-    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then all features satisfying the layer's configuration/filters are returned.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryFeatures">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then all features satisfying the layer's
-    ///     configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<FeatureSet?> QueryFeatures(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        FeatureSet? result = await JsComponentReference!.InvokeAsync<FeatureSet?>(
-            "queryFeatures", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
-    ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerqueryobjectids-method">GeoBlazor Docs</a>
-    ///     Executes a <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-Query.html">Query</a> against the layer and returns an
-    ///     array of Object IDs for features that satisfy the input query.
-    ///     param query Specifies the attributes and spatial filter of the query. If no parameters are specified, then the Object IDs of all features satisfying the layer's configuration/filters are returned.
-    ///     param options An object with the following properties.
-    ///     param options.signal Signal object that can be used to abort the asynchronous task. The returned promise will be rejected with an <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Error.html">Error</a> named `AbortError` when an abort is signaled. See also <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController">AbortController</a> for more information on how to construct a controller that can be used to deliver abort signals.
-    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#queryObjectIds">ArcGIS Maps SDK for JavaScript</a>
-    /// </summary>
-    /// <param name="query">
-    ///     Specifies the attributes and spatial
-    ///     filter of the query. If no parameters are specified, then the Object IDs of all features
-    ///     satisfying the layer's configuration/filters are returned.
-    /// </param>
-    /// <param name="cancellationToken">
-    ///     The CancellationToken to cancel an asynchronous operation.
-    /// </param>
-    [ArcGISMethod]
-    public async Task<long[]?> QueryObjectIds(Query query,
-        CancellationToken cancellationToken = default)
-    {
-        if (CoreJsModule is null)
-        {
-            return null;
-        }
-        
-        try 
-        {
-            JsComponentReference ??= await CoreJsModule.InvokeAsync<IJSObjectReference?>(
-                "getJsComponent", CancellationTokenSource.Token, Id);
-        }
-        catch (JSException)
-        {
-            // this is expected if the component is not yet built
-        }
-        
-        if (JsComponentReference is null)
-        {
-            return null;
-        }
-        
-        IJSObjectReference abortSignal = await AbortManager!.CreateAbortSignal(cancellationToken);
-        long[]? result = await JsComponentReference!.InvokeAsync<long[]?>(
-            "queryObjectIds", 
-            CancellationTokenSource.Token,
-            query,
-            new { signal = abortSignal });
-                
-        await AbortManager.DisposeAbortController(cancellationToken);
-        
-        return result;
-    }
-    
-    /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Layers.GeoJSONLayer.html#geojsonlayerrefresh-method">GeoBlazor Docs</a>
     ///     Fetches all the data for the layer.
     ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#refresh">ArcGIS Maps SDK for JavaScript</a>
@@ -4593,18 +4176,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
-            case IAttributeTableTemplate attributeTableTemplate:
-                if (attributeTableTemplate != AttributeTableTemplate)
-                {
-                    AttributeTableTemplate = attributeTableTemplate;
-                    ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                    if (MapRendered)
-                    {
-                        await UpdateLayer();
-                    }
-                }
-                
-                return true;
             case DisplayFilterInfo displayFilterInfo:
                 if (displayFilterInfo != DisplayFilterInfo)
                 {
@@ -4786,10 +4357,6 @@ public partial class GeoJSONLayer : IBlendLayer,
     {
         switch (child)
         {
-            case IAttributeTableTemplate _:
-                AttributeTableTemplate = null;
-                ModifiedParameters[nameof(AttributeTableTemplate)] = AttributeTableTemplate;
-                return true;
             case DisplayFilterInfo _:
                 DisplayFilterInfo = null;
                 ModifiedParameters[nameof(DisplayFilterInfo)] = DisplayFilterInfo;
@@ -4859,7 +4426,6 @@ public partial class GeoJSONLayer : IBlendLayer,
         {
             throw new MissingRequiredChildElementException(nameof(GeoJSONLayer), nameof(Url));
         }
-        AttributeTableTemplate?.ValidateRequiredGeneratedChildren();
         DisplayFilterInfo?.ValidateRequiredGeneratedChildren();
         ElevationInfo?.ValidateRequiredGeneratedChildren();
         FeatureEffect?.ValidateRequiredGeneratedChildren();

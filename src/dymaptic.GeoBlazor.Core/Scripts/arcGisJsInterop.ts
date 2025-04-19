@@ -2138,6 +2138,11 @@ export function generateSerializableJson(object: any): string | null {
     if (!hasValue(object)) {
         return null;
     }
+    
+    if (typeof object !== 'object') {
+        return object.toString();
+    }
+    
     // Create a path-based tracking for circular references
     const ancestors: any[] = [];
     let json = JSON.stringify(object, function(key, value) {

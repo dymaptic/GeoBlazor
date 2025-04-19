@@ -29,10 +29,6 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
             let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
             this.component.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, this.layerId, this.viewId) as any;
         }
-        if (hasValue(dotNetObject.goToOverride)) {
-            let { buildJsGoToOverride } = await import('./goToOverride');
-            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
-        }
         if (hasValue(dotNetObject.popupTemplate)) {
             let { buildJsPopupTemplate } = await import('./popupTemplate');
             this.component.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, this.layerId, this.viewId) as any;
@@ -42,8 +38,7 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
             this.component.portal = await buildJsPortal(dotNetObject.portal, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
-            let { buildJsSearchSource } = await import('./searchSource');
-            this.component.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
+            this.component.sources = dotNetObject.searchSource;
         }
 
         if (hasValue(dotNetObject.activeSourceIndex)) {
@@ -124,22 +119,16 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
-    async getActiveSource(): Promise<any> {
-        if (!hasValue(this.component.activeSource)) {
+    getAllPlaceholder(): any {
+        if (!hasValue(this.component.allPlaceholder)) {
             return null;
         }
         
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        return await buildDotNetSearchSource(this.component.activeSource);
+        return generateSerializableJson(this.component.allPlaceholder);
     }
     
-    async getAllSources(): Promise<any> {
-        if (!hasValue(this.component.allSources)) {
-            return null;
-        }
-        
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        return await Promise.all(this.component.allSources!.map(async i => await buildDotNetSearchSource(i)));
+    setAllPlaceholder(value: any): void {
+        this.component.allPlaceholder = JSON.parse(value);
     }
     
     async getDefaultPopupTemplate(): Promise<any> {
@@ -156,15 +145,6 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         this.component.defaultPopupTemplate =  buildJsPopupTemplate(value, this.layerId, this.viewId);
     }
     
-    async getDefaultSources(): Promise<any> {
-        if (!hasValue(this.component.defaultSources)) {
-            return null;
-        }
-        
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        return await Promise.all(this.component.defaultSources!.map(async i => await buildDotNetSearchSource(i)));
-    }
-    
     async getDefaultSymbols(): Promise<any> {
         if (!hasValue(this.component.defaultSymbols)) {
             return null;
@@ -179,18 +159,16 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         this.component.defaultSymbols = await  buildJsSearchViewModelDefaultSymbols(value, this.layerId, this.viewId);
     }
     
-    async getGoToOverride(): Promise<any> {
-        if (!hasValue(this.component.goToOverride)) {
+    getPlaceholder(): any {
+        if (!hasValue(this.component.placeholder)) {
             return null;
         }
         
-        let { buildDotNetGoToOverride } = await import('./goToOverride');
-        return await buildDotNetGoToOverride(this.component.goToOverride);
+        return generateSerializableJson(this.component.placeholder);
     }
     
-    async setGoToOverride(value: any): Promise<void> {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    setPlaceholder(value: any): void {
+        this.component.placeholder = JSON.parse(value);
     }
     
     async getPopupTemplate(): Promise<any> {
@@ -230,33 +208,28 @@ export default class SearchViewModelGenerated implements IPropertyWrapper {
         return buildDotNetGraphic(this.component.resultGraphic, this.layerId, this.viewId);
     }
     
+    getSearchTerm(): any {
+        if (!hasValue(this.component.searchTerm)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.searchTerm);
+    }
+    
+    setSearchTerm(value: any): void {
+        this.component.searchTerm = JSON.parse(value);
+    }
+    
     getSelectedResult(): any {
         if (!hasValue(this.component.selectedResult)) {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.selectedResult);
-        return json;
+        return generateSerializableJson(this.component.selectedResult);
     }
     
     setSelectedResult(value: any): void {
         this.component.selectedResult = JSON.parse(value);
-    }
-    async getSources(): Promise<any> {
-        if (!hasValue(this.component.sources)) {
-            return null;
-        }
-        
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        return await Promise.all(this.component.sources!.map(async i => await buildDotNetSearchSource(i)));
-    }
-    
-    async setSources(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.component.sources = [];
-        }
-        let { buildJsSearchSource } = await import('./searchSource');
-        this.component.sources = await Promise.all(value.map(async i => await buildJsSearchSource(i, this.viewId))) as any;
     }
     
     getProperty(prop: string): any {
@@ -286,9 +259,13 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         let { buildJsSearchViewModelDefaultSymbols } = await import('./searchViewModelDefaultSymbols');
         properties.defaultSymbols = await buildJsSearchViewModelDefaultSymbols(dotNetObject.defaultSymbols, layerId, viewId) as any;
     }
-    if (hasValue(dotNetObject.goToOverride)) {
-        let { buildJsGoToOverride } = await import('./goToOverride');
-        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
+    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
+        properties.goToOverride = async (view,
+        goToParameters) => {
+
+            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
+            goToParameters);
+        };
     }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
@@ -299,8 +276,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
         properties.portal = await buildJsPortal(dotNetObject.portal, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.sources) && dotNetObject.sources.length > 0) {
-        let { buildJsSearchSource } = await import('./searchSource');
-        properties.sources = await Promise.all(dotNetObject.sources.map(async i => await buildJsSearchSource(i, viewId))) as any;
+        properties.sources = dotNetObject.sources;
     }
 
     if (hasValue(dotNetObject.activeSourceIndex)) {
@@ -367,9 +343,7 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSearchCompleteListener) && dotNetObject.hasSearchCompleteListener) {
         jsSearchViewModel.on('search-complete', async (evt: any) => {
-            let { buildDotNetSearchViewModelSearchCompleteEvent } = await import('./searchViewModelSearchCompleteEvent');
-            let dnEvent = await buildDotNetSearchViewModelSearchCompleteEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSearchComplete', streamRef);
         });
     }
@@ -383,18 +357,14 @@ export async function buildJsSearchViewModelGenerated(dotNetObject: any, layerId
     
     if (hasValue(dotNetObject.hasSelectResultListener) && dotNetObject.hasSelectResultListener) {
         jsSearchViewModel.on('select-result', async (evt: any) => {
-            let { buildDotNetSearchViewModelSelectResultEvent } = await import('./searchViewModelSelectResultEvent');
-            let dnEvent = await buildDotNetSearchViewModelSelectResultEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSelectResult', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasSuggestCompleteListener) && dotNetObject.hasSuggestCompleteListener) {
         jsSearchViewModel.on('suggest-complete', async (evt: any) => {
-            let { buildDotNetSearchViewModelSuggestCompleteEvent } = await import('./searchViewModelSuggestCompleteEvent');
-            let dnEvent = await buildDotNetSearchViewModelSuggestCompleteEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsSuggestComplete', streamRef);
         });
     }
@@ -427,24 +397,9 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     let dotNetSearchViewModel: any = {};
     
-    if (hasValue(jsObject.activeSource)) {
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchViewModel.activeSource = await buildDotNetSearchSource(jsObject.activeSource);
-    }
-    
-    if (hasValue(jsObject.allSources)) {
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchViewModel.allSources = await Promise.all(jsObject.allSources.map(async i => await buildDotNetSearchSource(i)));
-    }
-    
     if (hasValue(jsObject.defaultPopupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetSearchViewModel.defaultPopupTemplate = await buildDotNetPopupTemplate(jsObject.defaultPopupTemplate);
-    }
-    
-    if (hasValue(jsObject.defaultSources)) {
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchViewModel.defaultSources = await Promise.all(jsObject.defaultSources.map(async i => await buildDotNetSearchSource(i)));
     }
     
     if (hasValue(jsObject.defaultSymbols)) {
@@ -467,9 +422,8 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         dotNetSearchViewModel.resultGraphic = buildDotNetGraphic(jsObject.resultGraphic, layerId, viewId);
     }
     
-    if (hasValue(jsObject.sources)) {
-        let { buildDotNetSearchSource } = await import('./searchSource');
-        dotNetSearchViewModel.sources = await Promise.all(jsObject.sources.map(async i => await buildDotNetSearchSource(i)));
+    if (hasValue(jsObject.activeSource)) {
+        dotNetSearchViewModel.activeSource = removeCircularReferences(jsObject.activeSource);
     }
     
     if (hasValue(jsObject.activeSourceIndex)) {
@@ -480,12 +434,20 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
         dotNetSearchViewModel.allPlaceholder = jsObject.allPlaceholder;
     }
     
+    if (hasValue(jsObject.allSources)) {
+        dotNetSearchViewModel.allSources = removeCircularReferences(jsObject.allSources);
+    }
+    
     if (hasValue(jsObject.autoNavigate)) {
         dotNetSearchViewModel.autoNavigate = jsObject.autoNavigate;
     }
     
     if (hasValue(jsObject.autoSelect)) {
         dotNetSearchViewModel.autoSelect = jsObject.autoSelect;
+    }
+    
+    if (hasValue(jsObject.defaultSources)) {
+        dotNetSearchViewModel.defaultSources = removeCircularReferences(jsObject.defaultSources);
     }
     
     if (hasValue(jsObject.includeDefaultSources)) {
@@ -546,6 +508,10 @@ export async function buildDotNetSearchViewModelGenerated(jsObject: any, layerId
     
     if (hasValue(jsObject.selectedSuggestion)) {
         dotNetSearchViewModel.selectedSuggestion = removeCircularReferences(jsObject.selectedSuggestion);
+    }
+    
+    if (hasValue(jsObject.sources)) {
+        dotNetSearchViewModel.sources = removeCircularReferences(jsObject.sources);
     }
     
     if (hasValue(jsObject.state)) {

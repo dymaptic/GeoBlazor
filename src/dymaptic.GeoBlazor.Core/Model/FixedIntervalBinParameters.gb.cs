@@ -68,15 +68,10 @@ public partial record FixedIntervalBinParameters(
     bool? HideUpperBound,
     AttributeBinsGrouping SplitBy,
     AttributeBinsGrouping StackBy,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? DateTimeEnd = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? DateTimeStart = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleEnd = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleStart = null,
-    [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? Interval = null,
     string? NormalizationField = null,
     double? NormalizationMaxValue = null,
@@ -89,26 +84,66 @@ public partial record FixedIntervalBinParameters(
     FirstDayOfWeek,
     HideUpperBound,
     SplitBy,
-    StackBy), IAttributeBinsQueryBinParameters, INormalizationBinParametersMixin
+    StackBy),
+IAttributeBinsQueryBinParameters, INormalizationBinParametersMixin
 {
     /// <summary>
+    ///     The end value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedIntervalBinParameters.html#end">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateTime? DateTimeEnd { get; set; } = DateTimeEnd;
+    
+    /// <summary>
+    ///     The start value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedIntervalBinParameters.html#start">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public DateTime? DateTimeStart { get; set; } = DateTimeStart;
+    
+    /// <summary>
+    ///     The end value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedIntervalBinParameters.html#end">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? DoubleEnd { get; set; } = DoubleEnd;
+    
+    /// <summary>
+    ///     The start value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedIntervalBinParameters.html#start">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? DoubleStart { get; set; } = DoubleStart;
+    
+    /// <summary>
+    ///     Represents the interval of values to be included in each bin.
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedIntervalBinParameters.html#interval">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? Interval { get; set; } = Interval;
+    
+    /// <summary>
+    ///     
+    /// </summary>
     public string? NormalizationField { get; set; } = NormalizationField;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationMaxValue { get; set; } = NormalizationMaxValue;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationMinValue { get; set; } = NormalizationMinValue;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationTotal { get; set; } = NormalizationTotal;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public NormalizationType? NormalizationType { get; set; } = NormalizationType;
+    
 }

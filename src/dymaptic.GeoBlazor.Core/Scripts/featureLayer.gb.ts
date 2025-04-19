@@ -22,8 +22,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.attributeTableTemplate)) {
-            let { buildJsAttributeTableTemplate } = await import('./attributeTableTemplate');
-            this.layer.attributeTableTemplate = await buildJsAttributeTableTemplate(dotNetObject.attributeTableTemplate, this.layerId, this.viewId) as any;
+            this.layer.attributeTableTemplate = dotNetObject.iAttributeTableTemplate;
         }
         if (hasValue(dotNetObject.displayFilterInfo)) {
             let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
@@ -32,10 +31,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.dynamicDataSource)) {
             let { buildJsDynamicLayer } = await import('./dynamicLayer');
             this.layer.dynamicDataSource = await buildJsDynamicLayer(dotNetObject.dynamicDataSource, this.layerId, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.effect)) {
-            let { buildJsEffect } = await import('./effect');
-            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
         }
         if (hasValue(dotNetObject.elevationInfo)) {
             let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
@@ -81,8 +76,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
             this.layer.portalItem = await buildJsPortalItem(dotNetObject.portalItem, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.renderer)) {
-            let { buildJsRenderer } = await import('./renderer');
-            this.layer.renderer = await buildJsRenderer(dotNetObject.renderer, this.layerId, this.viewId) as any;
+            this.layer.renderer = dotNetObject.renderer;
         }
         if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
             let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
@@ -103,10 +97,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.trackInfo)) {
             let { buildJsTrackInfo } = await import('./trackInfo');
             this.layer.trackInfo = await buildJsTrackInfo(dotNetObject.trackInfo, this.layerId, this.viewId) as any;
-        }
-        if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
-            let { buildJsFeatureType } = await import('./featureType');
-            this.layer.types = await Promise.all(dotNetObject.types.map(async i => await buildJsFeatureType(i, this.layerId, this.viewId))) as any;
         }
         if (hasValue(dotNetObject.visibilityTimeExtent)) {
             let { buildJsTimeExtent } = await import('./timeExtent');
@@ -145,6 +135,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.editingEnabled)) {
             this.layer.editingEnabled = dotNetObject.editingEnabled;
+        }
+        if (hasValue(dotNetObject.effect)) {
+            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.gdbVersion)) {
             this.layer.gdbVersion = dotNetObject.gdbVersion;
@@ -215,6 +208,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.typeIdField)) {
             this.layer.typeIdField = dotNetObject.typeIdField;
         }
+        if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
+            this.layer.types = dotNetObject.types;
+        }
         if (hasValue(dotNetObject.url)) {
             this.layer.url = dotNetObject.url;
         }
@@ -236,9 +232,7 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async applyEdits(edits: any,
         options: any): Promise<any> {
-        let { buildJsFeatureEdits } = await import('./featureEdits');
-        let jsEdits = await buildJsFeatureEdits(edits, this.layerId, this.viewId) as any;
-        return await this.layer.applyEdits(jsEdits,
+        return await this.layer.applyEdits(edits,
             options);
     }
 
@@ -261,7 +255,9 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchAttributionData(): Promise<any> {
-        return await this.layer.fetchAttributionData();
+        let result = await this.layer.fetchAttributionData();
+        
+        return generateSerializableJson(result);
     }
 
     async isFulfilled(): Promise<any> {
@@ -277,20 +273,22 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     }
 
     async load(options: any): Promise<any> {
-        return await this.layer.load(options);
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async queryAttachments(attachmentQuery: any,
         options: any): Promise<any> {
-        return await this.layer.queryAttachments(attachmentQuery,
+        let result = await this.layer.queryAttachments(attachmentQuery,
             options);
+        
+        return generateSerializableJson(result);
     }
 
     async queryAttributeBins(binsQuery: any,
         options: any): Promise<any> {
-        let { buildJsAttributeBinsQuery } = await import('./attributeBinsQuery');
-        let jsBinsQuery = await buildJsAttributeBinsQuery(binsQuery, this.layerId, this.viewId) as any;
-        return await this.layer.queryAttributeBins(jsBinsQuery,
+        return await this.layer.queryAttributeBins(binsQuery,
             options);
     }
 
@@ -304,10 +302,8 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         options: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsPortalItem = await buildJsPortalItem(portalItem, this.layerId, this.viewId) as any;
-        let { buildJsFeatureLayerSaveAsOptions } = await import('./featureLayerSaveAsOptions');
-        let jsOptions = await buildJsFeatureLayerSaveAsOptions(options, this.layerId, this.viewId) as any;
         let result = await this.layer.saveAs(jsPortalItem,
-            jsOptions);
+            options);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
@@ -324,24 +320,84 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.layer.when(callback,
+        let result = await this.layer.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
     
-    async getAttributeTableTemplate(): Promise<any> {
-        if (!hasValue(this.layer.attributeTableTemplate)) {
+    getApiKey(): any {
+        if (!hasValue(this.layer.apiKey)) {
             return null;
         }
         
-        let { buildDotNetAttributeTableTemplate } = await import('./attributeTableTemplate');
-        return await buildDotNetAttributeTableTemplate(this.layer.attributeTableTemplate);
+        return generateSerializableJson(this.layer.apiKey);
     }
     
-    async setAttributeTableTemplate(value: any): Promise<void> {
-        let { buildJsAttributeTableTemplate } = await import('./attributeTableTemplate');
-        this.layer.attributeTableTemplate = await  buildJsAttributeTableTemplate(value, this.layerId, this.viewId);
+    setApiKey(value: any): void {
+        this.layer.apiKey = JSON.parse(value);
+    }
+    
+    getArcGISLayerId(): any {
+        if (!hasValue(this.layer.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.id);
+    }
+    
+    setArcGISLayerId(value: any): void {
+        this.layer.id = JSON.parse(value);
+    }
+    
+    getCopyright(): any {
+        if (!hasValue(this.layer.copyright)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.copyright);
+    }
+    
+    setCopyright(value: any): void {
+        this.layer.copyright = JSON.parse(value);
+    }
+    
+    getDateFieldsTimeZone(): any {
+        if (!hasValue(this.layer.dateFieldsTimeZone)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.dateFieldsTimeZone);
+    }
+    
+    setDateFieldsTimeZone(value: any): void {
+        this.layer.dateFieldsTimeZone = JSON.parse(value);
+    }
+    
+    getDefinitionExpression(): any {
+        if (!hasValue(this.layer.definitionExpression)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.definitionExpression);
+    }
+    
+    setDefinitionExpression(value: any): void {
+        this.layer.definitionExpression = JSON.parse(value);
+    }
+    
+    getDisplayField(): any {
+        if (!hasValue(this.layer.displayField)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.displayField);
+    }
+    
+    setDisplayField(value: any): void {
+        this.layer.displayField = JSON.parse(value);
     }
     
     async getDisplayFilterInfo(): Promise<any> {
@@ -370,15 +426,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
     async setDynamicDataSource(value: any): Promise<void> {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
         this.layer.dynamicDataSource = await  buildJsDynamicLayer(value, this.layerId, this.viewId);
-    }
-    
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
-            return null;
-        }
-        
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
     }
     
     async getEffectiveCapabilities(): Promise<any> {
@@ -435,15 +482,6 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer.fields = value.map(i => buildJsField(i)) as any;
     }
     
-    async getFieldsIndex(): Promise<any> {
-        if (!hasValue(this.layer.fieldsIndex)) {
-            return null;
-        }
-        
-        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        return await buildDotNetFieldsIndex(this.layer.fieldsIndex);
-    }
-    
     async getFloorInfo(): Promise<any> {
         if (!hasValue(this.layer.floorInfo)) {
             return null;
@@ -472,6 +510,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer.fullExtent =  buildJsExtent(value);
     }
     
+    getGdbVersion(): any {
+        if (!hasValue(this.layer.gdbVersion)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.gdbVersion);
+    }
+    
+    setGdbVersion(value: any): void {
+        this.layer.gdbVersion = JSON.parse(value);
+    }
+    
     async getLabelingInfo(): Promise<any> {
         if (!hasValue(this.layer.labelingInfo)) {
             return null;
@@ -487,6 +537,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         }
         let { buildJsLabel } = await import('./label');
         this.layer.labelingInfo = await Promise.all(value.map(async i => await buildJsLabel(i, this.layerId, this.viewId))) as any;
+    }
+    
+    getObjectIdField(): any {
+        if (!hasValue(this.layer.objectIdField)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.objectIdField);
+    }
+    
+    setObjectIdField(value: any): void {
+        this.layer.objectIdField = JSON.parse(value);
     }
     
     async getOrderBy(): Promise<any> {
@@ -534,18 +596,40 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
     }
     
-    async getRenderer(): Promise<any> {
-        if (!hasValue(this.layer.renderer)) {
+    getPreferredTimeZone(): any {
+        if (!hasValue(this.layer.preferredTimeZone)) {
             return null;
         }
         
-        let { buildDotNetRenderer } = await import('./renderer');
-        return await buildDotNetRenderer(this.layer.renderer);
+        return generateSerializableJson(this.layer.preferredTimeZone);
     }
     
-    async setRenderer(value: any): Promise<void> {
-        let { buildJsRenderer } = await import('./renderer');
-        this.layer.renderer = await  buildJsRenderer(value, this.layerId, this.viewId);
+    setPreferredTimeZone(value: any): void {
+        this.layer.preferredTimeZone = JSON.parse(value);
+    }
+    
+    getServiceDefinitionExpression(): any {
+        if (!hasValue(this.layer.serviceDefinitionExpression)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.serviceDefinitionExpression);
+    }
+    
+    setServiceDefinitionExpression(value: any): void {
+        this.layer.serviceDefinitionExpression = JSON.parse(value);
+    }
+    
+    getServiceItemId(): any {
+        if (!hasValue(this.layer.serviceItemId)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.serviceItemId);
+    }
+    
+    setServiceItemId(value: any): void {
+        this.layer.serviceItemId = JSON.parse(value);
     }
     
     async getSource(): Promise<any> {
@@ -570,20 +654,23 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.layer.sourceJSON);
-        return json;
+        return generateSerializableJson(this.layer.sourceJSON);
     }
     
     setSourceJSON(value: any): void {
         this.layer.sourceJSON = JSON.parse(value);
     }
-    async getSubtypes(): Promise<any> {
-        if (!hasValue(this.layer.subtypes)) {
+    
+    getSubtypeField(): any {
+        if (!hasValue(this.layer.subtypeField)) {
             return null;
         }
         
-        let { buildDotNetSubtype } = await import('./subtype');
-        return await Promise.all(this.layer.subtypes!.map(async i => await buildDotNetSubtype(i)));
+        return generateSerializableJson(this.layer.subtypeField);
+    }
+    
+    setSubtypeField(value: any): void {
+        this.layer.subtypeField = JSON.parse(value);
     }
     
     async getTimeExtent(): Promise<any> {
@@ -628,6 +715,18 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer.timeOffset = await  buildJsTimeInterval(value);
     }
     
+    getTitle(): any {
+        if (!hasValue(this.layer.title)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.title);
+    }
+    
+    setTitle(value: any): void {
+        this.layer.title = JSON.parse(value);
+    }
+    
     async getTrackInfo(): Promise<any> {
         if (!hasValue(this.layer.trackInfo)) {
             return null;
@@ -642,21 +741,28 @@ export default class FeatureLayerGenerated implements IPropertyWrapper {
         this.layer.trackInfo = await  buildJsTrackInfo(value, this.layerId, this.viewId);
     }
     
-    async getTypes(): Promise<any> {
-        if (!hasValue(this.layer.types)) {
+    getTypeIdField(): any {
+        if (!hasValue(this.layer.typeIdField)) {
             return null;
         }
         
-        let { buildDotNetFeatureType } = await import('./featureType');
-        return await Promise.all(this.layer.types!.map(async i => await buildDotNetFeatureType(i)));
+        return generateSerializableJson(this.layer.typeIdField);
     }
     
-    async setTypes(value: any): Promise<void> {
-        if (!hasValue(value)) {
-            this.layer.types = [];
+    setTypeIdField(value: any): void {
+        this.layer.typeIdField = JSON.parse(value);
+    }
+    
+    getUrl(): any {
+        if (!hasValue(this.layer.url)) {
+            return null;
         }
-        let { buildJsFeatureType } = await import('./featureType');
-        this.layer.types = await Promise.all(value.map(async i => await buildJsFeatureType(i, this.layerId, this.viewId))) as any;
+        
+        return generateSerializableJson(this.layer.url);
+    }
+    
+    setUrl(value: any): void {
+        this.layer.url = JSON.parse(value);
     }
     
     async getVisibilityTimeExtent(): Promise<any> {
@@ -690,8 +796,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
 
     let properties: any = {};
     if (hasValue(dotNetObject.attributeTableTemplate)) {
-        let { buildJsAttributeTableTemplate } = await import('./attributeTableTemplate');
-        properties.attributeTableTemplate = await buildJsAttributeTableTemplate(dotNetObject.attributeTableTemplate, layerId, viewId) as any;
+        properties.attributeTableTemplate = dotNetObject.attributeTableTemplate;
     }
     if (hasValue(dotNetObject.displayFilterInfo)) {
         let { buildJsDisplayFilterInfo } = await import('./displayFilterInfo');
@@ -700,10 +805,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.dynamicDataSource)) {
         let { buildJsDynamicLayer } = await import('./dynamicLayer');
         properties.dynamicDataSource = await buildJsDynamicLayer(dotNetObject.dynamicDataSource, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
     }
     if (hasValue(dotNetObject.elevationInfo)) {
         let { buildJsFeatureLayerBaseElevationInfo } = await import('./featureLayerBaseElevationInfo');
@@ -749,8 +850,7 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
         properties.portalItem = await buildJsPortalItem(dotNetObject.portalItem, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('./renderer');
-        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = dotNetObject.renderer;
     }
     if (hasValue(dotNetObject.templates) && dotNetObject.templates.length > 0) {
         let { buildJsIFeatureTemplate } = await import('./iFeatureTemplate');
@@ -771,10 +871,6 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.trackInfo)) {
         let { buildJsTrackInfo } = await import('./trackInfo');
         properties.trackInfo = await buildJsTrackInfo(dotNetObject.trackInfo, layerId, viewId) as any;
-    }
-    if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
-        let { buildJsFeatureType } = await import('./featureType');
-        properties.types = await Promise.all(dotNetObject.types.map(async i => await buildJsFeatureType(i, layerId, viewId))) as any;
     }
     if (hasValue(dotNetObject.visibilityTimeExtent)) {
         let { buildJsTimeExtent } = await import('./timeExtent');
@@ -813,6 +909,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     }
     if (hasValue(dotNetObject.editingEnabled)) {
         properties.editingEnabled = dotNetObject.editingEnabled;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.gdbVersion)) {
         properties.gdbVersion = dotNetObject.gdbVersion;
@@ -883,6 +982,9 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     if (hasValue(dotNetObject.typeIdField)) {
         properties.typeIdField = dotNetObject.typeIdField;
     }
+    if (hasValue(dotNetObject.types) && dotNetObject.types.length > 0) {
+        properties.types = dotNetObject.types;
+    }
     if (hasValue(dotNetObject.url)) {
         properties.url = dotNetObject.url;
     }
@@ -895,36 +997,28 @@ export async function buildJsFeatureLayerGenerated(dotNetObject: any, layerId: s
     let jsFeatureLayer = new FeatureLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsFeatureLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsFeatureLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsFeatureLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasEditsListener) && dotNetObject.hasEditsListener) {
         jsFeatureLayer.on('edits', async (evt: any) => {
-            let { buildDotNetFeatureLayerEditsEvent } = await import('./featureLayerEditsEvent');
-            let dnEvent = await buildDotNetFeatureLayerEditsEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsEdits', streamRef);
         });
     }
@@ -969,11 +1063,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     
     let dotNetFeatureLayer: any = {};
     
-    if (hasValue(jsObject.attributeTableTemplate)) {
-        let { buildDotNetAttributeTableTemplate } = await import('./attributeTableTemplate');
-        dotNetFeatureLayer.attributeTableTemplate = await buildDotNetAttributeTableTemplate(jsObject.attributeTableTemplate);
-    }
-    
     if (hasValue(jsObject.displayFilterInfo)) {
         let { buildDotNetDisplayFilterInfo } = await import('./displayFilterInfo');
         dotNetFeatureLayer.displayFilterInfo = await buildDotNetDisplayFilterInfo(jsObject.displayFilterInfo);
@@ -982,11 +1071,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.dynamicDataSource)) {
         let { buildDotNetDynamicLayer } = await import('./dynamicLayer');
         dotNetFeatureLayer.dynamicDataSource = await buildDotNetDynamicLayer(jsObject.dynamicDataSource);
-    }
-    
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetFeatureLayer.effect = buildDotNetEffect(jsObject.effect);
     }
     
     if (hasValue(jsObject.effectiveCapabilities)) {
@@ -1012,11 +1096,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     if (hasValue(jsObject.fields)) {
         let { buildDotNetField } = await import('./field');
         dotNetFeatureLayer.fields = jsObject.fields.map(i => buildDotNetField(i));
-    }
-    
-    if (hasValue(jsObject.fieldsIndex)) {
-        let { buildDotNetFieldsIndex } = await import('./fieldsIndex');
-        dotNetFeatureLayer.fieldsIndex = await buildDotNetFieldsIndex(jsObject.fieldsIndex);
     }
     
     if (hasValue(jsObject.floorInfo)) {
@@ -1049,16 +1128,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
     }
     
-    if (hasValue(jsObject.renderer)) {
-        let { buildDotNetRenderer } = await import('./renderer');
-        dotNetFeatureLayer.renderer = await buildDotNetRenderer(jsObject.renderer);
-    }
-    
-    if (hasValue(jsObject.subtypes)) {
-        let { buildDotNetSubtype } = await import('./subtype');
-        dotNetFeatureLayer.subtypes = await Promise.all(jsObject.subtypes.map(async i => await buildDotNetSubtype(i)));
-    }
-    
     if (hasValue(jsObject.templates)) {
         let { buildDotNetIFeatureTemplate } = await import('./iFeatureTemplate');
         dotNetFeatureLayer.templates = await Promise.all(jsObject.templates.map(async i => await buildDotNetIFeatureTemplate(i)));
@@ -1084,11 +1153,6 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.trackInfo = await buildDotNetTrackInfo(jsObject.trackInfo);
     }
     
-    if (hasValue(jsObject.types)) {
-        let { buildDotNetFeatureType } = await import('./featureType');
-        dotNetFeatureLayer.types = await Promise.all(jsObject.types.map(async i => await buildDotNetFeatureType(i)));
-    }
-    
     if (hasValue(jsObject.visibilityTimeExtent)) {
         let { buildDotNetTimeExtent } = await import('./timeExtent');
         dotNetFeatureLayer.visibilityTimeExtent = buildDotNetTimeExtent(jsObject.visibilityTimeExtent);
@@ -1100,6 +1164,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.id)) {
         dotNetFeatureLayer.arcGISLayerId = jsObject.id;
+    }
+    
+    if (hasValue(jsObject.attributeTableTemplate)) {
+        dotNetFeatureLayer.attributeTableTemplate = removeCircularReferences(jsObject.attributeTableTemplate);
     }
     
     if (hasValue(jsObject.blendMode)) {
@@ -1154,8 +1222,16 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.editingInfo = removeCircularReferences(jsObject.editingInfo);
     }
     
+    if (hasValue(jsObject.effect)) {
+        dotNetFeatureLayer.effect = removeCircularReferences(jsObject.effect);
+    }
+    
     if (hasValue(jsObject.effectiveEditingEnabled)) {
         dotNetFeatureLayer.effectiveEditingEnabled = jsObject.effectiveEditingEnabled;
+    }
+    
+    if (hasValue(jsObject.fieldsIndex)) {
+        dotNetFeatureLayer.fieldsIndex = removeCircularReferences(jsObject.fieldsIndex);
     }
     
     if (hasValue(jsObject.formTemplate)) {
@@ -1254,6 +1330,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.relationships = removeCircularReferences(jsObject.relationships);
     }
     
+    if (hasValue(jsObject.renderer)) {
+        dotNetFeatureLayer.renderer = jsObject.renderer;
+    }
+    
     if (hasValue(jsObject.returnM)) {
         dotNetFeatureLayer.returnM = jsObject.returnM;
     }
@@ -1282,6 +1362,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
         dotNetFeatureLayer.subtypeField = jsObject.subtypeField;
     }
     
+    if (hasValue(jsObject.subtypes)) {
+        dotNetFeatureLayer.subtypes = removeCircularReferences(jsObject.subtypes);
+    }
+    
     if (hasValue(jsObject.title)) {
         dotNetFeatureLayer.title = jsObject.title;
     }
@@ -1292,6 +1376,10 @@ export async function buildDotNetFeatureLayerGenerated(jsObject: any): Promise<a
     
     if (hasValue(jsObject.typeIdField)) {
         dotNetFeatureLayer.typeIdField = jsObject.typeIdField;
+    }
+    
+    if (hasValue(jsObject.types)) {
+        dotNetFeatureLayer.types = removeCircularReferences(jsObject.types);
     }
     
     if (hasValue(jsObject.url)) {

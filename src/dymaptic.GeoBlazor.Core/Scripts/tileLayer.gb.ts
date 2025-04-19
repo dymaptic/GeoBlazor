@@ -21,10 +21,6 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
-        if (hasValue(dotNetObject.effect)) {
-            let { buildJsEffect } = await import('./effect');
-            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
-        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -60,6 +56,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.customParameters)) {
             this.layer.customParameters = dotNetObject.customParameters;
+        }
+        if (hasValue(dotNetObject.effect)) {
+            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.legendEnabled)) {
             this.layer.legendEnabled = dotNetObject.legendEnabled;
@@ -116,7 +115,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     }
 
     async fetchAttributionData(): Promise<any> {
-        return await this.layer.fetchAttributionData();
+        let result = await this.layer.fetchAttributionData();
+        
+        return generateSerializableJson(result);
     }
 
     async fetchTile(level: any,
@@ -156,7 +157,9 @@ export default class TileLayerGenerated implements IPropertyWrapper {
     }
 
     async load(options: any): Promise<any> {
-        return await this.layer.load(options);
+        let result = await this.layer.load(options);
+        
+        return generateSerializableJson(result);
     }
 
     async loadAll(): Promise<any> {
@@ -171,8 +174,10 @@ export default class TileLayerGenerated implements IPropertyWrapper {
 
     async when(callback: any,
         errback: any): Promise<any> {
-        return await this.layer.when(callback,
+        let result = await this.layer.when(callback,
             errback);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
@@ -186,18 +191,52 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         return await Promise.all(this.layer.allSublayers!.map(async i => await buildDotNetSublayer(i)));
     }
     
-    async getEffect(): Promise<any> {
-        if (!hasValue(this.layer.effect)) {
+    getApiKey(): any {
+        if (!hasValue(this.layer.apiKey)) {
             return null;
         }
         
-        let { buildDotNetEffect } = await import('./effect');
-        return buildDotNetEffect(this.layer.effect);
+        return generateSerializableJson(this.layer.apiKey);
     }
     
-    async setEffect(value: any): Promise<void> {
-        let { buildJsEffect } = await import('./effect');
-        this.layer.effect =  buildJsEffect(value);
+    setApiKey(value: any): void {
+        this.layer.apiKey = JSON.parse(value);
+    }
+    
+    getArcGISLayerId(): any {
+        if (!hasValue(this.layer.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.id);
+    }
+    
+    setArcGISLayerId(value: any): void {
+        this.layer.id = JSON.parse(value);
+    }
+    
+    getAttributionDataUrl(): any {
+        if (!hasValue(this.layer.attributionDataUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.attributionDataUrl);
+    }
+    
+    setAttributionDataUrl(value: any): void {
+        this.layer.attributionDataUrl = JSON.parse(value);
+    }
+    
+    getCopyright(): any {
+        if (!hasValue(this.layer.copyright)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.copyright);
+    }
+    
+    setCopyright(value: any): void {
+        this.layer.copyright = JSON.parse(value);
     }
     
     async getFullExtent(): Promise<any> {
@@ -233,13 +272,13 @@ export default class TileLayerGenerated implements IPropertyWrapper {
             return null;
         }
         
-        let json = generateSerializableJson(this.layer.sourceJSON);
-        return json;
+        return generateSerializableJson(this.layer.sourceJSON);
     }
     
     setSourceJSON(value: any): void {
         this.layer.sourceJSON = JSON.parse(value);
     }
+    
     async getSublayers(): Promise<any> {
         if (!hasValue(this.layer.sublayers)) {
             return null;
@@ -280,6 +319,30 @@ export default class TileLayerGenerated implements IPropertyWrapper {
         this.layer.tileInfo = await  buildJsTileInfo(value, this.layerId, this.viewId);
     }
     
+    getTitle(): any {
+        if (!hasValue(this.layer.title)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.title);
+    }
+    
+    setTitle(value: any): void {
+        this.layer.title = JSON.parse(value);
+    }
+    
+    getUrl(): any {
+        if (!hasValue(this.layer.url)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.layer.url);
+    }
+    
+    setUrl(value: any): void {
+        this.layer.url = JSON.parse(value);
+    }
+    
     async getVisibilityTimeExtent(): Promise<any> {
         if (!hasValue(this.layer.visibilityTimeExtent)) {
             return null;
@@ -310,10 +373,6 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.effect)) {
-        let { buildJsEffect } = await import('./effect');
-        properties.effect = buildJsEffect(dotNetObject.effect) as any;
-    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -349,6 +408,9 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     }
     if (hasValue(dotNetObject.customParameters)) {
         properties.customParameters = dotNetObject.customParameters;
+    }
+    if (hasValue(dotNetObject.effect)) {
+        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.legendEnabled)) {
         properties.legendEnabled = dotNetObject.legendEnabled;
@@ -389,27 +451,21 @@ export async function buildJsTileLayerGenerated(dotNetObject: any, layerId: stri
     let jsTileLayer = new TileLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsTileLayer.on('layerview-create', async (evt: any) => {
-            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
-            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasCreateErrorListener) && dotNetObject.hasCreateErrorListener) {
         jsTileLayer.on('layerview-create-error', async (evt: any) => {
-            let { buildDotNetLayerViewCreateErrorEvent } = await import('./layerViewCreateErrorEvent');
-            let dnEvent = await buildDotNetLayerViewCreateErrorEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreateError', streamRef);
         });
     }
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsTileLayer.on('layerview-destroy', async (evt: any) => {
-            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
-            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
-            let streamRef = buildJsStreamReference(dnEvent ?? {});
+            let streamRef = buildJsStreamReference(evt ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -453,11 +509,6 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     }
     
     let dotNetTileLayer: any = {};
-    
-    if (hasValue(jsObject.effect)) {
-        let { buildDotNetEffect } = await import('./effect');
-        dotNetTileLayer.effect = buildDotNetEffect(jsObject.effect);
-    }
     
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
@@ -515,6 +566,10 @@ export async function buildDotNetTileLayerGenerated(jsObject: any): Promise<any>
     
     if (hasValue(jsObject.customParameters)) {
         dotNetTileLayer.customParameters = removeCircularReferences(jsObject.customParameters);
+    }
+    
+    if (hasValue(jsObject.effect)) {
+        dotNetTileLayer.effect = removeCircularReferences(jsObject.effect);
     }
     
     if (hasValue(jsObject.hasAttributionData)) {

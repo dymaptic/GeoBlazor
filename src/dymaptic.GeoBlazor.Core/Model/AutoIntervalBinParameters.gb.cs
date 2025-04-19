@@ -69,47 +69,83 @@ public partial record AutoIntervalBinParameters(
     bool? HideUpperBound,
     AttributeBinsGrouping SplitBy,
     AttributeBinsGrouping StackBy,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? DateTimeEnd = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     DateTime? DateTimeStart = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleEnd = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     double? DoubleStart = null,
     string? NormalizationField = null,
     double? NormalizationMaxValue = null,
     double? NormalizationMinValue = null,
     double? NormalizationTotal = null,
     NormalizationType? NormalizationType = null,
-    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    double? NumBins = null) : BinParametersBase(Expression,
-        ExpressionValueType,
-        Field,
-        FirstDayOfWeek,
-        HideUpperBound,
-        SplitBy,
-        StackBy),
-    IAttributeBinsQueryBinParameters, INormalizationBinParametersMixin
+    double? NumBins = null) : BinParametersBase(
+    Expression,
+    ExpressionValueType,
+    Field,
+    FirstDayOfWeek,
+    HideUpperBound,
+    SplitBy,
+    StackBy),
+IAttributeBinsQueryBinParameters, INormalizationBinParametersMixin
 {
     /// <summary>
+    ///     The end value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AutoIntervalBinParameters.html#end">ArcGIS Maps SDK for JavaScript</a>
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateTime? DateTimeEnd { get; set; } = DateTimeEnd;
+    
+    /// <summary>
+    ///     The start value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AutoIntervalBinParameters.html#start">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public DateTime? DateTimeStart { get; set; } = DateTimeStart;
+    
+    /// <summary>
+    ///     The end value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AutoIntervalBinParameters.html#end">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? DoubleEnd { get; set; } = DoubleEnd;
+    
+    /// <summary>
+    ///     The start value of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AutoIntervalBinParameters.html#start">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? DoubleStart { get; set; } = DoubleStart;
+    
+    /// <summary>
+    ///     
+    /// </summary>
     public string? NormalizationField { get; set; } = NormalizationField;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationMaxValue { get; set; } = NormalizationMaxValue;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationMinValue { get; set; } = NormalizationMinValue;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public double? NormalizationTotal { get; set; } = NormalizationTotal;
+    
     /// <summary>
+    ///     
     /// </summary>
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public NormalizationType? NormalizationType { get; set; } = NormalizationType;
+    
+    /// <summary>
+    ///     The number of bins to generate.
+    ///     default null
+    ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-AutoIntervalBinParameters.html#numBins">ArcGIS Maps SDK for JavaScript</a>
+    /// </summary>
+    public double? NumBins { get; set; } = NumBins;
+    
 }

@@ -50,9 +50,7 @@ export default class PixelBlockGenerated implements IPropertyWrapper {
     }
     
     async addData(planeData: any): Promise<void> {
-        let { buildJsPixelBlockAddDataPlaneData } = await import('./pixelBlockAddDataPlaneData');
-        let jsPlaneData = await buildJsPixelBlockAddDataPlaneData(planeData, this.layerId, this.viewId) as any;
-        this.component.addData(jsPlaneData);
+        this.component.addData(planeData);
     }
 
     async getAsRGBA(): Promise<any> {

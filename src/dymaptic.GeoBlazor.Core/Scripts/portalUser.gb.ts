@@ -70,9 +70,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
     
     async addItem(parameters: any): Promise<any> {
-        let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
-        let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
-        let result = await this.component.addItem(jsparameters);
+        let result = await this.component.addItem(parameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
@@ -81,8 +79,10 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         permanentDelete: any): Promise<any> {
         let { buildJsPortalItem } = await import('./portalItem');
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
-        return await this.component.deleteItem(jsItem,
+        let result = await this.component.deleteItem(jsItem,
             permanentDelete);
+        
+        return generateSerializableJson(result);
     }
 
     async deleteItems(items: any,
@@ -98,15 +98,11 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async fetchGroups(): Promise<any> {
-        let result = await this.component.fetchGroups();
-        let { buildDotNetPortalGroup } = await import('./portalGroup');
-        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
+        return await this.component.fetchGroups();
     }
 
     async fetchItems(parameters: any): Promise<any> {
-        let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
-        let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
-        return await this.component.fetchItems(jsparameters);
+        return await this.component.fetchItems(parameters);
     }
 
     async fetchTags(): Promise<any> {
@@ -118,9 +114,7 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async queryFavorites(queryParams: any): Promise<any> {
-        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
-        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
-        return await this.component.queryFavorites(jsQueryParams);
+        return await this.component.queryFavorites(queryParams);
     }
 
     async restoreItem(item: any,
@@ -129,11 +123,73 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         let jsItem = await buildJsPortalItem(item, this.layerId, this.viewId) as any;
         let { buildJsPortalFolder } = await import('./portalFolder');
         let jsFolder = await buildJsPortalFolder(folder) as any;
-        return await this.component.restoreItem(jsItem,
+        let result = await this.component.restoreItem(jsItem,
             jsFolder);
+        
+        return generateSerializableJson(result);
     }
 
     // region properties
+    
+    getCulture(): any {
+        if (!hasValue(this.component.culture)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.culture);
+    }
+    
+    setCulture(value: any): void {
+        this.component.culture = JSON.parse(value);
+    }
+    
+    getDescription(): any {
+        if (!hasValue(this.component.description)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.description);
+    }
+    
+    setDescription(value: any): void {
+        this.component.description = JSON.parse(value);
+    }
+    
+    getEmail(): any {
+        if (!hasValue(this.component.email)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.email);
+    }
+    
+    setEmail(value: any): void {
+        this.component.email = JSON.parse(value);
+    }
+    
+    getFullName(): any {
+        if (!hasValue(this.component.fullName)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.fullName);
+    }
+    
+    setFullName(value: any): void {
+        this.component.fullName = JSON.parse(value);
+    }
+    
+    getOrgId(): any {
+        if (!hasValue(this.component.orgId)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.orgId);
+    }
+    
+    setOrgId(value: any): void {
+        this.component.orgId = JSON.parse(value);
+    }
     
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
@@ -149,18 +205,82 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
+    getPreferredView(): any {
+        if (!hasValue(this.component.preferredView)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.preferredView);
+    }
+    
+    setPreferredView(value: any): void {
+        this.component.preferredView = JSON.parse(value);
+    }
+    
+    getRegion(): any {
+        if (!hasValue(this.component.region)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.region);
+    }
+    
+    setRegion(value: any): void {
+        this.component.region = JSON.parse(value);
+    }
+    
+    getRoleId(): any {
+        if (!hasValue(this.component.roleId)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.roleId);
+    }
+    
+    setRoleId(value: any): void {
+        this.component.roleId = JSON.parse(value);
+    }
+    
     getSourceJSON(): any {
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.sourceJSON);
-        return json;
+        return generateSerializableJson(this.component.sourceJSON);
     }
     
     setSourceJSON(value: any): void {
         this.component.sourceJSON = JSON.parse(value);
     }
+    
+    setThumbnailUrl(value: any): void {
+        this.component.thumbnailUrl = JSON.parse(value);
+    }
+    
+    getUserContentUrl(): any {
+        if (!hasValue(this.component.userContentUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.userContentUrl);
+    }
+    
+    setUserContentUrl(value: any): void {
+        this.component.userContentUrl = JSON.parse(value);
+    }
+    
+    getUsername(): any {
+        if (!hasValue(this.component.username)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.username);
+    }
+    
+    setUsername(value: any): void {
+        this.component.username = JSON.parse(value);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }

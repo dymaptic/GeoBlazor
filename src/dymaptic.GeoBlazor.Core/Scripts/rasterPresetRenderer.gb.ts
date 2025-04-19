@@ -10,8 +10,7 @@ export async function buildJsRasterPresetRendererGenerated(dotNetObject: any, la
 
     let properties: any = {};
     if (hasValue(dotNetObject.renderer)) {
-        let { buildJsRenderer } = await import('./renderer');
-        properties.renderer = await buildJsRenderer(dotNetObject.renderer, layerId, viewId) as any;
+        properties.renderer = dotNetObject.renderer;
     }
 
     if (hasValue(dotNetObject.bandIds) && dotNetObject.bandIds.length > 0) {
@@ -42,11 +41,6 @@ export async function buildDotNetRasterPresetRendererGenerated(jsObject: any): P
     
     let dotNetRasterPresetRenderer: any = {};
     
-    if (hasValue(jsObject.renderer)) {
-        let { buildDotNetRenderer } = await import('./renderer');
-        dotNetRasterPresetRenderer.renderer = await buildDotNetRenderer(jsObject.renderer);
-    }
-    
     if (hasValue(jsObject.bandIds)) {
         dotNetRasterPresetRenderer.bandIds = jsObject.bandIds;
     }
@@ -57,6 +51,10 @@ export async function buildDotNetRasterPresetRendererGenerated(jsObject: any): P
     
     if (hasValue(jsObject.name)) {
         dotNetRasterPresetRenderer.name = jsObject.name;
+    }
+    
+    if (hasValue(jsObject.renderer)) {
+        dotNetRasterPresetRenderer.renderer = jsObject.renderer;
     }
     
     if (hasValue(jsObject.value)) {

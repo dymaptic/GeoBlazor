@@ -80,6 +80,30 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
 
     // region properties
     
+    getDescription(): any {
+        if (!hasValue(this.component.description)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.description);
+    }
+    
+    setDescription(value: any): void {
+        this.component.description = JSON.parse(value);
+    }
+    
+    getOwner(): any {
+        if (!hasValue(this.component.owner)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.owner);
+    }
+    
+    setOwner(value: any): void {
+        this.component.owner = JSON.parse(value);
+    }
+    
     async getPortal(): Promise<any> {
         if (!hasValue(this.component.portal)) {
             return null;
@@ -94,18 +118,78 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         this.component.portal = await  buildJsPortal(value, this.layerId, this.viewId);
     }
     
+    getPortalGroupId(): any {
+        if (!hasValue(this.component.id)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.id);
+    }
+    
+    setPortalGroupId(value: any): void {
+        this.component.id = JSON.parse(value);
+    }
+    
+    getSnippet(): any {
+        if (!hasValue(this.component.snippet)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.snippet);
+    }
+    
+    setSnippet(value: any): void {
+        this.component.snippet = JSON.parse(value);
+    }
+    
     getSourceJSON(): any {
         if (!hasValue(this.component.sourceJSON)) {
             return null;
         }
         
-        let json = generateSerializableJson(this.component.sourceJSON);
-        return json;
+        return generateSerializableJson(this.component.sourceJSON);
     }
     
     setSourceJSON(value: any): void {
         this.component.sourceJSON = JSON.parse(value);
     }
+    
+    getThumbnailUrl(): any {
+        if (!hasValue(this.component.thumbnailUrl)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.thumbnailUrl);
+    }
+    
+    setThumbnailUrl(value: any): void {
+        this.component.thumbnailUrl = JSON.parse(value);
+    }
+    
+    getTitle(): any {
+        if (!hasValue(this.component.title)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.title);
+    }
+    
+    setTitle(value: any): void {
+        this.component.title = JSON.parse(value);
+    }
+    
+    getUrl(): any {
+        if (!hasValue(this.component.url)) {
+            return null;
+        }
+        
+        return generateSerializableJson(this.component.url);
+    }
+    
+    setUrl(value: any): void {
+        this.component.url = JSON.parse(value);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
