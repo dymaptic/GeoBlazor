@@ -21,8 +21,8 @@ namespace dymaptic.GeoBlazor.Core.Results;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHeightResult.html#height">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ImageHeightResult(
-    string Name,
-    string SensorName,
+    string? Name,
+    string? SensorName,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     MeasurementValue? Height = null) : BaseImageMeasureResult(
     Name,

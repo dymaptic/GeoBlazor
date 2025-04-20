@@ -3,7 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     The mode of the <see cref="TickConfig"/>.
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.TickConfigMode.html">GeoBlazor Docs</a>
+///     <summary>
+///          The mode of the <see cref="SliderTickConfig"/>.
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<TickConfigMode>))]
 public enum TickConfigMode

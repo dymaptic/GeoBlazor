@@ -18,7 +18,7 @@ import {
 } from './definitions';
 import * as geometryEngine from "@arcgis/core/geometry/geometryEngine";
 import * as locator from "@arcgis/core/rest/locator";
-import * as projection from "@arcgis/core/geometry/projection";
+import * as projectionOperator from "@arcgis/core/geometry/operators/projectOperator";
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
 import * as route from "@arcgis/core/rest/route";
 import * as serviceArea from "@arcgis/core/rest/serviceArea";
@@ -84,7 +84,7 @@ import {buildJsBasemap} from "./basemap";
 // re-export imported types
 export {
     esriConfig,
-    projection,
+    projectionOperator,
     geometryEngine,
     Graphic,
     Color,
@@ -260,10 +260,6 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
             await delayTask(200);
         }
 
-        if (!projection.isLoaded()) {
-            await projection.load();
-        }
-
         if (ProtoGraphicCollection === undefined) {
             await loadProtobuf();
         }
@@ -412,6 +408,10 @@ export async function buildMapView(id: string, dotNetReference: any, long: numbe
                 }
             }
         }
+    }
+    catch (e) {
+        console.log(e);
+        throw e;
     } finally {
         await setCursor('unset');
     }
@@ -1682,7 +1682,10 @@ export function removeLayer(layerId: string, viewId: string, isBasemapLayer: boo
 }
 
 function resetCenterToSpatialReference(center: Point, spatialReference: SpatialReference): Point {
-    return projection.project(center, spatialReference) as Point;
+    if (!projectionOperator.isLoaded()) {
+        projectionOperator.load();
+    }
+    return projectionOperator.execute(center, spatialReference) as Point;
 }
 
 function waitForRender(viewId: string, dotNetRef: any): void {
@@ -2175,6 +2178,9 @@ export function generateSerializableJson(object: any): string | null {
 }
 
 export function removeCircularReferences(jsObject: any) {
+    if (typeof jsObject !== 'object') {
+        return jsObject;
+    }
     let json = generateSerializableJson(jsObject);
     return JSON.parse(json);
 }

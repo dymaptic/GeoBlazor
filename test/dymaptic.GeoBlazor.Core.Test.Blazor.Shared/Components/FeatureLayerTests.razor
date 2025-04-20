@@ -122,7 +122,7 @@
         query.OutFields = ["*"];
         FeatureSet? featureSet = await layer!.QueryFeatures(query);
         Assert.IsNotNull(featureSet);
-        Assert.AreEqual(5, featureSet!.Features!.Length);
+        Assert.AreEqual(5, featureSet.Features!.Count);
         foreach (Graphic feature in featureSet.Features!)
         {
             // we don't know for sure that these all have a feature type
@@ -373,7 +373,7 @@
                 };
         FeatureSet? result = await layer!.QueryFeatures(query);
         Assert.IsNotNull(result);
-        Assert.IsTrue(result.Features!.Length > 0);
+        Assert.IsTrue(result.Features!.Count > 0);
     }
 
     [TestMethod]
@@ -400,7 +400,7 @@
                     SpatialRelationship = SpatialRelationship.Intersects,
                     ReturnGeometry = false
                 };
-        long[] objectIds = await layer!.QueryObjectIds(query);
+        string[] objectIds = await layer!.QueryObjectIds(query);
         Assert.IsTrue(objectIds.Length > 0);
         var relationshipQuery = new RelationshipQuery
         {
@@ -441,6 +441,6 @@
         
         FeatureSet? results = await layer!.QueryTopFeatures(query);
         Assert.IsNotNull(results);
-        Assert.IsTrue(results.Features!.Length > 0);
+        Assert.IsTrue(results.Features!.Count > 0);
     }
 }

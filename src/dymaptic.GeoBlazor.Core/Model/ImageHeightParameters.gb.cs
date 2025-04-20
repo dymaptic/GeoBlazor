@@ -37,8 +37,8 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-ImageHeightParameters.html#toGeometry">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record ImageHeightParameters(
-    MosaicRule MosaicRule,
-    Point PixelSize,
+    MosaicRule? MosaicRule,
+    Point? PixelSize,
     Point? FromGeometry = null,
     LengthUnit? LinearUnit = null,
     OperationType? OperationType = null,

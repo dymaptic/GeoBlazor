@@ -1,5 +1,6 @@
 import ProjectionGenerated from './projection.gb';
-import * as projection from "@arcgis/core/geometry/projection";
+import * as projectionOperator from "@arcgis/core/geometry/operators/projectOperator";
+import * as geographicTransformationUtils from "@arcgis/core/geometry/operators/support/geographicTransformationUtils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
 import {buildDotNetGeometry} from "./geometry";
@@ -12,10 +13,18 @@ export default class ProjectionWrapper extends ProjectionGenerated {
         super(component);
     }
 
+    isLoaded(): boolean {
+        return this.component.isLoaded();
+    }
+
+    async load(): Promise<any> {
+        return await this.component.load();
+    }
+    
     async project(geometry: any[] | any, outSpatialReference, geographicTransformation?):
         Promise<DotNetGeometry[] | DotNetGeometry | null> {
         await this.loadIfNeeded();
-        let result = projection.project(geometry, buildJsSpatialReference(outSpatialReference) as any,
+        let result = projectionOperator.execute(geometry, buildJsSpatialReference(outSpatialReference) as any,
             geographicTransformation);
         if (result === null) return null;
 
@@ -40,10 +49,10 @@ export default class ProjectionWrapper extends ProjectionGenerated {
         let geoTransform;
         if (hasValue(extent)) {
             let jsExtent = buildJsExtent(extent, buildJsSpatialReference(inSpatialReference));
-            geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference) as any,
+            geoTransform = geographicTransformationUtils.getTransformation(buildJsSpatialReference(inSpatialReference) as any,
                 buildJsSpatialReference(outSpatialReference) as any, jsExtent)
         } else {
-            geoTransform = projection.getTransformation(buildJsSpatialReference(inSpatialReference) as any,
+            geoTransform = geographicTransformationUtils.getTransformation(buildJsSpatialReference(inSpatialReference) as any,
                 buildJsSpatialReference(outSpatialReference) as any)
         }
         let {buildDotNetGeographicTransformation} = await import('./geographicTransformation');
@@ -56,10 +65,10 @@ export default class ProjectionWrapper extends ProjectionGenerated {
         let geoTransforms;
         if (hasValue(extent)) {
             let jsExtent = buildJsExtent(extent, buildJsSpatialReference(inSpatialReference));
-            geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference) as any,
+            geoTransforms = geographicTransformationUtils.getTransformations(buildJsSpatialReference(inSpatialReference) as any,
                 buildJsSpatialReference(outSpatialReference) as any, jsExtent);
         } else {
-            geoTransforms = projection.getTransformations(buildJsSpatialReference(inSpatialReference) as any,
+            geoTransforms = geographicTransformationUtils.getTransformations(buildJsSpatialReference(inSpatialReference) as any,
                 buildJsSpatialReference(outSpatialReference) as any);
         }
         let dotNetTransforms: Array<DotNetGeographicTransformation> = [];
@@ -74,8 +83,12 @@ export default class ProjectionWrapper extends ProjectionGenerated {
     }
 
     async loadIfNeeded() {
-        if (!projection.isLoaded()) {
-            await projection.load();
+        if (!projectionOperator.isLoaded()) {
+            await projectionOperator.load();
+        }
+        
+        if (!geographicTransformationUtils.isLoaded()) {
+            await geographicTransformationUtils.load();
         }
     }
 }

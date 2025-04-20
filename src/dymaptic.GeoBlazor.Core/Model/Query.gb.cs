@@ -215,7 +215,7 @@ public partial record Query(
     int? Start = null,
     string? Text = null,
     TimeExtent? TimeExtent = null,
-    IQueryMixinUnits? Units = null,
+    QueryUnits? Units = null,
     string? Where = null) : IQueryMixin
 {
     /// <summary>
@@ -465,7 +465,7 @@ public partial record Query(
     /// <summary>
     ///     
     /// </summary>
-    public IQueryMixinUnits? Units { get; set; } = Units;
+    public QueryUnits? Units { get; set; } = Units;
     
     /// <summary>
     ///     

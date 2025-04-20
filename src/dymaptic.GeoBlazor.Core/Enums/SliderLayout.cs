@@ -3,7 +3,10 @@
 namespace dymaptic.GeoBlazor.Core.Enums;
 
 /// <summary>
-///     Possible layouts of the <see cref="SliderWidget"/>
+///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Enums.SliderLayout.html">GeoBlazor Docs</a>
+///     <summary>
+///          Possible layouts of the <see cref="SliderWidget"/>
+///      </summary>
 /// </summary>
 [JsonConverter(typeof(EnumToKebabCaseStringConverter<SliderLayout>))]
 public enum SliderLayout

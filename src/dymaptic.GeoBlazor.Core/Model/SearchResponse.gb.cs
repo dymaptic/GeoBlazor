@@ -30,6 +30,6 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record SearchResponse(
     int ActiveSourceIndex,
     IReadOnlyCollection<SearchResponseErrors> Errors,
-    double NumResults,
+    int NumResults,
     string SearchTerm,
     IReadOnlyCollection<SearchResponseResults> Results);

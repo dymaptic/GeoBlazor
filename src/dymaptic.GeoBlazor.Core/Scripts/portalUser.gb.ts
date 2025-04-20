@@ -253,20 +253,12 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         this.component.sourceJSON = JSON.parse(value);
     }
     
-    setThumbnailUrl(value: any): void {
-        this.component.thumbnailUrl = JSON.parse(value);
-    }
-    
     getUserContentUrl(): any {
         if (!hasValue(this.component.userContentUrl)) {
             return null;
         }
         
         return generateSerializableJson(this.component.userContentUrl);
-    }
-    
-    setUserContentUrl(value: any): void {
-        this.component.userContentUrl = JSON.parse(value);
     }
     
     getUsername(): any {

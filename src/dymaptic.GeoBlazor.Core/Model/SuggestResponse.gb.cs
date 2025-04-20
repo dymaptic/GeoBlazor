@@ -33,7 +33,7 @@ namespace dymaptic.GeoBlazor.Core.Model;
 public partial record SuggestResponse(
     int ActiveSourceIndex,
     IReadOnlyCollection<SuggestResponseErrors> Errors,
-    double NumResults,
+    int NumResults,
     string SuggestTerm,
     IReadOnlyCollection<SuggestResponseResults> Results,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

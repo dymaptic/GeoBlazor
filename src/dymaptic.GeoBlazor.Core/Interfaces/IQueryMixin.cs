@@ -52,7 +52,7 @@ public interface IQueryMixin
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IQueryMixin.html#iquerymixinunits-property">GeoBlazor Docs</a>
     ///     
     /// </summary>
-    IQueryMixinUnits? Units { get; set; }
+    QueryUnits? Units { get; set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Interfaces.IQueryMixin.html#iquerymixinwhere-property">GeoBlazor Docs</a>

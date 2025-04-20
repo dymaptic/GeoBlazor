@@ -450,7 +450,7 @@ public partial class SearchViewModel : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<string>? Results { get; protected set; }
+    public IReadOnlyList<SearchResultResponse>? Results { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.SearchViewModel.html#searchviewmodelsearchallenabled-property">GeoBlazor Docs</a>
@@ -1458,7 +1458,7 @@ public partial class SearchViewModel : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Results property.
     /// </summary>
-    public async Task<IReadOnlyList<string>?> GetResults()
+    public async Task<IReadOnlyList<SearchResultResponse>?> GetResults()
     {
         if (CoreJsModule is null)
         {
@@ -1481,7 +1481,7 @@ public partial class SearchViewModel : IGoTo
         }
 
         // get the property value
-        IReadOnlyList<string>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<string>?>("getProperty",
+        IReadOnlyList<SearchResultResponse>? result = await JsComponentReference!.InvokeAsync<IReadOnlyList<SearchResultResponse>?>("getProperty",
             CancellationTokenSource.Token, "results");
         if (result is not null)
         {

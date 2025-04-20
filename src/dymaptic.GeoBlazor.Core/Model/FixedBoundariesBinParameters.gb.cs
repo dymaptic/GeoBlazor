@@ -37,13 +37,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 ///     <a target="_blank" href="https://developers.arcgis.com/javascript/latest/api-reference/esri-rest-support-FixedBoundariesBinParameters.html#boundaries">ArcGIS Maps SDK for JavaScript</a>
 /// </param>
 public partial record FixedBoundariesBinParameters(
-    string Expression,
+    string? Expression,
     ExpressionValueType? ExpressionValueType,
-    string Field,
+    string? Field,
     double? FirstDayOfWeek,
     bool? HideUpperBound,
-    AttributeBinsGrouping SplitBy,
-    AttributeBinsGrouping StackBy,
+    AttributeBinsGrouping? SplitBy,
+    AttributeBinsGrouping? StackBy,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     IReadOnlyCollection<DateTime>? DateTimeCollectionBoundaries = null,
     [property:JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

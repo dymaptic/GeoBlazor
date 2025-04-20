@@ -61,13 +61,13 @@ namespace dymaptic.GeoBlazor.Core.Model;
 /// <param name="NormalizationType">
 /// </param>
 public partial record FixedIntervalBinParameters(
-    string Expression,
+    string? Expression,
     ExpressionValueType? ExpressionValueType,
-    string Field,
+    string? Field,
     double? FirstDayOfWeek,
     bool? HideUpperBound,
-    AttributeBinsGrouping SplitBy,
-    AttributeBinsGrouping StackBy,
+    AttributeBinsGrouping? SplitBy,
+    AttributeBinsGrouping? StackBy,
     DateTime? DateTimeEnd = null,
     DateTime? DateTimeStart = null,
     double? DoubleEnd = null,
