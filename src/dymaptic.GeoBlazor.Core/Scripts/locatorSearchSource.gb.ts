@@ -9,12 +9,17 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.filter)) {
+        let { buildJsSearchSourceFilter } = await import('./searchSourceFilter');
+        properties.filter = await buildJsSearchSourceFilter(dotNetObject.filter) as any;
+    }
     if (hasValue(dotNetObject.popupTemplate)) {
         let { buildJsPopupTemplate } = await import('./popupTemplate');
         properties.popupTemplate = buildJsPopupTemplate(dotNetObject.popupTemplate, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.resultSymbol)) {
-        properties.resultSymbol = dotNetObject.resultSymbol;
+        let { buildJsSymbol } = await import('./symbol');
+        properties.resultSymbol = buildJsSymbol(dotNetObject.resultSymbol) as any;
     }
 
     if (hasValue(dotNetObject.apiKey)) {
@@ -31,9 +36,6 @@ export async function buildJsLocatorSearchSourceGenerated(dotNetObject: any, lay
     }
     if (hasValue(dotNetObject.defaultZoomScale)) {
         properties.defaultZoomScale = dotNetObject.defaultZoomScale;
-    }
-    if (hasValue(dotNetObject.filter)) {
-        properties.filter = dotNetObject.filter;
     }
     if (hasValue(dotNetObject.localSearchDisabled)) {
         properties.localSearchDisabled = dotNetObject.localSearchDisabled;
@@ -105,9 +107,19 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     
     let dotNetLocatorSearchSource: any = {};
     
+    if (hasValue(jsObject.filter)) {
+        let { buildDotNetSearchSourceFilter } = await import('./searchSourceFilter');
+        dotNetLocatorSearchSource.filter = await buildDotNetSearchSourceFilter(jsObject.filter);
+    }
+    
     if (hasValue(jsObject.popupTemplate)) {
         let { buildDotNetPopupTemplate } = await import('./popupTemplate');
         dotNetLocatorSearchSource.popupTemplate = await buildDotNetPopupTemplate(jsObject.popupTemplate);
+    }
+    
+    if (hasValue(jsObject.resultSymbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetLocatorSearchSource.resultSymbol = buildDotNetSymbol(jsObject.resultSymbol);
     }
     
     if (hasValue(jsObject.apiKey)) {
@@ -128,10 +140,6 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     
     if (hasValue(jsObject.defaultZoomScale)) {
         dotNetLocatorSearchSource.defaultZoomScale = jsObject.defaultZoomScale;
-    }
-    
-    if (hasValue(jsObject.filter)) {
-        dotNetLocatorSearchSource.filter = removeCircularReferences(jsObject.filter);
     }
     
     if (hasValue(jsObject.localSearchDisabled)) {
@@ -176,10 +184,6 @@ export async function buildDotNetLocatorSearchSourceGenerated(jsObject: any): Pr
     
     if (hasValue(jsObject.resultGraphicEnabled)) {
         dotNetLocatorSearchSource.resultGraphicEnabled = jsObject.resultGraphicEnabled;
-    }
-    
-    if (hasValue(jsObject.resultSymbol)) {
-        dotNetLocatorSearchSource.resultSymbol = jsObject.resultSymbol;
     }
     
     if (hasValue(jsObject.searchTemplate)) {

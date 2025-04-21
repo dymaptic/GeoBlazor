@@ -61,10 +61,6 @@ export default class DistanceMeasurement2DViewModelGenerated implements IPropert
         return generateSerializableJson(this.component.measurementLabel);
     }
     
-    setMeasurementLabel(value: any): void {
-        this.component.measurementLabel = JSON.parse(value);
-    }
-    
     async getSnappingOptions(): Promise<any> {
         if (!hasValue(this.component.snappingOptions)) {
             return null;

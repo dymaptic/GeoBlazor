@@ -21,6 +21,10 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.graphic)) {
             let { buildJsGraphic } = await import('./graphic');
             this.component.graphic = buildJsGraphic(dotNetObject.graphic) as any;
@@ -67,6 +71,20 @@ export default class LocateViewModelGenerated implements IPropertyWrapper {
         this.component.error = JSON.parse(value);
     }
     
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
+    }
+    
     async getGraphic(): Promise<any> {
         if (!hasValue(this.component.graphic)) {
             return null;
@@ -97,13 +115,9 @@ export async function buildJsLocateViewModelGenerated(dotNetObject: any, layerId
     }
 
     let properties: any = {};
-    if (hasValue(dotNetObject.hasGoToOverride) && dotNetObject.hasGoToOverride) {
-        properties.goToOverride = async (view,
-        goToParameters) => {
-
-            await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsGoToOverride', view,
-            goToParameters);
-        };
+    if (hasValue(dotNetObject.goToOverride)) {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        properties.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, viewId) as any;
     }
     if (hasValue(dotNetObject.graphic)) {
         let { buildJsGraphic } = await import('./graphic');

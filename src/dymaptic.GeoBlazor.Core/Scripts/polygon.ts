@@ -74,8 +74,6 @@ export function buildJsPolygon(dnPolygon): any {
     }
     if (hasValue(dnPolygon.spatialReference)) {
         properties.spatialReference = buildJsSpatialReference(dnPolygon.spatialReference);
-    } else {
-        properties.spatialReference = new SpatialReference({wkid: 4326});
     }
     if (hasValue(dnPolygon.hasM)) {
         properties.hasM = dnPolygon.hasM;

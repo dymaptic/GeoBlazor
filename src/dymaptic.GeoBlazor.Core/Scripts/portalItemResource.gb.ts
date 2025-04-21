@@ -83,10 +83,6 @@ export default class PortalItemResourceGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.component.url);
     }
     
-    setUrl(value: any): void {
-        this.component.url = JSON.parse(value);
-    }
-    
     getProperty(prop: string): any {
         return this.component[prop];
     }

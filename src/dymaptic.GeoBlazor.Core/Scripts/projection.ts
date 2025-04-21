@@ -3,7 +3,7 @@ import * as projectionOperator from "@arcgis/core/geometry/operators/projectOper
 import * as geographicTransformationUtils from "@arcgis/core/geometry/operators/support/geographicTransformationUtils";
 import Geometry from "@arcgis/core/geometry/Geometry";
 import {DotNetGeographicTransformation, DotNetGeometry} from "./definitions";
-import {buildDotNetGeometry} from "./geometry";
+import {buildDotNetGeometry, buildJsGeometry} from "./geometry";
 import {buildJsSpatialReference} from "./spatialReference";
 import {hasValue} from "./arcGisJsInterop";
 import {buildJsExtent} from "./extent";
@@ -17,18 +17,21 @@ export default class ProjectionWrapper extends ProjectionGenerated {
         return this.component.isLoaded();
     }
 
-    async load(): Promise<any> {
-        return await this.component.load();
-    }
     
     async project(geometry: any[] | any, outSpatialReference, geographicTransformation?):
         Promise<DotNetGeometry[] | DotNetGeometry | null> {
         await this.loadIfNeeded();
-        let result = projectionOperator.execute(geometry, buildJsSpatialReference(outSpatialReference) as any,
-            geographicTransformation);
-        if (result === null) return null;
+        let options: any = {};
+        if (hasValue(geographicTransformation)) {
+            options.geographicTransformation = geographicTransformation;
+        }
+        
+        if (geometry === null) return null;
 
-        if (Array.isArray(result)) {
+        if (Array.isArray(geometry)) {
+            let jsGeometries = geometry.map(g => buildJsGeometry(g));
+            let result = projectionOperator.executeMany(jsGeometries, buildJsSpatialReference(outSpatialReference) as any,
+                options);
             let resultArray: DotNetGeometry[] = [];
             (result as Geometry[]).forEach(g => {
                 let dotNetGeom = buildDotNetGeometry(g);
@@ -38,9 +41,13 @@ export default class ProjectionWrapper extends ProjectionGenerated {
             });
 
             return resultArray;
-        } else {
-            return buildDotNetGeometry(result);
         }
+
+        let jsGeometry = buildJsGeometry(geometry);
+        let result = projectionOperator.execute(jsGeometry, buildJsSpatialReference(outSpatialReference) as any,
+            options);
+        
+        return buildDotNetGeometry(result);
     }
 
     async getTransformation(inSpatialReference, outSpatialReference, extent):

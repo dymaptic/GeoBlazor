@@ -22,7 +22,8 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 
     async updateComponent(dotNetObject: any): Promise<void> {
         if (hasValue(dotNetObject.actions) && dotNetObject.actions.length > 0) {
-            this.component.actions = dotNetObject.actionBase;
+            let { buildJsActionBase } = await import('./actionBase');
+            this.component.actions = dotNetObject.actions.map(i => buildJsActionBase(i)) as any;
         }
         if (hasValue(dotNetObject.activeFeature)) {
             let { buildJsGraphic } = await import('./graphic');
@@ -36,6 +37,10 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
             let { buildJsAbilities } = await import('./abilities');
             this.component.featureViewModelAbilities = await buildJsAbilities(dotNetObject.featureViewModelAbilities, this.layerId, this.viewId) as any;
         }
+        if (hasValue(dotNetObject.goToOverride)) {
+            let { buildJsGoToOverride } = await import('./goToOverride');
+            this.component.goToOverride = buildJsGoToOverride(dotNetObject.goToOverride, this.viewId) as any;
+        }
         if (hasValue(dotNetObject.location)) {
             let { buildJsPoint } = await import('./point');
             this.component.location = buildJsPoint(dotNetObject.location) as any;
@@ -47,6 +52,10 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         if (hasValue(dotNetObject.screenLocation)) {
             let { buildJsFeaturesViewModelScreenPoint } = await import('./featuresViewModelScreenPoint');
             this.component.screenLocation = await buildJsFeaturesViewModelScreenPoint(dotNetObject.screenLocation, this.layerId, this.viewId) as any;
+        }
+        if (hasValue(dotNetObject.spatialReference)) {
+            let { buildJsSpatialReference } = await import('./spatialReference');
+            this.component.spatialReference = buildJsSpatialReference(dotNetObject.spatialReference) as any;
         }
 
         if (hasValue(dotNetObject.autoCloseEnabled)) {
@@ -84,9 +93,6 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.selectedFeatureIndex)) {
             this.component.selectedFeatureIndex = dotNetObject.selectedFeatureIndex;
-        }
-        if (hasValue(dotNetObject.spatialReference)) {
-            this.component.spatialReference = sanitize(dotNetObject.spatialReference);
         }
         if (hasValue(dotNetObject.timeZone)) {
             this.component.timeZone = dotNetObject.timeZone;
@@ -140,6 +146,23 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
 
     // region properties
     
+    async getActions(): Promise<any> {
+        if (!hasValue(this.component.actions)) {
+            return null;
+        }
+        
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return await Promise.all(this.component.actions!.map(async i => await buildDotNetActionBase(i)));
+    }
+    
+    async setActions(value: any): Promise<void> {
+        if (!hasValue(value)) {
+            this.component.actions = [];
+        }
+        let { buildJsActionBase } = await import('./actionBase');
+        this.component.actions = await Promise.all(value.map(async i => await buildJsActionBase(i))) as any;
+    }
+    
     async getActiveFeature(): Promise<any> {
         if (!hasValue(this.component.activeFeature)) {
             return null;
@@ -154,6 +177,15 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         this.component.activeFeature =  buildJsGraphic(value);
     }
     
+    async getAllActions(): Promise<any> {
+        if (!hasValue(this.component.allActions)) {
+            return null;
+        }
+        
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return await Promise.all(this.component.allActions!.map(async i => await buildDotNetActionBase(i)));
+    }
+    
     getContent(): any {
         if (!hasValue(this.component.content)) {
             return null;
@@ -164,6 +196,15 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     
     setContent(value: any): void {
         this.component.content = JSON.parse(value);
+    }
+    
+    async getDefaultActions(): Promise<any> {
+        if (!hasValue(this.component.defaultActions)) {
+            return null;
+        }
+        
+        let { buildDotNetActionBase } = await import('./actionBase');
+        return await Promise.all(this.component.defaultActions!.map(async i => await buildDotNetActionBase(i)));
     }
     
     getFeatureMenuTitle(): any {
@@ -207,6 +248,20 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
     async setFeatureViewModelAbilities(value: any): Promise<void> {
         let { buildJsAbilities } = await import('./abilities');
         this.component.featureViewModelAbilities = await  buildJsAbilities(value, this.layerId, this.viewId);
+    }
+    
+    async getGoToOverride(): Promise<any> {
+        if (!hasValue(this.component.goToOverride)) {
+            return null;
+        }
+        
+        let { buildDotNetGoToOverride } = await import('./goToOverride');
+        return await buildDotNetGoToOverride(this.component.goToOverride);
+    }
+    
+    async setGoToOverride(value: any): Promise<void> {
+        let { buildJsGoToOverride } = await import('./goToOverride');
+        this.component.goToOverride =  buildJsGoToOverride(value, this.viewId);
     }
     
     async getLocation(): Promise<any> {
@@ -270,6 +325,15 @@ export default class FeaturesViewModelGenerated implements IPropertyWrapper {
         
         let { buildDotNetGraphic } = await import('./graphic');
         return buildDotNetGraphic(this.component.selectedFeature, this.layerId, this.viewId);
+    }
+    
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.component.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.component.spatialReference);
     }
     
     getTimeZone(): any {

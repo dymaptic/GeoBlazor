@@ -9,7 +9,8 @@ export async function buildJsSizeRampStopGenerated(dotNetObject: any, layerId: s
 
     let jsSizeRampStop: any = {};
     if (hasValue(dotNetObject.symbol)) {
-        jsSizeRampStop.symbol = dotNetObject.symbol;
+        let { buildJsSymbol } = await import('./symbol');
+        jsSizeRampStop.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -42,6 +43,11 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: s
     
     let dotNetSizeRampStop: any = {};
     
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSizeRampStop.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
+    
     if (hasValue(jsObject.label)) {
         dotNetSizeRampStop.label = jsObject.label;
     }
@@ -56,10 +62,6 @@ export async function buildDotNetSizeRampStopGenerated(jsObject: any, layerId: s
     
     if (hasValue(jsObject.size)) {
         dotNetSizeRampStop.size = jsObject.size;
-    }
-    
-    if (hasValue(jsObject.symbol)) {
-        dotNetSizeRampStop.symbol = jsObject.symbol;
     }
     
     if (hasValue(jsObject.value)) {

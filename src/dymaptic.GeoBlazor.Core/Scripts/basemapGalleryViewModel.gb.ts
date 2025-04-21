@@ -26,7 +26,8 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
             this.component.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, this.layerId, this.viewId) as any;
         }
         if (hasValue(dotNetObject.source)) {
-            this.component.source = dotNetObject.iBasemapGalleryWidgetSource;
+            let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+            this.component.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, this.layerId, this.viewId) as any;
         }
 
     }
@@ -65,6 +66,20 @@ export default class BasemapGalleryViewModelGenerated implements IPropertyWrappe
         return await Promise.all(this.component.items!.map(async i => await buildDotNetBasemapGalleryItem(i)));
     }
     
+    async getSource(): Promise<any> {
+        if (!hasValue(this.component.source)) {
+            return null;
+        }
+        
+        let { buildDotNetIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        return await buildDotNetIBasemapGalleryWidgetSource(this.component.source);
+    }
+    
+    async setSource(value: any): Promise<void> {
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        this.component.source = await  buildJsIBasemapGalleryWidgetSource(value, this.layerId, this.viewId);
+    }
+    
     getProperty(prop: string): any {
         return this.component[prop];
     }
@@ -89,7 +104,8 @@ export async function buildJsBasemapGalleryViewModelGenerated(dotNetObject: any,
         properties.activeBasemap = await buildJsBasemap(dotNetObject.activeBasemap, layerId, viewId) as any;
     }
     if (hasValue(dotNetObject.source)) {
-        properties.source = dotNetObject.source;
+        let { buildJsIBasemapGalleryWidgetSource } = await import('./iBasemapGalleryWidgetSource');
+        properties.source = await buildJsIBasemapGalleryWidgetSource(dotNetObject.source, layerId, viewId) as any;
     }
 
     let jsBasemapGalleryViewModel = new BasemapGalleryViewModel(properties);

@@ -10,7 +10,8 @@ export async function buildJsUniqueValueInfoGenerated(dotNetObject: any): Promis
 
     let properties: any = {};
     if (hasValue(dotNetObject.symbol)) {
-        properties.symbol = dotNetObject.symbol;
+        let { buildJsSymbol } = await import('./symbol');
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -35,12 +36,13 @@ export async function buildDotNetUniqueValueInfoGenerated(jsObject: any): Promis
     
     let dotNetUniqueValueInfo: any = {};
     
-    if (hasValue(jsObject.label)) {
-        dotNetUniqueValueInfo.label = jsObject.label;
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetUniqueValueInfo.symbol = buildDotNetSymbol(jsObject.symbol);
     }
     
-    if (hasValue(jsObject.symbol)) {
-        dotNetUniqueValueInfo.symbol = jsObject.symbol;
+    if (hasValue(jsObject.label)) {
+        dotNetUniqueValueInfo.label = jsObject.label;
     }
     
     if (hasValue(jsObject.value)) {

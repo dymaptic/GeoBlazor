@@ -14,10 +14,12 @@ export async function buildJsSimpleRendererGenerated(dotNetObject: any, layerId:
         properties.authoringInfo = await buildJsAuthoringInfo(dotNetObject.authoringInfo) as any;
     }
     if (hasValue(dotNetObject.symbol)) {
-        properties.symbol = dotNetObject.symbol;
+        let { buildJsSymbol } = await import('./symbol');
+        properties.symbol = buildJsSymbol(dotNetObject.symbol) as any;
     }
     if (hasValue(dotNetObject.visualVariables) && dotNetObject.visualVariables.length > 0) {
-        properties.visualVariables = dotNetObject.visualVariables;
+        let { buildJsVisualVariable } = await import('./visualVariable');
+        properties.visualVariables = await Promise.all(dotNetObject.visualVariables.map(async i => await buildJsVisualVariable(i, layerId, viewId))) as any;
     }
 
     if (hasValue(dotNetObject.label)) {
@@ -44,20 +46,22 @@ export async function buildDotNetSimpleRendererGenerated(jsObject: any): Promise
         dotNetSimpleRenderer.authoringInfo = await buildDotNetAuthoringInfo(jsObject.authoringInfo);
     }
     
+    if (hasValue(jsObject.symbol)) {
+        let { buildDotNetSymbol } = await import('./symbol');
+        dotNetSimpleRenderer.symbol = buildDotNetSymbol(jsObject.symbol);
+    }
+    
+    if (hasValue(jsObject.visualVariables)) {
+        let { buildDotNetVisualVariable } = await import('./visualVariable');
+        dotNetSimpleRenderer.visualVariables = await Promise.all(jsObject.visualVariables.map(async i => await buildDotNetVisualVariable(i)));
+    }
+    
     if (hasValue(jsObject.label)) {
         dotNetSimpleRenderer.label = jsObject.label;
     }
     
-    if (hasValue(jsObject.symbol)) {
-        dotNetSimpleRenderer.symbol = jsObject.symbol;
-    }
-    
     if (hasValue(jsObject.type)) {
         dotNetSimpleRenderer.type = removeCircularReferences(jsObject.type);
-    }
-    
-    if (hasValue(jsObject.visualVariables)) {
-        dotNetSimpleRenderer.visualVariables = removeCircularReferences(jsObject.visualVariables);
     }
     
 

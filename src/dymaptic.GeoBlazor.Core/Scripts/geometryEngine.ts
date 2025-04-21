@@ -41,23 +41,23 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
         let bufferOperator = await import('@arcgis/core/geometry/operators/bufferOperator');
         let jsGeometries: Geometry | Array<Geometry>;
         let jsBuffer: Polygon | Polygon[];
-        let properties: any = {};
+        let options: any = {};
         if (Array.isArray(geometries)) {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<Geometry>).push(buildJsGeometry(g) as Geometry));
             if (hasValue(unit)) {
-                properties.unit = unit;
+                options.unit = unit;
             }
             if (hasValue(unionResults)) {
-                properties.union = unionResults;
+                options.union = unionResults;
             }
-            jsBuffer = bufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], properties);
+            jsBuffer = bufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], options);
         } else {
             jsGeometries = buildJsGeometry(geometries) as Geometry;
             if (hasValue(unit)) {
-                properties.unit = unit;
+                options.unit = unit;
             }
-            jsBuffer = bufferOperator.execute(jsGeometries as GeometryUnion, distances as number, properties) as Polygon;
+            jsBuffer = bufferOperator.execute(jsGeometries as GeometryUnion, distances as number, options) as Polygon;
         }
 
         if (Array.isArray(jsBuffer)) {
@@ -89,11 +89,11 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
         if (Array.isArray(geometries)) {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
-            let properties: any = {};
+            let options: any = {};
             if (hasValue(merge)) {
-                properties.merge = merge;
+                options.merge = merge;
             }
-            jsHull = convexHullOperator.executeMany(jsGeometries as GeometryUnion[], properties) as GeometryUnion[];
+            jsHull = convexHullOperator.executeMany(jsGeometries as GeometryUnion[], options) as GeometryUnion[];
         } else {
             jsGeometries = buildJsGeometry(geometries) as Geometry;
             jsHull = convexHullOperator.execute(jsGeometries as any) as GeometryUnion;
@@ -124,11 +124,11 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
         let densifyOperator = await import('@arcgis/core/geometry/operators/densifyOperator');
         let jsGeometry = buildJsGeometry(geometry) as GeometryUnion;
         let jsDensified: Geometry;
-        let properties: any = {};
+        let options: any = {};
         if (hasValue(maxSegmentLengthUnit)) {
-            properties.unit = maxSegmentLengthUnit;
+            options.unit = maxSegmentLengthUnit;
         }
-        jsDensified = densifyOperator.execute(jsGeometry, maxSegmentLength, properties);
+        jsDensified = densifyOperator.execute(jsGeometry, maxSegmentLength, options);
 
         return buildDotNetGeometry(jsDensified);
 
@@ -162,12 +162,12 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
         let distanceOperator = await import('@arcgis/core/geometry/operators/distanceOperator');
         let jsGeometry1 = buildJsGeometry(geometry1) as GeometryUnion;
         let jsGeometry2 = buildJsGeometry(geometry2) as GeometryUnion;
-        let properties: any = {};
+        let options: any = {};
         if (hasValue(distanceUnit)) {
-            properties.unit = distanceUnit;
+            options.unit = distanceUnit;
         }
         
-        return distanceOperator.execute(jsGeometry1, jsGeometry2, properties);
+        return distanceOperator.execute(jsGeometry1, jsGeometry2, options);
     }
 
     async equals(geometry1: DotNetGeometry, geometry2: DotNetGeometry): Promise<boolean | null> {
@@ -183,7 +183,8 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
     }
 
     async flipHorizontal(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<DotNetGeometry | null> {
-        let Transformation = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let { default: Transformation } = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let transformation = new Transformation();
         let affineTransformOperator = await import('@arcgis/core/geometry/operators/affineTransformOperator');
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let y0 = jsGeometry.extent?.ymin ?? 0;
@@ -199,14 +200,16 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
                 y1 = y0 + (flipY * 2);
             }
         }
-        let jsFlip = affineTransformOperator.execute(jsGeometry as any, Transformation.flipY(y0, y1));
+        transformation.flipY(y0, y1);
+        let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
         return buildDotNetGeometry(jsFlip);
 
     }
 
     async flipVertical(geometry: DotNetGeometry, flipOrigin: DotNetPoint | null): Promise<DotNetGeometry | null> {
-        let Transformation = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let { default: Transformation } = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let transformation = new Transformation();
         let affineTransformOperator = await import('@arcgis/core/geometry/operators/affineTransformOperator');
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let x0 = jsGeometry.extent?.xmin ?? 0;
@@ -222,7 +225,8 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
                 x1 = x0 + (flipX * 2);
             }
         }
-        let jsFlip = affineTransformOperator.execute(jsGeometry as any, Transformation.flipX(x0, x1));
+        transformation.flipX(x0, x1);
+        let jsFlip = affineTransformOperator.execute(jsGeometry as any, transformation);
 
         return buildDotNetGeometry(jsFlip);
 
@@ -233,15 +237,15 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
         let generalizeOperator = await import('@arcgis/core/geometry/operators/generalizeOperator');
         let jsGeometry = buildJsGeometry(geometry) as Geometry;
         let jsGeneralize: GeometryUnion;
-        let properties: any = {};
+        let options: any = {};
         if (hasValue(removeDegenerateParts)) {
-            properties.removeDegenerateParts = removeDegenerateParts;
+            options.removeDegenerateParts = removeDegenerateParts;
         }
         if (hasValue(maxDeviationUnit)) {
-            properties.unit = maxDeviationUnit;
+            options.unit = maxDeviationUnit;
         }
         
-        jsGeneralize = generalizeOperator.execute(jsGeometry as GeometryUnion, maxDeviation, properties) as GeometryUnion;
+        jsGeneralize = generalizeOperator.execute(jsGeometry as GeometryUnion, maxDeviation, options) as GeometryUnion;
 
         return buildDotNetGeometry(jsGeneralize);
 
@@ -249,48 +253,61 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
 
     async geodesicArea(geometry: DotNetPolygon, unit: AreaUnits | null): Promise<number | null> {
         let geodeticAreaOperator = await import('@arcgis/core/geometry/operators/geodeticAreaOperator');
-        let properties: any = {};
+        if (!geodeticAreaOperator.isLoaded()) {
+            await geodeticAreaOperator.load();
+        }
+        let options: any = {
+            curveType: "geodesic"
+        };
         if (hasValue(unit)) {
-            properties.unit = unit;
+            options.unit = unit;
         }
         
-        return geodeticAreaOperator.execute(buildJsPolygon(geometry) as Polygon, properties);
+        return geodeticAreaOperator.execute(buildJsPolygon(geometry) as Polygon, options);
     }
 
     async geodesicBuffer(geometries: Array<DotNetGeometry> | DotNetGeometry, distances: Array<number> | number,
                          unit: LinearUnits | null, unionResults: boolean | null)
         : Promise<DotNetPolygon | DotNetPolygon[] | null> {
         let geodesicBufferOperator = await import('@arcgis/core/geometry/operators/geodesicBufferOperator');
+        if (!geodesicBufferOperator.isLoaded()) {
+            await geodesicBufferOperator.load();
+        }
         let jsGeometries: Geometry | Array<Geometry>;
         let jsBuffer: Polygon | Polygon[];
-        let properties: any = {};
+        let options: any = {
+            curveType: "geodesic"
+        };
         if (hasValue(unit)) {
-            properties.unit = unit;
+            options.unit = unit;
         }
         if (hasValue(unionResults)) {
-            properties.union = unionResults;
+            options.union = unionResults;
         }
         if (Array.isArray(geometries)) {
             jsGeometries = [];
             geometries.forEach(g => (jsGeometries as Array<GeometryUnion>).push(buildJsGeometry(g) as GeometryUnion));
-            jsBuffer = geodesicBufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], properties);
+            jsBuffer = geodesicBufferOperator.executeMany(jsGeometries as GeometryUnion[], distances as number[], options);
             return jsBuffer.map(g => buildDotNetPolygon(g) as DotNetPolygon);
         }
 
         jsGeometries = buildJsGeometry(geometries) as Geometry;
-        jsBuffer = geodesicBufferOperator.execute(jsGeometries as GeometryUnion, distances as number, properties) as Polygon;
+        jsBuffer = geodesicBufferOperator.execute(jsGeometries as GeometryUnion, distances as number, options) as Polygon;
         return buildDotNetPolygon(jsBuffer);
     }
 
     async geodesicDensify(geometry: DotNetGeometry, maxSegmentLength: number,
                           maxSegmentLengthUnit: LinearUnits | null): Promise<DotNetGeometry | null> {
         let geodeticDensifyOperator = await import('@arcgis/core/geometry/operators/geodeticDensifyOperator');
-        let jsDensify: GeometryUnion;
-        let properties: any = {};
-        if (hasValue(maxSegmentLengthUnit)) {
-            properties.unit = maxSegmentLengthUnit;
+        if (!geodeticDensifyOperator.isLoaded()) {
+            await geodeticDensifyOperator.load();
         }
-        jsDensify = geodeticDensifyOperator.execute(buildJsGeometry(geometry) as GeometryUnion, maxSegmentLength, properties) as GeometryUnion;
+        let jsDensify: GeometryUnion;
+        let options: any = {};
+        if (hasValue(maxSegmentLengthUnit)) {
+            options.unit = maxSegmentLengthUnit;
+        }
+        jsDensify = geodeticDensifyOperator.execute(buildJsGeometry(geometry) as GeometryUnion, maxSegmentLength, options) as GeometryUnion;
         
         return buildDotNetGeometry(jsDensify);
 
@@ -298,11 +315,14 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
 
     async geodesicLength(geometry: DotNetGeometry, unit: LinearUnits | null): Promise<number | null> {
         let geodeticLengthOperator = await import('@arcgis/core/geometry/operators/geodeticLengthOperator');
-        let properties: any = {};
-        if (hasValue(unit)) {
-            properties.unit = unit;
+        if (!geodeticLengthOperator.isLoaded()) {
+            await geodeticLengthOperator.load();
         }
-        return geodeticLengthOperator.execute(buildJsGeometry(geometry) as GeometryUnion, properties);
+        let options: any = {};
+        if (hasValue(unit)) {
+            options.unit = unit;
+        }
+        return geodeticLengthOperator.execute(buildJsGeometry(geometry) as GeometryUnion, options);
     }
 
     async intersect(geometry1: DotNetGeometry | Array<DotNetGeometry>, geometry2: DotNetGeometry)
@@ -359,9 +379,10 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
                           maxVertexCountToReturn: number)
         : Promise<Array<any> | null> {
         let proximityOperator = await import('@arcgis/core/geometry/operators/proximityOperator');
-        let jsResult = proximityOperator.getNearestVertices(buildJsGeometry(geometry) as GeometryUnion, buildJsPoint(inputPoint) as Point,
+        let jsResult = proximityOperator.getNearestVertices(
+            buildJsGeometry(geometry) as GeometryUnion, buildJsPoint(inputPoint) as Point,
             searchRadius, maxVertexCountToReturn);
-        return jsResult.map(r => {
+        return jsResult.filter(v => v !== undefined).map(r => {
             return {
                 coordinate: buildDotNetPoint(r.coordinate) as DotNetPoint,
                 distance: r.distance,
@@ -431,11 +452,13 @@ export default class GeometryEngineWrapper extends GeometryEngineGenerated {
     }
 
     async rotate(geometry: DotNetGeometry, angle: number, rotationOrigin: DotNetPoint): Promise<DotNetGeometry | null> {
-        let Transformation = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let { default: Transformation } = await import('@arcgis/core/geometry/operators/support/Transformation');
+        let transformation = new Transformation();
         let affineTransformOperator = await import('@arcgis/core/geometry/operators/affineTransformOperator');
         let jsRotationOrigin = buildJsPoint(rotationOrigin) as Point;
+        transformation.rotate(angle, jsRotationOrigin.x, jsRotationOrigin.y)
         let jsRotated = affineTransformOperator.execute(buildJsGeometry(geometry) as GeometryUnion, 
-            Transformation.rotate(angle, jsRotationOrigin.x, jsRotationOrigin.y));
+            transformation);
         return buildDotNetGeometry(jsRotated);
 
     }

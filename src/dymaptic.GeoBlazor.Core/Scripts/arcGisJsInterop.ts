@@ -674,11 +674,11 @@ async function setEventListeners(view: __esri.View, dotNetRef: any, eventRateLim
         debounce(resizeCallback, eventRateLimit, !hasValue(eventRateLimit))();
     });
 
-    view.watch('spatialReference', () => {
+    reactiveUtils.watch(() => view.spatialReference, () => {
         dotNetRef.invokeMethodAsync('OnJavascriptSpatialReferenceChanged', buildDotNetSpatialReference(view.spatialReference));
     });
 
-    view.watch('extent', () => {
+    reactiveUtils.watch(() => view.extent, () => {
         if (!notifyExtentChanged) return;
         userChangedViewExtent = true;
         const extentCallback = () => {

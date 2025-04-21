@@ -116,9 +116,11 @@ export default class BasemapLayerListWidgetGenerated implements IPropertyWrapper
 
     async triggerAction(action: any,
         item: any): Promise<void> {
+        let { buildJsActionBase } = await import('./actionBase');
+        let jsAction = buildJsActionBase(action) as any;
         let { buildJsListItem } = await import('./listItem');
         let jsItem = await buildJsListItem(item, this.layerId, this.viewId) as any;
-        this.widget.triggerAction(action,
+        this.widget.triggerAction(jsAction,
             jsItem);
     }
 
@@ -390,7 +392,9 @@ export async function buildJsBasemapLayerListWidgetGenerated(dotNetObject: any, 
     let jsBasemapLayerList = new BasemapLayerList(properties);
     if (hasValue(dotNetObject.hasTriggerActionListener) && dotNetObject.hasTriggerActionListener) {
         jsBasemapLayerList.on('trigger-action', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetBasemapLayerListTriggerActionEvent } = await import('./basemapLayerListTriggerActionEvent');
+            let dnEvent = await buildDotNetBasemapLayerListTriggerActionEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsTriggerAction', streamRef);
         });
     }

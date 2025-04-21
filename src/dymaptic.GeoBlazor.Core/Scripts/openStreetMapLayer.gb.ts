@@ -21,6 +21,10 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     
 
     async updateComponent(dotNetObject: any): Promise<void> {
+        if (hasValue(dotNetObject.effect)) {
+            let { buildJsEffect } = await import('./effect');
+            this.layer.effect = buildJsEffect(dotNetObject.effect) as any;
+        }
         if (hasValue(dotNetObject.fullExtent)) {
             let { buildJsExtent } = await import('./extent');
             this.layer.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -46,9 +50,6 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         }
         if (hasValue(dotNetObject.copyright)) {
             this.layer.copyright = dotNetObject.copyright;
-        }
-        if (hasValue(dotNetObject.effect)) {
-            this.layer.effect = dotNetObject.effect;
         }
         if (hasValue(dotNetObject.listMode)) {
             this.layer.listMode = dotNetObject.listMode;
@@ -172,6 +173,20 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
         this.layer.copyright = JSON.parse(value);
     }
     
+    async getEffect(): Promise<any> {
+        if (!hasValue(this.layer.effect)) {
+            return null;
+        }
+        
+        let { buildDotNetEffect } = await import('./effect');
+        return buildDotNetEffect(this.layer.effect);
+    }
+    
+    async setEffect(value: any): Promise<void> {
+        let { buildJsEffect } = await import('./effect');
+        this.layer.effect =  buildJsEffect(value);
+    }
+    
     async getFullExtent(): Promise<any> {
         if (!hasValue(this.layer.fullExtent)) {
             return null;
@@ -198,6 +213,15 @@ export default class OpenStreetMapLayerGenerated implements IPropertyWrapper {
     async setPortalItem(value: any): Promise<void> {
         let { buildJsPortalItem } = await import('./portalItem');
         this.layer.portalItem = await  buildJsPortalItem(value, this.layerId, this.viewId);
+    }
+    
+    async getSpatialReference(): Promise<any> {
+        if (!hasValue(this.layer.spatialReference)) {
+            return null;
+        }
+        
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        return buildDotNetSpatialReference(this.layer.spatialReference);
     }
     
     async getTileInfo(): Promise<any> {
@@ -268,6 +292,10 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
 
     let properties: any = {};
+    if (hasValue(dotNetObject.effect)) {
+        let { buildJsEffect } = await import('./effect');
+        properties.effect = buildJsEffect(dotNetObject.effect) as any;
+    }
     if (hasValue(dotNetObject.fullExtent)) {
         let { buildJsExtent } = await import('./extent');
         properties.fullExtent = buildJsExtent(dotNetObject.fullExtent) as any;
@@ -293,9 +321,6 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     }
     if (hasValue(dotNetObject.copyright)) {
         properties.copyright = dotNetObject.copyright;
-    }
-    if (hasValue(dotNetObject.effect)) {
-        properties.effect = dotNetObject.effect;
     }
     if (hasValue(dotNetObject.listMode)) {
         properties.listMode = dotNetObject.listMode;
@@ -330,7 +355,9 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     let jsOpenStreetMapLayer = new OpenStreetMapLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsOpenStreetMapLayer.on('layerview-create', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
@@ -346,7 +373,9 @@ export async function buildJsOpenStreetMapLayerGenerated(dotNetObject: any, laye
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsOpenStreetMapLayer.on('layerview-destroy', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }
@@ -391,6 +420,11 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     
     let dotNetOpenStreetMapLayer: any = {};
     
+    if (hasValue(jsObject.effect)) {
+        let { buildDotNetEffect } = await import('./effect');
+        dotNetOpenStreetMapLayer.effect = buildDotNetEffect(jsObject.effect);
+    }
+    
     if (hasValue(jsObject.fullExtent)) {
         let { buildDotNetExtent } = await import('./extent');
         dotNetOpenStreetMapLayer.fullExtent = buildDotNetExtent(jsObject.fullExtent);
@@ -399,6 +433,11 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     if (hasValue(jsObject.portalItem)) {
         let { buildDotNetPortalItem } = await import('./portalItem');
         dotNetOpenStreetMapLayer.portalItem = await buildDotNetPortalItem(jsObject.portalItem);
+    }
+    
+    if (hasValue(jsObject.spatialReference)) {
+        let { buildDotNetSpatialReference } = await import('./spatialReference');
+        dotNetOpenStreetMapLayer.spatialReference = buildDotNetSpatialReference(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.tileInfo)) {
@@ -421,10 +460,6 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     
     if (hasValue(jsObject.copyright)) {
         dotNetOpenStreetMapLayer.copyright = jsObject.copyright;
-    }
-    
-    if (hasValue(jsObject.effect)) {
-        dotNetOpenStreetMapLayer.effect = removeCircularReferences(jsObject.effect);
     }
     
     if (hasValue(jsObject.listMode)) {
@@ -453,10 +488,6 @@ export async function buildDotNetOpenStreetMapLayerGenerated(jsObject: any): Pro
     
     if (hasValue(jsObject.refreshInterval)) {
         dotNetOpenStreetMapLayer.refreshInterval = jsObject.refreshInterval;
-    }
-    
-    if (hasValue(jsObject.spatialReference)) {
-        dotNetOpenStreetMapLayer.spatialReference = removeCircularReferences(jsObject.spatialReference);
     }
     
     if (hasValue(jsObject.subDomains)) {

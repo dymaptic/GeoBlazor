@@ -70,7 +70,9 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
     
     async addItem(parameters: any): Promise<any> {
-        let result = await this.component.addItem(parameters);
+        let { buildJsPortalUserAddItemParams } = await import('./portalUserAddItemParams');
+        let jsparameters = await buildJsPortalUserAddItemParams(parameters, this.layerId, this.viewId) as any;
+        let result = await this.component.addItem(jsparameters);
         let { buildDotNetPortalItem } = await import('./portalItem');
         return await buildDotNetPortalItem(result);
     }
@@ -98,11 +100,15 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async fetchGroups(): Promise<any> {
-        return await this.component.fetchGroups();
+        let result = await this.component.fetchGroups();
+        let { buildDotNetPortalGroup } = await import('./portalGroup');
+        return await Promise.all(result.map(async i => await buildDotNetPortalGroup(i, this.layerId, this.viewId)));
     }
 
     async fetchItems(parameters: any): Promise<any> {
-        return await this.component.fetchItems(parameters);
+        let { buildJsPortalUserFetchItemsParams } = await import('./portalUserFetchItemsParams');
+        let jsparameters = await buildJsPortalUserFetchItemsParams(parameters, this.layerId, this.viewId) as any;
+        return await this.component.fetchItems(jsparameters);
     }
 
     async fetchTags(): Promise<any> {
@@ -114,7 +120,9 @@ export default class PortalUserGenerated implements IPropertyWrapper {
     }
 
     async queryFavorites(queryParams: any): Promise<any> {
-        return await this.component.queryFavorites(queryParams);
+        let { buildJsPortalQueryParams } = await import('./portalQueryParams');
+        let jsQueryParams = await buildJsPortalQueryParams(queryParams, this.layerId, this.viewId) as any;
+        return await this.component.queryFavorites(jsQueryParams);
     }
 
     async restoreItem(item: any,
@@ -247,10 +255,6 @@ export default class PortalUserGenerated implements IPropertyWrapper {
         }
         
         return generateSerializableJson(this.component.sourceJSON);
-    }
-    
-    setSourceJSON(value: any): void {
-        this.component.sourceJSON = JSON.parse(value);
     }
     
     getUserContentUrl(): any {

@@ -186,7 +186,9 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     let jsUnsupportedLayer = new UnsupportedLayer(properties);
     if (hasValue(dotNetObject.hasCreateListener) && dotNetObject.hasCreateListener) {
         jsUnsupportedLayer.on('layerview-create', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewCreateEvent } = await import('./layerViewCreateEvent');
+            let dnEvent = await buildDotNetLayerViewCreateEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsCreate', streamRef);
         });
     }
@@ -202,7 +204,9 @@ export async function buildJsUnsupportedLayerGenerated(dotNetObject: any, layerI
     
     if (hasValue(dotNetObject.hasDestroyListener) && dotNetObject.hasDestroyListener) {
         jsUnsupportedLayer.on('layerview-destroy', async (evt: any) => {
-            let streamRef = buildJsStreamReference(evt ?? {});
+            let { buildDotNetLayerViewDestroyEvent } = await import('./layerViewDestroyEvent');
+            let dnEvent = await buildDotNetLayerViewDestroyEvent(evt, layerId, viewId);
+            let streamRef = buildJsStreamReference(dnEvent ?? {});
             await dotNetObject.dotNetComponentReference.invokeMethodAsync('OnJsDestroy', streamRef);
         });
     }

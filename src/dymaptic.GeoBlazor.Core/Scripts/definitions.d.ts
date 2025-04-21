@@ -303,7 +303,7 @@ export interface DotNetQuery {
     maxAllowableOffset: number;
     maxRecordCountFactor: number;
     num: number;
-    objectIds: number[];
+    objectIds: string[];
     orderByFields: string[];
     outSpatialReference: DotNetSpatialReference;
     outStatistics: any[];
@@ -331,7 +331,7 @@ export interface DotNetRelationshipQuery {
     historicMoment: Date;
     maxAllowableOffset: number;
     num: number;
-    objectIds: number[];
+    objectIds: string[];
     orderByFields: string[];
     outFields: string[];
     outSpatialReference: DotNetSpatialReference;
@@ -350,7 +350,7 @@ export interface DotNetTopFeaturesQuery {
     geometryPrecision: number;
     maxAllowableOffset: number;
     num: number;
-    objectIds: number[];
+    objectIds: string[];
     orderByFields: string[];
     outFields: string[];
     outSpatialReference: DotNetSpatialReference;
@@ -561,7 +561,7 @@ export interface DotNetEffect {
 export interface DotNetFeatureFilter {
     distance: number;
     geometry: DotNetGeometry;
-    objectIds: number[];
+    objectIds: string[];
     spatialRelationship: string;
     timeExtent: any;
     units: string;

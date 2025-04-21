@@ -329,7 +329,7 @@ public partial class SearchWidget : IGoTo
     [ArcGISProperty]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonInclude]
-    public IReadOnlyList<SearchResultsSuggestions>? Suggestions { get; protected set; }
+    public IReadOnlyList<SuggestResult>? Suggestions { get; protected set; }
     
     /// <summary>
     ///     <a target="_blank" href="https://docs.geoblazor.com/pages/classes/dymaptic.GeoBlazor.Core.Components.Widgets.SearchWidget.html#searchwidgetviewmodel-property">GeoBlazor Docs</a>
@@ -1099,7 +1099,7 @@ public partial class SearchWidget : IGoTo
     /// <summary>
     ///     Asynchronously retrieve the current value of the Suggestions property.
     /// </summary>
-    public async Task<IReadOnlyList<SearchResultsSuggestions>?> GetSuggestions()
+    public async Task<IReadOnlyList<SuggestResult>?> GetSuggestions()
     {
         if (CoreJsModule is null)
         {
@@ -1121,7 +1121,7 @@ public partial class SearchWidget : IGoTo
             return Suggestions;
         }
 
-        IReadOnlyList<SearchResultsSuggestions>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SearchResultsSuggestions>?>(
+        IReadOnlyList<SuggestResult>? result = await JsComponentReference.InvokeAsync<IReadOnlyList<SuggestResult>?>(
             "getSuggestions", CancellationTokenSource.Token);
         
         if (result is not null)

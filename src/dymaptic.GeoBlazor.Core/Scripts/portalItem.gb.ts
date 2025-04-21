@@ -117,7 +117,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
     async addResource(resource: any,
         content: any,
         options: any): Promise<any> {
-        let result = await this.component.addResource(resource,
+        let { buildJsPortalItemResource } = await import('./portalItemResource');
+        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
+        let result = await this.component.addResource(jsResource,
             content,
             options);
         
@@ -196,7 +198,9 @@ export default class PortalItemGenerated implements IPropertyWrapper {
 
     async removeResource(resource: any,
         options: any): Promise<any> {
-        let result = await this.component.removeResource(resource,
+        let { buildJsPortalItemResource } = await import('./portalItemResource');
+        let jsResource = await buildJsPortalItemResource(resource, this.layerId, this.viewId) as any;
+        let result = await this.component.removeResource(jsResource,
             options);
         
         return generateSerializableJson(result);
@@ -294,20 +298,12 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.component.itemPageUrl);
     }
     
-    setItemPageUrl(value: any): void {
-        this.component.itemPageUrl = JSON.parse(value);
-    }
-    
     getItemUrl(): any {
         if (!hasValue(this.component.itemUrl)) {
             return null;
         }
         
         return generateSerializableJson(this.component.itemUrl);
-    }
-    
-    setItemUrl(value: any): void {
-        this.component.itemUrl = JSON.parse(value);
     }
     
     getLicenseInfo(): any {
@@ -402,14 +398,6 @@ export default class PortalItemGenerated implements IPropertyWrapper {
         }
         
         return generateSerializableJson(this.component.sourceJSON);
-    }
-    
-    setSourceJSON(value: any): void {
-        this.component.sourceJSON = JSON.parse(value);
-    }
-    
-    setThumbnailUrl(value: any): void {
-        this.component.thumbnailUrl = JSON.parse(value);
     }
     
     getTitle(): any {

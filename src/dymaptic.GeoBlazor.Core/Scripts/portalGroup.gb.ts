@@ -150,22 +150,6 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         return generateSerializableJson(this.component.sourceJSON);
     }
     
-    setSourceJSON(value: any): void {
-        this.component.sourceJSON = JSON.parse(value);
-    }
-    
-    getThumbnailUrl(): any {
-        if (!hasValue(this.component.thumbnailUrl)) {
-            return null;
-        }
-        
-        return generateSerializableJson(this.component.thumbnailUrl);
-    }
-    
-    setThumbnailUrl(value: any): void {
-        this.component.thumbnailUrl = JSON.parse(value);
-    }
-    
     getTitle(): any {
         if (!hasValue(this.component.title)) {
             return null;
@@ -184,10 +168,6 @@ export default class PortalGroupGenerated implements IPropertyWrapper {
         }
         
         return generateSerializableJson(this.component.url);
-    }
-    
-    setUrl(value: any): void {
-        this.component.url = JSON.parse(value);
     }
     
     getProperty(prop: string): any {
